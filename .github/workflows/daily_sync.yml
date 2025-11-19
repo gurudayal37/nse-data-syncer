@@ -28,5 +28,4 @@ jobs:
     - name: Run Sync
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      run: |
-        python main.py
+      run: python -m app.main

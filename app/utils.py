@@ -1,0 +1,48 @@
+import pandas as pd
+import csv
+
+def get_nse_symbols(csv_path):
+    """
+    Reads NSE symbols from the provided CSV file.
+    Assumes the symbol is in the third column (index 2).
+    """
+    symbols = []
+    try:
+        with open(csv_path, 'r') as f:
+            reader = csv.reader(f)
+            next(reader)  # Skip header
+            for row in reader:
+                if len(row) > 2:
+                    symbols.append(row[2])
+    except FileNotFoundError:
+        print(f"Error: File not found at {csv_path}")
+    except Exception as e:
+        print(f"Error reading CSV: {e}")
+    return symbols
+
+def load_equity_list(csv_path):
+    """
+    Reads the Equity_List.csv and returns a dictionary mapping Symbol to details.
+    Returns: {Symbol: {name: ..., isin: ..., etc.}}
+    """
+    equity_map = {}
+    try:
+        with open(csv_path, 'r') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                # Map CSV columns to what we might need. 
+                # Based on file view: Security Code,Issuer Name,Security Id,Security Name,Status,Group,Face Value,ISIN No,Industry,Instrument,Sector Name,Industry New Name,Igroup Name,ISubgroup Name
+                # 'Security Id' seems to be the Symbol.
+                symbol = row.get('Security Id')
+                if symbol:
+                    equity_map[symbol] = {
+                        'name': row.get('Security Name'),
+                        'isin': row.get('ISIN No'),
+                        'industry': row.get('Industry'),
+                        'sector': row.get('Sector Name')
+                    }
+    except FileNotFoundError:
+        print(f"Error: Equity List file not found at {csv_path}")
+    except Exception as e:
+        print(f"Error reading Equity List CSV: {e}")
+    return equity_map

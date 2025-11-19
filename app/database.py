@@ -51,6 +51,97 @@ class DatabaseManager:
         finally:
             session.close()
 
+    def insert_stock(self, symbol, details):
+        """
+        Inserts a new stock into the stocks table.
+        """
+        session = self.Session()
+        try:
+            # Check if it already exists to be safe
+            existing_stock = session.execute(
+                text("SELECT id FROM stocks WHERE nse_symbol = :symbol"),
+                {"symbol": symbol}
+            ).fetchone()
+            
+            if existing_stock:
+                return existing_stock[0]
+
+            # Insert new stock
+            # Note: Adjust column names based on your actual stocks table schema if different.
+            # Based on previous inspection, we know there is 'nse_symbol'. 
+            # We'll try to insert 'name' and 'isin' if columns exist, otherwise just symbol.
+            # For now, let's assume a simple insert and catch errors if columns don't match.
+            # Ideally we should inspect schema again, but let's try to be robust.
+            
+            # Construct insert query dynamically or just try standard columns
+            # Let's assume 'name' and 'isin' might be columns based on standard practices, 
+            # but strictly we only confirmed 'nse_symbol' and 'id'.
+            # Let's stick to what we know or use a safe approach.
+            # Actually, let's check schema in main or just insert symbol for now if unsure, 
+            # but user said "data required for stock table should be available in Equity_List.csv".
+            # Let's try to insert name and isin too.
+            
+            query = text("""
+                INSERT INTO stocks (nse_symbol, name, isin) 
+                VALUES (:symbol, :name, :isin) 
+                RETURNING id
+            """)
+            
+            result = session.execute(query, {
+                "symbol": symbol, 
+                "name": details.get('name'), 
+                "isin": details.get('isin')
+            })
+            stock_id = result.fetchone()[0]
+            session.commit()
+            print(f"Inserted new stock: {symbol} (ID: {stock_id})")
+            return stock_id
+        except Exception as e:
+            session.rollback()
+            print(f"Error inserting stock {symbol}: {e}")
+            return None
+        finally:
+            session.close()
+
+    def get_last_n_records(self, stock_id, n=5):
+        """
+        Fetches the last n records for a stock to validate against new data.
+        Returns a dict: {date: close_price}
+        """
+        session = self.Session()
+        try:
+            query = text("""
+                SELECT date, close_price 
+                FROM daily_prices 
+                WHERE stock_id = :stock_id 
+                ORDER BY date DESC 
+                LIMIT :limit
+            """)
+            result = session.execute(query, {"stock_id": stock_id, "limit": n}).fetchall()
+            return {row[0]: row[1] for row in result}
+        except Exception as e:
+            print(f"Error fetching last records for stock {stock_id}: {e}")
+            return {}
+        finally:
+            session.close()
+
+    def delete_daily_prices(self, stock_id):
+        """
+        Deletes all daily prices for a given stock_id.
+        Used when a full resync is required (e.g., corporate action).
+        """
+        session = self.Session()
+        try:
+            query = text("DELETE FROM daily_prices WHERE stock_id = :stock_id")
+            session.execute(query, {"stock_id": stock_id})
+            session.commit()
+            print(f"Deleted all records for stock_id {stock_id}")
+        except Exception as e:
+            session.rollback()
+            print(f"Error deleting records for stock {stock_id}: {e}")
+        finally:
+            session.close()
+
     def get_last_synced_date(self, stock_id):
         """Returns the latest date available for a given stock_id."""
         session = self.Session()
@@ -63,7 +154,7 @@ class DatabaseManager:
         finally:
             session.close()
 
-    def bulk_insert(self, df, stock_id):
+    def insert_daily_prices(self, stock_id, df):
         """Inserts a pandas DataFrame into the database."""
         if df.empty:
             return

@@ -29,13 +29,14 @@ A Python application to sync daily OHLCV data for NSE stocks from Yahoo Finance 
     export DATABASE_URL='postgresql://user:password@host/dbname?sslmode=require'
     ```
 
-4.  **Run the application**:
+4.  **Run Sync**:
     ```bash
-    python main.py
+    python -m app.main
     ```
-    Options:
-    - `--limit N`: Process only first N symbols.
-    - `--dry-run`: Fetch data but don't write to DB.
+    - Options:
+        - `--limit N`: Process only first N symbols.
+        - `--dry-run`: Fetch data but don't write to DB.
+        - `--symbols SYM1,SYM2`: Process specific symbols only.
 
 ### Creating a GitHub Repository (Free)
 
