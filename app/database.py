@@ -3,10 +3,9 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, Float, 
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 
-# Database URL
-# Use environment variable for security, fallback to hardcoded for local dev if needed (though better to use env var always)
+# Database URL from environment variable
 DB_URL = os.getenv('DATABASE_URL')
 
 if not DB_URL:
@@ -16,7 +15,6 @@ Base = declarative_base()
 
 class DailyPrice(Base):
     __tablename__ = 'daily_prices'
-    # Using the existing schema structure
     id = Column(Integer, primary_key=True, autoincrement=True)
     stock_id = Column(Integer, nullable=False)
     date = Column(DateTime, nullable=False)
@@ -24,10 +22,7 @@ class DailyPrice(Base):
     high_price = Column(Float)
     low_price = Column(Float)
     close_price = Column(Float)
-    volume = Column(BigInteger)
-    # Other columns can be ignored or added if needed, but for insertion we only care about these.
-    # If the table has NOT NULL constraints on other columns, we might have issues.
-    # Based on inspection, only id, stock_id, date seem critical. 
+    volume = Column(BigInteger) 
 
 class Stock(Base):
     __tablename__ = 'stocks'
@@ -54,10 +49,11 @@ class DatabaseManager:
     def insert_stock(self, symbol, details):
         """
         Inserts a new stock into the stocks table.
+        Returns the stock_id if successful, None otherwise.
         """
         session = self.Session()
         try:
-            # Check if it already exists to be safe
+            # Check if it already exists
             existing_stock = session.execute(
                 text("SELECT id FROM stocks WHERE nse_symbol = :symbol"),
                 {"symbol": symbol}
@@ -66,21 +62,6 @@ class DatabaseManager:
             if existing_stock:
                 return existing_stock[0]
 
-            # Insert new stock
-            # Note: Adjust column names based on your actual stocks table schema if different.
-            # Based on previous inspection, we know there is 'nse_symbol'. 
-            # We'll try to insert 'name' and 'isin' if columns exist, otherwise just symbol.
-            # For now, let's assume a simple insert and catch errors if columns don't match.
-            # Ideally we should inspect schema again, but let's try to be robust.
-            
-            # Construct insert query dynamically or just try standard columns
-            # Let's assume 'name' and 'isin' might be columns based on standard practices, 
-            # but strictly we only confirmed 'nse_symbol' and 'id'.
-            # Let's stick to what we know or use a safe approach.
-            # Actually, let's check schema in main or just insert symbol for now if unsure, 
-            # but user said "data required for stock table should be available in Equity_List.csv".
-            # Let's try to insert name and isin too.
-            
             query = text("""
                 INSERT INTO stocks (nse_symbol, name, isin) 
                 VALUES (:symbol, :name, :isin) 
@@ -187,3 +168,100 @@ class DatabaseManager:
             print(f"Inserted {len(df_to_insert)} records for stock_id {stock_id}")
         except SQLAlchemyError as e:
             print(f"Error inserting data for stock_id {stock_id}: {e}")
+
+    def update_performance_metrics(self, stock_id):
+        """
+        Calculates and updates performance metrics (1w, 1m, 3m, 6m, 1y, 3y, 5y) for a stock.
+        """
+        session = self.Session()
+        try:
+            # Get latest date and price
+            latest_record = session.query(DailyPrice.date, DailyPrice.close_price)\
+                .filter(DailyPrice.stock_id == stock_id)\
+                .order_by(DailyPrice.date.desc())\
+                .first()
+            
+            if not latest_record:
+                return
+
+            latest_date, latest_price = latest_record
+            
+            # Get latest volume
+            latest_volume_record = session.query(DailyPrice.volume)\
+                .filter(DailyPrice.stock_id == stock_id)\
+                .order_by(DailyPrice.date.desc())\
+                .first()
+            latest_volume = latest_volume_record[0] if latest_volume_record else None
+            
+            # Define time deltas
+            deltas = {
+                '1w': timedelta(weeks=1),
+                '1m': timedelta(days=30),
+                '3m': timedelta(days=90),
+                '6m': timedelta(days=180),
+                '1y': timedelta(days=365),
+                '3y': timedelta(days=1095),
+                '5y': timedelta(days=1825)
+            }
+            
+            metrics = {}
+            
+            for period, delta in deltas.items():
+                target_date = latest_date - delta
+                
+                # Find nearest record on or before target_date
+                past_record = session.query(DailyPrice.close_price)\
+                    .filter(DailyPrice.stock_id == stock_id)\
+                    .filter(DailyPrice.date <= target_date)\
+                    .order_by(DailyPrice.date.desc())\
+                    .first()
+                
+                if past_record:
+                    past_price = past_record[0]
+                    if past_price:
+                        change = ((latest_price - past_price) / past_price) * 100
+                        metrics[f'change_{period}'] = change
+                    else:
+                        metrics[f'change_{period}'] = None
+                else:
+                    metrics[f'change_{period}'] = None
+
+            # Upsert into stock_performance
+            # Check if record exists
+            perf_record = session.query(StockPerformance).filter_by(stock_id=stock_id).first()
+            
+            if not perf_record:
+                perf_record = StockPerformance(stock_id=stock_id)
+                session.add(perf_record)
+            
+            perf_record.change_1w = metrics.get('change_1w')
+            perf_record.change_1m = metrics.get('change_1m')
+            perf_record.change_3m = metrics.get('change_3m')
+            perf_record.change_6m = metrics.get('change_6m')
+            perf_record.change_1y = metrics.get('change_1y')
+            perf_record.change_3y = metrics.get('change_3y')
+            perf_record.change_5y = metrics.get('change_5y')
+            perf_record.daily_volume = latest_volume
+            perf_record.updated_at = datetime.now()
+            
+            session.commit()
+            
+        except Exception as e:
+            session.rollback()
+            print(f"Error updating performance for stock {stock_id}: {e}")
+        finally:
+            session.close()
+
+class StockPerformance(Base):
+    __tablename__ = 'stock_performance'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    stock_id = Column(Integer, nullable=False, unique=True)
+    change_1w = Column(Float)
+    change_1m = Column(Float)
+    change_3m = Column(Float)
+    change_6m = Column(Float)
+    change_1y = Column(Float)
+    change_3y = Column(Float)
+    change_5y = Column(Float)
+    daily_volume = Column(BigInteger)
+    updated_at = Column(DateTime, default=datetime.now)

@@ -1,0 +1,251 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model alembic_version {
+  version_num String @id(map: "alembic_version_pkc") @db.VarChar(32)
+}
+
+model announcements {
+  id                Int       @id @default(autoincrement())
+  stock_id          Int
+  title             String    @db.VarChar(500)
+  content           String?
+  announcement_type String?   @db.VarChar(100)
+  announcement_date DateTime  @db.Timestamp(6)
+  filing_date       DateTime? @db.Timestamp(6)
+  is_important      Boolean?
+  created_at        DateTime? @default(now()) @db.Timestamptz(6)
+  stocks            stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([announcement_type], map: "ix_announcements_announcement_type")
+  @@index([id], map: "ix_announcements_id")
+}
+
+model concalls {
+  id             Int       @id @default(autoincrement())
+  stock_id       Int
+  quarter        String    @db.VarChar(10)
+  year           Int
+  call_date      DateTime  @db.Timestamp(6)
+  duration       Int?
+  transcript_url String?   @db.VarChar(500)
+  recording_url  String?   @db.VarChar(500)
+  key_points     String?
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+  stocks         stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([id], map: "ix_concalls_id")
+}
+
+model credit_ratings {
+  id            Int       @id @default(autoincrement())
+  stock_id      Int
+  rating_agency String    @db.VarChar(100)
+  rating        String    @db.VarChar(20)
+  outlook       String?   @db.VarChar(20)
+  rating_date   DateTime  @db.Timestamp(6)
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  stocks        stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([id], map: "ix_credit_ratings_id")
+}
+
+model daily_prices {
+  id                  Int       @id @default(autoincrement())
+  stock_id            Int
+  date                DateTime  @db.Timestamp(6)
+  open_price          Float
+  high_price          Float
+  low_price           Float
+  close_price         Float
+  volume              Int?
+  turnover            Float?
+  vwap                Float?
+  delivery_quantity   Int?
+  delivery_percentage Float?
+  created_at          DateTime? @default(now()) @db.Timestamptz(6)
+  stocks              stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([date], map: "ix_daily_prices_date")
+  @@index([id], map: "ix_daily_prices_id")
+  @@index([stock_id, date(sort: Desc)], map: "ix_daily_prices_stock_date")
+}
+
+model financial_statements {
+  id              Int       @id @default(autoincrement())
+  stock_id        Int
+  statement_type  String    @db.VarChar(50)
+  period          String    @db.VarChar(20)
+  year            Int
+  quarter         Int?
+  data            String?
+  is_consolidated Boolean?
+  filing_date     DateTime? @db.Timestamp(6)
+  created_at      DateTime? @default(now()) @db.Timestamptz(6)
+  stocks          stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([id], map: "ix_financial_statements_id")
+}
+
+model news {
+  id              Int       @id @default(autoincrement())
+  stock_id        Int
+  title           String    @db.VarChar(500)
+  content         String?
+  source          String?   @db.VarChar(100)
+  url             String?   @db.VarChar(500)
+  sentiment_score Float?
+  sentiment_label String?   @db.VarChar(20)
+  published_date  DateTime  @db.Timestamp(6)
+  created_at      DateTime? @default(now()) @db.Timestamptz(6)
+  stocks          stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([id], map: "ix_news_id")
+}
+
+model quarterly_results {
+  id                    Int       @id @default(autoincrement())
+  stock_id              Int
+  quarter               String    @db.VarChar(10)
+  year                  Int
+  quarter_number        Int
+  revenue               Float?
+  net_profit            Float?
+  ebitda                Float?
+  operating_profit      Float?
+  operating_margin      Float?
+  net_margin            Float?
+  eps                   Float?
+  is_consolidated       Boolean?
+  announcement_date     DateTime? @db.Timestamp(6)
+  created_at            DateTime? @default(now()) @db.Timestamptz(6)
+  other_income          Decimal?  @db.Decimal(20, 2)
+  total_income          Decimal?  @db.Decimal(20, 2)
+  expenditure           Decimal?  @db.Decimal(20, 2)
+  interest              Decimal?  @db.Decimal(20, 2)
+  pbdt                  Decimal?  @db.Decimal(20, 2)
+  depreciation          Decimal?  @db.Decimal(20, 2)
+  pbt                   Decimal?  @db.Decimal(20, 2)
+  tax                   Decimal?  @db.Decimal(20, 2)
+  equity                Decimal?  @db.Decimal(20, 2)
+  ceps                  Decimal?  @db.Decimal(20, 2)
+  opm_percent           Decimal?  @db.Decimal(5, 2)
+  npm_percent           Decimal?  @db.Decimal(5, 2)
+  quarterly_result_link String?
+  source                String?   @default("BSE") @db.VarChar(20)
+  filing_date           DateTime? @db.Date
+  tax_percent           Float?
+  expected_eps          Float?
+  stocks                stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([id], map: "ix_quarterly_results_id")
+}
+
+model shareholding_patterns {
+  id               Int       @id @default(autoincrement())
+  stock_id         Int
+  quarter          String    @db.VarChar(10)
+  year             Int
+  quarter_number   Int
+  promoter_holding Float?
+  fii_holding      Float?
+  dii_holding      Float?
+  public_holding   Float?
+  other_holding    Float?
+  total_shares     Int?
+  filing_date      DateTime? @db.Timestamp(6)
+  created_at       DateTime? @default(now()) @db.Timestamptz(6)
+  stocks           stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([id], map: "ix_shareholding_patterns_id")
+}
+
+model stocks {
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @db.VarChar(255)
+  isin                  String?                 @unique(map: "ix_stocks_isin") @db.VarChar(20)
+  bse_symbol            String?                 @unique(map: "ix_stocks_bse_symbol") @db.VarChar(20)
+  nse_symbol            String?                 @unique(map: "ix_stocks_nse_symbol") @db.VarChar(20)
+  current_price         Float?
+  market_cap            BigInt?
+  face_value            Float?
+  high_52_week          Float?
+  low_52_week           Float?
+  pe_ratio              Float?
+  pb_ratio              Float?
+  book_value            Float?
+  dividend_yield        Float?
+  roce                  Float?
+  roe                   Float?
+  industry              String?                 @db.VarChar(100)
+  sector                String?                 @db.VarChar(100)
+  subsector             String?                 @db.VarChar(100)
+  subsector1            String?                 @db.VarChar(100)
+  subsector2            String?                 @db.VarChar(100)
+  subsector3            String?                 @db.VarChar(100)
+  is_active             Boolean?
+  created_at            DateTime?               @db.Timestamp(6)
+  updated_at            DateTime?               @db.Timestamp(6)
+  last_updated          DateTime?               @db.Timestamp(6)
+  long_business_summary String?
+  announcements         announcements[]
+  concalls              concalls[]
+  credit_ratings        credit_ratings[]
+  daily_prices          daily_prices[]
+  financial_statements  financial_statements[]
+  news                  news[]
+  quarterly_results     quarterly_results[]
+  shareholding_patterns shareholding_patterns[]
+  sync_tracker          sync_tracker[]
+  stock_performance     stock_performance?
+
+  @@index([id], map: "ix_stocks_id")
+}
+
+model sync_tracker {
+  id             Int       @id @default(autoincrement())
+  stock_id       Int
+  data_type      String    @db.VarChar(50)
+  last_sync_time DateTime? @db.Timestamp(6)
+  last_data_date DateTime? @db.Timestamp(6)
+  records_count  Int?
+  sync_status    String?   @db.VarChar(20)
+  error_message  String?
+  created_at     DateTime? @db.Timestamp(6)
+  updated_at     DateTime? @db.Timestamp(6)
+  stocks         stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([stock_id, data_type], map: "uq_stock_data_type")
+  @@index([id], map: "ix_sync_tracker_id")
+}
+
+model stock_performance {
+  id         Int      @id @default(autoincrement())
+  stock_id   Int      @unique
+  change_1w  Float?
+  change_1m  Float?
+  change_3m  Float?
+  change_6m  Float?
+  change_1y  Float?
+  change_3y  Float?
+  change_5y  Float?
+  daily_volume BigInt?
+  updated_at DateTime @default(now()) @db.Timestamp(6)
+  stocks     stocks   @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([change_1w])
+  @@index([change_1m])
+  @@index([change_3m])
+  @@index([change_6m])
+  @@index([change_1y])
+  @@index([change_3y])
+  @@index([change_5y])
+  @@index([daily_volume])
+}

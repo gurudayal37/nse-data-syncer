@@ -1,13 +1,28 @@
 import argparse
 import os
-from datetime import date, timedelta
+from datetime import date
 import time
+from dotenv import load_dotenv
+
+# Load env from web/.env if DATABASE_URL not set
+if not os.getenv('DATABASE_URL'):
+    from .helpers import get_project_root
+    load_dotenv(get_project_root() / 'web' / '.env')
+
 from .database import DatabaseManager
 from .fetcher import fetch_stock_data
-from .utils import get_nse_symbols
-from . import utils
-
-CSV_PATH = "ind_niftytotalmarket_list.csv"
+from .utils import get_nse_symbols, load_equity_list
+from .helpers import (
+    get_data_path,
+    validate_data_mismatch,
+    determine_fetch_strategy
+)
+from .constants import (
+    CSV_FILENAME,
+    EQUITY_LIST_FILENAME,
+    RATE_LIMIT_DELAY_SECONDS,
+    VALIDATION_RECORDS_COUNT
+)
 
 def main():
     parser = argparse.ArgumentParser(description="NSE Stock Data Syncer")
@@ -32,10 +47,8 @@ def main():
         csv_symbols = [s.strip() for s in args.symbols.split(',')]
         print(f"Processing specific symbols: {csv_symbols}")
     else:
-        # Path relative to app/main.py: ../data/ind_niftytotalmarket_list.csv
-        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        csv_path = os.path.join(base_dir, 'data', 'ind_niftytotalmarket_list.csv')
-        csv_symbols = get_nse_symbols(csv_path)
+        csv_path = get_data_path(CSV_FILENAME)
+        csv_symbols = get_nse_symbols(str(csv_path))
         print(f"Found {len(csv_symbols)} symbols in CSV.")
     
     if args.limit:
@@ -43,13 +56,9 @@ def main():
         print(f"Limiting to first {args.limit} symbols.")
 
     # Load Equity List for missing stock details
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    equity_list_path = os.path.join(base_dir, 'data', 'Equity_List.csv')
-    equity_details = utils.load_equity_list(equity_list_path)
+    equity_list_path = get_data_path(EQUITY_LIST_FILENAME)
+    equity_details = load_equity_list(str(equity_list_path))
     print(f"Loaded {len(equity_details)} equity details.")
-
-    # Get existing symbol map
-    symbol_map = db_manager.get_symbol_map()
     
     processed_count = 0
     skipped_count = 0
@@ -82,68 +91,50 @@ def main():
             last_synced_date = db_manager.get_last_synced_date(stock_id)
             
             # Validation and Fetch Logic
-            start_date = None
             is_full_resync = False
-            df = None # Initialize df to None
+            df = None
             
             if last_synced_date:
-                # Fetch last 5 days for validation
-                last_records_raw = db_manager.get_last_n_records(stock_id, n=5)
+                # Fetch last N records for validation
+                last_records_raw = db_manager.get_last_n_records(stock_id, n=VALIDATION_RECORDS_COUNT)
                 last_records = {k.date(): v for k, v in last_records_raw.items()} if last_records_raw else {}
+                
                 if last_records:
                     min_validation_date = min(last_records.keys())
-                    # Fetch data overlapping with existing data
-                    df_validation = fetch_stock_data(symbol, start_date=min_validation_date) # Use a temporary df for validation
+                    df_validation = fetch_stock_data(symbol, start_date=min_validation_date)
                     
                     if not df_validation.empty:
                         print(f"  Validation: Checking {len(df_validation)} records against DB...")
-                        mismatch_detected = False
-                        for date, row in df_validation.iterrows():
-                            date_obj = date
-                            if date_obj in last_records:
-                                db_close = last_records[date_obj]
-                                new_close = row['Close']
-                                diff = abs(db_close - new_close) / db_close
-                                # print(f"    Checking {date_obj}: DB={db_close}, New={new_close}, Diff={diff:.4f}")
-                                # Check for > 1% difference
-                                if diff > 0.01:
-                                    print(f"  Mismatch detected for {symbol} on {date_obj}: DB={db_close}, New={new_close}. Triggering full resync.")
-                                    mismatch_detected = True
-                                    break
+                        is_full_resync = validate_data_mismatch(symbol, df_validation, last_records)
                         
-                        if mismatch_detected:
+                        if is_full_resync:
                             if not args.dry_run:
                                 db_manager.delete_daily_prices(stock_id)
-                            is_full_resync = True
-                            start_date = None # Fetch all
                         else:
                             # No mismatch, only insert new data
-                            start_date = last_synced_date + timedelta(days=1)
-                            # Filter df_validation to only new data
-                            df = df_validation[df_validation.index > last_synced_date] # Assign filtered df to main df
-                    else:
-                         # No data fetched even for validation?
-                         start_date = last_synced_date + timedelta(days=1)
-                else:
-                    start_date = last_synced_date + timedelta(days=1)
+                            df = df_validation[df_validation.index > last_synced_date]
+                            if not args.dry_run:
+                                db_manager.update_performance_metrics(stock_id)
             
-            # If we haven't fetched data yet (or need to refetch for full sync)
-            if is_full_resync or (start_date and df is None): # Check if df is still None
-                 df = fetch_stock_data(symbol, start_date=start_date)
-            elif start_date is None and not is_full_resync and not last_synced_date:
-                 # New stock, no history
-                 df = fetch_stock_data(symbol)
+            # Determine fetch strategy
+            start_date, should_fetch = determine_fetch_strategy(last_synced_date, is_full_resync, df)
+            
+            if should_fetch:
+                df = fetch_stock_data(symbol, start_date=start_date)
 
             if df is not None and not df.empty: # Check if df is not None before checking empty
                 print(f"  Fetched {len(df)} records.")
                 if not args.dry_run:
                     db_manager.insert_daily_prices(stock_id, df)
+                    # Update performance metrics
+                    print(f"  Updating performance metrics for {symbol}...")
+                    db_manager.update_performance_metrics(stock_id)
             else:
                 print("  No new data found.")
                 
             processed_count += 1
             # Basic rate limiting
-            time.sleep(0.5)
+            time.sleep(RATE_LIMIT_DELAY_SECONDS)
             
         except Exception as e:
             print(f"  Error processing {symbol}: {e}")
