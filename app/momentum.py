@@ -112,7 +112,8 @@ def calculate_momentum():
         for up in updates:
             z_scores = []
             
-            for period in ['1m', '3m', '6m', '1y']:
+            # Only use 3M, 6M, 1Y (exclude 1M)
+            for period in ['3m', '6m', '1y']:
                 val = up[f'mr_{period}']
                 if val is not None and stats[period]['std'] > 0:
                     z = (val - stats[period]['mean']) / stats[period]['std']
@@ -121,9 +122,12 @@ def calculate_momentum():
                 else:
                     up[f'z_{period}'] = None
             
-            # Weighted Average Z-Score (Equal Weights: 0.25)
-            if len(z_scores) == 4: # Only if all periods are available
-                weighted_z = sum(z_scores) / 4
+            # Set 1M z-score to None (not used)
+            up['z_1m'] = None
+            
+            # Weighted Average Z-Score (Equal Weights: 1/3 each for 3M, 6M, 1Y)
+            if len(z_scores) == 3: # Only if all 3 periods are available
+                weighted_z = sum(z_scores) / 3
                 
                 # Normalized Score
                 if weighted_z >= 0:
@@ -134,6 +138,7 @@ def calculate_momentum():
                 up['momentum_score'] = score
             else:
                 up['momentum_score'] = None
+                
                 
         # 6. Update DB with Final Scores
         print("Updating Final Scores...")

@@ -154,7 +154,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                             <span className="text-sm text-gray-500 mb-1">/ 10.0</span>
                         </div>
                         <p className="text-xs text-gray-500 mt-2">
-                            Based on volatility-adjusted returns (1M, 3M, 6M, 1Y) relative to the market.
+                            Based on volatility-adjusted returns (3M, 6M, 1Y) relative to the market.
                         </p>
 
                         {/* Mini Calculation Details */}
@@ -169,7 +169,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                     </div>
 
                     {/* Momentum Calculation Details */}
-                    {perf?.mr_1m && (
+                    {perf?.mr_3m && (
                         <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
                             <h2 className="text-lg font-semibold text-gray-900 mb-4">Momentum Calculation Breakdown</h2>
                             <div className="overflow-x-auto">
@@ -184,13 +184,6 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-100">
-                                        <tr>
-                                            <td className="px-4 py-2 font-medium">1 Month</td>
-                                            <td className="px-4 py-2 text-right">{perf.change_1m?.toFixed(2)}%</td>
-                                            <td className="px-4 py-2 text-right">{(perf.volatility! * 100).toFixed(2)}%</td>
-                                            <td className="px-4 py-2 text-right">{perf.mr_1m?.toFixed(2)}</td>
-                                            <td className="px-4 py-2 text-right">{perf.z_1m?.toFixed(2)}</td>
-                                        </tr>
                                         <tr>
                                             <td className="px-4 py-2 font-medium">3 Months</td>
                                             <td className="px-4 py-2 text-right">{perf.change_3m?.toFixed(2)}%</td>

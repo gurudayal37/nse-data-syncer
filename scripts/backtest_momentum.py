@@ -18,19 +18,17 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database import DatabaseManager
 
-def get_month_ends(years=2):
-    """Get list of month-end dates for the last N years"""
+def get_month_ends(years=8):
+    """Get list of month-end dates for the last N years (default 8 years from 2017)"""
     today = datetime.now()
     dates = []
-    # Start from 2 years ago
+    # Start from N years ago
     start_date = today - relativedelta(years=years)
     # Align to next month start
     current = start_date.replace(day=1) + relativedelta(months=1)
     
     while current < today:
         # Get last day of previous month (rebalancing date)
-        # Actually, let's say we rebalance on the 1st of each month based on data till last month end.
-        # So we need data up to last day of previous month.
         last_month_end = current - timedelta(days=1)
         dates.append(last_month_end)
         current += relativedelta(months=1)
@@ -95,14 +93,13 @@ def calculate_momentum_for_date(session, target_date, stocks_df):
             if None in [r1m, r3m, r6m, r1y]:
                 continue
                 
-            mr_1m = r1m / volatility
+            # Only use 3M, 6M, 1Y (exclude 1M)
             mr_3m = r3m / volatility
             mr_6m = r6m / volatility
             mr_1y = r1y / volatility
             
             scores.append({
                 'stock_id': stock_id,
-                'mr_1m': mr_1m,
                 'mr_3m': mr_3m,
                 'mr_6m': mr_6m,
                 'mr_1y': mr_1y
@@ -114,10 +111,10 @@ def calculate_momentum_for_date(session, target_date, stocks_df):
     if not scores:
         return []
         
-    # Calculate Z-Scores
+    # Calculate Z-Scores (only for 3M, 6M, 1Y)
     df_scores = pd.DataFrame(scores)
     
-    for period in ['1m', '3m', '6m', '1y']:
+    for period in ['3m', '6m', '1y']:
         col = f'mr_{period}'
         mean = df_scores[col].mean()
         std = df_scores[col].std()
@@ -126,8 +123,8 @@ def calculate_momentum_for_date(session, target_date, stocks_df):
         else:
             df_scores[f'z_{period}'] = 0
             
-    # Weighted Score
-    df_scores['weighted_z'] = (df_scores['z_1m'] + df_scores['z_3m'] + df_scores['z_6m'] + df_scores['z_1y']) / 4
+    # Weighted Score (equal weights: 1/3 each)
+    df_scores['weighted_z'] = (df_scores['z_3m'] + df_scores['z_6m'] + df_scores['z_1y']) / 3
     
     # Sort by weighted Z (descending)
     df_scores = df_scores.sort_values('weighted_z', ascending=False)
@@ -139,10 +136,10 @@ def run_backtest():
     db = DatabaseManager()
     session = db.Session()
     
-    # 1. Fetch Benchmark (Nifty 50)
+    # 1. Fetch Benchmark (Nifty 50) - Fetch 10 years to cover full backtest period
     print("Fetching Benchmark Data...")
     try:
-        nifty = yf.download('^NSEI', start=(datetime.now() - relativedelta(years=3)).strftime('%Y-%m-%d'), progress=False)
+        nifty = yf.download('^NSEI', start=(datetime.now() - relativedelta(years=10)).strftime('%Y-%m-%d'), progress=False)
         if nifty.empty:
             print("Warning: Could not fetch Nifty data. Benchmark returns will be 0.")
             nifty = pd.DataFrame(columns=['close'])
@@ -163,8 +160,8 @@ def run_backtest():
     for s in stocks:
         stock_map[s.id] = s.nse_symbol
         
-    # 2. Iterate Months
-    dates = get_month_ends(years=2)
+    # 2. Iterate Months (from 2017 to present)
+    dates = get_month_ends(years=8)
     results = []
     
     print(f"Backtesting over {len(dates)} months...")
