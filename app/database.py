@@ -263,5 +263,23 @@ class StockPerformance(Base):
     change_1y = Column(Float)
     change_3y = Column(Float)
     change_5y = Column(Float)
+    
+    # Momentum Metrics
+    volatility = Column(Float)
+    
+    # Momentum Ratios
+    mr_1m = Column(Float)
+    mr_3m = Column(Float)
+    mr_6m = Column(Float)
+    mr_1y = Column(Float)
+    
+    # Z-Scores
+    z_1m = Column(Float)
+    z_3m = Column(Float)
+    z_6m = Column(Float)
+    z_1y = Column(Float)
+    
+    momentum_score = Column(Float)
+    
     daily_volume = Column(BigInteger)
     updated_at = Column(DateTime, default=datetime.now)

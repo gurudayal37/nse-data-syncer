@@ -236,6 +236,24 @@ model stock_performance {
   change_1y  Float?
   change_3y  Float?
   change_5y  Float?
+  
+  // Momentum Metrics
+  volatility Float? // Annualized Volatility
+  
+  // Momentum Ratios
+  mr_1m      Float?
+  mr_3m      Float?
+  mr_6m      Float?
+  mr_1y      Float?
+  
+  // Z-Scores
+  z_1m       Float?
+  z_3m       Float?
+  z_6m       Float?
+  z_1y       Float?
+  
+  momentum_score Float? // Final Normalized Score
+
   daily_volume BigInt?
   updated_at DateTime @default(now()) @db.Timestamp(6)
   stocks     stocks   @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)

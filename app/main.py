@@ -142,6 +142,10 @@ def main():
             continue
 
     print(f"Sync completed. Processed: {processed_count}, Skipped: {skipped_count}")
+    
+    # 4. Calculate Momentum Scores
+    from .momentum import calculate_momentum
+    calculate_momentum()
 
 if __name__ == "__main__":
     main()

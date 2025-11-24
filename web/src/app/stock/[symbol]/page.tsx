@@ -98,59 +98,157 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                     )}
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <div className="space-y-6">
                     {/* Chart Section */}
-                    <div className="lg:col-span-2 bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
                         <h2 className="text-lg font-semibold text-gray-900 mb-4">Price History</h2>
                         <div className="h-[400px]">
                             <StockChart data={chartData} />
                         </div>
                     </div>
 
-                    {/* Performance Metrics */}
+                    {/* Performance Table */}
                     <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
                         <h2 className="text-lg font-semibold text-gray-900 mb-4">Performance</h2>
                         <div className="space-y-4">
-                            {performanceMetrics.map((metric) => (
-                                <div key={metric.label} className="flex justify-between items-center py-2 border-b border-gray-50">
-                                    <span className="text-gray-500">{metric.label}</span>
-                                    <PercentageChange value={metric.value} className="font-medium" />
-                                </div>
-                            ))}
+                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span className="text-gray-500">1 Week</span>
+                                <PercentageChange value={perf?.change_1w} />
+                            </div>
+                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span className="text-gray-500">1 Month</span>
+                                <PercentageChange value={perf?.change_1m} />
+                            </div>
+                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span className="text-gray-500">3 Months</span>
+                                <PercentageChange value={perf?.change_3m} />
+                            </div>
+                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span className="text-gray-500">6 Months</span>
+                                <PercentageChange value={perf?.change_6m} />
+                            </div>
+                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span className="text-gray-500">1 Year</span>
+                                <PercentageChange value={perf?.change_1y} />
+                            </div>
+                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span className="text-gray-500">3 Years</span>
+                                <PercentageChange value={perf?.change_3y} />
+                            </div>
+                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span className="text-gray-500">5 Years</span>
+                                <PercentageChange value={perf?.change_5y} />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {/* News Section */}
-                <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4">Latest News</h2>
-                    {stock.news && stock.news.length > 0 ? (
-                        <div className="grid gap-4">
-                            {stock.news.map((item: NewsItem) => (
-                                <div key={item.id} className="border-b border-gray-50 last:border-0 pb-4 last:pb-0">
-                                    <div className="flex justify-between items-start gap-4">
-                                        <div>
-                                            <h3 className="font-medium text-gray-900 mb-1">
-                                                {item.url ? (
-                                                    <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 hover:underline">
-                                                        {item.title}
-                                                    </a>
-                                                ) : (
-                                                    item.title
-                                                )}
-                                            </h3>
-                                            <p className="text-sm text-gray-500 line-clamp-2">{item.content}</p>
-                                        </div>
-                                        <span className="text-xs text-gray-400 whitespace-nowrap">
-                                            {new Date(item.published_date).toLocaleDateString()}
-                                        </span>
-                                    </div>
-                                </div>
-                            ))}
+                    {/* Momentum Score Card */}
+                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+                        <h2 className="text-lg font-semibold text-gray-900 mb-2">Momentum Score</h2>
+                        <div className="flex items-end gap-2">
+                            <span className={`text-4xl font-bold ${(perf?.momentum_score || 0) >= 2 ? 'text-green-600' :
+                                (perf?.momentum_score || 0) >= 1 ? 'text-blue-600' : 'text-gray-600'
+                                }`}>
+                                {perf?.momentum_score ? perf.momentum_score.toFixed(2) : '-'}
+                            </span>
+                            <span className="text-sm text-gray-500 mb-1">/ 10.0</span>
                         </div>
-                    ) : (
-                        <p className="text-gray-500 text-sm italic">No recent news available for this stock.</p>
+                        <p className="text-xs text-gray-500 mt-2">
+                            Based on volatility-adjusted returns (1M, 3M, 6M, 1Y) relative to the market.
+                        </p>
+
+                        {/* Mini Calculation Details */}
+                        {perf?.volatility && (
+                            <div className="mt-4 pt-4 border-t border-gray-100 text-sm">
+                                <div className="flex justify-between py-1">
+                                    <span className="text-gray-500">Volatility (1Y)</span>
+                                    <span className="font-medium">{(perf.volatility * 100).toFixed(2)}%</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Momentum Calculation Details */}
+                    {perf?.mr_1m && (
+                        <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+                            <h2 className="text-lg font-semibold text-gray-900 mb-4">Momentum Calculation Breakdown</h2>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm text-left text-gray-600">
+                                    <thead className="bg-gray-50 text-gray-900 font-medium">
+                                        <tr>
+                                            <th className="px-4 py-2">Period</th>
+                                            <th className="px-4 py-2 text-right">Return</th>
+                                            <th className="px-4 py-2 text-right">Volatility (Ann.)</th>
+                                            <th className="px-4 py-2 text-right">Momentum Ratio</th>
+                                            <th className="px-4 py-2 text-right">Z-Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-100">
+                                        <tr>
+                                            <td className="px-4 py-2 font-medium">1 Month</td>
+                                            <td className="px-4 py-2 text-right">{perf.change_1m?.toFixed(2)}%</td>
+                                            <td className="px-4 py-2 text-right">{(perf.volatility! * 100).toFixed(2)}%</td>
+                                            <td className="px-4 py-2 text-right">{perf.mr_1m?.toFixed(2)}</td>
+                                            <td className="px-4 py-2 text-right">{perf.z_1m?.toFixed(2)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="px-4 py-2 font-medium">3 Months</td>
+                                            <td className="px-4 py-2 text-right">{perf.change_3m?.toFixed(2)}%</td>
+                                            <td className="px-4 py-2 text-right">{(perf.volatility! * 100).toFixed(2)}%</td>
+                                            <td className="px-4 py-2 text-right">{perf.mr_3m?.toFixed(2)}</td>
+                                            <td className="px-4 py-2 text-right">{perf.z_3m?.toFixed(2)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="px-4 py-2 font-medium">6 Months</td>
+                                            <td className="px-4 py-2 text-right">{perf.change_6m?.toFixed(2)}%</td>
+                                            <td className="px-4 py-2 text-right">{(perf.volatility! * 100).toFixed(2)}%</td>
+                                            <td className="px-4 py-2 text-right">{perf.mr_6m?.toFixed(2)}</td>
+                                            <td className="px-4 py-2 text-right">{perf.z_6m?.toFixed(2)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="px-4 py-2 font-medium">1 Year</td>
+                                            <td className="px-4 py-2 text-right">{perf.change_1y?.toFixed(2)}%</td>
+                                            <td className="px-4 py-2 text-right">{(perf.volatility! * 100).toFixed(2)}%</td>
+                                            <td className="px-4 py-2 text-right">{perf.mr_1y?.toFixed(2)}</td>
+                                            <td className="px-4 py-2 text-right">{perf.z_1y?.toFixed(2)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     )}
+
+                    {/* News Section */}
+                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Latest News</h2>
+                        {stock.news && stock.news.length > 0 ? (
+                            <div className="grid gap-4">
+                                {stock.news.map((item: NewsItem) => (
+                                    <div key={item.id} className="border-b border-gray-50 last:border-0 pb-4 last:pb-0">
+                                        <div className="flex justify-between items-start gap-4">
+                                            <div>
+                                                <h3 className="font-medium text-gray-900 mb-1">
+                                                    {item.url ? (
+                                                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 hover:underline">
+                                                            {item.title}
+                                                        </a>
+                                                    ) : (
+                                                        item.title
+                                                    )}
+                                                </h3>
+                                                <p className="text-sm text-gray-500 line-clamp-2">{item.content}</p>
+                                            </div>
+                                            <span className="text-xs text-gray-400 whitespace-nowrap">
+                                                {new Date(item.published_date).toLocaleDateString()}
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-gray-500 text-sm italic">No recent news available for this stock.</p>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
