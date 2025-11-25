@@ -65,7 +65,7 @@ export default function MomentumStrategyPage() {
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900">Momentum Strategy Backtest</h1>
                         <p className="text-gray-500 mt-1">
-                            Buying Top 15 Momentum Stocks (Equal Weight) • Monthly Rebalancing • 2 Year Simulation
+                            Buying Top 15 Momentum Stocks (Equal Weight) • Monthly Rebalancing • Since 2017
                         </p>
                     </div>
                 </div>
@@ -78,7 +78,7 @@ export default function MomentumStrategyPage() {
                             <h3 className="font-semibold text-blue-900 mb-2">1. Selection</h3>
                             <p className="text-blue-800">
                                 Select top 15 stocks with highest Momentum Score.
-                                Score is based on volatility-adjusted returns over 1M, 3M, 6M, and 1Y periods.
+                                Score is based on volatility-adjusted returns over 3M, 6M, and 1Y periods (equal weight).
                             </p>
                         </div>
                         <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
@@ -100,7 +100,7 @@ export default function MomentumStrategyPage() {
                 {/* Performance Summary Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                        <div className="text-sm text-gray-500 mb-1">Total Return (2Y)</div>
+                        <div className="text-sm text-gray-500 mb-1">Total Return (Since 2017)</div>
                         <div className={`text-3xl font-bold ${parseFloat(summary.totalPortReturn) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                             {summary.totalPortReturn}%
                         </div>
@@ -230,13 +230,22 @@ export default function MomentumStrategyPage() {
                                                     <td colSpan={6} className="px-6 py-4 bg-gray-50">
                                                         <div className="grid grid-cols-3 gap-2">
                                                             {row.holdings.map((holding: any, j: number) => (
-                                                                <div key={j} className="flex justify-between items-center bg-white px-3 py-2 rounded border border-gray-200">
-                                                                    <span className="font-medium text-gray-700">{holding.symbol}</span>
-                                                                    <span className={`font-medium ${holding.return === null ? 'text-gray-400' :
+                                                                <div key={j} className="bg-white px-3 py-2 rounded border border-gray-200">
+                                                                    <div className="flex justify-between items-center">
+                                                                        <div className="flex items-center gap-2">
+                                                                            <span className="font-medium text-gray-700">{holding.symbol}</span>
+                                                                            {holding.score !== undefined && (
+                                                                                <span className="text-[10px] text-gray-500 bg-gray-100 px-1.5 rounded" title="Momentum Score">
+                                                                                    {holding.score}
+                                                                                </span>
+                                                                            )}
+                                                                        </div>
+                                                                        <span className={`font-medium text-sm ${holding.return === null ? 'text-gray-400' :
                                                                             holding.return >= 0 ? 'text-green-600' : 'text-red-600'
-                                                                        }`}>
-                                                                        {holding.return === null ? 'N/A' : `${holding.return > 0 ? '+' : ''}${holding.return}%`}
-                                                                    </span>
+                                                                            }`}>
+                                                                            {holding.return === null ? 'N/A' : `${holding.return > 0 ? '+' : ''}${holding.return}%`}
+                                                                        </span>
+                                                                    </div>
                                                                 </div>
                                                             ))}
                                                         </div>

@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Float, BigInteger, text
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Float, BigInteger, text, Date, Index, ForeignKey
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 import pandas as pd
@@ -283,3 +283,15 @@ class StockPerformance(Base):
     
     daily_volume = Column(BigInteger)
     updated_at = Column(DateTime, default=datetime.now)
+
+class MomentumHistory(Base):
+    __tablename__ = 'momentum_history'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    stock_id = Column(Integer, nullable=False)
+    date = Column(Date, nullable=False)
+    momentum_score = Column(Float)
+    rank = Column(Integer)
+    
+    __table_args__ = (
+        Index('idx_momentum_history_stock_date', 'stock_id', 'date', unique=True),
+    )

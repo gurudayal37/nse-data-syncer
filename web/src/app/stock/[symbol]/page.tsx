@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma'
 import StockChart from '@/components/StockChart'
+import MomentumChart from '@/components/MomentumChart'
 import PercentageChange from '@/components/PercentageChange'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
@@ -33,11 +34,32 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         notFound()
     }
 
-    const chartData = stock.daily_prices.map((p: { date: Date; close_price: number }) => ({
-        date: new Date(p.date).toISOString(),
+    const chartData = stock.daily_prices.map((p: any) => ({
+        date: p.date.toISOString(),
         close: p.close_price,
+        volume: Number(p.volume || 0)
     }))
 
+    // Fetch momentum history
+    const momentumHistory = await prisma.momentum_history.findMany({
+        where: {
+            stock_id: stock.id
+        },
+        orderBy: {
+            date: 'asc'
+        },
+        select: {
+            date: true,
+            momentum_score: true,
+            rank: true
+        }
+    })
+
+    const momentumChartData = momentumHistory.map((h: any) => ({
+        date: h.date.toISOString(),
+        score: h.momentum_score || 0,
+        rank: h.rank || 0
+    }))
     const latest = stock.daily_prices[stock.daily_prices.length - 1]
     const perf = stock.stock_performance
 
@@ -106,6 +128,14 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                             <StockChart data={chartData} />
                         </div>
                     </div>
+
+                    {/* Momentum History Chart */}
+                    {momentumChartData.length > 0 && (
+                        <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+                            <h2 className="text-lg font-semibold text-gray-900 mb-4">Momentum Score History</h2>
+                            <MomentumChart data={momentumChartData} />
+                        </div>
+                    )}
 
                     {/* Performance Table */}
                     <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">

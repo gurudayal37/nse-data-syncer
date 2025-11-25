@@ -16,7 +16,7 @@ load_dotenv(os.path.join(base_dir, 'web', '.env'))
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from app.database import DatabaseManager
+from app.database import DatabaseManager, MomentumHistory
 
 def get_month_ends(years=8):
     """Get list of month-end dates for the last N years (default 8 years from 2017)"""
@@ -134,6 +134,11 @@ def calculate_momentum_for_date(session, target_date, stocks_df):
 def run_backtest():
     print("Starting Backtest...")
     db = DatabaseManager()
+    
+    # Ensure tables exist (specifically momentum_history)
+    from app.database import Base
+    Base.metadata.create_all(db.engine)
+    
     session = db.Session()
     
     # 1. Fetch Benchmark (Nifty 50) - Fetch 10 years to cover full backtest period
@@ -202,8 +207,30 @@ def run_backtest():
             print("  No stocks found.")
             continue
             
-        top_15 = top_stocks_df.head(15)
-        selected_stock_ids = top_15['stock_id'].tolist()
+        # Save History to DB
+        try:
+            session.execute(text("DELETE FROM momentum_history WHERE date = :date"), {"date": rebalance_date})
+            
+            history_records = []
+            for rank, row in enumerate(top_stocks_df.itertuples(), 1):
+                history_records.append(MomentumHistory(
+                    stock_id=row.stock_id,
+                    date=rebalance_date,
+                    momentum_score=row.weighted_z,
+                    rank=rank
+                ))
+            
+            session.bulk_save_objects(history_records)
+            session.commit()
+        except Exception as e:
+            print(f"  Error saving history: {e}")
+            session.rollback()
+         # Select Top 15
+        top_stocks = top_stocks_df.head(15)
+        selected_stock_ids = top_stocks['stock_id'].tolist()
+        
+        # Create map of stock_id -> score
+        score_map = top_stocks.set_index('stock_id')['weighted_z'].to_dict()
         
         # Calculate Portfolio Return for the NEXT month
         # We need prices for selected stocks in the next month window
@@ -235,7 +262,8 @@ def run_backtest():
                 except KeyError:
                     stock_returns_detail.append({
                         'symbol': stock_map.get(stock_id, 'Unknown'),
-                        'return': None
+                        'return': None,
+                        'score': round(score_map.get(stock_id, 0), 2)
                     })
                     continue
                     
@@ -244,7 +272,8 @@ def run_backtest():
                 if stock_data_next.empty:
                     stock_returns_detail.append({
                         'symbol': stock_map.get(stock_id, 'Unknown'),
-                        'return': None
+                        'return': None,
+                        'score': round(score_map.get(stock_id, 0), 2)
                     })
                     continue
                 
@@ -254,7 +283,8 @@ def run_backtest():
                 portfolio_returns.append(ret)
                 stock_returns_detail.append({
                     'symbol': stock_map.get(stock_id, 'Unknown'),
-                    'return': round(ret * 100, 2)
+                    'return': round(ret * 100, 2),
+                    'score': round(score_map.get(stock_id, 0), 2)
                 })
                 
         if not portfolio_returns:
