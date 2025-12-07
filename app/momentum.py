@@ -30,7 +30,7 @@ def calculate_momentum():
             """)
             prices = session.execute(query, {"stock_id": stock_id}).fetchall()
             
-            if len(prices) < 252: # Need at least 1 year of data
+            if len(prices) < 253: # Need at least 253 days for 1-year return (T vs T-252)
                 continue
                 
             df = pd.DataFrame(prices, columns=['date', 'close'])
@@ -142,14 +142,24 @@ def calculate_momentum():
                 
         # 6. Update DB with Final Scores
         print("Updating Final Scores...")
+        
+        def sanitize(val):
+            """Ensure value is a finite float or None"""
+            try:
+                if val is not None and np.isfinite(val):
+                    return float(val)
+            except:
+                pass
+            return None
+
         for up in updates:
             perf = session.query(StockPerformance).filter_by(stock_id=up['stock_id']).first()
             if perf:
-                perf.z_1m = float(up.get('z_1m')) if up.get('z_1m') is not None else None
-                perf.z_3m = float(up.get('z_3m')) if up.get('z_3m') is not None else None
-                perf.z_6m = float(up.get('z_6m')) if up.get('z_6m') is not None else None
-                perf.z_1y = float(up.get('z_1y')) if up.get('z_1y') is not None else None
-                perf.momentum_score = float(up.get('momentum_score')) if up.get('momentum_score') is not None else None
+                perf.z_1m = sanitize(up.get('z_1m'))
+                perf.z_3m = sanitize(up.get('z_3m'))
+                perf.z_6m = sanitize(up.get('z_6m'))
+                perf.z_1y = sanitize(up.get('z_1y'))
+                perf.momentum_score = sanitize(up.get('momentum_score'))
                 
         session.commit()
         print("Momentum Calculation Complete!")
