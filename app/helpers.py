@@ -45,11 +45,13 @@ def validate_data_mismatch(
     return False
 
 
+from typing import Optional
+
 def determine_fetch_strategy(
-    last_synced_date: date | None,
+    last_synced_date: Optional[date],
     is_full_resync: bool,
-    df: pd.DataFrame | None
-) -> tuple[date | None, bool]:
+    df: Optional[pd.DataFrame]
+) -> tuple[Optional[date], bool]:
     """
     Determines the start date and whether to fetch data.
     Returns (start_date, should_fetch)

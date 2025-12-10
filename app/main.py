@@ -1,8 +1,10 @@
 import argparse
 import os
-from datetime import date
+from datetime import date, datetime, timedelta
 import time
 from dotenv import load_dotenv
+from collections import defaultdict
+from sqlalchemy import text
 
 # Load env from web/.env if DATABASE_URL not set
 if not os.getenv('DATABASE_URL'):
@@ -10,39 +12,32 @@ if not os.getenv('DATABASE_URL'):
     load_dotenv(get_project_root() / 'web' / '.env')
 
 from .database import DatabaseManager
-from .fetcher import fetch_stock_data
+from .fetcher import fetch_stock_data, fetch_batch_data
 from .utils import get_nse_symbols, load_equity_list
-from .helpers import (
-    get_data_path,
-    validate_data_mismatch,
-    determine_fetch_strategy
-)
+from .helpers import get_data_path
+
 from .constants import (
     CSV_FILENAME,
     EQUITY_LIST_FILENAME,
     RATE_LIMIT_DELAY_SECONDS,
-    VALIDATION_RECORDS_COUNT
 )
 
 def main():
-    parser = argparse.ArgumentParser(description="NSE Stock Data Syncer")
+    parser = argparse.ArgumentParser(description="NSE Stock Data Syncer (Optimized)")
     parser.add_argument('--limit', type=int, help='Limit the number of symbols to process')
     parser.add_argument('--dry-run', action='store_true', help='Perform a dry run without writing to DB')
     parser.add_argument('--symbols', type=str, help='Comma-separated list of symbols to process (overrides CSV)')
     args = parser.parse_args()
 
-    print("Starting NSE Stock Data Syncer...")
+    print("Starting NSE Stock Data Syncer (Optimized)...")
     
     # 1. Initialize Database
     db_manager = DatabaseManager()
-    # Note: We are NOT calling create_tables() as we are using existing schema.
     
-    # 2. Get Symbol Map
+    # 2. Get Symbol Map & Sync Missing Stocks
     print("Fetching symbol mapping from database...")
     symbol_map = db_manager.get_symbol_map()
-    print(f"Found {len(symbol_map)} existing stocks in DB.")
     
-    # 3. Get Symbols
     if args.symbols:
         csv_symbols = [s.strip() for s in args.symbols.split(',')]
         print(f"Processing specific symbols: {csv_symbols}")
@@ -55,95 +50,104 @@ def main():
         csv_symbols = csv_symbols[:args.limit]
         print(f"Limiting to first {args.limit} symbols.")
 
-    # Load Equity List for missing stock details
-    equity_list_path = get_data_path(EQUITY_LIST_FILENAME)
-    equity_details = load_equity_list(str(equity_list_path))
-    print(f"Loaded {len(equity_details)} equity details.")
+    # Check for missing stocks
+    missing_symbols = [s for s in csv_symbols if s not in symbol_map]
+    if missing_symbols:
+        print(f"Found {len(missing_symbols)} new symbols to insert.")
+        equity_list_path = get_data_path(EQUITY_LIST_FILENAME)
+        equity_details = load_equity_list(str(equity_list_path))
+        
+        inserted_count = 0
+        for sym in missing_symbols:
+            if sym in equity_details:
+                sid = db_manager.insert_stock(sym, equity_details[sym])
+                if sid: 
+                    symbol_map[sym] = sid
+                    inserted_count += 1
+            else:
+                print(f"  Warning: Symbol {sym} not found in Equity List. Skipping.")
+        print(f"Inserted {inserted_count} new stocks.")
+        
+    # ONE-TIME FIX: Ensure all stocks in symbol_map have is_active = True
+    # Since we found some might be NULL
+    print("Ensuring all tracked stocks are active...")
+    with db_manager.engine.connect() as conn:
+        conn.execute(text("UPDATE stocks SET is_active = true WHERE is_active IS NULL"))
+        conn.commit()
+    
+    # 3. Group by Last Synced Date
+    print("Getting sync status for all stocks...")
+    last_synced_dates = db_manager.get_all_last_synced_dates() # {stock_id: date}
+    
+    # Group: date -> list of symbols
+    batches = defaultdict(list)
     
     processed_count = 0
-    skipped_count = 0
     
-    for i, symbol in enumerate(csv_symbols): # Changed 'symbols' to 'csv_symbols'
-        if args.limit and processed_count >= args.limit:
-            break
+    for sym in csv_symbols:
+        sid = symbol_map.get(sym)
+        if not sid: continue
+        
+        last_date = last_synced_dates.get(sid)
+        batches[last_date].append(sym)
+        
+    # 4. Process Batches
+    # Sort batches by date (None/oldest first) to prioritize catching up
+    # We convert None to date.min for sorting
+    sorted_dates = sorted(batches.keys(), key=lambda d: d if d else date.min)
+    
+    BATCH_SIZE = 100 # yfinance is efficient with ~100
+    
+    print(f"Processing {len(sorted_dates)} distinct sync groups...")
+    
+    for last_date in sorted_dates:
+        symbols = batches[last_date]
+        
+        # Calculate start_date
+        start_date = None
+        if last_date:
+            # Ensure we have date object, not datetime
+            if isinstance(last_date, datetime):
+                last_date = last_date.date()
+                
+            start_date = last_date + timedelta(days=1)
+            # If start_date is in future (e.g. run multiple times same day), skip
+            if start_date > date.today():
+                continue 
+        
+        print(f"Group {last_date or 'New'}: Processing {len(symbols)} stocks (Start: {start_date or 'Max'})...")
+        
+        # Split into smaller chunks
+        chunks = [symbols[i:i + BATCH_SIZE] for i in range(0, len(symbols), BATCH_SIZE)]
+        
+        for i, chunk in enumerate(chunks):
+            print(f"  Batch {i+1}/{len(chunks)} ({len(chunk)} symbols)...")
             
-        print(f"[{i+1}/{len(csv_symbols)}] Processing {symbol}...") # Changed 'symbols' to 'csv_symbols'
-        
-        stock_id = symbol_map.get(symbol)
-        
-        # Handle missing stock
-        if not stock_id:
-            if symbol in equity_details:
-                print(f"  Symbol {symbol} not found in DB. Inserting from Equity List...")
-                stock_id = db_manager.insert_stock(symbol, equity_details[symbol])
-                if stock_id:
-                    symbol_map[symbol] = stock_id  # Update map
-            else:
-                print(f"  Warning: Symbol {symbol} not found in 'stocks' table and Equity List. Skipping.")
-                skipped_count += 1
+            # Fetch Batch
+            data_dict = fetch_batch_data(chunk, start_date=start_date)
+            
+            if not data_dict:
+                print("    No new data found.")
                 continue
-        
-        if not stock_id: # Double check if insertion failed
-             skipped_count += 1
-             continue
-
-        try:
-            last_synced_date = db_manager.get_last_synced_date(stock_id)
-            
-            # Validation and Fetch Logic
-            is_full_resync = False
-            df = None
-            
-            if last_synced_date:
-                # Fetch last N records for validation
-                last_records_raw = db_manager.get_last_n_records(stock_id, n=VALIDATION_RECORDS_COUNT)
-                last_records = {k.date(): v for k, v in last_records_raw.items()} if last_records_raw else {}
                 
-                if last_records:
-                    min_validation_date = min(last_records.keys())
-                    df_validation = fetch_stock_data(symbol, start_date=min_validation_date)
-                    
-                    if not df_validation.empty:
-                        print(f"  Validation: Checking {len(df_validation)} records against DB...")
-                        is_full_resync = validate_data_mismatch(symbol, df_validation, last_records)
-                        
-                        if is_full_resync:
-                            if not args.dry_run:
-                                db_manager.delete_daily_prices(stock_id)
-                        else:
-                            # No mismatch, only insert new data
-                            df = df_validation[df_validation.index > last_synced_date]
-                            if not args.dry_run:
-                                db_manager.update_performance_metrics(stock_id)
+            print(f"    Fetched data for {len(data_dict)} stocks.")
             
-            # Determine fetch strategy
-            start_date, should_fetch = determine_fetch_strategy(last_synced_date, is_full_resync, df)
-            
-            if should_fetch:
-                df = fetch_stock_data(symbol, start_date=start_date)
-
-            if df is not None and not df.empty: # Check if df is not None before checking empty
-                print(f"  Fetched {len(df)} records.")
-                if not args.dry_run:
-                    db_manager.insert_daily_prices(stock_id, df)
-                    # Update performance metrics
-                    print(f"  Updating performance metrics for {symbol}...")
-                    db_manager.update_performance_metrics(stock_id)
-            else:
-                print("  No new data found.")
+            # Insert Batch
+            if not args.dry_run:
+                db_manager.insert_batch_daily_prices(symbol_map, data_dict)
                 
-            processed_count += 1
-            # Basic rate limiting
-            time.sleep(RATE_LIMIT_DELAY_SECONDS)
+                # Update metrics (optional, but good for consistency)
+                # Doing it simply here. Can be optimized further if needed.
+                for sym in data_dict.keys():
+                    sid = symbol_map.get(sym)
+                    if sid: db_manager.update_performance_metrics(sid)
             
-        except Exception as e:
-            print(f"  Error processing {symbol}: {e}")
-            skipped_count += 1
-            continue
-
-    print(f"Sync completed. Processed: {processed_count}, Skipped: {skipped_count}")
+            processed_count += len(data_dict)
+            time.sleep(1) # Mild rate limit between batches
+            
+    print(f"Sync completed. Processed/Updated: {processed_count}")
     
-    # 4. Calculate Momentum Scores
+    # 5. Calculate Momentum Scores
     from .momentum import calculate_momentum
     calculate_momentum()
 

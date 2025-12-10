@@ -44,3 +44,86 @@ def fetch_stock_data(symbol, start_date=None):
     except Exception as e:
         print(f"Error fetching data for {yf_symbol}: {e}")
         return pd.DataFrame()
+
+def fetch_batch_data(symbols, start_date=None):
+    """
+    Fetches daily OHLCV data for multiple symbols in a single request.
+    
+    Args:
+        symbols (list): List of NSE symbols (without suffix).
+        start_date (date): The start date for fetching data.
+    
+    Returns:
+        dict: Dictionary mapping symbol -> DataFrame.
+    """
+    if not symbols:
+        return {}
+        
+    yf_symbols = [f"{s}.NS" for s in symbols]
+    
+    try:
+        # Fetch data
+        # threads=True enables parallel downloads
+        df = yf.download(
+            yf_symbols, 
+            start=start_date, 
+            group_by='ticker', 
+            auto_adjust=False, 
+            threads=True, 
+            progress=False
+        )
+        
+        if df.empty:
+            return {}
+            
+        result = {}
+        
+        # If only one symbol is requested, yfinance might not return MultiIndex
+        # But typically with list input it tries to. 
+        # However, checking columns levels is safer.
+        
+        if len(symbols) == 1:
+            symbol = symbols[0]
+            # If standard dataframe (not MultiIndex columns)
+            if isinstance(df.columns, pd.Index) and not isinstance(df.columns, pd.MultiIndex):
+                clean_df = df[['Open', 'High', 'Low', 'Close', 'Volume']].copy()
+                clean_df.index = clean_df.index.date
+                clean_df.index.name = 'Date'
+                result[symbol] = clean_df
+                return result
+
+        # Handle MultiIndex DataFrame
+        for symbol in symbols:
+            yf_sym = f"{symbol}.NS"
+            try:
+                if yf_sym not in df.columns:
+                    continue
+                    
+                stock_df = df[yf_sym].copy()
+                
+                # Check if we have valid data (Close price shouldn't be NaN)
+                stock_df.dropna(subset=['Close'], inplace=True)
+                
+                if stock_df.empty:
+                    continue
+                
+                # Ensure columns exist
+                required_cols = ['Open', 'High', 'Low', 'Close', 'Volume']
+                if not all(col in stock_df.columns for col in required_cols):
+                    continue
+                    
+                stock_df = stock_df[required_cols]
+                stock_df.index = stock_df.index.date
+                stock_df.index.name = 'Date'
+                
+                result[symbol] = stock_df
+                
+            except Exception as e:
+                # print(f"Error processing {symbol}: {e}")
+                continue
+                
+        return result
+        
+    except Exception as e:
+        print(f"Error fetching batch data: {e}")
+        return {}

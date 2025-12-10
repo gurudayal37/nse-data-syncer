@@ -2,171 +2,191 @@ import numpy as np
 import pandas as pd
 from sqlalchemy import text
 from .database import DatabaseManager, StockPerformance
+from datetime import datetime, timedelta
 
 def calculate_momentum():
-    print("Starting Momentum Score Calculation...")
+    print("Starting Momentum Score Calculation (Optimized)...")
     db = DatabaseManager()
     session = db.Session()
     
     try:
-        # 1. Get all stocks
-        stocks = session.execute(text("SELECT id, nse_symbol FROM stocks WHERE is_active = true")).fetchall()
-        print(f"Found {len(stocks)} active stocks.")
+        # 1. Start Transaction
         
-        updates = []
+        # 2. Get all active stocks
+        print("Fetching active stocks...")
+        stocks = session.execute(text("SELECT id FROM stocks WHERE is_active = true")).fetchall()
+        active_stock_ids = [s[0] for s in stocks]
+        print(f"Found {len(active_stock_ids)} active stocks.")
         
-        # 2. Calculate Volatility and MR for each stock
-        for i, (stock_id, symbol) in enumerate(stocks):
-            if i % 50 == 0:
-                print(f"Processing {i}/{len(stocks)}...")
+        if not active_stock_ids:
+            return
+
+        # 3. Ensure StockPerformance records exist for all active stocks
+        # Efficient checking: Get existing stock_ids from stock_performance
+        existing_perfs = session.execute(text("SELECT stock_id, id FROM stock_performance")).fetchall()
+        existing_map = {p[0]: p[1] for p in existing_perfs}
+        
+        missing_ids = [sid for sid in active_stock_ids if sid not in existing_map]
+        
+        if missing_ids:
+            print(f"Creating {len(missing_ids)} missing StockPerformance records...")
+            new_perfs = [{'stock_id': sid} for sid in missing_ids]
+            session.bulk_insert_mappings(StockPerformance, new_perfs)
+            session.commit()
+            
+            # Refresh map
+            existing_perfs = session.execute(text("SELECT stock_id, id FROM stock_performance")).fetchall()
+            existing_map = {p[0]: p[1] for p in existing_perfs}
+            
+        # 4. Fetch Price History for ALL stocks (last ~400 days)
+        print("Fetching price history...")
+        start_date = datetime.now() - timedelta(days=400)
+        
+        # We need a way to fetch efficiently. Reading 200k rows is fine.
+        query = text("""
+            SELECT stock_id, date, close_price 
+            FROM daily_prices 
+            WHERE date >= :start_date
+        """)
+        
+        price_rows = session.execute(query, {"start_date": start_date}).fetchall()
+        
+        if not price_rows:
+            print("No price data found.")
+            return
+
+        df = pd.DataFrame(price_rows, columns=['stock_id', 'date', 'close'])
+        df['date'] = pd.to_datetime(df['date'])
+        df = df.sort_values(['stock_id', 'date'])
+        
+        print(f"Loaded {len(df)} price records. Calculating metrics...")
+        
+        # 5. Vectorized Calculation
+        # Calculate Log Returns efficiently
+        # Shift close price by 1 within each stock group to get previous day's close
+        df['prev_close'] = df.groupby('stock_id')['close'].shift(1)
+        df['log_ret'] = np.log(df['close'] / df['prev_close'])
+        
+        # Calculate Volatility (Annualized Std Dev of last 252 days)
+        # We can take the last year slice per stock
+        
+        # To make it efficient, we can compute stats per group
+        # Using groupby is easiest, though might be slightly slower than pure numpy reshaping, usually fine.
+        
+        def calc_metrics(g):
+            if len(g) < 20: # Minimum data requirement
+                return None
                 
-            # Fetch last 1 year of daily prices
-            query = text("""
-                SELECT date, close_price 
-                FROM daily_prices 
-                WHERE stock_id = :stock_id 
-                ORDER BY date DESC 
-                LIMIT 300
-            """)
-            prices = session.execute(query, {"stock_id": stock_id}).fetchall()
-            
-            if len(prices) < 253: # Need at least 253 days for 1-year return (T vs T-252)
-                continue
-                
-            df = pd.DataFrame(prices, columns=['date', 'close'])
-            df['date'] = pd.to_datetime(df['date'])
-            df = df.sort_values('date') # Ascending for calculation
-            df.set_index('date', inplace=True)
-            
-            # Calculate Daily Log Returns
-            df['log_ret'] = np.log(df['close'] / df['close'].shift(1))
-            
-            # Annualized Volatility (Standard Deviation of log returns * sqrt(252))
-            # Use last 252 days
-            last_year = df.tail(252)
+            # Filter last 252 days for volatility
+            # Assuming sorted by date
+            last_year = g.iloc[-252:]
             volatility = last_year['log_ret'].std() * np.sqrt(252)
             
             if pd.isna(volatility) or volatility == 0:
-                continue
+                return None
                 
-            # Calculate Returns for periods
-            current_price = df['close'].iloc[-1]
+            current_price = g['close'].iloc[-1]
             
-            def get_return(days_ago):
-                if len(df) <= days_ago:
-                    return None
-                past_price = df['close'].iloc[-(days_ago + 1)] # +1 because iloc[-1] is today
-                return (current_price / past_price) - 1
+            # Helper for returns
+            def get_ret(days):
+                if len(g) <= days: return None
+                prev_price = g['close'].iloc[-(days + 1)]
+                return (current_price / prev_price) - 1
 
-            ret_1m = get_return(21)
-            ret_3m = get_return(63)
-            ret_6m = get_return(126)
-            ret_1y = get_return(252)
+            ret_1m = get_ret(21)
+            ret_3m = get_ret(63)
+            ret_6m = get_ret(126)
+            ret_1y = get_ret(252) # avoiding var name conflict
             
-            # Calculate Momentum Ratios (Return / Volatility)
-            mr_1m = ret_1m / volatility if ret_1m is not None else None
-            mr_3m = ret_3m / volatility if ret_3m is not None else None
-            mr_6m = ret_6m / volatility if ret_6m is not None else None
-            mr_1y = ret_1y / volatility if ret_1y is not None else None
-            
-            updates.append({
-                'stock_id': stock_id,
-                'volatility': float(volatility),
-                'mr_1m': float(mr_1m) if mr_1m is not None else None,
-                'mr_3m': float(mr_3m) if mr_3m is not None else None,
-                'mr_6m': float(mr_6m) if mr_6m is not None else None,
-                'mr_1y': float(mr_1y) if mr_1y is not None else None
+            return pd.Series({
+                'volatility': volatility,
+                'mr_1m': ret_1m / volatility if ret_1m is not None else None,
+                'mr_3m': ret_3m / volatility if ret_3m is not None else None,
+                'mr_6m': ret_6m / volatility if ret_6m is not None else None,
+                'mr_1y': ret_1y / volatility if ret_1y is not None else None
             })
-            
-        print(f"Calculated metrics for {len(updates)} stocks.")
+
+        # Apply calculation
+        # Note: apply can be slow. iterating groups might be faster? 
+        # But let's try apply first. 400 stocks is small.
+        metrics_df = df.groupby('stock_id').apply(calc_metrics)
         
-        # 3. Update DB with MRs (Batch update or one-by-one)
-        for up in updates:
-            perf = session.query(StockPerformance).filter_by(stock_id=up['stock_id']).first()
-            if not perf:
-                perf = StockPerformance(stock_id=up['stock_id'])
-                session.add(perf)
-            
-            perf.volatility = up['volatility']
-            perf.mr_1m = up['mr_1m']
-            perf.mr_3m = up['mr_3m']
-            perf.mr_6m = up['mr_6m']
-            perf.mr_1y = up['mr_1y']
+        # metrics_df index is stock_id (or None if skipped)
+        metrics_df = metrics_df.dropna(how='all')
         
-        session.commit()
-        print("Saved Momentum Ratios to DB.")
+        print(f"Calculated metrics for {len(metrics_df)} stocks.")
         
-        # 4. Calculate Universe Statistics (Mean and StdDev)
-        df_updates = pd.DataFrame(updates)
-        
+        # 6. Global Stats for Z-Scores
         stats = {}
         for period in ['1m', '3m', '6m', '1y']:
             col = f'mr_{period}'
-            stats[period] = {
-                'mean': df_updates[col].mean(),
-                'std': df_updates[col].std()
+            if col in metrics_df:
+                stats[period] = {
+                    'mean': metrics_df[col].mean(),
+                    'std': metrics_df[col].std()
+                }
+            else:
+                stats[period] = {'mean': 0, 'std': 1}
+                
+        # 7. Z-Scores Calculation
+        updates = []
+        
+        for stock_id, row in metrics_df.iterrows():
+            perf_id = existing_map.get(stock_id)
+            if not perf_id: continue
+            
+            up = {
+                'id': perf_id,
+                'volatility': float(row['volatility']) if pd.notna(row['volatility']) else None,
+                'mr_1m': float(row['mr_1m']) if pd.notna(row['mr_1m']) else None,
+                'mr_3m': float(row['mr_3m']) if pd.notna(row['mr_3m']) else None,
+                'mr_6m': float(row['mr_6m']) if pd.notna(row['mr_6m']) else None,
+                'mr_1y': float(row['mr_1y']) if pd.notna(row['mr_1y']) else None,
             }
-            print(f"Stats for {period}: Mean={stats[period]['mean']:.4f}, Std={stats[period]['std']:.4f}")
             
-        # 5. Calculate Z-Scores and Final Score
-        for up in updates:
-            z_scores = []
-            
-            # Only use 3M, 6M, 1Y (exclude 1M)
-            for period in ['3m', '6m', '1y']:
-                val = up[f'mr_{period}']
-                if val is not None and stats[period]['std'] > 0:
+            # Z-Scores
+            z_list = []
+            for period in ['3m', '6m', '1y']: # Exclude 1M
+                val = row[f'mr_{period}']
+                if pd.notna(val) and stats[period]['std'] > 0:
                     z = (val - stats[period]['mean']) / stats[period]['std']
-                    up[f'z_{period}'] = z
-                    z_scores.append(z)
+                    up[f'z_{period}'] = float(z)
+                    z_list.append(z)
                 else:
                     up[f'z_{period}'] = None
             
-            # Set 1M z-score to None (not used)
-            up['z_1m'] = None
-            
-            # Weighted Average Z-Score (Equal Weights: 1/3 each for 3M, 6M, 1Y)
-            if len(z_scores) == 3: # Only if all 3 periods are available
-                weighted_z = sum(z_scores) / 3
-                
-                # Normalized Score
+            # 1M Z-Score (stored but not used in score)
+            if pd.notna(row['mr_1m']) and stats['1m']['std'] > 0:
+                up['z_1m'] = float((row['mr_1m'] - stats['1m']['mean']) / stats['1m']['std'])
+            else:
+                up['z_1m'] = None
+
+            # Final Score
+            if len(z_list) == 3:
+                weighted_z = sum(z_list) / 3
                 if weighted_z >= 0:
                     score = 1 + weighted_z
                 else:
-                    score = 1 / (1 - weighted_z) # Inverse for negative
-                    
-                up['momentum_score'] = score
+                    score = 1 / (1 - weighted_z)
+                up['momentum_score'] = float(score)
             else:
                 up['momentum_score'] = None
                 
-                
-        # 6. Update DB with Final Scores
-        print("Updating Final Scores...")
-        
-        def sanitize(val):
-            """Ensure value is a finite float or None"""
-            try:
-                if val is not None and np.isfinite(val):
-                    return float(val)
-            except:
-                pass
-            return None
-
-        for up in updates:
-            perf = session.query(StockPerformance).filter_by(stock_id=up['stock_id']).first()
-            if perf:
-                perf.z_1m = sanitize(up.get('z_1m'))
-                perf.z_3m = sanitize(up.get('z_3m'))
-                perf.z_6m = sanitize(up.get('z_6m'))
-                perf.z_1y = sanitize(up.get('z_1y'))
-                perf.momentum_score = sanitize(up.get('momentum_score'))
-                
-        session.commit()
-        print("Momentum Calculation Complete!")
-        
+            updates.append(up)
+            
+        # 8. Bulk Update DB
+        if updates:
+            print(f"Updating DB for {len(updates)} records...")
+            # We use bulk_update_mappings. Requires PK 'id' in dicts.
+            session.bulk_update_mappings(StockPerformance, updates)
+            session.commit()
+            print("Done.")
+        else:
+            print("No updates to save.")
+            
     except Exception as e:
         session.rollback()
-        print(f"Error: {e}")
+        print(f"Error in momentum calculation: {e}")
         import traceback
         traceback.print_exc()
     finally:

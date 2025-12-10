@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Float, BigInteger, text, Date, Index, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Float, BigInteger, text, Date, Index, ForeignKey, func
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 import pandas as pd
@@ -63,8 +63,8 @@ class DatabaseManager:
                 return existing_stock[0]
 
             query = text("""
-                INSERT INTO stocks (nse_symbol, name, isin) 
-                VALUES (:symbol, :name, :isin) 
+                INSERT INTO stocks (nse_symbol, name, isin, is_active) 
+                VALUES (:symbol, :name, :isin, true) 
                 RETURNING id
             """)
             
@@ -124,14 +124,32 @@ class DatabaseManager:
             session.close()
 
     def get_last_synced_date(self, stock_id):
-        """Returns the latest date available for a given stock_id."""
+        """Returns the latest date present in daily_prices for the given stock."""
         session = self.Session()
         try:
-            result = session.query(DailyPrice.date).filter(DailyPrice.stock_id == stock_id).order_by(DailyPrice.date.desc()).first()
-            return result[0].date() if result else None
-        except SQLAlchemyError as e:
-            print(f"Error fetching last date for stock_id {stock_id}: {e}")
-            return None
+            last_date = session.query(DailyPrice.date)\
+                .filter(DailyPrice.stock_id == stock_id)\
+                .order_by(DailyPrice.date.desc())\
+                .first()
+            return last_date[0] if last_date else None
+        finally:
+            session.close()
+
+    def get_all_last_synced_dates(self):
+        """Returns a query of stock_id -> max(date) for all stocks."""
+        session = self.Session()
+        try:
+            # Using raw SQL for performance on grouping
+            # Or simplified query
+            results = session.query(
+                DailyPrice.stock_id, 
+                func.max(DailyPrice.date)
+            ).group_by(DailyPrice.stock_id).all()
+            
+            return {r[0]: r[1] for r in results}
+        except Exception as e:
+            print(f"Error getting last synced dates: {e}")
+            return {}
         finally:
             session.close()
 
@@ -168,6 +186,52 @@ class DatabaseManager:
             print(f"Inserted {len(df_to_insert)} records for stock_id {stock_id}")
         except SQLAlchemyError as e:
             print(f"Error inserting data for stock_id {stock_id}: {e}")
+
+    def insert_batch_daily_prices(self, symbol_map, data_dict):
+        """
+        Inserts data for multiple stocks efficiently.
+        data_dict: {symbol: df}
+        symbol_map: {symbol: stock_id}
+        """
+        dfs_to_insert = []
+        
+        for symbol, df in data_dict.items():
+            stock_id = symbol_map.get(symbol)
+            if not stock_id:
+                continue
+                
+            df_curr = df.reset_index().copy()
+            df_curr = df_curr.rename(columns={
+                'Date': 'date',
+                'Open': 'open_price',
+                'High': 'high_price',
+                'Low': 'low_price',
+                'Close': 'close_price',
+                'Volume': 'volume'
+            })
+            df_curr['stock_id'] = stock_id
+            df_curr['created_at'] = datetime.now()
+            
+            # Select columns
+            cols = ['stock_id', 'date', 'open_price', 'high_price', 'low_price', 'close_price', 'volume', 'created_at']
+            # Ensure columns exist
+            for c in cols:
+                if c not in df_curr.columns:
+                     if c == 'volume': df_curr[c] = 0
+                     else: df_curr[c] = None
+            
+            dfs_to_insert.append(df_curr[cols])
+            
+        if not dfs_to_insert:
+            return
+            
+        final_df = pd.concat(dfs_to_insert, ignore_index=True)
+        
+        try:
+            final_df.to_sql('daily_prices', self.engine, if_exists='append', index=False, method='multi', chunksize=1000)
+            print(f"Inserted {len(final_df)} records for {len(data_dict)} stocks.")
+        except SQLAlchemyError as e:
+            print(f"Error bulk inserting: {e}")
 
     def update_performance_metrics(self, stock_id):
         """
