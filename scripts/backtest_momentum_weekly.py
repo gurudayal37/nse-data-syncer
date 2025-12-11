@@ -152,6 +152,18 @@ def run_backtest():
     for s in stocks:
         stock_map[s.id] = s.nse_symbol
         
+    # OPTIMIZATION: Load ALL daily prices into memory once
+    print("Loading ALL price data into memory (this may take a moment)...")
+    all_prices_query = text("SELECT stock_id, date, close_price FROM daily_prices ORDER BY date ASC")
+    all_prices_result = session.execute(all_prices_query).fetchall()
+    
+    # Create master DataFrame
+    master_df = pd.DataFrame(all_prices_result, columns=['stock_id', 'date', 'close_price'])
+    master_df['date'] = pd.to_datetime(master_df['date'])
+    # Set index for faster slicing
+    master_df.set_index('date', inplace=True)
+    print(f"Loaded {len(master_df)} price records into memory.")
+
     # Check for existing results
     output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_weekly.json')
     existing_results = []
@@ -175,26 +187,23 @@ def run_backtest():
     print(f"Backtesting over {len(dates)} weeks...")
     
     def process_period(rebalance_date, next_rebalance_date, label_date=None):
-        # Fetch prices for calculation window (1 year + buffer)
+        # Optimized: Slice from master_df in memory
         start_window = rebalance_date - timedelta(days=400)
         
-        query = text("""
-            SELECT stock_id, date, close_price 
-            FROM daily_prices 
-            WHERE date >= :start_date AND date <= :end_date
-            ORDER BY date ASC
-        """)
-        
-        prices = session.execute(query, {
-            "start_date": start_window,
-            "end_date": rebalance_date
-        }).fetchall()
-        
-        if not prices:
+        # Get data for the calculation window (up to rebalance_date)
+        # Using slice on datetime index is fast
+        try:
+            # Slicing creates a view/copy, we need to filter by start_window too
+            # loc[start:end] includes end
+            df_slice = master_df.loc[start_window:rebalance_date]
+        except KeyError:
             return None
             
-        df_window = pd.DataFrame(prices, columns=['stock_id', 'date', 'close_price'])
-        df_window['date'] = pd.to_datetime(df_window['date'])
+        if df_slice.empty:
+            return None
+            
+        # Reset index to get date back as column for set_index preparation below
+        df_window = df_slice.reset_index()
         df_window.set_index(['stock_id', 'date'], inplace=True)
         
         # Calculate Momentum
@@ -212,22 +221,23 @@ def run_backtest():
         portfolio_returns = []
         stock_returns_detail = []
         
-        next_prices_query = text("""
-            SELECT stock_id, date, close_price 
-            FROM daily_prices 
-            WHERE stock_id IN :stock_ids AND date > :start_date AND date <= :end_date
-            ORDER BY date ASC
-        """)
-        
-        next_prices = session.execute(next_prices_query, {
-            "stock_ids": tuple(selected_stock_ids),
-            "start_date": rebalance_date,
-            "end_date": next_rebalance_date
-        }).fetchall()
-        
-        df_next = pd.DataFrame(next_prices, columns=['stock_id', 'date', 'close_price'])
+        # Fetch next week prices from master_df
+        # We need prices > rebalance_date AND <= next_rebalance_date
+        # Limit to selected stock_ids
+        try:
+            # We want strictly greater than rebalance_date
+            # master_df is sorted by date
+            df_next_slice = master_df.loc[rebalance_date + timedelta(days=1) : next_rebalance_date]
+            
+            # Filter for selected stocks
+            df_next = df_next_slice[df_next_slice['stock_id'].isin(selected_stock_ids)].reset_index()
+            
+        except KeyError:
+            df_next = pd.DataFrame()
+
         if not df_next.empty:
-            df_next['date'] = pd.to_datetime(df_next['date'])
+            # Ensure proper index
+            # df_next already has date column from reset_index
             
             for stock_id in selected_stock_ids:
                 try:
@@ -245,6 +255,7 @@ def run_backtest():
                 ret = (end_price - start_price) / start_price
                 portfolio_returns.append(ret)
                 stock_returns_detail.append({'symbol': stock_map.get(stock_id, 'Unknown'), 'return': round(ret * 100, 2), 'score': round(score_map.get(stock_id, 0), 2)})
+
                 
         if not portfolio_returns:
             port_ret = 0
