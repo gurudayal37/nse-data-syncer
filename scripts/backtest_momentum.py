@@ -171,15 +171,15 @@ def run_backtest():
     
     print(f"Backtesting over {len(dates)} months...")
     
-    for i, rebalance_date in enumerate(dates[:-1]): # Skip last one
-        next_rebalance_date = dates[i+1]
-        
+    # helper for processing a period
+    def process_period(rebalance_date, next_rebalance_date, label_date=None):
         print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()}")
         
         # Fetch prices for calculation window (1 year + buffer before rebalance_date)
         start_window = rebalance_date - timedelta(days=400)
         
         # Optimized Query: Fetch only necessary columns for the window
+        # Note: We fetch prices up to rebalance_date for momentum calc
         query = text("""
             SELECT stock_id, date, close_price 
             FROM daily_prices 
@@ -194,7 +194,7 @@ def run_backtest():
         
         if not prices:
             print("  No price data found for this period.")
-            continue
+            return None
             
         df_window = pd.DataFrame(prices, columns=['stock_id', 'date', 'close_price'])
         df_window['date'] = pd.to_datetime(df_window['date'])
@@ -205,9 +205,18 @@ def run_backtest():
         
         if top_stocks_df.empty:
             print("  No stocks found.")
-            continue
+            return None
             
-        # Save History to DB
+        # Save History to DB (ONLY if it's a historical month-end, not partial current month)
+        # We can check if next_rebalance_date is roughly 1 month after rebalance_date
+        # Or just checking if next_rebalance_date matches a known month-end?
+        # Actually, user wants "on start of each month... show the 15 stocks held"
+        # Since we run this daily, we might overwrite the history for the 'current' rebalance_date repeatedly?
+        # The history table is (stock_id, date, score). 'date' is rebalance_date.
+        # So yes, we should save history for rebalance_date even if it's the anchor for current month.
+        # But we only save history if we haven't already? Or upsert?
+        # The script does DELETE then INSERT. Safe to re-run.
+        
         try:
             session.execute(text("DELETE FROM momentum_history WHERE date = :date"), {"date": rebalance_date})
             
@@ -225,15 +234,15 @@ def run_backtest():
         except Exception as e:
             print(f"  Error saving history: {e}")
             session.rollback()
-         # Select Top 15
+
+        # Select Top 15
         top_stocks = top_stocks_df.head(15)
         selected_stock_ids = top_stocks['stock_id'].tolist()
         
         # Create map of stock_id -> score
         score_map = top_stocks.set_index('stock_id')['weighted_z'].to_dict()
         
-        # Calculate Portfolio Return for the NEXT month
-        # We need prices for selected stocks in the next month window
+        # Calculate Portfolio Return for the NEXT month (or partial)
         portfolio_returns = []
         stock_returns_detail = []  # Store individual stock returns
         
@@ -272,7 +281,7 @@ def run_backtest():
                 if stock_data_next.empty:
                     stock_returns_detail.append({
                         'symbol': stock_map.get(stock_id, 'Unknown'),
-                        'return': None,
+                        'return': 0.0, # No change if no data
                         'score': round(score_map.get(stock_id, 0), 2)
                     })
                     continue
@@ -287,12 +296,24 @@ def run_backtest():
                     'score': round(score_map.get(stock_id, 0), 2)
                 })
                 
+        # Fill missing stocks with 0 return (or None?)
+        # Logic ensures we try to append for every stock.
+        # But if df_next was empty, portfolio_returns is empty.
+        
         if not portfolio_returns:
             port_ret = 0
+            # If completely empty, fill details with 0?
+            if not stock_returns_detail:
+                for stock_id in selected_stock_ids:
+                     stock_returns_detail.append({
+                        'symbol': stock_map.get(stock_id, 'Unknown'),
+                        'return': 0.0,
+                        'score': round(score_map.get(stock_id, 0), 2)
+                    })
         else:
             port_ret = sum(portfolio_returns) / len(portfolio_returns)
             
-        # Calculate Benchmark Return
+        # Benchmark Return
         if not nifty.empty:
             # Start Price: Close on or before rebalance_date
             n_prev = nifty[nifty['date'] <= rebalance_date]
@@ -308,16 +329,51 @@ def run_backtest():
         else:
             bench_ret = 0
             
-        # Store Result
-        results.append({
-            'month': next_rebalance_date.strftime('%Y-%m'),
+        print(f"  Port: {port_ret:.2%}, Bench: {bench_ret:.2%}")
+        
+        # Determine label
+        # If label_date is provided (for current month), use it
+        if label_date:
+            month_label = label_date
+        else:
+            # Usually use next_rebalance_date as the "Month" label (the end of the holding period)
+            month_label = next_rebalance_date.strftime('%Y-%m')
+
+        return {
+            'month': month_label,
             'portfolio_return': round(port_ret * 100, 2),
             'benchmark_return': round(bench_ret * 100, 2),
             'holdings': stock_returns_detail
-        })
+        }
+
+    # 1. Historical Months
+    for i, rebalance_date in enumerate(dates[:-1]): # Skip last one (it's the start of current/future)
+        next_rebalance_date = dates[i+1]
         
-        print(f"  Port: {port_ret:.2%}, Bench: {bench_ret:.2%}")
+        # Processing
+        res = process_period(rebalance_date, next_rebalance_date)
+        if res:
+            results.append(res)
+            
+    # 2. Current Month (Live)
+    # The last date in 'dates' is the start of the current live period
+    last_rebalance_date = dates[-1]
+    today = datetime.now()
+    
+    # Only process if we are past the last rebalance date
+    if today > last_rebalance_date:
+        print(f"Processing Current Month (Live): {last_rebalance_date.date()} -> {today.date()}")
+        # We can label it as the current month, e.g. "2025-12"
+        # Or "2025-12 (Live)"
+        current_month_label = today.strftime('%Y-%m') # e.g. 2025-12
         
+        res = process_period(last_rebalance_date, today, label_date=current_month_label)
+        if res:
+             results.append(res)
+
+    # Sort results by month descending (newest first)
+    results.sort(key=lambda x: x['month'], reverse=True)
+
     # Save to JSON
     output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results.json')
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
