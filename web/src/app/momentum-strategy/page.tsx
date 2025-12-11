@@ -16,7 +16,12 @@ export default function MomentumStrategyPage() {
         let portValue = 100
         let benchValue = 100
 
-        const chartData = backtestData.map((item: any) => {
+        // Ensure data is sorted by month ASCENDING (Oldest First) for cumulative calculation
+        const sortedRawData = [...backtestData].sort((a: any, b: any) =>
+            new Date(a.month).getTime() - new Date(b.month).getTime()
+        )
+
+        const chartData = sortedRawData.map((item: any) => {
             portValue = portValue * (1 + item.portfolio_return / 100)
             benchValue = benchValue * (1 + item.benchmark_return / 100)
             return {
@@ -29,7 +34,7 @@ export default function MomentumStrategyPage() {
 
         setData(chartData)
 
-        // Calculate Summary Stats
+        // Calculate Summary Stats from the full dataset
         const totalMonths = backtestData.length
         const winningMonths = backtestData.filter((d: any) => d.portfolio_return > d.benchmark_return).length
         const totalPortReturn = ((portValue - 100) / 100) * 100
@@ -183,13 +188,13 @@ export default function MomentumStrategyPage() {
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
                             <thead className="bg-gray-50 text-gray-900 font-medium">
-                                <tr>
-                                    <th className="px-6 py-4 w-12"></th>
-                                    <th className="px-6 py-4">Month</th>
-                                    <th className="px-6 py-4 text-right">Portfolio Return</th>
-                                    <th className="px-6 py-4 text-right">Benchmark (Nifty 50)</th>
-                                    <th className="px-6 py-4 text-right">Excess Return</th>
-                                    <th className="px-6 py-4">Holdings</th>
+                                <tr className="text-right">
+                                    <th className="px-6 py-4 w-12 text-left"></th>
+                                    <th className="px-6 py-4 text-left">Month</th>
+                                    <th className="px-6 py-4">Portfolio Return</th>
+                                    <th className="px-6 py-4">Benchmark (Nifty 50)</th>
+                                    <th className="px-6 py-4">Excess Return</th>
+                                    <th className="px-6 py-4 text-left">Holdings</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
