@@ -70,7 +70,7 @@ export default function MomentumWeeklyStrategyPage() {
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900">Weekly Momentum Strategy</h1>
                         <p className="text-gray-500 mt-1">
-                            Buying Top 15 Momentum Stocks (Equal Weight) • Weekly Rebalancing • Since 2019
+                            Buying Top 20 Momentum Stocks (Equal Weight) • Weekly Rebalancing • Since 2019
                         </p>
                     </div>
                 </div>
@@ -82,21 +82,21 @@ export default function MomentumWeeklyStrategyPage() {
                         <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
                             <h3 className="font-semibold text-blue-900 mb-2">1. Selection</h3>
                             <p className="text-blue-800">
-                                Select top 15 stocks with highest Momentum Score.
+                                Select top 20 stocks with highest Momentum Score.
                                 Score is based on volatility-adjusted returns over 3M, 6M, and 1Y periods (equal weight).
                             </p>
                         </div>
                         <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
                             <h3 className="font-semibold text-purple-900 mb-2">2. Weighting</h3>
                             <p className="text-purple-800">
-                                Equal weighting (6.67% per stock) to avoid concentration risk in a single winner.
+                                Equal weighting (5% per stock) to avoid concentration risk in a single winner.
                             </p>
                         </div>
                         <div className="bg-green-50 p-4 rounded-lg border border-green-100">
                             <h3 className="font-semibold text-green-900 mb-2">3. Rebalancing</h3>
                             <p className="text-green-800">
                                 Portfolio is rebalanced <strong>every Friday</strong>.
-                                Stocks dropping out of Top 15 are sold, new entrants are bought.
+                                Stocks dropping out of Top 20 are sold, new entrants are bought.
                             </p>
                         </div>
                     </div>

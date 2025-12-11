@@ -159,6 +159,18 @@ def run_backtest():
         print(f"Error fetching benchmark: {e}")
         nifty = pd.DataFrame(columns=['close'])
 
+    # OPTIMIZATION: Load ALL daily prices into memory once
+    print("Loading ALL price data into memory (this may take a moment)...")
+    all_prices_query = text("SELECT stock_id, date, close_price FROM daily_prices ORDER BY date ASC")
+    all_prices_result = session.execute(all_prices_query).fetchall()
+    
+    # Create master DataFrame
+    master_df = pd.DataFrame(all_prices_result, columns=['stock_id', 'date', 'close_price'])
+    master_df['date'] = pd.to_datetime(master_df['date'])
+    # Set index for faster slicing
+    master_df.set_index('date', inplace=True)
+    print(f"Loaded {len(master_df)} price records into memory.")
+
     # Load Stock Names
     stock_map = {}
     stocks = session.execute(text("SELECT id, nse_symbol FROM stocks")).fetchall()
@@ -194,26 +206,20 @@ def run_backtest():
         # Fetch prices for calculation window (1 year + buffer before rebalance_date)
         start_window = rebalance_date - timedelta(days=400)
         
-        # Optimized Query: Fetch only necessary columns for the window
-        # Note: We fetch prices up to rebalance_date for momentum calc
-        query = text("""
-            SELECT stock_id, date, close_price 
-            FROM daily_prices 
-            WHERE date >= :start_date AND date <= :end_date
-            ORDER BY date ASC
-        """)
-        
-        prices = session.execute(query, {
-            "start_date": start_window,
-            "end_date": rebalance_date
-        }).fetchall()
-        
-        if not prices:
+        # Optimized: Slice from master_df in memory
+        try:
+            # Slicing creates a view/copy, we need to filter by start_window too
+            df_slice = master_df.loc[start_window:rebalance_date]
+        except KeyError:
             print("  No price data found for this period.")
             return None
             
-        df_window = pd.DataFrame(prices, columns=['stock_id', 'date', 'close_price'])
-        df_window['date'] = pd.to_datetime(df_window['date'])
+        if df_slice.empty:
+            print("  No price data found for this period.")
+            return None
+            
+        # Reset index to get date back as column
+        df_window = df_slice.reset_index()
         df_window.set_index(['stock_id', 'date'], inplace=True)
         
         # Calculate Momentum
@@ -251,8 +257,8 @@ def run_backtest():
             print(f"  Error saving history: {e}")
             session.rollback()
 
-        # Select Top 15
-        top_stocks = top_stocks_df.head(15)
+        # Select Top 20 (Updated from 15)
+        top_stocks = top_stocks_df.head(20)
         selected_stock_ids = top_stocks['stock_id'].tolist()
         
         # Create map of stock_id -> score
@@ -263,22 +269,19 @@ def run_backtest():
         stock_returns_detail = []  # Store individual stock returns
         
         # Fetch next month prices for selected stocks only
-        next_prices_query = text("""
-            SELECT stock_id, date, close_price 
-            FROM daily_prices 
-            WHERE stock_id IN :stock_ids AND date > :start_date AND date <= :end_date
-            ORDER BY date ASC
-        """)
-        
-        next_prices = session.execute(next_prices_query, {
-            "stock_ids": tuple(selected_stock_ids),
-            "start_date": rebalance_date,
-            "end_date": next_rebalance_date
-        }).fetchall()
-        
-        df_next = pd.DataFrame(next_prices, columns=['stock_id', 'date', 'close_price'])
+        # We fetch prices > rebalance_date AND <= next_rebalance_date
+        try:
+            df_next_slice = master_df.loc[rebalance_date + timedelta(days=1) : next_rebalance_date]
+            # Filter for selected stocks
+            # Reset index to get 'date' column back for filtering/sorting
+            df_next = df_next_slice[df_next_slice['stock_id'].isin(selected_stock_ids)].reset_index()
+            
+        except KeyError:
+            df_next = pd.DataFrame()
+
         if not df_next.empty:
-            df_next['date'] = pd.to_datetime(df_next['date'])
+            # Ensure date column exists (reset_index does it)
+            # df_next['date'] = pd.to_datetime(df_next['date']) # Already done in master_df setup
             
             for stock_id in selected_stock_ids:
                 # Start Price: Closing price at rebalance_date (from df_window)

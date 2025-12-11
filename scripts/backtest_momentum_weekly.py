@@ -212,8 +212,8 @@ def run_backtest():
         if top_stocks_df.empty:
             return None
             
-        # Select Top 15
-        top_stocks = top_stocks_df.head(15)
+        # Select Top 20
+        top_stocks = top_stocks_df.head(20)
         selected_stock_ids = top_stocks['stock_id'].tolist()
         score_map = top_stocks.set_index('stock_id')['weighted_z'].to_dict()
         
