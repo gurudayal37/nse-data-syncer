@@ -89,6 +89,11 @@ def main():
         if not sid: continue
         
         last_date = last_synced_dates.get(sid)
+        
+        # Ensure we have date object, not datetime, for consistent grouping/sorting
+        if isinstance(last_date, datetime):
+            last_date = last_date.date()
+            
         batches[last_date].append(sym)
         
     # 4. Process Batches
