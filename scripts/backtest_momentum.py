@@ -165,9 +165,25 @@ def run_backtest():
     for s in stocks:
         stock_map[s.id] = s.nse_symbol
         
+    # Check for existing results to skip processed months
+    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results.json')
+    existing_results = []
+    processed_months = set()
+    
+    if os.path.exists(output_path):
+        try:
+            with open(output_path, 'r') as f:
+                existing_results = json.load(f)
+                for r in existing_results:
+                    processed_months.add(r['month'])
+            print(f"Loaded existing results for {len(processed_months)} months.")
+        except Exception as e:
+            print(f"Could not load existing results: {e}")
+            existing_results = []
+
     # 2. Iterate Months (from 2017 to present)
     dates = get_month_ends(years=8)
-    results = []
+    new_results = []
     
     print(f"Backtesting over {len(dates)} months...")
     
@@ -346,14 +362,22 @@ def run_backtest():
             'holdings': stock_returns_detail
         }
 
-    # 1. Historical Months
     for i, rebalance_date in enumerate(dates[:-1]): # Skip last one (it's the start of current/future)
         next_rebalance_date = dates[i+1]
         
+        month_label = next_rebalance_date.strftime('%Y-%m')
+        
+        # SKIP if already processed
+        if month_label in processed_months:
+            print(f"Skipping {month_label} (Already processed)")
+            continue
+            
         # Processing
+        print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()} ({month_label})")
+        
         res = process_period(rebalance_date, next_rebalance_date)
         if res:
-            results.append(res)
+            new_results.append(res)
             
     # 2. Current Month (Live)
     # The last date in 'dates' is the start of the current live period
@@ -362,24 +386,28 @@ def run_backtest():
     
     # Only process if we are past the last rebalance date
     if today > last_rebalance_date:
-        print(f"Processing Current Month (Live): {last_rebalance_date.date()} -> {today.date()}")
-        # We can label it as the current month, e.g. "2025-12"
-        # Or "2025-12 (Live)"
         current_month_label = today.strftime('%Y-%m') # e.g. 2025-12
+        
+        # Always process current month (remove old partial entry if exists)
+        print(f"Processing Current Month (Live): {last_rebalance_date.date()} -> {today.date()}")
         
         res = process_period(last_rebalance_date, today, label_date=current_month_label)
         if res:
-             results.append(res)
+             # Remove existing entry for current month if it exists (so we update it)
+             existing_results = [r for r in existing_results if r['month'] != current_month_label]
+             new_results.append(res)
 
+    # Merge Results
+    final_results = existing_results + new_results
+    
     # Sort results by month descending (newest first)
-    results.sort(key=lambda x: x['month'], reverse=True)
+    final_results.sort(key=lambda x: x['month'], reverse=True)
 
     # Save to JSON
-    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results.json')
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     
     with open(output_path, 'w') as f:
-        json.dump(results, f, indent=2)
+        json.dump(final_results, f, indent=2)
         
     print(f"Backtest saved to {output_path}")
 
