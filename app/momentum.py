@@ -172,15 +172,78 @@ def calculate_momentum():
             else:
                 up['momentum_score'] = None
                 
+            # Add to list for history processing
             updates.append(up)
             
-        # 8. Bulk Update DB
+        # 8. Bulk Update DB (StockPerformance)
         if updates:
-            print(f"Updating DB for {len(updates)} records...")
+            print(f"Updating StockPerformance for {len(updates)} records...")
             # We use bulk_update_mappings. Requires PK 'id' in dicts.
             session.bulk_update_mappings(StockPerformance, updates)
-            session.commit()
-            print("Done.")
+            
+            # 9. Save to MomentumHistory (Daily Snapshot)
+            print("Saving daily momentum history...")
+            from .database import MomentumHistory
+            from sqlalchemy.dialects.postgresql import insert
+            
+            today = datetime.now().date()
+            
+            # Prepare history records
+            history_records = []
+            
+            # Filter valid scores and keep stock_id
+            # updates list has 'id' (perf_id), NOT stock_id directly usually.
+            # But wait, we iterate existing_map to get perf_id from stock_id.
+            # So we need to map back or store stock_id in updates.
+            # Let's rely on metrics_df again which has everything.
+            
+            valid_rows = []
+            
+            # Iterate metrics_df again to get scores + stock_id
+            # Note: We computed scores in the loop above but didn't save to df.
+            # Let's re-use the computed 'updates' list but we need to map perf_id back to stock_id?
+            # Or easier: just add stock_id to 'updates' list!
+            
+            # Map perf_id -> stock_id (inverse of existing_map)
+            perf_to_stock = {v: k for k, v in existing_map.items()}
+            
+            for up in updates:
+                sid = perf_to_stock.get(up['id'])
+                score = up.get('momentum_score')
+                
+                if sid is not None and score is not None:
+                    valid_rows.append({
+                        'stock_id': sid,
+                        'momentum_score': score,
+                        'date': today
+                    })
+            
+            # Calculate Ranks
+            valid_rows.sort(key=lambda x: x['momentum_score'], reverse=True)
+            
+            for i, row in enumerate(valid_rows, 1):
+                row['rank'] = i
+            
+            if valid_rows:
+                print(f"Inserting {len(valid_rows)} history records...")
+                
+                # Use PostgreSQL UPSERT to handle re-runs on same day
+                stmt = insert(MomentumHistory).values(valid_rows)
+                
+                stmt = stmt.on_conflict_do_update(
+                    index_elements=['stock_id', 'date'],
+                    set_={
+                        'momentum_score': stmt.excluded.momentum_score,
+                        'rank': stmt.excluded.rank
+                    }
+                )
+                
+                session.execute(stmt)
+                session.commit()
+                print("History saved successfully.")
+            else:
+                print("No valid scores to save to history.")
+
         else:
             print("No updates to save.")
             
