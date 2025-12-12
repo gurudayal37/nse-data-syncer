@@ -1,17 +1,17 @@
 [
   {
     "month": "2025-12",
-    "portfolio_return": -3.47,
+    "portfolio_return": -3.25,
     "benchmark_return": -1.16,
     "holdings": [
       {
         "symbol": "LTF",
-        "return": -2.69,
+        "return": -3.41,
         "score": 4.14
       },
       {
         "symbol": "MUTHOOTFIN",
-        "return": 0.04,
+        "return": -0.27,
         "score": 3.39
       },
       {
@@ -26,7 +26,7 @@
       },
       {
         "symbol": "M&MFIN",
-        "return": -6.64,
+        "return": -8.48,
         "score": 2.69
       },
       {
@@ -36,12 +36,12 @@
       },
       {
         "symbol": "LAURUSLABS",
-        "return": -1.26,
+        "return": -1.17,
         "score": 2.55
       },
       {
         "symbol": "LUMAXTECH",
-        "return": -3.72,
+        "return": -3.81,
         "score": 2.54
       },
       {
@@ -61,7 +61,7 @@
       },
       {
         "symbol": "MTARTECH",
-        "return": -9.99,
+        "return": -8.55,
         "score": 2.39
       },
       {
@@ -81,7 +81,7 @@
       },
       {
         "symbol": "RBLBANK",
-        "return": -3.33,
+        "return": -0.38,
         "score": 2.18
       },
       {
@@ -91,7 +91,7 @@
       },
       {
         "symbol": "MARUTI",
-        "return": 0.75,
+        "return": 2.19,
         "score": 2.08
       },
       {
@@ -101,7 +101,7 @@
       },
       {
         "symbol": "SOUTHBANK",
-        "return": -1.31,
+        "return": 0.13,
         "score": 2.05
       }
     ]
