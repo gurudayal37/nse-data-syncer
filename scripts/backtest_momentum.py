@@ -257,8 +257,8 @@ def run_backtest():
             print(f"  Error saving history: {e}")
             session.rollback()
 
-        # Select Top 20 (Updated from 15)
-        top_stocks = top_stocks_df.head(20)
+        # Select Top 15
+        top_stocks = top_stocks_df.head(15)
         selected_stock_ids = top_stocks['stock_id'].tolist()
         
         # Create map of stock_id -> score
