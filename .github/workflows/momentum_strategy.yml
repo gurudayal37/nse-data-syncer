@@ -2,7 +2,7 @@ name: Update Momentum Strategy
 
 on:
   schedule:
-    - cron: '15 10 * * *'  # Runs at 3:45 PM IST (10:15 AM UTC), after daily sync
+    - cron: '0 11 * * *'  # Runs at 4:30 PM IST (11:00 AM UTC)
   workflow_dispatch:  # Allows manual trigger
 
 jobs:

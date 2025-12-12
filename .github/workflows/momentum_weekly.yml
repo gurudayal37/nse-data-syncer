@@ -3,7 +3,7 @@ name: Weekly Momentum Strategy Backtest
 on:
   schedule:
     # Run daily at 10:45 UTC (after daily sync at 10:00 and momentum strategy at 10:15)
-    - cron: '45 10 * * *'
+    - cron: '0 12 * * *' # Runs at 5:30 PM IST (12:00 PM UTC)
   workflow_dispatch:
 
 jobs:
