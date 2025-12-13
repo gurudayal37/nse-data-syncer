@@ -171,6 +171,24 @@ def calculate_momentum():
                 up['momentum_score'] = float(score)
             else:
                 up['momentum_score'] = None
+
+            # Simple Momentum Score (6M + 1Y only)
+            simple_z_list = []
+            for period in ['6m', '1y']:
+                val = row[f'mr_{period}']
+                if pd.notna(val) and stats[period]['std'] > 0:
+                    z = (val - stats[period]['mean']) / stats[period]['std']
+                    simple_z_list.append(z)
+            
+            if len(simple_z_list) == 2:
+                weighted_simple = sum(simple_z_list) / 2
+                if weighted_simple >= 0:
+                    simple_score = 1 + weighted_simple
+                else:
+                    simple_score = 1 / (1 - weighted_simple)
+                up['simple_momentum_score'] = float(simple_score)
+            else:
+                up['simple_momentum_score'] = None
                 
             # Add to list for history processing
             updates.append(up)

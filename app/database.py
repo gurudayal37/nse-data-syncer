@@ -344,6 +344,7 @@ class StockPerformance(Base):
     z_1y = Column(Float)
     
     momentum_score = Column(Float)
+    simple_momentum_score = Column(Float)
     
     daily_volume = Column(BigInteger)
     updated_at = Column(DateTime, default=datetime.now)

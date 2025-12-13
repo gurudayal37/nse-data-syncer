@@ -1,0 +1,339 @@
+import sys
+import os
+import json
+import numpy as np
+import pandas as pd
+import yfinance as yf
+from sqlalchemy import text
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
+from dotenv import load_dotenv
+
+# Load env
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(base_dir, 'web', '.env'))
+
+# Add project root to path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from app.database import DatabaseManager, MomentumHistory
+
+def get_month_ends(years=8):
+    """Get list of month-end dates for the last N years (default 8 years from 2017)"""
+    today = datetime.now()
+    dates = []
+    # Start from N years ago
+    start_date = today - relativedelta(years=years)
+    # Align to next month start
+    current = start_date.replace(day=1) + relativedelta(months=1)
+    
+    while current < today:
+        # Get last day of previous month (rebalancing date)
+        last_month_end = current - timedelta(days=1)
+        dates.append(last_month_end)
+        current += relativedelta(months=1)
+        
+    return dates
+
+def calculate_momentum_for_date(session, target_date, stocks_df):
+    """
+    Calculate momentum scores for all stocks as of target_date.
+    stocks_df should contain all daily prices up to target_date.
+    """
+    scores = []
+    
+    # Filter for data up to target_date
+    start_date = target_date - timedelta(days=365 + 30) # Buffer
+    
+    unique_stocks = stocks_df.index.get_level_values('stock_id').unique()
+    
+    for stock_id in unique_stocks:
+        try:
+            # Get stock data
+            df = stocks_df.loc[stock_id]
+            df = df[df.index <= target_date].sort_index()
+            
+            if len(df) < 252:
+                continue
+                
+            # Calculate metrics
+            # Log returns
+            df['log_ret'] = np.log(df['close_price'] / df['close_price'].shift(1))
+            
+            # Volatility (last 252 days)
+            volatility = df['log_ret'].tail(252).std() * np.sqrt(252)
+            
+            if pd.isna(volatility) or volatility == 0:
+                continue
+                
+            current_price = df['close_price'].iloc[-1]
+            
+            def get_ret(days):
+                if len(df) <= days: return None
+                past_price = df['close_price'].iloc[-(days + 1)]
+                return (current_price / past_price) - 1
+                
+            r6m = get_ret(126)
+            r1y = get_ret(252)
+            
+            if None in [r6m, r1y]:
+                continue
+                
+            # Only use 6M, 1Y (exclude 3M)
+            mr_6m = r6m / volatility
+            mr_1y = r1y / volatility
+            
+            scores.append({
+                'stock_id': stock_id,
+                'mr_6m': mr_6m,
+                'mr_1y': mr_1y
+            })
+            
+        except KeyError:
+            continue
+            
+    if not scores:
+        return []
+        
+    # Calculate Z-Scores (only for 6M, 1Y)
+    df_scores = pd.DataFrame(scores)
+    
+    for period in ['6m', '1y']:
+        col = f'mr_{period}'
+        mean = df_scores[col].mean()
+        std = df_scores[col].std()
+        if std > 0:
+            df_scores[f'z_{period}'] = (df_scores[col] - mean) / std
+        else:
+            df_scores[f'z_{period}'] = 0
+            
+    # Weighted Score (equal weights: 1/2 each)
+    df_scores['weighted_z'] = (df_scores['z_6m'] + df_scores['z_1y']) / 2
+    
+    # Sort by weighted Z (descending)
+    df_scores = df_scores.sort_values('weighted_z', ascending=False)
+    
+    return df_scores
+
+def run_backtest():
+    print("Starting **Simple** Momentum Backtest (6M + 1Y)...")
+    db = DatabaseManager()
+    
+    # Ensure tables exist
+    from app.database import Base
+    Base.metadata.create_all(db.engine)
+    
+    session = db.Session()
+    
+    # 1. Fetch Benchmark (Nifty 50)
+    print("Fetching Benchmark Data...")
+    try:
+        nifty = yf.download('^NSEI', start=(datetime.now() - relativedelta(years=10)).strftime('%Y-%m-%d'), progress=False)
+        if nifty.empty:
+            print("Warning: Could not fetch Nifty data. Benchmark returns will be 0.")
+            nifty = pd.DataFrame(columns=['close'])
+        else:
+            nifty['date'] = nifty.index
+            nifty = nifty[['date', 'Close']]
+            if isinstance(nifty.columns, pd.MultiIndex):
+                nifty.columns = nifty.columns.get_level_values(0)
+            nifty.rename(columns={'Close': 'close'}, inplace=True)
+    except Exception as e:
+        print(f"Error fetching benchmark: {e}")
+        nifty = pd.DataFrame(columns=['close'])
+
+    # Load ALL daily prices into memory once
+    print("Loading ALL price data into memory (this may take a moment)...")
+    all_prices_query = text("SELECT stock_id, date, close_price FROM daily_prices ORDER BY date ASC")
+    all_prices_result = session.execute(all_prices_query).fetchall()
+    
+    master_df = pd.DataFrame(all_prices_result, columns=['stock_id', 'date', 'close_price'])
+    master_df['date'] = pd.to_datetime(master_df['date'])
+    master_df.set_index('date', inplace=True)
+    print(f"Loaded {len(master_df)} price records into memory.")
+
+    # Load Stock Names
+    stock_map = {}
+    stocks = session.execute(text("SELECT id, nse_symbol FROM stocks")).fetchall()
+    for s in stocks:
+        stock_map[s.id] = s.nse_symbol
+        
+    # Check for existing results to skip processed months
+    # DIFFERENT OUTPUT FILE
+    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_simple.json')
+    existing_results = []
+    processed_months = set()
+    
+    if os.path.exists(output_path):
+        try:
+            with open(output_path, 'r') as f:
+                existing_results = json.load(f)
+                for r in existing_results:
+                    processed_months.add(r['month'])
+            print(f"Loaded existing results for {len(processed_months)} months.")
+        except Exception as e:
+            print(f"Could not load existing results: {e}")
+            existing_results = []
+
+    # 2. Iterate Months (from 2017 to present)
+    dates = get_month_ends(years=8)
+    new_results = []
+    
+    print(f"Backtesting over {len(dates)} months...")
+    
+    # helper for processing a period
+    def process_period(rebalance_date, next_rebalance_date, label_date=None):
+        print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()}")
+        
+        start_window = rebalance_date - timedelta(days=400)
+        
+        try:
+            df_slice = master_df.loc[start_window:rebalance_date]
+        except KeyError:
+            print("  No price data found for this period.")
+            return None
+            
+        if df_slice.empty:
+            print("  No price data found for this period.")
+            return None
+            
+        df_window = df_slice.reset_index()
+        df_window.set_index(['stock_id', 'date'], inplace=True)
+        
+        # Calculate Momentum
+        top_stocks_df = calculate_momentum_for_date(session, rebalance_date, df_window)
+        
+        if top_stocks_df.empty:
+            print("  No stocks found.")
+            return None
+            
+        # NOTE: WE DO NOT START HISTORY FOR THIS SIMPLE STRATEGY IN THE MAIN TABLE
+        # THE MAIN TABLE 'momentum_history' IS FOR THE MAIN STRATEGY
+        # WE WILL SKIP SAVING TO DB HISTORY FOR NOW OR CREATE A NEW TABLE LATER
+        # User requested "new entity" in DB as "simple-momentum-score", which we added to StockPerformance
+        # But for backtest history, we are not storing it in DB, only in JSON.
+        # So we SKIP the history DB insertion.
+
+        # Select Top 15 (Standard)
+        top_stocks = top_stocks_df.head(15)
+        selected_stock_ids = top_stocks['stock_id'].tolist()
+        
+        score_map = top_stocks.set_index('stock_id')['weighted_z'].to_dict()
+        
+        # Calculate Portfolio Return
+        portfolio_returns = []
+        stock_returns_detail = []
+        
+        try:
+            df_next_slice = master_df.loc[rebalance_date + timedelta(days=1) : next_rebalance_date]
+            df_next = df_next_slice[df_next_slice['stock_id'].isin(selected_stock_ids)].reset_index()
+        except KeyError:
+            df_next = pd.DataFrame()
+
+        if not df_next.empty:
+            for stock_id in selected_stock_ids:
+                try:
+                    start_price = df_window.loc[stock_id].iloc[-1]['close_price']
+                except KeyError:
+                    stock_returns_detail.append({
+                        'symbol': stock_map.get(stock_id, 'Unknown'),
+                        'return': None,
+                        'score': round(score_map.get(stock_id, 0), 2)
+                    })
+                    continue
+                    
+                stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
+                if stock_data_next.empty:
+                    stock_returns_detail.append({
+                        'symbol': stock_map.get(stock_id, 'Unknown'),
+                        'return': 0.0,
+                        'score': round(score_map.get(stock_id, 0), 2)
+                    })
+                    continue
+                
+                end_price = stock_data_next.iloc[-1]['close_price']
+                
+                ret = (end_price - start_price) / start_price
+                portfolio_returns.append(ret)
+                stock_returns_detail.append({
+                    'symbol': stock_map.get(stock_id, 'Unknown'),
+                    'return': round(ret * 100, 2),
+                    'score': round(score_map.get(stock_id, 0), 2)
+                })
+                
+        if not portfolio_returns:
+            port_ret = 0
+            if not stock_returns_detail:
+                for stock_id in selected_stock_ids:
+                     stock_returns_detail.append({
+                        'symbol': stock_map.get(stock_id, 'Unknown'),
+                        'return': 0.0,
+                        'score': round(score_map.get(stock_id, 0), 2)
+                    })
+        else:
+            port_ret = sum(portfolio_returns) / len(portfolio_returns)
+            
+        # Benchmark Return
+        if not nifty.empty:
+            n_prev = nifty[nifty['date'] <= rebalance_date]
+            n_curr = nifty[nifty['date'] <= next_rebalance_date]
+            
+            if not n_prev.empty and not n_curr.empty:
+                n_start_price = n_prev.iloc[-1]['close']
+                n_end_price = n_curr.iloc[-1]['close']
+                bench_ret = (n_end_price - n_start_price) / n_start_price
+            else:
+                bench_ret = 0
+        else:
+            bench_ret = 0
+            
+        print(f"  Port: {port_ret:.2%}, Bench: {bench_ret:.2%}")
+        
+        if label_date:
+            month_label = label_date
+        else:
+            month_label = next_rebalance_date.strftime('%Y-%m')
+
+        return {
+            'month': month_label,
+            'portfolio_return': round(port_ret * 100, 2),
+            'benchmark_return': round(bench_ret * 100, 2),
+            'holdings': stock_returns_detail
+        }
+
+    for i, rebalance_date in enumerate(dates[:-1]):
+        next_rebalance_date = dates[i+1]
+        month_label = next_rebalance_date.strftime('%Y-%m')
+        
+        if month_label in processed_months:
+            print(f"Skipping {month_label} (Already processed)")
+            continue
+            
+        print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()} ({month_label})")
+        res = process_period(rebalance_date, next_rebalance_date)
+        if res:
+            new_results.append(res)
+            
+    # Current Month (Live)
+    last_rebalance_date = dates[-1]
+    today = datetime.now()
+    
+    if today > last_rebalance_date:
+        current_month_label = today.strftime('%Y-%m')
+        print(f"Processing Current Month (Live): {last_rebalance_date.date()} -> {today.date()}")
+        res = process_period(last_rebalance_date, today, label_date=current_month_label)
+        if res:
+             existing_results = [r for r in existing_results if r['month'] != current_month_label]
+             new_results.append(res)
+
+    final_results = existing_results + new_results
+    final_results.sort(key=lambda x: x['month'], reverse=True)
+
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, 'w') as f:
+        json.dump(final_results, f, indent=2)
+        
+    print(f"Backtest saved to {output_path}")
+
+if __name__ == "__main__":
+    run_backtest()
