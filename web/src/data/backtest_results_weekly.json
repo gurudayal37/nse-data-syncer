@@ -7,22 +7,22 @@
       {
         "symbol": "LTF",
         "return": 0.0,
-        "score": 3.67
+        "score": 3.64
       },
       {
         "symbol": "MUTHOOTFIN",
         "return": 0.0,
-        "score": 2.99
+        "score": 3.02
       },
       {
         "symbol": "ABCAPITAL",
         "return": 0.0,
-        "score": 2.74
+        "score": 2.82
       },
       {
-        "symbol": "IMFA",
+        "symbol": "AUBANK",
         "return": 0.0,
-        "score": 2.58
+        "score": 2.53
       },
       {
         "symbol": "FEDERALBNK",
@@ -30,54 +30,54 @@
         "score": 2.53
       },
       {
-        "symbol": "CUB",
+        "symbol": "IMFA",
         "return": 0.0,
-        "score": 2.52
-      },
-      {
-        "symbol": "AUBANK",
-        "return": 0.0,
-        "score": 2.48
+        "score": 2.49
       },
       {
         "symbol": "NAVINFLUOR",
         "return": 0.0,
-        "score": 2.42
+        "score": 2.47
       },
       {
-        "symbol": "SOUTHBANK",
+        "symbol": "CUB",
         "return": 0.0,
-        "score": 2.33
+        "score": 2.44
       },
       {
         "symbol": "LAURUSLABS",
         "return": 0.0,
-        "score": 2.32
+        "score": 2.39
       },
       {
-        "symbol": "MARUTI",
+        "symbol": "SOUTHBANK",
         "return": 0.0,
-        "score": 2.28
-      },
-      {
-        "symbol": "LUMAXTECH",
-        "return": 0.0,
-        "score": 2.27
+        "score": 2.35
       },
       {
         "symbol": "CANBK",
         "return": 0.0,
-        "score": 2.23
+        "score": 2.34
       },
       {
-        "symbol": "ASHOKLEY",
+        "symbol": "MARUTI",
         "return": 0.0,
-        "score": 2.22
+        "score": 2.33
+      },
+      {
+        "symbol": "IDEA",
+        "return": 0.0,
+        "score": 2.3
+      },
+      {
+        "symbol": "THANGAMAYL",
+        "return": 0.0,
+        "score": 2.23
       },
       {
         "symbol": "EICHERMOT",
         "return": 0.0,
-        "score": 2.19
+        "score": 2.21
       }
     ]
   },
