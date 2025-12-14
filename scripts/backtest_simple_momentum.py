@@ -115,6 +115,140 @@ def calculate_momentum_for_date(session, target_date, stocks_df):
     
     return df_scores
 
+def calculate_comprehensive_metrics(monthly_results, benchmark_results):
+    """Calculate comprehensive backtest metrics"""
+    
+    # Convert to numpy arrays for calculations
+    portfolio_returns = np.array([r['portfolio_return'] / 100 for r in monthly_results])
+    benchmark_returns = np.array([r['benchmark_return'] / 100 for r in monthly_results])
+    
+    # Time Metrics
+    start_date = monthly_results[0]['month']
+    end_date = monthly_results[-1]['month']
+    period_months = len(monthly_results)
+    period_years = period_months / 12
+    
+    # Capital Metrics
+    start_value = 100
+    cumulative_portfolio = np.cumprod(1 + portfolio_returns)
+    cumulative_benchmark = np.cumprod(1 + benchmark_returns)
+    end_value = start_value * cumulative_portfolio[-1]
+    total_fees_paid = 0  # Assuming no fees for now
+    open_trade_pnl = 0  # No open trades at end of backtest period
+    
+    # Return Metrics
+    total_return = (end_value - start_value) / start_value
+    benchmark_total_return = (start_value * cumulative_benchmark[-1] - start_value) / start_value
+    
+    # Expectancy (average return per trade/month)
+    expectancy = np.mean(portfolio_returns)
+    
+    # Risk Metrics
+    # Max Drawdown
+    cumulative_values = start_value * cumulative_portfolio
+    running_max = np.maximum.accumulate(cumulative_values)
+    drawdowns = (cumulative_values - running_max) / running_max
+    max_drawdown = np.min(drawdowns)
+    
+    # Max Drawdown Duration (in months)
+    dd_duration = 0
+    current_dd_duration = 0
+    for dd in drawdowns:
+        if dd < 0:
+            current_dd_duration += 1
+            dd_duration = max(dd_duration, current_dd_duration)
+        else:
+            current_dd_duration = 0
+    
+    # Sharpe Ratio (annualized, assuming risk-free rate = 0)
+    excess_returns = portfolio_returns - 0  # Assuming risk-free rate = 0
+    sharpe_ratio = (np.mean(excess_returns) * 12) / (np.std(excess_returns) * np.sqrt(12)) if np.std(excess_returns) > 0 else 0
+    
+    # Calmar Ratio (annualized return / max drawdown)
+    annualized_return = (1 + total_return) ** (1 / period_years) - 1
+    calmar_ratio = annualized_return / abs(max_drawdown) if max_drawdown != 0 else 0
+    
+    # Sortino Ratio (using downside deviation)
+    downside_returns = portfolio_returns[portfolio_returns < 0]
+    downside_std = np.std(downside_returns) if len(downside_returns) > 0 else 0
+    sortino_ratio = (np.mean(excess_returns) * 12) / (downside_std * np.sqrt(12)) if downside_std > 0 else 0
+    
+    # Omega Ratio (probability weighted ratio of gains vs losses)
+    threshold = 0
+    gains = portfolio_returns[portfolio_returns > threshold]
+    losses = portfolio_returns[portfolio_returns < threshold]
+    omega_ratio = np.sum(gains - threshold) / abs(np.sum(losses - threshold)) if len(losses) > 0 and np.sum(losses - threshold) != 0 else 0
+    
+    # Exposure Metrics
+    max_gross_exposure = 100  # Always 100% invested in this strategy
+    
+    # Trade Statistics
+    total_trades = period_months  # One trade per month (rebalancing)
+    total_closed_trades = period_months - 1  # All except current month
+    total_open_trades = 1  # Current month position
+    
+    winning_trades = np.sum(portfolio_returns > 0)
+    losing_trades = np.sum(portfolio_returns < 0)
+    win_rate = (winning_trades / total_trades) * 100 if total_trades > 0 else 0
+    
+    best_trade = np.max(portfolio_returns) * 100
+    worst_trade = np.min(portfolio_returns) * 100
+    
+    avg_winning_trade = np.mean(portfolio_returns[portfolio_returns > 0]) * 100 if winning_trades > 0 else 0
+    avg_losing_trade = np.mean(portfolio_returns[portfolio_returns < 0]) * 100 if losing_trades > 0 else 0
+    
+    # Trade durations (all trades are 1 month)
+    avg_winning_trade_duration = 1
+    avg_losing_trade_duration = 1
+    
+    # Profit Factor
+    gross_profit = np.sum(portfolio_returns[portfolio_returns > 0])
+    gross_loss = abs(np.sum(portfolio_returns[portfolio_returns < 0]))
+    profit_factor = gross_profit / gross_loss if gross_loss > 0 else 0
+    
+    return {
+        "time_metrics": {
+            "start": start_date,
+            "end": end_date,
+            "period": f"{period_months} months ({period_years:.1f} years)"
+        },
+        "capital_metrics": {
+            "start_value": round(start_value, 2),
+            "end_value": round(end_value, 2),
+            "total_fees_paid": round(total_fees_paid, 2),
+            "open_trade_pnl": round(open_trade_pnl, 2)
+        },
+        "return_metrics": {
+            "total_return": round(total_return * 100, 2),
+            "benchmark_return": round(benchmark_total_return * 100, 2),
+            "expectancy": round(expectancy * 100, 2)
+        },
+        "risk_metrics": {
+            "max_drawdown": round(max_drawdown * 100, 2),
+            "max_drawdown_duration": dd_duration,
+            "sharpe_ratio": round(sharpe_ratio, 2),
+            "calmar_ratio": round(calmar_ratio, 2),
+            "omega_ratio": round(omega_ratio, 2),
+            "sortino_ratio": round(sortino_ratio, 2)
+        },
+        "exposure_metrics": {
+            "max_gross_exposure": max_gross_exposure
+        },
+        "trade_statistics": {
+            "total_trades": total_trades,
+            "total_closed_trades": total_closed_trades,
+            "total_open_trades": total_open_trades,
+            "win_rate": round(win_rate, 2),
+            "best_trade": round(best_trade, 2),
+            "worst_trade": round(worst_trade, 2),
+            "avg_winning_trade": round(avg_winning_trade, 2),
+            "avg_losing_trade": round(avg_losing_trade, 2),
+            "avg_winning_trade_duration": avg_winning_trade_duration,
+            "avg_losing_trade_duration": avg_losing_trade_duration,
+            "profit_factor": round(profit_factor, 2)
+        }
+    }
+
 def run_backtest():
     print("Starting **Simple** Momentum Backtest (6M + 1Y)...")
     db = DatabaseManager()
@@ -158,26 +292,9 @@ def run_backtest():
     for s in stocks:
         stock_map[s.id] = s.nse_symbol
         
-    # Check for existing results to skip processed months
-    # DIFFERENT OUTPUT FILE
-    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_simple.json')
-    existing_results = []
-    processed_months = set()
-    
-    if os.path.exists(output_path):
-        try:
-            with open(output_path, 'r') as f:
-                existing_results = json.load(f)
-                for r in existing_results:
-                    processed_months.add(r['month'])
-            print(f"Loaded existing results for {len(processed_months)} months.")
-        except Exception as e:
-            print(f"Could not load existing results: {e}")
-            existing_results = []
-
     # 2. Iterate Months (from 2017 to present)
     dates = get_month_ends(years=8)
-    new_results = []
+    all_results = []
     
     print(f"Backtesting over {len(dates)} months...")
     
@@ -206,13 +323,6 @@ def run_backtest():
         if top_stocks_df.empty:
             print("  No stocks found.")
             return None
-            
-        # NOTE: WE DO NOT START HISTORY FOR THIS SIMPLE STRATEGY IN THE MAIN TABLE
-        # THE MAIN TABLE 'momentum_history' IS FOR THE MAIN STRATEGY
-        # WE WILL SKIP SAVING TO DB HISTORY FOR NOW OR CREATE A NEW TABLE LATER
-        # User requested "new entity" in DB as "simple-momentum-score", which we added to StockPerformance
-        # But for backtest history, we are not storing it in DB, only in JSON.
-        # So we SKIP the history DB insertion.
 
         # Select Top 15 (Standard)
         top_stocks = top_stocks_df.head(15)
@@ -305,14 +415,10 @@ def run_backtest():
         next_rebalance_date = dates[i+1]
         month_label = next_rebalance_date.strftime('%Y-%m')
         
-        if month_label in processed_months:
-            print(f"Skipping {month_label} (Already processed)")
-            continue
-            
         print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()} ({month_label})")
         res = process_period(rebalance_date, next_rebalance_date)
         if res:
-            new_results.append(res)
+            all_results.append(res)
             
     # Current Month (Live)
     last_rebalance_date = dates[-1]
@@ -323,17 +429,35 @@ def run_backtest():
         print(f"Processing Current Month (Live): {last_rebalance_date.date()} -> {today.date()}")
         res = process_period(last_rebalance_date, today, label_date=current_month_label)
         if res:
-             existing_results = [r for r in existing_results if r['month'] != current_month_label]
-             new_results.append(res)
+            all_results.append(res)
 
-    final_results = existing_results + new_results
-    final_results.sort(key=lambda x: x['month'], reverse=True)
-
+    # Sort all results by month ascending for proper calculation
+    all_results.sort(key=lambda x: x['month'])
+    
+    # Split into backtest period (until Nov 2025) and current performance (Dec 2025+)
+    backtest_cutoff = "2025-11"
+    backtest_results = [r for r in all_results if r['month'] <= backtest_cutoff]
+    current_results = [r for r in all_results if r['month'] > backtest_cutoff]
+    
+    # Calculate comprehensive metrics for backtest period
+    print("\nCalculating comprehensive metrics...")
+    backtest_metrics = calculate_comprehensive_metrics(backtest_results, backtest_results)
+    
+    # Prepare final output
+    output_data = {
+        "backtest_metrics": backtest_metrics,
+        "backtest_results": sorted(backtest_results, key=lambda x: x['month'], reverse=True),
+        "current_performance": sorted(current_results, key=lambda x: x['month'], reverse=True)
+    }
+    
+    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_simple.json')
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w') as f:
-        json.dump(final_results, f, indent=2)
+        json.dump(output_data, f, indent=2)
         
-    print(f"Backtest saved to {output_path}")
+    print(f"\nBacktest saved to {output_path}")
+    print(f"Backtest period: {len(backtest_results)} months")
+    print(f"Current performance: {len(current_results)} months")
 
 if __name__ == "__main__":
     run_backtest()

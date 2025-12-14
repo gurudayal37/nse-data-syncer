@@ -7,21 +7,23 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import backtestData from '@/data/backtest_results_simple.json'
 
 export default function SimpleMomentumStrategyPage() {
-    const [data, setData] = useState<any[]>([])
-    const [summary, setSummary] = useState<any>({})
+    const [chartData, setChartData] = useState<any[]>([])
     const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set())
 
+    const metrics = backtestData.backtest_metrics
+    const backtestResults = backtestData.backtest_results
+    const currentPerformance = backtestData.current_performance
+
     useEffect(() => {
-        // Process data for chart (cumulative returns)
+        // Process backtest data for chart (cumulative returns)
         let portValue = 100
         let benchValue = 100
 
-        // Ensure data is sorted by month ASCENDING (Oldest First) for cumulative calculation
-        const sortedRawData = [...backtestData].sort((a: any, b: any) =>
+        const sortedData = [...backtestResults].sort((a: any, b: any) =>
             new Date(a.month).getTime() - new Date(b.month).getTime()
         )
 
-        const chartData = sortedRawData.map((item: any) => {
+        const chartData = sortedData.map((item: any) => {
             portValue = portValue * (1 + item.portfolio_return / 100)
             benchValue = benchValue * (1 + item.benchmark_return / 100)
             return {
@@ -32,22 +34,7 @@ export default function SimpleMomentumStrategyPage() {
             }
         })
 
-        setData(chartData)
-
-        // Calculate Summary Stats from the full dataset
-        const totalMonths = backtestData.length
-        const winningMonths = backtestData.filter((d: any) => d.portfolio_return > d.benchmark_return).length
-        const totalPortReturn = ((portValue - 100) / 100) * 100
-        const totalBenchReturn = ((benchValue - 100) / 100) * 100
-
-        setSummary({
-            totalMonths,
-            winningMonths,
-            winRate: totalMonths > 0 ? (winningMonths / totalMonths * 100).toFixed(1) : 0,
-            totalPortReturn: totalPortReturn.toFixed(2),
-            totalBenchReturn: totalBenchReturn.toFixed(2),
-            outperformance: (totalPortReturn - totalBenchReturn).toFixed(2)
-        })
+        setChartData(chartData)
     }, [])
 
     const toggleRow = (index: number) => {
@@ -63,6 +50,7 @@ export default function SimpleMomentumStrategyPage() {
     return (
         <div className="min-h-screen bg-gray-50 p-8">
             <div className="max-w-7xl mx-auto">
+                {/* Header */}
                 <div className="flex items-center gap-4 mb-8">
                     <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition-colors">
                         <ArrowLeft className="w-6 h-6 text-gray-600" />
@@ -75,7 +63,7 @@ export default function SimpleMomentumStrategyPage() {
                     </div>
                 </div>
 
-                {/* Strategy Description */}
+                {/* 1. Strategy Logic */}
                 <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6 mb-8">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4">Strategy Logic</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
@@ -101,45 +89,272 @@ export default function SimpleMomentumStrategyPage() {
                     </div>
                 </div>
 
-                {/* Performance Summary Cards */}
+                {/* 2. Key Metrics Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                        <div className="text-sm text-gray-500 mb-1">Total Return (Since 2017)</div>
-                        <div className={`text-3xl font-bold ${parseFloat(summary.totalPortReturn) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                            {summary.totalPortReturn}%
+                        <div className="text-sm text-gray-500 mb-1">Total Return</div>
+                        <div className="text-3xl font-bold text-green-600">
+                            {metrics.return_metrics.total_return.toFixed(2)}%
                         </div>
-                        <div className="text-xs text-gray-400 mt-2">vs Benchmark: {summary.totalBenchReturn}%</div>
+                        <div className="text-xs text-gray-400 mt-2">vs Benchmark: {metrics.return_metrics.benchmark_return.toFixed(2)}%</div>
                     </div>
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                         <div className="text-sm text-gray-500 mb-1">Alpha (Outperformance)</div>
-                        <div className={`text-3xl font-bold ${parseFloat(summary.outperformance) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                            {summary.outperformance > 0 ? '+' : ''}{summary.outperformance}%
+                        <div className="text-3xl font-bold text-green-600">
+                            +{(metrics.return_metrics.total_return - metrics.return_metrics.benchmark_return).toFixed(2)}%
                         </div>
                         <div className="text-xs text-gray-400 mt-2">Over Nifty 50</div>
                     </div>
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                        <div className="text-sm text-gray-500 mb-1">Win Rate (Months)</div>
+                        <div className="text-sm text-gray-500 mb-1">Win Rate</div>
                         <div className="text-3xl font-bold text-blue-600">
-                            {summary.winRate}%
+                            {metrics.trade_statistics.win_rate.toFixed(1)}%
                         </div>
-                        <div className="text-xs text-gray-400 mt-2">{summary.winningMonths} out of {summary.totalMonths} months</div>
+                        <div className="text-xs text-gray-400 mt-2">{Math.round(metrics.trade_statistics.total_trades * metrics.trade_statistics.win_rate / 100)} out of {metrics.trade_statistics.total_trades} months</div>
                     </div>
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                        <div className="text-sm text-gray-500 mb-1">Current Status</div>
-                        <div className="flex items-center gap-2 mt-1">
-                            <Activity className="w-5 h-5 text-green-500" />
-                            <span className="font-medium text-gray-900">Active</span>
+                        <div className="text-sm text-gray-500 mb-1">Sharpe Ratio</div>
+                        <div className={`text-3xl font-bold ${metrics.risk_metrics.sharpe_ratio >= 1 ? 'text-green-600' : 'text-yellow-600'}`}>
+                            {metrics.risk_metrics.sharpe_ratio.toFixed(2)}
                         </div>
-                        <div className="text-xs text-gray-400 mt-2">Last rebalanced: {data.length > 0 ? data[data.length - 1].month : '-'}</div>
+                        <div className="text-xs text-gray-400 mt-2">Risk-adjusted return</div>
                     </div>
                 </div>
 
-                {/* Chart */}
+                {/* 3. Current Performance Section (Dec 2025+) */}
+                {currentPerformance && currentPerformance.length > 0 && (
+                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 mb-8">
+                        <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
+                            <h2 className="text-lg font-semibold text-gray-900">Current Performance (Live)</h2>
+                            <p className="text-sm text-gray-600 mt-1">Performance after backtest period (Dec 2025 onwards)</p>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-sm text-left">
+                                <thead className="bg-gray-50 text-gray-900 font-medium">
+                                    <tr className="text-right">
+                                        <th className="px-6 py-4 w-12 text-left"></th>
+                                        <th className="px-6 py-4 text-left">Month</th>
+                                        <th className="px-6 py-4">Portfolio Return</th>
+                                        <th className="px-6 py-4">Benchmark (Nifty 50)</th>
+                                        <th className="px-6 py-4">Excess Return</th>
+                                        <th className="px-6 py-4 text-left">Holdings</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-100">
+                                    {currentPerformance.map((row: any, i) => {
+                                        const excess = row.portfolio_return - row.benchmark_return
+                                        const isExpanded = expandedRows.has(i)
+                                        return (
+                                            <>
+                                                <tr key={i} className="hover:bg-gray-50">
+                                                    <td className="px-6 py-4">
+                                                        <button
+                                                            onClick={() => toggleRow(i)}
+                                                            className="text-gray-400 hover:text-gray-600"
+                                                        >
+                                                            {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                                                        </button>
+                                                    </td>
+                                                    <td className="px-6 py-4 font-medium text-gray-900">{row.month}</td>
+                                                    <td className={`px-6 py-4 text-right font-medium ${row.portfolio_return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                                        {row.portfolio_return > 0 ? '+' : ''}{row.portfolio_return}%
+                                                    </td>
+                                                    <td className={`px-6 py-4 text-right ${row.benchmark_return >= 0 ? 'text-gray-900' : 'text-gray-600'}`}>
+                                                        {row.benchmark_return > 0 ? '+' : ''}{row.benchmark_return}%
+                                                    </td>
+                                                    <td className="px-6 py-4 text-right">
+                                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${excess > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                                            }`}>
+                                                            {excess > 0 ? <TrendingUp className="w-3 h-3 mr-1" /> : <TrendingDown className="w-3 h-3 mr-1" />}
+                                                            {excess.toFixed(2)}%
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-gray-500 text-xs">
+                                                        {row.holdings?.length || 0} stocks
+                                                    </td>
+                                                </tr>
+                                                {isExpanded && row.holdings && (
+                                                    <tr key={`${i}-expanded`}>
+                                                        <td colSpan={6} className="px-6 py-4 bg-gray-50">
+                                                            <div className="grid grid-cols-3 gap-2">
+                                                                {row.holdings.map((holding: any, j: number) => (
+                                                                    <div key={j} className="bg-white px-3 py-2 rounded border border-gray-200">
+                                                                        <div className="flex justify-between items-center">
+                                                                            <div className="flex items-center gap-2">
+                                                                                <span className="font-medium text-gray-700">{holding.symbol}</span>
+                                                                                {holding.score !== undefined && (
+                                                                                    <span className="text-[10px] text-gray-500 bg-gray-100 px-1.5 rounded" title="Momentum Score">
+                                                                                        {holding.score}
+                                                                                    </span>
+                                                                                )}
+                                                                            </div>
+                                                                            <span className={`font-medium text-sm ${holding.return === null ? 'text-gray-400' :
+                                                                                    holding.return >= 0 ? 'text-green-600' : 'text-red-600'
+                                                                                }`}>
+                                                                                {holding.return === null ? 'N/A' : `${holding.return > 0 ? '+' : ''}${holding.return}%`}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
+
+                {/* 4. Backtest Metrics Section */}
                 <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6 mb-8">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-6">Equity Curve (Rebased to 100)</h2>
+                    <h2 className="text-lg font-semibold text-gray-900 mb-6">Backtest Metrics ({metrics.time_metrics.start} to {metrics.time_metrics.end})</h2>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        {/* Time Metrics */}
+                        <div className="space-y-3">
+                            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Time Metrics</h3>
+                            <div className="space-y-2">
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Start</span>
+                                    <span className="text-sm font-medium">{metrics.time_metrics.start}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">End</span>
+                                    <span className="text-sm font-medium">{metrics.time_metrics.end}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Period</span>
+                                    <span className="text-sm font-medium">{metrics.time_metrics.period}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Capital Metrics */}
+                        <div className="space-y-3">
+                            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Capital Metrics</h3>
+                            <div className="space-y-2">
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Start Value</span>
+                                    <span className="text-sm font-medium">₹{metrics.capital_metrics.start_value}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">End Value</span>
+                                    <span className="text-sm font-medium text-green-600">₹{metrics.capital_metrics.end_value.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Total Fees</span>
+                                    <span className="text-sm font-medium">₹{metrics.capital_metrics.total_fees_paid}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Open Trade PnL</span>
+                                    <span className="text-sm font-medium">₹{metrics.capital_metrics.open_trade_pnl}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Return Metrics */}
+                        <div className="space-y-3">
+                            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Return Metrics</h3>
+                            <div className="space-y-2">
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Total Return</span>
+                                    <span className="text-sm font-medium text-green-600">{metrics.return_metrics.total_return.toFixed(2)}%</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Benchmark Return</span>
+                                    <span className="text-sm font-medium">{metrics.return_metrics.benchmark_return.toFixed(2)}%</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Expectancy</span>
+                                    <span className="text-sm font-medium">{metrics.return_metrics.expectancy.toFixed(2)}%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Risk Metrics */}
+                        <div className="space-y-3">
+                            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Risk Metrics</h3>
+                            <div className="space-y-2">
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Max Drawdown</span>
+                                    <span className="text-sm font-medium text-red-600">{metrics.risk_metrics.max_drawdown.toFixed(2)}%</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Max DD Duration</span>
+                                    <span className="text-sm font-medium">{metrics.risk_metrics.max_drawdown_duration} months</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Sharpe Ratio</span>
+                                    <span className={`text-sm font-medium ${metrics.risk_metrics.sharpe_ratio >= 1 ? 'text-green-600' : 'text-yellow-600'}`}>
+                                        {metrics.risk_metrics.sharpe_ratio.toFixed(2)}
+                                    </span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Calmar Ratio</span>
+                                    <span className="text-sm font-medium">{metrics.risk_metrics.calmar_ratio.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Omega Ratio</span>
+                                    <span className="text-sm font-medium">{metrics.risk_metrics.omega_ratio.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Sortino Ratio</span>
+                                    <span className="text-sm font-medium">{metrics.risk_metrics.sortino_ratio.toFixed(2)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Trade Statistics (Full Width) */}
+                    <div className="mt-6 pt-6 border-t border-gray-200">
+                        <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-4">Trade Statistics</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                            <div className="bg-gray-50 p-3 rounded">
+                                <div className="text-xs text-gray-600 mb-1">Total Trades</div>
+                                <div className="text-lg font-semibold">{metrics.trade_statistics.total_trades}</div>
+                            </div>
+                            <div className="bg-gray-50 p-3 rounded">
+                                <div className="text-xs text-gray-600 mb-1">Win Rate</div>
+                                <div className="text-lg font-semibold text-green-600">{metrics.trade_statistics.win_rate.toFixed(1)}%</div>
+                            </div>
+                            <div className="bg-gray-50 p-3 rounded">
+                                <div className="text-xs text-gray-600 mb-1">Best Trade</div>
+                                <div className="text-lg font-semibold text-green-600">+{metrics.trade_statistics.best_trade.toFixed(2)}%</div>
+                            </div>
+                            <div className="bg-gray-50 p-3 rounded">
+                                <div className="text-xs text-gray-600 mb-1">Worst Trade</div>
+                                <div className="text-lg font-semibold text-red-600">{metrics.trade_statistics.worst_trade.toFixed(2)}%</div>
+                            </div>
+                            <div className="bg-gray-50 p-3 rounded">
+                                <div className="text-xs text-gray-600 mb-1">Avg Win</div>
+                                <div className="text-lg font-semibold text-green-600">+{metrics.trade_statistics.avg_winning_trade.toFixed(2)}%</div>
+                            </div>
+                            <div className="bg-gray-50 p-3 rounded">
+                                <div className="text-xs text-gray-600 mb-1">Avg Loss</div>
+                                <div className="text-lg font-semibold text-red-600">{metrics.trade_statistics.avg_losing_trade.toFixed(2)}%</div>
+                            </div>
+                            <div className="bg-gray-50 p-3 rounded">
+                                <div className="text-xs text-gray-600 mb-1">Profit Factor</div>
+                                <div className="text-lg font-semibold">{metrics.trade_statistics.profit_factor.toFixed(2)}</div>
+                            </div>
+                            <div className="bg-gray-50 p-3 rounded">
+                                <div className="text-xs text-gray-600 mb-1">Max Exposure</div>
+                                <div className="text-lg font-semibold">{metrics.exposure_metrics.max_gross_exposure}%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 5. Equity Curve Chart */}
+                <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6 mb-8">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-6">Equity Curve (Backtest Period)</h2>
                     <div className="h-[400px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={data}>
+                            <LineChart data={chartData}>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                                 <XAxis
                                     dataKey="month"
@@ -179,10 +394,11 @@ export default function SimpleMomentumStrategyPage() {
                     </div>
                 </div>
 
-                {/* Monthly Table */}
+                {/* 6. Backtest Performance Table */}
                 <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
                     <div className="px-6 py-4 border-b border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-900">Monthly Breakdown</h2>
+                        <h2 className="text-lg font-semibold text-gray-900">Monthly Backtest Performance</h2>
+                        <p className="text-sm text-gray-600 mt-1">Historical performance from {metrics.time_metrics.start} to {metrics.time_metrics.end}</p>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
@@ -197,15 +413,15 @@ export default function SimpleMomentumStrategyPage() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
-                                {[...data].reverse().map((row: any, i) => {
+                                {backtestResults.map((row: any, i) => {
                                     const excess = row.portfolio_return - row.benchmark_return
-                                    const isExpanded = expandedRows.has(i)
+                                    const isExpanded = expandedRows.has(1000 + i) // Offset to avoid collision with current performance
                                     return (
                                         <>
                                             <tr key={i} className="hover:bg-gray-50">
                                                 <td className="px-6 py-4">
                                                     <button
-                                                        onClick={() => toggleRow(i)}
+                                                        onClick={() => toggleRow(1000 + i)}
                                                         className="text-gray-400 hover:text-gray-600"
                                                     >
                                                         {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
