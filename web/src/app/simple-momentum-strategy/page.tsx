@@ -220,15 +220,15 @@ export default function SimpleMomentumStrategyPage() {
                             <div className="space-y-2">
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Start</span>
-                                    <span className="text-sm font-medium">{metrics.time_metrics.start}</span>
+                                    <span className="text-sm font-medium text-gray-900">{metrics.time_metrics.start}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">End</span>
-                                    <span className="text-sm font-medium">{metrics.time_metrics.end}</span>
+                                    <span className="text-sm font-medium text-gray-900">{metrics.time_metrics.end}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Period</span>
-                                    <span className="text-sm font-medium">{metrics.time_metrics.period}</span>
+                                    <span className="text-sm font-medium text-gray-900">{metrics.time_metrics.period}</span>
                                 </div>
                             </div>
                         </div>
@@ -239,7 +239,7 @@ export default function SimpleMomentumStrategyPage() {
                             <div className="space-y-2">
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Start Value</span>
-                                    <span className="text-sm font-medium">₹{metrics.capital_metrics.start_value}</span>
+                                    <span className="text-sm font-medium text-gray-900">₹{metrics.capital_metrics.start_value}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">End Value</span>
@@ -247,11 +247,11 @@ export default function SimpleMomentumStrategyPage() {
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Total Fees</span>
-                                    <span className="text-sm font-medium">₹{metrics.capital_metrics.total_fees_paid}</span>
+                                    <span className="text-sm font-medium text-gray-900">₹{metrics.capital_metrics.total_fees_paid}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Open Trade PnL</span>
-                                    <span className="text-sm font-medium">₹{metrics.capital_metrics.open_trade_pnl}</span>
+                                    <span className="text-sm font-medium text-gray-900">₹{metrics.capital_metrics.open_trade_pnl}</span>
                                 </div>
                             </div>
                         </div>
@@ -266,11 +266,11 @@ export default function SimpleMomentumStrategyPage() {
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Benchmark Return</span>
-                                    <span className="text-sm font-medium">{metrics.return_metrics.benchmark_return.toFixed(2)}%</span>
+                                    <span className="text-sm font-medium text-gray-900">{metrics.return_metrics.benchmark_return.toFixed(2)}%</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Expectancy</span>
-                                    <span className="text-sm font-medium">{metrics.return_metrics.expectancy.toFixed(2)}%</span>
+                                    <span className="text-sm font-medium text-gray-900">{metrics.return_metrics.expectancy.toFixed(2)}%</span>
                                 </div>
                             </div>
                         </div>
@@ -285,7 +285,7 @@ export default function SimpleMomentumStrategyPage() {
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Max DD Duration</span>
-                                    <span className="text-sm font-medium">{metrics.risk_metrics.max_drawdown_duration} months</span>
+                                    <span className="text-sm font-medium text-gray-900">{metrics.risk_metrics.max_drawdown_duration} months</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Sharpe Ratio</span>
@@ -295,15 +295,15 @@ export default function SimpleMomentumStrategyPage() {
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Calmar Ratio</span>
-                                    <span className="text-sm font-medium">{metrics.risk_metrics.calmar_ratio.toFixed(2)}</span>
+                                    <span className="text-sm font-medium text-gray-900">{metrics.risk_metrics.calmar_ratio.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Omega Ratio</span>
-                                    <span className="text-sm font-medium">{metrics.risk_metrics.omega_ratio.toFixed(2)}</span>
+                                    <span className="text-sm font-medium text-gray-900">{metrics.risk_metrics.omega_ratio.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Sortino Ratio</span>
-                                    <span className="text-sm font-medium">{metrics.risk_metrics.sortino_ratio.toFixed(2)}</span>
+                                    <span className="text-sm font-medium text-gray-900">{metrics.risk_metrics.sortino_ratio.toFixed(2)}</span>
                                 </div>
                             </div>
                         </div>
@@ -315,7 +315,7 @@ export default function SimpleMomentumStrategyPage() {
                         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                             <div className="bg-gray-50 p-3 rounded">
                                 <div className="text-xs text-gray-900 mb-1">Total Trades</div>
-                                <div className="text-lg font-semibold">{metrics.trade_statistics.total_trades}</div>
+                                <div className="text-lg font-semibold text-gray-900">{metrics.trade_statistics.total_trades}</div>
                             </div>
                             <div className="bg-gray-50 p-3 rounded">
                                 <div className="text-xs text-gray-900 mb-1">Win Rate</div>
@@ -339,11 +339,11 @@ export default function SimpleMomentumStrategyPage() {
                             </div>
                             <div className="bg-gray-50 p-3 rounded">
                                 <div className="text-xs text-gray-900 mb-1">Profit Factor</div>
-                                <div className="text-lg font-semibold">{metrics.trade_statistics.profit_factor.toFixed(2)}</div>
+                                <div className="text-lg font-semibold text-gray-900">{metrics.trade_statistics.profit_factor.toFixed(2)}</div>
                             </div>
                             <div className="bg-gray-50 p-3 rounded">
                                 <div className="text-xs text-gray-900 mb-1">Max Exposure</div>
-                                <div className="text-lg font-semibold">{metrics.exposure_metrics.max_gross_exposure}%</div>
+                                <div className="text-lg font-semibold text-gray-900">{metrics.exposure_metrics.max_gross_exposure}%</div>
                             </div>
                         </div>
                     </div>
