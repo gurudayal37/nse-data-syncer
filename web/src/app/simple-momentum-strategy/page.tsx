@@ -314,8 +314,12 @@ export default function SimpleMomentumStrategyPage() {
                         <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4">Trade Statistics</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                             <div className="bg-gray-50 p-3 rounded">
-                                <div className="text-xs text-gray-900 mb-1">Total Trades</div>
+                                <div className="text-xs text-gray-900 mb-1">Rebalancing Periods</div>
                                 <div className="text-lg font-semibold text-gray-900">{metrics.trade_statistics.total_trades}</div>
+                            </div>
+                            <div className="bg-gray-50 p-3 rounded">
+                                <div className="text-xs text-gray-900 mb-1">Stock Transactions</div>
+                                <div className="text-lg font-semibold text-blue-600">{metrics.trade_statistics.total_stock_transactions}</div>
                             </div>
                             <div className="bg-gray-50 p-3 rounded">
                                 <div className="text-xs text-gray-900 mb-1">Win Rate</div>

@@ -8,7 +8,7 @@
     "capital_metrics": {
       "start_value": 100,
       "end_value": 1559.42,
-      "total_fees_paid": 0,
+      "total_fees_paid": 12.89,
       "open_trade_pnl": 0
     },
     "return_metrics": {
@@ -38,7 +38,8 @@
       "avg_losing_trade": -5.81,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.58
+      "profit_factor": 2.58,
+      "total_stock_transactions": 1015
     }
   },
   "backtest_results": [

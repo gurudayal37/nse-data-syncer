@@ -434,6 +434,49 @@ def run_backtest():
     # Sort all results by month ascending for proper calculation
     all_results.sort(key=lambda x: x['month'])
     
+    # Calculate actual transactions by tracking portfolio changes
+    print("\nCalculating actual transactions...")
+    total_transactions = 0
+    previous_holdings = set()
+    
+    for result in all_results:
+        # Get current month's stock symbols
+        current_holdings = set([h['symbol'] for h in result['holdings']])
+        
+        if previous_holdings:
+            # Stocks that need to be sold (in previous but not in current)
+            stocks_to_sell = previous_holdings - current_holdings
+            # Stocks that need to be bought (in current but not in previous)
+            stocks_to_buy = current_holdings - previous_holdings
+            
+            # Each buy or sell is a transaction
+            transactions_this_month = len(stocks_to_sell) + len(stocks_to_buy)
+            total_transactions += transactions_this_month
+        else:
+            # First month: buy all 15 stocks
+            total_transactions += len(current_holdings)
+        
+        previous_holdings = current_holdings
+    
+    # Calculate fees (assuming 0.03% brokerage per transaction, both buy and sell)
+    # Fee per transaction = portfolio_value * position_size * fee_rate
+    # Simplified: Assume equal allocation, so each stock = 1/15 of portfolio
+    # Average portfolio value over the period
+    start_value = 100
+    cumulative_values = []
+    port_value = start_value
+    for r in all_results:
+        port_value = port_value * (1 + r['portfolio_return'] / 100)
+        cumulative_values.append(port_value)
+    
+    avg_portfolio_value = np.mean(cumulative_values)
+    fee_per_transaction = (avg_portfolio_value / 15) * 0.0003  # 0.03% fee
+    total_fees_paid = total_transactions * fee_per_transaction
+    
+    print(f"Total Transactions: {total_transactions}")
+    print(f"Average Portfolio Value: ₹{avg_portfolio_value:.2f}")
+    print(f"Total Fees Paid: ₹{total_fees_paid:.2f}")
+    
     # Split into backtest period (until Nov 2025) and current performance (Dec 2025+)
     backtest_cutoff = "2025-11"
     backtest_results = [r for r in all_results if r['month'] <= backtest_cutoff]
@@ -442,6 +485,10 @@ def run_backtest():
     # Calculate comprehensive metrics for backtest period
     print("\nCalculating comprehensive metrics...")
     backtest_metrics = calculate_comprehensive_metrics(backtest_results, backtest_results)
+    
+    # Update with actual transaction data
+    backtest_metrics['trade_statistics']['total_stock_transactions'] = total_transactions
+    backtest_metrics['capital_metrics']['total_fees_paid'] = round(total_fees_paid, 2)
     
     # Prepare final output
     output_data = {
