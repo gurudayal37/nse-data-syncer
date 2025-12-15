@@ -6,15 +6,16 @@
       "period": "95 months (7.9 years)"
     },
     "capital_metrics": {
-      "start_value": 100,
-      "end_value": 1559.42,
-      "total_fees_paid": 12.89,
+      "start_value": 100000,
+      "end_value": 1559424.1,
+      "total_fees_paid": 12886.03,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 1459.42,
       "benchmark_return": 148.63,
-      "expectancy": 3.39
+      "expectancy": 3.39,
+      "net_return_after_fees": 1415.51
     },
     "risk_metrics": {
       "max_drawdown": -33.57,
@@ -7838,7 +7839,7 @@
     {
       "month": "2025-12",
       "portfolio_return": -1.99,
-      "benchmark_return": -0.6,
+      "benchmark_return": -1.16,
       "holdings": [
         {
           "symbol": "LTF",

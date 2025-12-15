@@ -129,11 +129,11 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     period_years = period_months / 12
     
     # Capital Metrics
-    start_value = 100
+    start_value = 100000  # Changed to 1 lakh
     cumulative_portfolio = np.cumprod(1 + portfolio_returns)
     cumulative_benchmark = np.cumprod(1 + benchmark_returns)
     end_value = start_value * cumulative_portfolio[-1]
-    total_fees_paid = 0  # Assuming no fees for now
+    total_fees_paid = 0  # Will be updated later with actual fees
     open_trade_pnl = 0  # No open trades at end of backtest period
     
     # Return Metrics
@@ -462,7 +462,7 @@ def run_backtest():
     # Fee per transaction = portfolio_value * position_size * fee_rate
     # Simplified: Assume equal allocation, so each stock = 1/15 of portfolio
     # Average portfolio value over the period
-    start_value = 100
+    start_value = 100000  # 1 lakh
     cumulative_values = []
     port_value = start_value
     for r in all_results:
@@ -473,9 +473,15 @@ def run_backtest():
     fee_per_transaction = (avg_portfolio_value / 15) * 0.0003  # 0.03% fee
     total_fees_paid = total_transactions * fee_per_transaction
     
+    # Calculate net return after fees
+    final_value = cumulative_values[-1] if cumulative_values else start_value
+    net_value_after_fees = final_value - total_fees_paid
+    net_return_after_fees = ((net_value_after_fees - start_value) / start_value) * 100
+    
     print(f"Total Transactions: {total_transactions}")
     print(f"Average Portfolio Value: ₹{avg_portfolio_value:.2f}")
     print(f"Total Fees Paid: ₹{total_fees_paid:.2f}")
+    print(f"Net Return After Fees: {net_return_after_fees:.2f}%")
     
     # Split into backtest period (until Nov 2025) and current performance (Dec 2025+)
     backtest_cutoff = "2025-11"
@@ -489,6 +495,7 @@ def run_backtest():
     # Update with actual transaction data
     backtest_metrics['trade_statistics']['total_stock_transactions'] = total_transactions
     backtest_metrics['capital_metrics']['total_fees_paid'] = round(total_fees_paid, 2)
+    backtest_metrics['return_metrics']['net_return_after_fees'] = round(net_return_after_fees, 2)
     
     # Prepare final output
     output_data = {

@@ -16,8 +16,8 @@ export default function SimpleMomentumStrategyPage() {
 
     useEffect(() => {
         // Process backtest data for chart (cumulative returns)
-        let portValue = 100
-        let benchValue = 100
+        let portValue = 100000  // Start with 1 lakh
+        let benchValue = 100000
 
         const sortedData = [...backtestResults].sort((a: any, b: any) =>
             new Date(a.month).getTime() - new Date(b.month).getTime()
@@ -265,6 +265,10 @@ export default function SimpleMomentumStrategyPage() {
                                     <span className="text-sm font-medium text-green-600">{metrics.return_metrics.total_return.toFixed(2)}%</span>
                                 </div>
                                 <div className="flex justify-between">
+                                    <span className="text-sm text-gray-900">Net Return (After Fees)</span>
+                                    <span className="text-sm font-medium text-green-600 font-bold">{metrics.return_metrics.net_return_after_fees.toFixed(2)}%</span>
+                                </div>
+                                <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Benchmark Return</span>
                                     <span className="text-sm font-medium text-gray-900">{metrics.return_metrics.benchmark_return.toFixed(2)}%</span>
                                 </div>
@@ -356,34 +360,50 @@ export default function SimpleMomentumStrategyPage() {
                 {/* 5. Equity Curve Chart */}
                 <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6 mb-8">
                     <h2 className="text-lg font-semibold text-gray-900 mb-6">Equity Curve (Backtest Period)</h2>
-                    <div className="h-[400px] w-full">
+                    <div className="h-[500px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={chartData}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                            <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
                                 <XAxis
                                     dataKey="month"
-                                    tick={{ fontSize: 12, fill: '#6b7280' }}
+                                    tick={{ fontSize: 11, fill: '#6b7280' }}
                                     tickLine={false}
-                                    axisLine={false}
-                                    minTickGap={30}
+                                    axisLine={{ stroke: '#d1d5db' }}
+                                    minTickGap={40}
                                 />
                                 <YAxis
-                                    tick={{ fontSize: 12, fill: '#6b7280' }}
+                                    tick={{ fontSize: 11, fill: '#6b7280' }}
                                     tickLine={false}
-                                    axisLine={false}
+                                    axisLine={{ stroke: '#d1d5db' }}
                                     domain={['auto', 'auto']}
+                                    tickFormatter={(value) => `₹${(value / 1000).toFixed(0)}k`}
                                 />
                                 <Tooltip
-                                    contentStyle={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                                    contentStyle={{
+                                        backgroundColor: '#fff',
+                                        borderRadius: '8px',
+                                        border: '1px solid #e5e7eb',
+                                        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                                        padding: '12px'
+                                    }}
+                                    formatter={(value: any, name: string) => {
+                                        const formattedValue = `₹${parseFloat(value).toLocaleString('en-IN', { maximumFractionDigits: 0 })}`
+                                        return [formattedValue, name]
+                                    }}
+                                    labelFormatter={(label) => `Month: ${label}`}
                                 />
-                                <Legend />
+                                <Legend
+                                    wrapperStyle={{ paddingTop: '20px' }}
+                                    iconType="line"
+                                />
                                 <Line
                                     type="monotone"
                                     dataKey="Portfolio"
                                     stroke="#2563eb"
                                     strokeWidth={3}
                                     dot={false}
-                                    activeDot={{ r: 6 }}
+                                    activeDot={{ r: 6, fill: '#2563eb', stroke: '#fff', strokeWidth: 2 }}
+                                    name="Simple Momentum Strategy"
                                 />
                                 <Line
                                     type="monotone"
@@ -392,6 +412,8 @@ export default function SimpleMomentumStrategyPage() {
                                     strokeWidth={2}
                                     strokeDasharray="5 5"
                                     dot={false}
+                                    activeDot={{ r: 5, fill: '#9ca3af', stroke: '#fff', strokeWidth: 2 }}
+                                    name="Nifty 50"
                                 />
                             </LineChart>
                         </ResponsiveContainer>
