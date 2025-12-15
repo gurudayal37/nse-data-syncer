@@ -1,82 +1,82 @@
 [
   {
     "week": "2025-12-19",
-    "portfolio_return": 0,
-    "benchmark_return": 0.0,
+    "portfolio_return": -0.02,
+    "benchmark_return": 0.5,
     "holdings": [
       {
         "symbol": "LTF",
-        "return": 0.0,
+        "return": -0.89,
         "score": 3.64
       },
       {
         "symbol": "MUTHOOTFIN",
-        "return": 0.0,
+        "return": 0.49,
         "score": 3.02
       },
       {
         "symbol": "ABCAPITAL",
-        "return": 0.0,
+        "return": -3.07,
         "score": 2.82
       },
       {
         "symbol": "AUBANK",
-        "return": 0.0,
+        "return": 1.14,
         "score": 2.53
       },
       {
         "symbol": "FEDERALBNK",
-        "return": 0.0,
+        "return": 1.49,
         "score": 2.53
       },
       {
         "symbol": "IMFA",
-        "return": 0.0,
+        "return": 4.14,
         "score": 2.49
       },
       {
         "symbol": "NAVINFLUOR",
-        "return": 0.0,
+        "return": 0.35,
         "score": 2.47
       },
       {
         "symbol": "CUB",
-        "return": 0.0,
+        "return": 0.35,
         "score": 2.44
       },
       {
         "symbol": "LAURUSLABS",
-        "return": 0.0,
+        "return": -0.73,
         "score": 2.39
       },
       {
         "symbol": "SOUTHBANK",
-        "return": 0.0,
+        "return": -0.18,
         "score": 2.35
       },
       {
         "symbol": "CANBK",
-        "return": 0.0,
+        "return": 1.13,
         "score": 2.34
       },
       {
         "symbol": "MARUTI",
-        "return": 0.0,
+        "return": -0.65,
         "score": 2.33
       },
       {
         "symbol": "IDEA",
-        "return": 0.0,
+        "return": -2.49,
         "score": 2.3
       },
       {
         "symbol": "THANGAMAYL",
-        "return": 0.0,
+        "return": 0.06,
         "score": 2.23
       },
       {
         "symbol": "EICHERMOT",
-        "return": 0.0,
+        "return": -1.49,
         "score": 2.21
       }
     ]
