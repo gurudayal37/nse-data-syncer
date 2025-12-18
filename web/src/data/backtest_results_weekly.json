@@ -1,82 +1,82 @@
 [
   {
     "week": "2025-12-19",
-    "portfolio_return": -0.73,
-    "benchmark_return": -0.88,
+    "portfolio_return": -0.89,
+    "benchmark_return": -0.32,
     "holdings": [
       {
         "symbol": "LTF",
-        "return": -1.93,
+        "return": -2.6,
         "score": 3.64
       },
       {
         "symbol": "MUTHOOTFIN",
-        "return": -1.85,
+        "return": -2.29,
         "score": 3.02
       },
       {
         "symbol": "ABCAPITAL",
-        "return": -4.45,
+        "return": -5.15,
         "score": 2.82
       },
       {
         "symbol": "AUBANK",
-        "return": 2.3,
+        "return": 2.02,
         "score": 2.53
       },
       {
         "symbol": "FEDERALBNK",
-        "return": 0.86,
+        "return": 1.55,
         "score": 2.53
       },
       {
         "symbol": "IMFA",
-        "return": -0.73,
+        "return": 0.37,
         "score": 2.49
       },
       {
         "symbol": "NAVINFLUOR",
-        "return": -3.43,
+        "return": -5.14,
         "score": 2.47
       },
       {
         "symbol": "CUB",
-        "return": 0.66,
+        "return": 0.68,
         "score": 2.44
       },
       {
         "symbol": "LAURUSLABS",
-        "return": -0.23,
+        "return": 0.32,
         "score": 2.39
       },
       {
         "symbol": "SOUTHBANK",
-        "return": -1.78,
+        "return": -2.05,
         "score": 2.35
       },
       {
         "symbol": "CANBK",
-        "return": 2.44,
+        "return": 2.18,
         "score": 2.34
       },
       {
         "symbol": "MARUTI",
-        "return": -0.75,
+        "return": -1.17,
         "score": 2.33
       },
       {
         "symbol": "IDEA",
-        "return": -4.38,
+        "return": -2.92,
         "score": 2.3
       },
       {
         "symbol": "THANGAMAYL",
-        "return": 3.69,
+        "return": 2.6,
         "score": 2.23
       },
       {
         "symbol": "EICHERMOT",
-        "return": -1.31,
+        "return": -1.69,
         "score": 2.21
       }
     ]
