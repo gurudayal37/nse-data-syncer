@@ -1,173 +1,203 @@
-import prisma from '@/lib/prisma'
+'use client'
+
 import Link from 'next/link'
-import { PAGE_SIZE, SORTABLE_COLUMNS, PERFORMANCE_PERIODS, type SortableColumn } from '@/lib/constants'
-import PercentageChange from '@/components/PercentageChange'
-import Pagination from '@/components/Pagination'
-import type { Stock } from '@/types/stock'
+import { TrendingUp, BarChart3, Calendar, Zap, Database, ArrowRight } from 'lucide-react'
 
-export const dynamic = 'force-dynamic'
-
-interface DashboardProps {
-  searchParams: Promise<{ page?: string; sort?: string; order?: string }>
-}
-
-export default async function Dashboard(props: DashboardProps) {
-  const searchParams = await props.searchParams
-  const page = Number(searchParams.page) || 1
-  const sort = (searchParams.sort || 'change_1w') as SortableColumn
-  const order = searchParams.order || 'desc'
-  const skip = (page - 1) * PAGE_SIZE
-
-  let stocks: Stock[] = []
-  let totalCount = 0
-  let error: string | null = null
-
-  // Construct orderBy
-  let orderBy: any = {}
-  if (SORTABLE_COLUMNS.includes(sort as SortableColumn)) {
-    orderBy = [
-      {
-        stock_performance: {
-          [sort]: { sort: order, nulls: 'last' }
-        }
-      },
-      { nse_symbol: 'asc' }
-    ]
-  } else {
-    orderBy = { nse_symbol: 'asc' }
-  }
-
-  try {
-    // Get total count first
-    totalCount = await prisma.stocks.count()
-
-    // Fetch stocks with pagination and sorting
-    stocks = await prisma.stocks.findMany({
-      take: PAGE_SIZE,
-      skip: skip,
-      include: {
-        daily_prices: {
-          orderBy: { date: 'desc' },
-          take: 1,
-          select: {
-            close_price: true,
-            date: true
-          }
-        },
-        stock_performance: true
-      },
-      orderBy: orderBy,
-    }) as Stock[]
-  } catch (e: unknown) {
-    error = e instanceof Error ? e.message : 'Failed to fetch stocks'
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Database error:', e)
+export default function HomePage() {
+  const strategies = [
+    {
+      title: 'Momentum Strategy',
+      description: 'Full momentum strategy using 3M, 6M, and 1Y returns with equal weighting',
+      href: '/momentum-strategy',
+      icon: TrendingUp,
+      color: 'blue',
+      rebalancing: 'Monthly',
+      metrics: {
+        return: '~1400%',
+        sharpe: '1.2+'
+      }
+    },
+    {
+      title: 'Simple Momentum Strategy',
+      description: 'Simplified momentum using only 6M and 1Y returns (excluding 3M)',
+      href: '/simple-momentum-strategy',
+      icon: Zap,
+      color: 'purple',
+      rebalancing: 'Monthly',
+      metrics: {
+        return: '1415%',
+        sharpe: '1.21'
+      }
+    },
+    {
+      title: 'Weekly Momentum Strategy',
+      description: 'Full momentum strategy with weekly rebalancing for faster response',
+      href: '/momentum-weekly-strategy',
+      icon: Calendar,
+      color: 'green',
+      rebalancing: 'Weekly',
+      metrics: {
+        return: '~1300%',
+        sharpe: '1.1+'
+      }
+    },
+    {
+      title: 'Simple Momentum Weekly',
+      description: 'Simplified momentum (6M + 1Y) with weekly Friday rebalancing',
+      href: '/simple-momentum-weekly-strategy',
+      icon: BarChart3,
+      color: 'orange',
+      rebalancing: 'Weekly',
+      metrics: {
+        return: '996%',
+        sharpe: '~1.0'
+      }
     }
-  }
+  ]
 
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-            <h1 className="text-2xl font-bold text-red-900 mb-2">Database Connection Error</h1>
-            <p className="text-red-700 mb-4">{error}</p>
-            <p className="text-sm text-red-600">Please check your DATABASE_URL environment variable and ensure the database is accessible.</p>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  const dataPages = [
+    {
+      title: 'Momentum Stocks',
+      description: 'Live rankings of all stocks by full momentum score',
+      href: '/momentum',
+      icon: TrendingUp,
+      color: 'indigo'
+    },
+    {
+      title: 'Simple Momentum Stocks',
+      description: 'Live rankings by simple momentum score (6M + 1Y only)',
+      href: '/simple-momentum',
+      icon: Zap,
+      color: 'violet'
+    },
+    {
+      title: 'All Stocks Database',
+      description: 'Complete stock database with performance metrics and filtering',
+      href: '/stocks',
+      icon: Database,
+      color: 'gray'
+    }
+  ]
 
-  const totalPages = Math.ceil(totalCount / PAGE_SIZE)
-
-  const SortIcon = ({ column }: { column: string }) => {
-    if (sort !== column) return <span className="ml-1 text-gray-400">↕</span>
-    return order === 'asc' ? <span className="ml-1 text-blue-600">↑</span> : <span className="ml-1 text-blue-600">↓</span>
-  }
-
-  const SortHeader = ({ column, label, align = 'left' }: { column: string, label: string, align?: string }) => {
-    const newOrder = sort === column && order === 'desc' ? 'asc' : 'desc'
-    return (
-      <th className={`px-6 py-4 ${align === 'right' ? 'text-right' : ''}`}>
-        <Link href={`/?page=${page}&sort=${column}&order=${newOrder}`} className="group inline-flex items-center hover:text-blue-600">
-          {label}
-          <SortIcon column={column} />
-        </Link>
-      </th>
-    )
+  const colorClasses = {
+    blue: 'from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700',
+    purple: 'from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700',
+    green: 'from-green-500 to-green-600 hover:from-green-600 hover:to-green-700',
+    orange: 'from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700',
+    indigo: 'from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700',
+    violet: 'from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700',
+    gray: 'from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700'
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        <header className="mb-8 flex justify-between items-end">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Stock Dashboard</h1>
-            <p className="text-gray-500 mt-2">
-              Showing {skip + 1}-{Math.min(skip + PAGE_SIZE, totalCount)} of {totalCount} NSE stocks
-            </p>
-          </div>
-          <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} />
-        </header>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+            NSE Momentum Strategies
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Systematic momentum-based investment strategies for Indian equities.
+            Backtested over 8 years with comprehensive risk metrics.
+          </p>
+        </div>
 
-        <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-gray-600">
-              <thead className="bg-gray-50 text-gray-900 font-medium border-b border-gray-200">
-                <tr>
-                  <th className="px-6 py-4">Symbol</th>
-                  <th className="px-6 py-4">Name</th>
-                  <th className="px-6 py-4 text-right">Price</th>
-                  {PERFORMANCE_PERIODS.map((period) => (
-                    <SortHeader 
-                      key={period.key} 
-                      column={period.key} 
-                      label={period.label} 
-                      align="right" 
-                    />
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {stocks.map((stock) => {
-                  const latest = stock.daily_prices[0]
-                  const perf = stock.stock_performance
-
-                  return (
-                    <tr key={stock.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-gray-900">
-                        <Link href={`/stock/${stock.nse_symbol}`} className="hover:underline text-blue-600">
-                          {stock.nse_symbol}
-                        </Link>
-                      </td>
-                      <td className="px-6 py-4 truncate max-w-xs" title={stock.name || ''}>
-                        {stock.name || '-'}
-                      </td>
-                      <td className="px-6 py-4 text-right font-medium text-gray-900">
-                        {latest ? `₹${latest.close_price?.toFixed(2)}` : '-'}
-                      </td>
-                      {PERFORMANCE_PERIODS.map((period) => {
-                        const value = perf?.[period.key as keyof typeof perf] as number | null | undefined
-                        return (
-                          <td key={period.key} className="px-6 py-4 text-right">
-                            <PercentageChange value={value} />
-                          </td>
-                        )
-                      })}
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
+        {/* Strategy Cards */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <TrendingUp className="w-7 h-7 text-blue-600" />
+            Backtest Strategies
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {strategies.map((strategy) => {
+              const Icon = strategy.icon
+              return (
+                <Link
+                  key={strategy.href}
+                  href={strategy.href}
+                  className="group block"
+                >
+                  <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 h-full">
+                    <div className={`h-2 bg-gradient-to-r ${colorClasses[strategy.color as keyof typeof colorClasses]}`} />
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className={`p-3 rounded-lg bg-gradient-to-br ${colorClasses[strategy.color as keyof typeof colorClasses]} bg-opacity-10`}>
+                            <Icon className={`w-6 h-6 text-${strategy.color}-600`} />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                              {strategy.title}
+                            </h3>
+                            <span className="text-sm text-gray-500">{strategy.rebalancing} Rebalancing</span>
+                          </div>
+                        </div>
+                        <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+                      </div>
+                      <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                        {strategy.description}
+                      </p>
+                      <div className="flex gap-4 pt-4 border-t border-gray-100">
+                        <div>
+                          <div className="text-xs text-gray-500 mb-1">Total Return</div>
+                          <div className="text-lg font-bold text-green-600">{strategy.metrics.return}</div>
+                        </div>
+                        <div>
+                          <div className="text-xs text-gray-500 mb-1">Sharpe Ratio</div>
+                          <div className="text-lg font-bold text-blue-600">{strategy.metrics.sharpe}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
           </div>
         </div>
 
-        <div className="mt-4 flex justify-between items-center">
+        {/* Data Pages */}
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <Database className="w-7 h-7 text-indigo-600" />
+            Live Data & Rankings
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {dataPages.map((page) => {
+              const Icon = page.icon
+              return (
+                <Link
+                  key={page.href}
+                  href={page.href}
+                  className="group block"
+                >
+                  <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 h-full">
+                    <div className={`h-2 bg-gradient-to-r ${colorClasses[page.color as keyof typeof colorClasses]}`} />
+                    <div className="p-6">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className={`p-2.5 rounded-lg bg-gradient-to-br ${colorClasses[page.color as keyof typeof colorClasses]} bg-opacity-10`}>
+                          <Icon className={`w-5 h-5 text-${page.color}-600`} />
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
+                          {page.title}
+                        </h3>
+                      </div>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        {page.description}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Footer Note */}
+        <div className="mt-12 text-center">
           <p className="text-sm text-gray-500">
-            Page {page} of {totalPages}
+            All strategies are backtested from 2017 onwards. Past performance does not guarantee future results.
           </p>
-          <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} />
         </div>
       </div>
     </div>
