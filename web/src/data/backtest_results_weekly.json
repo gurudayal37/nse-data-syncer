@@ -1,83 +1,83 @@
 [
   {
     "week": "2025-12-26",
-    "portfolio_return": 0,
-    "benchmark_return": 0.0,
+    "portfolio_return": 1.33,
+    "benchmark_return": 0.79,
     "holdings": [
       {
         "symbol": "LTF",
-        "return": 0.0,
-        "score": 3.22
+        "return": 1.02,
+        "score": 3.24
       },
       {
         "symbol": "FEDERALBNK",
-        "return": 0.0,
-        "score": 3.09
+        "return": 0.49,
+        "score": 3.0
       },
       {
         "symbol": "MUTHOOTFIN",
-        "return": 0.0,
-        "score": 2.83
+        "return": 0.24,
+        "score": 2.75
       },
       {
         "symbol": "THANGAMAYL",
-        "return": 0.0,
-        "score": 2.65
+        "return": 2.49,
+        "score": 2.68
       },
       {
         "symbol": "M&MFIN",
-        "return": 0.0,
-        "score": 2.58
+        "return": 4.7,
+        "score": 2.55
       },
       {
         "symbol": "SHRIRAMFIN",
-        "return": 0.0,
-        "score": 2.56
-      },
-      {
-        "symbol": "AUBANK",
-        "return": 0.0,
-        "score": 2.5
+        "return": 3.68,
+        "score": 2.51
       },
       {
         "symbol": "CUB",
-        "return": 0.0,
-        "score": 2.42
+        "return": 1.54,
+        "score": 2.46
       },
       {
-        "symbol": "LAURUSLABS",
-        "return": 0.0,
-        "score": 2.4
+        "symbol": "AUBANK",
+        "return": -0.07,
+        "score": 2.45
       },
       {
         "symbol": "ASHOKLEY",
-        "return": 0.0,
+        "return": 2.01,
         "score": 2.4
       },
       {
-        "symbol": "SOUTHBANK",
-        "return": 0.0,
-        "score": 2.28
-      },
-      {
         "symbol": "ABCAPITAL",
-        "return": 0.0,
-        "score": 2.23
+        "return": -0.75,
+        "score": 2.34
       },
       {
-        "symbol": "MARUTI",
-        "return": 0.0,
-        "score": 2.21
+        "symbol": "LAURUSLABS",
+        "return": 1.82,
+        "score": 2.33
       },
       {
-        "symbol": "ANURAS",
-        "return": 0.0,
-        "score": 2.2
+        "symbol": "SOUTHBANK",
+        "return": -0.5,
+        "score": 2.32
       },
       {
         "symbol": "CANBK",
-        "return": 0.0,
-        "score": 2.18
+        "return": 1.16,
+        "score": 2.26
+      },
+      {
+        "symbol": "NAVINFLUOR",
+        "return": 0.66,
+        "score": 2.25
+      },
+      {
+        "symbol": "MARUTI",
+        "return": 1.43,
+        "score": 2.23
       }
     ]
   },
