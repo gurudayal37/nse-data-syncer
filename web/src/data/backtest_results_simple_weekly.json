@@ -1,21 +1,21 @@
 {
   "backtest_metrics": {
     "time_metrics": {
-      "start": "2017-12",
+      "start": "2018-01",
       "end": "2025-11",
-      "period": "414 months (34.5 years)"
+      "period": "413 months (34.4 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 1150104.8,
-      "total_fees_paid": 20694.16,
+      "end_value": 1152640.61,
+      "total_fees_paid": 20779.21,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 1050.1,
-      "benchmark_return": 149.71,
+      "total_return": 1052.64,
+      "benchmark_return": 148.82,
       "expectancy": 0.67,
-      "net_return_after_fees": 1006.84
+      "net_return_after_fees": 1011.6
     },
     "risk_metrics": {
       "max_drawdown": -37.82,
@@ -29,14 +29,14 @@
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 414,
-      "total_closed_trades": 413,
+      "total_trades": 413,
+      "total_closed_trades": 412,
       "total_open_trades": 1,
-      "win_rate": 58.94,
+      "win_rate": 59.08,
       "best_trade": 10.82,
       "worst_trade": -13.83,
       "avg_winning_trade": 3.15,
-      "avg_losing_trade": -2.91,
+      "avg_losing_trade": -2.93,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
       "profit_factor": 1.56,
@@ -33909,88 +33909,6 @@
           "score": 1.36
         }
       ]
-    },
-    {
-      "month": "2017-12",
-      "portfolio_return": -0.22,
-      "benchmark_return": 0.36,
-      "holdings": [
-        {
-          "symbol": "RAIN",
-          "return": 2.53,
-          "score": 4.41
-        },
-        {
-          "symbol": "DBL",
-          "return": -0.41,
-          "score": 2.91
-        },
-        {
-          "symbol": "PURVA",
-          "return": -5.14,
-          "score": 2.49
-        },
-        {
-          "symbol": "THANGAMAYL",
-          "return": -5.28,
-          "score": 2.42
-        },
-        {
-          "symbol": "IFBIND",
-          "return": -2.44,
-          "score": 2.22
-        },
-        {
-          "symbol": "V2RETAIL",
-          "return": -3.13,
-          "score": 2.07
-        },
-        {
-          "symbol": "BBTC",
-          "return": 4.61,
-          "score": 2.03
-        },
-        {
-          "symbol": "SUNTECK",
-          "return": -1.05,
-          "score": 1.97
-        },
-        {
-          "symbol": "GRAVITA",
-          "return": -1.24,
-          "score": 1.96
-        },
-        {
-          "symbol": "JINDWORLD",
-          "return": 0.15,
-          "score": 1.94
-        },
-        {
-          "symbol": "INDIAGLYCO",
-          "return": -0.44,
-          "score": 1.62
-        },
-        {
-          "symbol": "TEAMLEASE",
-          "return": 3.47,
-          "score": 1.61
-        },
-        {
-          "symbol": "STLTECH",
-          "return": 0.34,
-          "score": 1.5
-        },
-        {
-          "symbol": "ZENTEC",
-          "return": 9.14,
-          "score": 1.41
-        },
-        {
-          "symbol": "DCMSHRIRAM",
-          "return": -4.49,
-          "score": 1.33
-        }
-      ]
     }
   ],
   "current_performance": [
@@ -34242,82 +34160,82 @@
     },
     {
       "month": "2025-12",
-      "portfolio_return": 0.95,
-      "benchmark_return": 0.79,
+      "portfolio_return": 1.16,
+      "benchmark_return": 0.81,
       "holdings": [
         {
           "symbol": "LTF",
-          "return": 1.02,
+          "return": 1.07,
           "score": 3.87
         },
         {
           "symbol": "MARUTI",
-          "return": 1.43,
+          "return": 1.04,
           "score": 3.24
         },
         {
           "symbol": "MUTHOOTFIN",
-          "return": 0.24,
+          "return": 0.71,
           "score": 3.06
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 1.82,
+          "return": 2.22,
           "score": 2.85
         },
         {
           "symbol": "EICHERMOT",
-          "return": 1.03,
+          "return": 1.19,
           "score": 2.68
         },
         {
           "symbol": "IMFA",
-          "return": 0.07,
+          "return": 0.43,
           "score": 2.66
         },
         {
           "symbol": "ABCAPITAL",
-          "return": -0.75,
+          "return": -0.54,
           "score": 2.6
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 2.01,
+          "return": 2.54,
           "score": 2.55
         },
         {
           "symbol": "FORCEMOT",
-          "return": 3.16,
+          "return": 3.66,
           "score": 2.49
         },
         {
           "symbol": "HEROMOTOCO",
-          "return": -1.41,
+          "return": -0.64,
           "score": 2.44
         },
         {
           "symbol": "ANANDRATHI",
-          "return": -0.15,
+          "return": 0.91,
           "score": 2.43
         },
         {
           "symbol": "ANURAS",
-          "return": 0.63,
+          "return": -0.07,
           "score": 2.38
         },
         {
           "symbol": "THANGAMAYL",
-          "return": 2.49,
+          "return": 2.6,
           "score": 2.37
         },
         {
           "symbol": "GABRIEL",
-          "return": -0.17,
+          "return": 0.15,
           "score": 2.36
         },
         {
           "symbol": "LUMAXTECH",
-          "return": 2.78,
+          "return": 2.12,
           "score": 2.34
         }
       ]
