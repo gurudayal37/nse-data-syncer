@@ -8,14 +8,14 @@
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 1152640.61,
-      "total_fees_paid": 20779.21,
+      "total_fees_paid": 20778.61,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 1052.64,
       "benchmark_return": 148.82,
       "expectancy": 0.67,
-      "net_return_after_fees": 1011.6
+      "net_return_after_fees": 1005.89
     },
     "risk_metrics": {
       "max_drawdown": -37.82,
@@ -34160,82 +34160,82 @@
     },
     {
       "month": "2025-12",
-      "portfolio_return": 1.16,
-      "benchmark_return": 0.81,
+      "portfolio_return": 0.65,
+      "benchmark_return": 0.68,
       "holdings": [
         {
           "symbol": "LTF",
-          "return": 1.07,
+          "return": 0.98,
           "score": 3.87
         },
         {
           "symbol": "MARUTI",
-          "return": 1.04,
+          "return": 1.76,
           "score": 3.24
         },
         {
           "symbol": "MUTHOOTFIN",
-          "return": 0.71,
+          "return": 0.62,
           "score": 3.06
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 2.22,
+          "return": 3.79,
           "score": 2.85
         },
         {
           "symbol": "EICHERMOT",
-          "return": 1.19,
+          "return": 1.32,
           "score": 2.68
         },
         {
           "symbol": "IMFA",
-          "return": 0.43,
+          "return": 0.08,
           "score": 2.66
         },
         {
           "symbol": "ABCAPITAL",
-          "return": -0.54,
+          "return": -0.37,
           "score": 2.6
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 2.54,
+          "return": 1.01,
           "score": 2.55
         },
         {
           "symbol": "FORCEMOT",
-          "return": 3.66,
+          "return": 3.17,
           "score": 2.49
         },
         {
           "symbol": "HEROMOTOCO",
-          "return": -0.64,
+          "return": -1.43,
           "score": 2.44
         },
         {
           "symbol": "ANANDRATHI",
-          "return": 0.91,
+          "return": 1.97,
           "score": 2.43
         },
         {
           "symbol": "ANURAS",
-          "return": -0.07,
+          "return": -0.93,
           "score": 2.38
         },
         {
           "symbol": "THANGAMAYL",
-          "return": 2.6,
+          "return": -1.7,
           "score": 2.37
         },
         {
           "symbol": "GABRIEL",
-          "return": 0.15,
+          "return": -1.22,
           "score": 2.36
         },
         {
           "symbol": "LUMAXTECH",
-          "return": 2.12,
+          "return": 0.71,
           "score": 2.34
         }
       ]
