@@ -90,7 +90,7 @@ export default async function Dashboard(props: DashboardProps) {
     const newOrder = sort === column && order === 'desc' ? 'asc' : 'desc'
     return (
       <th className={`px-6 py-4 ${align === 'right' ? 'text-right' : ''}`}>
-        <Link href={`/?page=${page}&sort=${column}&order=${newOrder}`} className="group inline-flex items-center hover:text-blue-600">
+        <Link href={`/stocks?page=${page}&sort=${column}&order=${newOrder}`} className="group inline-flex items-center hover:text-blue-600">
           {label}
           <SortIcon column={column} />
         </Link>
@@ -108,7 +108,7 @@ export default async function Dashboard(props: DashboardProps) {
               Showing {skip + 1}-{Math.min(skip + PAGE_SIZE, totalCount)} of {totalCount} NSE stocks
             </p>
           </div>
-          <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} />
+          <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/stocks" />
         </header>
 
         <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
@@ -120,11 +120,11 @@ export default async function Dashboard(props: DashboardProps) {
                   <th className="px-6 py-4">Name</th>
                   <th className="px-6 py-4 text-right">Price</th>
                   {PERFORMANCE_PERIODS.map((period) => (
-                    <SortHeader 
-                      key={period.key} 
-                      column={period.key} 
-                      label={period.label} 
-                      align="right" 
+                    <SortHeader
+                      key={period.key}
+                      column={period.key}
+                      label={period.label}
+                      align="right"
                     />
                   ))}
                 </tr>
@@ -167,7 +167,7 @@ export default async function Dashboard(props: DashboardProps) {
           <p className="text-sm text-gray-500">
             Page {page} of {totalPages}
           </p>
-          <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} />
+          <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/stocks" />
         </div>
       </div>
     </div>
