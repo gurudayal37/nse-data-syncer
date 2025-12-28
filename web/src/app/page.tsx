@@ -52,6 +52,18 @@ export default function HomePage() {
         return: '996%',
         sharpe: '~1.0'
       }
+    },
+    {
+      title: 'ATH Breakout Strategy',
+      description: 'Buy Monthly Breakouts > All-Time High with >2 Month Gap',
+      href: '/ath',
+      icon: TrendingUp,
+      color: 'pink',
+      rebalancing: 'Daily Entry / Weekly Exit',
+      metrics: {
+        return: 'Calculating...',
+        sharpe: 'N/A'
+      }
     }
   ]
 
@@ -86,6 +98,7 @@ export default function HomePage() {
     orange: 'from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700',
     indigo: 'from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700',
     violet: 'from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700',
+    pink: 'from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700',
     gray: 'from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700'
   }
 
