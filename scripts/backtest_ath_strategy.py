@@ -64,7 +64,11 @@ def run_backtest():
     for stock_id, symbol in stock_map.items():
         try:
             df = df_all[df_all['stock_id'] == stock_id].sort_index()
+            if symbol == 'NETWEB':
+                 print(f"DEBUG NETWEB: Data Length {len(df)}")
             if len(df) < 500: # Need some history for ATH
+                if symbol == 'NETWEB':
+                     print("DEBUG NETWEB: Skipped due to length < 500")
                 continue
                 
             # Calculate 30-Week SMA
@@ -112,6 +116,8 @@ def run_backtest():
                         # Approx 60 days
                         if (month_date - current_ath_date).days > 60:
                             is_breakout = True
+                        else:
+                            pass
                             
                 # Logic for Trade Execution (Next Month)
                 if is_breakout:
@@ -130,7 +136,13 @@ def run_backtest():
                     entry_price = 0.0
                     
                     # We look for entry in the NEXT MONTH only
-                    entry_window = future_data[future_data.index.month == next_month_start.month]
+                    entry_window = future_data[
+                        (future_data.index.month == next_month_start.month) & 
+                        (future_data.index.year == next_month_start.year)
+                    ]
+                    
+                    if symbol == 'NETWEB' and is_breakout:
+                         pass
                     
                     # LOGIC CHANGE: Prevent Overlapping Trades
                     # If we have a last_exit_date for this stock, and the potential entry window starts BEFORE that exit,
@@ -165,6 +177,13 @@ def run_backtest():
                             # TRIGGERED
                             entry_date = date
                             entry_price = max(entry_trigger, row['open'])
+                            
+                            # SANITY CHECK: Entry Price must be > Current ATH (Prev ATH)
+                            # This filters out invalid setups caused by unadjusted splits or data glitches
+                            if entry_price <= current_ath:
+                                entry_date = None
+                                continue
+                                
                             break
                     
                     if entry_date:
@@ -221,7 +240,8 @@ def run_backtest():
                         })
                         
                         # Since we consumed this setup, we stop scanning this month (entry_window).
-                        break
+                        # break  <-- REMOVED (Was breaking stock loop)
+                        pass
                         
                         # IMPORTANT: Strategy says we buy. Assuming only 1 position per stock at a time?
                         # If we held a position, we wouldn't take another setup until exited?
