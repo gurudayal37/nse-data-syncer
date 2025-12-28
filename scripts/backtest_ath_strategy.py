@@ -38,6 +38,7 @@ def run_backtest():
 
     # 2. Load Price Data
     print("Loading daily price data...")
+    stock_map = {s.id: s.nse_symbol for s in stocks} # update map
     
     session = db.Session()
     try:
@@ -154,6 +155,7 @@ def run_backtest():
                     # we might be overlapping.
                     # Actually, we just need to ensure new Entry Date > Last Exit Date.
                     
+
                     for date, row in entry_window.iterrows():
                         # Overlap Check
                         if last_trade_exit and date <= last_trade_exit:
@@ -217,6 +219,9 @@ def run_backtest():
                             'pnl_pct': round(pnl_pct, 2),
                             'duration_days': (exit_date - entry_date).days if exit_date else (df.index[-1] - entry_date).days
                         })
+                        
+                        # Since we consumed this setup, we stop scanning this month (entry_window).
+                        break
                         
                         # IMPORTANT: Strategy says we buy. Assuming only 1 position per stock at a time?
                         # If we held a position, we wouldn't take another setup until exited?
