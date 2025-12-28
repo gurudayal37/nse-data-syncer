@@ -131,7 +131,34 @@ def run_backtest():
                     # We look for entry in the NEXT MONTH only
                     entry_window = future_data[future_data.index.month == next_month_start.month]
                     
+                    # LOGIC CHANGE: Prevent Overlapping Trades
+                    # If we have a last_exit_date for this stock, and the potential entry window starts BEFORE that exit,
+                    # we must skip this setup or carefully check dates.
+                    # Simplest robust check: Don't take a new setup if the Entry Window overlaps with an active trade.
+                    # Since we don't know the NEW entry date yet, we check if we are "clear" of the last trade.
+                    
+                    last_trade = None
+                    last_trade_exit = None
+                    
+                    # Find the last trade for this stock in our list
+                    stock_trades = [t for t in trades if t['symbol'] == symbol]
+                    if stock_trades:
+                        last_trade = stock_trades[-1] # List is appended chronologically
+                        if last_trade['exit_date']:
+                            last_trade_exit = pd.Timestamp(last_trade['exit_date'])
+                        else:
+                            # Last trade is OPEN. Cannot take new one.
+                            continue
+
+                    # If the last trade exited after the start of this entry window, 
+                    # we might be overlapping.
+                    # Actually, we just need to ensure new Entry Date > Last Exit Date.
+                    
                     for date, row in entry_window.iterrows():
+                        # Overlap Check
+                        if last_trade_exit and date <= last_trade_exit:
+                            continue
+                            
                         if row['high'] > entry_trigger:
                             # TRIGGERED
                             entry_date = date
