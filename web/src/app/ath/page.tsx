@@ -50,7 +50,7 @@ export default function ATHStrategyPage() {
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900">ATH Breakout Strategy</h1>
                         <p className="text-gray-500 mt-1">
-                            Buying All-Time High Breakouts with 2-Month Gap • Exit on Weekly Close &lt; 30 SMA
+                            Buying All-Time High Breakouts with 2-Month Gap • Exit on Weekly Close &lt; 30-Week SMA
                         </p>
                         <p className="text-xs text-gray-400 mt-1">Last Updated: {last_updated}</p>
                     </div>
@@ -77,7 +77,7 @@ export default function ATHStrategyPage() {
                             <h3 className="font-semibold text-orange-900 mb-2">3. Exit (Weekly)</h3>
                             <p className="text-orange-800">
                                 Check every Friday.<br />
-                                Exit Monday Open if <b>Friday Close &lt; 30-Day SMA</b>.
+                                Exit Monday Open if <b>Friday Close &lt; 30-Week SMA</b>.
                             </p>
                         </div>
                     </div>

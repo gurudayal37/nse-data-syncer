@@ -66,13 +66,18 @@ def run_backtest():
             if len(df) < 500: # Need some history for ATH
                 continue
                 
-            # Calculate 30 DMA (Simple Moving Average)
-            df['sma_30'] = df['close'].rolling(window=30).mean()
+            # Calculate 30-Week SMA
+            # Resample to Weekly (Ending Friday)
+            weekly_df = df.resample('W-FRI').agg({
+                'open': 'first', 
+                'high': 'max', 
+                'low': 'min', 
+                'close': 'last'
+            })
+            weekly_df['sma_30_weekly'] = weekly_df['close'].rolling(window=30).mean()
             
-            # Resample to Monthly for ATH Detection
-            # We want the HIGHEST HIGH of the month for ATH check
-            # And CLOSE of the month for Breakout check
-            monthly = df.resample('M').agg({
+            # Resample to Monthly for ATH Detection (as before)
+            monthly = df.resample('ME').agg({
                 'high': 'max',
                 'close': 'last'
             })
@@ -80,19 +85,11 @@ def run_backtest():
             # Start logic from 2017, but need prior history for ATH
             start_backtest = pd.Timestamp('2017-01-01')
             
-            # Identify ATHs
-            # Expanding max of 'high' gives All-Time High up to that month
-            # Shift by 1 because we check if current month close > PREVIOUS ATH
             monthly['prev_ath'] = monthly['high'].expanding().max().shift(1)
-            
-            # We also need the DATE of that Prev ATH to check the 2-month gap
-            # This is tricky with vectorized expanding. 
-            # Iterative approach might be safer for logic accuracy given the "Gap" condition.
             
             current_ath = 0
             current_ath_date = df.index[0]
             
-            # Only iterate months
             monthly_records = monthly.reset_index().to_dict('records')
             
             for i, month in enumerate(monthly_records):
@@ -105,7 +102,6 @@ def run_backtest():
                 
                 # Update ATH if this month made a new one
                 # CAREFUL: Strategy says "Monthly Close > Prev ATH".
-                # If this month is the NEW ATH leader, it might also be the breakout candle.
                 
                 # Check Breakout Condition
                 is_breakout = False
@@ -120,10 +116,7 @@ def run_backtest():
                 if is_breakout:
                     entry_trigger = month['high']
                     
-                    # Scan NEXT month's daily data
                     next_month_start = month_date + timedelta(days=1)
-                    # Next month end is approx
-                    next_month_end = month_date + timedelta(days=32) 
                     
                     # Get daily data for next month onwards (for entry and exit)
                     future_data = df[df.index >= next_month_start]
@@ -135,47 +128,35 @@ def run_backtest():
                     entry_date = None
                     entry_price = 0.0
                     
-                    # We only look for entry in the immediate next month? 
-                    # "we buy the stock next month any time" -> Implies valid for 1 month
-                    # Let's limit entry window to next month
+                    # We look for entry in the NEXT MONTH only
                     entry_window = future_data[future_data.index.month == next_month_start.month]
                     
                     for date, row in entry_window.iterrows():
                         if row['high'] > entry_trigger:
                             # TRIGGERED
                             entry_date = date
-                            # Buy at trigger price or Open if it gaped up
                             entry_price = max(entry_trigger, row['open'])
-                            # Add some slippage? kept simple for now
                             break
                     
                     if entry_date:
-                        # Trade is ON. Now scan for Exit.
-                        # Exit: Weekly (Friday) Close < 30 DMA -> Exit next trading day
-                        
-                        trade_data = df[df.index > entry_date]
+                        # Trade is ON. Now scan for Weekly Exit.
                         exit_date = None
                         exit_price = 0.0
                         status = 'OPEN'
                         
-                        # Resample trade data to Weekly (Friday)
-                        # We need to check daily close against 30DMA though?
-                        # "if the stock on the last day of the week has given close below the 30 day moving average"
+                        # Get Weekly Data after Entry Date
+                        trade_weekly = weekly_df[weekly_df.index > entry_date].copy()
                         
-                        # We iterate weekly periods
-                        # Get all Fridays after entry
-                        
-                        # Optimised search:
-                        # Filter rows where index is Friday (weekday=4) AND close < sma_30
-                        exit_signals = trade_data[
-                            (trade_data.index.dayofweek == 4) & 
-                            (trade_data['close'] < trade_data['sma_30'])
+                        # Check Exit Condition: Close < 30 Week SMA
+                        exit_signals = trade_weekly[
+                            trade_weekly['close'] < trade_weekly['sma_30_weekly']
                         ]
                         
                         if not exit_signals.empty:
-                            signal_date = exit_signals.index[0]
+                            signal_date = exit_signals.index[0] # This is a Friday
                             
-                            # Exit next trading day
+                            # Exit next trading day (Monday usually)
+                            # Find first daily candle AFTER signal_date
                             next_days = df[df.index > signal_date]
                             if not next_days.empty:
                                 exit_row = next_days.iloc[0]
@@ -183,7 +164,6 @@ def run_backtest():
                                 exit_price = exit_row['open']
                                 status = 'CLOSED'
                             else:
-                                # Signal was last Friday, exit pending on Mon (Market Not Open Yet)
                                 status = 'OPEN' 
                         
                         # Record Trade
@@ -196,7 +176,6 @@ def run_backtest():
                             pnl = exit_price - entry_price
                             pnl_pct = (pnl / entry_price) * 100
                         else:
-                            # Unrealized PnL
                             pnl = current_price - entry_price
                             pnl_pct = (pnl / entry_price) * 100
                             
