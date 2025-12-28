@@ -1,8 +1,7 @@
-'use client'
-
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, TrendingUp, TrendingDown, Activity, Clock, Calendar } from 'lucide-react'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import athData from '@/data/backtest_results_ath.json'
 
 // Define types based on our JSON structure
@@ -25,6 +24,16 @@ type Summary = {
     win_rate: number
     total_pnl_abs: number
     avg_pnl_per_trade: number
+    profit_factor?: number
+    max_drawdown?: number
+    avg_win?: number
+    avg_loss?: number
+}
+
+type EquityPoint = {
+    date: string
+    equity: number
+    pnl: number
 }
 
 export default function ATHStrategyPage() {
@@ -33,7 +42,12 @@ export default function ATHStrategyPage() {
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 100
 
-    const { summary, trades, last_updated } = athData as { summary: Summary, trades: Trade[], last_updated: string }
+    const { summary, trades, last_updated, equity_curve } = athData as {
+        summary: Summary,
+        trades: Trade[],
+        last_updated: string,
+        equity_curve?: EquityPoint[]
+    }
 
     const filteredTrades = trades.filter(trade => {
         const matchesSearch = trade.symbol.toLowerCase().includes(searchTerm.toLowerCase())
@@ -49,7 +63,6 @@ export default function ATHStrategyPage() {
     const handlePageChange = (newPage: number) => {
         if (newPage >= 1 && newPage <= totalPages) {
             setCurrentPage(newPage)
-            // Scroll to top of table
             const tableElement = document.getElementById('trades-table')
             if (tableElement) {
                 tableElement.scrollIntoView({ behavior: 'smooth' })
@@ -57,7 +70,6 @@ export default function ATHStrategyPage() {
         }
     }
 
-    // Reset page on filter change
     if (currentPage > totalPages && totalPages > 0) {
         setCurrentPage(1)
     }
@@ -106,7 +118,7 @@ export default function ATHStrategyPage() {
                     </div>
                 </div>
 
-                {/* Summary Metrics */}
+                {/* Main Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                         <div className="text-sm text-gray-500 mb-1">Total PnL (1 Share)</div>
@@ -123,18 +135,81 @@ export default function ATHStrategyPage() {
                         <div className="text-xs text-gray-400 mt-2">{summary.closed_trades} closed trades</div>
                     </div>
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                        <div className="text-sm text-gray-500 mb-1">Active Trades</div>
-                        <div className="text-3xl font-bold text-purple-600">
+                        <div className="text-sm text-gray-500 mb-1">Profit Factor</div>
+                        <div className="text-3xl font-bold text-indigo-600">
+                            {summary.profit_factor || '-'}
+                        </div>
+                        <div className="text-xs text-gray-400 mt-2">Gross Win / Gross Loss</div>
+                    </div>
+                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <div className="text-sm text-gray-500 mb-1">Max Drawdown</div>
+                        <div className="text-3xl font-bold text-red-600">
+                            ₹{summary.max_drawdown?.toLocaleString('en-IN') || '-'}
+                        </div>
+                        <div className="text-xs text-gray-400 mt-2">Peak to Trough drop</div>
+                    </div>
+                </div>
+
+                {/* Equity Curve */}
+                {equity_curve && equity_curve.length > 0 && (
+                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6 mb-8">
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Equity Curve (Realized PnL)</h2>
+                        <div className="h-[400px] w-full">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <LineChart data={equity_curve}>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                    <XAxis
+                                        dataKey="date"
+                                        tickFormatter={(val) => new Date(val).getFullYear().toString()}
+                                        minTickGap={30}
+                                        style={{ fontSize: 12 }}
+                                    />
+                                    <YAxis
+                                        tickFormatter={(val) => `₹${val / 1000}k`}
+                                        style={{ fontSize: 12 }}
+                                    />
+                                    <Tooltip
+                                        formatter={(value: number) => [`₹${value.toLocaleString('en-IN')}`, 'Total PnL']}
+                                        labelFormatter={(label) => new Date(label).toLocaleDateString('en-IN', { dateStyle: 'medium' })}
+                                    />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="equity"
+                                        stroke="#2563eb"
+                                        strokeWidth={2}
+                                        dot={false}
+                                    />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+                )}
+
+                {/* Advanced Stats Row 2 */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <div className="text-sm text-gray-500 mb-1">Active Positions</div>
+                        <div className="text-2xl font-bold text-gray-900">
                             {summary.active_trades}
                         </div>
-                        <div className="text-xs text-gray-400 mt-2">Currently open positions</div>
+                    </div>
+                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <div className="text-sm text-gray-500 mb-1">Avg Win</div>
+                        <div className="text-2xl font-bold text-green-600">
+                            ₹{summary.avg_win?.toLocaleString('en-IN') || '-'}
+                        </div>
+                    </div>
+                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <div className="text-sm text-gray-500 mb-1">Avg Loss</div>
+                        <div className="text-2xl font-bold text-red-600">
+                            ₹{summary.avg_loss?.toLocaleString('en-IN') || '-'}
+                        </div>
                     </div>
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                         <div className="text-sm text-gray-500 mb-1">Total Signals</div>
-                        <div className="text-3xl font-bold text-gray-900">
+                        <div className="text-2xl font-bold text-gray-900">
                             {summary.total_trades}
                         </div>
-                        <div className="text-xs text-gray-400 mt-2">Since 2017</div>
                     </div>
                 </div>
 

@@ -240,6 +240,59 @@ def run_backtest():
             'total_pnl_abs': round(total_pnl, 2),
             'avg_pnl_per_trade': round(total_pnl / len(trades), 2)
         }
+        
+        # --- Advanced Metrics ---
+        # 1. Equity Curve (Daily/Weekly or Trade-based?)
+        # Trade-based implies "Discrete" equity curve (Balance updates only on exit).
+        # We'll do a Trade-based curve sorted by Exit Date for simplicity and clarity.
+        
+        equity_curve = []
+        cumulative_pnl = 0.0
+        peak_equity = 0.0
+        drawdown_abs = 0.0
+        max_drawdown = 0.0
+        
+        # Sort closed trades by Exit Date
+        sorted_closed = sorted(closed_trades, key=lambda x: x['exit_date'])
+        
+        for t in sorted_closed:
+            cumulative_pnl += t['pnl']
+            
+            # Max Drawdown Calc
+            if cumulative_pnl > peak_equity:
+                peak_equity = cumulative_pnl
+            
+            # Drawdown (Peak - Current)
+            dd = peak_equity - cumulative_pnl
+            if dd > max_drawdown:
+                max_drawdown = dd
+                
+            equity_curve.append({
+                'date': t['exit_date'],
+                'equity': round(cumulative_pnl, 2),
+                'pnl': t['pnl']
+            })
+            
+        # 2. Profit Factor
+        gross_profit = sum([t['pnl'] for t in closed_trades if t['pnl'] > 0])
+        gross_loss = abs(sum([t['pnl'] for t in closed_trades if t['pnl'] < 0]))
+        profit_factor = round(gross_profit / gross_loss, 2) if gross_loss > 0 else float('inf')
+        
+        # 3. Avg Win / Loss
+        winning_trades = [t['pnl'] for t in closed_trades if t['pnl'] > 0]
+        losing_trades = [t['pnl'] for t in closed_trades if t['pnl'] <= 0]
+        
+        avg_win = round(sum(winning_trades) / len(winning_trades), 2) if winning_trades else 0
+        avg_loss = round(sum(losing_trades) / len(losing_trades), 2) if losing_trades else 0
+        
+        output['summary'].update({
+            'profit_factor': profit_factor,
+            'max_drawdown': round(max_drawdown, 2),
+            'avg_win': avg_win,
+            'avg_loss': avg_loss
+        })
+        
+        output['equity_curve'] = equity_curve
     
     out_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_ath.json')
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
