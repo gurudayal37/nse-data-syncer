@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import type { NewsItem } from '@/types/stock'
+import athData from '@/data/backtest_results_ath.json'
+import simpleData from '@/data/backtest_results_simple.json'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,6 +17,44 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
     const { symbol } = params
 
     const decodedSymbol = decodeURIComponent(symbol)
+
+    // Filter Strategy Data
+    const athTrades = (athData.trades || []).filter((t: any) => t.symbol === decodedSymbol)
+
+    // Filter Simple Momentum Data
+    // We need to iterate over all monthly results and check 'holdings'
+    const momentumTrades: any[] = []
+
+    // Check backtest results
+    if (simpleData.backtest_results) {
+        simpleData.backtest_results.forEach((month: any) => {
+            const holding = month.holdings.find((h: any) => h.symbol === decodedSymbol)
+            if (holding) {
+                momentumTrades.push({
+                    month: month.month,
+                    return: holding.return,
+                    score: holding.score
+                })
+            }
+        })
+    }
+
+    // Check current performance (live/forward test data)
+    if ((simpleData as any).current_performance) {
+        (simpleData as any).current_performance.forEach((month: any) => {
+            const holding = month.holdings.find((h: any) => h.symbol === decodedSymbol)
+            if (holding) {
+                momentumTrades.push({
+                    month: month.month,
+                    return: holding.return, // might be null if current month open?
+                    score: holding.score
+                })
+            }
+        })
+    }
+
+    // Sort reverse chronological
+    momentumTrades.sort((a, b) => new Date(b.month).getTime() - new Date(a.month).getTime())
 
     const stock = await prisma.stocks.findFirst({
         where: { nse_symbol: decodedSymbol },
@@ -270,6 +310,79 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                             </div>
                         ) : (
                             <p className="text-gray-500 text-sm italic">No recent news available for this stock.</p>
+                        )}
+                    </div>
+
+                    {/* ATH Strategy History */}
+                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">ATH Strategy History</h2>
+                        {athTrades.length > 0 ? (
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm text-left">
+                                    <thead className="bg-gray-50 text-gray-900 font-medium">
+                                        <tr>
+                                            <th className="px-6 py-4">Entry Date</th>
+                                            <th className="px-6 py-4">Entry Price</th>
+                                            <th className="px-6 py-4">Exit Date</th>
+                                            <th className="px-6 py-4">Exit Price</th>
+                                            <th className="px-6 py-4 text-center">Status</th>
+                                            <th className="px-6 py-4 text-right">PnL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-100">
+                                        {athTrades.map((trade: any, i: number) => (
+                                            <tr key={i} className="hover:bg-gray-50">
+                                                <td className="px-6 py-4">{trade.entry_date}</td>
+                                                <td className="px-6 py-4 text-gray-600">₹{trade.entry_price}</td>
+                                                <td className="px-6 py-4">{trade.exit_date || '-'}</td>
+                                                <td className="px-6 py-4 text-gray-600">{trade.exit_price ? `₹${trade.exit_price}` : '-'}</td>
+                                                <td className="px-6 py-4 text-center">
+                                                    <span className={`px-2 py-1 rounded text-xs font-medium ${trade.status === 'OPEN' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
+                                                        }`}>
+                                                        {trade.status}
+                                                    </span>
+                                                </td>
+                                                <td className={`px-6 py-4 text-right font-medium ${trade.pnl >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                                    {trade.pnl > 0 ? '+' : ''}{trade.pnl.toFixed(2)} ({trade.pnl_pct.toFixed(2)}%)
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                            <p className="text-gray-500 text-sm italic">No trades found for this stock in ATH Strategy.</p>
+                        )}
+                    </div>
+
+                    {/* Simple Momentum History */}
+                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Simple Momentum Strategy History</h2>
+                        {momentumTrades.length > 0 ? (
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm text-left">
+                                    <thead className="bg-gray-50 text-gray-900 font-medium">
+                                        <tr>
+                                            <th className="px-6 py-4">Month</th>
+                                            <th className="px-6 py-4">Momentum Score</th>
+                                            <th className="px-6 py-4 text-right">Monthly Return</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-100">
+                                        {momentumTrades.map((trade: any, i: number) => (
+                                            <tr key={i} className="hover:bg-gray-50">
+                                                <td className="px-6 py-4">{trade.month}</td>
+                                                <td className="px-6 py-4 text-gray-600">{trade.score.toFixed(2)}</td>
+                                                <td className={`px-6 py-4 text-right font-medium ${trade.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                                    {trade.return > 0 ? '+' : ''}{trade.return.toFixed(2)}%
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                            <p className="text-gray-500 text-sm italic">This stock was never selected in Simple Momentum Strategy.</p>
                         )}
                     </div>
                 </div>
