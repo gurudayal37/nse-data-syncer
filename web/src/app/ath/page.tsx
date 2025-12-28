@@ -30,6 +30,8 @@ type Summary = {
 export default function ATHStrategyPage() {
     const [searchTerm, setSearchTerm] = useState('')
     const [statusFilter, setStatusFilter] = useState<'ALL' | 'OPEN' | 'CLOSED'>('ALL')
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 100
 
     const { summary, trades, last_updated } = athData as { summary: Summary, trades: Trade[], last_updated: string }
 
@@ -38,6 +40,27 @@ export default function ATHStrategyPage() {
         const matchesStatus = statusFilter === 'ALL' || trade.status === statusFilter
         return matchesSearch && matchesStatus
     })
+
+    const totalPages = Math.ceil(filteredTrades.length / itemsPerPage)
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    const currentTrades = filteredTrades.slice(startIndex, endIndex)
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setCurrentPage(newPage)
+            // Scroll to top of table
+            const tableElement = document.getElementById('trades-table')
+            if (tableElement) {
+                tableElement.scrollIntoView({ behavior: 'smooth' })
+            }
+        }
+    }
+
+    // Reset page on filter change
+    if (currentPage > totalPages && totalPages > 0) {
+        setCurrentPage(1)
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 p-8">
@@ -116,7 +139,7 @@ export default function ATHStrategyPage() {
                 </div>
 
                 {/* Trades Table */}
-                <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
+                <div id="trades-table" className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
                     <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center flex-wrap gap-4">
                         <h2 className="text-lg font-semibold text-gray-900">Trade History</h2>
                         <div className="flex gap-4">
@@ -125,12 +148,18 @@ export default function ATHStrategyPage() {
                                 placeholder="Search Symbol..."
                                 className="px-3 py-2 border rounded text-sm"
                                 value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onChange={(e) => {
+                                    setSearchTerm(e.target.value)
+                                    setCurrentPage(1)
+                                }}
                             />
                             <select
                                 className="px-3 py-2 border rounded text-sm"
                                 value={statusFilter}
-                                onChange={(e) => setStatusFilter(e.target.value as any)}
+                                onChange={(e) => {
+                                    setStatusFilter(e.target.value as any)
+                                    setCurrentPage(1)
+                                }}
                             >
                                 <option value="ALL">All Status</option>
                                 <option value="OPEN">Open</option>
@@ -152,7 +181,7 @@ export default function ATHStrategyPage() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
-                                {filteredTrades.slice(0, 100).map((trade, i) => (
+                                {currentTrades.map((trade, i) => (
                                     <tr key={i} className="hover:bg-gray-50">
                                         <td className="px-6 py-4 font-medium text-gray-900">
                                             <Link href={`/stock/${trade.symbol}`} className="hover:text-blue-600 hover:underline">
@@ -193,16 +222,40 @@ export default function ATHStrategyPage() {
                                         </td>
                                     </tr>
                                 ))}
-                                {filteredTrades.length > 100 && (
+                                {filteredTrades.length === 0 && (
                                     <tr>
-                                        <td colSpan={7} className="px-6 py-4 text-center text-gray-500 italic">
-                                            Showing top 100 of {filteredTrades.length} trades...
+                                        <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
+                                            No trades found matching your filters.
                                         </td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
                     </div>
+                    {/* Pagination Controls */}
+                    {totalPages > 1 && (
+                        <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+                            <div className="text-sm text-gray-500">
+                                Showing <span className="font-medium">{startIndex + 1}</span> to <span className="font-medium">{Math.min(endIndex, filteredTrades.length)}</span> of <span className="font-medium">{filteredTrades.length}</span> results
+                            </div>
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                    className={`px-3 py-1 rounded border text-sm ${currentPage === 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white hover:bg-gray-50 text-gray-700'}`}
+                                >
+                                    Previous
+                                </button>
+                                <button
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                    className={`px-3 py-1 rounded border text-sm ${currentPage === totalPages ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white hover:bg-gray-50 text-gray-700'}`}
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
