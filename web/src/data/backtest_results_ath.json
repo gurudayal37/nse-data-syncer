@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-12-29 00:27:08",
+  "last_updated": "2025-12-29 12:30:04",
   "trades": [
     {
       "symbol": "DYNAMATECH",
@@ -8,9 +8,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -297.0,
-      "pnl_pct": -3.01,
-      "duration_days": 4
+      "pnl": -370.0,
+      "pnl_pct": -3.75,
+      "duration_days": 7
     },
     {
       "symbol": "THANGAMAYL",
@@ -19,9 +19,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -261.7,
+      "pnl": -261.8,
       "pnl_pct": -7.54,
-      "duration_days": 9
+      "duration_days": 12
     },
     {
       "symbol": "NATIONALUM",
@@ -30,9 +30,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 34.96,
-      "pnl_pct": 12.86,
-      "duration_days": 21
+      "pnl": 29.01,
+      "pnl_pct": 10.67,
+      "duration_days": 24
     },
     {
       "symbol": "PTCIL",
@@ -41,9 +41,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 78.0,
-      "pnl_pct": 0.42,
-      "duration_days": 22
+      "pnl": 579.0,
+      "pnl_pct": 3.11,
+      "duration_days": 25
     },
     {
       "symbol": "POWERINDIA",
@@ -63,9 +63,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 12.68,
-      "pnl_pct": 7.83,
-      "duration_days": 24
+      "pnl": 12.92,
+      "pnl_pct": 7.98,
+      "duration_days": 27
     },
     {
       "symbol": "HEROMOTOCO",
@@ -74,9 +74,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -602.0,
-      "pnl_pct": -9.65,
-      "duration_days": 25
+      "pnl": -673.0,
+      "pnl_pct": -10.79,
+      "duration_days": 28
     },
     {
       "symbol": "M&M",
@@ -85,9 +85,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -166.9,
-      "pnl_pct": -4.4,
-      "duration_days": 25
+      "pnl": -197.9,
+      "pnl_pct": -5.22,
+      "duration_days": 28
     },
     {
       "symbol": "CUB",
@@ -96,9 +96,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 9.26,
-      "pnl_pct": 3.27,
-      "duration_days": 25
+      "pnl": 15.86,
+      "pnl_pct": 5.6,
+      "duration_days": 28
     },
     {
       "symbol": "GMRAIRPORT",
@@ -107,9 +107,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -6.62,
-      "pnl_pct": -6.07,
-      "duration_days": 25
+      "pnl": -7.11,
+      "pnl_pct": -6.52,
+      "duration_days": 28
     },
     {
       "symbol": "M&MFIN",
@@ -118,9 +118,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 18.75,
-      "pnl_pct": 4.99,
-      "duration_days": 25
+      "pnl": 11.0,
+      "pnl_pct": 2.93,
+      "duration_days": 28
     },
     {
       "symbol": "BANKBARODA",
@@ -129,9 +129,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -6.75,
-      "pnl_pct": -2.29,
-      "duration_days": 25
+      "pnl": -7.35,
+      "pnl_pct": -2.49,
+      "duration_days": 28
     },
     {
       "symbol": "LT",
@@ -140,9 +140,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -15.3,
-      "pnl_pct": -0.38,
-      "duration_days": 30
+      "pnl": -23.9,
+      "pnl_pct": -0.59,
+      "duration_days": 33
     },
     {
       "symbol": "VEDL",
@@ -151,9 +151,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 76.55,
-      "pnl_pct": 14.6,
-      "duration_days": 46
+      "pnl": 68.7,
+      "pnl_pct": 13.1,
+      "duration_days": 49
     },
     {
       "symbol": "ECLERX",
@@ -162,9 +162,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -148.6,
-      "pnl_pct": -3.08,
-      "duration_days": 52
+      "pnl": -237.2,
+      "pnl_pct": -4.91,
+      "duration_days": 55
     },
     {
       "symbol": "CUMMINSIND",
@@ -173,9 +173,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -53.3,
-      "pnl_pct": -1.21,
-      "duration_days": 53
+      "pnl": 2.5,
+      "pnl_pct": 0.06,
+      "duration_days": 56
     },
     {
       "symbol": "NAVINFLUOR",
@@ -184,9 +184,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -64.5,
-      "pnl_pct": -1.1,
-      "duration_days": 53
+      "pnl": 42.0,
+      "pnl_pct": 0.72,
+      "duration_days": 56
     },
     {
       "symbol": "INOXGREEN",
@@ -195,9 +195,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -63.18,
-      "pnl_pct": -22.98,
-      "duration_days": 53
+      "pnl": -65.42,
+      "pnl_pct": -23.8,
+      "duration_days": 56
     },
     {
       "symbol": "SBILIFE",
@@ -206,9 +206,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 40.4,
-      "pnl_pct": 2.04,
-      "duration_days": 53
+      "pnl": 31.1,
+      "pnl_pct": 1.57,
+      "duration_days": 56
     },
     {
       "symbol": "RBLBANK",
@@ -217,9 +217,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -28.25,
-      "pnl_pct": -8.52,
-      "duration_days": 53
+      "pnl": -27.3,
+      "pnl_pct": -8.24,
+      "duration_days": 56
     },
     {
       "symbol": "SHRIRAMFIN",
@@ -228,9 +228,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 190.45,
-      "pnl_pct": 24.74,
-      "duration_days": 53
+      "pnl": 185.7,
+      "pnl_pct": 24.12,
+      "duration_days": 56
     },
     {
       "symbol": "FEDERALBNK",
@@ -239,9 +239,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 24.5,
-      "pnl_pct": 10.32,
-      "duration_days": 53
+      "pnl": 25.4,
+      "pnl_pct": 10.69,
+      "duration_days": 56
     },
     {
       "symbol": "SBIN",
@@ -250,9 +250,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 19.6,
-      "pnl_pct": 2.07,
-      "duration_days": 53
+      "pnl": 18.35,
+      "pnl_pct": 1.94,
+      "duration_days": 56
     },
     {
       "symbol": "BAJFINANCE",
@@ -261,9 +261,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -36.0,
-      "pnl_pct": -3.47,
-      "duration_days": 74
+      "pnl": -38.0,
+      "pnl_pct": -3.67,
+      "duration_days": 77
     },
     {
       "symbol": "GMDCLTD",
@@ -272,9 +272,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -53.0,
-      "pnl_pct": -8.26,
-      "duration_days": 77
+      "pnl": -44.75,
+      "pnl_pct": -6.97,
+      "duration_days": 80
     },
     {
       "symbol": "IMFA",
@@ -283,9 +283,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 225.25,
-      "pnl_pct": 18.82,
-      "duration_days": 78
+      "pnl": 243.95,
+      "pnl_pct": 20.38,
+      "duration_days": 81
     },
     {
       "symbol": "USHAMART",
@@ -294,9 +294,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -39.05,
-      "pnl_pct": -8.1,
-      "duration_days": 78
+      "pnl": -31.25,
+      "pnl_pct": -6.48,
+      "duration_days": 81
     },
     {
       "symbol": "BANCOINDIA",
@@ -305,9 +305,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -184.8,
-      "pnl_pct": -21.12,
-      "duration_days": 81
+      "pnl": -195.35,
+      "pnl_pct": -22.33,
+      "duration_days": 84
     },
     {
       "symbol": "NETWEB",
@@ -316,9 +316,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -602.4,
-      "pnl_pct": -16.06,
-      "duration_days": 86
+      "pnl": -671.2,
+      "pnl_pct": -17.9,
+      "duration_days": 89
     },
     {
       "symbol": "SARDAEN",
@@ -338,9 +338,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -13.32,
-      "pnl_pct": -7.62,
-      "duration_days": 113
+      "pnl": -14.59,
+      "pnl_pct": -8.34,
+      "duration_days": 116
     },
     {
       "symbol": "HCG",
@@ -349,9 +349,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -28.8,
-      "pnl_pct": -4.11,
-      "duration_days": 114
+      "pnl": -29.75,
+      "pnl_pct": -4.24,
+      "duration_days": 117
     },
     {
       "symbol": "RADICO",
@@ -360,9 +360,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 365.3,
-      "pnl_pct": 12.43,
-      "duration_days": 114
+      "pnl": 309.7,
+      "pnl_pct": 10.53,
+      "duration_days": 117
     },
     {
       "symbol": "YATHARTH",
@@ -382,9 +382,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 86.3,
-      "pnl_pct": 3.84,
-      "duration_days": 115
+      "pnl": 3.4,
+      "pnl_pct": 0.15,
+      "duration_days": 118
     },
     {
       "symbol": "STARCEMENT",
@@ -404,9 +404,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 1701.0,
-      "pnl_pct": 11.42,
-      "duration_days": 116
+      "pnl": 1647.0,
+      "pnl_pct": 11.06,
+      "duration_days": 119
     },
     {
       "symbol": "TVSMOTOR",
@@ -415,9 +415,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 285.1,
-      "pnl_pct": 8.51,
-      "duration_days": 116
+      "pnl": 225.2,
+      "pnl_pct": 6.72,
+      "duration_days": 119
     },
     {
       "symbol": "UNOMINDA",
@@ -426,9 +426,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -30.4,
-      "pnl_pct": -2.34,
-      "duration_days": 116
+      "pnl": -33.0,
+      "pnl_pct": -2.53,
+      "duration_days": 119
     },
     {
       "symbol": "NAVA",
@@ -448,9 +448,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 1054.5,
-      "pnl_pct": 16.82,
-      "duration_days": 116
+      "pnl": 1002.5,
+      "pnl_pct": 15.99,
+      "duration_days": 119
     },
     {
       "symbol": "ASAHIINDIA",
@@ -459,9 +459,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 121.18,
-      "pnl_pct": 13.86,
-      "duration_days": 127
+      "pnl": 89.58,
+      "pnl_pct": 10.25,
+      "duration_days": 130
     },
     {
       "symbol": "TI",
@@ -470,9 +470,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -56.95,
-      "pnl_pct": -10.87,
-      "duration_days": 130
+      "pnl": -72.05,
+      "pnl_pct": -13.75,
+      "duration_days": 133
     },
     {
       "symbol": "ANANDRATHI",
@@ -481,9 +481,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 303.5,
-      "pnl_pct": 11.12,
-      "duration_days": 136
+      "pnl": 351.7,
+      "pnl_pct": 12.88,
+      "duration_days": 139
     },
     {
       "symbol": "SUMICHEM",
@@ -503,9 +503,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 533.6,
-      "pnl_pct": 24.05,
-      "duration_days": 144
+      "pnl": 475.0,
+      "pnl_pct": 21.41,
+      "duration_days": 147
     },
     {
       "symbol": "DATAMATICS",
@@ -591,9 +591,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 1127.1,
-      "pnl_pct": 42.22,
-      "duration_days": 175
+      "pnl": 1066.6,
+      "pnl_pct": 39.95,
+      "duration_days": 178
     },
     {
       "symbol": "FORTIS",
@@ -624,9 +624,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 332.2,
-      "pnl_pct": 16.83,
-      "duration_days": 177
+      "pnl": 246.6,
+      "pnl_pct": 12.49,
+      "duration_days": 180
     },
     {
       "symbol": "LTFOODS",
@@ -668,9 +668,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 41.48,
-      "pnl_pct": 18.74,
-      "duration_days": 178
+      "pnl": 33.28,
+      "pnl_pct": 15.04,
+      "duration_days": 181
     },
     {
       "symbol": "NESCO",
@@ -690,9 +690,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 2011.53,
-      "pnl_pct": 22.25,
-      "duration_days": 178
+      "pnl": 1896.53,
+      "pnl_pct": 20.98,
+      "duration_days": 181
     },
     {
       "symbol": "LTF",
@@ -701,9 +701,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 93.5,
-      "pnl_pct": 45.0,
-      "duration_days": 178
+      "pnl": 92.2,
+      "pnl_pct": 44.37,
+      "duration_days": 181
     },
     {
       "symbol": "AUBANK",
@@ -712,9 +712,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 151.96,
-      "pnl_pct": 18.47,
-      "duration_days": 178
+      "pnl": 163.66,
+      "pnl_pct": 19.89,
+      "duration_days": 181
     },
     {
       "symbol": "SUNFLAG",
@@ -734,9 +734,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 69.65,
-      "pnl_pct": 25.01,
-      "duration_days": 178
+      "pnl": 68.25,
+      "pnl_pct": 24.51,
+      "duration_days": 181
     },
     {
       "symbol": "LAURUSLABS",
@@ -745,9 +745,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 355.0,
-      "pnl_pct": 48.63,
-      "duration_days": 178
+      "pnl": 351.4,
+      "pnl_pct": 48.14,
+      "duration_days": 181
     },
     {
       "symbol": "MAXHEALTH",
@@ -811,9 +811,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 53.15,
-      "pnl_pct": 5.46,
-      "duration_days": 185
+      "pnl": 36.45,
+      "pnl_pct": 3.74,
+      "duration_days": 188
     },
     {
       "symbol": "TDPOWERSYS",
@@ -822,9 +822,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 183.3,
-      "pnl_pct": 34.76,
-      "duration_days": 191
+      "pnl": 166.6,
+      "pnl_pct": 31.59,
+      "duration_days": 194
     },
     {
       "symbol": "SHRIPISTON",
@@ -833,9 +833,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 611.6,
-      "pnl_pct": 23.71,
-      "duration_days": 197
+      "pnl": 556.6,
+      "pnl_pct": 21.57,
+      "duration_days": 200
     },
     {
       "symbol": "SUVEN",
@@ -932,9 +932,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 854.0,
-      "pnl_pct": 35.43,
-      "duration_days": 206
+      "pnl": 696.0,
+      "pnl_pct": 28.88,
+      "duration_days": 209
     },
     {
       "symbol": "DEEPAKFERT",
@@ -954,9 +954,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 683.6,
-      "pnl_pct": 81.97,
-      "duration_days": 207
+      "pnl": 665.7,
+      "pnl_pct": 79.82,
+      "duration_days": 210
     },
     {
       "symbol": "FORCEMOT",
@@ -965,9 +965,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 5730.0,
-      "pnl_pct": 44.97,
-      "duration_days": 207
+      "pnl": 6209.0,
+      "pnl_pct": 48.73,
+      "duration_days": 210
     },
     {
       "symbol": "STYRENIX",
@@ -998,9 +998,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 43.2,
-      "pnl_pct": 4.8,
-      "duration_days": 207
+      "pnl": 59.2,
+      "pnl_pct": 6.58,
+      "duration_days": 210
     },
     {
       "symbol": "WELCORP",
@@ -1075,9 +1075,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 216.89,
-      "pnl_pct": 11.48,
-      "duration_days": 234
+      "pnl": 193.09,
+      "pnl_pct": 10.22,
+      "duration_days": 237
     },
     {
       "symbol": "MAZDOCK",
@@ -1094,12 +1094,12 @@
       "symbol": "ASTRAZEN",
       "entry_date": "2025-04-16",
       "entry_price": 9028.19,
-      "exit_date": null,
-      "exit_price": null,
-      "status": "OPEN",
-      "pnl": -149.19,
-      "pnl_pct": -1.65,
-      "duration_days": 254
+      "exit_date": "2025-12-29",
+      "exit_price": 8977.0,
+      "status": "CLOSED",
+      "pnl": -51.19,
+      "pnl_pct": -0.57,
+      "duration_days": 257
     },
     {
       "symbol": "INDIGO",
@@ -1859,6 +1859,17 @@
       "pnl": -346.17,
       "pnl_pct": -7.95,
       "duration_days": 70
+    },
+    {
+      "symbol": "INNOVACAP",
+      "entry_date": "2024-08-13",
+      "entry_price": 649.8,
+      "exit_date": "2025-02-17",
+      "exit_price": 813.7,
+      "status": "CLOSED",
+      "pnl": 163.9,
+      "pnl_pct": 25.22,
+      "duration_days": 188
     },
     {
       "symbol": "INDIAGLYCO",
@@ -12356,16 +12367,16 @@
     }
   ],
   "summary": {
-    "total_trades": 1123,
-    "closed_trades": 1065,
-    "active_trades": 58,
-    "win_rate": 55.21,
-    "total_pnl_abs": 97602.66,
-    "avg_pnl_per_trade": 86.91,
+    "total_trades": 1124,
+    "closed_trades": 1067,
+    "active_trades": 57,
+    "win_rate": 55.2,
+    "total_pnl_abs": 97754.15,
+    "avg_pnl_per_trade": 86.97,
     "profit_factor": 1.56,
     "max_drawdown": 23545.88,
-    "avg_win": 392.09,
-    "avg_loss": -309.75
+    "avg_win": 391.7,
+    "avg_loss": -309.21
   },
   "equity_curve": [
     {
@@ -17225,473 +17236,483 @@
     },
     {
       "date": "2025-02-17",
-      "equity": 100072.85,
+      "equity": 97510.65,
+      "pnl": 163.9
+    },
+    {
+      "date": "2025-02-17",
+      "equity": 100236.75,
       "pnl": 2726.1
     },
     {
       "date": "2025-02-17",
-      "equity": 101157.87,
+      "equity": 101321.77,
       "pnl": 1085.02
     },
     {
       "date": "2025-02-17",
-      "equity": 101270.92,
+      "equity": 101434.82,
       "pnl": 113.05
     },
     {
       "date": "2025-02-17",
-      "equity": 101522.5,
+      "equity": 101686.4,
       "pnl": 251.58
     },
     {
       "date": "2025-02-17",
-      "equity": 101768.13,
+      "equity": 101932.03,
       "pnl": 245.63
     },
     {
       "date": "2025-02-17",
-      "equity": 101791.6,
+      "equity": 101955.5,
       "pnl": 23.47
     },
     {
       "date": "2025-02-17",
-      "equity": 103702.53,
+      "equity": 103866.43,
       "pnl": 1910.93
     },
     {
       "date": "2025-02-17",
-      "equity": 103634.03,
+      "equity": 103797.93,
       "pnl": -68.5
     },
     {
       "date": "2025-02-17",
-      "equity": 103647.85,
+      "equity": 103811.75,
       "pnl": 13.82
     },
     {
       "date": "2025-02-17",
-      "equity": 103625.85,
+      "equity": 103789.75,
       "pnl": -22.0
     },
     {
       "date": "2025-02-17",
-      "equity": 103450.95,
+      "equity": 103614.85,
       "pnl": -174.9
     },
     {
       "date": "2025-02-17",
-      "equity": 103361.05,
+      "equity": 103524.95,
       "pnl": -89.9
     },
     {
       "date": "2025-02-17",
-      "equity": 103392.05,
+      "equity": 103555.95,
       "pnl": 31.0
     },
     {
       "date": "2025-02-17",
-      "equity": 103259.41,
+      "equity": 103423.31,
       "pnl": -132.64
     },
     {
       "date": "2025-02-17",
-      "equity": 103087.9,
+      "equity": 103251.8,
       "pnl": -171.51
     },
     {
       "date": "2025-02-17",
-      "equity": 103291.11,
+      "equity": 103455.01,
       "pnl": 203.21
     },
     {
       "date": "2025-02-17",
-      "equity": 103142.26,
+      "equity": 103306.16,
       "pnl": -148.85
     },
     {
       "date": "2025-02-17",
-      "equity": 102465.34,
+      "equity": 102629.24,
       "pnl": -676.92
     },
     {
       "date": "2025-02-17",
-      "equity": 102787.22,
+      "equity": 102951.12,
       "pnl": 321.88
     },
     {
       "date": "2025-02-17",
-      "equity": 103399.86,
+      "equity": 103563.76,
       "pnl": 612.64
     },
     {
       "date": "2025-02-17",
-      "equity": 103454.42,
+      "equity": 103618.32,
       "pnl": 54.56
     },
     {
       "date": "2025-02-24",
-      "equity": 103804.42,
+      "equity": 103968.32,
       "pnl": 350.0
     },
     {
       "date": "2025-02-24",
-      "equity": 103882.42,
+      "equity": 104046.32,
       "pnl": 78.0
     },
     {
       "date": "2025-02-24",
-      "equity": 103688.87,
+      "equity": 103852.77,
       "pnl": -193.55
     },
     {
       "date": "2025-02-24",
-      "equity": 102755.87,
+      "equity": 102919.77,
       "pnl": -933.0
     },
     {
       "date": "2025-02-24",
-      "equity": 103076.17,
+      "equity": 103240.07,
       "pnl": 320.3
     },
     {
       "date": "2025-02-24",
-      "equity": 103116.37,
+      "equity": 103280.27,
       "pnl": 40.2
     },
     {
       "date": "2025-02-24",
-      "equity": 103075.82,
+      "equity": 103239.72,
       "pnl": -40.55
     },
     {
       "date": "2025-02-24",
-      "equity": 103055.8,
+      "equity": 103219.7,
       "pnl": -20.02
     },
     {
       "date": "2025-02-24",
-      "equity": 103065.36,
+      "equity": 103229.26,
       "pnl": 9.56
     },
     {
       "date": "2025-03-03",
-      "equity": 102890.51,
+      "equity": 103054.41,
       "pnl": -174.85
     },
     {
       "date": "2025-03-03",
-      "equity": 102874.92,
+      "equity": 103038.82,
       "pnl": -15.59
     },
     {
       "date": "2025-03-03",
-      "equity": 102745.02,
+      "equity": 102908.92,
       "pnl": -129.9
     },
     {
       "date": "2025-03-03",
-      "equity": 102636.32,
+      "equity": 102800.22,
       "pnl": -108.7
     },
     {
       "date": "2025-03-03",
-      "equity": 102863.14,
+      "equity": 103027.04,
       "pnl": 226.82
     },
     {
       "date": "2025-03-03",
-      "equity": 103427.17,
+      "equity": 103591.07,
       "pnl": 564.03
     },
     {
       "date": "2025-03-03",
-      "equity": 101080.17,
+      "equity": 101244.07,
       "pnl": -2347.0
     },
     {
       "date": "2025-03-03",
-      "equity": 101139.4,
+      "equity": 101303.3,
       "pnl": 59.23
     },
     {
       "date": "2025-03-03",
-      "equity": 101421.53,
+      "equity": 101585.43,
       "pnl": 282.13
     },
     {
       "date": "2025-03-03",
-      "equity": 102051.82,
+      "equity": 102215.72,
       "pnl": 630.29
     },
     {
       "date": "2025-03-10",
-      "equity": 102041.83,
+      "equity": 102205.73,
       "pnl": -9.99
     },
     {
       "date": "2025-03-17",
-      "equity": 102065.8,
+      "equity": 102229.7,
       "pnl": 23.97
     },
     {
       "date": "2025-04-07",
-      "equity": 102148.1,
+      "equity": 102312.0,
       "pnl": 82.3
     },
     {
       "date": "2025-04-15",
-      "equity": 102032.76,
+      "equity": 102196.66,
       "pnl": -115.34
     },
     {
       "date": "2025-05-12",
-      "equity": 102612.76,
+      "equity": 102776.66,
       "pnl": 580.0
     },
     {
       "date": "2025-05-12",
-      "equity": 104293.76,
+      "equity": 104457.66,
       "pnl": 1681.0
     },
     {
       "date": "2025-07-07",
-      "equity": 105375.81,
+      "equity": 105539.71,
       "pnl": 1082.05
     },
     {
       "date": "2025-07-14",
-      "equity": 105136.01,
+      "equity": 105299.91,
       "pnl": -239.8
     },
     {
       "date": "2025-07-28",
-      "equity": 104825.19,
+      "equity": 104989.09,
       "pnl": -310.82
     },
     {
       "date": "2025-08-04",
-      "equity": 104436.59,
+      "equity": 104600.49,
       "pnl": -388.6
     },
     {
       "date": "2025-08-04",
-      "equity": 104833.49,
+      "equity": 104997.39,
       "pnl": 396.9
     },
     {
       "date": "2025-08-04",
-      "equity": 104383.49,
+      "equity": 104547.39,
       "pnl": -450.0
     },
     {
       "date": "2025-08-18",
-      "equity": 104224.59,
+      "equity": 104388.49,
       "pnl": -158.9
     },
     {
       "date": "2025-09-01",
-      "equity": 103764.29,
+      "equity": 103928.19,
       "pnl": -460.3
     },
     {
       "date": "2025-09-01",
-      "equity": 103626.51,
+      "equity": 103790.41,
       "pnl": -137.78
     },
     {
       "date": "2025-09-01",
-      "equity": 102025.58,
+      "equity": 102189.48,
       "pnl": -1600.93
     },
     {
       "date": "2025-09-01",
-      "equity": 101719.88,
+      "equity": 101883.78,
       "pnl": -305.7
     },
     {
       "date": "2025-09-15",
-      "equity": 101666.08,
+      "equity": 101829.98,
       "pnl": -53.8
     },
     {
       "date": "2025-09-15",
-      "equity": 101910.44,
+      "equity": 102074.34,
       "pnl": 244.36
     },
     {
       "date": "2025-09-22",
-      "equity": 96231.25,
+      "equity": 96395.15,
       "pnl": -5679.19
     },
     {
       "date": "2025-09-29",
-      "equity": 96259.25,
+      "equity": 96423.15,
       "pnl": 28.0
     },
     {
       "date": "2025-09-29",
-      "equity": 96178.3,
+      "equity": 96342.2,
       "pnl": -80.95
     },
     {
       "date": "2025-09-29",
-      "equity": 96050.8,
+      "equity": 96214.7,
       "pnl": -127.5
     },
     {
       "date": "2025-09-29",
-      "equity": 95890.09,
+      "equity": 96053.99,
       "pnl": -160.71
     },
     {
       "date": "2025-09-29",
-      "equity": 95826.19,
+      "equity": 95990.09,
       "pnl": -63.9
     },
     {
       "date": "2025-10-13",
-      "equity": 95779.39,
+      "equity": 95943.29,
       "pnl": -46.8
     },
     {
       "date": "2025-10-13",
-      "equity": 95681.63,
+      "equity": 95845.53,
       "pnl": -97.76
     },
     {
       "date": "2025-10-20",
-      "equity": 93457.35,
+      "equity": 93621.25,
       "pnl": -2224.28
     },
     {
       "date": "2025-10-20",
-      "equity": 93259.35,
+      "equity": 93423.25,
       "pnl": -198.0
     },
     {
       "date": "2025-10-20",
-      "equity": 91773.43,
+      "equity": 91937.33,
       "pnl": -1485.92
     },
     {
       "date": "2025-10-27",
-      "equity": 91806.48,
+      "equity": 91970.38,
       "pnl": 33.05
     },
     {
       "date": "2025-10-27",
-      "equity": 91824.73,
+      "equity": 91988.63,
       "pnl": 18.25
     },
     {
       "date": "2025-11-10",
-      "equity": 91262.63,
+      "equity": 91426.53,
       "pnl": -562.1
     },
     {
       "date": "2025-11-10",
-      "equity": 91582.63,
+      "equity": 91746.53,
       "pnl": 320.0
     },
     {
       "date": "2025-11-10",
-      "equity": 92005.04,
+      "equity": 92168.94,
       "pnl": 422.41
     },
     {
       "date": "2025-11-10",
-      "equity": 91922.84,
+      "equity": 92086.74,
       "pnl": -82.2
     },
     {
       "date": "2025-11-10",
-      "equity": 91833.34,
+      "equity": 91997.24,
       "pnl": -89.5
     },
     {
       "date": "2025-11-10",
-      "equity": 91693.34,
+      "equity": 91857.24,
       "pnl": -140.0
     },
     {
       "date": "2025-11-10",
-      "equity": 91400.54,
+      "equity": 91564.44,
       "pnl": -292.8
     },
     {
       "date": "2025-11-10",
-      "equity": 91307.31,
+      "equity": 91471.21,
       "pnl": -93.23
     },
     {
       "date": "2025-11-17",
-      "equity": 91054.51,
+      "equity": 91218.41,
       "pnl": -252.8
     },
     {
       "date": "2025-11-17",
-      "equity": 90988.46,
+      "equity": 91152.36,
       "pnl": -66.05
     },
     {
       "date": "2025-11-17",
-      "equity": 90793.56,
+      "equity": 90957.46,
       "pnl": -194.9
     },
     {
       "date": "2025-11-24",
-      "equity": 90660.56,
+      "equity": 90824.46,
       "pnl": -133.0
     },
     {
       "date": "2025-12-01",
-      "equity": 86450.56,
+      "equity": 86614.46,
       "pnl": -4210.0
     },
     {
       "date": "2025-12-08",
-      "equity": 86501.46,
+      "equity": 86665.36,
       "pnl": 50.9
     },
     {
       "date": "2025-12-08",
-      "equity": 86767.36,
+      "equity": 86931.26,
       "pnl": 265.9
     },
     {
       "date": "2025-12-15",
-      "equity": 86606.16,
+      "equity": 86770.06,
       "pnl": -161.2
     },
     {
       "date": "2025-12-15",
-      "equity": 86601.51,
+      "equity": 86765.41,
       "pnl": -4.65
     },
     {
       "date": "2025-12-15",
-      "equity": 86710.51,
+      "equity": 86874.41,
       "pnl": 109.0
     },
     {
       "date": "2025-12-15",
-      "equity": 86783.56,
+      "equity": 86947.46,
       "pnl": 73.05
     },
     {
       "date": "2025-12-22",
-      "equity": 82888.56,
+      "equity": 83052.46,
       "pnl": -3895.0
     },
     {
       "date": "2025-12-22",
-      "equity": 82828.56,
+      "equity": 82992.46,
       "pnl": -60.0
     },
     {
       "date": "2025-12-22",
-      "equity": 82796.36,
+      "equity": 82960.26,
       "pnl": -32.2
+    },
+    {
+      "date": "2025-12-29",
+      "equity": 82909.07,
+      "pnl": -51.19
     }
   ]
 }
