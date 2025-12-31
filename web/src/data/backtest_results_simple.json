@@ -8,14 +8,14 @@
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 1559424.1,
-      "total_fees_paid": 12891.34,
+      "total_fees_paid": 12897.77,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 1459.42,
       "benchmark_return": 148.63,
       "expectancy": 3.39,
-      "net_return_after_fees": 1440.61
+      "net_return_after_fees": 1471.01
     },
     "risk_metrics": {
       "max_drawdown": -33.57,
@@ -7838,82 +7838,82 @@
   "current_performance": [
     {
       "month": "2025-12",
-      "portfolio_return": -0.38,
-      "benchmark_return": -1.01,
+      "portfolio_return": 1.57,
+      "benchmark_return": -0.28,
       "holdings": [
         {
           "symbol": "LTF",
-          "return": -2.21,
+          "return": 1.15,
           "score": 4.62
         },
         {
           "symbol": "MUTHOOTFIN",
-          "return": 1.47,
+          "return": 1.8,
           "score": 3.73
         },
         {
           "symbol": "LUMAXTECH",
-          "return": -1.06,
+          "return": 0.53,
           "score": 3.34
         },
         {
           "symbol": "ABCAPITAL",
-          "return": -2.44,
+          "return": -0.1,
           "score": 3.21
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 5.87,
+          "return": 7.43,
           "score": 3.21
         },
         {
           "symbol": "CARTRADE",
-          "return": -10.34,
+          "return": -8.47,
           "score": 3.19
         },
         {
           "symbol": "IMFA",
-          "return": 9.49,
+          "return": 10.69,
           "score": 3.07
         },
         {
           "symbol": "ABDL",
-          "return": -9.23,
+          "return": -6.16,
           "score": 3.03
         },
         {
           "symbol": "MARUTI",
-          "return": 4.7,
+          "return": 5.01,
           "score": 2.78
         },
         {
           "symbol": "RBLBANK",
-          "return": -0.86,
+          "return": 1.09,
           "score": 2.74
         },
         {
           "symbol": "FORCEMOT",
-          "return": 11.38,
+          "return": 15.42,
           "score": 2.7
         },
         {
           "symbol": "EICHERMOT",
-          "return": 1.97,
+          "return": 3.67,
           "score": 2.53
         },
         {
           "symbol": "BLACKBUCK",
-          "return": 0.07,
+          "return": 1.8,
           "score": 2.45
         },
         {
           "symbol": "HEROMOTOCO",
-          "return": -7.51,
+          "return": -6.53,
           "score": 2.44
         },
         {
           "symbol": "INDIANB",
-          "return": -7.04,
+          "return": -3.79,
           "score": 2.42
         }
       ]
