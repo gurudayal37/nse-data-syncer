@@ -1,82 +1,82 @@
 [
   {
     "month": "2025-12",
-    "portfolio_return": -0.34,
-    "benchmark_return": -1.01,
+    "portfolio_return": 0.93,
+    "benchmark_return": -0.28,
     "holdings": [
       {
         "symbol": "LTF",
-        "return": -2.21,
+        "return": 1.15,
         "score": 4.14
       },
       {
         "symbol": "MUTHOOTFIN",
-        "return": 1.47,
+        "return": 1.8,
         "score": 3.39
       },
       {
         "symbol": "IMFA",
-        "return": 9.49,
+        "return": 10.69,
         "score": 2.98
       },
       {
         "symbol": "ABCAPITAL",
-        "return": -2.44,
+        "return": -0.1,
         "score": 2.81
       },
       {
         "symbol": "M&MFIN",
-        "return": 8.75,
+        "return": 8.38,
         "score": 2.69
       },
       {
         "symbol": "ABDL",
-        "return": -9.23,
+        "return": -6.16,
         "score": 2.58
       },
       {
         "symbol": "LAURUSLABS",
-        "return": 5.87,
+        "return": 7.43,
         "score": 2.55
       },
       {
         "symbol": "LUMAXTECH",
-        "return": -1.06,
+        "return": 0.53,
         "score": 2.54
       },
       {
         "symbol": "CARTRADE",
-        "return": -10.34,
+        "return": -8.47,
         "score": 2.43
       },
       {
         "symbol": "CANBK",
-        "return": 1.62,
+        "return": 2.2,
         "score": 2.42
       },
       {
         "symbol": "INDIANB",
-        "return": -7.04,
+        "return": -3.79,
         "score": 2.4
       },
       {
         "symbol": "MTARTECH",
-        "return": -6.5,
+        "return": -4.57,
         "score": 2.39
       },
       {
         "symbol": "HEROMOTOCO",
-        "return": -7.51,
+        "return": -6.53,
         "score": 2.26
       },
       {
         "symbol": "CUB",
-        "return": 9.71,
+        "return": 7.27,
         "score": 2.22
       },
       {
         "symbol": "AUBANK",
-        "return": 4.31,
+        "return": 4.11,
         "score": 2.19
       }
     ]
