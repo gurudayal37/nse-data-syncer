@@ -58,6 +58,7 @@ def run_backtest():
     # Pre-calculate simple metrics if possible, but ATH is path-dependent
     
     trades = []
+    eligible_stocks = []  # Stocks with breakout signal waiting for entry
     
     print("Processing stocks...")
     
@@ -124,6 +125,33 @@ def run_backtest():
                     entry_trigger = month['high']
                     
                     next_month_start = month_date + timedelta(days=1)
+                    
+                    # Track eligible stocks (recent breakouts waiting for entry)
+                    # Only track if breakout happened in last 2 months
+                    today = pd.Timestamp(datetime.now())
+                    months_since_breakout = (today.year - month_date.year) * 12 + (today.month - month_date.month)
+                    
+                    if months_since_breakout <= 2 and months_since_breakout >= 0:
+                        # Check if this stock already has an open trade or recent entry
+                        stock_trades = [t for t in trades if t['symbol'] == symbol]
+                        has_open_trade = any(t['status'] == 'OPEN' for t in stock_trades)
+                        
+                        # Get current price for reference
+                        current_price = df['close'].iloc[-1] if len(df) > 0 else 0
+                        
+                        if not has_open_trade:
+                            eligible_stocks.append({
+                                'symbol': symbol,
+                                'breakout_month': month_date.strftime('%Y-%m'),
+                                'breakout_date': month_date.strftime('%Y-%m-%d'),
+                                'entry_trigger': round(entry_trigger, 2),
+                                'previous_ath': round(current_ath, 2),
+                                'ath_date': current_ath_date.strftime('%Y-%m-%d'),
+                                'gap_days': (month_date - current_ath_date).days,
+                                'close_price': round(month['close'], 2),
+                                'current_price': round(current_price, 2),
+                                'entry_month': next_month_start.strftime('%Y-%m')
+                            })
                     
                     # Get daily data for next month onwards (for entry and exit)
                     future_data = df[df.index >= next_month_start]
@@ -272,11 +300,13 @@ def run_backtest():
             continue
 
     print(f"Total Trades Found: {len(trades)}")
+    print(f"Eligible Stocks (Recent Breakouts): {len(eligible_stocks)}")
     
     # Save Results
     output = {
         'last_updated': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        'trades': sorted(trades, key=lambda x: x['entry_date'], reverse=True)
+        'trades': sorted(trades, key=lambda x: x['entry_date'], reverse=True),
+        'eligible_stocks': sorted(eligible_stocks, key=lambda x: x['breakout_date'], reverse=True)
     }
     
     # Calc Summary

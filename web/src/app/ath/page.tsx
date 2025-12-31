@@ -38,17 +38,31 @@ type EquityPoint = {
     pnl: number
 }
 
+type EligibleStock = {
+    symbol: string
+    breakout_month: string
+    breakout_date: string
+    entry_trigger: number
+    previous_ath: number
+    ath_date: string
+    gap_days: number
+    close_price: number
+    current_price: number
+    entry_month: string
+}
+
 export default function ATHStrategyPage() {
     const [searchTerm, setSearchTerm] = useState('')
     const [statusFilter, setStatusFilter] = useState<'ALL' | 'OPEN' | 'CLOSED'>('ALL')
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 100
 
-    const { summary, trades, last_updated, equity_curve } = athData as {
+    const { summary, trades, last_updated, equity_curve, eligible_stocks } = athData as {
         summary: Summary,
         trades: Trade[],
         last_updated: string,
-        equity_curve?: EquityPoint[]
+        equity_curve?: EquityPoint[],
+        eligible_stocks?: EligibleStock[]
     }
 
     const filteredTrades = trades.filter(trade => {
@@ -119,6 +133,106 @@ export default function ATHStrategyPage() {
                         </div>
                     </div>
                 </div>
+
+                {/* Eligible Stocks - Waiting for Entry */}
+                {eligible_stocks && eligible_stocks.length > 0 && (
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 shadow-sm rounded-lg border-2 border-green-200 p-6 mb-8">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="bg-green-500 p-2 rounded-lg">
+                                <TrendingUp className="w-6 h-6 text-white" />
+                            </div>
+                            <div>
+                                <h2 className="text-lg font-semibold text-gray-900">
+                                    Eligible Stocks - Waiting for Entry
+                                </h2>
+                                <p className="text-sm text-gray-600">
+                                    {eligible_stocks.length} stock{eligible_stocks.length !== 1 ? 's' : ''} with recent breakout signals (Conditions 1 & 2 fulfilled)
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-sm">
+                                <thead className="bg-white/60 text-gray-900 font-medium">
+                                    <tr>
+                                        <th className="px-4 py-3 text-left">Symbol</th>
+                                        <th className="px-4 py-3 text-left">Breakout Month</th>
+                                        <th className="px-4 py-3 text-right">Entry Trigger</th>
+                                        <th className="px-4 py-3 text-right">Current Price</th>
+                                        <th className="px-4 py-3 text-right">Previous ATH</th>
+                                        <th className="px-4 py-3 text-center">Gap (Days)</th>
+                                        <th className="px-4 py-3 text-left">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-green-100">
+                                    {eligible_stocks.map((stock, i) => {
+                                        const priceVsTrigger = ((stock.current_price - stock.entry_trigger) / stock.entry_trigger * 100).toFixed(2)
+                                        const isPriceAboveTrigger = stock.current_price > stock.entry_trigger
+
+                                        return (
+                                            <tr key={i} className="hover:bg-white/40 transition-colors">
+                                                <td className="px-4 py-3">
+                                                    <Link
+                                                        href={`/stock/${stock.symbol}`}
+                                                        className="font-semibold text-blue-700 hover:text-blue-900 hover:underline"
+                                                    >
+                                                        {stock.symbol}
+                                                    </Link>
+                                                </td>
+                                                <td className="px-4 py-3 text-gray-700">
+                                                    <div>{stock.breakout_month}</div>
+                                                    <div className="text-xs text-gray-500">Entry: {stock.entry_month}</div>
+                                                </td>
+                                                <td className="px-4 py-3 text-right font-medium text-gray-900">
+                                                    ₹{stock.entry_trigger.toLocaleString('en-IN')}
+                                                </td>
+                                                <td className="px-4 py-3 text-right">
+                                                    <div className="font-medium text-gray-900">
+                                                        ₹{stock.current_price.toLocaleString('en-IN')}
+                                                    </div>
+                                                    <div className={`text-xs ${isPriceAboveTrigger ? 'text-green-600' : 'text-orange-600'}`}>
+                                                        {isPriceAboveTrigger ? '+' : ''}{priceVsTrigger}% vs trigger
+                                                    </div>
+                                                </td>
+                                                <td className="px-4 py-3 text-right text-gray-700">
+                                                    <div>₹{stock.previous_ath.toLocaleString('en-IN')}</div>
+                                                    <div className="text-xs text-gray-500">
+                                                        {new Date(stock.ath_date).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
+                                                    </div>
+                                                </td>
+                                                <td className="px-4 py-3 text-center">
+                                                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                                        {stock.gap_days}d
+                                                    </span>
+                                                </td>
+                                                <td className="px-4 py-3">
+                                                    {isPriceAboveTrigger ? (
+                                                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                            <Activity className="w-3 h-3" />
+                                                            May have triggered
+                                                        </span>
+                                                    ) : (
+                                                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                                                            <Clock className="w-3 h-3" />
+                                                            Waiting for trigger
+                                                        </span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                            <p className="text-xs text-blue-900">
+                                <strong>Note:</strong> These stocks have fulfilled conditions 1 & 2 (Monthly Close &gt; Previous ATH with 60+ day gap).
+                                Entry is triggered when the daily high breaks above the entry trigger price during the entry month.
+                            </p>
+                        </div>
+                    </div>
+                )}
 
                 {/* Main Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
