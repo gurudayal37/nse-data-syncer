@@ -8,14 +8,14 @@
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 1108948.05,
-      "total_fees_paid": 20170.27,
+      "total_fees_paid": 20171.07,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 1008.95,
       "benchmark_return": 148.15,
       "expectancy": 0.66,
-      "net_return_after_fees": 992.67
+      "net_return_after_fees": 1000.22
     },
     "risk_metrics": {
       "max_drawdown": -37.82,
@@ -33831,6 +33831,88 @@
   ],
   "current_performance": [
     {
+      "month": "2026-01",
+      "portfolio_return": 3.96,
+      "benchmark_return": 0.4,
+      "holdings": [
+        {
+          "symbol": "LTF",
+          "return": 5.29,
+          "score": 3.91
+        },
+        {
+          "symbol": "MARUTI",
+          "return": 0.67,
+          "score": 3.1
+        },
+        {
+          "symbol": "HINDCOPPER",
+          "return": 9.89,
+          "score": 2.83
+        },
+        {
+          "symbol": "MUTHOOTFIN",
+          "return": 1.11,
+          "score": 2.78
+        },
+        {
+          "symbol": "IMFA",
+          "return": 4.84,
+          "score": 2.75
+        },
+        {
+          "symbol": "FORCEMOT",
+          "return": 12.93,
+          "score": 2.75
+        },
+        {
+          "symbol": "M&MFIN",
+          "return": 2.54,
+          "score": 2.74
+        },
+        {
+          "symbol": "ABCAPITAL",
+          "return": 3.96,
+          "score": 2.68
+        },
+        {
+          "symbol": "EICHERMOT",
+          "return": 0.33,
+          "score": 2.6
+        },
+        {
+          "symbol": "ASHOKLEY",
+          "return": 5.84,
+          "score": 2.58
+        },
+        {
+          "symbol": "LAURUSLABS",
+          "return": 2.34,
+          "score": 2.51
+        },
+        {
+          "symbol": "ANANDRATHI",
+          "return": 2.02,
+          "score": 2.49
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 2.53,
+          "score": 2.47
+        },
+        {
+          "symbol": "CUB",
+          "return": -1.15,
+          "score": 2.42
+        },
+        {
+          "symbol": "SHRIRAMFIN",
+          "return": 6.19,
+          "score": 2.39
+        }
+      ]
+    },
+    {
       "month": "2025-12",
       "portfolio_return": -1.4,
       "benchmark_return": -0.06,
@@ -34155,88 +34237,6 @@
           "symbol": "LUMAXTECH",
           "return": -1.58,
           "score": 2.34
-        }
-      ]
-    },
-    {
-      "month": "2025-12",
-      "portfolio_return": 3.26,
-      "benchmark_return": 0.34,
-      "holdings": [
-        {
-          "symbol": "LTF",
-          "return": 4.86,
-          "score": 3.91
-        },
-        {
-          "symbol": "MARUTI",
-          "return": 0.61,
-          "score": 3.1
-        },
-        {
-          "symbol": "HINDCOPPER",
-          "return": 8.98,
-          "score": 2.83
-        },
-        {
-          "symbol": "MUTHOOTFIN",
-          "return": 0.39,
-          "score": 2.78
-        },
-        {
-          "symbol": "IMFA",
-          "return": 4.91,
-          "score": 2.75
-        },
-        {
-          "symbol": "FORCEMOT",
-          "return": 11.34,
-          "score": 2.75
-        },
-        {
-          "symbol": "M&MFIN",
-          "return": 2.25,
-          "score": 2.74
-        },
-        {
-          "symbol": "ABCAPITAL",
-          "return": 2.74,
-          "score": 2.68
-        },
-        {
-          "symbol": "EICHERMOT",
-          "return": -0.16,
-          "score": 2.6
-        },
-        {
-          "symbol": "ASHOKLEY",
-          "return": 2.58,
-          "score": 2.58
-        },
-        {
-          "symbol": "LAURUSLABS",
-          "return": 2.12,
-          "score": 2.51
-        },
-        {
-          "symbol": "ANANDRATHI",
-          "return": 2.6,
-          "score": 2.49
-        },
-        {
-          "symbol": "NATIONALUM",
-          "return": 2.43,
-          "score": 2.47
-        },
-        {
-          "symbol": "CUB",
-          "return": -0.53,
-          "score": 2.42
-        },
-        {
-          "symbol": "SHRIRAMFIN",
-          "return": 3.74,
-          "score": 2.39
         }
       ]
     }
