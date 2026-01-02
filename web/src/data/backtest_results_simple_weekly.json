@@ -8,14 +8,14 @@
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 1108948.05,
-      "total_fees_paid": 20171.07,
+      "total_fees_paid": 20172.06,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 1008.95,
       "benchmark_return": 148.15,
       "expectancy": 0.66,
-      "net_return_after_fees": 1000.22
+      "net_return_after_fees": 1009.48
     },
     "risk_metrics": {
       "max_drawdown": -37.82,
@@ -33832,82 +33832,82 @@
   "current_performance": [
     {
       "month": "2026-01",
-      "portfolio_return": 3.96,
-      "benchmark_return": 0.4,
+      "portfolio_return": 4.82,
+      "benchmark_return": 1.1,
       "holdings": [
         {
           "symbol": "LTF",
-          "return": 5.29,
+          "return": 6.12,
           "score": 3.91
         },
         {
           "symbol": "MARUTI",
-          "return": 0.67,
+          "return": 2.19,
           "score": 3.1
         },
         {
           "symbol": "HINDCOPPER",
-          "return": 9.89,
+          "return": 13.94,
           "score": 2.83
         },
         {
           "symbol": "MUTHOOTFIN",
-          "return": 1.11,
+          "return": 0.63,
           "score": 2.78
         },
         {
           "symbol": "IMFA",
-          "return": 4.84,
+          "return": 5.19,
           "score": 2.75
         },
         {
           "symbol": "FORCEMOT",
-          "return": 12.93,
+          "return": 14.93,
           "score": 2.75
         },
         {
           "symbol": "M&MFIN",
-          "return": 2.54,
+          "return": 2.23,
           "score": 2.74
         },
         {
           "symbol": "ABCAPITAL",
-          "return": 3.96,
+          "return": 3.76,
           "score": 2.68
         },
         {
           "symbol": "EICHERMOT",
-          "return": 0.33,
+          "return": 0.14,
           "score": 2.6
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 5.84,
+          "return": 8.07,
           "score": 2.58
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 2.34,
+          "return": 1.98,
           "score": 2.51
         },
         {
           "symbol": "ANANDRATHI",
-          "return": 2.02,
+          "return": 1.51,
           "score": 2.49
         },
         {
           "symbol": "NATIONALUM",
-          "return": 2.53,
+          "return": 7.64,
           "score": 2.47
         },
         {
           "symbol": "CUB",
-          "return": -1.15,
+          "return": -1.32,
           "score": 2.42
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": 6.19,
+          "return": 5.22,
           "score": 2.39
         }
       ]
