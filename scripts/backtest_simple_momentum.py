@@ -483,7 +483,8 @@ def run_backtest():
     print(f"Total Fees Paid: ₹{total_fees_paid:.2f}")
     print(f"Net Return After Fees: {net_return_after_fees:.2f}%")
     
-    # Split into backtest period (until Nov 2025) and current performance (Dec 2025+)
+    # Split into backtest period (until Nov 2025) and current performance (Dec 2025 onwards)
+    # Backtest period is fixed, current performance grows with each new month
     backtest_cutoff = "2025-11"
     backtest_results = [r for r in all_results if r['month'] <= backtest_cutoff]
     current_results = [r for r in all_results if r['month'] > backtest_cutoff]
