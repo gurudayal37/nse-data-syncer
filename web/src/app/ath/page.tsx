@@ -161,13 +161,12 @@ export default function ATHStrategyPage() {
                                         <th className="px-4 py-3 text-right">Current Price</th>
                                         <th className="px-4 py-3 text-right">Previous ATH</th>
                                         <th className="px-4 py-3 text-center">Gap (Days)</th>
-                                        <th className="px-4 py-3 text-left">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-green-100">
                                     {eligible_stocks.map((stock, i) => {
+                                        const distanceToTrigger = stock.entry_trigger - stock.current_price
                                         const priceVsTrigger = ((stock.current_price - stock.entry_trigger) / stock.entry_trigger * 100).toFixed(2)
-                                        const isPriceAboveTrigger = stock.current_price > stock.entry_trigger
 
                                         return (
                                             <tr key={i} className="hover:bg-white/40 transition-colors">
@@ -190,8 +189,12 @@ export default function ATHStrategyPage() {
                                                     <div className="font-medium text-gray-900">
                                                         ₹{stock.current_price.toLocaleString('en-IN')}
                                                     </div>
-                                                    <div className={`text-xs ${isPriceAboveTrigger ? 'text-green-600' : 'text-orange-600'}`}>
-                                                        {isPriceAboveTrigger ? '+' : ''}{priceVsTrigger}% vs trigger
+                                                    <div className="text-xs text-gray-600">
+                                                        {distanceToTrigger > 0 ? (
+                                                            <>₹{distanceToTrigger.toFixed(2)} below</>
+                                                        ) : (
+                                                            <>{priceVsTrigger}% vs trigger</>
+                                                        )}
                                                     </div>
                                                 </td>
                                                 <td className="px-4 py-3 text-right text-gray-700">
@@ -205,19 +208,7 @@ export default function ATHStrategyPage() {
                                                         {stock.gap_days}d
                                                     </span>
                                                 </td>
-                                                <td className="px-4 py-3">
-                                                    {isPriceAboveTrigger ? (
-                                                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                            <Activity className="w-3 h-3" />
-                                                            May have triggered
-                                                        </span>
-                                                    ) : (
-                                                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
-                                                            <Clock className="w-3 h-3" />
-                                                            Waiting for trigger
-                                                        </span>
-                                                    )}
-                                                </td>
+
                                             </tr>
                                         )
                                     })}

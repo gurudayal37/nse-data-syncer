@@ -131,27 +131,25 @@ def run_backtest():
                     today = pd.Timestamp(datetime.now())
                     months_since_breakout = (today.year - month_date.year) * 12 + (today.month - month_date.month)
                     
+                    # We'll check later if this breakout actually resulted in a trade
+                    # For now, just mark it as a potential eligible stock
+                    potential_eligible = None
                     if months_since_breakout <= 2 and months_since_breakout >= 0:
-                        # Check if this stock already has an open trade or recent entry
-                        stock_trades = [t for t in trades if t['symbol'] == symbol]
-                        has_open_trade = any(t['status'] == 'OPEN' for t in stock_trades)
-                        
                         # Get current price for reference
                         current_price = df['close'].iloc[-1] if len(df) > 0 else 0
                         
-                        if not has_open_trade:
-                            eligible_stocks.append({
-                                'symbol': symbol,
-                                'breakout_month': month_date.strftime('%Y-%m'),
-                                'breakout_date': month_date.strftime('%Y-%m-%d'),
-                                'entry_trigger': round(entry_trigger, 2),
-                                'previous_ath': round(current_ath, 2),
-                                'ath_date': current_ath_date.strftime('%Y-%m-%d'),
-                                'gap_days': (month_date - current_ath_date).days,
-                                'close_price': round(month['close'], 2),
-                                'current_price': round(current_price, 2),
-                                'entry_month': next_month_start.strftime('%Y-%m')
-                            })
+                        potential_eligible = {
+                            'symbol': symbol,
+                            'breakout_month': month_date.strftime('%Y-%m'),
+                            'breakout_date': month_date.strftime('%Y-%m-%d'),
+                            'entry_trigger': round(entry_trigger, 2),
+                            'previous_ath': round(current_ath, 2),
+                            'ath_date': current_ath_date.strftime('%Y-%m-%d'),
+                            'gap_days': (month_date - current_ath_date).days,
+                            'close_price': round(month['close'], 2),
+                            'current_price': round(current_price, 2),
+                            'entry_month': next_month_start.strftime('%Y-%m')
+                        }
                     
                     # Get daily data for next month onwards (for entry and exit)
                     future_data = df[df.index >= next_month_start]
@@ -267,6 +265,9 @@ def run_backtest():
                             'duration_days': (exit_date - entry_date).days if exit_date else (df.index[-1] - entry_date).days
                         })
                         
+                        # This breakout resulted in a trade, so it's not "eligible" anymore
+                        potential_eligible = None
+                        
                         # Since we consumed this setup, we stop scanning this month (entry_window).
                         # break  <-- REMOVED (Was breaking stock loop)
                         pass
@@ -289,6 +290,10 @@ def run_backtest():
                         # If we are rallying, the "Prev ATH" is just last month. So Gap condition < 60 days fails.
                         # So NATURALLY, this strategy filters pyramiding during strong trends!
                         pass
+                
+                    # If we had a potential eligible stock and it didn't result in a trade, add it to the list
+                    if potential_eligible is not None:
+                        eligible_stocks.append(potential_eligible)
 
                 # Update ATH tracking
                 if month['high'] > current_ath:

@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-01-02 00:11:24",
+  "last_updated": "2026-01-02 13:48:48",
   "trades": [
     {
       "symbol": "DYNAMATECH",
@@ -12368,18 +12368,6 @@
   ],
   "eligible_stocks": [
     {
-      "symbol": "APLAPOLLO",
-      "breakout_month": "2026-01",
-      "breakout_date": "2026-01-31",
-      "entry_trigger": 1989.9,
-      "previous_ath": 1929.27,
-      "ath_date": "2025-06-30",
-      "gap_days": 215,
-      "close_price": 1970.0,
-      "current_price": 1970.0,
-      "entry_month": "2026-02"
-    },
-    {
       "symbol": "MANAPPURAM",
       "breakout_month": "2025-12",
       "breakout_date": "2025-12-31",
@@ -12440,54 +12428,6 @@
       "entry_month": "2026-01"
     },
     {
-      "symbol": "HEROMOTOCO",
-      "breakout_month": "2025-11",
-      "breakout_date": "2025-11-30",
-      "entry_trigger": 6239.0,
-      "previous_ath": 6002.6,
-      "ath_date": "2024-09-30",
-      "gap_days": 426,
-      "close_price": 6174.5,
-      "current_price": 5841.5,
-      "entry_month": "2025-12"
-    },
-    {
-      "symbol": "DYNAMATECH",
-      "breakout_month": "2025-11",
-      "breakout_date": "2025-11-30",
-      "entry_trigger": 9876.0,
-      "previous_ath": 9082.9,
-      "ath_date": "2024-04-30",
-      "gap_days": 579,
-      "close_price": 9247.5,
-      "current_price": 9261.0,
-      "entry_month": "2025-12"
-    },
-    {
-      "symbol": "M&M",
-      "breakout_month": "2025-11",
-      "breakout_date": "2025-11-30",
-      "entry_trigger": 3781.0,
-      "previous_ath": 3723.8,
-      "ath_date": "2025-09-30",
-      "gap_days": 61,
-      "close_price": 3757.3,
-      "current_price": 3761.0,
-      "entry_month": "2025-12"
-    },
-    {
-      "symbol": "POWERINDIA",
-      "breakout_month": "2025-11",
-      "breakout_date": "2025-11-30",
-      "entry_trigger": 22450.0,
-      "previous_ath": 21793.68,
-      "ath_date": "2025-08-31",
-      "gap_days": 91,
-      "close_price": 22056.0,
-      "current_price": 18482.0,
-      "entry_month": "2025-12"
-    },
-    {
       "symbol": "PRICOLLTD",
       "breakout_month": "2025-11",
       "breakout_date": "2025-11-30",
@@ -12497,102 +12437,6 @@
       "gap_days": 334,
       "close_price": 623.45,
       "current_price": 660.5,
-      "entry_month": "2025-12"
-    },
-    {
-      "symbol": "NATIONALUM",
-      "breakout_month": "2025-11",
-      "breakout_date": "2025-11-30",
-      "entry_trigger": 271.89,
-      "previous_ath": 253.36,
-      "ath_date": "2024-11-30",
-      "gap_days": 365,
-      "close_price": 259.98,
-      "current_price": 314.6,
-      "entry_month": "2025-12"
-    },
-    {
-      "symbol": "THANGAMAYL",
-      "breakout_month": "2025-11",
-      "breakout_date": "2025-11-30",
-      "entry_trigger": 3470.0,
-      "previous_ath": 2650.0,
-      "ath_date": "2024-10-31",
-      "gap_days": 395,
-      "close_price": 3254.0,
-      "current_price": 3259.6,
-      "entry_month": "2025-12"
-    },
-    {
-      "symbol": "CUB",
-      "breakout_month": "2025-11",
-      "breakout_date": "2025-11-30",
-      "entry_trigger": 283.09,
-      "previous_ath": 249.35,
-      "ath_date": "2020-01-31",
-      "gap_days": 2130,
-      "close_price": 271.08,
-      "current_price": 289.0,
-      "entry_month": "2025-12"
-    },
-    {
-      "symbol": "ASHOKLEY",
-      "breakout_month": "2025-11",
-      "breakout_date": "2025-11-30",
-      "entry_trigger": 162.0,
-      "previous_ath": 144.5,
-      "ath_date": "2025-09-30",
-      "gap_days": 61,
-      "close_price": 158.12,
-      "current_price": 184.88,
-      "entry_month": "2025-12"
-    },
-    {
-      "symbol": "GMRAIRPORT",
-      "breakout_month": "2025-11",
-      "breakout_date": "2025-11-30",
-      "entry_trigger": 109.07,
-      "previous_ath": 103.75,
-      "ath_date": "2024-07-31",
-      "gap_days": 487,
-      "close_price": 108.35,
-      "current_price": 105.5,
-      "entry_month": "2025-12"
-    },
-    {
-      "symbol": "M&MFIN",
-      "breakout_month": "2025-11",
-      "breakout_date": "2025-11-30",
-      "entry_trigger": 372.95,
-      "previous_ath": 334.69,
-      "ath_date": "2024-09-30",
-      "gap_days": 426,
-      "close_price": 371.85,
-      "current_price": 404.15,
-      "entry_month": "2025-12"
-    },
-    {
-      "symbol": "PTCIL",
-      "breakout_month": "2025-11",
-      "breakout_date": "2025-11-30",
-      "entry_trigger": 18597.0,
-      "previous_ath": 17995.0,
-      "ath_date": "2025-01-31",
-      "gap_days": 303,
-      "close_price": 18177.0,
-      "current_price": 18352.0,
-      "entry_month": "2025-12"
-    },
-    {
-      "symbol": "BANKBARODA",
-      "breakout_month": "2025-11",
-      "breakout_date": "2025-11-30",
-      "entry_trigger": 294.95,
-      "previous_ath": 281.85,
-      "ath_date": "2024-06-30",
-      "gap_days": 518,
-      "close_price": 289.8,
-      "current_price": 300.75,
       "entry_month": "2025-12"
     },
     {
