@@ -1,0 +1,175 @@
+import prisma from '@/lib/prisma'
+import Link from 'next/link'
+import { PAGE_SIZE, SORTABLE_COLUMNS, PERFORMANCE_PERIODS, type SortableColumn } from '@/lib/constants'
+import PercentageChange from '@/components/PercentageChange'
+import Pagination from '@/components/Pagination'
+import type { ETF } from '@/types/etf'
+
+export const dynamic = 'force-dynamic'
+
+interface ETFPageProps {
+    searchParams: Promise<{ page?: string; sort?: string; order?: string }>
+}
+
+export default async function ETFPage(props: ETFPageProps) {
+    const searchParams = await props.searchParams
+    const page = Number(searchParams.page) || 1
+    const sort = (searchParams.sort || 'change_1w') as SortableColumn
+    const order = searchParams.order || 'desc'
+    const skip = (page - 1) * PAGE_SIZE
+
+    let etfs: ETF[] = []
+    let totalCount = 0
+    let error: string | null = null
+
+    // Construct orderBy
+    let orderBy: any = {}
+    if (SORTABLE_COLUMNS.includes(sort as SortableColumn)) {
+        orderBy = [
+            {
+                etf_performance: {
+                    [sort]: { sort: order, nulls: 'last' }
+                }
+            },
+            { symbol: 'asc' }
+        ]
+    } else {
+        orderBy = { symbol: 'asc' }
+    }
+
+    try {
+        // Get total count first
+        totalCount = await prisma.etfs.count()
+
+        // Fetch ETFs with pagination and sorting
+        etfs = await prisma.etfs.findMany({
+            take: PAGE_SIZE,
+            skip: skip,
+            include: {
+                etf_daily_prices: {
+                    orderBy: { date: 'desc' },
+                    take: 1,
+                    select: {
+                        close_price: true,
+                        date: true
+                    }
+                },
+                etf_performance: true
+            },
+            orderBy: orderBy,
+        }) as ETF[]
+    } catch (e: unknown) {
+        error = e instanceof Error ? e.message : 'Failed to fetch ETFs'
+        if (process.env.NODE_ENV === 'development') {
+            console.error('Database error:', e)
+        }
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-gray-50 p-8">
+                <div className="max-w-7xl mx-auto">
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+                        <h1 className="text-2xl font-bold text-red-900 mb-2">Database Connection Error</h1>
+                        <p className="text-red-700 mb-4">{error}</p>
+                        <p className="text-sm text-red-600">Please check your DATABASE_URL environment variable and ensure the database is accessible.</p>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    const totalPages = Math.ceil(totalCount / PAGE_SIZE)
+
+    const SortIcon = ({ column }: { column: string }) => {
+        if (sort !== column) return <span className="ml-1 text-gray-400">↕</span>
+        return order === 'asc' ? <span className="ml-1 text-blue-600">↑</span> : <span className="ml-1 text-blue-600">↓</span>
+    }
+
+    const SortHeader = ({ column, label, align = 'left' }: { column: string, label: string, align?: string }) => {
+        const newOrder = sort === column && order === 'desc' ? 'asc' : 'desc'
+        return (
+            <th className={`px-6 py-4 ${align === 'right' ? 'text-right' : ''}`}>
+                <Link href={`/etf?page=${page}&sort=${column}&order=${newOrder}`} className="group inline-flex items-center hover:text-blue-600">
+                    {label}
+                    <SortIcon column={column} />
+                </Link>
+            </th>
+        )
+    }
+
+    return (
+        <div className="min-h-screen bg-gray-50 p-8">
+            <div className="max-w-7xl mx-auto">
+                <header className="mb-8 flex justify-between items-end">
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-900">ETF Dashboard</h1>
+                        <p className="text-gray-500 mt-2">
+                            Showing {skip + 1}-{Math.min(skip + PAGE_SIZE, totalCount)} of {totalCount} NSE ETFs
+                        </p>
+                    </div>
+                    <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/etf" />
+                </header>
+
+                <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left text-sm text-gray-600">
+                            <thead className="bg-gray-50 text-gray-900 font-medium border-b border-gray-200">
+                                <tr>
+                                    <th className="px-6 py-4">Symbol</th>
+                                    <th className="px-6 py-4">Underlying Asset</th>
+                                    <th className="px-6 py-4 text-right">Price</th>
+                                    {PERFORMANCE_PERIODS.map((period) => (
+                                        <SortHeader
+                                            key={period.key}
+                                            column={period.key}
+                                            label={period.label}
+                                            align="right"
+                                        />
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-100">
+                                {etfs.map((etf) => {
+                                    const latest = etf.etf_daily_prices[0]
+                                    const perf = etf.etf_performance
+
+                                    return (
+                                        <tr key={etf.id} className="hover:bg-gray-50 transition-colors">
+                                            <td className="px-6 py-4 font-medium text-gray-900">
+                                                <Link href={`/etf/${etf.symbol}`} className="hover:underline text-blue-600">
+                                                    {etf.symbol}
+                                                </Link>
+                                            </td>
+                                            <td className="px-6 py-4 truncate max-w-xs" title={etf.underlying_asset || ''}>
+                                                {etf.underlying_asset || '-'}
+                                            </td>
+                                            <td className="px-6 py-4 text-right font-medium text-gray-900">
+                                                {latest ? `₹${latest.close_price?.toFixed(2)}` : '-'}
+                                            </td>
+                                            {PERFORMANCE_PERIODS.map((period) => {
+                                                const value = perf?.[period.key as keyof typeof perf] as number | null | undefined
+                                                return (
+                                                    <td key={period.key} className="px-6 py-4 text-right">
+                                                        <PercentageChange value={value} />
+                                                    </td>
+                                                )
+                                            })}
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div className="mt-4 flex justify-between items-center">
+                    <p className="text-sm text-gray-500">
+                        Page {page} of {totalPages}
+                    </p>
+                    <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/etf" />
+                </div>
+            </div>
+        </div>
+    )
+}

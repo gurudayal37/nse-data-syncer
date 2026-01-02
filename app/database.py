@@ -316,6 +316,170 @@ class DatabaseManager:
         finally:
             session.close()
 
+    # ETF Methods
+    def get_etf_symbol_map(self):
+        """Returns a dictionary mapping ETF symbol to etf_id."""
+        session = self.Session()
+        try:
+            etfs = session.query(ETF.symbol, ETF.id).all()
+            return {e.symbol: e.id for e in etfs if e.symbol}
+        except SQLAlchemyError as e:
+            print(f"Error fetching ETF symbol map: {e}")
+            return {}
+        finally:
+            session.close()
+
+    def insert_etf(self, symbol, details):
+        """
+        Inserts a new ETF into the etfs table.
+        Returns the etf_id if successful, None otherwise.
+        """
+        session = self.Session()
+        try:
+            # Check if it already exists
+            existing_etf = session.execute(
+                text("SELECT id FROM etfs WHERE symbol = :symbol"),
+                {"symbol": symbol}
+            ).fetchone()
+            
+            if existing_etf:
+                return existing_etf[0]
+
+            query = text("""
+                INSERT INTO etfs (symbol, name, underlying_asset, nav, is_active) 
+                VALUES (:symbol, :name, :underlying_asset, :nav, 1) 
+                RETURNING id
+            """)
+            
+            result = session.execute(query, {
+                "symbol": symbol, 
+                "name": details.get('name'), 
+                "underlying_asset": details.get('underlying_asset'),
+                "nav": details.get('nav')
+            })
+            etf_id = result.fetchone()[0]
+            session.commit()
+            print(f"Inserted new ETF: {symbol} (ID: {etf_id})")
+            return etf_id
+        except Exception as e:
+            session.rollback()
+            print(f"Error inserting ETF {symbol}: {e}")
+            return None
+        finally:
+            session.close()
+
+    def insert_etf_daily_prices(self, etf_id, df):
+        """Inserts a pandas DataFrame into the etf_daily_prices table."""
+        if df.empty:
+            return
+
+        # Prepare DataFrame for insertion
+        df_to_insert = df.reset_index().copy()
+        
+        df_to_insert = df_to_insert.rename(columns={
+            'Date': 'date',
+            'Open': 'open_price',
+            'High': 'high_price',
+            'Low': 'low_price',
+            'Close': 'close_price',
+            'Volume': 'volume'
+        })
+        
+        df_to_insert['etf_id'] = etf_id
+        df_to_insert['created_at'] = datetime.now()
+        
+        # Select only relevant columns
+        columns = ['etf_id', 'date', 'open_price', 'high_price', 'low_price', 'close_price', 'volume', 'created_at']
+        df_to_insert = df_to_insert[columns]
+
+        try:
+            df_to_insert.to_sql('etf_daily_prices', self.engine, if_exists='append', index=False, method='multi', chunksize=1000)
+            print(f"Inserted {len(df_to_insert)} records for etf_id {etf_id}")
+        except SQLAlchemyError as e:
+            print(f"Error inserting data for etf_id {etf_id}: {e}")
+
+    def update_etf_performance_metrics(self, etf_id):
+        """
+        Calculates and updates performance metrics (1w, 1m, 3m, 6m, 1y, 3y, 5y) for an ETF.
+        """
+        session = self.Session()
+        try:
+            # Get latest date and price
+            latest_record = session.query(ETFDailyPrice.date, ETFDailyPrice.close_price)\
+                .filter(ETFDailyPrice.etf_id == etf_id)\
+                .order_by(ETFDailyPrice.date.desc())\
+                .first()
+            
+            if not latest_record:
+                return
+
+            latest_date, latest_price = latest_record
+            
+            # Get latest volume
+            latest_volume_record = session.query(ETFDailyPrice.volume)\
+                .filter(ETFDailyPrice.etf_id == etf_id)\
+                .order_by(ETFDailyPrice.date.desc())\
+                .first()
+            latest_volume = latest_volume_record[0] if latest_volume_record else None
+            
+            # Define time deltas
+            deltas = {
+                '1w': timedelta(weeks=1),
+                '1m': timedelta(days=30),
+                '3m': timedelta(days=90),
+                '6m': timedelta(days=180),
+                '1y': timedelta(days=365),
+                '3y': timedelta(days=1095),
+                '5y': timedelta(days=1825)
+            }
+            
+            metrics = {}
+            
+            for period, delta in deltas.items():
+                target_date = latest_date - delta
+                
+                # Find nearest record on or before target_date
+                past_record = session.query(ETFDailyPrice.close_price)\
+                    .filter(ETFDailyPrice.etf_id == etf_id)\
+                    .filter(ETFDailyPrice.date <= target_date)\
+                    .order_by(ETFDailyPrice.date.desc())\
+                    .first()
+                
+                if past_record:
+                    past_price = past_record[0]
+                    if past_price:
+                        change = ((latest_price - past_price) / past_price) * 100
+                        metrics[f'change_{period}'] = change
+                    else:
+                        metrics[f'change_{period}'] = None
+                else:
+                    metrics[f'change_{period}'] = None
+
+            # Upsert into etf_performance
+            perf_record = session.query(ETFPerformance).filter_by(etf_id=etf_id).first()
+            
+            if not perf_record:
+                perf_record = ETFPerformance(etf_id=etf_id)
+                session.add(perf_record)
+            
+            perf_record.change_1w = metrics.get('change_1w')
+            perf_record.change_1m = metrics.get('change_1m')
+            perf_record.change_3m = metrics.get('change_3m')
+            perf_record.change_6m = metrics.get('change_6m')
+            perf_record.change_1y = metrics.get('change_1y')
+            perf_record.change_3y = metrics.get('change_3y')
+            perf_record.change_5y = metrics.get('change_5y')
+            perf_record.daily_volume = latest_volume
+            perf_record.updated_at = datetime.now()
+            
+            session.commit()
+            
+        except Exception as e:
+            session.rollback()
+            print(f"Error updating performance for ETF {etf_id}: {e}")
+        finally:
+            session.close()
+
 class StockPerformance(Base):
     __tablename__ = 'stock_performance'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -360,3 +524,41 @@ class MomentumHistory(Base):
     __table_args__ = (
         Index('idx_momentum_history_stock_date', 'stock_id', 'date', unique=True),
     )
+
+# ETF Models
+class ETF(Base):
+    __tablename__ = 'etfs'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    symbol = Column(String(50), unique=True, nullable=False)
+    name = Column(String(255))
+    underlying_asset = Column(String(255))
+    nav = Column(Float)
+    is_active = Column(Integer, default=True)
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime)
+
+class ETFDailyPrice(Base):
+    __tablename__ = 'etf_daily_prices'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    etf_id = Column(Integer, nullable=False)
+    date = Column(DateTime, nullable=False)
+    open_price = Column(Float)
+    high_price = Column(Float)
+    low_price = Column(Float)
+    close_price = Column(Float)
+    volume = Column(BigInteger)
+    created_at = Column(DateTime, default=datetime.now)
+
+class ETFPerformance(Base):
+    __tablename__ = 'etf_performance'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    etf_id = Column(Integer, nullable=False, unique=True)
+    change_1w = Column(Float)
+    change_1m = Column(Float)
+    change_3m = Column(Float)
+    change_6m = Column(Float)
+    change_1y = Column(Float)
+    change_3y = Column(Float)
+    change_5y = Column(Float)
+    daily_volume = Column(BigInteger)
+    updated_at = Column(DateTime, default=datetime.now)
