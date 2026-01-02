@@ -2,7 +2,7 @@ name: Daily Stock Sync
 
 on:
   schedule:
-    - cron: '0 22 * * 1-5'  # Runs at 3:30 AM IST (10:00 PM UTC previous day) Mon-Fri
+    - cron: '0 10 * * 1-5'  # Runs at 3:30 PM IST (10:00 AM UTC) Mon-Fri
   workflow_dispatch:  # Allows manual trigger
 
 jobs:

@@ -2,7 +2,7 @@ name: Update Simple Momentum Strategy
 
 on:
   schedule:
-    - cron: '0 23 * * 1-5'  # Runs at 4:30 AM IST (11:00 PM UTC previous day) Mon-Fri
+    - cron: '0 11 * * 1-5'  # Runs at 4:30 PM IST (11:00 AM UTC) Mon-Fri
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
