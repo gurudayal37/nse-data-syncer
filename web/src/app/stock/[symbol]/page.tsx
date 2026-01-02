@@ -332,10 +332,10 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                                     <tbody className="divide-y divide-gray-100">
                                         {athTrades.map((trade: any, i: number) => (
                                             <tr key={i} className="hover:bg-gray-50">
-                                                <td className="px-6 py-4">{trade.entry_date}</td>
-                                                <td className="px-6 py-4 text-gray-600">₹{trade.entry_price}</td>
-                                                <td className="px-6 py-4">{trade.exit_date || '-'}</td>
-                                                <td className="px-6 py-4 text-gray-600">{trade.exit_price ? `₹${trade.exit_price}` : '-'}</td>
+                                                <td className="px-6 py-4 text-gray-900">{trade.entry_date}</td>
+                                                <td className="px-6 py-4 text-gray-900">₹{trade.entry_price}</td>
+                                                <td className="px-6 py-4 text-gray-900">{trade.exit_date || '-'}</td>
+                                                <td className="px-6 py-4 text-gray-900">{trade.exit_price ? `₹${trade.exit_price}` : '-'}</td>
                                                 <td className="px-6 py-4 text-center">
                                                     <span className={`px-2 py-1 rounded text-xs font-medium ${trade.status === 'OPEN' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
                                                         }`}>
@@ -371,8 +371,8 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                                     <tbody className="divide-y divide-gray-100">
                                         {momentumTrades.map((trade: any, i: number) => (
                                             <tr key={i} className="hover:bg-gray-50">
-                                                <td className="px-6 py-4">{trade.month}</td>
-                                                <td className="px-6 py-4 text-gray-600">{trade.score.toFixed(2)}</td>
+                                                <td className="px-6 py-4 text-gray-900">{trade.month}</td>
+                                                <td className="px-6 py-4 text-gray-900">{trade.score.toFixed(2)}</td>
                                                 <td className={`px-6 py-4 text-right font-medium ${trade.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                                                     {trade.return > 0 ? '+' : ''}{trade.return.toFixed(2)}%
                                                 </td>
