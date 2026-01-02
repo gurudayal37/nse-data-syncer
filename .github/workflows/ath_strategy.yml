@@ -2,7 +2,7 @@ name: Update ATH Breakout Strategy
 
 on:
   schedule:
-    - cron: '0 12 * * 1-5'  # Runs at 5:30 PM IST (12:00 PM UTC) Mon-Fri
+    - cron: '15 23 * * 1-5'  # Runs at 4:45 AM IST (11:15 PM UTC previous day) Mon-Fri
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
