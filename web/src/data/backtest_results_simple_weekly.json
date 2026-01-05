@@ -8,14 +8,14 @@
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 1108948.05,
-      "total_fees_paid": 20172.06,
+      "total_fees_paid": 20316.95,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 1008.95,
       "benchmark_return": 148.15,
       "expectancy": 0.66,
-      "net_return_after_fees": 1009.48
+      "net_return_after_fees": 1013.52
     },
     "risk_metrics": {
       "max_drawdown": -37.82,
@@ -40,7 +40,7 @@
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
       "profit_factor": 1.55,
-      "total_stock_transactions": 2209
+      "total_stock_transactions": 2217
     }
   },
   "backtest_results": [
@@ -33909,6 +33909,88 @@
           "symbol": "SHRIRAMFIN",
           "return": 5.22,
           "score": 2.39
+        }
+      ]
+    },
+    {
+      "month": "2026-01",
+      "portfolio_return": 0.37,
+      "benchmark_return": -0.3,
+      "holdings": [
+        {
+          "symbol": "LTF",
+          "return": 0.17,
+          "score": 3.96
+        },
+        {
+          "symbol": "HINDCOPPER",
+          "return": 1.97,
+          "score": 3.57
+        },
+        {
+          "symbol": "MARUTI",
+          "return": 1.15,
+          "score": 3.06
+        },
+        {
+          "symbol": "ASHOKLEY",
+          "return": -0.54,
+          "score": 2.99
+        },
+        {
+          "symbol": "IMFA",
+          "return": -2.51,
+          "score": 2.88
+        },
+        {
+          "symbol": "FORCEMOT",
+          "return": -0.94,
+          "score": 2.87
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 0.15,
+          "score": 2.84
+        },
+        {
+          "symbol": "TVSMOTOR",
+          "return": 0.43,
+          "score": 2.79
+        },
+        {
+          "symbol": "ABCAPITAL",
+          "return": 0.57,
+          "score": 2.78
+        },
+        {
+          "symbol": "MUTHOOTFIN",
+          "return": 2.62,
+          "score": 2.72
+        },
+        {
+          "symbol": "SHRIRAMFIN",
+          "return": -0.69,
+          "score": 2.71
+        },
+        {
+          "symbol": "HINDALCO",
+          "return": 0.65,
+          "score": 2.66
+        },
+        {
+          "symbol": "HEROMOTOCO",
+          "return": 0.88,
+          "score": 2.61
+        },
+        {
+          "symbol": "EICHERMOT",
+          "return": 2.02,
+          "score": 2.59
+        },
+        {
+          "symbol": "INDIANB",
+          "return": -0.37,
+          "score": 2.59
         }
       ]
     },
