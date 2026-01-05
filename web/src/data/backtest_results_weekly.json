@@ -1,83 +1,83 @@
 [
   {
     "week": "2026-01-09",
-    "portfolio_return": 0,
-    "benchmark_return": 0.0,
+    "portfolio_return": -0.15,
+    "benchmark_return": -0.3,
     "holdings": [
       {
         "symbol": "HINDCOPPER",
-        "return": 0.0,
+        "return": 1.97,
         "score": 3.49
       },
       {
         "symbol": "LTF",
-        "return": 0.0,
+        "return": 0.17,
         "score": 3.37
       },
       {
         "symbol": "SHRIRAMFIN",
-        "return": 0.0,
+        "return": -0.69,
         "score": 3.15
       },
       {
         "symbol": "ASHOKLEY",
-        "return": 0.0,
-        "score": 3.12
+        "return": -0.54,
+        "score": 3.13
       },
       {
         "symbol": "NATIONALUM",
-        "return": 0.0,
+        "return": 0.15,
         "score": 3.03
       },
       {
         "symbol": "M&MFIN",
-        "return": 0.0,
+        "return": -4.65,
         "score": 2.9
       },
       {
         "symbol": "ABCAPITAL",
-        "return": 0.0,
+        "return": 0.57,
         "score": 2.51
       },
       {
-        "symbol": "FORCEMOT",
-        "return": 0.0,
+        "symbol": "HINDALCO",
+        "return": 0.65,
         "score": 2.49
       },
       {
-        "symbol": "HINDALCO",
-        "return": 0.0,
+        "symbol": "FORCEMOT",
+        "return": -0.94,
         "score": 2.49
       },
       {
         "symbol": "FEDERALBNK",
-        "return": 0.0,
+        "return": -1.2,
         "score": 2.47
       },
       {
         "symbol": "CUB",
-        "return": 0.0,
+        "return": 0.75,
         "score": 2.44
       },
       {
         "symbol": "MUTHOOTFIN",
-        "return": 0.0,
+        "return": 2.62,
         "score": 2.37
       },
       {
         "symbol": "IMFA",
-        "return": 0.0,
+        "return": -2.51,
         "score": 2.37
       },
       {
         "symbol": "VEDL",
-        "return": 0.0,
+        "return": -0.21,
         "score": 2.33
       },
       {
         "symbol": "AUBANK",
-        "return": 0.0,
-        "score": 2.3
+        "return": 1.56,
+        "score": 2.31
       }
     ]
   },
