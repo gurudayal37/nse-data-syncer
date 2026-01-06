@@ -8,14 +8,14 @@
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 1189649.77,
-      "total_fees_paid": 13002.35,
+      "total_fees_paid": 13001.82,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 1089.65,
       "benchmark_return": 148.63,
       "expectancy": 3.05,
-      "net_return_after_fees": 1104.28
+      "net_return_after_fees": 1102.24
     },
     "risk_metrics": {
       "max_drawdown": -32.92,
@@ -7838,12 +7838,12 @@
   "current_performance": [
     {
       "month": "2026-01",
-      "portfolio_return": 1.38,
+      "portfolio_return": 1.21,
       "benchmark_return": 0.19,
       "holdings": [
         {
           "symbol": "LTF",
-          "return": 1.38,
+          "return": 1.08,
           "score": 3.45
         },
         {
@@ -7853,12 +7853,12 @@
         },
         {
           "symbol": "M&MFIN",
-          "return": -4.67,
+          "return": -7.11,
           "score": 3.13
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": 0.72,
+          "return": 0.65,
           "score": 3.09
         },
         {
@@ -7868,7 +7868,7 @@
         },
         {
           "symbol": "NATIONALUM",
-          "return": 5.25,
+          "return": 10.31,
           "score": 2.69
         },
         {
@@ -7893,22 +7893,22 @@
         },
         {
           "symbol": "LAURUSLABS",
-          "return": -0.43,
+          "return": 0.71,
           "score": 2.48
         },
         {
           "symbol": "IMFA",
-          "return": -2.25,
+          "return": -13.31,
           "score": 2.46
         },
         {
           "symbol": "THANGAMAYL",
-          "return": 3.57,
+          "return": 8.22,
           "score": 2.4
         },
         {
           "symbol": "MUTHOOTFIN",
-          "return": 2.87,
+          "return": 3.38,
           "score": 2.38
         },
         {
