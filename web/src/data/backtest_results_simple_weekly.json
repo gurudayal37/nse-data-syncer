@@ -8,14 +8,14 @@
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 1087203.97,
-      "total_fees_paid": 19919.49,
+      "total_fees_paid": 19161.77,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 987.2,
       "benchmark_return": 145.3,
       "expectancy": 0.66,
-      "net_return_after_fees": 989.69
+      "net_return_after_fees": 968.04
     },
     "risk_metrics": {
       "max_drawdown": -35.37,
@@ -40,7 +40,7 @@
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
       "profit_factor": 1.55,
-      "total_stock_transactions": 2213
+      "total_stock_transactions": 2173
     }
   },
   "backtest_results": [

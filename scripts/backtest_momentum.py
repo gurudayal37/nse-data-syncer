@@ -475,15 +475,22 @@ def run_backtest():
             new_results.append(res)
 
     all_results = existing_results + new_results
-    # Sort all results by month ascending from oldest to newest for calcs
+    # Sort all results by month ascending from oldest to newest for calcs/splitting
     all_results.sort(key=lambda x: x['month'])
     
-    # Calculate actual transactions by tracking portfolio changes
-    print("\nCalculating actual transactions...")
+    # Split into backtest period (until Nov 2025) and current performance (Dec 2025+)
+    backtest_cutoff = "2025-11"
+    backtest_results = [r for r in all_results if r['month'] <= backtest_cutoff]
+    current_results = [r for r in all_results if r['month'] > backtest_cutoff]
+
+    # Calculate actual transactions on BACKTEST results only
+    print("\nCalculating actual transactions (Backtest Period)...")
     total_transactions = 0
     previous_holdings = set()
     
-    for result in all_results:
+    sorted_backtest = sorted(backtest_results, key=lambda x: x['month'])
+
+    for result in sorted_backtest:
         # Get current month's stock symbols
         current_holdings = set([h['symbol'] for h in result['holdings']])
         
@@ -506,28 +513,28 @@ def run_backtest():
     start_value = 100000
     cumulative_values = []
     port_value = start_value
-    for r in all_results:
+    for r in sorted_backtest:
         port_value = port_value * (1 + r['portfolio_return'] / 100)
         cumulative_values.append(port_value)
     
-    avg_portfolio_value = np.mean(cumulative_values)
-    fee_per_transaction = (avg_portfolio_value / 15) * 0.0003  # 0.03% fee
-    total_fees_paid = total_transactions * fee_per_transaction
-    
-    # Calculate net return after fees
-    final_value = cumulative_values[-1] if cumulative_values else start_value
-    net_value_after_fees = final_value - total_fees_paid
-    net_return_after_fees = ((net_value_after_fees - start_value) / start_value) * 100
+    if cumulative_values:
+        avg_portfolio_value = np.mean(cumulative_values)
+        fee_per_transaction = (avg_portfolio_value / 15) * 0.0003  # 0.03% fee
+        total_fees_paid = total_transactions * fee_per_transaction
+        
+        # Calculate net return after fees for BACKTEST period
+        final_value = cumulative_values[-1]
+        net_value_after_fees = final_value - total_fees_paid
+        net_return_after_fees = ((net_value_after_fees - start_value) / start_value) * 100
+    else:
+        avg_portfolio_value = 0
+        total_fees_paid = 0
+        net_return_after_fees = 0
     
     print(f"Total Transactions: {total_transactions}")
     print(f"Average Portfolio Value: ₹{avg_portfolio_value:.2f}")
     print(f"Total Fees Paid: ₹{total_fees_paid:.2f}")
     print(f"Net Return After Fees: {net_return_after_fees:.2f}%")
-    
-    # Split into backtest period (until Nov 2025) and current performance (Dec 2025+)
-    backtest_cutoff = "2025-11"
-    backtest_results = [r for r in all_results if r['month'] <= backtest_cutoff]
-    current_results = [r for r in all_results if r['month'] > backtest_cutoff]
     
     # Calculate comprehensive metrics for backtest period
     print("\nCalculating comprehensive metrics...")
