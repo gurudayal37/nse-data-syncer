@@ -46,3 +46,56 @@ def load_equity_list(csv_path):
     except Exception as e:
         print(f"Error reading Equity List CSV: {e}")
     return equity_map
+
+def get_symbols_from_new_list(csv_path):
+    """
+    Reads symbols from the new equity list CSV (first column).
+    """
+    symbols = []
+    try:
+        with open(csv_path, 'r') as f:
+            reader = csv.reader(f)
+            next(reader)  # Skip header
+            for row in reader:
+                if len(row) > 0:
+                    symbols.append(row[0]) # SYMBOL is in the first column
+    except FileNotFoundError:
+        print(f"Error: File not found at {csv_path}")
+    except Exception as e:
+        print(f"Error reading New Equity List CSV: {e}")
+    return symbols
+
+def get_remaining_symbols(full_list_path, subset_list_path):
+    """
+    Returns symbols present in full_list but NOT in subset_list.
+    """
+    full_list = set(get_symbols_from_new_list(full_list_path))
+    subset_list = set(get_nse_symbols(subset_list_path))
+    
+    remaining = list(full_list - subset_list)
+    remaining.sort()
+    return remaining
+
+def load_full_equity_list(csv_path):
+    """
+    Reads the new full equity list and returns a dictionary mapping Symbol to details.
+    Columns: SYMBOL,NAME OF COMPANY, SERIES, DATE OF LISTING, PAID UP VALUE, MARKET LOT, ISIN NUMBER, FACE VALUE
+    """
+    equity_map = {}
+    try:
+        with open(csv_path, 'r') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                symbol = row.get('SYMBOL')
+                if symbol:
+                    equity_map[symbol] = {
+                        'name': row.get('NAME OF COMPANY'),
+                        'isin': row.get('ISIN NUMBER'),
+                        'industry': None, # Not available in this file
+                        'sector': None    # Not available in this file
+                    }
+    except FileNotFoundError:
+        print(f"Error: Full Equity List file not found at {csv_path}")
+    except Exception as e:
+        print(f"Error reading Full Equity List CSV: {e}")
+    return equity_map

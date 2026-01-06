@@ -13,12 +13,13 @@ if not os.getenv('DATABASE_URL'):
 
 from .database import DatabaseManager
 from .fetcher import fetch_stock_data, fetch_batch_data
-from .utils import get_nse_symbols, load_equity_list
+from .utils import get_nse_symbols, load_equity_list, get_remaining_symbols, load_full_equity_list
 from .helpers import get_data_path
 
 from .constants import (
     CSV_FILENAME,
     EQUITY_LIST_FILENAME,
+    FULL_EQUITY_LIST_FILENAME,
     RATE_LIMIT_DELAY_SECONDS,
 )
 
@@ -27,6 +28,7 @@ def main():
     parser.add_argument('--limit', type=int, help='Limit the number of symbols to process')
     parser.add_argument('--dry-run', action='store_true', help='Perform a dry run without writing to DB')
     parser.add_argument('--symbols', type=str, help='Comma-separated list of symbols to process (overrides CSV)')
+    parser.add_argument('--source', type=str, choices=['default', 'remaining'], default='default', help='Source of symbols to sync')
     args = parser.parse_args()
 
     print("Starting NSE Stock Data Syncer (Optimized)...")
@@ -41,6 +43,12 @@ def main():
     if args.symbols:
         csv_symbols = [s.strip() for s in args.symbols.split(',')]
         print(f"Processing specific symbols: {csv_symbols}")
+    elif args.source == 'remaining':
+        print("Calculating remaining stocks (in Full List but not in Nifty Total Market)...")
+        csv_path = get_data_path(CSV_FILENAME)
+        full_list_path = get_data_path(FULL_EQUITY_LIST_FILENAME)
+        csv_symbols = get_remaining_symbols(str(full_list_path), str(csv_path))
+        print(f"Found {len(csv_symbols)} remaining symbols to sync.")
     else:
         csv_path = get_data_path(CSV_FILENAME)
         csv_symbols = get_nse_symbols(str(csv_path))
@@ -57,10 +65,16 @@ def main():
         equity_list_path = get_data_path(EQUITY_LIST_FILENAME)
         equity_details = load_equity_list(str(equity_list_path))
         
+        # Load full list for fallback
+        full_list_path = get_data_path(FULL_EQUITY_LIST_FILENAME)
+        full_details = load_full_equity_list(str(full_list_path))
+        
         inserted_count = 0
         for sym in missing_symbols:
-            if sym in equity_details:
-                sid = db_manager.insert_stock(sym, equity_details[sym])
+            details = equity_details.get(sym) or full_details.get(sym)
+            
+            if details:
+                sid = db_manager.insert_stock(sym, details)
                 if sid: 
                     symbol_map[sym] = sid
                     inserted_count += 1
@@ -152,7 +166,40 @@ def main():
             
     print(f"Sync completed. Processed/Updated: {processed_count}")
     
-    # 5. Calculate Momentum Scores
+    # 6. Update Market Caps (New Feature)
+    print("Updating Market Caps for all active stocks...")
+    # We can do this based on active stocks in DB
+    with db_manager.Session() as session:
+        active_stocks = session.execute(text("SELECT nse_symbol, id FROM stocks WHERE is_active = true")).fetchall()
+        active_map = {row[0]: row[1] for row in active_stocks}
+    
+    all_symbols = list(active_map.keys())
+    
+    # Process in batches to avoid memory/rate issues if any, although fast_info is local calculation mostly? 
+    # Actually fast_info might hit API lightly. safe to batch.
+    BATCH_SIZE_MCAP = 500
+    from .fetcher import fetch_current_market_caps
+    
+    updated_mcap_count = 0
+    m_chunks = [all_symbols[i:i + BATCH_SIZE_MCAP] for i in range(0, len(all_symbols), BATCH_SIZE_MCAP)]
+    
+    for i, chunk in enumerate(m_chunks):
+        print(f"  Market Cap Batch {i+1}/{len(m_chunks)} ({len(chunk)} symbols)...")
+        mcaps = fetch_current_market_caps(chunk)
+        
+        updates = []
+        for sym, mcap in mcaps.items():
+             sid = active_map.get(sym)
+             if sid:
+                 updates.append({'id': sid, 'market_cap': mcap})
+        
+        if updates:
+            db_manager.bulk_update_market_caps(updates)
+            updated_mcap_count += len(updates)
+            
+    print(f"Market Cap updated for {updated_mcap_count} stocks.")
+
+    # 7. Calculate Momentum Scores
     from .momentum import calculate_momentum
     calculate_momentum()
 

@@ -28,6 +28,7 @@ class Stock(Base):
     __tablename__ = 'stocks'
     id = Column(Integer, primary_key=True)
     nse_symbol = Column(String)
+    market_cap = Column(Float)
 
 class DatabaseManager:
     def __init__(self, db_url=DB_URL):
@@ -232,6 +233,22 @@ class DatabaseManager:
             print(f"Inserted {len(final_df)} records for {len(data_dict)} stocks.")
         except SQLAlchemyError as e:
             print(f"Error bulk inserting: {e}")
+
+    def bulk_update_market_caps(self, updates):
+        """
+        Updates market cap for multiple stocks.
+        updates: list of dicts {'id': stock_id, 'market_cap': value}
+        """
+        session = self.Session()
+        try:
+             session.bulk_update_mappings(Stock, updates)
+             session.commit()
+             print(f"Updated market caps for {len(updates)} stocks.")
+        except Exception as e:
+            session.rollback()
+            print(f"Error updating market caps: {e}")
+        finally:
+            session.close()
 
     def update_performance_metrics(self, stock_id):
         """

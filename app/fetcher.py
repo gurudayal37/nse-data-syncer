@@ -64,14 +64,20 @@ def fetch_batch_data(symbols, start_date=None):
     try:
         # Fetch data
         # threads=True enables parallel downloads
-        df = yf.download(
-            yf_symbols, 
-            start=start_date, 
-            group_by='ticker', 
-            auto_adjust=False, 
-            threads=True, 
-            progress=False
-        )
+        # If start_date is None, use period="max"
+        kwargs = {
+            "group_by": 'ticker', 
+            "auto_adjust": False, 
+            "threads": True, 
+            "progress": False
+        }
+        
+        if start_date:
+            kwargs["start"] = start_date
+        else:
+            kwargs["period"] = "max"
+            
+        df = yf.download(yf_symbols, **kwargs)
         
         if df.empty:
             return {}
@@ -127,3 +133,39 @@ def fetch_batch_data(symbols, start_date=None):
     except Exception as e:
         print(f"Error fetching batch data: {e}")
         return {}
+
+def fetch_current_market_caps(symbols):
+    """
+    Fetches current market cap for a list of symbols.
+    Returns: dict {symbol: market_cap}
+    """
+    if not symbols:
+        return {}
+        
+    results = {}
+    
+    # yfinance Tickers is not very efficient for properties.
+    # But accessing .fast_info is fast for individual Ticker.
+    # However, creating 2000 Ticker objects might take a moment.
+    # Let's try batching or simple iteration.
+    
+    print(f"Fetching market caps for {len(symbols)} symbols...")
+    
+    # Using Tickers for concurrent info fetching if possible?
+    # yfinance doesn't easily support bulk info fetch.
+    # We iterate.
+    
+    for sym in symbols:
+        yf_sym = f"{sym}.NS"
+        try:
+             # fast_info is much faster than .info
+             # It returns an object with keys like 'marketCap'
+             ticker = yf.Ticker(yf_sym)
+             mcap = ticker.fast_info.market_cap
+             
+             if mcap and mcap > 0:
+                 results[sym] = mcap
+        except Exception:
+            continue
+            
+    return results
