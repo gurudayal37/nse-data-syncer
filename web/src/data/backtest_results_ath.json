@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-01-05 11:33:32",
+  "last_updated": "2026-01-06 11:32:00",
   "trades": [
     {
       "symbol": "HINDCOPPER",
@@ -8,9 +8,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -2.35,
-      "pnl_pct": -0.42,
-      "duration_days": 0
+      "pnl": 10.3,
+      "pnl_pct": 1.86,
+      "duration_days": 1
     },
     {
       "symbol": "INDIACEM",
@@ -19,9 +19,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 6.15,
-      "pnl_pct": 1.36,
-      "duration_days": 0
+      "pnl": 4.75,
+      "pnl_pct": 1.05,
+      "duration_days": 1
     },
     {
       "symbol": "MANAPPURAM",
@@ -30,9 +30,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -11.8,
-      "pnl_pct": -3.7,
-      "duration_days": 3
+      "pnl": -10.65,
+      "pnl_pct": -3.34,
+      "duration_days": 4
     },
     {
       "symbol": "SANDUMA",
@@ -41,9 +41,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 6.39,
-      "pnl_pct": 2.52,
-      "duration_days": 3
+      "pnl": 4.68,
+      "pnl_pct": 1.85,
+      "duration_days": 4
     },
     {
       "symbol": "DYNAMATECH",
@@ -52,9 +52,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -533.5,
-      "pnl_pct": -5.4,
-      "duration_days": 14
+      "pnl": -622.0,
+      "pnl_pct": -6.3,
+      "duration_days": 15
     },
     {
       "symbol": "THANGAMAYL",
@@ -63,9 +63,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -133.0,
-      "pnl_pct": -3.83,
-      "duration_days": 19
+      "pnl": 17.0,
+      "pnl_pct": 0.49,
+      "duration_days": 20
     },
     {
       "symbol": "NATIONALUM",
@@ -74,9 +74,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 58.91,
-      "pnl_pct": 21.67,
-      "duration_days": 31
+      "pnl": 74.81,
+      "pnl_pct": 27.51,
+      "duration_days": 32
     },
     {
       "symbol": "PTCIL",
@@ -85,9 +85,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -582.0,
-      "pnl_pct": -3.13,
-      "duration_days": 32
+      "pnl": -717.0,
+      "pnl_pct": -3.86,
+      "duration_days": 33
     },
     {
       "symbol": "POWERINDIA",
@@ -107,9 +107,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 25.76,
-      "pnl_pct": 15.9,
-      "duration_days": 34
+      "pnl": 24.15,
+      "pnl_pct": 14.91,
+      "duration_days": 35
     },
     {
       "symbol": "HEROMOTOCO",
@@ -118,9 +118,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -253.5,
-      "pnl_pct": -4.06,
-      "duration_days": 35
+      "pnl": -239.0,
+      "pnl_pct": -3.83,
+      "duration_days": 36
     },
     {
       "symbol": "M&M",
@@ -129,9 +129,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 0.3,
-      "pnl_pct": 0.01,
-      "duration_days": 35
+      "pnl": -4.4,
+      "pnl_pct": -0.12,
+      "duration_days": 36
     },
     {
       "symbol": "CUB",
@@ -140,9 +140,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 7.56,
-      "pnl_pct": 2.67,
-      "duration_days": 35
+      "pnl": 11.66,
+      "pnl_pct": 4.12,
+      "duration_days": 36
     },
     {
       "symbol": "GMRAIRPORT",
@@ -151,9 +151,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -3.33,
-      "pnl_pct": -3.05,
-      "duration_days": 35
+      "pnl": -4.55,
+      "pnl_pct": -4.17,
+      "duration_days": 36
     },
     {
       "symbol": "M&MFIN",
@@ -162,9 +162,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 8.8,
-      "pnl_pct": 2.34,
-      "duration_days": 35
+      "pnl": -1.05,
+      "pnl_pct": -0.28,
+      "duration_days": 36
     },
     {
       "symbol": "BANKBARODA",
@@ -173,9 +173,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 11.9,
-      "pnl_pct": 4.03,
-      "duration_days": 35
+      "pnl": 10.1,
+      "pnl_pct": 3.42,
+      "duration_days": 36
     },
     {
       "symbol": "LT",
@@ -184,9 +184,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 87.8,
-      "pnl_pct": 2.16,
-      "duration_days": 40
+      "pnl": 78.0,
+      "pnl_pct": 1.92,
+      "duration_days": 41
     },
     {
       "symbol": "VEDL",
@@ -195,9 +195,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 91.25,
-      "pnl_pct": 17.4,
-      "duration_days": 56
+      "pnl": 97.35,
+      "pnl_pct": 18.56,
+      "duration_days": 57
     },
     {
       "symbol": "ECLERX",
@@ -206,9 +206,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -55.0,
-      "pnl_pct": -1.14,
-      "duration_days": 62
+      "pnl": -27.4,
+      "pnl_pct": -0.57,
+      "duration_days": 63
     },
     {
       "symbol": "CUMMINSIND",
@@ -217,9 +217,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -89.9,
-      "pnl_pct": -2.04,
-      "duration_days": 63
+      "pnl": -269.4,
+      "pnl_pct": -6.12,
+      "duration_days": 64
     },
     {
       "symbol": "NAVINFLUOR",
@@ -228,9 +228,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 98.5,
-      "pnl_pct": 1.69,
-      "duration_days": 63
+      "pnl": -88.0,
+      "pnl_pct": -1.51,
+      "duration_days": 64
     },
     {
       "symbol": "INOXGREEN",
@@ -239,9 +239,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -69.17,
-      "pnl_pct": -25.16,
-      "duration_days": 63
+      "pnl": -72.37,
+      "pnl_pct": -26.33,
+      "duration_days": 64
     },
     {
       "symbol": "SBILIFE",
@@ -250,9 +250,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 96.9,
-      "pnl_pct": 4.9,
-      "duration_days": 63
+      "pnl": 117.1,
+      "pnl_pct": 5.92,
+      "duration_days": 64
     },
     {
       "symbol": "RBLBANK",
@@ -261,9 +261,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -15.45,
-      "pnl_pct": -4.66,
-      "duration_days": 63
+      "pnl": -11.25,
+      "pnl_pct": -3.39,
+      "duration_days": 64
     },
     {
       "symbol": "SHRIRAMFIN",
@@ -272,9 +272,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 233.55,
-      "pnl_pct": 30.34,
-      "duration_days": 63
+      "pnl": 232.85,
+      "pnl_pct": 30.25,
+      "duration_days": 64
     },
     {
       "symbol": "FEDERALBNK",
@@ -283,9 +283,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 26.25,
-      "pnl_pct": 11.05,
-      "duration_days": 63
+      "pnl": 19.2,
+      "pnl_pct": 8.08,
+      "duration_days": 64
     },
     {
       "symbol": "SBIN",
@@ -294,9 +294,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 58.85,
-      "pnl_pct": 6.22,
-      "duration_days": 63
+      "pnl": 72.2,
+      "pnl_pct": 7.63,
+      "duration_days": 64
     },
     {
       "symbol": "BAJFINANCE",
@@ -305,9 +305,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -57.25,
-      "pnl_pct": -5.53,
-      "duration_days": 84
+      "pnl": -58.65,
+      "pnl_pct": -5.66,
+      "duration_days": 85
     },
     {
       "symbol": "GMDCLTD",
@@ -316,9 +316,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -32.7,
-      "pnl_pct": -5.09,
-      "duration_days": 87
+      "pnl": -29.75,
+      "pnl_pct": -4.63,
+      "duration_days": 88
     },
     {
       "symbol": "IMFA",
@@ -327,9 +327,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 261.55,
-      "pnl_pct": 21.85,
-      "duration_days": 88
+      "pnl": 96.55,
+      "pnl_pct": 8.07,
+      "duration_days": 89
     },
     {
       "symbol": "USHAMART",
@@ -338,9 +338,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -25.7,
-      "pnl_pct": -5.33,
-      "duration_days": 88
+      "pnl": -27.05,
+      "pnl_pct": -5.61,
+      "duration_days": 89
     },
     {
       "symbol": "BANCOINDIA",
@@ -349,9 +349,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -166.65,
-      "pnl_pct": -19.05,
-      "duration_days": 91
+      "pnl": -176.8,
+      "pnl_pct": -20.21,
+      "duration_days": 92
     },
     {
       "symbol": "NETWEB",
@@ -360,9 +360,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -475.4,
-      "pnl_pct": -12.68,
-      "duration_days": 96
+      "pnl": -401.9,
+      "pnl_pct": -10.72,
+      "duration_days": 97
     },
     {
       "symbol": "SARDAEN",
@@ -404,9 +404,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 164.6,
-      "pnl_pct": 5.6,
-      "duration_days": 124
+      "pnl": 188.6,
+      "pnl_pct": 6.41,
+      "duration_days": 125
     },
     {
       "symbol": "YATHARTH",
@@ -426,9 +426,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 60.2,
-      "pnl_pct": 2.68,
-      "duration_days": 125
+      "pnl": 23.2,
+      "pnl_pct": 1.03,
+      "duration_days": 126
     },
     {
       "symbol": "STARCEMENT",
@@ -448,9 +448,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 2260.0,
-      "pnl_pct": 15.17,
-      "duration_days": 126
+      "pnl": 2397.0,
+      "pnl_pct": 16.09,
+      "duration_days": 127
     },
     {
       "symbol": "TVSMOTOR",
@@ -459,9 +459,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 515.2,
-      "pnl_pct": 15.38,
-      "duration_days": 126
+      "pnl": 517.1,
+      "pnl_pct": 15.44,
+      "duration_days": 127
     },
     {
       "symbol": "UNOMINDA",
@@ -470,9 +470,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 34.8,
-      "pnl_pct": 2.67,
-      "duration_days": 126
+      "pnl": 19.1,
+      "pnl_pct": 1.47,
+      "duration_days": 127
     },
     {
       "symbol": "NAVA",
@@ -492,9 +492,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 1213.0,
-      "pnl_pct": 19.35,
-      "duration_days": 126
+      "pnl": 1253.0,
+      "pnl_pct": 19.99,
+      "duration_days": 127
     },
     {
       "symbol": "ASAHIINDIA",
@@ -503,9 +503,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 97.78,
-      "pnl_pct": 11.18,
-      "duration_days": 137
+      "pnl": 95.18,
+      "pnl_pct": 10.89,
+      "duration_days": 138
     },
     {
       "symbol": "TI",
@@ -514,9 +514,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": -64.5,
-      "pnl_pct": -12.31,
-      "duration_days": 140
+      "pnl": -71.1,
+      "pnl_pct": -13.57,
+      "duration_days": 141
     },
     {
       "symbol": "ANANDRATHI",
@@ -525,9 +525,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 393.6,
-      "pnl_pct": 14.42,
-      "duration_days": 146
+      "pnl": 419.2,
+      "pnl_pct": 15.36,
+      "duration_days": 147
     },
     {
       "symbol": "SUMICHEM",
@@ -547,9 +547,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 678.7,
-      "pnl_pct": 30.59,
-      "duration_days": 154
+      "pnl": 717.3,
+      "pnl_pct": 32.33,
+      "duration_days": 155
     },
     {
       "symbol": "DATAMATICS",
@@ -635,9 +635,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 1251.1,
-      "pnl_pct": 46.86,
-      "duration_days": 185
+      "pnl": 1270.8,
+      "pnl_pct": 47.6,
+      "duration_days": 186
     },
     {
       "symbol": "FORTIS",
@@ -668,9 +668,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 375.1,
-      "pnl_pct": 19.0,
-      "duration_days": 187
+      "pnl": 343.6,
+      "pnl_pct": 17.41,
+      "duration_days": 188
     },
     {
       "symbol": "LTFOODS",
@@ -712,9 +712,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 56.07,
-      "pnl_pct": 25.33,
-      "duration_days": 188
+      "pnl": 53.62,
+      "pnl_pct": 24.23,
+      "duration_days": 189
     },
     {
       "symbol": "NESCO",
@@ -745,9 +745,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 112.5,
-      "pnl_pct": 54.14,
-      "duration_days": 188
+      "pnl": 111.55,
+      "pnl_pct": 53.68,
+      "duration_days": 189
     },
     {
       "symbol": "AUBANK",
@@ -756,9 +756,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 191.96,
-      "pnl_pct": 23.33,
-      "duration_days": 188
+      "pnl": 185.76,
+      "pnl_pct": 22.57,
+      "duration_days": 189
     },
     {
       "symbol": "SUNFLAG",
@@ -778,9 +778,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 84.8,
-      "pnl_pct": 30.45,
-      "duration_days": 188
+      "pnl": 82.15,
+      "pnl_pct": 29.5,
+      "duration_days": 189
     },
     {
       "symbol": "LAURUSLABS",
@@ -789,9 +789,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 373.2,
-      "pnl_pct": 51.12,
-      "duration_days": 188
+      "pnl": 385.9,
+      "pnl_pct": 52.86,
+      "duration_days": 189
     },
     {
       "symbol": "MAXHEALTH",
@@ -855,9 +855,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 32.75,
-      "pnl_pct": 3.36,
-      "duration_days": 195
+      "pnl": 26.05,
+      "pnl_pct": 2.67,
+      "duration_days": 196
     },
     {
       "symbol": "TDPOWERSYS",
@@ -866,9 +866,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 167.0,
-      "pnl_pct": 31.67,
-      "duration_days": 201
+      "pnl": 161.15,
+      "pnl_pct": 30.56,
+      "duration_days": 202
     },
     {
       "symbol": "SHRIPISTON",
@@ -877,9 +877,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 780.3,
-      "pnl_pct": 30.24,
-      "duration_days": 207
+      "pnl": 755.9,
+      "pnl_pct": 29.3,
+      "duration_days": 208
     },
     {
       "symbol": "SUVEN",
@@ -976,9 +976,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 325.1,
-      "pnl_pct": 13.49,
-      "duration_days": 216
+      "pnl": 235.0,
+      "pnl_pct": 9.75,
+      "duration_days": 217
     },
     {
       "symbol": "DEEPAKFERT",
@@ -998,9 +998,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 848.0,
-      "pnl_pct": 101.68,
-      "duration_days": 217
+      "pnl": 836.8,
+      "pnl_pct": 100.34,
+      "duration_days": 218
     },
     {
       "symbol": "FORCEMOT",
@@ -1009,9 +1009,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 8288.0,
-      "pnl_pct": 65.04,
-      "duration_days": 217
+      "pnl": 8153.0,
+      "pnl_pct": 63.99,
+      "duration_days": 218
     },
     {
       "symbol": "STYRENIX",
@@ -1042,9 +1042,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 33.65,
-      "pnl_pct": 3.74,
-      "duration_days": 217
+      "pnl": 24.05,
+      "pnl_pct": 2.67,
+      "duration_days": 218
     },
     {
       "symbol": "WELCORP",
@@ -1119,9 +1119,9 @@
       "exit_date": null,
       "exit_price": null,
       "status": "OPEN",
-      "pnl": 216.49,
-      "pnl_pct": 11.46,
-      "duration_days": 244
+      "pnl": 216.79,
+      "pnl_pct": 11.48,
+      "duration_days": 245
     },
     {
       "symbol": "MAZDOCK",
@@ -12420,7 +12420,7 @@
       "ath_date": "2024-12-31",
       "gap_days": 365,
       "close_price": 623.85,
-      "current_price": 620.3,
+      "current_price": 637.5,
       "entry_month": "2026-01"
     },
     {
@@ -12432,7 +12432,7 @@
       "ath_date": "2024-12-31",
       "gap_days": 334,
       "close_price": 623.45,
-      "current_price": 677.2,
+      "current_price": 653.0,
       "entry_month": "2025-12"
     },
     {
@@ -12444,7 +12444,7 @@
       "ath_date": "2025-08-31",
       "gap_days": 91,
       "close_price": 1702.1,
-      "current_price": 1703.7,
+      "current_price": 1731.3,
       "entry_month": "2025-12"
     }
   ],
@@ -12453,8 +12453,8 @@
     "closed_trades": 1070,
     "active_trades": 58,
     "win_rate": 55.05,
-    "total_pnl_abs": 93067.63,
-    "avg_pnl_per_trade": 82.51,
+    "total_pnl_abs": 92514.69,
+    "avg_pnl_per_trade": 82.02,
     "profit_factor": 1.49,
     "max_drawdown": 29510.47,
     "avg_win": 391.7,
