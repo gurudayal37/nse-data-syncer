@@ -125,10 +125,10 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     benchmark_returns = np.array([r['benchmark_return'] / 100 for r in monthly_results])
     
     # Time Metrics
-    start_date = monthly_results[0]['month']
-    end_date = monthly_results[-1]['month']
-    period_months = len(monthly_results)
-    period_years = period_months / 12
+    start_date = monthly_results[0]['week']
+    end_date = monthly_results[-1]['week']
+    period_weeks = len(monthly_results)
+    period_years = period_weeks / 52
     
     # Capital Metrics
     start_value = 100000  # Changed to 1 lakh
@@ -152,7 +152,7 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     drawdowns = (cumulative_values - running_max) / running_max
     max_drawdown = np.min(drawdowns)
     
-    # Max Drawdown Duration (in months)
+    # Max Drawdown Duration (in weeks)
     dd_duration = 0
     current_dd_duration = 0
     for dd in drawdowns:
@@ -164,7 +164,7 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     
     # Sharpe Ratio (annualized, assuming risk-free rate = 0)
     excess_returns = portfolio_returns - 0  # Assuming risk-free rate = 0
-    sharpe_ratio = (np.mean(excess_returns) * 12) / (np.std(excess_returns) * np.sqrt(12)) if np.std(excess_returns) > 0 else 0
+    sharpe_ratio = (np.mean(excess_returns) * 52) / (np.std(excess_returns) * np.sqrt(52)) if np.std(excess_returns) > 0 else 0
     
     # Calmar Ratio (annualized return / max drawdown)
     annualized_return = (1 + total_return) ** (1 / period_years) - 1
@@ -173,7 +173,7 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     # Sortino Ratio (using downside deviation)
     downside_returns = portfolio_returns[portfolio_returns < 0]
     downside_std = np.std(downside_returns) if len(downside_returns) > 0 else 0
-    sortino_ratio = (np.mean(excess_returns) * 12) / (downside_std * np.sqrt(12)) if downside_std > 0 else 0
+    sortino_ratio = (np.mean(excess_returns) * 52) / (downside_std * np.sqrt(52)) if downside_std > 0 else 0
     
     # Omega Ratio (probability weighted ratio of gains vs losses)
     threshold = 0
@@ -185,8 +185,8 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     max_gross_exposure = 100  # Always 100% invested in this strategy
     
     # Trade Statistics
-    total_trades = period_months  # One trade per month (rebalancing)
-    total_closed_trades = period_months - 1  # All except current month
+    total_trades = period_weeks  # One trade per week (rebalancing)
+    total_closed_trades = period_weeks - 1  # All except current week
     total_open_trades = 1  # Current month position
     
     winning_trades = np.sum(portfolio_returns > 0)
@@ -212,7 +212,7 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
         "time_metrics": {
             "start": start_date,
             "end": end_date,
-            "period": f"{period_months} months ({period_years:.1f} years)"
+            "period": f"{period_weeks} weeks ({period_years:.1f} years)"
         },
         "capital_metrics": {
             "start_value": round(start_value, 2),
@@ -402,12 +402,12 @@ def run_backtest():
         print(f"  Port: {port_ret:.2%}, Bench: {bench_ret:.2%}")
         
         if label_date:
-            month_label = label_date
+            week_label = label_date
         else:
-            month_label = next_rebalance_date.strftime('%Y-%m')
+            week_label = next_rebalance_date.strftime('%Y-%m-%d')
 
         return {
-            'month': month_label,
+            'week': week_label,
             'portfolio_return': round(port_ret * 100, 2),
             'benchmark_return': round(bench_ret * 100, 2),
             'holdings': stock_returns_detail
@@ -415,9 +415,9 @@ def run_backtest():
 
     for i, rebalance_date in enumerate(dates[:-1]):
         next_rebalance_date = dates[i+1]
-        month_label = next_rebalance_date.strftime('%Y-%m')
+        week_label = next_rebalance_date.strftime('%Y-%m-%d')
         
-        print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()} ({month_label})")
+        print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()} ({week_label})")
         res = process_period(rebalance_date, next_rebalance_date)
         if res:
             all_results.append(res)
@@ -427,14 +427,15 @@ def run_backtest():
     today = datetime.now()
     
     if today > last_rebalance_date:
-        current_month_label = today.strftime('%Y-%m')
-        print(f"Processing Current Month (Live): {last_rebalance_date.date()} -> {today.date()}")
-        res = process_period(last_rebalance_date, today, label_date=current_month_label)
+        next_friday = last_rebalance_date + timedelta(days=7)
+        current_week_label = next_friday.strftime('%Y-%m-%d')
+        print(f"Processing Current Week (Live): {last_rebalance_date.date()} -> {today.date()}")
+        res = process_period(last_rebalance_date, today, label_date=current_week_label)
         if res:
             all_results.append(res)
 
-    # Sort all results by month ascending for proper calculation
-    all_results.sort(key=lambda x: x['month'])
+    # Sort all results by week ascending for proper calculation
+    all_results.sort(key=lambda x: x['week'])
     
     # Calculate actual transactions by tracking portfolio changes
     print("\nCalculating actual transactions...")
@@ -486,9 +487,9 @@ def run_backtest():
     print(f"Net Return After Fees: {net_return_after_fees:.2f}%")
     
     # Split into backtest period (until Nov 2025) and current performance (Dec 2025+)
-    backtest_cutoff = "2025-11"
-    backtest_results = [r for r in all_results if r['month'] <= backtest_cutoff]
-    current_results = [r for r in all_results if r['month'] > backtest_cutoff]
+    backtest_cutoff = "2025-11-28"
+    backtest_results = [r for r in all_results if r['week'] <= backtest_cutoff]
+    current_results = [r for r in all_results if r['week'] > backtest_cutoff]
     
     # Calculate comprehensive metrics for backtest period
     print("\nCalculating comprehensive metrics...")
@@ -502,8 +503,8 @@ def run_backtest():
     # Prepare final output
     output_data = {
         "backtest_metrics": backtest_metrics,
-        "backtest_results": sorted(backtest_results, key=lambda x: x['month'], reverse=True),
-        "current_performance": sorted(current_results, key=lambda x: x['month'], reverse=True)
+        "backtest_results": sorted(backtest_results, key=lambda x: x['week'], reverse=True),
+        "current_performance": sorted(current_results, key=lambda x: x['week'], reverse=True)
     }
     
     output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_simple_weekly.json')

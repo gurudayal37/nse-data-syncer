@@ -20,14 +20,14 @@ export default function SimpleMomentumStrategyPage() {
         let benchValue = 100000
 
         const sortedData = [...backtestResults].sort((a: any, b: any) =>
-            new Date(a.month).getTime() - new Date(b.month).getTime()
+            new Date(a.week).getTime() - new Date(b.week).getTime()
         )
 
         const chartData = sortedData.map((item: any) => {
             portValue = portValue * (1 + item.portfolio_return / 100)
             benchValue = benchValue * (1 + item.benchmark_return / 100)
             return {
-                month: item.month,
+                week: item.week,
                 Portfolio: parseFloat(portValue.toFixed(2)),
                 Benchmark: parseFloat(benchValue.toFixed(2)),
                 ...item
@@ -133,7 +133,7 @@ export default function SimpleMomentumStrategyPage() {
                                 <thead className="bg-gray-50 text-gray-900 font-medium">
                                     <tr className="text-right">
                                         <th className="px-6 py-4 w-12 text-left"></th>
-                                        <th className="px-6 py-4 text-left">Month</th>
+                                        <th className="px-6 py-4 text-left">Week Ending Date</th>
                                         <th className="px-6 py-4">Portfolio Return</th>
                                         <th className="px-6 py-4">Benchmark (Nifty 50)</th>
                                         <th className="px-6 py-4">Excess Return</th>
@@ -155,7 +155,7 @@ export default function SimpleMomentumStrategyPage() {
                                                             {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
                                                         </button>
                                                     </td>
-                                                    <td className="px-6 py-4 font-medium text-gray-900">{row.month}</td>
+                                                    <td className="px-6 py-4 font-medium text-gray-900">{row.week}</td>
                                                     <td className={`px-6 py-4 text-right font-medium ${row.portfolio_return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                                                         {row.portfolio_return > 0 ? '+' : ''}{row.portfolio_return}%
                                                     </td>
@@ -289,7 +289,7 @@ export default function SimpleMomentumStrategyPage() {
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Max DD Duration</span>
-                                    <span className="text-sm font-medium text-gray-900">{metrics.risk_metrics.max_drawdown_duration} months</span>
+                                    <span className="text-sm font-medium text-gray-900">{metrics.risk_metrics.max_drawdown_duration} weeks</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-900">Sharpe Ratio</span>
@@ -365,7 +365,7 @@ export default function SimpleMomentumStrategyPage() {
                             <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
                                 <XAxis
-                                    dataKey="month"
+                                    dataKey="week"
                                     tick={{ fontSize: 11, fill: '#6b7280' }}
                                     tickLine={false}
                                     axisLine={{ stroke: '#d1d5db' }}
@@ -390,7 +390,7 @@ export default function SimpleMomentumStrategyPage() {
                                         const formattedValue = `₹${parseFloat(value).toLocaleString('en-IN', { maximumFractionDigits: 0 })}`
                                         return [formattedValue, name]
                                     }}
-                                    labelFormatter={(label) => `Month: ${label}`}
+                                    labelFormatter={(label) => `Week: ${label}`}
                                 />
                                 <Legend
                                     wrapperStyle={{ paddingTop: '20px' }}
@@ -431,7 +431,7 @@ export default function SimpleMomentumStrategyPage() {
                             <thead className="bg-gray-50 text-gray-900 font-medium">
                                 <tr className="text-right">
                                     <th className="px-6 py-4 w-12 text-left"></th>
-                                    <th className="px-6 py-4 text-left">Month</th>
+                                    <th className="px-6 py-4 text-left">Week Ending Date</th>
                                     <th className="px-6 py-4">Portfolio Return</th>
                                     <th className="px-6 py-4">Benchmark (Nifty 50)</th>
                                     <th className="px-6 py-4">Excess Return</th>
@@ -453,7 +453,7 @@ export default function SimpleMomentumStrategyPage() {
                                                         {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
                                                     </button>
                                                 </td>
-                                                <td className="px-6 py-4 font-medium text-gray-900">{row.month}</td>
+                                                <td className="px-6 py-4 font-medium text-gray-900">{row.week}</td>
                                                 <td className={`px-6 py-4 text-right font-medium ${row.portfolio_return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                                                     {row.portfolio_return > 0 ? '+' : ''}{row.portfolio_return}%
                                                 </td>
