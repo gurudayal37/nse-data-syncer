@@ -1,83 +1,83 @@
 [
   {
     "week": "2026-01-09",
-    "portfolio_return": -0.69,
-    "benchmark_return": -0.57,
+    "portfolio_return": -1.08,
+    "benchmark_return": -0.71,
     "holdings": [
       {
+        "symbol": "MAHASTEEL",
+        "return": -6.89,
+        "score": 8.87
+      },
+      {
+        "symbol": "CUPID",
+        "return": 2.14,
+        "score": 7.78
+      },
+      {
+        "symbol": "TAKE",
+        "return": 0.74,
+        "score": 6.97
+      },
+      {
+        "symbol": "BGRENERGY",
+        "return": -4.14,
+        "score": 4.59
+      },
+      {
+        "symbol": "SILVERTUC",
+        "return": 15.17,
+        "score": 3.41
+      },
+      {
+        "symbol": "IFBAGRO",
+        "return": -6.84,
+        "score": 3.39
+      },
+      {
         "symbol": "HINDCOPPER",
-        "return": 4.31,
-        "score": 3.49
+        "return": 1.73,
+        "score": 3.34
       },
       {
         "symbol": "LTF",
-        "return": -0.13,
-        "score": 3.37
+        "return": -1.81,
+        "score": 3.24
       },
       {
-        "symbol": "SHRIRAMFIN",
-        "return": -0.76,
-        "score": 3.15
-      },
-      {
-        "symbol": "ASHOKLEY",
-        "return": -1.39,
+        "symbol": "INFOBEAN",
+        "return": 3.61,
         "score": 3.13
       },
       {
-        "symbol": "NATIONALUM",
-        "return": 4.97,
+        "symbol": "VENUSREM",
+        "return": -4.36,
         "score": 3.03
       },
       {
+        "symbol": "SHRIRAMFIN",
+        "return": -1.44,
+        "score": 3.02
+      },
+      {
+        "symbol": "ASHOKLEY",
+        "return": -1.41,
+        "score": 2.99
+      },
+      {
+        "symbol": "NATIONALUM",
+        "return": 6.75,
+        "score": 2.89
+      },
+      {
         "symbol": "M&MFIN",
-        "return": -7.1,
-        "score": 2.9
+        "return": -10.66,
+        "score": 2.78
       },
       {
-        "symbol": "ABCAPITAL",
-        "return": -0.17,
-        "score": 2.51
-      },
-      {
-        "symbol": "HINDALCO",
-        "return": 1.79,
-        "score": 2.49
-      },
-      {
-        "symbol": "FORCEMOT",
-        "return": -1.58,
-        "score": 2.49
-      },
-      {
-        "symbol": "FEDERALBNK",
-        "return": -3.84,
-        "score": 2.47
-      },
-      {
-        "symbol": "CUB",
-        "return": 2.17,
-        "score": 2.44
-      },
-      {
-        "symbol": "MUTHOOTFIN",
-        "return": 3.14,
-        "score": 2.37
-      },
-      {
-        "symbol": "IMFA",
-        "return": -13.54,
-        "score": 2.37
-      },
-      {
-        "symbol": "VEDL",
-        "return": 0.78,
-        "score": 2.33
-      },
-      {
-        "symbol": "AUBANK",
-        "return": 0.94,
-        "score": 2.31
+        "symbol": "KMEW",
+        "return": -8.84,
+        "score": 2.78
       }
     ]
   },
