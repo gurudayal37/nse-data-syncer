@@ -24,6 +24,9 @@ export default async function MomentumPage(props: PageProps) {
     const limit = 50
     const skip = (page - 1) * limit
 
+    const minMarketCapCr = Number(process.env.MIN_MARKET_CAP_CR || 500)
+    const minMarketCap = minMarketCapCr * 10000000
+
     // Construct orderBy for Prisma
     let orderBy: any = {}
     if (sort === 'nse_symbol' || sort === 'name') {
@@ -48,6 +51,9 @@ export default async function MomentumPage(props: PageProps) {
         prisma.stocks.findMany({
             where: {
                 is_active: true,
+                market_cap: {
+                    gte: minMarketCap
+                },
                 stock_performance: {
                     isNot: null
                 }
@@ -62,6 +68,9 @@ export default async function MomentumPage(props: PageProps) {
         prisma.stocks.count({
             where: {
                 is_active: true,
+                market_cap: {
+                    gte: minMarketCap
+                },
                 stock_performance: {
                     isNot: null
                 }
@@ -151,7 +160,7 @@ export default async function MomentumPage(props: PageProps) {
                                             <td className="px-6 py-4 text-right">
                                                 {perf?.momentum_score ? (
                                                     <span className={`font-bold ${perf.momentum_score >= 2 ? 'text-green-600' :
-                                                            perf.momentum_score >= 1 ? 'text-blue-600' : 'text-gray-600'
+                                                        perf.momentum_score >= 1 ? 'text-blue-600' : 'text-gray-600'
                                                         }`}>
                                                         {perf.momentum_score.toFixed(2)}
                                                     </span>

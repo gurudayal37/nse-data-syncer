@@ -35,7 +35,7 @@ def get_month_ends(years=8):
         
     return dates
 
-def calculate_momentum_for_date(session, target_date, stocks_df):
+def calculate_momentum_for_date(session, target_date, stocks_df, valid_stock_ids=None):
     """
     Calculate momentum scores for all stocks as of target_date.
     stocks_df should contain all daily prices up to target_date.
@@ -48,6 +48,8 @@ def calculate_momentum_for_date(session, target_date, stocks_df):
     unique_stocks = stocks_df.index.get_level_values('stock_id').unique()
     
     for stock_id in unique_stocks:
+        if valid_stock_ids is not None and stock_id not in valid_stock_ids:
+            continue
         try:
             # Get stock data
             df = stocks_df.loc[stock_id]
@@ -339,7 +341,7 @@ def run_backtest():
     
     print(f"Backtesting over {len(dates)} months...")
     
-    def process_period(rebalance_date, next_rebalance_date, label_date=None):
+    def process_period(rebalance_date, next_rebalance_date, label_date=None, valid_stock_ids=None):
         print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()}")
         
         start_window = rebalance_date - timedelta(days=400)
@@ -356,7 +358,7 @@ def run_backtest():
         df_window.set_index(['stock_id', 'date'], inplace=True)
         
         # Calculate Momentum
-        top_stocks_df = calculate_momentum_for_date(session, rebalance_date, df_window)
+        top_stocks_df = calculate_momentum_for_date(session, rebalance_date, df_window, valid_stock_ids=valid_stock_ids)
         
         if top_stocks_df.empty:
             return None
@@ -470,7 +472,15 @@ def run_backtest():
         # Remove old live entry if exists in existing_results
         existing_results = [r for r in existing_results if r['month'] != current_month_label]
         
-        res = process_period(last_rebalance_date, today, label_date=current_month_label)
+        # Custom Filter for Live Period: Market Cap >= 500Cr
+        min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 500))
+        min_mcap = min_mcap_cr * 10000000
+        
+        valid_stocks_query = text(f"SELECT id FROM stocks WHERE is_active = true AND market_cap >= {min_mcap}")
+        valid_stock_ids = [r[0] for r in session.execute(valid_stocks_query).fetchall()]
+        print(f"Applying Market Cap Filter (> {min_mcap_cr} Cr) for Live Period. Eligible Stocks: {len(valid_stock_ids)}")
+        
+        res = process_period(last_rebalance_date, today, label_date=current_month_label, valid_stock_ids=valid_stock_ids)
         if res:
             new_results.append(res)
 

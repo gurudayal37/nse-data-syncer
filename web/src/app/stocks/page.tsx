@@ -18,6 +18,9 @@ export default async function Dashboard(props: DashboardProps) {
   const order = searchParams.order || 'desc'
   const skip = (page - 1) * PAGE_SIZE
 
+  const minMarketCapCr = Number(process.env.MIN_MARKET_CAP_CR || 500)
+  const minMarketCap = minMarketCapCr * 10000000 // Convert Crores to absolute value
+
   let stocks: Stock[] = []
   let totalCount = 0
   let error: string | null = null
@@ -39,10 +42,23 @@ export default async function Dashboard(props: DashboardProps) {
 
   try {
     // Get total count first
-    totalCount = await prisma.stocks.count()
+    totalCount = await prisma.stocks.count({
+      where: {
+        is_active: true,
+        market_cap: {
+          gte: minMarketCap
+        }
+      }
+    })
 
     // Fetch stocks with pagination and sorting
     stocks = await prisma.stocks.findMany({
+      where: {
+        is_active: true,
+        market_cap: {
+          gte: minMarketCap
+        }
+      },
       take: PAGE_SIZE,
       skip: skip,
       include: {
