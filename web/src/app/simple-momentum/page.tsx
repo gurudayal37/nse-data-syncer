@@ -100,7 +100,7 @@ export default async function SimpleMomentumPage(props: PageProps) {
 
     return (
         <div className="min-h-screen bg-gray-50 p-8">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-[95%] mx-auto">
                 <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-4">
                         <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition-colors">
@@ -123,6 +123,9 @@ export default async function SimpleMomentumPage(props: PageProps) {
                                     </th>
                                     <th className="px-6 py-4 w-[250px]">
                                         <SortHeader field="name" label="Company Name" align="left" />
+                                    </th>
+                                    <th className="px-6 py-4 text-right">
+                                        <span className="font-semibold text-gray-600">Market Cap</span>
                                     </th>
                                     <th className="px-6 py-4 text-right">
                                         <SortHeader field="simple_momentum_score" label="Simple Score" />
@@ -156,6 +159,9 @@ export default async function SimpleMomentumPage(props: PageProps) {
                                             </td>
                                             <td className="px-6 py-4 text-gray-600 truncate max-w-[250px]" title={stock.name}>
                                                 {stock.name}
+                                            </td>
+                                            <td className="px-6 py-4 text-right text-gray-600">
+                                                {stock.market_cap ? `₹${Math.round(Number(stock.market_cap) / 10000000).toLocaleString('en-IN')} Cr` : '-'}
                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 {perf?.simple_momentum_score ? (

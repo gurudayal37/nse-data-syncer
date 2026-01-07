@@ -23,6 +23,7 @@ export interface Stock {
   name: string | null
   sector: string | null
   subsector: string | null
+  market_cap: bigint | null
   daily_prices: DailyPrice[]
   stock_performance: StockPerformance | null
 }

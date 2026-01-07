@@ -116,7 +116,7 @@ export default async function Dashboard(props: DashboardProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[95%] mx-auto">
         <header className="mb-8 flex justify-between items-end">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Stock Dashboard</h1>
@@ -135,6 +135,7 @@ export default async function Dashboard(props: DashboardProps) {
                   <th className="px-6 py-4">Symbol</th>
                   <th className="px-6 py-4">Name</th>
                   <th className="px-6 py-4 text-right">Price</th>
+                  <th className="px-6 py-4 text-right">Market Cap</th>
                   {PERFORMANCE_PERIODS.map((period) => (
                     <SortHeader
                       key={period.key}
@@ -162,6 +163,9 @@ export default async function Dashboard(props: DashboardProps) {
                       </td>
                       <td className="px-6 py-4 text-right font-medium text-gray-900">
                         {latest ? `₹${latest.close_price?.toFixed(2)}` : '-'}
+                      </td>
+                      <td className="px-6 py-4 text-right text-gray-600">
+                        {stock.market_cap ? `₹${Math.round(Number(stock.market_cap) / 10000000).toLocaleString('en-IN')} Cr` : '-'}
                       </td>
                       {PERFORMANCE_PERIODS.map((period) => {
                         const value = perf?.[period.key as keyof typeof perf] as number | null | undefined
