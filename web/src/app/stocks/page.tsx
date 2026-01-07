@@ -18,7 +18,7 @@ export default async function Dashboard(props: DashboardProps) {
   const order = searchParams.order || 'desc'
   const skip = (page - 1) * PAGE_SIZE
 
-  const minMarketCapCr = Number(process.env.MIN_MARKET_CAP_CR || 500)
+  const minMarketCapCr = Number(process.env.MIN_MARKET_CAP_CR || 2000)
   const minMarketCap = minMarketCapCr * 10000000 // Convert Crores to absolute value
 
   let stocks: Stock[] = []

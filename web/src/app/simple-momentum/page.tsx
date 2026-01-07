@@ -24,7 +24,7 @@ export default async function SimpleMomentumPage(props: PageProps) {
     const limit = 50
     const skip = (page - 1) * limit
 
-    const minMarketCapCr = Number(process.env.MIN_MARKET_CAP_CR || 500)
+    const minMarketCapCr = Number(process.env.MIN_MARKET_CAP_CR || 2000)
     const minMarketCap = minMarketCapCr * 10000000
 
     // Construct orderBy for Prisma

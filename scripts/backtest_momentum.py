@@ -472,8 +472,8 @@ def run_backtest():
         # Remove old live entry if exists in existing_results
         existing_results = [r for r in existing_results if r['month'] != current_month_label]
         
-        # Custom Filter for Live Period: Market Cap >= 500Cr
-        min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 500))
+        # Custom Filter for Live Period: Market Cap >= 2000Cr
+        min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 2000))
         min_mcap = min_mcap_cr * 10000000
         
         valid_stocks_query = text(f"SELECT id FROM stocks WHERE is_active = true AND market_cap >= {min_mcap}")
