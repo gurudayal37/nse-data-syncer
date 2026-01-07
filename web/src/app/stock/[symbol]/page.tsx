@@ -128,6 +128,12 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                             <h1 className="text-3xl font-bold text-gray-900">{stock.nse_symbol}</h1>
                             <p className="text-gray-500 mt-1 text-lg">{stock.name}</p>
                             <div className="flex gap-4 mt-4 text-sm text-gray-600">
+                                {stock.market_cap && (
+                                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center font-medium">
+                                        <span className="mr-1">M.Cap:</span>
+                                        ₹{Math.round(Number(stock.market_cap) / 10000000).toLocaleString('en-IN')} Cr
+                                    </span>
+                                )}
                                 {stock.sector && (
                                     <span className="bg-gray-100 px-3 py-1 rounded-full">
                                         Sector: {stock.sector}
