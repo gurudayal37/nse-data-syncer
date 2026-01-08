@@ -7838,13 +7838,13 @@
   "current_performance": [
     {
       "month": "2026-01",
-      "portfolio_return": 1.67,
-      "benchmark_return": 0.04,
+      "portfolio_return": 0.5,
+      "benchmark_return": -0.97,
       "holdings": [
         {
           "symbol": "CUPID",
           "return": -17.21,
-          "score": 11.46
+          "score": 11.44
         },
         {
           "symbol": "BGRENERGY",
@@ -7853,23 +7853,23 @@
         },
         {
           "symbol": "LTF",
-          "return": -0.63,
-          "score": 3.07
+          "return": -2.74,
+          "score": 3.06
         },
         {
           "symbol": "HINDCOPPER",
-          "return": 6.36,
+          "return": 0.47,
           "score": 3.0
         },
         {
           "symbol": "M&MFIN",
-          "return": -10.67,
+          "return": -11.9,
           "score": 2.81
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": -0.04,
-          "score": 2.78
+          "return": -0.33,
+          "score": 2.77
         },
         {
           "symbol": "INFOBEAN",
@@ -7884,36 +7884,36 @@
         {
           "symbol": "GRMOVER",
           "return": 4.65,
-          "score": 2.55
+          "score": 2.54
         },
         {
           "symbol": "SILVERTUC",
           "return": 31.18,
-          "score": 2.53
+          "score": 2.52
         },
         {
           "symbol": "FEDERALBNK",
-          "return": -3.2,
+          "return": -4.25,
           "score": 2.42
         },
         {
           "symbol": "ASHAPURMIN",
           "return": 1.46,
-          "score": 2.41
+          "score": 2.4
         },
         {
           "symbol": "GMBREW",
           "return": -1.16,
-          "score": 2.4
+          "score": 2.39
         },
         {
           "symbol": "NATIONALUM",
-          "return": 12.19,
+          "return": 6.11,
           "score": 2.39
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 3.87,
+          "return": 2.97,
           "score": 2.38
         }
       ]
