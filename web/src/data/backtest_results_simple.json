@@ -8,14 +8,14 @@
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 1979536.62,
-      "total_fees_paid": 12743.69,
+      "total_fees_paid": 12739.17,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 1879.54,
       "benchmark_return": 137.42,
       "expectancy": 3.78,
-      "net_return_after_fees": 1879.55
+      "net_return_after_fees": 1858.94
     },
     "risk_metrics": {
       "max_drawdown": -47.96,
@@ -7756,27 +7756,27 @@
   "current_performance": [
     {
       "month": "2026-01",
-      "portfolio_return": -0.48,
-      "benchmark_return": 0.04,
+      "portfolio_return": -1.51,
+      "benchmark_return": -0.97,
       "holdings": [
         {
           "symbol": "CUPID",
           "return": -17.21,
-          "score": 13.18
+          "score": 13.16
         },
         {
           "symbol": "BGRENERGY",
           "return": -7.93,
-          "score": 6.72
+          "score": 6.71
         },
         {
           "symbol": "LTF",
-          "return": -0.63,
+          "return": -2.74,
           "score": 3.55
         },
         {
           "symbol": "HINDCOPPER",
-          "return": 6.36,
+          "return": 0.47,
           "score": 3.0
         },
         {
@@ -7792,12 +7792,12 @@
         {
           "symbol": "RMDRIP",
           "return": 4.91,
-          "score": 2.75
+          "score": 2.74
         },
         {
           "symbol": "GRMOVER",
           "return": 4.65,
-          "score": 2.63
+          "score": 2.62
         },
         {
           "symbol": "KMEW",
@@ -7806,13 +7806,13 @@
         },
         {
           "symbol": "MARUTI",
-          "return": 0.67,
+          "return": -0.2,
           "score": 2.59
         },
         {
           "symbol": "ABCAPITAL",
-          "return": 0.95,
-          "score": 2.48
+          "return": 0.24,
+          "score": 2.47
         },
         {
           "symbol": "JAYNECOIND",
@@ -7821,18 +7821,18 @@
         },
         {
           "symbol": "FORCEMOT",
-          "return": 0.43,
-          "score": 2.45
+          "return": -2.65,
+          "score": 2.44
         },
         {
           "symbol": "INFOBEAN",
           "return": 14.2,
-          "score": 2.41
+          "score": 2.4
         },
         {
           "symbol": "MUTHOOTFIN",
-          "return": 3.89,
-          "score": 2.39
+          "return": 1.1,
+          "score": 2.38
         }
       ]
     },
