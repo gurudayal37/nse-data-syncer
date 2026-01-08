@@ -1,0 +1,80 @@
+name: Optimized Daily Sync
+
+on:
+  workflow_dispatch:  # Manual trigger for now
+
+jobs:
+  # 1. Parallel Sync (5 Shards)
+  sync-shards:
+    name: Sync Shard ${{ matrix.shard }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4] # 5 Parallel Jobs
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run Sync Shard
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          python -m app.main --shard-index ${{ matrix.shard }} --total-shards 5 --skip-momentum
+
+  # 2. Momentum Calculation (Runs after ALL shards finish)
+  calculate-momentum:
+    needs: sync-shards
+    runs-on: ubuntu-latest
+    name: Calculate Momentum
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+            
+      - name: Run Momentum Calculation
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          python -m app.momentum
+
+  # 3. Trigger Strategies (Runs after Momentum finishes)
+  trigger-strategies:
+    needs: calculate-momentum
+    runs-on: ubuntu-latest
+    name: Trigger Backtest Strategies
+    permissions:
+      actions: write
+    
+    steps:
+      - name: Trigger Strategies
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Triggering strategy workflows..."
+          gh workflow run "ATH Strategy"
+          gh workflow run "Momentum Strategy"
+          gh workflow run "Momentum Strategy Weekly"
+          gh workflow run "Simple Momentum Strategy"
+          gh workflow run "Simple Momentum Strategy Weekly"

@@ -272,3 +272,6 @@ def calculate_momentum():
         traceback.print_exc()
     finally:
         session.close()
+
+if __name__ == "__main__":
+    calculate_momentum()

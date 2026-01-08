@@ -1,5 +1,6 @@
 import argparse
 import os
+import math
 from datetime import date, datetime, timedelta
 import time
 from dotenv import load_dotenv
@@ -31,9 +32,19 @@ def main():
     parser.add_argument('--dry-run', action='store_true', help='Perform a dry run without writing to DB')
     parser.add_argument('--symbols', type=str, help='Comma-separated list of symbols to process (overrides CSV)')
     parser.add_argument('--source', type=str, choices=['default', 'remaining'], default='default', help='Source of symbols to sync')
+    parser.add_argument('--shard-index', type=int, default=0, help='Index of current shard (0-based)')
+    parser.add_argument('--total-shards', type=int, default=1, help='Total number of shards')
+    parser.add_argument('--skip-momentum', action='store_true', help='Skip momentum calculation')
+    parser.add_argument('--only-momentum', action='store_true', help='Run ONLY momentum calculation')
     args = parser.parse_args()
 
     print("Starting NSE Stock Data Syncer (Optimized)...")
+
+    # 0. Handle Momentum Only Mode
+    if args.only_momentum:
+        from .momentum import calculate_momentum
+        calculate_momentum()
+        return
     
     # 1. Initialize Database
     db_manager = DatabaseManager()
@@ -59,8 +70,19 @@ def main():
     if args.limit:
         csv_symbols = csv_symbols[:args.limit]
         print(f"Limiting to first {args.limit} symbols.")
+        csv_symbols = csv_symbols[:args.limit]
+        print(f"Limiting to first {args.limit} symbols.")
 
-    # Check for missing stocks
+    # Apply Sharding
+    if args.total_shards > 1:
+        total_symbols = len(csv_symbols)
+        chunk_size = math.ceil(total_symbols / args.total_shards)
+        start_idx = args.shard_index * chunk_size
+        end_idx = min(start_idx + chunk_size, total_symbols)
+        
+        csv_symbols = csv_symbols[start_idx:end_idx]
+        print(f"🔹 SHARDING ACTIVE: Processing Shard {args.shard_index + 1}/{args.total_shards}")
+        print(f"🔹 Range: {start_idx} to {end_idx} ({len(csv_symbols)} symbols)")
     missing_symbols = [s for s in csv_symbols if s not in symbol_map]
     if missing_symbols:
         print(f"Found {len(missing_symbols)} new symbols to insert.")
@@ -238,8 +260,12 @@ def main():
     print(f"Market Cap updated for {updated_mcap_count} stocks.")
 
     # 7. Calculate Momentum Scores
-    from .momentum import calculate_momentum
-    calculate_momentum()
+    # 7. Calculate Momentum Scores
+    if not args.skip_momentum:
+        from .momentum import calculate_momentum
+        calculate_momentum()
+    else:
+        print("Skipping Momentum Calculation as requested.")
 
 if __name__ == "__main__":
     main()
