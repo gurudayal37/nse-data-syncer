@@ -341,6 +341,14 @@ def run_backtest():
     
     print(f"Backtesting over {len(dates)} months...")
     
+    # Pre-calculate eligible stocks based on Market Cap (Global Filter)
+    min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 2000))
+    min_mcap = min_mcap_cr * 10000000
+    
+    valid_stocks_query = text(f"SELECT id FROM stocks WHERE is_active = true AND market_cap >= {min_mcap}")
+    valid_stock_ids = [r[0] for r in session.execute(valid_stocks_query).fetchall()]
+    print(f"Applying Global Market Cap Filter (> {min_mcap_cr} Cr). Eligible Stocks: {len(valid_stock_ids)}")
+    
     def process_period(rebalance_date, next_rebalance_date, label_date=None, valid_stock_ids=None):
         print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()}")
         
@@ -458,7 +466,7 @@ def run_backtest():
             continue
             
         print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()} ({month_label})")
-        res = process_period(rebalance_date, next_rebalance_date)
+        res = process_period(rebalance_date, next_rebalance_date, valid_stock_ids=valid_stock_ids)
         if res:
             new_results.append(res)
             
@@ -472,13 +480,7 @@ def run_backtest():
         # Remove old live entry if exists in existing_results
         existing_results = [r for r in existing_results if r['month'] != current_month_label]
         
-        # Custom Filter for Live Period: Market Cap >= 2000Cr
-        min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 2000))
-        min_mcap = min_mcap_cr * 10000000
-        
-        valid_stocks_query = text(f"SELECT id FROM stocks WHERE is_active = true AND market_cap >= {min_mcap}")
-        valid_stock_ids = [r[0] for r in session.execute(valid_stocks_query).fetchall()]
-        print(f"Applying Market Cap Filter (> {min_mcap_cr} Cr) for Live Period. Eligible Stocks: {len(valid_stock_ids)}")
+        # Market Cap Filter is already applied globally
         
         res = process_period(last_rebalance_date, today, label_date=current_month_label, valid_stock_ids=valid_stock_ids)
         if res:
