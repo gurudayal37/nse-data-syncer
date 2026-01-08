@@ -21,7 +21,9 @@ from .constants import (
     EQUITY_LIST_FILENAME,
     FULL_EQUITY_LIST_FILENAME,
     RATE_LIMIT_DELAY_SECONDS,
+    VALIDATION_RECORDS_COUNT,
 )
+from .helpers import validate_data_mismatch
 
 def main():
     parser = argparse.ArgumentParser(description="NSE Stock Data Syncer (Optimized)")
@@ -143,17 +145,53 @@ def main():
             print(f"  Batch {i+1}/{len(chunks)} ({len(chunk)} symbols)...")
             
             # Fetch Batch
+            # 5a. Validation: Get last N records for validation
+            validation_data = {}
+            for sym in chunk:
+                sid = symbol_map.get(sym)
+                if sid:
+                    validation_data[sym] = db_manager.get_last_n_records(sid, n=VALIDATION_RECORDS_COUNT)
+
             data_dict = fetch_batch_data(chunk, start_date=start_date)
             
             if not data_dict:
                 print("    No new data found.")
                 continue
-                
-            print(f"    Fetched data for {len(data_dict)} stocks.")
+            
+            # 5b. Check for Mismatches (Splits/Bonuses)
+            valid_data_dict = {}
+            resync_list = []
+            
+            for sym, df_new in data_dict.items():
+                last_records = validation_data.get(sym, {})
+                if validate_data_mismatch(sym, df_new, last_records):
+                    print(f"    ⚠️  Mismatch confirmed for {sym}. Cleaning up and re-syncing...")
+                    sid = symbol_map.get(sym)
+                    if sid:
+                        db_manager.delete_stock_prices(sid)
+                        resync_list.append(sym)
+                else:
+                    valid_data_dict[sym] = df_new
+            
+            # 5c. Handle Resyncs (Fetch full history)
+            if resync_list:
+                print(f"    🔄  Resyncing {len(resync_list)} stocks from scratch...")
+                # Fetch full history (start_date=None)
+                full_data_dict = fetch_batch_data(resync_list, start_date=None)
+                for sym, df_full in full_data_dict.items():
+                     if not df_full.empty:
+                         valid_data_dict[sym] = df_full
+                         print(f"       Resynced {sym} ({len(df_full)} records).")
+
+            if not valid_data_dict:
+                 print("    No valid data to insert after validation.")
+                 continue
+
+            print(f"    Fetched data for {len(valid_data_dict)} stocks.")
             
             # Insert Batch
             if not args.dry_run:
-                db_manager.insert_batch_daily_prices(symbol_map, data_dict)
+                db_manager.insert_batch_daily_prices(symbol_map, valid_data_dict)
                 
                 # Update metrics (optional, but good for consistency)
                 # Doing it simply here. Can be optimized further if needed.

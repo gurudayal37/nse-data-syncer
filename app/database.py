@@ -250,6 +250,74 @@ class DatabaseManager:
         finally:
             session.close()
 
+    def get_last_n_records(self, stock_id, n=5):
+        """
+        Fetches the last n price records for a stock.
+        Returns: dict {date: close_price}
+        """
+        try:
+            query = text("""
+                SELECT date, close_price 
+                FROM daily_prices 
+                WHERE stock_id = :stock_id 
+                ORDER BY date DESC 
+                LIMIT :limit
+            """)
+            result = self.engine.execute(query, {"stock_id": stock_id, "limit": n}).fetchall()
+            # Convert to date object for easy comparison
+            return {row[0].date(): row[1] for row in result}
+        except Exception as e:
+            print(f"Error fetching last records for {stock_id}: {e}")
+            return {}
+
+    def delete_stock_prices(self, stock_id):
+        """Deletes all price records for a stock."""
+        session = self.Session()
+        try:
+            session.execute(text("DELETE FROM daily_prices WHERE stock_id = :stock_id"), {"stock_id": stock_id})
+            session.commit()
+            print(f"Deleted all records for stock_id {stock_id}")
+        except Exception as e:
+            session.rollback()
+            print(f"Error deleting prices for {stock_id}: {e}")
+        finally:
+            session.close()
+
+    def get_etf_last_n_records(self, etf_id, n=5):
+        """
+        Fetches the last n price records for an ETF.
+        Returns: dict {date: close_price}
+        """
+        session = self.Session()
+        try:
+            query = text("""
+                SELECT date, close_price 
+                FROM etf_daily_prices 
+                WHERE etf_id = :etf_id 
+                ORDER BY date DESC 
+                LIMIT :limit
+            """)
+            result = session.execute(query, {"etf_id": etf_id, "limit": n}).fetchall()
+            return {row[0].date(): row[1] for row in result}
+        except Exception as e:
+            print(f"Error fetching last records for ETF {etf_id}: {e}")
+            return {}
+        finally:
+            session.close()
+
+    def delete_etf_prices(self, etf_id):
+        """Deletes all price records for an ETF."""
+        session = self.Session()
+        try:
+            session.execute(text("DELETE FROM etf_daily_prices WHERE etf_id = :etf_id"), {"etf_id": etf_id})
+            session.commit()
+            print(f"Deleted all records for etf_id {etf_id}")
+        except Exception as e:
+            session.rollback()
+            print(f"Error deleting prices for ETF {etf_id}: {e}")
+        finally:
+            session.close()
+
     def update_performance_metrics(self, stock_id):
         """
         Calculates and updates performance metrics (1w, 1m, 3m, 6m, 1y, 3y, 5y) for a stock.

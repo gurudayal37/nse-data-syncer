@@ -15,6 +15,8 @@ load_dotenv('web/.env')
 sys.path.append(os.getcwd())
 
 from app.database import DatabaseManager, ETF
+from app.helpers import validate_data_mismatch
+from app.constants import VALIDATION_RECORDS_COUNT
 
 # Database URL
 DB_URL = os.getenv('DATABASE_URL')
@@ -97,6 +99,23 @@ def sync_etf_daily():
                         failed += 1
                         continue
                     
+                    # Validation: Check for mismatches
+                    last_records = db.get_etf_last_n_records(etf_id, n=VALIDATION_RECORDS_COUNT)
+                    if validate_data_mismatch(symbol, etf_df, last_records):
+                        print(f"  ⚠️  Mismatch confirmed for {symbol}. Cleaning up and re-syncing...")
+                        db.delete_etf_prices(etf_id)
+                        
+                        # Re-fetch full history for this specific ETF
+                        print(f"  🔄  Resyncing {symbol} from scratch...")
+                        full_data = yf.download(yf_sym, period="max", progress=False, auto_adjust=False)
+                        if not full_data.empty:
+                            etf_df = full_data
+                            print(f"     Resynced {len(etf_df)} records.")
+                        else:
+                            print(f"     Failed to resync {symbol}.")
+                            failed += 1
+                            continue
+
                     # Insert daily prices (will skip duplicates based on date)
                     db.insert_etf_daily_prices(etf_id, etf_df)
                     
