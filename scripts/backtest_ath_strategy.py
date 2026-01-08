@@ -55,14 +55,13 @@ def run_backtest():
     df_all['date'] = pd.to_datetime(df_all['date'])
     df_all.set_index('date', inplace=True)
     
-    # Load Market Cap Filter for Live Signals
-    # Minimum Market Cap Filter
+    # Load Market Cap Filter (Global)
     min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 2000))
     min_mcap = min_mcap_cr * 10000000
     
     valid_stocks_query = text(f"SELECT id FROM stocks WHERE is_active = true AND market_cap >= {min_mcap}")
     valid_stock_ids = set([r[0] for r in session.execute(valid_stocks_query).fetchall()])
-    print(f"Loaded {len(valid_stock_ids)} eligible stocks (> {min_mcap_cr} Cr) for Live Signals.")
+    print(f"Loaded {len(valid_stock_ids)} eligible stocks (> {min_mcap_cr} Cr) for Backtest & Live Signals.")
     
     # Pre-calculate simple metrics if possible, but ATH is path-dependent
     
@@ -72,6 +71,10 @@ def run_backtest():
     print("Processing stocks...")
     
     for stock_id, symbol in stock_map.items():
+        # Global Filter: Skip if not in valid list
+        if stock_id not in valid_stock_ids:
+            continue
+            
         try:
             df = df_all[df_all['stock_id'] == stock_id].sort_index()
             if symbol == 'NETWEB':
@@ -147,24 +150,19 @@ def run_backtest():
                         # Get current price for reference
                         current_price = df['close'].iloc[-1] if len(df) > 0 else 0
                         
-                        # Market Cap Filter: Only add to Eligible if it meets criteria
-                        # Note: stock_id is loop variable
-                        if stock_id in valid_stock_ids:
-                             potential_eligible = {
-                                'symbol': symbol,
-                                'breakout_month': month_date.strftime('%Y-%m'),
-                                'breakout_date': month_date.strftime('%Y-%m-%d'),
-                                'entry_trigger': round(entry_trigger, 2),
-                                'previous_ath': round(current_ath, 2),
-                                'ath_date': current_ath_date.strftime('%Y-%m-%d'),
-                                'gap_days': (month_date - current_ath_date).days,
-                                'close_price': round(month['close'], 2),
-                                'current_price': round(current_price, 2),
-                                'entry_month': next_month_start.strftime('%Y-%m')
-                            }
-                        if potential_eligible is None and stock_id not in valid_stock_ids:
-                             # Just skipping this as eligible, but logic continues to check if trade was taken historically
-                             pass
+                        # Market Cap Filter: Already applied globally at loop start
+                        potential_eligible = {
+                            'symbol': symbol,
+                            'breakout_month': month_date.strftime('%Y-%m'),
+                            'breakout_date': month_date.strftime('%Y-%m-%d'),
+                            'entry_trigger': round(entry_trigger, 2),
+                            'previous_ath': round(current_ath, 2),
+                            'ath_date': current_ath_date.strftime('%Y-%m-%d'),
+                            'gap_days': (month_date - current_ath_date).days,
+                            'close_price': round(month['close'], 2),
+                            'current_price': round(current_price, 2),
+                            'entry_month': next_month_start.strftime('%Y-%m')
+                        }
                     
                     # Get daily data for next month onwards (for entry and exit)
                     future_data = df[df.index >= next_month_start]
