@@ -1,5 +1,87 @@
 [
   {
+    "week": "2026-01-16",
+    "portfolio_return": 0,
+    "benchmark_return": 0.0,
+    "holdings": [
+      {
+        "symbol": "CUPID",
+        "return": 0.0,
+        "score": 7.01
+      },
+      {
+        "symbol": "SILVERTUC",
+        "return": 0.0,
+        "score": 5.85
+      },
+      {
+        "symbol": "BGRENERGY",
+        "return": 0.0,
+        "score": 3.77
+      },
+      {
+        "symbol": "RMDRIP",
+        "return": 0.0,
+        "score": 3.54
+      },
+      {
+        "symbol": "ASHOKLEY",
+        "return": 0.0,
+        "score": 3.44
+      },
+      {
+        "symbol": "NATIONALUM",
+        "return": 0.0,
+        "score": 3.34
+      },
+      {
+        "symbol": "HINDCOPPER",
+        "return": 0.0,
+        "score": 3.32
+      },
+      {
+        "symbol": "THANGAMAYL",
+        "return": 0.0,
+        "score": 3.22
+      },
+      {
+        "symbol": "INFOBEAN",
+        "return": 0.0,
+        "score": 3.19
+      },
+      {
+        "symbol": "SHRIRAMFIN",
+        "return": 0.0,
+        "score": 2.94
+      },
+      {
+        "symbol": "LTF",
+        "return": 0.0,
+        "score": 2.84
+      },
+      {
+        "symbol": "GRMOVER",
+        "return": 0.0,
+        "score": 2.79
+      },
+      {
+        "symbol": "TMB",
+        "return": 0.0,
+        "score": 2.74
+      },
+      {
+        "symbol": "ABCAPITAL",
+        "return": 0.0,
+        "score": 2.46
+      },
+      {
+        "symbol": "SABTNL",
+        "return": 0.0,
+        "score": 2.43
+      }
+    ]
+  },
+  {
     "week": "2026-01-09",
     "portfolio_return": -0.94,
     "benchmark_return": -1.72,
