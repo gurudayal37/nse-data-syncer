@@ -100,7 +100,8 @@ class DatabaseManager:
                 LIMIT :limit
             """)
             result = session.execute(query, {"stock_id": stock_id, "limit": n}).fetchall()
-            return {row[0]: row[1] for row in result}
+            # Convert to date object for easy comparison if it is a datetime
+            return {(row[0].date() if isinstance(row[0], datetime) else row[0]): row[1] for row in result}
         except Exception as e:
             print(f"Error fetching last records for stock {stock_id}: {e}")
             return {}
@@ -250,25 +251,6 @@ class DatabaseManager:
         finally:
             session.close()
 
-    def get_last_n_records(self, stock_id, n=5):
-        """
-        Fetches the last n price records for a stock.
-        Returns: dict {date: close_price}
-        """
-        try:
-            query = text("""
-                SELECT date, close_price 
-                FROM daily_prices 
-                WHERE stock_id = :stock_id 
-                ORDER BY date DESC 
-                LIMIT :limit
-            """)
-            result = self.engine.execute(query, {"stock_id": stock_id, "limit": n}).fetchall()
-            # Convert to date object for easy comparison
-            return {row[0].date(): row[1] for row in result}
-        except Exception as e:
-            print(f"Error fetching last records for {stock_id}: {e}")
-            return {}
 
     def delete_stock_prices(self, stock_id):
         """Deletes all price records for a stock."""
