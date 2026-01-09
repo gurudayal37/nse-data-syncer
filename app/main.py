@@ -235,6 +235,17 @@ def main():
     
     all_symbols = list(active_map.keys())
     
+    # Apply Sharding to Market Caps as well
+    if args.total_shards > 1:
+        total_mcap_symbols = len(all_symbols)
+        chunk_size = math.ceil(total_mcap_symbols / args.total_shards)
+        start_idx = args.shard_index * chunk_size
+        end_idx = min(start_idx + chunk_size, total_mcap_symbols)
+        
+        all_symbols = all_symbols[start_idx:end_idx]
+        print(f"🔹 Market Cap Sharding: Processing {len(all_symbols)} stocks (Shard {args.shard_index + 1}/{args.total_shards})")
+
+    
     # Process in batches to avoid memory/rate issues if any, although fast_info is local calculation mostly? 
     # Actually fast_info might hit API lightly. safe to batch.
     BATCH_SIZE_MCAP = 500
