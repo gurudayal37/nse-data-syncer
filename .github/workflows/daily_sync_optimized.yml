@@ -182,8 +182,12 @@ jobs:
   # So safest is: Run PARALLEL to shards, and momentum DEPENDS on it.
   sync-remaining:
     needs: sync-shards
-    name: Sync Remaining Stocks
+    name: Sync Remaining Shard ${{ matrix.shard }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4] # 5 Parallel Jobs
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -192,7 +196,7 @@ jobs:
       - run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run Sync (Remaining)
+      - name: Run Sync (Remaining) - Shard ${{ matrix.shard }}
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python -m app.main --source remaining
+        run: python -m app.main --source remaining --shard-index ${{ matrix.shard }} --total-shards 5 --skip-momentum
