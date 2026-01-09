@@ -73,8 +73,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Triggering strategy workflows..."
-          gh workflow run "ATH Strategy"
-          gh workflow run "Momentum Strategy"
-          gh workflow run "Momentum Strategy Weekly"
-          gh workflow run "Simple Momentum Strategy"
-          gh workflow run "Simple Momentum Strategy Weekly"
+          gh workflow run "Update ATH Breakout Strategy"
+          gh workflow run "Update Momentum Strategy"
+          gh workflow run "Weekly Momentum Strategy Backtest"
+          gh workflow run "Update Simple Momentum Strategy"
+          gh workflow run "Update Simple Momentum Weekly Strategy"
