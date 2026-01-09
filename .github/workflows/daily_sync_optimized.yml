@@ -37,7 +37,7 @@ jobs:
 
   # 2. Momentum Calculation (Runs after ALL shards finish)
   calculate-momentum:
-    needs: [sync-shards, sync-remaining]
+    needs: sync-remaining
     runs-on: ubuntu-latest
     name: Calculate Momentum
     
@@ -181,6 +181,7 @@ jobs:
   # User asked to "include" it. Usually this is sync. But 'calculate-momentum' might need these prices.
   # So safest is: Run PARALLEL to shards, and momentum DEPENDS on it.
   sync-remaining:
+    needs: sync-shards
     name: Sync Remaining Stocks
     runs-on: ubuntu-latest
     steps:
