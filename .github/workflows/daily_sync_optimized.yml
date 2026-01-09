@@ -37,7 +37,7 @@ jobs:
 
   # 2. Momentum Calculation (Runs after ALL shards finish)
   calculate-momentum:
-    needs: sync-shards
+    needs: [sync-shards, sync-remaining]
     runs-on: ubuntu-latest
     name: Calculate Momentum
     
@@ -61,25 +61,137 @@ jobs:
         run: |
           python -m app.momentum
 
-  # 3. Trigger Strategies (Runs after Momentum finishes)
-  trigger-strategies:
+  # 3. strategies (Runs AFTER Calculate Momentum)
+  update-ath-strategy:
     needs: calculate-momentum
     runs-on: ubuntu-latest
-    name: Trigger Backtest Strategies
     permissions:
-      actions: write
-    
+      contents: write
     steps:
-      - name: Trigger Strategies
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run ATH Strategy Backtest
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Triggering strategy workflows..."
-          gh workflow run "Update ATH Breakout Strategy"
-          gh workflow run "Update Momentum Strategy"
-          gh workflow run "Weekly Momentum Strategy Backtest"
-          gh workflow run "Update Simple Momentum Strategy"
-          gh workflow run "Update Simple Momentum Weekly Strategy"
-          
-          echo "Triggering Remaining Stocks Sync..."
-          gh workflow run "Daily Stock Sync (Remaining)"
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scripts/backtest_ath_strategy.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update ATH strategy results [skip ci]"
+          file_pattern: "web/src/data/backtest_results_ath.json"
+
+  update-momentum-strategy:
+    needs: calculate-momentum
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Momentum Strategy Backtest
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scripts/backtest_momentum.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update momentum strategy results [skip ci]"
+          file_pattern: "web/src/data/backtest_results.json"
+
+  update-momentum-weekly:
+    needs: calculate-momentum
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Weekly Momentum Strategy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scripts/backtest_momentum_weekly.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update Weekly Momentum Strategy Backtest Results"
+          file_pattern: "web/src/data/backtest_results_weekly.json"
+
+  update-simple-momentum:
+    needs: calculate-momentum
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Simple Momentum Strategy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scripts/backtest_simple_momentum.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update simple momentum strategy results [skip ci]"
+          file_pattern: "web/src/data/backtest_results_simple.json"
+
+  update-simple-weekly:
+    needs: calculate-momentum
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Simple Momentum Weekly Strategy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scripts/backtest_simple_momentum_weekly.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update simple momentum weekly strategy results [skip ci]"
+          file_pattern: "web/src/data/backtest_results_simple_weekly.json"
+
+  # 4. Sync Remaining Stocks (Runs AFTER Calculation too? Or in parallel with shards?)
+  # User asked to "include" it. Usually this is sync. But 'calculate-momentum' might need these prices.
+  # So safest is: Run PARALLEL to shards, and momentum DEPENDS on it.
+  sync-remaining:
+    name: Sync Remaining Stocks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Sync (Remaining)
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python -m app.main --source remaining
