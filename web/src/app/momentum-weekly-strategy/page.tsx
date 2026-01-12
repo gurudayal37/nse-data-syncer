@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, TrendingUp, TrendingDown, Activity, ChevronDown, ChevronRight } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
@@ -11,13 +11,17 @@ export default function MomentumWeeklyStrategyPage() {
     const [summary, setSummary] = useState<any>({})
     const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set())
 
+    // Handle both old (array) and new (object) format safely
+    const rawData = Array.isArray(backtestData) ? backtestData : (backtestData as any).backtest_results || []
+    const metrics = !Array.isArray(backtestData) ? (backtestData as any).backtest_metrics : null
+
     useEffect(() => {
         // Process data for chart (cumulative returns)
         let portValue = 100
         let benchValue = 100
 
         // Ensure data is sorted by week ASCENDING (Oldest First) for cumulative calculation
-        const sortedRawData = [...backtestData].sort((a: any, b: any) =>
+        const sortedRawData = [...rawData].sort((a: any, b: any) =>
             new Date(a.week).getTime() - new Date(b.week).getTime()
         )
 
@@ -35,8 +39,8 @@ export default function MomentumWeeklyStrategyPage() {
         setData(chartData)
 
         // Calculate Summary Stats from the full dataset
-        const totalWeeks = backtestData.length
-        const winningWeeks = backtestData.filter((d: any) => d.portfolio_return > d.benchmark_return).length
+        const totalWeeks = rawData.length
+        const winningWeeks = rawData.filter((d: any) => d.portfolio_return > d.benchmark_return).length
         const totalPortReturn = ((portValue - 100) / 100) * 100
         const totalBenchReturn = ((benchValue - 100) / 100) * 100
 
@@ -46,7 +50,8 @@ export default function MomentumWeeklyStrategyPage() {
             winRate: (winningWeeks / totalWeeks * 100).toFixed(1),
             totalPortReturn: totalPortReturn.toFixed(2),
             totalBenchReturn: totalBenchReturn.toFixed(2),
-            outperformance: (totalPortReturn - totalBenchReturn).toFixed(2)
+            outperformance: (totalPortReturn - totalBenchReturn).toFixed(2),
+            netReturn: metrics?.return_metrics?.net_return_after_fees
         })
     }, [])
 
@@ -72,6 +77,24 @@ export default function MomentumWeeklyStrategyPage() {
                         <p className="text-gray-500 mt-1">
                             Buying Top 15 Momentum Stocks (Equal Weight) • Weekly Rebalancing • Since 2019
                         </p>
+                    </div>
+                </div>
+
+                {/* Audit Warning */}
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
+                    <div className="flex">
+                        <div className="flex-shrink-0">
+                            <TrendingDown className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                        </div>
+                        <div className="ml-3">
+                            <h3 className="text-sm font-medium text-yellow-800">Survivorship Bias Warning</h3>
+                            <div className="mt-2 text-sm text-yellow-700">
+                                <p>
+                                    This backtest uses the <strong>current</strong> universe of listed stocks (&gt;2000 Cr Market Cap) for historical simulation.
+                                    This introduces survivorship bias. Actual historical returns would likely be lower.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -105,12 +128,21 @@ export default function MomentumWeeklyStrategyPage() {
                 {/* Performance Summary Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                        <div className="text-sm text-gray-500 mb-1">Total Return (Since 2019)</div>
+                        <div className="text-sm text-gray-500 mb-1">Total Return (Gross)</div>
                         <div className={`text-3xl font-bold ${parseFloat(summary.totalPortReturn) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                             {summary.totalPortReturn}%
                         </div>
                         <div className="text-xs text-gray-400 mt-2">vs Benchmark: {summary.totalBenchReturn}%</div>
                     </div>
+                    {summary.netReturn && (
+                        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 border-l-4 border-l-green-500">
+                            <div className="text-sm text-gray-500 mb-1">Net Return (After Fees)</div>
+                            <div className="text-3xl font-bold text-green-700">
+                                {summary.netReturn}%
+                            </div>
+                            <div className="text-xs text-gray-400 mt-2">Fees: 0.25% per txn</div>
+                        </div>
+                    )}
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                         <div className="text-sm text-gray-500 mb-1">Alpha (Outperformance)</div>
                         <div className={`text-3xl font-bold ${parseFloat(summary.outperformance) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
@@ -202,7 +234,7 @@ export default function MomentumWeeklyStrategyPage() {
                                     const excess = row.portfolio_return - row.benchmark_return
                                     const isExpanded = expandedRows.has(i)
                                     return (
-                                        <>
+                                        <React.Fragment key={i}>
                                             <tr key={i} className="hover:bg-gray-50">
                                                 <td className="px-6 py-4">
                                                     <button
@@ -257,7 +289,7 @@ export default function MomentumWeeklyStrategyPage() {
                                                     </td>
                                                 </tr>
                                             )}
-                                        </>
+                                        </React.Fragment>
                                     )
                                 })}
                             </tbody>

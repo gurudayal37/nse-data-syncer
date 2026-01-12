@@ -107,6 +107,24 @@ export default function ATHStrategyPage() {
                     </div>
                 </div>
 
+                {/* Audit Warning */}
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
+                    <div className="flex">
+                        <div className="flex-shrink-0">
+                            <TrendingDown className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                        </div>
+                        <div className="ml-3">
+                            <h3 className="text-sm font-medium text-yellow-800">Survivorship Bias Warning</h3>
+                            <div className="mt-2 text-sm text-yellow-700">
+                                <p>
+                                    This backtest uses the <strong>current</strong> universe of listed stocks (&gt;2000 Cr Market Cap) for historical simulation.
+                                    This introduces survivorship bias. Actual historical returns would likely be lower.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Strategy Logic Card */}
                 <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6 mb-8">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4">Strategy Rules</h2>

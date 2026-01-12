@@ -156,11 +156,11 @@ def run_backtest():
         
     # OPTIMIZATION: Load ALL daily prices into memory once
     print("Loading ALL price data into memory (this may take a moment)...")
-    all_prices_query = text("SELECT stock_id, date, close_price FROM daily_prices ORDER BY date ASC")
+    all_prices_query = text("SELECT stock_id, date, close_price, open_price FROM daily_prices ORDER BY date ASC")
     all_prices_result = session.execute(all_prices_query).fetchall()
     
     # Create master DataFrame
-    master_df = pd.DataFrame(all_prices_result, columns=['stock_id', 'date', 'close_price'])
+    master_df = pd.DataFrame(all_prices_result, columns=['stock_id', 'date', 'close_price', 'open_price'])
     master_df['date'] = pd.to_datetime(master_df['date'])
     # Set index for faster slicing
     master_df.set_index('date', inplace=True)
@@ -174,7 +174,12 @@ def run_backtest():
     if os.path.exists(output_path):
         try:
             with open(output_path, 'r') as f:
-                existing_results = json.load(f)
+                data = json.load(f)
+                if isinstance(data, list):
+                    existing_results = data
+                elif isinstance(data, dict):
+                    existing_results = data.get('backtest_results', [])
+                
                 for r in existing_results:
                     processed_weeks.add(r['week'])
             print(f"Loaded existing results for {len(processed_weeks)} weeks.")
@@ -251,16 +256,17 @@ def run_backtest():
             
             for stock_id in selected_stock_ids:
                 try:
-                    start_price = df_window.loc[stock_id].iloc[-1]['close_price']
-                except KeyError:
-                    stock_returns_detail.append({'symbol': stock_map.get(stock_id, 'Unknown'), 'return': None, 'score': round(score_map.get(stock_id, 0), 2)})
-                    continue
-                    
-                stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
-                if stock_data_next.empty:
+                    # FIX: Buy at Next Day OPEN instead of Signal Day CLOSE
+                    stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
+                    if stock_data_next.empty:
+                        stock_returns_detail.append({'symbol': stock_map.get(stock_id, 'Unknown'), 'return': 0.0, 'score': round(score_map.get(stock_id, 0), 2)})
+                        continue
+
+                    start_price = stock_data_next.iloc[0]['open_price']
+                except (KeyError, IndexError):
                     stock_returns_detail.append({'symbol': stock_map.get(stock_id, 'Unknown'), 'return': 0.0, 'score': round(score_map.get(stock_id, 0), 2)})
                     continue
-                
+                    
                 end_price = stock_data_next.iloc[-1]['close_price']
                 ret = (end_price - start_price) / start_price
                 portfolio_returns.append(ret)
@@ -332,12 +338,74 @@ def run_backtest():
              existing_results = [r for r in existing_results if r['week'] != live_label]
              new_results.append(res)
 
-    final_results = existing_results + new_results
-    final_results.sort(key=lambda x: x['week'], reverse=True)
+    all_results = existing_results + new_results
+    all_results.sort(key=lambda x: x['week'], reverse=False) # Sort Oldest to Newest for calculations
+    
+    # Calculate actual transactions
+    print("\nCalculating actual transactions...")
+    total_transactions = 0
+    previous_holdings = set()
+    
+    # We need to process in chronological order
+    for result in all_results:
+        # Get current week's stock symbols
+        current_holdings = set([h['symbol'] for h in result['holdings']])
+        
+        if previous_holdings:
+            # Stocks to sell (in prev, not in curr)
+            stocks_to_sell = previous_holdings - current_holdings
+            # Stocks to buy (in curr, not in prev)
+            stocks_to_buy = current_holdings - previous_holdings
+            
+            transactions = len(stocks_to_sell) + len(stocks_to_buy)
+            total_transactions += transactions
+        else:
+            # First week: buy all 15
+            total_transactions += len(current_holdings)
+            
+        previous_holdings = current_holdings
+        
+    # Calculate Fees (0.25% per transaction)
+    # Average portfolio value calculation
+    start_value = 100000
+    cumulative_values = []
+    port_value = start_value
+    for r in all_results:
+        port_value = port_value * (1 + r['portfolio_return'] / 100)
+        cumulative_values.append(port_value)
+        
+    avg_portfolio_value = np.mean(cumulative_values) if cumulative_values else 0
+    # Fee: 0.25% per transaction
+    fee_per_transaction = (avg_portfolio_value / 15) * 0.0025
+    total_fees_paid = total_transactions * fee_per_transaction
+    
+    # Net Return
+    final_value = cumulative_values[-1] if cumulative_values else start_value
+    net_value_after_fees = final_value - total_fees_paid
+    net_return_after_fees = ((net_value_after_fees - start_value) / start_value) * 100
+    
+    print(f"Total Transactions: {total_transactions}")
+    print(f"Average Portfolio Value: ₹{avg_portfolio_value:.2f}")
+    print(f"Total Fees Paid: ₹{total_fees_paid:.2f}")
+    print(f"Net Return After Fees: {net_return_after_fees:.2f}%")
+    
+    # Construct Output
+    output_data = {
+        "backtest_metrics": {
+            "return_metrics": {
+                "net_return_after_fees": round(net_return_after_fees, 2)
+            },
+            "capital_metrics": {
+                "total_fees_paid": round(total_fees_paid, 2),
+                "total_transactions": total_transactions
+            }
+        },
+        "backtest_results": sorted(all_results, key=lambda x: x['week'], reverse=True) # Newest first for JSON
+    }
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w') as f:
-        json.dump(final_results, f, indent=2)
+        json.dump(output_data, f, indent=2)
         
     print(f"Weekly Backtest saved to {output_path}")
 

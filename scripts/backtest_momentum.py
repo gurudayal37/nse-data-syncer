@@ -293,10 +293,10 @@ def run_backtest():
 
     # Load ALL daily prices into memory once
     print("Loading ALL price data into memory (this may take a moment)...")
-    all_prices_query = text("SELECT stock_id, date, close_price FROM daily_prices ORDER BY date ASC")
+    all_prices_query = text("SELECT stock_id, date, close_price, open_price FROM daily_prices ORDER BY date ASC")
     all_prices_result = session.execute(all_prices_query).fetchall()
     
-    master_df = pd.DataFrame(all_prices_result, columns=['stock_id', 'date', 'close_price'])
+    master_df = pd.DataFrame(all_prices_result, columns=['stock_id', 'date', 'close_price', 'open_price'])
     master_df['date'] = pd.to_datetime(master_df['date'])
     master_df.set_index('date', inplace=True)
     print(f"Loaded {len(master_df)} price records into memory.")
@@ -390,24 +390,26 @@ def run_backtest():
         if not df_next.empty:
             for stock_id in selected_stock_ids:
                 try:
-                    start_price = df_window.loc[stock_id].iloc[-1]['close_price']
-                except KeyError:
-                    stock_returns_detail.append({
-                        'symbol': stock_map.get(stock_id, 'Unknown'),
-                        'return': None,
-                        'score': round(score_map.get(stock_id, 0), 2)
-                    })
-                    continue
-                    
-                stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
-                if stock_data_next.empty:
-                    stock_returns_detail.append({
+                    # FIX: Buy at Next Day OPEN instead of Signal Day CLOSE
+                    stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
+                    if stock_data_next.empty:
+                        stock_returns_detail.append({
+                            'symbol': stock_map.get(stock_id, 'Unknown'),
+                            'return': 0.0,
+                            'score': round(score_map.get(stock_id, 0), 2)
+                        })
+                        continue
+
+                    start_price = stock_data_next.iloc[0]['open_price']
+                except (KeyError, IndexError):
+                     stock_returns_detail.append({
                         'symbol': stock_map.get(stock_id, 'Unknown'),
                         'return': 0.0,
                         'score': round(score_map.get(stock_id, 0), 2)
                     })
-                    continue
+                     continue
                 
+                # Exit at End of Month Close
                 end_price = stock_data_next.iloc[-1]['close_price']
                 
                 ret = (end_price - start_price) / start_price
@@ -531,7 +533,7 @@ def run_backtest():
     
     if cumulative_values:
         avg_portfolio_value = np.mean(cumulative_values)
-        fee_per_transaction = (avg_portfolio_value / 15) * 0.0003  # 0.03% fee
+        fee_per_transaction = (avg_portfolio_value / 15) * 0.0025  # 0.25% fee
         total_fees_paid = total_transactions * fee_per_transaction
         
         # Calculate net return after fees for BACKTEST period

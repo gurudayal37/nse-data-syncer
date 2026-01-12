@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, TrendingUp, TrendingDown, Activity, ChevronDown, ChevronRight } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
@@ -145,7 +145,7 @@ export default function SimpleMomentumStrategyPage() {
                                         const excess = row.portfolio_return - row.benchmark_return
                                         const isExpanded = expandedRows.has(i)
                                         return (
-                                            <>
+                                            <React.Fragment key={i}>
                                                 <tr key={i} className="hover:bg-gray-50">
                                                     <td className="px-6 py-4">
                                                         <button
@@ -200,7 +200,7 @@ export default function SimpleMomentumStrategyPage() {
                                                         </td>
                                                     </tr>
                                                 )}
-                                            </>
+                                            </React.Fragment>
                                         )
                                     })}
                                 </tbody>
@@ -443,7 +443,7 @@ export default function SimpleMomentumStrategyPage() {
                                     const excess = row.portfolio_return - row.benchmark_return
                                     const isExpanded = expandedRows.has(1000 + i) // Offset to avoid collision with current performance
                                     return (
-                                        <>
+                                        <React.Fragment key={i}>
                                             <tr key={i} className="hover:bg-gray-50">
                                                 <td className="px-6 py-4">
                                                     <button
@@ -498,7 +498,7 @@ export default function SimpleMomentumStrategyPage() {
                                                     </td>
                                                 </tr>
                                             )}
-                                        </>
+                                        </React.Fragment>
                                     )
                                 })}
                             </tbody>

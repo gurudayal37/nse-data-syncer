@@ -260,10 +260,16 @@ def run_backtest():
                         current_price = df['close'].iloc[-1]
                         
                         if status == 'CLOSED':
-                            pnl = exit_price - entry_price
+                            gross_pnl = exit_price - entry_price
+                            # Fee: 0.25% on Entry + 0.25% on Exit
+                            fees = (entry_price * 0.0025) + (exit_price * 0.0025)
+                            pnl = gross_pnl - fees
                             pnl_pct = (pnl / entry_price) * 100
                         else:
-                            pnl = current_price - entry_price
+                            gross_pnl = current_price - entry_price
+                            # Fee: 0.25% on Entry + 0.25% on Current Value (Unrealized Exit)
+                            fees = (entry_price * 0.0025) + (current_price * 0.0025)
+                            pnl = gross_pnl - fees
                             pnl_pct = (pnl / entry_price) * 100
                             
                         trades.append({

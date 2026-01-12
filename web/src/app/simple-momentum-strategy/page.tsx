@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, TrendingUp, TrendingDown, Activity, ChevronDown, ChevronRight } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
@@ -60,6 +60,27 @@ export default function SimpleMomentumStrategyPage() {
                         <p className="text-gray-500 mt-1">
                             Buying Top 15 Simple Momentum Stocks (6M & 1Y only) • Monthly Rebalancing
                         </p>
+                    </div>
+                </div>
+
+                {/* Audit Warning */}
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
+                    <div className="flex">
+                        <div className="flex-shrink-0">
+                            <TrendingDown className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                        </div>
+                        <div className="ml-3">
+                            <h3 className="text-sm font-medium text-yellow-800">Survivorship Bias Warning</h3>
+                            <div className="mt-2 text-sm text-yellow-700">
+                                <p>
+                                    This backtest uses the <strong>current</strong> universe of listed stocks (&gt;2000 Cr Market Cap) for historical simulation.
+                                    This introduces survivorship bias, as it excludes companies that were large in the past but have since delisted or crashed,
+                                    while including stocks that have grown into the current criteria.
+                                    <br />
+                                    <strong>Actual historical returns would likely be lower.</strong>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -145,7 +166,7 @@ export default function SimpleMomentumStrategyPage() {
                                         const excess = row.portfolio_return - row.benchmark_return
                                         const isExpanded = expandedRows.has(i)
                                         return (
-                                            <>
+                                            <React.Fragment key={i}>
                                                 <tr key={i} className="hover:bg-gray-50">
                                                     <td className="px-6 py-4">
                                                         <button
@@ -200,7 +221,7 @@ export default function SimpleMomentumStrategyPage() {
                                                         </td>
                                                     </tr>
                                                 )}
-                                            </>
+                                            </React.Fragment>
                                         )
                                     })}
                                 </tbody>
@@ -443,7 +464,7 @@ export default function SimpleMomentumStrategyPage() {
                                     const excess = row.portfolio_return - row.benchmark_return
                                     const isExpanded = expandedRows.has(1000 + i) // Offset to avoid collision with current performance
                                     return (
-                                        <>
+                                        <React.Fragment key={i}>
                                             <tr key={i} className="hover:bg-gray-50">
                                                 <td className="px-6 py-4">
                                                     <button
@@ -498,7 +519,7 @@ export default function SimpleMomentumStrategyPage() {
                                                     </td>
                                                 </tr>
                                             )}
-                                        </>
+                                        </React.Fragment>
                                     )
                                 })}
                             </tbody>
