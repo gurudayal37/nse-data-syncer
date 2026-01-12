@@ -7,23 +7,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 1539952.56,
-      "total_fees_paid": 83792.57,
+      "end_value": 1396690.45,
+      "total_fees_paid": 78318.16,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 1439.95,
+      "total_return": 1296.69,
       "benchmark_return": 137.42,
-      "expectancy": 3.44,
-      "net_return_after_fees": 1319.37
+      "expectancy": 3.32,
+      "net_return_after_fees": 1204.21
     },
     "risk_metrics": {
-      "max_drawdown": -41.64,
-      "max_drawdown_duration": 31,
-      "sharpe_ratio": 1.21,
-      "calmar_ratio": 1.0,
-      "omega_ratio": 2.53,
-      "sortino_ratio": 1.79
+      "max_drawdown": -39.33,
+      "max_drawdown_duration": 28,
+      "sharpe_ratio": 1.18,
+      "calmar_ratio": 1.02,
+      "omega_ratio": 2.46,
+      "sortino_ratio": 1.74
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -32,15 +32,15 @@
       "total_trades": 94,
       "total_closed_trades": 93,
       "total_open_trades": 1,
-      "win_rate": 65.96,
+      "win_rate": 63.83,
       "best_trade": 28.57,
       "worst_trade": -33.63,
-      "avg_winning_trade": 8.61,
-      "avg_losing_trade": -6.59,
+      "avg_winning_trade": 8.77,
+      "avg_losing_trade": -6.29,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.53,
-      "total_stock_transactions": 1023
+      "profit_factor": 2.46,
+      "total_stock_transactions": 1037
     }
   },
   "backtest_results": [
@@ -102,7 +102,7 @@
         {
           "symbol": "LUMAXTECH",
           "return": 35.0,
-          "score": 2.53
+          "score": 2.54
         },
         {
           "symbol": "TFCILTD",
@@ -117,7 +117,7 @@
         {
           "symbol": "CARTRADE",
           "return": 1.91,
-          "score": 2.32
+          "score": 2.33
         },
         {
           "symbol": "SIRCA",
@@ -144,12 +144,12 @@
         {
           "symbol": "RMDRIP",
           "return": 9.08,
-          "score": 5.46
+          "score": 5.45
         },
         {
           "symbol": "INDOTHAI",
           "return": 34.49,
-          "score": 5.01
+          "score": 5.0
         },
         {
           "symbol": "APOLLO",
@@ -164,7 +164,7 @@
         {
           "symbol": "NACLIND",
           "return": 1.38,
-          "score": 3.28
+          "score": 3.27
         },
         {
           "symbol": "LUMAXTECH",
@@ -179,7 +179,7 @@
         {
           "symbol": "AXISCADES",
           "return": -1.77,
-          "score": 2.88
+          "score": 2.87
         },
         {
           "symbol": "BANCOINDIA",
@@ -199,7 +199,7 @@
         {
           "symbol": "GVT&D",
           "return": -1.67,
-          "score": 2.67
+          "score": 2.66
         },
         {
           "symbol": "CHOICEIN",
@@ -216,17 +216,17 @@
         {
           "symbol": "NACLIND",
           "return": -25.65,
-          "score": 7.28
+          "score": 7.27
         },
         {
           "symbol": "RMDRIP",
           "return": 1.4,
-          "score": 6.03
+          "score": 6.02
         },
         {
           "symbol": "KRISHANA",
           "return": -24.0,
-          "score": 5.23
+          "score": 5.22
         },
         {
           "symbol": "CUPID",
@@ -251,7 +251,7 @@
         {
           "symbol": "BGRENERGY",
           "return": 29.28,
-          "score": 3.2
+          "score": 3.19
         },
         {
           "symbol": "GABRIEL",
@@ -286,7 +286,7 @@
         {
           "symbol": "CARTRADE",
           "return": -1.92,
-          "score": 2.5
+          "score": 2.49
         }
       ]
     },
@@ -298,7 +298,7 @@
         {
           "symbol": "NACLIND",
           "return": -7.41,
-          "score": 7.49
+          "score": 7.48
         },
         {
           "symbol": "INDOTHAI",
@@ -313,7 +313,7 @@
         {
           "symbol": "KRISHANA",
           "return": 7.37,
-          "score": 4.38
+          "score": 4.37
         },
         {
           "symbol": "GALLANTT",
@@ -343,7 +343,7 @@
         {
           "symbol": "CUPID",
           "return": 7.68,
-          "score": 2.64
+          "score": 2.63
         },
         {
           "symbol": "PARADEEP",
@@ -380,17 +380,17 @@
         {
           "symbol": "INDOTHAI",
           "return": 5.64,
-          "score": 7.41
+          "score": 7.43
         },
         {
           "symbol": "RMDRIP",
           "return": 14.05,
-          "score": 5.23
+          "score": 5.24
         },
         {
           "symbol": "NACLIND",
           "return": 34.29,
-          "score": 4.93
+          "score": 4.92
         },
         {
           "symbol": "KRISHANA",
@@ -420,7 +420,7 @@
         {
           "symbol": "NH",
           "return": -8.58,
-          "score": 2.98
+          "score": 2.99
         },
         {
           "symbol": "LUMAXTECH",
@@ -462,12 +462,12 @@
         {
           "symbol": "INDOTHAI",
           "return": -4.21,
-          "score": 6.92
+          "score": 6.93
         },
         {
           "symbol": "RMDRIP",
           "return": 7.23,
-          "score": 5.68
+          "score": 5.69
         },
         {
           "symbol": "BGRENERGY",
@@ -477,12 +477,12 @@
         {
           "symbol": "NACLIND",
           "return": 24.85,
-          "score": 4.97
+          "score": 4.98
         },
         {
           "symbol": "V2RETAIL",
           "return": -1.07,
-          "score": 3.36
+          "score": 3.37
         },
         {
           "symbol": "SHAILY",
@@ -517,7 +517,7 @@
         {
           "symbol": "BLUEJET",
           "return": -2.47,
-          "score": 2.51
+          "score": 2.52
         },
         {
           "symbol": "WINDMACHIN",
@@ -564,7 +564,7 @@
         {
           "symbol": "SABTNL",
           "return": -6.5,
-          "score": 4.99
+          "score": 4.98
         },
         {
           "symbol": "JSWHL",
@@ -636,17 +636,17 @@
         {
           "symbol": "JSWHL",
           "return": -1.73,
-          "score": 4.71
+          "score": 4.7
         },
         {
           "symbol": "PGEL",
           "return": -6.37,
-          "score": 3.98
+          "score": 3.97
         },
         {
           "symbol": "SHAILY",
           "return": -13.07,
-          "score": 3.93
+          "score": 3.92
         },
         {
           "symbol": "V2RETAIL",
@@ -656,7 +656,7 @@
         {
           "symbol": "SHAKTIPUMP",
           "return": -12.1,
-          "score": 3.68
+          "score": 3.67
         },
         {
           "symbol": "WINDMACHIN",
@@ -676,7 +676,7 @@
         {
           "symbol": "PANACEABIO",
           "return": 21.1,
-          "score": 2.77
+          "score": 2.76
         },
         {
           "symbol": "CARTRADE",
@@ -691,7 +691,7 @@
         {
           "symbol": "VIMTALABS",
           "return": 1.93,
-          "score": 2.55
+          "score": 2.54
         },
         {
           "symbol": "SKYGOLD",
@@ -708,12 +708,12 @@
         {
           "symbol": "INDOTHAI",
           "return": -6.47,
-          "score": 13.78
+          "score": 13.81
         },
         {
           "symbol": "RMDRIP",
           "return": 31.83,
-          "score": 6.09
+          "score": 6.1
         },
         {
           "symbol": "V2RETAIL",
@@ -723,12 +723,12 @@
         {
           "symbol": "PGEL",
           "return": 14.75,
-          "score": 3.88
+          "score": 3.89
         },
         {
           "symbol": "JSWHL",
           "return": 38.47,
-          "score": 3.81
+          "score": 3.82
         },
         {
           "symbol": "SHAILY",
@@ -738,12 +738,12 @@
         {
           "symbol": "CARTRADE",
           "return": 7.65,
-          "score": 3.03
+          "score": 3.04
         },
         {
           "symbol": "BLUEJET",
           "return": 11.77,
-          "score": 2.94
+          "score": 2.95
         },
         {
           "symbol": "SHAKTIPUMP",
@@ -768,17 +768,17 @@
         {
           "symbol": "BSE",
           "return": 18.74,
-          "score": 2.34
-        },
-        {
-          "symbol": "SARDAEN",
-          "return": 11.88,
-          "score": 2.12
+          "score": 2.35
         },
         {
           "symbol": "LLOYDSME",
           "return": 24.93,
-          "score": 2.12
+          "score": 2.13
+        },
+        {
+          "symbol": "SARDAEN",
+          "return": 11.88,
+          "score": 2.13
         }
       ]
     },
@@ -790,159 +790,159 @@
         {
           "symbol": "INDOTHAI",
           "return": 13.02,
-          "score": 12.76
+          "score": 12.81
         },
         {
           "symbol": "RMDRIP",
           "return": -2.7,
-          "score": 5.57
+          "score": 5.59
         },
         {
           "symbol": "V2RETAIL",
           "return": -19.31,
-          "score": 5.49
+          "score": 5.5
         },
         {
           "symbol": "SHAILY",
           "return": -6.51,
-          "score": 4.1
+          "score": 4.12
         },
         {
           "symbol": "WEBELSOLAR",
           "return": -33.08,
-          "score": 3.85
+          "score": 3.87
         },
         {
           "symbol": "SHAKTIPUMP",
           "return": -9.21,
-          "score": 3.5
+          "score": 3.51
         },
         {
           "symbol": "JSWHL",
           "return": -1.44,
-          "score": 3.46
+          "score": 3.47
         },
         {
           "symbol": "DIACABS",
           "return": -15.41,
-          "score": 3.08
+          "score": 3.09
         },
         {
           "symbol": "GOLDIAM",
           "return": -29.38,
-          "score": 3.01
+          "score": 3.02
         },
         {
           "symbol": "PGEL",
           "return": -0.95,
-          "score": 2.79
+          "score": 2.8
         },
         {
           "symbol": "WINDMACHIN",
           "return": -25.73,
-          "score": 2.59
+          "score": 2.6
         },
         {
           "symbol": "REFEX",
           "return": -15.31,
-          "score": 2.55
+          "score": 2.56
         },
         {
           "symbol": "PANACEABIO",
           "return": -18.54,
-          "score": 2.53
+          "score": 2.55
         },
         {
           "symbol": "WOCKPHARMA",
           "return": -25.86,
-          "score": 2.45
+          "score": 2.46
         },
         {
           "symbol": "BGRENERGY",
           "return": -42.65,
-          "score": 2.41
+          "score": 2.43
         }
       ]
     },
     {
       "month": "2025-01",
-      "portfolio_return": -14.84,
+      "portfolio_return": -14.93,
       "benchmark_return": -0.58,
       "holdings": [
         {
           "symbol": "DIACABS",
           "return": -29.36,
-          "score": 7.41
+          "score": 7.42
         },
         {
           "symbol": "INDOTHAI",
           "return": 26.77,
-          "score": 6.98
+          "score": 7.05
         },
         {
           "symbol": "WEBELSOLAR",
           "return": -23.99,
-          "score": 4.6
+          "score": 4.64
         },
         {
           "symbol": "V2RETAIL",
           "return": 10.6,
-          "score": 4.55
+          "score": 4.57
         },
         {
           "symbol": "RMDRIP",
           "return": -0.1,
-          "score": 4.19
+          "score": 4.23
         },
         {
           "symbol": "E2E",
           "return": -38.53,
-          "score": 4.16
+          "score": 4.18
         },
         {
           "symbol": "SHAKTIPUMP",
           "return": -16.52,
-          "score": 3.62
+          "score": 3.64
         },
         {
           "symbol": "REFEX",
           "return": -3.61,
-          "score": 3.44
-        },
-        {
-          "symbol": "KERNEX",
-          "return": -11.46,
-          "score": 3.26
+          "score": 3.48
         },
         {
           "symbol": "PGEL",
           "return": -24.25,
-          "score": 3.2
+          "score": 3.23
         },
         {
           "symbol": "TARIL",
           "return": -26.29,
-          "score": 3.03
+          "score": 3.05
         },
         {
           "symbol": "PANACEABIO",
           "return": -22.36,
-          "score": 2.79
+          "score": 2.83
         },
         {
           "symbol": "SKYGOLD",
           "return": -14.44,
-          "score": 2.77
+          "score": 2.8
         },
         {
           "symbol": "JSLL",
           "return": -19.21,
-          "score": 2.6
+          "score": 2.62
         },
         {
           "symbol": "ZENTEC",
           "return": -29.91,
-          "score": 2.54
+          "score": 2.57
+        },
+        {
+          "symbol": "GVT&D",
+          "return": -12.75,
+          "score": 2.53
         }
       ]
     },
@@ -959,17 +959,17 @@
         {
           "symbol": "E2E",
           "return": -5.31,
-          "score": 5.35
+          "score": 5.37
         },
         {
           "symbol": "INDOTHAI",
           "return": 17.76,
-          "score": 4.69
+          "score": 4.71
         },
         {
           "symbol": "REFEX",
           "return": -9.79,
-          "score": 3.85
+          "score": 3.87
         },
         {
           "symbol": "V2RETAIL",
@@ -979,17 +979,17 @@
         {
           "symbol": "SABTNL",
           "return": -20.24,
-          "score": 3.75
+          "score": 3.76
         },
         {
           "symbol": "SKYGOLD",
           "return": -0.2,
-          "score": 3.55
+          "score": 3.56
         },
         {
           "symbol": "WINDMACHIN",
           "return": 2.28,
-          "score": 3.43
+          "score": 3.44
         },
         {
           "symbol": "WEBELSOLAR",
@@ -999,12 +999,12 @@
         {
           "symbol": "RMDRIP",
           "return": 38.19,
-          "score": 2.85
+          "score": 2.86
         },
         {
           "symbol": "PANACEABIO",
           "return": -7.39,
-          "score": 2.67
+          "score": 2.68
         },
         {
           "symbol": "WOCKPHARMA",
@@ -1014,7 +1014,7 @@
         {
           "symbol": "STAR",
           "return": -59.42,
-          "score": 2.37
+          "score": 2.38
         },
         {
           "symbol": "PGEL",
@@ -1024,7 +1024,7 @@
         {
           "symbol": "NEULANDLAB",
           "return": -18.01,
-          "score": 2.26
+          "score": 2.27
         }
       ]
     },
@@ -1036,7 +1036,7 @@
         {
           "symbol": "DIACABS",
           "return": -7.88,
-          "score": 14.21
+          "score": 14.2
         },
         {
           "symbol": "E2E",
@@ -1071,7 +1071,7 @@
         {
           "symbol": "RMDRIP",
           "return": 3.86,
-          "score": 2.73
+          "score": 2.72
         },
         {
           "symbol": "PGEL",
@@ -1091,7 +1091,7 @@
         {
           "symbol": "POCL",
           "return": -11.52,
-          "score": 2.13
+          "score": 2.12
         },
         {
           "symbol": "SHAKTIPUMP",
@@ -1101,7 +1101,7 @@
         {
           "symbol": "WOCKPHARMA",
           "return": 12.43,
-          "score": 2.01
+          "score": 2.0
         },
         {
           "symbol": "NPST",
@@ -1118,7 +1118,7 @@
         {
           "symbol": "DIACABS",
           "return": 10.34,
-          "score": 16.69
+          "score": 16.68
         },
         {
           "symbol": "E2E",
@@ -1128,7 +1128,7 @@
         {
           "symbol": "V2RETAIL",
           "return": -21.08,
-          "score": 3.26
+          "score": 3.25
         },
         {
           "symbol": "PGEL",
@@ -1200,12 +1200,12 @@
         {
           "symbol": "V2RETAIL",
           "return": 16.03,
-          "score": 6.6
+          "score": 6.61
         },
         {
           "symbol": "E2E",
           "return": 26.75,
-          "score": 4.75
+          "score": 4.76
         },
         {
           "symbol": "NPST",
@@ -1220,7 +1220,7 @@
         {
           "symbol": "SKYGOLD",
           "return": 1.67,
-          "score": 4.11
+          "score": 4.12
         },
         {
           "symbol": "WEBELSOLAR",
@@ -1282,7 +1282,7 @@
         {
           "symbol": "NPST",
           "return": 35.97,
-          "score": 6.28
+          "score": 6.29
         },
         {
           "symbol": "V2RETAIL",
@@ -1292,17 +1292,17 @@
         {
           "symbol": "SHAKTIPUMP",
           "return": 1.63,
-          "score": 4.62
+          "score": 4.63
         },
         {
           "symbol": "GVT&D",
           "return": -1.82,
-          "score": 4.17
+          "score": 4.18
         },
         {
           "symbol": "E2E",
           "return": 43.98,
-          "score": 4.05
+          "score": 4.06
         },
         {
           "symbol": "COCHINSHIP",
@@ -1364,17 +1364,17 @@
         {
           "symbol": "E2E",
           "return": 11.15,
-          "score": 5.47
+          "score": 5.48
         },
         {
           "symbol": "GVT&D",
           "return": -0.93,
-          "score": 5.39
+          "score": 5.4
         },
         {
           "symbol": "V2RETAIL",
           "return": 21.16,
-          "score": 5.08
+          "score": 5.09
         },
         {
           "symbol": "TARIL",
@@ -1528,7 +1528,7 @@
         {
           "symbol": "JAIBALAJI",
           "return": -15.56,
-          "score": 7.39
+          "score": 7.38
         },
         {
           "symbol": "CUPID",
@@ -1543,7 +1543,7 @@
         {
           "symbol": "NPST",
           "return": -18.6,
-          "score": 4.15
+          "score": 4.14
         },
         {
           "symbol": "TARIL",
@@ -1553,7 +1553,7 @@
         {
           "symbol": "GVT&D",
           "return": 15.09,
-          "score": 3.83
+          "score": 3.82
         },
         {
           "symbol": "V2RETAIL",
@@ -1630,12 +1630,12 @@
         {
           "symbol": "NPST",
           "return": 33.43,
-          "score": 3.68
+          "score": 3.67
         },
         {
           "symbol": "WEBELSOLAR",
           "return": 50.99,
-          "score": 3.62
+          "score": 3.61
         },
         {
           "symbol": "SABTNL",
@@ -1645,7 +1645,7 @@
         {
           "symbol": "ELECTCAST",
           "return": 5.49,
-          "score": 3.02
+          "score": 3.01
         },
         {
           "symbol": "GVT&D",
@@ -1665,12 +1665,12 @@
         {
           "symbol": "V2RETAIL",
           "return": 9.94,
-          "score": 2.75
+          "score": 2.74
         },
         {
           "symbol": "E2E",
           "return": 18.95,
-          "score": 2.72
+          "score": 2.71
         },
         {
           "symbol": "KPIGREEN",
@@ -1692,7 +1692,7 @@
         {
           "symbol": "JAIBALAJI",
           "return": -25.36,
-          "score": 11.87
+          "score": 11.86
         },
         {
           "symbol": "CUPID",
@@ -1717,7 +1717,7 @@
         {
           "symbol": "E2E",
           "return": -7.99,
-          "score": 3.02
+          "score": 3.01
         },
         {
           "symbol": "INOXWIND",
@@ -1727,12 +1727,12 @@
         {
           "symbol": "BSE",
           "return": 6.36,
-          "score": 2.59
+          "score": 2.58
         },
         {
           "symbol": "KPIGREEN",
           "return": -16.77,
-          "score": 2.56
+          "score": 2.55
         },
         {
           "symbol": "AURIONPRO",
@@ -1742,12 +1742,12 @@
         {
           "symbol": "WEBELSOLAR",
           "return": 20.74,
-          "score": 2.42
+          "score": 2.41
         },
         {
           "symbol": "SABTNL",
           "return": 0.0,
-          "score": 2.27
+          "score": 2.26
         },
         {
           "symbol": "IRFC",
@@ -1886,7 +1886,7 @@
         {
           "symbol": "AURIONPRO",
           "return": 0.35,
-          "score": 3.13
+          "score": 3.12
         },
         {
           "symbol": "RMDRIP",
@@ -1901,7 +1901,7 @@
         {
           "symbol": "E2E",
           "return": 13.39,
-          "score": 2.93
+          "score": 2.92
         },
         {
           "symbol": "INOXWIND",
@@ -1921,12 +1921,12 @@
         {
           "symbol": "PFC",
           "return": 12.22,
-          "score": 2.55
+          "score": 2.54
         },
         {
           "symbol": "TITAGARH",
           "return": 4.58,
-          "score": 2.27
+          "score": 2.26
         }
       ]
     },
@@ -1963,7 +1963,7 @@
         {
           "symbol": "E2E",
           "return": -2.0,
-          "score": 3.2
+          "score": 3.21
         },
         {
           "symbol": "SUZLON",
@@ -2025,7 +2025,7 @@
         {
           "symbol": "NPST",
           "return": 3.01,
-          "score": 8.07
+          "score": 8.06
         },
         {
           "symbol": "JSLL",
@@ -2117,7 +2117,7 @@
         {
           "symbol": "JWL",
           "return": -4.39,
-          "score": 3.43
+          "score": 3.42
         },
         {
           "symbol": "RECLTD",
@@ -2132,7 +2132,7 @@
         {
           "symbol": "MAZDOCK",
           "return": -10.38,
-          "score": 3.05
+          "score": 3.04
         },
         {
           "symbol": "AURIONPRO",
@@ -2306,7 +2306,7 @@
         {
           "symbol": "POWERMECH",
           "return": -11.37,
-          "score": 3.2
+          "score": 3.19
         },
         {
           "symbol": "AURIONPRO",
@@ -2353,7 +2353,7 @@
         {
           "symbol": "TITAGARH",
           "return": 28.81,
-          "score": 4.71
+          "score": 4.7
         },
         {
           "symbol": "VENUSPIPES",
@@ -2388,7 +2388,7 @@
         {
           "symbol": "SAKSOFT",
           "return": -4.33,
-          "score": 2.95
+          "score": 2.94
         },
         {
           "symbol": "BECTORFOOD",
@@ -2403,7 +2403,7 @@
         {
           "symbol": "NUCLEUS",
           "return": 2.77,
-          "score": 2.63
+          "score": 2.62
         },
         {
           "symbol": "MAZDOCK",
@@ -2475,7 +2475,7 @@
         {
           "symbol": "SDBL",
           "return": 15.43,
-          "score": 2.83
+          "score": 2.82
         },
         {
           "symbol": "APARINDS",
@@ -2644,7 +2644,7 @@
         {
           "symbol": "KTKBANK",
           "return": 1.35,
-          "score": 2.5
+          "score": 2.49
         },
         {
           "symbol": "JSL",
@@ -2676,22 +2676,22 @@
         {
           "symbol": "MBAPL",
           "return": -11.2,
-          "score": 5.35
+          "score": 5.38
         },
         {
           "symbol": "NPST",
           "return": 45.34,
-          "score": 5.28
+          "score": 5.3
         },
         {
           "symbol": "AXISCADES",
           "return": -12.22,
-          "score": 3.51
+          "score": 3.52
         },
         {
           "symbol": "APARINDS",
           "return": 5.7,
-          "score": 3.29
+          "score": 3.3
         },
         {
           "symbol": "UCOBANK",
@@ -2701,12 +2701,12 @@
         {
           "symbol": "MAZDOCK",
           "return": -10.72,
-          "score": 2.98
+          "score": 2.99
         },
         {
           "symbol": "RMDRIP",
           "return": 37.52,
-          "score": 2.97
+          "score": 2.98
         },
         {
           "symbol": "KTKBANK",
@@ -2716,22 +2716,22 @@
         {
           "symbol": "SOUTHBANK",
           "return": -13.06,
-          "score": 2.9
+          "score": 2.91
         },
         {
           "symbol": "APOLLO",
           "return": -10.21,
-          "score": 2.87
+          "score": 2.88
         },
         {
           "symbol": "KRISHANA",
           "return": -11.93,
-          "score": 2.84
+          "score": 2.85
         },
         {
           "symbol": "IONEXCHANG",
           "return": 0.18,
-          "score": 2.61
+          "score": 2.62
         },
         {
           "symbol": "JINDALSAW",
@@ -2758,22 +2758,22 @@
         {
           "symbol": "MBAPL",
           "return": -1.37,
-          "score": 6.25
+          "score": 6.27
         },
         {
           "symbol": "NPST",
           "return": 19.06,
-          "score": 5.3
+          "score": 5.31
         },
         {
           "symbol": "MAZDOCK",
           "return": -3.16,
-          "score": 4.05
+          "score": 4.06
         },
         {
           "symbol": "UCOBANK",
           "return": -9.28,
-          "score": 3.55
+          "score": 3.56
         },
         {
           "symbol": "RVNL",
@@ -2788,27 +2788,27 @@
         {
           "symbol": "SOUTHBANK",
           "return": -5.37,
-          "score": 2.89
+          "score": 2.9
         },
         {
           "symbol": "KTKBANK",
           "return": 0.6,
-          "score": 2.82
+          "score": 2.83
         },
         {
           "symbol": "APOLLO",
           "return": -1.48,
-          "score": 2.75
+          "score": 2.76
         },
         {
           "symbol": "KARURVYSYA",
           "return": -1.54,
-          "score": 2.72
+          "score": 2.73
         },
         {
           "symbol": "BLS",
           "return": -14.1,
-          "score": 2.59
+          "score": 2.6
         },
         {
           "symbol": "POWERMECH",
@@ -2840,12 +2840,12 @@
         {
           "symbol": "MBAPL",
           "return": 15.62,
-          "score": 5.17
+          "score": 5.19
         },
         {
           "symbol": "MAZDOCK",
           "return": -0.6,
-          "score": 4.17
+          "score": 4.18
         },
         {
           "symbol": "UCOBANK",
@@ -2865,7 +2865,7 @@
         {
           "symbol": "SOUTHBANK",
           "return": -4.26,
-          "score": 3.01
+          "score": 3.02
         },
         {
           "symbol": "PSB",
@@ -2885,7 +2885,7 @@
         {
           "symbol": "AXISCADES",
           "return": 6.03,
-          "score": 2.51
+          "score": 2.52
         },
         {
           "symbol": "TITAGARH",
@@ -2900,7 +2900,7 @@
         {
           "symbol": "BLS",
           "return": 10.4,
-          "score": 2.44
+          "score": 2.45
         },
         {
           "symbol": "UNIONBANK",
@@ -2916,1477 +2916,1477 @@
     },
     {
       "month": "2022-12",
-      "portfolio_return": -5.71,
+      "portfolio_return": -4.26,
       "benchmark_return": -3.48,
       "holdings": [
         {
           "symbol": "MAZDOCK",
           "return": -13.34,
-          "score": 4.9
+          "score": 4.95
         },
         {
           "symbol": "MBAPL",
           "return": 8.73,
-          "score": 3.98
-        },
-        {
-          "symbol": "KERNEX",
-          "return": -22.87,
-          "score": 3.86
-        },
-        {
-          "symbol": "RVNL",
-          "return": -9.18,
-          "score": 3.12
+          "score": 4.05
         },
         {
           "symbol": "KPIGREEN",
           "return": -5.57,
-          "score": 3.11
+          "score": 3.16
+        },
+        {
+          "symbol": "RVNL",
+          "return": -9.18,
+          "score": 3.15
         },
         {
           "symbol": "SDBL",
           "return": -13.78,
-          "score": 3.1
+          "score": 3.14
         },
         {
           "symbol": "POWERMECH",
           "return": -11.26,
-          "score": 3.09
+          "score": 3.12
         },
         {
           "symbol": "AXISCADES",
           "return": 2.09,
-          "score": 3.07
+          "score": 3.11
         },
         {
           "symbol": "BLS",
           "return": -12.26,
-          "score": 2.96
+          "score": 3.0
         },
         {
           "symbol": "COCHINSHIP",
           "return": -20.26,
-          "score": 2.93
+          "score": 2.96
         },
         {
           "symbol": "KTKBANK",
           "return": 1.94,
-          "score": 2.87
+          "score": 2.9
         },
         {
           "symbol": "UNIONBANK",
           "return": -1.11,
-          "score": 2.78
+          "score": 2.81
         },
         {
           "symbol": "REFEX",
           "return": -13.54,
-          "score": 2.74
+          "score": 2.76
         },
         {
           "symbol": "KARURVYSYA",
           "return": 13.25,
-          "score": 2.69
+          "score": 2.72
         },
         {
           "symbol": "SOUTHBANK",
           "return": 11.57,
-          "score": 2.66
+          "score": 2.68
+        },
+        {
+          "symbol": "ADANIENT",
+          "return": -1.19,
+          "score": 2.65
         }
       ]
     },
     {
       "month": "2022-11",
-      "portfolio_return": 5.6,
+      "portfolio_return": 5.92,
       "benchmark_return": 4.14,
       "holdings": [
         {
           "symbol": "MBAPL",
           "return": 3.95,
-          "score": 4.89
-        },
-        {
-          "symbol": "KERNEX",
-          "return": -4.59,
-          "score": 4.15
+          "score": 4.96
         },
         {
           "symbol": "KPIGREEN",
           "return": 31.21,
-          "score": 3.32
+          "score": 3.39
         },
         {
           "symbol": "KKCL",
           "return": -2.58,
-          "score": 3.16
+          "score": 3.2
         },
         {
           "symbol": "SAFARI",
           "return": -12.72,
-          "score": 3.11
+          "score": 3.14
         },
         {
           "symbol": "KARURVYSYA",
           "return": -0.84,
-          "score": 3.07
+          "score": 3.11
         },
         {
           "symbol": "MAZDOCK",
           "return": 43.81,
-          "score": 3.05
+          "score": 3.09
         },
         {
           "symbol": "TVSMOTOR",
           "return": -8.09,
-          "score": 2.91
+          "score": 2.94
         },
         {
           "symbol": "APARINDS",
           "return": 2.0,
-          "score": 2.81
+          "score": 2.85
         },
         {
           "symbol": "FCL",
           "return": -8.35,
-          "score": 2.77
+          "score": 2.82
         },
         {
           "symbol": "BLS",
           "return": 11.34,
-          "score": 2.72
+          "score": 2.76
         },
         {
           "symbol": "ELECON",
           "return": 24.3,
-          "score": 2.62
+          "score": 2.66
         },
         {
           "symbol": "SHANTIGEAR",
           "return": -1.02,
-          "score": 2.45
+          "score": 2.49
         },
         {
           "symbol": "HAL",
           "return": 9.67,
-          "score": 2.43
+          "score": 2.47
         },
         {
           "symbol": "SILVERTUC",
           "return": -4.07,
-          "score": 2.41
+          "score": 2.44
+        },
+        {
+          "symbol": "WSTCSTPAPR",
+          "return": 0.21,
+          "score": 2.38
         }
       ]
     },
     {
       "month": "2022-10",
-      "portfolio_return": -1.72,
+      "portfolio_return": -3.08,
       "benchmark_return": 5.37,
       "holdings": [
         {
           "symbol": "MBAPL",
           "return": 0.24,
-          "score": 4.62
+          "score": 4.67
         },
         {
           "symbol": "KPIGREEN",
           "return": -17.07,
-          "score": 4.34
-        },
-        {
-          "symbol": "KERNEX",
-          "return": 20.68,
-          "score": 3.57
+          "score": 4.4
         },
         {
           "symbol": "IMAGICAA",
           "return": -16.52,
-          "score": 3.53
+          "score": 3.56
         },
         {
           "symbol": "ADANIPOWER",
           "return": -10.69,
-          "score": 3.41
+          "score": 3.45
         },
         {
           "symbol": "RAJRATAN",
           "return": -28.96,
-          "score": 3.24
+          "score": 3.27
         },
         {
           "symbol": "POWERMECH",
           "return": -1.63,
-          "score": 3.06
+          "score": 3.09
         },
         {
           "symbol": "BLS",
           "return": 14.2,
-          "score": 2.85
+          "score": 2.88
         },
         {
           "symbol": "E2E",
           "return": -6.34,
-          "score": 2.79
+          "score": 2.83
         },
         {
           "symbol": "SCHAEFFLER",
           "return": -13.31,
-          "score": 2.76
+          "score": 2.79
         },
         {
           "symbol": "ADANIENT",
           "return": -2.69,
-          "score": 2.65
+          "score": 2.68
         },
         {
           "symbol": "TVSMOTOR",
           "return": 10.71,
-          "score": 2.61
+          "score": 2.64
         },
         {
           "symbol": "FCL",
           "return": 3.28,
-          "score": 2.56
+          "score": 2.59
         },
         {
           "symbol": "MAZDOCK",
           "return": 30.86,
-          "score": 2.54
+          "score": 2.56
         },
         {
           "symbol": "SDBL",
           "return": -8.59,
-          "score": 2.52
+          "score": 2.55
+        },
+        {
+          "symbol": "SHOPERSTOP",
+          "return": 0.24,
+          "score": 2.38
         }
       ]
     },
     {
       "month": "2022-09",
-      "portfolio_return": -5.69,
+      "portfolio_return": -7.38,
       "benchmark_return": -3.74,
       "holdings": [
         {
           "symbol": "ADANIPOWER",
           "return": -9.64,
-          "score": 5.36
+          "score": 5.39
         },
         {
           "symbol": "MBAPL",
           "return": 11.43,
-          "score": 5.35
+          "score": 5.39
         },
         {
           "symbol": "KPIGREEN",
           "return": -6.79,
-          "score": 4.99
+          "score": 5.02
         },
         {
           "symbol": "IMAGICAA",
           "return": -14.27,
-          "score": 4.95
+          "score": 4.98
         },
         {
           "symbol": "WSTCSTPAPR",
           "return": -21.48,
-          "score": 3.91
+          "score": 3.94
         },
         {
           "symbol": "CANTABIL",
           "return": -11.96,
-          "score": 3.26
+          "score": 3.28
         },
         {
           "symbol": "RAJRATAN",
           "return": 5.95,
-          "score": 3.19
+          "score": 3.21
         },
         {
           "symbol": "ATGL",
           "return": -8.87,
-          "score": 3.09
+          "score": 3.11
         },
         {
           "symbol": "CHENNPETRO",
           "return": -16.41,
-          "score": 3.05
-        },
-        {
-          "symbol": "KERNEX",
-          "return": 13.95,
-          "score": 2.96
+          "score": 3.07
         },
         {
           "symbol": "ELECON",
           "return": -8.67,
-          "score": 2.7
+          "score": 2.71
         },
         {
           "symbol": "ADANIENT",
           "return": 5.97,
-          "score": 2.67
+          "score": 2.68
         },
         {
           "symbol": "HUBTOWN",
           "return": -55.61,
-          "score": 2.61
+          "score": 2.63
         },
         {
           "symbol": "BLS",
           "return": 12.52,
-          "score": 2.6
+          "score": 2.62
         },
         {
           "symbol": "SDBL",
           "return": 18.53,
-          "score": 2.52
+          "score": 2.54
+        },
+        {
+          "symbol": "E2E",
+          "return": -11.45,
+          "score": 2.51
         }
       ]
     },
     {
       "month": "2022-08",
-      "portfolio_return": 15.5,
+      "portfolio_return": 14.8,
       "benchmark_return": 3.5,
       "holdings": [
         {
           "symbol": "MBAPL",
           "return": 16.8,
-          "score": 7.29
+          "score": 7.32
         },
         {
           "symbol": "ADANIPOWER",
           "return": 28.96,
-          "score": 4.37
+          "score": 4.39
         },
         {
           "symbol": "KPIGREEN",
           "return": 32.49,
-          "score": 3.66
+          "score": 3.68
         },
         {
           "symbol": "BLS",
           "return": 8.76,
-          "score": 3.46
+          "score": 3.48
         },
         {
           "symbol": "VADILALIND",
           "return": 15.31,
-          "score": 3.23
+          "score": 3.24
         },
         {
           "symbol": "ATGL",
           "return": 16.67,
-          "score": 3.21
+          "score": 3.23
         },
         {
           "symbol": "CHENNPETRO",
           "return": 5.02,
-          "score": 3.08
-        },
-        {
-          "symbol": "SCHAEFFLER",
-          "return": 7.41,
-          "score": 3.05
+          "score": 3.09
         },
         {
           "symbol": "SILVERTUC",
           "return": 17.25,
-          "score": 3.05
+          "score": 3.07
         },
         {
-          "symbol": "KERNEX",
-          "return": -0.76,
-          "score": 3.05
+          "symbol": "SCHAEFFLER",
+          "return": 7.41,
+          "score": 3.07
         },
         {
           "symbol": "MARATHON",
           "return": 0.92,
-          "score": 2.96
+          "score": 2.97
         },
         {
           "symbol": "VOLTAMP",
           "return": -20.09,
-          "score": 2.9
+          "score": 2.91
         },
         {
           "symbol": "E2E",
           "return": 22.85,
-          "score": 2.86
+          "score": 2.88
         },
         {
           "symbol": "IMAGICAA",
           "return": 75.25,
-          "score": 2.69
+          "score": 2.71
         },
         {
           "symbol": "ELECON",
           "return": 5.73,
-          "score": 2.64
+          "score": 2.65
+        },
+        {
+          "symbol": "XPROINDIA",
+          "return": -11.3,
+          "score": 2.55
         }
       ]
     },
     {
       "month": "2022-07",
-      "portfolio_return": 11.69,
+      "portfolio_return": 12.1,
       "benchmark_return": 8.73,
       "holdings": [
         {
           "symbol": "MBAPL",
           "return": 16.35,
-          "score": 7.14
+          "score": 7.19
         },
         {
           "symbol": "XPROINDIA",
           "return": -6.06,
-          "score": 4.69
+          "score": 4.73
         },
         {
           "symbol": "CHENNPETRO",
           "return": -7.66,
-          "score": 3.88
+          "score": 3.91
         },
         {
           "symbol": "VISHNU",
           "return": -0.57,
-          "score": 3.47
+          "score": 3.5
         },
         {
           "symbol": "ADANIPOWER",
           "return": 18.97,
-          "score": 3.18
+          "score": 3.2
         },
         {
           "symbol": "SILVERTUC",
           "return": 11.78,
-          "score": 3.05
-        },
-        {
-          "symbol": "VADILALIND",
-          "return": 8.19,
-          "score": 2.99
+          "score": 3.08
         },
         {
           "symbol": "BLS",
           "return": 23.93,
-          "score": 2.99
+          "score": 3.02
         },
         {
-          "symbol": "KERNEX",
-          "return": 9.95,
-          "score": 2.73
+          "symbol": "VADILALIND",
+          "return": 8.19,
+          "score": 3.02
         },
         {
           "symbol": "RAJRATAN",
           "return": 26.06,
-          "score": 2.57
+          "score": 2.59
         },
         {
           "symbol": "MAHLIFE",
           "return": -3.79,
-          "score": 2.45
-        },
-        {
-          "symbol": "MARATHON",
-          "return": 8.22,
-          "score": 2.38
+          "score": 2.47
         },
         {
           "symbol": "E2E",
           "return": 25.0,
-          "score": 2.38
+          "score": 2.4
+        },
+        {
+          "symbol": "MARATHON",
+          "return": 8.22,
+          "score": 2.4
         },
         {
           "symbol": "BDL",
           "return": 22.81,
-          "score": 2.37
+          "score": 2.39
         },
         {
           "symbol": "SCHAEFFLER",
           "return": 22.22,
-          "score": 2.3
+          "score": 2.32
+        },
+        {
+          "symbol": "HAL",
+          "return": 16.11,
+          "score": 2.19
         }
       ]
     },
     {
       "month": "2022-06",
-      "portfolio_return": -9.72,
+      "portfolio_return": -8.61,
       "benchmark_return": -4.85,
       "holdings": [
         {
-          "symbol": "BCG",
-          "return": -46.04,
-          "score": 6.57
-        },
-        {
           "symbol": "MBAPL",
           "return": -4.05,
-          "score": 6.29
+          "score": 6.79
         },
         {
           "symbol": "INDOTHAI",
           "return": -48.97,
-          "score": 4.92
+          "score": 5.35
         },
         {
           "symbol": "XPROINDIA",
           "return": 19.14,
-          "score": 3.9
+          "score": 4.4
         },
         {
           "symbol": "TTML",
           "return": -0.74,
-          "score": 3.85
+          "score": 4.4
         },
         {
           "symbol": "ADANIPOWER",
           "return": -9.91,
-          "score": 3.56
+          "score": 3.72
         },
         {
           "symbol": "CHENNPETRO",
           "return": 5.27,
-          "score": 3.04
+          "score": 3.15
         },
         {
           "symbol": "VISHNU",
           "return": 2.38,
-          "score": 2.82
-        },
-        {
-          "symbol": "SWANCORP",
-          "return": -33.7,
-          "score": 2.7
+          "score": 3.09
         },
         {
           "symbol": "KRISHANA",
           "return": -14.75,
-          "score": 2.63
+          "score": 2.85
+        },
+        {
+          "symbol": "SWANCORP",
+          "return": -33.7,
+          "score": 2.8
         },
         {
           "symbol": "BDL",
           "return": -16.3,
-          "score": 2.51
+          "score": 2.62
+        },
+        {
+          "symbol": "JINDWORLD",
+          "return": -20.88,
+          "score": 2.61
         },
         {
           "symbol": "SHARDACROP",
           "return": -10.21,
-          "score": 2.47
-        },
-        {
-          "symbol": "KERNEX",
-          "return": 5.72,
-          "score": 2.4
+          "score": 2.56
         },
         {
           "symbol": "E2E",
           "return": 10.89,
-          "score": 2.36
+          "score": 2.53
         },
         {
           "symbol": "SCHAEFFLER",
           "return": -4.56,
-          "score": 2.34
+          "score": 2.51
+        },
+        {
+          "symbol": "SILVERTUC",
+          "return": -2.74,
+          "score": 2.48
         }
       ]
     },
     {
       "month": "2022-05",
-      "portfolio_return": -12.23,
+      "portfolio_return": -12.62,
       "benchmark_return": -3.03,
       "holdings": [
         {
-          "symbol": "BCG",
-          "return": -23.21,
-          "score": 8.44
-        },
-        {
           "symbol": "XPROINDIA",
           "return": -19.33,
-          "score": 5.14
+          "score": 5.85
         },
         {
           "symbol": "TTML",
           "return": -6.59,
-          "score": 4.81
+          "score": 5.46
         },
         {
           "symbol": "INDOTHAI",
           "return": 0.97,
-          "score": 4.62
-        },
-        {
-          "symbol": "E2E",
-          "return": -25.43,
-          "score": 3.72
+          "score": 5.06
         },
         {
           "symbol": "GOKULAGRO",
           "return": -19.18,
-          "score": 3.63
+          "score": 4.01
+        },
+        {
+          "symbol": "E2E",
+          "return": -25.43,
+          "score": 3.97
         },
         {
           "symbol": "MBAPL",
           "return": 37.03,
-          "score": 3.35
+          "score": 3.69
         },
         {
           "symbol": "JINDWORLD",
           "return": -15.08,
-          "score": 3.15
+          "score": 3.53
         },
         {
           "symbol": "VISHNU",
           "return": -11.9,
-          "score": 3.15
+          "score": 3.48
         },
         {
           "symbol": "ADANIGREEN",
           "return": -33.95,
-          "score": 2.85
-        },
-        {
-          "symbol": "KERNEX",
-          "return": -2.64,
-          "score": 2.75
+          "score": 3.01
         },
         {
           "symbol": "DBREALTY",
           "return": -16.55,
-          "score": 2.59
+          "score": 2.87
+        },
+        {
+          "symbol": "SHAREINDIA",
+          "return": -14.91,
+          "score": 2.71
         },
         {
           "symbol": "HUBTOWN",
           "return": -18.98,
-          "score": 2.47
-        },
-        {
-          "symbol": "GMDCLTD",
-          "return": -13.59,
-          "score": 2.43
+          "score": 2.71
         },
         {
           "symbol": "BSE",
           "return": -15.08,
-          "score": 2.42
+          "score": 2.7
+        },
+        {
+          "symbol": "GMDCLTD",
+          "return": -13.59,
+          "score": 2.59
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": -16.69,
+          "score": 2.58
         }
       ]
     },
     {
       "month": "2022-04",
-      "portfolio_return": -6.6,
+      "portfolio_return": -4.99,
       "benchmark_return": -2.07,
       "holdings": [
         {
           "symbol": "XPROINDIA",
           "return": -9.36,
-          "score": 9.34
-        },
-        {
-          "symbol": "BCG",
-          "return": -20.0,
-          "score": 8.64
+          "score": 10.46
         },
         {
           "symbol": "INDOTHAI",
           "return": -22.94,
-          "score": 6.67
+          "score": 7.08
         },
         {
           "symbol": "TTML",
           "return": -23.97,
-          "score": 6.52
+          "score": 7.02
         },
         {
           "symbol": "DBREALTY",
           "return": -16.64,
-          "score": 3.52
+          "score": 3.68
         },
         {
           "symbol": "VISHNU",
           "return": -2.73,
-          "score": 3.27
+          "score": 3.56
         },
         {
           "symbol": "JINDWORLD",
           "return": 0.69,
-          "score": 3.16
-        },
-        {
-          "symbol": "E2E",
-          "return": 22.76,
-          "score": 2.63
+          "score": 3.37
         },
         {
           "symbol": "BSE",
           "return": -4.3,
-          "score": 2.58
+          "score": 2.79
         },
         {
-          "symbol": "63MOONS",
-          "return": -19.61,
-          "score": 2.5
+          "symbol": "E2E",
+          "return": 22.76,
+          "score": 2.75
         },
         {
           "symbol": "SHAREINDIA",
           "return": 9.31,
-          "score": 2.46
+          "score": 2.67
+        },
+        {
+          "symbol": "63MOONS",
+          "return": -19.61,
+          "score": 2.62
         },
         {
           "symbol": "PITTIENG",
           "return": -6.63,
-          "score": 2.38
+          "score": 2.56
         },
         {
           "symbol": "GMDCLTD",
           "return": -3.29,
-          "score": 2.35
-        },
-        {
-          "symbol": "TRIDENT",
-          "return": -4.66,
-          "score": 2.23
+          "score": 2.47
         },
         {
           "symbol": "GOKEX",
           "return": 2.3,
-          "score": 2.22
+          "score": 2.4
+        },
+        {
+          "symbol": "TRIDENT",
+          "return": -4.66,
+          "score": 2.39
+        },
+        {
+          "symbol": "GREENPANEL",
+          "return": 4.19,
+          "score": 2.33
         }
       ]
     },
     {
       "month": "2022-03",
-      "portfolio_return": 15.64,
+      "portfolio_return": 13.19,
       "benchmark_return": 3.99,
       "holdings": [
         {
-          "symbol": "BCG",
-          "return": 44.34,
-          "score": 8.41
-        },
-        {
           "symbol": "XPROINDIA",
           "return": 54.94,
-          "score": 8.36
+          "score": 9.22
         },
         {
           "symbol": "INDOTHAI",
           "return": 17.96,
-          "score": 6.23
+          "score": 6.61
         },
         {
           "symbol": "JINDWORLD",
           "return": -4.72,
-          "score": 4.76
+          "score": 4.98
         },
         {
           "symbol": "VISHNU",
           "return": 18.47,
-          "score": 4.22
+          "score": 4.61
         },
         {
           "symbol": "DBREALTY",
           "return": 5.52,
-          "score": 4.2
+          "score": 4.37
         },
         {
           "symbol": "TTML",
           "return": 46.49,
-          "score": 3.9
-        },
-        {
-          "symbol": "TRIDENT",
-          "return": 7.13,
-          "score": 2.94
+          "score": 4.18
         },
         {
           "symbol": "SHAREINDIA",
           "return": 15.32,
-          "score": 2.92
+          "score": 3.15
+        },
+        {
+          "symbol": "TRIDENT",
+          "return": 7.13,
+          "score": 3.11
         },
         {
           "symbol": "MANINFRA",
           "return": 3.62,
-          "score": 2.66
+          "score": 2.84
         },
         {
           "symbol": "SANGAMIND",
           "return": -14.79,
-          "score": 2.46
+          "score": 2.63
         },
         {
           "symbol": "TIPSMUSIC",
           "return": 14.4,
-          "score": 2.38
+          "score": 2.59
         },
         {
           "symbol": "CGPOWER",
           "return": 13.58,
-          "score": 2.34
+          "score": 2.49
         },
         {
           "symbol": "OLECTRA",
           "return": 7.13,
-          "score": 2.3
+          "score": 2.46
         },
         {
-          "symbol": "E2E",
-          "return": 5.26,
-          "score": 2.14
+          "symbol": "FLUOROCHEM",
+          "return": 6.38,
+          "score": 2.33
+        },
+        {
+          "symbol": "KPITTECH",
+          "return": 6.47,
+          "score": 2.31
         }
       ]
     },
     {
       "month": "2022-02",
-      "portfolio_return": -12.33,
+      "portfolio_return": -11.34,
       "benchmark_return": -3.15,
       "holdings": [
         {
-          "symbol": "BCG",
-          "return": -30.47,
-          "score": 10.95
-        },
-        {
           "symbol": "XPROINDIA",
           "return": -0.13,
-          "score": 8.51
+          "score": 10.06
         },
         {
           "symbol": "INDOTHAI",
           "return": 1.49,
-          "score": 7.15
+          "score": 7.91
         },
         {
           "symbol": "TTML",
           "return": -20.97,
-          "score": 4.64
+          "score": 5.2
         },
         {
           "symbol": "JINDWORLD",
           "return": -11.32,
-          "score": 3.85
+          "score": 4.15
         },
         {
           "symbol": "OLECTRA",
           "return": -27.52,
-          "score": 3.45
+          "score": 3.86
         },
         {
           "symbol": "TRIDENT",
           "return": -17.35,
-          "score": 3.1
+          "score": 3.38
         },
         {
           "symbol": "SHAREINDIA",
           "return": -13.94,
-          "score": 2.83
+          "score": 3.25
         },
         {
           "symbol": "MANINFRA",
           "return": -16.46,
-          "score": 2.71
-        },
-        {
-          "symbol": "JBMA",
-          "return": -29.96,
-          "score": 2.69
-        },
-        {
-          "symbol": "SANGAMIND",
-          "return": -19.17,
-          "score": 2.62
+          "score": 3.01
         },
         {
           "symbol": "VISHNU",
           "return": 10.25,
-          "score": 2.54
+          "score": 2.96
+        },
+        {
+          "symbol": "JBMA",
+          "return": -29.96,
+          "score": 2.92
+        },
+        {
+          "symbol": "SANGAMIND",
+          "return": -19.17,
+          "score": 2.86
         },
         {
           "symbol": "CGPOWER",
           "return": -3.25,
-          "score": 2.42
+          "score": 2.71
         },
         {
           "symbol": "DBREALTY",
           "return": 4.46,
-          "score": 2.37
+          "score": 2.58
         },
         {
           "symbol": "KPITTECH",
           "return": -10.57,
-          "score": 2.29
+          "score": 2.57
+        },
+        {
+          "symbol": "TIPSMUSIC",
+          "return": -15.6,
+          "score": 2.57
         }
       ]
     },
     {
       "month": "2022-01",
-      "portfolio_return": 2.21,
+      "portfolio_return": 1.12,
       "benchmark_return": -0.08,
       "holdings": [
         {
-          "symbol": "BCG",
-          "return": 1.03,
-          "score": 12.92
-        },
-        {
           "symbol": "XPROINDIA",
           "return": 4.57,
-          "score": 9.5
+          "score": 10.88
         },
         {
           "symbol": "INDOTHAI",
           "return": -3.55,
-          "score": 8.33
+          "score": 9.46
         },
         {
           "symbol": "TTML",
           "return": -31.13,
-          "score": 8.22
+          "score": 9.43
         },
         {
           "symbol": "OLECTRA",
           "return": 1.59,
-          "score": 3.44
+          "score": 3.93
         },
         {
           "symbol": "TRIDENT",
           "return": 12.36,
-          "score": 2.66
+          "score": 3.03
         },
         {
           "symbol": "SANGAMIND",
           "return": 4.96,
-          "score": 2.56
+          "score": 2.91
         },
         {
           "symbol": "GOODLUCK",
           "return": -1.97,
-          "score": 2.35
+          "score": 2.68
         },
         {
           "symbol": "SHAREINDIA",
           "return": 14.41,
-          "score": 2.23
+          "score": 2.56
         },
         {
           "symbol": "JINDWORLD",
           "return": 40.71,
-          "score": 2.21
+          "score": 2.51
         },
         {
           "symbol": "CGPOWER",
           "return": -10.94,
-          "score": 2.17
-        },
-        {
-          "symbol": "MANINFRA",
-          "return": 13.61,
-          "score": 2.11
-        },
-        {
-          "symbol": "KPITTECH",
-          "return": 4.91,
-          "score": 2.09
+          "score": 2.48
         },
         {
           "symbol": "SAREGAMA",
           "return": -10.91,
-          "score": 2.09
+          "score": 2.42
+        },
+        {
+          "symbol": "MANINFRA",
+          "return": 13.61,
+          "score": 2.41
+        },
+        {
+          "symbol": "KPITTECH",
+          "return": 4.91,
+          "score": 2.4
         },
         {
           "symbol": "DPABHUSHAN",
           "return": -6.47,
-          "score": 1.98
+          "score": 2.27
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": -15.32,
+          "score": 2.2
         }
       ]
     },
     {
       "month": "2021-12",
-      "portfolio_return": 28.35,
+      "portfolio_return": 26.42,
       "benchmark_return": 2.18,
       "holdings": [
         {
-          "symbol": "BCG",
-          "return": 43.32,
-          "score": 18.16
+          "symbol": "TTML",
+          "return": 66.34,
+          "score": 9.57
         },
         {
           "symbol": "XPROINDIA",
           "return": 9.03,
-          "score": 7.03
-        },
-        {
-          "symbol": "TTML",
-          "return": 66.34,
-          "score": 6.9
+          "score": 9.3
         },
         {
           "symbol": "OLECTRA",
           "return": 0.5,
-          "score": 4.94
+          "score": 6.66
         },
         {
           "symbol": "TRIDENT",
           "return": 13.63,
-          "score": 2.57
+          "score": 3.55
         },
         {
           "symbol": "INDOTHAI",
           "return": 173.81,
-          "score": 2.26
+          "score": 3.04
         },
         {
           "symbol": "RTNINDIA",
           "return": 8.3,
-          "score": 2.14
-        },
-        {
-          "symbol": "ORCHPHARMA",
-          "return": -3.21,
-          "score": 2.06
-        },
-        {
-          "symbol": "SHAREINDIA",
-          "return": 26.62,
-          "score": 1.92
+          "score": 2.88
         },
         {
           "symbol": "MANINFRA",
           "return": 16.15,
-          "score": 1.84
+          "score": 2.58
         },
         {
           "symbol": "GLOBUSSPR",
           "return": 12.5,
-          "score": 1.73
+          "score": 2.56
+        },
+        {
+          "symbol": "SHAREINDIA",
+          "return": 26.62,
+          "score": 2.45
+        },
+        {
+          "symbol": "JINDWORLD",
+          "return": 21.42,
+          "score": 2.42
+        },
+        {
+          "symbol": "ORCHPHARMA",
+          "return": -3.21,
+          "score": 2.37
         },
         {
           "symbol": "JSWENERGY",
           "return": -2.12,
-          "score": 1.69
-        },
-        {
-          "symbol": "SAREGAMA",
-          "return": 22.03,
-          "score": 1.67
+          "score": 2.36
         },
         {
           "symbol": "GOODLUCK",
           "return": 33.11,
-          "score": 1.63
+          "score": 2.25
         },
         {
           "symbol": "PITTIENG",
           "return": 5.18,
-          "score": 1.63
+          "score": 2.23
+        },
+        {
+          "symbol": "FLUOROCHEM",
+          "return": 14.99,
+          "score": 2.2
         }
       ]
     },
     {
       "month": "2021-11",
-      "portfolio_return": 10.15,
+      "portfolio_return": 3.94,
       "benchmark_return": -3.9,
       "holdings": [
         {
-          "symbol": "BCG",
-          "return": 76.56,
-          "score": 10.83
-        },
-        {
           "symbol": "XPROINDIA",
           "return": 24.37,
-          "score": 8.31
+          "score": 8.92
         },
         {
           "symbol": "ORCHPHARMA",
           "return": -1.47,
-          "score": 7.09
+          "score": 7.26
         },
         {
           "symbol": "TTML",
           "return": 96.94,
-          "score": 3.35
+          "score": 3.74
         },
         {
           "symbol": "OLECTRA",
           "return": 42.18,
-          "score": 2.94
+          "score": 3.23
         },
         {
           "symbol": "RTNINDIA",
           "return": 0.82,
-          "score": 2.73
+          "score": 3.13
         },
         {
           "symbol": "SANGAMIND",
           "return": -23.53,
-          "score": 2.73
-        },
-        {
-          "symbol": "JAYNECOIND",
-          "return": -16.1,
-          "score": 2.68
+          "score": 3.12
         },
         {
           "symbol": "JSWENERGY",
           "return": -16.06,
-          "score": 2.62
+          "score": 2.98
         },
         {
           "symbol": "GLOBUSSPR",
           "return": -12.81,
-          "score": 2.5
+          "score": 2.92
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": -16.1,
+          "score": 2.87
         },
         {
           "symbol": "MANINFRA",
           "return": 1.16,
-          "score": 2.29
+          "score": 2.62
         },
         {
           "symbol": "SAREGAMA",
           "return": 1.01,
-          "score": 2.26
-        },
-        {
-          "symbol": "SHAREINDIA",
-          "return": 3.79,
-          "score": 2.2
+          "score": 2.47
         },
         {
           "symbol": "ANGELONE",
           "return": -17.99,
-          "score": 2.11
+          "score": 2.41
+        },
+        {
+          "symbol": "SHAREINDIA",
+          "return": 3.79,
+          "score": 2.39
         },
         {
           "symbol": "GOODLUCK",
           "return": -6.54,
-          "score": 2.02
+          "score": 2.25
+        },
+        {
+          "symbol": "TIPSMUSIC",
+          "return": -16.66,
+          "score": 2.24
         }
       ]
     },
     {
       "month": "2021-10",
-      "portfolio_return": -1.35,
+      "portfolio_return": -3.86,
       "benchmark_return": 0.3,
       "holdings": [
         {
           "symbol": "XPROINDIA",
           "return": -4.88,
-          "score": 10.62
+          "score": 11.04
         },
         {
           "symbol": "ORCHPHARMA",
           "return": -5.29,
-          "score": 7.53
-        },
-        {
-          "symbol": "BCG",
-          "return": 13.16,
-          "score": 6.91
+          "score": 7.56
         },
         {
           "symbol": "RTNINDIA",
           "return": -10.23,
-          "score": 5.79
+          "score": 6.15
         },
         {
           "symbol": "JSWENERGY",
           "return": -10.37,
-          "score": 3.88
+          "score": 4.09
         },
         {
           "symbol": "GOODLUCK",
           "return": -7.67,
-          "score": 3.13
+          "score": 3.3
         },
         {
           "symbol": "GLOBUSSPR",
           "return": -9.0,
-          "score": 2.68
+          "score": 2.85
         },
         {
           "symbol": "TTML",
           "return": 35.04,
-          "score": 2.68
+          "score": 2.75
         },
         {
           "symbol": "HIKAL",
           "return": -0.07,
-          "score": 2.41
+          "score": 2.58
         },
         {
           "symbol": "TEJASNET",
           "return": -20.74,
-          "score": 2.41
+          "score": 2.51
         },
         {
           "symbol": "FLUOROCHEM",
           "return": -8.39,
-          "score": 2.28
+          "score": 2.43
         },
         {
           "symbol": "GOLDIAM",
           "return": 5.45,
-          "score": 2.17
+          "score": 2.26
         },
         {
           "symbol": "SAREGAMA",
           "return": 7.19,
-          "score": 2.17
+          "score": 2.25
         },
         {
           "symbol": "SHAREINDIA",
           "return": 7.37,
-          "score": 2.1
+          "score": 2.18
         },
         {
           "symbol": "TIRUMALCHM",
           "return": -11.88,
-          "score": 1.95
+          "score": 2.07
+        },
+        {
+          "symbol": "BALAMINES",
+          "return": -24.37,
+          "score": 1.96
         }
       ]
     },
     {
       "month": "2021-09",
-      "portfolio_return": 10.1,
+      "portfolio_return": 6.58,
       "benchmark_return": 2.84,
       "holdings": [
         {
           "symbol": "XPROINDIA",
           "return": 36.75,
-          "score": 7.46
+          "score": 7.76
         },
         {
           "symbol": "ORCHPHARMA",
           "return": 3.6,
-          "score": 6.98
-        },
-        {
-          "symbol": "BCG",
-          "return": 52.29,
-          "score": 4.24
+          "score": 6.96
         },
         {
           "symbol": "RAJRATAN",
           "return": 0.91,
-          "score": 2.73
+          "score": 2.87
         },
         {
           "symbol": "GOODLUCK",
           "return": 0.13,
-          "score": 2.63
+          "score": 2.77
         },
         {
           "symbol": "VISHNU",
           "return": 19.7,
-          "score": 2.53
+          "score": 2.69
         },
         {
           "symbol": "HIKAL",
           "return": -3.87,
-          "score": 2.48
-        },
-        {
-          "symbol": "JAYNECOIND",
-          "return": 2.28,
-          "score": 2.29
+          "score": 2.65
         },
         {
           "symbol": "SSWL",
           "return": -9.66,
-          "score": 2.27
+          "score": 2.4
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": 2.28,
+          "score": 2.39
         },
         {
           "symbol": "GLOBUSSPR",
           "return": 32.67,
-          "score": 2.01
+          "score": 2.11
         },
         {
           "symbol": "PDSL",
           "return": -4.25,
-          "score": 1.86
+          "score": 1.93
         },
         {
           "symbol": "TIPSMUSIC",
           "return": 3.47,
-          "score": 1.56
-        },
-        {
-          "symbol": "GOLDIAM",
-          "return": 29.72,
-          "score": 1.55
-        },
-        {
-          "symbol": "PITTIENG",
-          "return": 0.92,
-          "score": 1.53
+          "score": 1.63
         },
         {
           "symbol": "LUXIND",
           "return": -13.16,
-          "score": 1.51
+          "score": 1.61
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": 0.92,
+          "score": 1.61
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 29.72,
+          "score": 1.6
+        },
+        {
+          "symbol": "AJMERA",
+          "return": -0.54,
+          "score": 1.41
         }
       ]
     },
     {
       "month": "2021-08",
-      "portfolio_return": -7.4,
+      "portfolio_return": -9.57,
       "benchmark_return": 8.69,
       "holdings": [
         {
-          "symbol": "ORCHPHARMA",
-          "return": -10.56,
-          "score": 7.01
-        },
-        {
           "symbol": "XPROINDIA",
           "return": 16.94,
-          "score": 6.93
+          "score": 7.18
         },
         {
-          "symbol": "BCG",
-          "return": 12.88,
-          "score": 3.85
+          "symbol": "ORCHPHARMA",
+          "return": -10.56,
+          "score": 7.02
         },
         {
           "symbol": "RAJRATAN",
           "return": -17.79,
-          "score": 3.21
+          "score": 3.32
         },
         {
           "symbol": "JAYNECOIND",
           "return": -16.03,
-          "score": 3.04
+          "score": 3.14
         },
         {
           "symbol": "GOODLUCK",
           "return": 4.54,
-          "score": 2.14
+          "score": 2.23
         },
         {
           "symbol": "VEEDOL",
           "return": -39.58,
-          "score": 2.11
+          "score": 2.22
         },
         {
           "symbol": "TIPSMUSIC",
           "return": -14.12,
-          "score": 2.1
+          "score": 2.16
         },
         {
           "symbol": "PITTIENG",
           "return": -24.24,
-          "score": 2.05
-        },
-        {
-          "symbol": "CGPOWER",
-          "return": 7.38,
-          "score": 2.0
+          "score": 2.12
         },
         {
           "symbol": "VISHNU",
           "return": -1.75,
-          "score": 1.99
+          "score": 2.08
+        },
+        {
+          "symbol": "CGPOWER",
+          "return": 7.38,
+          "score": 2.02
         },
         {
           "symbol": "PGEL",
           "return": -5.26,
-          "score": 1.97
-        },
-        {
-          "symbol": "PDSL",
-          "return": 0.83,
-          "score": 1.79
+          "score": 2.01
         },
         {
           "symbol": "RAMKY",
           "return": -11.43,
-          "score": 1.77
+          "score": 1.86
+        },
+        {
+          "symbol": "PDSL",
+          "return": 0.83,
+          "score": 1.84
         },
         {
           "symbol": "DALMIASUG",
           "return": -12.82,
-          "score": 1.64
+          "score": 1.73
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": -19.73,
+          "score": 1.63
         }
       ]
     },
     {
       "month": "2021-07",
-      "portfolio_return": 9.52,
+      "portfolio_return": 9.59,
       "benchmark_return": 0.26,
       "holdings": [
         {
           "symbol": "ORCHPHARMA",
           "return": -45.29,
-          "score": 11.6
+          "score": 11.61
         },
         {
           "symbol": "XPROINDIA",
           "return": 94.12,
-          "score": 2.97
+          "score": 3.01
         },
         {
           "symbol": "TIPSMUSIC",
           "return": -8.95,
-          "score": 2.83
+          "score": 2.87
         },
         {
           "symbol": "JAYNECOIND",
           "return": 9.58,
-          "score": 2.34
+          "score": 2.37
         },
         {
           "symbol": "RAJRATAN",
           "return": 36.64,
-          "score": 2.25
+          "score": 2.27
         },
         {
           "symbol": "VISHNU",
           "return": 11.29,
-          "score": 1.9
+          "score": 1.93
         },
         {
           "symbol": "PDSL",
           "return": 24.3,
-          "score": 1.84
+          "score": 1.87
         },
         {
           "symbol": "RPOWER",
           "return": -11.72,
-          "score": 1.77
+          "score": 1.8
         },
         {
           "symbol": "PGEL",
           "return": -9.78,
-          "score": 1.76
+          "score": 1.78
         },
         {
           "symbol": "DALMIASUG",
           "return": 1.28,
-          "score": 1.74
+          "score": 1.76
         },
         {
           "symbol": "VEEDOL",
           "return": 23.47,
-          "score": 1.69
+          "score": 1.72
         },
         {
           "symbol": "JAIBALAJI",
           "return": 27.98,
-          "score": 1.58
+          "score": 1.6
         },
         {
           "symbol": "PRINCEPIPE",
           "return": -8.17,
-          "score": 1.54
-        },
-        {
-          "symbol": "KERNEX",
-          "return": -10.04,
-          "score": 1.5
+          "score": 1.56
         },
         {
           "symbol": "HIKAL",
           "return": 8.1,
-          "score": 1.36
+          "score": 1.38
+        },
+        {
+          "symbol": "RAMKY",
+          "return": -8.97,
+          "score": 1.38
         }
       ]
     },
@@ -4398,7 +4398,7 @@
         {
           "symbol": "ORCHPHARMA",
           "return": -34.79,
-          "score": 17.71
+          "score": 17.67
         },
         {
           "symbol": "JAYNECOIND",
@@ -4423,7 +4423,7 @@
         {
           "symbol": "PGEL",
           "return": 0.56,
-          "score": 1.27
+          "score": 1.26
         },
         {
           "symbol": "PRINCEPIPE",
@@ -4453,7 +4453,7 @@
         {
           "symbol": "SPLPETRO",
           "return": -4.32,
-          "score": 0.78
+          "score": 0.77
         },
         {
           "symbol": "GOLDIAM",
@@ -4480,17 +4480,17 @@
         {
           "symbol": "ORCHPHARMA",
           "return": 0.16,
-          "score": 19.16
+          "score": 19.11
         },
         {
           "symbol": "GREENPANEL",
           "return": 9.47,
-          "score": 0.65
+          "score": 0.64
         },
         {
           "symbol": "XPROINDIA",
           "return": 21.38,
-          "score": 0.59
+          "score": 0.58
         },
         {
           "symbol": "PGEL",
@@ -4556,13 +4556,13 @@
     },
     {
       "month": "2021-04",
-      "portfolio_return": 4.01,
+      "portfolio_return": 6.18,
       "benchmark_return": -0.41,
       "holdings": [
         {
           "symbol": "ORCHPHARMA",
           "return": -43.54,
-          "score": 19.27
+          "score": 19.22
         },
         {
           "symbol": "PGEL",
@@ -4590,11 +4590,6 @@
           "score": 0.21
         },
         {
-          "symbol": "KERNEX",
-          "return": -36.27,
-          "score": 0.21
-        },
-        {
           "symbol": "OPTIEMUS",
           "return": -0.11,
           "score": 0.21
@@ -4617,7 +4612,7 @@
         {
           "symbol": "NEULANDLAB",
           "return": 14.63,
-          "score": 0.16
+          "score": 0.15
         },
         {
           "symbol": "EVEREADY",
@@ -4633,6 +4628,11 @@
           "symbol": "XPROINDIA",
           "return": 69.67,
           "score": 0.12
+        },
+        {
+          "symbol": "PRSMJOHNSN",
+          "return": -3.84,
+          "score": 0.1
         }
       ]
     },
@@ -4644,7 +4644,7 @@
         {
           "symbol": "ORCHPHARMA",
           "return": 152.62,
-          "score": 19.09
+          "score": 19.04
         },
         {
           "symbol": "OPTIEMUS",
@@ -4664,7 +4664,7 @@
         {
           "symbol": "EVEREADY",
           "return": -12.64,
-          "score": 0.61
+          "score": 0.6
         },
         {
           "symbol": "GREENPANEL",
@@ -4679,12 +4679,12 @@
         {
           "symbol": "AGI",
           "return": -12.1,
-          "score": 0.38
+          "score": 0.37
         },
         {
           "symbol": "NEULANDLAB",
           "return": 0.06,
-          "score": 0.36
+          "score": 0.35
         },
         {
           "symbol": "JAYNECOIND",
@@ -4726,32 +4726,32 @@
         {
           "symbol": "ORCHPHARMA",
           "return": 140.47,
-          "score": 18.04
+          "score": 17.98
         },
         {
           "symbol": "GREENPANEL",
           "return": -1.57,
-          "score": 1.72
+          "score": 1.71
         },
         {
           "symbol": "CGPOWER",
           "return": 39.04,
-          "score": 1.71
+          "score": 1.7
         },
         {
           "symbol": "BORORENEW",
           "return": 2.78,
-          "score": 1.47
+          "score": 1.46
         },
         {
           "symbol": "OPTIEMUS",
           "return": 91.57,
-          "score": 1.31
+          "score": 1.3
         },
         {
           "symbol": "ASHAPURMIN",
           "return": -1.61,
-          "score": 1.27
+          "score": 1.26
         },
         {
           "symbol": "BBOX",
@@ -4761,7 +4761,7 @@
         {
           "symbol": "PGEL",
           "return": 58.17,
-          "score": 1.05
+          "score": 1.04
         },
         {
           "symbol": "EVEREADY",
@@ -4771,7 +4771,7 @@
         {
           "symbol": "BEPL",
           "return": 1.26,
-          "score": 0.86
+          "score": 0.85
         },
         {
           "symbol": "AARTIDRUGS",
@@ -4791,7 +4791,7 @@
         {
           "symbol": "IFBIND",
           "return": -10.6,
-          "score": 0.81
+          "score": 0.8
         },
         {
           "symbol": "TIPSMUSIC",
@@ -4808,47 +4808,47 @@
         {
           "symbol": "ORCHPHARMA",
           "return": 140.04,
-          "score": 12.88
+          "score": 12.84
         },
         {
           "symbol": "CGPOWER",
           "return": -11.17,
-          "score": 3.5
+          "score": 3.49
         },
         {
           "symbol": "BORORENEW",
           "return": -1.98,
-          "score": 2.94
+          "score": 2.93
         },
         {
           "symbol": "EVEREADY",
           "return": -8.28,
-          "score": 2.73
+          "score": 2.72
         },
         {
           "symbol": "OPTIEMUS",
           "return": -8.58,
-          "score": 2.72
+          "score": 2.71
         },
         {
           "symbol": "BBOX",
           "return": 2.32,
-          "score": 2.51
+          "score": 2.5
         },
         {
           "symbol": "SUVEN",
           "return": -23.38,
-          "score": 2.44
+          "score": 2.43
         },
         {
           "symbol": "GREENPANEL",
           "return": 32.02,
-          "score": 2.31
+          "score": 2.3
         },
         {
           "symbol": "ASHAPURMIN",
           "return": -2.34,
-          "score": 2.3
+          "score": 2.29
         },
         {
           "symbol": "AARTIDRUGS",
@@ -4858,27 +4858,27 @@
         {
           "symbol": "ICIL",
           "return": -7.06,
-          "score": 1.92
+          "score": 1.91
         },
         {
           "symbol": "SURYAROSNI",
           "return": -3.55,
-          "score": 1.67
+          "score": 1.66
         },
         {
           "symbol": "BEPL",
           "return": -5.36,
-          "score": 1.65
+          "score": 1.64
         },
         {
           "symbol": "TIPSMUSIC",
           "return": -2.72,
-          "score": 1.52
+          "score": 1.51
         },
         {
           "symbol": "PGEL",
           "return": 22.24,
-          "score": 1.45
+          "score": 1.44
         }
       ]
     },
@@ -4895,27 +4895,27 @@
         {
           "symbol": "ORCHPHARMA",
           "return": 163.35,
-          "score": 4.91
+          "score": 4.9
         },
         {
           "symbol": "AARTIDRUGS",
           "return": -0.68,
-          "score": 4.0
+          "score": 3.99
         },
         {
           "symbol": "ICIL",
           "return": -8.17,
-          "score": 3.73
+          "score": 3.72
         },
         {
           "symbol": "BBOX",
           "return": 21.92,
-          "score": 3.67
+          "score": 3.66
         },
         {
           "symbol": "EVEREADY",
           "return": 19.05,
-          "score": 3.33
+          "score": 3.32
         },
         {
           "symbol": "PGEL",
@@ -4945,22 +4945,22 @@
         {
           "symbol": "MARKSANS",
           "return": -1.86,
-          "score": 2.09
+          "score": 2.08
         },
         {
           "symbol": "GREENPANEL",
           "return": 37.65,
-          "score": 1.99
+          "score": 1.98
         },
         {
           "symbol": "BEPL",
           "return": 19.22,
-          "score": 1.96
+          "score": 1.95
         },
         {
           "symbol": "VAIBHAVGBL",
           "return": 13.02,
-          "score": 1.64
+          "score": 1.63
         }
       ]
     },
@@ -4982,7 +4982,7 @@
         {
           "symbol": "ICIL",
           "return": 8.74,
-          "score": 4.28
+          "score": 4.27
         },
         {
           "symbol": "OPTIEMUS",
@@ -4997,7 +4997,7 @@
         {
           "symbol": "ASHAPURMIN",
           "return": -5.02,
-          "score": 2.91
+          "score": 2.9
         },
         {
           "symbol": "TIPSMUSIC",
@@ -5017,7 +5017,7 @@
         {
           "symbol": "GLOBUSSPR",
           "return": 6.22,
-          "score": 2.39
+          "score": 2.38
         },
         {
           "symbol": "GREENPANEL",
@@ -5054,7 +5054,7 @@
         {
           "symbol": "AARTIDRUGS",
           "return": -17.06,
-          "score": 7.58
+          "score": 7.57
         },
         {
           "symbol": "IOLCP",
@@ -5069,12 +5069,12 @@
         {
           "symbol": "RMDRIP",
           "return": 1.7,
-          "score": 3.17
+          "score": 3.16
         },
         {
           "symbol": "EVEREADY",
           "return": -10.33,
-          "score": 2.95
+          "score": 2.94
         },
         {
           "symbol": "TIPSMUSIC",
@@ -5089,7 +5089,7 @@
         {
           "symbol": "MARKSANS",
           "return": -1.26,
-          "score": 2.82
+          "score": 2.81
         },
         {
           "symbol": "NUCLEUS",
@@ -5099,22 +5099,22 @@
         {
           "symbol": "CGPOWER",
           "return": 26.1,
-          "score": 2.62
+          "score": 2.61
         },
         {
           "symbol": "ICIL",
           "return": 23.41,
-          "score": 2.15
+          "score": 2.14
         },
         {
           "symbol": "GLOBUSSPR",
           "return": 1.81,
-          "score": 1.98
+          "score": 1.97
         },
         {
           "symbol": "SMSPHARMA",
           "return": -6.85,
-          "score": 1.96
+          "score": 1.95
         },
         {
           "symbol": "SUVEN",
@@ -5130,83 +5130,83 @@
     },
     {
       "month": "2020-09",
-      "portfolio_return": 4.58,
+      "portfolio_return": 7.09,
       "benchmark_return": -1.23,
       "holdings": [
         {
           "symbol": "AARTIDRUGS",
           "return": 7.35,
-          "score": 7.14
+          "score": 7.16
         },
         {
           "symbol": "IOLCP",
           "return": -6.92,
-          "score": 3.84
+          "score": 3.86
         },
         {
           "symbol": "RMDRIP",
           "return": -2.18,
-          "score": 3.27
+          "score": 3.28
         },
         {
           "symbol": "CGPOWER",
           "return": 18.27,
-          "score": 3.14
+          "score": 3.15
         },
         {
           "symbol": "GMMPFAUDLR",
           "return": -27.57,
-          "score": 3.09
+          "score": 3.11
         },
         {
           "symbol": "MARKSANS",
           "return": 5.68,
-          "score": 2.94
+          "score": 2.95
         },
         {
           "symbol": "EPL",
           "return": -15.86,
-          "score": 2.54
+          "score": 2.55
         },
         {
           "symbol": "TIPSMUSIC",
           "return": 65.03,
-          "score": 2.28
+          "score": 2.3
         },
         {
           "symbol": "ASHAPURMIN",
           "return": 28.69,
-          "score": 2.28
+          "score": 2.29
         },
         {
           "symbol": "ORISSAMINE",
           "return": -6.15,
-          "score": 2.18
+          "score": 2.2
         },
         {
           "symbol": "SMSPHARMA",
           "return": 7.93,
-          "score": 2.13
-        },
-        {
-          "symbol": "BCG",
-          "return": -32.93,
-          "score": 2.02
+          "score": 2.14
         },
         {
           "symbol": "DHANUKA",
           "return": -3.19,
-          "score": 2.01
+          "score": 2.02
         },
         {
           "symbol": "OPTIEMUS",
           "return": 13.25,
-          "score": 1.99
+          "score": 2.0
         },
         {
           "symbol": "NEULANDLAB",
           "return": 17.23,
-          "score": 1.98
+          "score": 1.99
+        },
+        {
+          "symbol": "EVEREADY",
+          "return": 4.71,
+          "score": 1.97
         }
       ]
     },
@@ -5218,7 +5218,7 @@
         {
           "symbol": "IOLCP",
           "return": -3.74,
-          "score": 6.23
+          "score": 6.22
         },
         {
           "symbol": "AARTIDRUGS",
@@ -5258,7 +5258,7 @@
         {
           "symbol": "DHANUKA",
           "return": -1.68,
-          "score": 2.41
+          "score": 2.42
         },
         {
           "symbol": "BHARATRAS",
@@ -5335,12 +5335,12 @@
         {
           "symbol": "ASHAPURMIN",
           "return": -24.18,
-          "score": 2.89
+          "score": 2.9
         },
         {
           "symbol": "COROMANDEL",
           "return": 3.71,
-          "score": 2.72
+          "score": 2.73
         },
         {
           "symbol": "TIPSMUSIC",
@@ -5355,17 +5355,17 @@
         {
           "symbol": "RALLIS",
           "return": 7.87,
-          "score": 2.29
+          "score": 2.3
         },
         {
           "symbol": "VAIBHAVGBL",
           "return": 3.11,
-          "score": 2.13
+          "score": 2.14
         },
         {
           "symbol": "RSYSTEMS",
           "return": -1.91,
-          "score": 2.06
+          "score": 2.07
         },
         {
           "symbol": "FDC",
@@ -5382,77 +5382,77 @@
         {
           "symbol": "GMMPFAUDLR",
           "return": 5.42,
-          "score": 5.28
+          "score": 5.3
         },
         {
           "symbol": "SUVEN",
           "return": 19.65,
-          "score": 4.49
+          "score": 4.51
         },
         {
           "symbol": "BBOX",
           "return": 13.87,
-          "score": 3.8
+          "score": 3.82
         },
         {
           "symbol": "IOLCP",
           "return": 19.29,
-          "score": 3.68
+          "score": 3.7
         },
         {
           "symbol": "RMDRIP",
           "return": 3.1,
-          "score": 3.41
+          "score": 3.44
         },
         {
           "symbol": "RSYSTEMS",
           "return": 2.08,
-          "score": 3.31
+          "score": 3.33
         },
         {
           "symbol": "AARTIDRUGS",
           "return": 33.08,
-          "score": 3.25
+          "score": 3.28
         },
         {
           "symbol": "DHANUKA",
           "return": 19.92,
-          "score": 3.04
+          "score": 3.07
         },
         {
           "symbol": "COROMANDEL",
           "return": 15.56,
-          "score": 2.83
+          "score": 2.85
         },
         {
           "symbol": "RELAXO",
           "return": -11.27,
-          "score": 2.47
+          "score": 2.49
         },
         {
           "symbol": "TIPSMUSIC",
           "return": 20.86,
-          "score": 2.17
+          "score": 2.19
         },
         {
           "symbol": "NEOGEN",
           "return": 6.77,
-          "score": 2.15
+          "score": 2.16
         },
         {
           "symbol": "VAIBHAVGBL",
           "return": 14.98,
-          "score": 2.14
+          "score": 2.16
         },
         {
           "symbol": "FDC",
           "return": 8.79,
-          "score": 2.07
+          "score": 2.09
         },
         {
           "symbol": "INFOBEAN",
           "return": 3.58,
-          "score": 1.84
+          "score": 1.85
         }
       ]
     },
@@ -5464,7 +5464,7 @@
         {
           "symbol": "IMAGICAA",
           "return": -6.41,
-          "score": 10.41
+          "score": 10.43
         },
         {
           "symbol": "SUVEN",
@@ -5474,7 +5474,7 @@
         {
           "symbol": "GMMPFAUDLR",
           "return": 12.17,
-          "score": 4.2
+          "score": 4.21
         },
         {
           "symbol": "BBOX",
@@ -5484,42 +5484,42 @@
         {
           "symbol": "RSYSTEMS",
           "return": 4.97,
-          "score": 2.73
+          "score": 2.74
         },
         {
           "symbol": "FDC",
           "return": 1.95,
-          "score": 1.91
-        },
-        {
-          "symbol": "RELAXO",
-          "return": 9.65,
-          "score": 1.79
+          "score": 1.92
         },
         {
           "symbol": "EPL",
           "return": -4.44,
-          "score": 1.79
+          "score": 1.8
+        },
+        {
+          "symbol": "RELAXO",
+          "return": 9.65,
+          "score": 1.8
         },
         {
           "symbol": "MIDHANI",
           "return": -2.87,
-          "score": 1.78
+          "score": 1.79
         },
         {
           "symbol": "IOLCP",
           "return": 36.05,
-          "score": 1.75
+          "score": 1.76
         },
         {
           "symbol": "COROMANDEL",
           "return": 11.09,
-          "score": 1.7
+          "score": 1.71
         },
         {
           "symbol": "INFOBEAN",
           "return": -5.59,
-          "score": 1.59
+          "score": 1.6
         },
         {
           "symbol": "TIPSMUSIC",
@@ -5529,93 +5529,93 @@
         {
           "symbol": "REFEX",
           "return": -14.73,
-          "score": 1.49
+          "score": 1.5
         },
         {
           "symbol": "BHARATRAS",
           "return": 0.28,
-          "score": 1.46
+          "score": 1.47
         }
       ]
     },
     {
       "month": "2020-04",
-      "portfolio_return": 19.26,
+      "portfolio_return": 19.6,
       "benchmark_return": 14.68,
       "holdings": [
         {
           "symbol": "RSYSTEMS",
           "return": 6.45,
-          "score": 4.49
+          "score": 4.52
         },
         {
           "symbol": "BBOX",
           "return": 6.36,
-          "score": 4.32
+          "score": 4.35
         },
         {
           "symbol": "GMMPFAUDLR",
           "return": 40.61,
-          "score": 4.22
+          "score": 4.25
         },
         {
           "symbol": "SUVEN",
           "return": 137.47,
-          "score": 3.55
+          "score": 3.58
         },
         {
           "symbol": "RELAXO",
           "return": 5.97,
-          "score": 3.4
+          "score": 3.43
         },
         {
           "symbol": "COROMANDEL",
           "return": 11.12,
-          "score": 2.86
+          "score": 2.89
         },
         {
           "symbol": "TIPSMUSIC",
           "return": 12.91,
-          "score": 2.82
+          "score": 2.85
         },
         {
           "symbol": "EPL",
           "return": 14.04,
-          "score": 2.65
+          "score": 2.68
         },
         {
           "symbol": "DPABHUSHAN",
           "return": -7.82,
-          "score": 2.65
+          "score": 2.67
         },
         {
           "symbol": "ORIENTELEC",
           "return": -4.31,
-          "score": 2.41
+          "score": 2.43
         },
         {
           "symbol": "MIDHANI",
           "return": 20.48,
-          "score": 2.4
+          "score": 2.42
         },
         {
           "symbol": "AKZOINDIA",
           "return": -3.43,
-          "score": 2.4
-        },
-        {
-          "symbol": "INDOCO",
-          "return": 14.0,
-          "score": 2.11
+          "score": 2.42
         },
         {
           "symbol": "JCHAC",
           "return": 9.46,
-          "score": 1.95
+          "score": 1.97
         },
         {
           "symbol": "FDC",
           "return": 25.56,
+          "score": 1.92
+        },
+        {
+          "symbol": "TI",
+          "return": 19.19,
           "score": 1.9
         }
       ]
@@ -5628,7 +5628,7 @@
         {
           "symbol": "SUVEN",
           "return": -63.67,
-          "score": 9.21
+          "score": 9.2
         },
         {
           "symbol": "BBOX",
@@ -5673,7 +5673,7 @@
         {
           "symbol": "COROMANDEL",
           "return": -10.61,
-          "score": 2.07
+          "score": 2.08
         },
         {
           "symbol": "MASFIN",
@@ -5710,7 +5710,7 @@
         {
           "symbol": "RELAXO",
           "return": -4.85,
-          "score": 4.39
+          "score": 4.4
         },
         {
           "symbol": "ORISSAMINE",
@@ -5730,7 +5730,7 @@
         {
           "symbol": "SUVEN",
           "return": 129.87,
-          "score": 3.24
+          "score": 3.25
         },
         {
           "symbol": "BBOX",
@@ -5740,12 +5740,12 @@
         {
           "symbol": "COROMANDEL",
           "return": 0.65,
-          "score": 2.7
+          "score": 2.71
         },
         {
           "symbol": "HDFCAMC",
           "return": 4.71,
-          "score": 2.66
+          "score": 2.67
         },
         {
           "symbol": "COFORGE",
@@ -5765,7 +5765,7 @@
         {
           "symbol": "ORIENTELEC",
           "return": 11.19,
-          "score": 2.31
+          "score": 2.32
         },
         {
           "symbol": "CREDITACC",
@@ -5775,7 +5775,7 @@
         {
           "symbol": "TIPSMUSIC",
           "return": 14.2,
-          "score": 2.23
+          "score": 2.24
         },
         {
           "symbol": "VSTIND",
@@ -5792,77 +5792,77 @@
         {
           "symbol": "HDFCAMC",
           "return": 0.09,
-          "score": 3.69
+          "score": 3.71
         },
         {
           "symbol": "RELAXO",
           "return": 19.14,
-          "score": 3.66
+          "score": 3.68
         },
         {
           "symbol": "CREDITACC",
           "return": 4.76,
-          "score": 2.95
+          "score": 2.97
         },
         {
           "symbol": "HIRECT",
           "return": 14.78,
-          "score": 2.78
+          "score": 2.79
         },
         {
           "symbol": "RSYSTEMS",
           "return": -1.27,
-          "score": 2.45
+          "score": 2.46
         },
         {
           "symbol": "MASFIN",
           "return": 13.64,
-          "score": 2.4
+          "score": 2.41
         },
         {
           "symbol": "GMMPFAUDLR",
           "return": 32.55,
-          "score": 2.29
+          "score": 2.31
         },
         {
           "symbol": "CUPID",
           "return": -0.92,
-          "score": 2.13
+          "score": 2.14
         },
         {
           "symbol": "VSTIND",
           "return": 3.45,
-          "score": 2.02
+          "score": 2.03
         },
         {
           "symbol": "BALRAMCHIN",
           "return": -11.24,
-          "score": 1.99
+          "score": 2.01
         },
         {
           "symbol": "NESCO",
           "return": 12.03,
-          "score": 1.97
+          "score": 1.99
         },
         {
           "symbol": "CANTABIL",
           "return": -12.27,
-          "score": 1.95
+          "score": 1.97
         },
         {
           "symbol": "MBAPL",
           "return": -6.81,
-          "score": 1.94
+          "score": 1.95
         },
         {
           "symbol": "BFUTILITIE",
           "return": -5.12,
-          "score": 1.89
+          "score": 1.91
         },
         {
           "symbol": "COFORGE",
           "return": 22.8,
-          "score": 1.88
+          "score": 1.89
         }
       ]
     },
@@ -5874,7 +5874,7 @@
         {
           "symbol": "HDFCAMC",
           "return": -9.49,
-          "score": 5.68
+          "score": 5.67
         },
         {
           "symbol": "CREDITACC",
@@ -5884,7 +5884,7 @@
         {
           "symbol": "RELAXO",
           "return": 4.45,
-          "score": 3.05
+          "score": 3.04
         },
         {
           "symbol": "VSTIND",
@@ -5894,7 +5894,7 @@
         {
           "symbol": "HIRECT",
           "return": 1.85,
-          "score": 2.53
+          "score": 2.52
         },
         {
           "symbol": "REFEX",
@@ -5914,12 +5914,12 @@
         {
           "symbol": "GMMPFAUDLR",
           "return": 13.43,
-          "score": 2.15
+          "score": 2.14
         },
         {
           "symbol": "SIRCA",
           "return": -2.16,
-          "score": 2.13
+          "score": 2.12
         },
         {
           "symbol": "ORIENTELEC",
@@ -5939,7 +5939,7 @@
         {
           "symbol": "GALAXYSURF",
           "return": 4.9,
-          "score": 1.8
+          "score": 1.79
         },
         {
           "symbol": "COFORGE",
@@ -5956,22 +5956,22 @@
         {
           "symbol": "HDFCAMC",
           "return": 18.49,
-          "score": 5.23
+          "score": 5.22
         },
         {
           "symbol": "PAISALO",
           "return": -7.34,
-          "score": 3.07
+          "score": 3.06
         },
         {
           "symbol": "CREDITACC",
           "return": 23.65,
-          "score": 2.99
+          "score": 2.98
         },
         {
           "symbol": "MAHSCOOTER",
           "return": 3.16,
-          "score": 2.68
+          "score": 2.67
         },
         {
           "symbol": "GOLDIAM",
@@ -5986,17 +5986,17 @@
         {
           "symbol": "RELAXO",
           "return": -6.43,
-          "score": 2.52
+          "score": 2.51
         },
         {
           "symbol": "REFEX",
           "return": 16.42,
-          "score": 2.28
+          "score": 2.27
         },
         {
           "symbol": "VADILALIND",
           "return": -6.01,
-          "score": 2.08
+          "score": 2.07
         },
         {
           "symbol": "PDSL",
@@ -6006,22 +6006,22 @@
         {
           "symbol": "ESABINDIA",
           "return": -4.87,
-          "score": 2.06
+          "score": 2.05
         },
         {
           "symbol": "MBAPL",
           "return": -10.26,
-          "score": 2.02
+          "score": 2.01
         },
         {
           "symbol": "AKZOINDIA",
           "return": -6.16,
-          "score": 2.02
+          "score": 2.01
         },
         {
           "symbol": "COFORGE",
           "return": -4.02,
-          "score": 1.95
+          "score": 1.94
         },
         {
           "symbol": "ZYDUSWELL",
@@ -6068,12 +6068,12 @@
         {
           "symbol": "PGHL",
           "return": 2.49,
-          "score": 2.5
+          "score": 2.51
         },
         {
           "symbol": "RELAXO",
           "return": 8.65,
-          "score": 2.41
+          "score": 2.42
         },
         {
           "symbol": "MAHSCOOTER",
@@ -6088,12 +6088,12 @@
         {
           "symbol": "NESCO",
           "return": -5.78,
-          "score": 2.23
+          "score": 2.24
         },
         {
           "symbol": "PDSL",
           "return": -5.09,
-          "score": 2.22
+          "score": 2.23
         },
         {
           "symbol": "VAIBHAVGBL",
@@ -6103,12 +6103,12 @@
         {
           "symbol": "VADILALIND",
           "return": 1.59,
-          "score": 2.02
+          "score": 2.03
         },
         {
           "symbol": "ESABINDIA",
           "return": 11.98,
-          "score": 2.0
+          "score": 2.01
         }
       ]
     },
@@ -6120,17 +6120,17 @@
         {
           "symbol": "REFEX",
           "return": 24.56,
-          "score": 4.69
+          "score": 4.68
         },
         {
           "symbol": "HDFCAMC",
           "return": 8.8,
-          "score": 4.32
+          "score": 4.31
         },
         {
           "symbol": "PGHL",
           "return": 14.46,
-          "score": 2.39
+          "score": 2.38
         },
         {
           "symbol": "MBAPL",
@@ -6155,12 +6155,12 @@
         {
           "symbol": "CANFINHOME",
           "return": -4.09,
-          "score": 2.18
+          "score": 2.17
         },
         {
           "symbol": "GMMPFAUDLR",
           "return": 1.86,
-          "score": 2.16
+          "score": 2.15
         },
         {
           "symbol": "JAIBALAJI",
@@ -6185,7 +6185,7 @@
         {
           "symbol": "RELAXO",
           "return": 9.62,
-          "score": 1.91
+          "score": 1.9
         },
         {
           "symbol": "BALRAMCHIN",
@@ -6202,12 +6202,12 @@
         {
           "symbol": "REFEX",
           "return": -34.19,
-          "score": 9.48
+          "score": 9.46
         },
         {
           "symbol": "PGHL",
           "return": -12.74,
-          "score": 2.76
+          "score": 2.75
         },
         {
           "symbol": "JAIBALAJI",
@@ -6232,7 +6232,7 @@
         {
           "symbol": "SIRCA",
           "return": 14.3,
-          "score": 2.28
+          "score": 2.27
         },
         {
           "symbol": "SEAMECLTD",
@@ -6289,7 +6289,7 @@
         {
           "symbol": "SEAMECLTD",
           "return": -14.23,
-          "score": 4.53
+          "score": 4.54
         },
         {
           "symbol": "CANTABIL",
@@ -6304,17 +6304,17 @@
         {
           "symbol": "MAHSCOOTER",
           "return": -13.72,
-          "score": 2.53
+          "score": 2.54
         },
         {
           "symbol": "DCMSHRIRAM",
           "return": -28.83,
-          "score": 2.22
+          "score": 2.23
         },
         {
           "symbol": "PGHL",
           "return": 9.48,
-          "score": 2.16
+          "score": 2.17
         },
         {
           "symbol": "GOLDIAM",
@@ -6334,7 +6334,7 @@
         {
           "symbol": "SIRCA",
           "return": 1.49,
-          "score": 2.07
+          "score": 2.08
         },
         {
           "symbol": "IOLCP",
@@ -6354,7 +6354,7 @@
         {
           "symbol": "ESABINDIA",
           "return": -2.56,
-          "score": 1.89
+          "score": 1.9
         }
       ]
     },
@@ -6366,32 +6366,32 @@
         {
           "symbol": "REFEX",
           "return": 27.03,
-          "score": 5.38
+          "score": 5.39
         },
         {
           "symbol": "JAIBALAJI",
           "return": -10.39,
-          "score": 4.52
+          "score": 4.53
         },
         {
           "symbol": "SEAMECLTD",
           "return": 6.96,
-          "score": 4.01
+          "score": 4.02
         },
         {
           "symbol": "MAHSCOOTER",
           "return": 6.04,
-          "score": 3.0
+          "score": 3.01
         },
         {
           "symbol": "CGCL",
           "return": -11.08,
-          "score": 2.54
+          "score": 2.55
         },
         {
           "symbol": "BALRAMCHIN",
           "return": -9.94,
-          "score": 2.5
+          "score": 2.51
         },
         {
           "symbol": "DCMSHRIRAM",
@@ -6401,12 +6401,12 @@
         {
           "symbol": "PRIVISCL",
           "return": -6.18,
-          "score": 2.3
+          "score": 2.31
         },
         {
           "symbol": "DCBBANK",
           "return": 2.2,
-          "score": 2.18
+          "score": 2.19
         },
         {
           "symbol": "PGHL",
@@ -6416,17 +6416,17 @@
         {
           "symbol": "CANTABIL",
           "return": 20.19,
-          "score": 2.13
+          "score": 2.14
         },
         {
           "symbol": "ESABINDIA",
           "return": -1.94,
-          "score": 2.09
+          "score": 2.1
         },
         {
           "symbol": "HEIDELBERG",
           "return": -6.41,
-          "score": 2.08
+          "score": 2.09
         },
         {
           "symbol": "PAISALO",
@@ -6442,83 +6442,83 @@
     },
     {
       "month": "2019-05",
-      "portfolio_return": 4.05,
+      "portfolio_return": 6.98,
       "benchmark_return": 1.49,
       "holdings": [
         {
           "symbol": "SEAMECLTD",
           "return": 1.56,
-          "score": 4.22
+          "score": 4.24
         },
         {
           "symbol": "REFEX",
           "return": 54.68,
-          "score": 3.46
+          "score": 3.47
         },
         {
           "symbol": "JAIBALAJI",
           "return": -4.06,
-          "score": 3.15
+          "score": 3.16
         },
         {
           "symbol": "CANTABIL",
           "return": -15.65,
-          "score": 3.13
+          "score": 3.15
         },
         {
           "symbol": "MAHSCOOTER",
           "return": 15.04,
-          "score": 2.97
+          "score": 2.98
         },
         {
           "symbol": "PGHL",
           "return": 9.42,
-          "score": 2.82
+          "score": 2.83
         },
         {
           "symbol": "BALRAMCHIN",
           "return": 2.26,
-          "score": 2.67
+          "score": 2.68
         },
         {
           "symbol": "RELIANCE",
           "return": -4.44,
-          "score": 2.49
+          "score": 2.5
         },
         {
           "symbol": "CGCL",
           "return": 19.81,
-          "score": 2.4
+          "score": 2.41
         },
         {
           "symbol": "JSWHL",
           "return": 1.56,
-          "score": 2.38
+          "score": 2.39
         },
         {
           "symbol": "TTKPRESTIG",
           "return": 3.83,
-          "score": 1.93
+          "score": 1.94
         },
         {
           "symbol": "GMMPFAUDLR",
           "return": 5.54,
-          "score": 1.92
+          "score": 1.93
         },
         {
           "symbol": "RELAXO",
           "return": -5.84,
-          "score": 1.92
-        },
-        {
-          "symbol": "BCG",
-          "return": -30.5,
-          "score": 1.89
+          "score": 1.93
         },
         {
           "symbol": "SUNTECK",
           "return": 7.59,
-          "score": 1.86
+          "score": 1.87
+        },
+        {
+          "symbol": "HEIDELBERG",
+          "return": 13.43,
+          "score": 1.85
         }
       ]
     },
@@ -6530,77 +6530,77 @@
         {
           "symbol": "CANTABIL",
           "return": -18.37,
-          "score": 4.33
+          "score": 4.31
         },
         {
           "symbol": "SEAMECLTD",
           "return": 6.19,
-          "score": 4.07
+          "score": 4.05
         },
         {
           "symbol": "JAIBALAJI",
           "return": -2.24,
-          "score": 3.24
+          "score": 3.23
         },
         {
           "symbol": "REFEX",
           "return": -9.24,
-          "score": 3.24
+          "score": 3.23
         },
         {
           "symbol": "CGCL",
           "return": -3.46,
-          "score": 3.14
+          "score": 3.12
         },
         {
           "symbol": "IOLCP",
           "return": -11.65,
-          "score": 2.88
+          "score": 2.86
         },
         {
           "symbol": "RESPONIND",
           "return": -11.56,
-          "score": 2.69
+          "score": 2.68
         },
         {
           "symbol": "PGHL",
           "return": -2.15,
-          "score": 2.5
+          "score": 2.49
         },
         {
           "symbol": "TCIEXP",
           "return": -5.89,
-          "score": 2.45
+          "score": 2.44
         },
         {
           "symbol": "BALRAMCHIN",
           "return": 7.26,
-          "score": 2.42
+          "score": 2.41
         },
         {
           "symbol": "MAHSCOOTER",
           "return": 2.52,
-          "score": 2.26
+          "score": 2.25
         },
         {
           "symbol": "KRISHANA",
           "return": 2.0,
-          "score": 2.22
+          "score": 2.21
         },
         {
           "symbol": "RELIANCE",
           "return": -0.37,
-          "score": 2.1
+          "score": 2.09
         },
         {
           "symbol": "TTKPRESTIG",
           "return": -3.27,
-          "score": 2.06
+          "score": 2.05
         },
         {
           "symbol": "JSWHL",
           "return": 2.91,
-          "score": 2.03
+          "score": 2.02
         }
       ]
     },
@@ -6612,72 +6612,72 @@
         {
           "symbol": "CANTABIL",
           "return": 21.06,
-          "score": 4.16
+          "score": 4.15
         },
         {
           "symbol": "REFEX",
           "return": 8.16,
-          "score": 3.4
+          "score": 3.39
         },
         {
           "symbol": "IOLCP",
           "return": -0.13,
-          "score": 3.38
+          "score": 3.37
         },
         {
           "symbol": "KRISHANA",
           "return": -1.03,
-          "score": 2.86
+          "score": 2.85
         },
         {
           "symbol": "SEAMECLTD",
           "return": 16.83,
-          "score": 2.78
+          "score": 2.77
         },
         {
           "symbol": "DALMIASUG",
           "return": -3.67,
-          "score": 2.74
+          "score": 2.73
         },
         {
           "symbol": "RESPONIND",
           "return": -4.17,
-          "score": 2.62
+          "score": 2.61
         },
         {
           "symbol": "BALRAMCHIN",
           "return": 0.9,
-          "score": 2.54
+          "score": 2.53
         },
         {
           "symbol": "JAIBALAJI",
           "return": 54.29,
-          "score": 2.53
+          "score": 2.52
         },
         {
           "symbol": "PGHL",
           "return": 7.85,
-          "score": 2.52
+          "score": 2.51
         },
         {
           "symbol": "NRBBEARING",
           "return": -5.31,
-          "score": 2.12
+          "score": 2.11
         },
         {
           "symbol": "COFORGE",
           "return": 0.79,
-          "score": 2.12
+          "score": 2.11
         },
         {
           "symbol": "CGCL",
           "return": 32.5,
-          "score": 2.05
+          "score": 2.04
         },
         {
           "symbol": "JSWHL",
           "return": 14.2,
-          "score": 1.96
+          "score": 1.95
         },
         {
           "symbol": "TTKPRESTIG",
@@ -6694,17 +6694,17 @@
         {
           "symbol": "IOLCP",
           "return": -9.02,
-          "score": 4.7
+          "score": 4.68
         },
         {
           "symbol": "PGHL",
           "return": -4.29,
-          "score": 3.45
+          "score": 3.44
         },
         {
           "symbol": "JSWHL",
           "return": -12.0,
-          "score": 3.06
+          "score": 3.05
         },
         {
           "symbol": "KRISHANA",
@@ -6714,17 +6714,17 @@
         {
           "symbol": "RESPONIND",
           "return": 4.39,
-          "score": 2.73
+          "score": 2.72
         },
         {
           "symbol": "UNIVCABLES",
           "return": -15.4,
-          "score": 2.65
+          "score": 2.64
         },
         {
           "symbol": "JAIBALAJI",
           "return": -2.14,
-          "score": 2.52
+          "score": 2.51
         },
         {
           "symbol": "CGCL",
@@ -6734,7 +6734,7 @@
         {
           "symbol": "ZOTA",
           "return": -4.03,
-          "score": 2.38
+          "score": 2.37
         },
         {
           "symbol": "RSYSTEMS",
@@ -6749,17 +6749,17 @@
         {
           "symbol": "HATHWAY",
           "return": -22.03,
-          "score": 2.01
+          "score": 2.0
         },
         {
           "symbol": "ESABINDIA",
           "return": -0.73,
-          "score": 2.01
+          "score": 2.0
         },
         {
           "symbol": "CUB",
           "return": -3.93,
-          "score": 1.88
+          "score": 1.87
         },
         {
           "symbol": "DALMIASUG",
@@ -6776,32 +6776,32 @@
         {
           "symbol": "IOLCP",
           "return": 21.16,
-          "score": 4.09
+          "score": 4.08
         },
         {
           "symbol": "PGHL",
           "return": 5.26,
-          "score": 3.11
+          "score": 3.09
         },
         {
           "symbol": "UNIVCABLES",
           "return": -7.86,
-          "score": 2.91
+          "score": 2.9
         },
         {
           "symbol": "RESPONIND",
           "return": -2.47,
-          "score": 2.77
+          "score": 2.76
         },
         {
           "symbol": "VIMTALABS",
           "return": -17.5,
-          "score": 2.66
+          "score": 2.65
         },
         {
           "symbol": "KRISHANA",
           "return": 5.45,
-          "score": 2.31
+          "score": 2.3
         },
         {
           "symbol": "JAIBALAJI",
@@ -6811,42 +6811,42 @@
         {
           "symbol": "RSYSTEMS",
           "return": 1.77,
-          "score": 2.2
+          "score": 2.19
         },
         {
           "symbol": "COFORGE",
           "return": 14.19,
-          "score": 2.15
+          "score": 2.13
         },
         {
           "symbol": "GARFIBRES",
           "return": -6.23,
-          "score": 2.05
+          "score": 2.04
         },
         {
           "symbol": "CUB",
           "return": -2.4,
-          "score": 1.99
-        },
-        {
-          "symbol": "JSWHL",
-          "return": 18.01,
           "score": 1.98
         },
         {
           "symbol": "ESABINDIA",
           "return": -2.98,
-          "score": 1.98
+          "score": 1.97
+        },
+        {
+          "symbol": "JSWHL",
+          "return": 18.01,
+          "score": 1.97
         },
         {
           "symbol": "FILATEX",
           "return": -13.33,
-          "score": 1.95
+          "score": 1.94
         },
         {
           "symbol": "GALLANTT",
           "return": -13.8,
-          "score": 1.91
+          "score": 1.89
         }
       ]
     },
@@ -6858,77 +6858,77 @@
         {
           "symbol": "IOLCP",
           "return": -2.12,
-          "score": 3.83
+          "score": 3.81
         },
         {
           "symbol": "CIGNITITEC",
           "return": -14.55,
-          "score": 3.3
+          "score": 3.28
         },
         {
           "symbol": "RESPONIND",
           "return": -0.71,
-          "score": 3.26
+          "score": 3.23
         },
         {
           "symbol": "PGHL",
           "return": 6.75,
-          "score": 3.16
+          "score": 3.14
         },
         {
           "symbol": "ZOTA",
           "return": -0.87,
-          "score": 2.52
+          "score": 2.5
         },
         {
           "symbol": "JAIBALAJI",
           "return": 4.71,
-          "score": 2.4
+          "score": 2.39
         },
         {
           "symbol": "ESABINDIA",
           "return": -1.97,
-          "score": 2.4
+          "score": 2.39
         },
         {
           "symbol": "UNIVCABLES",
           "return": -1.84,
-          "score": 2.39
-        },
-        {
-          "symbol": "VMART",
-          "return": -4.35,
-          "score": 2.35
+          "score": 2.38
         },
         {
           "symbol": "VIMTALABS",
           "return": 21.25,
-          "score": 2.35
+          "score": 2.33
+        },
+        {
+          "symbol": "VMART",
+          "return": -4.35,
+          "score": 2.33
         },
         {
           "symbol": "RELIANCE",
           "return": -4.57,
-          "score": 2.34
+          "score": 2.32
         },
         {
           "symbol": "GARFIBRES",
           "return": 1.23,
-          "score": 2.09
+          "score": 2.07
         },
         {
           "symbol": "WSTCSTPAPR",
           "return": -10.81,
-          "score": 1.95
+          "score": 1.94
         },
         {
           "symbol": "NRBBEARING",
           "return": 8.52,
-          "score": 1.93
+          "score": 1.92
         },
         {
           "symbol": "LUMAXTECH",
           "return": -8.86,
-          "score": 1.9
+          "score": 1.89
         }
       ]
     },
@@ -6940,159 +6940,159 @@
         {
           "symbol": "PGHL",
           "return": -10.24,
-          "score": 4.06
+          "score": 4.03
         },
         {
           "symbol": "CIGNITITEC",
           "return": 2.4,
-          "score": 3.14
+          "score": 3.12
         },
         {
           "symbol": "WSTCSTPAPR",
           "return": -14.68,
-          "score": 2.98
+          "score": 2.97
         },
         {
           "symbol": "ZOTA",
           "return": 0.24,
-          "score": 2.73
+          "score": 2.71
         },
         {
           "symbol": "UNIVCABLES",
           "return": -3.1,
-          "score": 2.62
+          "score": 2.61
         },
         {
           "symbol": "IOLCP",
           "return": 25.0,
-          "score": 2.62
+          "score": 2.6
         },
         {
           "symbol": "RELAXO",
           "return": -5.35,
-          "score": 2.5
+          "score": 2.49
         },
         {
           "symbol": "VIMTALABS",
           "return": -2.29,
-          "score": 2.47
+          "score": 2.45
         },
         {
           "symbol": "RESPONIND",
           "return": 2.96,
-          "score": 2.46
+          "score": 2.44
         },
         {
           "symbol": "COFORGE",
           "return": -8.99,
-          "score": 2.42
+          "score": 2.4
         },
         {
           "symbol": "GARFIBRES",
           "return": -2.37,
-          "score": 2.2
+          "score": 2.19
         },
         {
           "symbol": "CANTABIL",
           "return": -4.64,
-          "score": 2.04
+          "score": 2.03
         },
         {
           "symbol": "VMART",
           "return": 2.78,
-          "score": 2.01
+          "score": 2.0
         },
         {
           "symbol": "GLOBUSSPR",
           "return": -14.32,
-          "score": 2.01
+          "score": 1.99
         },
         {
           "symbol": "TIIL",
           "return": -8.47,
-          "score": 1.93
+          "score": 1.92
         }
       ]
     },
     {
       "month": "2018-10",
-      "portfolio_return": 0.05,
+      "portfolio_return": -0.05,
       "benchmark_return": -4.98,
       "holdings": [
         {
           "symbol": "RELIANCE",
           "return": -13.68,
-          "score": 3.46
+          "score": 3.42
         },
         {
           "symbol": "PGHL",
           "return": 12.15,
-          "score": 3.36
+          "score": 3.32
         },
         {
           "symbol": "ZOTA",
           "return": 1.6,
-          "score": 3.2
+          "score": 3.16
         },
         {
           "symbol": "IOLCP",
           "return": 12.27,
-          "score": 2.81
+          "score": 2.77
         },
         {
           "symbol": "RESPONIND",
           "return": 13.01,
-          "score": 2.69
+          "score": 2.66
         },
         {
           "symbol": "BHARATRAS",
           "return": -12.14,
-          "score": 2.59
+          "score": 2.55
         },
         {
           "symbol": "COFORGE",
           "return": 5.19,
-          "score": 2.56
+          "score": 2.52
         },
         {
           "symbol": "VIMTALABS",
           "return": -2.21,
-          "score": 2.45
+          "score": 2.42
         },
         {
           "symbol": "CIGNITITEC",
           "return": 4.25,
-          "score": 2.41
+          "score": 2.38
         },
         {
           "symbol": "JSWHL",
           "return": -4.48,
-          "score": 2.38
+          "score": 2.36
         },
         {
           "symbol": "SUVEN",
           "return": -9.76,
-          "score": 2.2
+          "score": 2.18
         },
         {
           "symbol": "WSTCSTPAPR",
           "return": 15.85,
-          "score": 2.12
+          "score": 2.09
+        },
+        {
+          "symbol": "MMFL",
+          "return": -7.23,
+          "score": 2.09
         },
         {
           "symbol": "RELAXO",
           "return": 11.96,
-          "score": 2.07
+          "score": 2.04
         },
         {
           "symbol": "SASKEN",
           "return": -27.61,
-          "score": 2.03
-        },
-        {
-          "symbol": "VMART",
-          "return": -5.71,
-          "score": 1.99
+          "score": 2.0
         }
       ]
     },
@@ -7104,323 +7104,323 @@
         {
           "symbol": "PGHL",
           "return": -26.25,
-          "score": 3.84
+          "score": 3.81
         },
         {
           "symbol": "COFORGE",
           "return": -22.47,
-          "score": 3.55
+          "score": 3.52
         },
         {
           "symbol": "ZOTA",
           "return": -7.65,
-          "score": 3.22
+          "score": 3.19
         },
         {
           "symbol": "VMART",
           "return": -21.67,
-          "score": 3.13
+          "score": 3.1
         },
         {
           "symbol": "BHARATRAS",
           "return": -20.92,
-          "score": 2.68
+          "score": 2.66
         },
         {
           "symbol": "RESPONIND",
           "return": -25.05,
-          "score": 2.66
+          "score": 2.64
         },
         {
           "symbol": "RELAXO",
           "return": -13.64,
-          "score": 2.44
+          "score": 2.42
         },
         {
           "symbol": "RELIANCE",
           "return": 1.04,
-          "score": 2.41
+          "score": 2.39
         },
         {
           "symbol": "CIGNITITEC",
           "return": -12.49,
-          "score": 2.4
+          "score": 2.38
         },
         {
           "symbol": "ZYDUSWELL",
           "return": -17.55,
-          "score": 2.2
+          "score": 2.18
         },
         {
           "symbol": "KDDL",
           "return": -15.89,
-          "score": 2.12
+          "score": 2.1
         },
         {
           "symbol": "SUNTECK",
           "return": -20.46,
-          "score": 2.04
+          "score": 2.02
         },
         {
           "symbol": "GLOBUSSPR",
           "return": -21.13,
-          "score": 2.02
+          "score": 2.0
         },
         {
           "symbol": "GARFIBRES",
           "return": -15.1,
-          "score": 2.0
+          "score": 1.98
         },
         {
           "symbol": "SASKEN",
           "return": -10.59,
-          "score": 1.94
+          "score": 1.92
         }
       ]
     },
     {
       "month": "2018-08",
-      "portfolio_return": 7.18,
+      "portfolio_return": 7.55,
       "benchmark_return": 2.85,
       "holdings": [
         {
           "symbol": "BHARATRAS",
           "return": -1.66,
-          "score": 3.3
+          "score": 3.27
         },
         {
           "symbol": "COFORGE",
           "return": 12.54,
-          "score": 3.02
-        },
-        {
-          "symbol": "ZOTA",
-          "return": 16.67,
-          "score": 2.74
+          "score": 2.98
         },
         {
           "symbol": "RESPONIND",
           "return": -1.83,
-          "score": 2.73
+          "score": 2.71
+        },
+        {
+          "symbol": "ZOTA",
+          "return": 16.67,
+          "score": 2.71
         },
         {
           "symbol": "ZYDUSWELL",
           "return": 14.0,
-          "score": 2.67
+          "score": 2.64
         },
         {
           "symbol": "RELAXO",
           "return": 2.91,
-          "score": 2.66
+          "score": 2.63
         },
         {
           "symbol": "SEAMECLTD",
           "return": -6.94,
-          "score": 2.58
+          "score": 2.55
         },
         {
           "symbol": "KDDL",
           "return": 0.98,
-          "score": 2.49
+          "score": 2.46
         },
         {
           "symbol": "RELIANCE",
           "return": 4.21,
-          "score": 2.41
+          "score": 2.38
         },
         {
           "symbol": "VMART",
           "return": 25.46,
-          "score": 2.38
+          "score": 2.35
         },
         {
           "symbol": "BOMDYEING",
           "return": 4.54,
-          "score": 2.2
+          "score": 2.17
         },
         {
           "symbol": "PGHL",
           "return": 57.99,
-          "score": 2.19
+          "score": 2.17
         },
         {
           "symbol": "CIGNITITEC",
           "return": -9.37,
-          "score": 2.12
+          "score": 2.1
         },
         {
           "symbol": "TEAMLEASE",
           "return": -4.72,
-          "score": 2.04
+          "score": 2.02
         },
         {
-          "symbol": "FCL",
-          "return": -7.13,
-          "score": 1.99
+          "symbol": "MMFL",
+          "return": -1.53,
+          "score": 2.01
         }
       ]
     },
     {
       "month": "2018-07",
-      "portfolio_return": 0.03,
+      "portfolio_return": -0.52,
       "benchmark_return": 5.99,
       "holdings": [
         {
           "symbol": "COFORGE",
           "return": 10.54,
-          "score": 3.18
+          "score": 3.15
         },
         {
           "symbol": "PGHL",
           "return": -5.23,
-          "score": 3.15
+          "score": 3.12
         },
         {
           "symbol": "VMART",
           "return": -2.55,
-          "score": 3.02
+          "score": 2.99
         },
         {
           "symbol": "KDDL",
           "return": 0.14,
-          "score": 2.64
+          "score": 2.61
         },
         {
           "symbol": "LUXIND",
           "return": -1.19,
-          "score": 2.57
+          "score": 2.54
         },
         {
           "symbol": "ZYDUSWELL",
           "return": 8.64,
-          "score": 2.52
+          "score": 2.49
         },
         {
           "symbol": "SEAMECLTD",
           "return": 2.53,
-          "score": 2.48
+          "score": 2.46
         },
         {
           "symbol": "BHARATRAS",
           "return": 16.85,
-          "score": 2.41
-        },
-        {
-          "symbol": "GMBREW",
-          "return": -21.67,
-          "score": 2.36
+          "score": 2.38
         },
         {
           "symbol": "LMW",
           "return": -2.31,
-          "score": 2.36
+          "score": 2.34
+        },
+        {
+          "symbol": "GMBREW",
+          "return": -21.67,
+          "score": 2.33
         },
         {
           "symbol": "TEAMLEASE",
           "return": -8.48,
-          "score": 2.14
+          "score": 2.11
         },
         {
           "symbol": "ZOTA",
           "return": 5.55,
-          "score": 2.13
+          "score": 2.1
         },
         {
           "symbol": "SASKEN",
           "return": 2.9,
-          "score": 2.12
+          "score": 2.09
         },
         {
           "symbol": "CYIENT",
           "return": -8.29,
-          "score": 2.05
+          "score": 2.03
         },
         {
-          "symbol": "FCL",
-          "return": 2.96,
+          "symbol": "MMFL",
+          "return": -5.17,
           "score": 1.94
         }
       ]
     },
     {
       "month": "2018-06",
-      "portfolio_return": -2.87,
+      "portfolio_return": -1.48,
       "benchmark_return": -0.2,
       "holdings": [
         {
           "symbol": "PGHL",
           "return": -7.46,
-          "score": 3.15
+          "score": 3.12
         },
         {
           "symbol": "VMART",
           "return": 7.25,
-          "score": 2.96
+          "score": 2.93
         },
         {
           "symbol": "COFORGE",
           "return": -1.53,
-          "score": 2.88
+          "score": 2.85
         },
         {
           "symbol": "SASKEN",
           "return": -7.81,
-          "score": 2.61
+          "score": 2.58
         },
         {
           "symbol": "LMW",
           "return": -4.88,
-          "score": 2.31
+          "score": 2.29
         },
         {
           "symbol": "LUXIND",
           "return": 4.72,
-          "score": 2.25
+          "score": 2.22
         },
         {
           "symbol": "KDDL",
           "return": -1.64,
-          "score": 2.15
+          "score": 2.12
         },
         {
           "symbol": "BHARATRAS",
           "return": 8.78,
-          "score": 2.13
+          "score": 2.1
         },
         {
           "symbol": "TEAMLEASE",
           "return": 6.08,
-          "score": 2.02
+          "score": 2.0
         },
         {
           "symbol": "SEAMECLTD",
           "return": -0.7,
-          "score": 1.97
+          "score": 1.95
         },
         {
           "symbol": "GMBREW",
           "return": 6.77,
-          "score": 1.97
+          "score": 1.94
+        },
+        {
+          "symbol": "MMFL",
+          "return": 14.14,
+          "score": 1.9
         },
         {
           "symbol": "KIOCL",
           "return": -9.81,
-          "score": 1.89
+          "score": 1.87
         },
         {
           "symbol": "LGBBROSLTD",
           "return": -28.03,
-          "score": 1.8
+          "score": 1.78
         },
         {
           "symbol": "BOMDYEING",
           "return": -8.12,
-          "score": 1.76
-        },
-        {
-          "symbol": "SSWL",
-          "return": -6.63,
-          "score": 1.69
+          "score": 1.73
         }
       ]
     },
@@ -7432,323 +7432,323 @@
         {
           "symbol": "KIOCL",
           "return": -9.38,
-          "score": 4.5
+          "score": 4.48
         },
         {
           "symbol": "KDDL",
           "return": -16.47,
-          "score": 2.91
+          "score": 2.9
         },
         {
           "symbol": "LUXIND",
           "return": -9.35,
-          "score": 2.63
+          "score": 2.61
         },
         {
           "symbol": "COFORGE",
           "return": -3.69,
-          "score": 2.57
+          "score": 2.55
         },
         {
           "symbol": "BEPL",
           "return": -24.27,
-          "score": 2.4
+          "score": 2.38
         },
         {
           "symbol": "TEAMLEASE",
           "return": -1.62,
-          "score": 2.1
+          "score": 2.08
         },
         {
           "symbol": "BHARATRAS",
           "return": -3.18,
-          "score": 1.99
+          "score": 1.97
         },
         {
           "symbol": "SASKEN",
           "return": 3.18,
-          "score": 1.98
+          "score": 1.97
         },
         {
           "symbol": "INDIAGLYCO",
           "return": -15.89,
-          "score": 1.94
+          "score": 1.92
         },
         {
           "symbol": "PGHL",
           "return": 11.37,
-          "score": 1.91
+          "score": 1.9
         },
         {
           "symbol": "AUTOAXLES",
           "return": -17.81,
-          "score": 1.8
+          "score": 1.78
         },
         {
           "symbol": "POWERMECH",
           "return": -6.33,
-          "score": 1.77
+          "score": 1.76
         },
         {
           "symbol": "CHOLAFIN",
           "return": -12.08,
-          "score": 1.69
+          "score": 1.68
         },
         {
           "symbol": "GRAVITA",
           "return": -18.12,
-          "score": 1.69
+          "score": 1.68
         },
         {
           "symbol": "ZYDUSWELL",
           "return": -11.93,
-          "score": 1.63
+          "score": 1.62
         }
       ]
     },
     {
       "month": "2018-04",
-      "portfolio_return": 13.24,
+      "portfolio_return": 12.67,
       "benchmark_return": 6.19,
       "holdings": [
         {
           "symbol": "KIOCL",
           "return": 3.8,
-          "score": 6.3
+          "score": 6.27
         },
         {
           "symbol": "BEPL",
           "return": 9.17,
-          "score": 3.22
+          "score": 3.19
         },
         {
           "symbol": "RAIN",
           "return": -15.42,
-          "score": 2.45
+          "score": 2.42
         },
         {
           "symbol": "VENKEYS",
           "return": -0.04,
-          "score": 2.34
+          "score": 2.31
         },
         {
           "symbol": "GMBREW",
           "return": 10.79,
-          "score": 2.27
+          "score": 2.23
         },
         {
           "symbol": "LUXIND",
           "return": 15.8,
-          "score": 2.08
+          "score": 2.06
         },
         {
           "symbol": "DBL",
           "return": 14.59,
-          "score": 2.03
+          "score": 2.01
         },
         {
           "symbol": "AUTOAXLES",
           "return": 4.59,
-          "score": 1.98
+          "score": 1.95
         },
         {
           "symbol": "COFORGE",
           "return": 41.72,
-          "score": 1.84
+          "score": 1.82
         },
         {
           "symbol": "JINDWORLD",
           "return": -0.9,
-          "score": 1.8
+          "score": 1.79
+        },
+        {
+          "symbol": "MMFL",
+          "return": 4.34,
+          "score": 1.78
         },
         {
           "symbol": "KDDL",
           "return": 59.0,
-          "score": 1.75
+          "score": 1.73
         },
         {
           "symbol": "INDIAGLYCO",
           "return": 32.17,
-          "score": 1.68
+          "score": 1.66
         },
         {
           "symbol": "ZENTEC",
           "return": 4.61,
-          "score": 1.63
+          "score": 1.6
         },
         {
           "symbol": "IFBIND",
           "return": 5.81,
-          "score": 1.56
-        },
-        {
-          "symbol": "PURVA",
-          "return": 12.98,
-          "score": 1.5
+          "score": 1.54
         }
       ]
     },
     {
       "month": "2018-03",
-      "portfolio_return": -6.02,
+      "portfolio_return": -6.72,
       "benchmark_return": -3.61,
       "holdings": [
         {
           "symbol": "KIOCL",
           "return": -21.22,
-          "score": 8.63
+          "score": 8.58
         },
         {
           "symbol": "BEPL",
           "return": -2.01,
-          "score": 2.5
+          "score": 2.48
         },
         {
           "symbol": "RAIN",
           "return": 3.8,
-          "score": 2.46
+          "score": 2.43
         },
         {
           "symbol": "BOMDYEING",
           "return": -6.13,
-          "score": 2.29
+          "score": 2.26
         },
         {
           "symbol": "AUTOAXLES",
           "return": -3.12,
-          "score": 2.26
+          "score": 2.23
         },
         {
           "symbol": "INDIAGLYCO",
           "return": -6.39,
-          "score": 2.1
+          "score": 2.08
         },
         {
           "symbol": "IFBIND",
           "return": -18.98,
-          "score": 2.04
+          "score": 2.02
+        },
+        {
+          "symbol": "MMFL",
+          "return": -4.1,
+          "score": 1.71
         },
         {
           "symbol": "KOLTEPATIL",
           "return": -11.49,
-          "score": 1.62
+          "score": 1.6
         },
         {
           "symbol": "VENKEYS",
           "return": -4.4,
-          "score": 1.6
+          "score": 1.58
         },
         {
           "symbol": "PRECWIRE",
           "return": -9.16,
-          "score": 1.58
+          "score": 1.55
         },
         {
           "symbol": "AHLUCONT",
           "return": 0.24,
-          "score": 1.52
+          "score": 1.5
         },
         {
           "symbol": "RAMKY",
           "return": -17.85,
-          "score": 1.47
+          "score": 1.45
         },
         {
           "symbol": "LUXIND",
           "return": -5.1,
-          "score": 1.46
+          "score": 1.45
         },
         {
           "symbol": "SUNTECK",
           "return": 5.14,
-          "score": 1.44
-        },
-        {
-          "symbol": "GMBREW",
-          "return": 6.36,
-          "score": 1.41
+          "score": 1.42
         }
       ]
     },
     {
       "month": "2018-02",
-      "portfolio_return": 0.84,
+      "portfolio_return": 0.49,
       "benchmark_return": -4.85,
       "holdings": [
         {
           "symbol": "KIOCL",
           "return": -9.24,
-          "score": 11.02
+          "score": 10.97
         },
         {
           "symbol": "RAIN",
           "return": 7.63,
-          "score": 2.79
+          "score": 2.77
         },
         {
           "symbol": "BEPL",
           "return": 0.31,
-          "score": 2.33
+          "score": 2.31
         },
         {
           "symbol": "AUTOAXLES",
           "return": 0.44,
-          "score": 2.12
+          "score": 2.1
         },
         {
           "symbol": "BOMDYEING",
           "return": 21.43,
-          "score": 2.1
+          "score": 2.08
         },
         {
           "symbol": "INDIAGLYCO",
           "return": -5.51,
-          "score": 1.87
+          "score": 1.85
         },
         {
           "symbol": "SUNTECK",
           "return": -3.32,
-          "score": 1.72
+          "score": 1.7
         },
         {
           "symbol": "GRAVITA",
           "return": -5.88,
-          "score": 1.65
+          "score": 1.63
         },
         {
           "symbol": "DBL",
           "return": 0.08,
-          "score": 1.64
+          "score": 1.63
         },
         {
           "symbol": "JINDWORLD",
           "return": -2.49,
-          "score": 1.58
+          "score": 1.57
         },
         {
           "symbol": "KOLTEPATIL",
           "return": -4.41,
-          "score": 1.56
+          "score": 1.54
+        },
+        {
+          "symbol": "MMFL",
+          "return": 1.82,
+          "score": 1.47
         },
         {
           "symbol": "IFBIND",
           "return": 16.9,
-          "score": 1.42
+          "score": 1.4
         },
         {
           "symbol": "RAMKY",
           "return": -4.26,
-          "score": 1.35
+          "score": 1.33
         },
         {
           "symbol": "PURVA",
           "return": -6.09,
-          "score": 1.32
-        },
-        {
-          "symbol": "AHLUCONT",
-          "return": 6.97,
-          "score": 1.19
+          "score": 1.3
         }
       ]
     }
@@ -7756,82 +7756,82 @@
   "current_performance": [
     {
       "month": "2026-01",
-      "portfolio_return": -3.48,
-      "benchmark_return": -1.71,
+      "portfolio_return": -2.12,
+      "benchmark_return": -1.3,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": -19.28,
+          "return": -18.02,
           "score": 13.12
         },
         {
           "symbol": "BGRENERGY",
-          "return": -8.38,
-          "score": 6.7
+          "return": -8.8,
+          "score": 6.69
         },
         {
           "symbol": "LTF",
-          "return": -6.2,
-          "score": 3.54
+          "return": -7.31,
+          "score": 3.53
         },
         {
           "symbol": "HINDCOPPER",
-          "return": -1.74,
+          "return": 2.96,
           "score": 2.99
         },
         {
           "symbol": "INDOTHAI",
-          "return": -8.09,
+          "return": -9.09,
           "score": 2.78
         },
         {
           "symbol": "ASHAPURMIN",
-          "return": 0.13,
+          "return": 1.81,
           "score": 2.78
         },
         {
           "symbol": "RMDRIP",
-          "return": 6.91,
+          "return": 8.17,
           "score": 2.73
         },
         {
           "symbol": "GRMOVER",
-          "return": 5.43,
+          "return": 4.21,
           "score": 2.61
         },
         {
           "symbol": "KMEW",
-          "return": -11.83,
+          "return": -10.91,
           "score": 2.59
         },
         {
           "symbol": "MARUTI",
-          "return": -1.49,
+          "return": -1.0,
           "score": 2.58
         },
         {
           "symbol": "ABCAPITAL",
-          "return": -2.52,
-          "score": 2.47
+          "return": -2.13,
+          "score": 2.46
         },
         {
           "symbol": "JAYNECOIND",
-          "return": -4.03,
+          "return": 1.36,
           "score": 2.45
         },
         {
           "symbol": "FORCEMOT",
-          "return": -11.07,
+          "return": -5.42,
           "score": 2.43
         },
         {
           "symbol": "INFOBEAN",
-          "return": 10.38,
+          "return": 10.5,
           "score": 2.4
         },
         {
           "symbol": "MUTHOOTFIN",
-          "return": -0.37,
+          "return": 1.93,
           "score": 2.38
         }
       ]
@@ -7844,17 +7844,17 @@
         {
           "symbol": "BGRENERGY",
           "return": -12.44,
-          "score": 12.79
+          "score": 12.78
         },
         {
           "symbol": "CUPID",
           "return": 48.24,
-          "score": 6.65
+          "score": 6.64
         },
         {
           "symbol": "INDOTHAI",
           "return": -25.04,
-          "score": 5.15
+          "score": 5.14
         },
         {
           "symbol": "LTF",
