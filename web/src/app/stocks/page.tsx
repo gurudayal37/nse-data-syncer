@@ -3,12 +3,13 @@ import Link from 'next/link'
 import { PAGE_SIZE, SORTABLE_COLUMNS, PERFORMANCE_PERIODS, type SortableColumn } from '@/lib/constants'
 import PercentageChange from '@/components/PercentageChange'
 import Pagination from '@/components/Pagination'
+import Search from '@/components/Search'
 import type { Stock } from '@/types/stock'
 
 export const dynamic = 'force-dynamic'
 
 interface DashboardProps {
-  searchParams: Promise<{ page?: string; sort?: string; order?: string }>
+  searchParams: Promise<{ page?: string; sort?: string; order?: string; query?: string }>
 }
 
 export default async function Dashboard(props: DashboardProps) {
@@ -16,6 +17,7 @@ export default async function Dashboard(props: DashboardProps) {
   const page = Number(searchParams.page) || 1
   const sort = (searchParams.sort || 'change_1w') as SortableColumn
   const order = searchParams.order || 'desc'
+  const query = searchParams.query || ''
   const skip = (page - 1) * PAGE_SIZE
 
   const minMarketCapCr = Number(process.env.MIN_MARKET_CAP_CR || 2000)
@@ -47,7 +49,13 @@ export default async function Dashboard(props: DashboardProps) {
         is_active: true,
         market_cap: {
           gte: minMarketCap
-        }
+        },
+        OR: query
+          ? [
+            { nse_symbol: { contains: query, mode: 'insensitive' } },
+            { name: { contains: query, mode: 'insensitive' } },
+          ]
+          : undefined,
       }
     })
 
@@ -57,7 +65,13 @@ export default async function Dashboard(props: DashboardProps) {
         is_active: true,
         market_cap: {
           gte: minMarketCap
-        }
+        },
+        OR: query
+          ? [
+            { nse_symbol: { contains: query, mode: 'insensitive' } },
+            { name: { contains: query, mode: 'insensitive' } },
+          ]
+          : undefined,
       },
       take: PAGE_SIZE,
       skip: skip,
@@ -104,9 +118,10 @@ export default async function Dashboard(props: DashboardProps) {
 
   const SortHeader = ({ column, label, align = 'left' }: { column: string, label: string, align?: string }) => {
     const newOrder = sort === column && order === 'desc' ? 'asc' : 'desc'
+    const queryParam = query ? `&query=${encodeURIComponent(query)}` : ''
     return (
       <th className={`px-6 py-4 ${align === 'right' ? 'text-right' : ''}`}>
-        <Link href={`/stocks?page=${page}&sort=${column}&order=${newOrder}`} className="group inline-flex items-center hover:text-blue-600">
+        <Link href={`/stocks?page=${page}&sort=${column}&order=${newOrder}${queryParam}`} className="group inline-flex items-center hover:text-blue-600">
           {label}
           <SortIcon column={column} />
         </Link>
@@ -124,7 +139,12 @@ export default async function Dashboard(props: DashboardProps) {
               Showing {skip + 1}-{Math.min(skip + PAGE_SIZE, totalCount)} of {totalCount} NSE stocks
             </p>
           </div>
-          <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/stocks" />
+          <div className="flex flex-col items-end gap-4">
+            <div className="w-full sm:w-80">
+              <Search placeholder="Search stocks..." />
+            </div>
+            <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/stocks" query={query} />
+          </div>
         </header>
 
         <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
@@ -187,7 +207,7 @@ export default async function Dashboard(props: DashboardProps) {
           <p className="text-sm text-gray-500">
             Page {page} of {totalPages}
           </p>
-          <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/stocks" />
+          <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/stocks" query={query} />
         </div>
       </div>
     </div>
