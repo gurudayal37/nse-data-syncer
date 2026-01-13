@@ -1,93 +1,93 @@
 {
   "backtest_metrics": {
     "return_metrics": {
-      "net_return_after_fees": 908.28
+      "net_return_after_fees": 920.45
     },
     "capital_metrics": {
-      "total_fees_paid": 248573.19,
+      "total_fees_paid": 248586.65,
       "total_transactions": 2431
     }
   },
   "backtest_results": [
     {
       "week": "2026-01-16",
-      "portfolio_return": 0,
-      "benchmark_return": 0.0,
+      "portfolio_return": 0.97,
+      "benchmark_return": 0.19,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 0.0,
-          "score": 7.01
-        },
-        {
-          "symbol": "SILVERTUC",
-          "return": 0.0,
-          "score": 5.85
+          "return": 1.35,
+          "score": 7.11
         },
         {
           "symbol": "BGRENERGY",
-          "return": 0.0,
-          "score": 3.77
+          "return": 0.08,
+          "score": 3.81
         },
         {
           "symbol": "RMDRIP",
-          "return": 0.0,
-          "score": 3.54
+          "return": 2.09,
+          "score": 3.6
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 0.0,
-          "score": 3.44
+          "return": -2.07,
+          "score": 3.51
         },
         {
           "symbol": "NATIONALUM",
-          "return": 0.0,
-          "score": 3.34
+          "return": 1.53,
+          "score": 3.41
         },
         {
           "symbol": "HINDCOPPER",
-          "return": 0.0,
-          "score": 3.32
+          "return": 1.4,
+          "score": 3.37
         },
         {
           "symbol": "THANGAMAYL",
-          "return": 0.0,
-          "score": 3.23
+          "return": 4.07,
+          "score": 3.3
         },
         {
           "symbol": "INFOBEAN",
-          "return": 0.0,
-          "score": 3.19
+          "return": -5.77,
+          "score": 3.25
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": 0.0,
-          "score": 2.94
+          "return": 0.01,
+          "score": 3.0
         },
         {
           "symbol": "LTF",
-          "return": 0.0,
-          "score": 2.84
+          "return": -3.69,
+          "score": 2.88
         },
         {
           "symbol": "GRMOVER",
-          "return": 0.0,
-          "score": 2.79
+          "return": -0.26,
+          "score": 2.84
         },
         {
           "symbol": "TMB",
-          "return": 0.0,
-          "score": 2.74
+          "return": -0.59,
+          "score": 2.81
         },
         {
           "symbol": "ABCAPITAL",
-          "return": 0.0,
-          "score": 2.46
+          "return": -0.18,
+          "score": 2.5
         },
         {
           "symbol": "SABTNL",
-          "return": 0.0,
-          "score": 2.43
+          "return": 7.47,
+          "score": 2.5
+        },
+        {
+          "symbol": "KMEW",
+          "return": 9.12,
+          "score": 2.34
         }
       ]
     },
