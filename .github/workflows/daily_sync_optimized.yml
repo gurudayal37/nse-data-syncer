@@ -86,7 +86,7 @@ jobs:
           file_pattern: "web/src/data/backtest_results_ath.json"
 
   update-momentum-strategy:
-    needs: calculate-momentum
+    needs: update-ath-strategy
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -109,7 +109,7 @@ jobs:
           file_pattern: "web/src/data/backtest_results.json"
 
   update-momentum-weekly:
-    needs: calculate-momentum
+    needs: update-momentum-strategy
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -132,7 +132,7 @@ jobs:
           file_pattern: "web/src/data/backtest_results_weekly.json"
 
   update-simple-momentum:
-    needs: calculate-momentum
+    needs: update-momentum-weekly
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -155,7 +155,7 @@ jobs:
           file_pattern: "web/src/data/backtest_results_simple.json"
 
   update-simple-weekly:
-    needs: calculate-momentum
+    needs: update-simple-momentum
     runs-on: ubuntu-latest
     permissions:
       contents: write
