@@ -153,10 +153,14 @@ def main():
             if isinstance(last_date, datetime):
                 last_date = last_date.date()
                 
-            start_date = last_date + timedelta(days=1)
-            # If start_date is in future (e.g. run multiple times same day), skip
-            if start_date > date.today():
-                continue 
+            # FETCH WITH OVERLAP:
+            # We start 7 days BEFORE the last synced date.
+            # This ensures we have ~5 trading days of overlap.
+            # This allows validate_data_mismatch to detect splits/bonuses (back-adjusted prices).
+            start_date = last_date - timedelta(days=7)
+            
+            # Note: We must filter out the overlapping records later to avoid duplicates/PK errors
+            # unless a mismatch triggers a full resync. 
         
         print(f"Group {last_date or 'New'}: Processing {len(symbols)} stocks (Start: {start_date or 'Max'})...")
         
@@ -193,7 +197,29 @@ def main():
                         db_manager.delete_stock_prices(sid)
                         resync_list.append(sym)
                 else:
-                    valid_data_dict[sym] = df_new
+                    # VALIDATION PASSED using valid_data_dict
+                    # Now we must filter out the overlap data to avoid duplicates
+                    # We only want to insert records strictly AFTER the last synced date
+                    input_df = df_new.copy()
+                    
+                    # Get the last synced date for this specific symbol
+                    # We use validation_data keys (dates) to find the max, or look up in last_synced_dates global map?
+                    # Using global map is safer/faster here since we have it.
+                    sid_check = symbol_map.get(sym)
+                    last_known_date = None
+                    
+                    if sid_check:
+                         raw_date = last_synced_dates.get(sid_check)
+                         if isinstance(raw_date, datetime):
+                             last_known_date = raw_date.date()
+                         else:
+                             last_known_date = raw_date
+                    
+                    if last_known_date:
+                        input_df = input_df[input_df.index > last_known_date]
+                    
+                    if not input_df.empty:
+                        valid_data_dict[sym] = input_df
             
             # 5c. Handle Resyncs (Fetch full history)
             if resync_list:
