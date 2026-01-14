@@ -7838,83 +7838,83 @@
   "current_performance": [
     {
       "month": "2026-01",
-      "portfolio_return": -3.66,
-      "benchmark_return": -1.52,
+      "portfolio_return": -2.7,
+      "benchmark_return": -1.78,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": -16.55,
-          "score": 11.44
+          "return": -11.61,
+          "score": 11.49
         },
         {
           "symbol": "BGRENERGY",
-          "return": -11.72,
-          "score": 5.42
+          "return": -11.58,
+          "score": 5.45
         },
         {
           "symbol": "LTF",
-          "return": -9.66,
-          "score": 3.06
+          "return": -7.42,
+          "score": 3.07
         },
         {
           "symbol": "HINDCOPPER",
-          "return": 1.78,
-          "score": 2.99
+          "return": 8.08,
+          "score": 3.02
         },
         {
           "symbol": "M&MFIN",
-          "return": -10.18,
-          "score": 2.81
+          "return": -12.12,
+          "score": 2.83
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": -4.46,
-          "score": 2.78
-        },
-        {
-          "symbol": "INFOBEAN",
-          "return": 4.79,
-          "score": 2.71
+          "return": -4.26,
+          "score": 2.79
         },
         {
           "symbol": "KMEW",
-          "return": -3.28,
-          "score": 2.69
+          "return": 1.12,
+          "score": 2.71
         },
         {
           "symbol": "GRMOVER",
-          "return": 6.02,
-          "score": 2.54
+          "return": 5.98,
+          "score": 2.55
         },
         {
           "symbol": "FEDERALBNK",
-          "return": -6.8,
-          "score": 2.42
+          "return": -7.72,
+          "score": 2.44
         },
         {
           "symbol": "ASHAPURMIN",
-          "return": -1.49,
-          "score": 2.4
+          "return": 0.35,
+          "score": 2.41
         },
         {
           "symbol": "GMBREW",
-          "return": -12.38,
-          "score": 2.4
+          "return": -14.58,
+          "score": 2.41
         },
         {
           "symbol": "NATIONALUM",
-          "return": 13.03,
-          "score": 2.39
+          "return": 18.14,
+          "score": 2.4
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 0.38,
-          "score": 2.38
+          "return": 1.02,
+          "score": 2.39
         },
         {
           "symbol": "CUB",
-          "return": -4.4,
-          "score": 2.35
+          "return": -4.64,
+          "score": 2.37
+        },
+        {
+          "symbol": "ABCAPITAL",
+          "return": -1.21,
+          "score": 2.27
         }
       ]
     },
