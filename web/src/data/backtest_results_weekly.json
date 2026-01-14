@@ -1,588 +1,85 @@
 {
   "backtest_metrics": {
-    "return_metrics": {
-      "net_return_after_fees": 958.42
+    "time_metrics": {
+      "start": "2019-01-11",
+      "end": "2025-11-28",
+      "period": "360 weeks (6.9 years)"
     },
     "capital_metrics": {
-      "total_fees_paid": 248833.38,
-      "total_transactions": 2433
+      "start_value": 100000,
+      "end_value": 1260350.7,
+      "total_fees_paid": 237040.67,
+      "open_trade_pnl": 0
+    },
+    "return_metrics": {
+      "total_return": 1160.35,
+      "benchmark_return": 144.23,
+      "expectancy": 0.78,
+      "net_return_after_fees": 923.31
+    },
+    "risk_metrics": {
+      "max_drawdown": -33.32,
+      "max_drawdown_duration": 61,
+      "sharpe_ratio": 1.46,
+      "calmar_ratio": 1.33,
+      "omega_ratio": 1.7,
+      "sortino_ratio": 1.92
+    },
+    "exposure_metrics": {
+      "max_gross_exposure": 100
+    },
+    "trade_statistics": {
+      "total_trades": 360,
+      "total_stock_transactions": 2365,
+      "win_rate": 62.5,
+      "best_trade": 11.84,
+      "worst_trade": -16.99,
+      "avg_winning_trade": 3.04,
+      "avg_losing_trade": -2.99,
+      "profit_factor": 1.7
+    }
+  },
+  "current_metrics": {
+    "time_metrics": {
+      "start": "2025-12-05",
+      "end": "2026-01-16",
+      "period": "7 weeks (0.1 years)"
+    },
+    "capital_metrics": {
+      "start_value": 100000,
+      "end_value": 103721.05,
+      "total_fees_paid": 1119.43,
+      "open_trade_pnl": 0
+    },
+    "return_metrics": {
+      "total_return": 3.72,
+      "benchmark_return": -1.17,
+      "expectancy": 0.55,
+      "net_return_after_fees": 2.6
+    },
+    "risk_metrics": {
+      "max_drawdown": -3.0,
+      "max_drawdown_duration": 3,
+      "sharpe_ratio": 1.67,
+      "calmar_ratio": 10.39,
+      "omega_ratio": 1.71,
+      "sortino_ratio": 7.92
+    },
+    "exposure_metrics": {
+      "max_gross_exposure": 100
+    },
+    "trade_statistics": {
+      "total_trades": 7,
+      "total_stock_transactions": 68,
+      "win_rate": 42.86,
+      "best_trade": 4.01,
+      "worst_trade": -2.13,
+      "avg_winning_trade": 3.1,
+      "avg_losing_trade": -1.36,
+      "profit_factor": 1.71
     }
   },
   "backtest_results": [
-    {
-      "week": "2026-01-16",
-      "portfolio_return": 4.01,
-      "benchmark_return": -0.07,
-      "holdings": [
-        {
-          "symbol": "CUPID",
-          "return": 7.36,
-          "score": 7.16
-        },
-        {
-          "symbol": "BGRENERGY",
-          "return": 0.23,
-          "score": 3.85
-        },
-        {
-          "symbol": "RMDRIP",
-          "return": 3.21,
-          "score": 3.63
-        },
-        {
-          "symbol": "ASHOKLEY",
-          "return": -1.44,
-          "score": 3.54
-        },
-        {
-          "symbol": "NATIONALUM",
-          "return": 6.12,
-          "score": 3.44
-        },
-        {
-          "symbol": "HINDCOPPER",
-          "return": 7.67,
-          "score": 3.4
-        },
-        {
-          "symbol": "THANGAMAYL",
-          "return": 6.45,
-          "score": 3.32
-        },
-        {
-          "symbol": "SHRIRAMFIN",
-          "return": 0.21,
-          "score": 3.02
-        },
-        {
-          "symbol": "LTF",
-          "return": -1.3,
-          "score": 2.9
-        },
-        {
-          "symbol": "GRMOVER",
-          "return": -0.3,
-          "score": 2.86
-        },
-        {
-          "symbol": "TMB",
-          "return": -0.96,
-          "score": 2.83
-        },
-        {
-          "symbol": "ABCAPITAL",
-          "return": 2.02,
-          "score": 2.53
-        },
-        {
-          "symbol": "SABTNL",
-          "return": 7.82,
-          "score": 2.52
-        },
-        {
-          "symbol": "KMEW",
-          "return": 14.09,
-          "score": 2.36
-        },
-        {
-          "symbol": "VEDL",
-          "return": 9.02,
-          "score": 2.36
-        }
-      ]
-    },
-    {
-      "week": "2026-01-09",
-      "portfolio_return": -0.94,
-      "benchmark_return": -1.72,
-      "holdings": [
-        {
-          "symbol": "CUPID",
-          "return": 2.14,
-          "score": 7.78
-        },
-        {
-          "symbol": "BGRENERGY",
-          "return": -4.86,
-          "score": 4.55
-        },
-        {
-          "symbol": "SILVERTUC",
-          "return": 15.17,
-          "score": 3.38
-        },
-        {
-          "symbol": "HINDCOPPER",
-          "return": -3.9,
-          "score": 3.29
-        },
-        {
-          "symbol": "LTF",
-          "return": -3.89,
-          "score": 3.18
-        },
-        {
-          "symbol": "INFOBEAN",
-          "return": 3.61,
-          "score": 3.09
-        },
-        {
-          "symbol": "SHRIRAMFIN",
-          "return": -1.73,
-          "score": 2.98
-        },
-        {
-          "symbol": "ASHOKLEY",
-          "return": -2.26,
-          "score": 2.95
-        },
-        {
-          "symbol": "NATIONALUM",
-          "return": 0.97,
-          "score": 2.85
-        },
-        {
-          "symbol": "M&MFIN",
-          "return": -11.89,
-          "score": 2.74
-        },
-        {
-          "symbol": "KMEW",
-          "return": -8.84,
-          "score": 2.73
-        },
-        {
-          "symbol": "ASHAPURMIN",
-          "return": -4.25,
-          "score": 2.54
-        },
-        {
-          "symbol": "RMDRIP",
-          "return": 2.35,
-          "score": 2.41
-        },
-        {
-          "symbol": "GRMOVER",
-          "return": 3.97,
-          "score": 2.38
-        },
-        {
-          "symbol": "ABCAPITAL",
-          "return": -0.75,
-          "score": 2.38
-        }
-      ]
-    },
-    {
-      "week": "2026-01-02",
-      "portfolio_return": 3.97,
-      "benchmark_return": 1.1,
-      "holdings": [
-        {
-          "symbol": "M&MFIN",
-          "return": 2.23,
-          "score": 3.15
-        },
-        {
-          "symbol": "LTF",
-          "return": 6.12,
-          "score": 3.1
-        },
-        {
-          "symbol": "SHRIRAMFIN",
-          "return": 5.22,
-          "score": 2.81
-        },
-        {
-          "symbol": "HINDCOPPER",
-          "return": 13.94,
-          "score": 2.75
-        },
-        {
-          "symbol": "FEDERALBNK",
-          "return": 1.89,
-          "score": 2.74
-        },
-        {
-          "symbol": "NATIONALUM",
-          "return": 7.64,
-          "score": 2.72
-        },
-        {
-          "symbol": "CUB",
-          "return": -1.32,
-          "score": 2.59
-        },
-        {
-          "symbol": "ASHOKLEY",
-          "return": 8.07,
-          "score": 2.52
-        },
-        {
-          "symbol": "MUTHOOTFIN",
-          "return": 0.63,
-          "score": 2.42
-        },
-        {
-          "symbol": "AUBANK",
-          "return": 2.51,
-          "score": 2.42
-        },
-        {
-          "symbol": "THANGAMAYL",
-          "return": 0.66,
-          "score": 2.39
-        },
-        {
-          "symbol": "LAURUSLABS",
-          "return": 1.98,
-          "score": 2.38
-        },
-        {
-          "symbol": "IMFA",
-          "return": 5.19,
-          "score": 2.32
-        },
-        {
-          "symbol": "VEDL",
-          "return": 2.66,
-          "score": 2.31
-        },
-        {
-          "symbol": "MARUTI",
-          "return": 2.19,
-          "score": 2.3
-        }
-      ]
-    },
-    {
-      "week": "2025-12-26",
-      "portfolio_return": 1.33,
-      "benchmark_return": 0.79,
-      "holdings": [
-        {
-          "symbol": "LTF",
-          "return": 1.02,
-          "score": 3.24
-        },
-        {
-          "symbol": "FEDERALBNK",
-          "return": 0.49,
-          "score": 3.0
-        },
-        {
-          "symbol": "MUTHOOTFIN",
-          "return": 0.24,
-          "score": 2.75
-        },
-        {
-          "symbol": "THANGAMAYL",
-          "return": 2.49,
-          "score": 2.68
-        },
-        {
-          "symbol": "M&MFIN",
-          "return": 4.7,
-          "score": 2.55
-        },
-        {
-          "symbol": "SHRIRAMFIN",
-          "return": 3.68,
-          "score": 2.51
-        },
-        {
-          "symbol": "CUB",
-          "return": 1.54,
-          "score": 2.46
-        },
-        {
-          "symbol": "AUBANK",
-          "return": -0.07,
-          "score": 2.45
-        },
-        {
-          "symbol": "ASHOKLEY",
-          "return": 2.01,
-          "score": 2.4
-        },
-        {
-          "symbol": "ABCAPITAL",
-          "return": -0.75,
-          "score": 2.34
-        },
-        {
-          "symbol": "LAURUSLABS",
-          "return": 1.82,
-          "score": 2.33
-        },
-        {
-          "symbol": "SOUTHBANK",
-          "return": -0.5,
-          "score": 2.32
-        },
-        {
-          "symbol": "CANBK",
-          "return": 1.16,
-          "score": 2.26
-        },
-        {
-          "symbol": "NAVINFLUOR",
-          "return": 0.66,
-          "score": 2.25
-        },
-        {
-          "symbol": "MARUTI",
-          "return": 1.43,
-          "score": 2.23
-        }
-      ]
-    },
-    {
-      "week": "2025-12-19",
-      "portfolio_return": -0.89,
-      "benchmark_return": -0.32,
-      "holdings": [
-        {
-          "symbol": "LTF",
-          "return": -2.6,
-          "score": 3.64
-        },
-        {
-          "symbol": "MUTHOOTFIN",
-          "return": -2.29,
-          "score": 3.02
-        },
-        {
-          "symbol": "ABCAPITAL",
-          "return": -5.15,
-          "score": 2.82
-        },
-        {
-          "symbol": "AUBANK",
-          "return": 2.02,
-          "score": 2.53
-        },
-        {
-          "symbol": "FEDERALBNK",
-          "return": 1.55,
-          "score": 2.53
-        },
-        {
-          "symbol": "IMFA",
-          "return": 0.37,
-          "score": 2.49
-        },
-        {
-          "symbol": "NAVINFLUOR",
-          "return": -5.14,
-          "score": 2.47
-        },
-        {
-          "symbol": "CUB",
-          "return": 0.68,
-          "score": 2.44
-        },
-        {
-          "symbol": "LAURUSLABS",
-          "return": 0.32,
-          "score": 2.39
-        },
-        {
-          "symbol": "SOUTHBANK",
-          "return": -2.05,
-          "score": 2.35
-        },
-        {
-          "symbol": "CANBK",
-          "return": 2.18,
-          "score": 2.34
-        },
-        {
-          "symbol": "MARUTI",
-          "return": -1.17,
-          "score": 2.33
-        },
-        {
-          "symbol": "IDEA",
-          "return": -2.92,
-          "score": 2.3
-        },
-        {
-          "symbol": "THANGAMAYL",
-          "return": 2.6,
-          "score": 2.23
-        },
-        {
-          "symbol": "EICHERMOT",
-          "return": -1.69,
-          "score": 2.21
-        }
-      ]
-    },
-    {
-      "week": "2025-12-12",
-      "portfolio_return": -2.13,
-      "benchmark_return": -0.87,
-      "holdings": [
-        {
-          "symbol": "LTF",
-          "return": -2.55,
-          "score": 3.68
-        },
-        {
-          "symbol": "MUTHOOTFIN",
-          "return": -1.73,
-          "score": 3.12
-        },
-        {
-          "symbol": "ABCAPITAL",
-          "return": -1.2,
-          "score": 2.79
-        },
-        {
-          "symbol": "LUMAXTECH",
-          "return": -3.08,
-          "score": 2.69
-        },
-        {
-          "symbol": "HEROMOTOCO",
-          "return": -5.84,
-          "score": 2.6
-        },
-        {
-          "symbol": "AUBANK",
-          "return": 1.28,
-          "score": 2.4
-        },
-        {
-          "symbol": "FEDERALBNK",
-          "return": 0.66,
-          "score": 2.37
-        },
-        {
-          "symbol": "LAURUSLABS",
-          "return": -0.66,
-          "score": 2.33
-        },
-        {
-          "symbol": "MARUTI",
-          "return": -0.21,
-          "score": 2.31
-        },
-        {
-          "symbol": "CUB",
-          "return": -3.57,
-          "score": 2.31
-        },
-        {
-          "symbol": "IMFA",
-          "return": 2.2,
-          "score": 2.3
-        },
-        {
-          "symbol": "CANBK",
-          "return": -1.24,
-          "score": 2.24
-        },
-        {
-          "symbol": "ABDL",
-          "return": -2.18,
-          "score": 2.24
-        },
-        {
-          "symbol": "M&MFIN",
-          "return": -7.41,
-          "score": 2.23
-        },
-        {
-          "symbol": "ASIANPAINT",
-          "return": -6.37,
-          "score": 2.22
-        }
-      ]
-    },
-    {
-      "week": "2025-12-05",
-      "portfolio_return": -1.49,
-      "benchmark_return": -0.06,
-      "holdings": [
-        {
-          "symbol": "LTF",
-          "return": -0.88,
-          "score": 4.14
-        },
-        {
-          "symbol": "MUTHOOTFIN",
-          "return": 1.49,
-          "score": 3.39
-        },
-        {
-          "symbol": "IMFA",
-          "return": -1.93,
-          "score": 2.98
-        },
-        {
-          "symbol": "ABCAPITAL",
-          "return": 0.2,
-          "score": 2.81
-        },
-        {
-          "symbol": "M&MFIN",
-          "return": -1.16,
-          "score": 2.69
-        },
-        {
-          "symbol": "ABDL",
-          "return": -3.88,
-          "score": 2.58
-        },
-        {
-          "symbol": "LAURUSLABS",
-          "return": -0.51,
-          "score": 2.55
-        },
-        {
-          "symbol": "LUMAXTECH",
-          "return": -0.75,
-          "score": 2.54
-        },
-        {
-          "symbol": "CARTRADE",
-          "return": -3.86,
-          "score": 2.43
-        },
-        {
-          "symbol": "CANBK",
-          "return": -1.94,
-          "score": 2.42
-        },
-        {
-          "symbol": "INDIANB",
-          "return": -7.04,
-          "score": 2.4
-        },
-        {
-          "symbol": "MTARTECH",
-          "return": -5.86,
-          "score": 2.39
-        },
-        {
-          "symbol": "HEROMOTOCO",
-          "return": 2.85,
-          "score": 2.26
-        },
-        {
-          "symbol": "CUB",
-          "return": 0.28,
-          "score": 2.22
-        },
-        {
-          "symbol": "AUBANK",
-          "return": 0.57,
-          "score": 2.19
-        }
-      ]
-    },
     {
       "week": "2025-11-28",
       "portfolio_return": 1.41,
@@ -30100,6 +29597,582 @@
           "symbol": "COROMANDEL",
           "return": -1.68,
           "score": 1.19
+        }
+      ]
+    }
+  ],
+  "current_performance": [
+    {
+      "week": "2026-01-16",
+      "portfolio_return": 4.01,
+      "benchmark_return": -0.07,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": 7.36,
+          "score": 7.16
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": 0.23,
+          "score": 3.85
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 3.21,
+          "score": 3.63
+        },
+        {
+          "symbol": "ASHOKLEY",
+          "return": -1.44,
+          "score": 3.54
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 6.12,
+          "score": 3.44
+        },
+        {
+          "symbol": "HINDCOPPER",
+          "return": 7.67,
+          "score": 3.4
+        },
+        {
+          "symbol": "THANGAMAYL",
+          "return": 6.45,
+          "score": 3.32
+        },
+        {
+          "symbol": "SHRIRAMFIN",
+          "return": 0.21,
+          "score": 3.02
+        },
+        {
+          "symbol": "LTF",
+          "return": -1.3,
+          "score": 2.9
+        },
+        {
+          "symbol": "GRMOVER",
+          "return": -0.3,
+          "score": 2.86
+        },
+        {
+          "symbol": "TMB",
+          "return": -0.96,
+          "score": 2.83
+        },
+        {
+          "symbol": "ABCAPITAL",
+          "return": 2.02,
+          "score": 2.53
+        },
+        {
+          "symbol": "SABTNL",
+          "return": 7.82,
+          "score": 2.52
+        },
+        {
+          "symbol": "KMEW",
+          "return": 14.09,
+          "score": 2.36
+        },
+        {
+          "symbol": "VEDL",
+          "return": 9.02,
+          "score": 2.36
+        }
+      ]
+    },
+    {
+      "week": "2026-01-09",
+      "portfolio_return": -0.94,
+      "benchmark_return": -1.72,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": 2.14,
+          "score": 7.78
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": -4.86,
+          "score": 4.55
+        },
+        {
+          "symbol": "SILVERTUC",
+          "return": 15.17,
+          "score": 3.38
+        },
+        {
+          "symbol": "HINDCOPPER",
+          "return": -3.9,
+          "score": 3.29
+        },
+        {
+          "symbol": "LTF",
+          "return": -3.89,
+          "score": 3.18
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": 3.61,
+          "score": 3.09
+        },
+        {
+          "symbol": "SHRIRAMFIN",
+          "return": -1.73,
+          "score": 2.98
+        },
+        {
+          "symbol": "ASHOKLEY",
+          "return": -2.26,
+          "score": 2.95
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 0.97,
+          "score": 2.85
+        },
+        {
+          "symbol": "M&MFIN",
+          "return": -11.89,
+          "score": 2.74
+        },
+        {
+          "symbol": "KMEW",
+          "return": -8.84,
+          "score": 2.73
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": -4.25,
+          "score": 2.54
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 2.35,
+          "score": 2.41
+        },
+        {
+          "symbol": "GRMOVER",
+          "return": 3.97,
+          "score": 2.38
+        },
+        {
+          "symbol": "ABCAPITAL",
+          "return": -0.75,
+          "score": 2.38
+        }
+      ]
+    },
+    {
+      "week": "2026-01-02",
+      "portfolio_return": 3.97,
+      "benchmark_return": 1.1,
+      "holdings": [
+        {
+          "symbol": "M&MFIN",
+          "return": 2.23,
+          "score": 3.15
+        },
+        {
+          "symbol": "LTF",
+          "return": 6.12,
+          "score": 3.1
+        },
+        {
+          "symbol": "SHRIRAMFIN",
+          "return": 5.22,
+          "score": 2.81
+        },
+        {
+          "symbol": "HINDCOPPER",
+          "return": 13.94,
+          "score": 2.75
+        },
+        {
+          "symbol": "FEDERALBNK",
+          "return": 1.89,
+          "score": 2.74
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 7.64,
+          "score": 2.72
+        },
+        {
+          "symbol": "CUB",
+          "return": -1.32,
+          "score": 2.59
+        },
+        {
+          "symbol": "ASHOKLEY",
+          "return": 8.07,
+          "score": 2.52
+        },
+        {
+          "symbol": "MUTHOOTFIN",
+          "return": 0.63,
+          "score": 2.42
+        },
+        {
+          "symbol": "AUBANK",
+          "return": 2.51,
+          "score": 2.42
+        },
+        {
+          "symbol": "THANGAMAYL",
+          "return": 0.66,
+          "score": 2.39
+        },
+        {
+          "symbol": "LAURUSLABS",
+          "return": 1.98,
+          "score": 2.38
+        },
+        {
+          "symbol": "IMFA",
+          "return": 5.19,
+          "score": 2.32
+        },
+        {
+          "symbol": "VEDL",
+          "return": 2.66,
+          "score": 2.31
+        },
+        {
+          "symbol": "MARUTI",
+          "return": 2.19,
+          "score": 2.3
+        }
+      ]
+    },
+    {
+      "week": "2025-12-26",
+      "portfolio_return": 1.33,
+      "benchmark_return": 0.79,
+      "holdings": [
+        {
+          "symbol": "LTF",
+          "return": 1.02,
+          "score": 3.24
+        },
+        {
+          "symbol": "FEDERALBNK",
+          "return": 0.49,
+          "score": 3.0
+        },
+        {
+          "symbol": "MUTHOOTFIN",
+          "return": 0.24,
+          "score": 2.75
+        },
+        {
+          "symbol": "THANGAMAYL",
+          "return": 2.49,
+          "score": 2.68
+        },
+        {
+          "symbol": "M&MFIN",
+          "return": 4.7,
+          "score": 2.55
+        },
+        {
+          "symbol": "SHRIRAMFIN",
+          "return": 3.68,
+          "score": 2.51
+        },
+        {
+          "symbol": "CUB",
+          "return": 1.54,
+          "score": 2.46
+        },
+        {
+          "symbol": "AUBANK",
+          "return": -0.07,
+          "score": 2.45
+        },
+        {
+          "symbol": "ASHOKLEY",
+          "return": 2.01,
+          "score": 2.4
+        },
+        {
+          "symbol": "ABCAPITAL",
+          "return": -0.75,
+          "score": 2.34
+        },
+        {
+          "symbol": "LAURUSLABS",
+          "return": 1.82,
+          "score": 2.33
+        },
+        {
+          "symbol": "SOUTHBANK",
+          "return": -0.5,
+          "score": 2.32
+        },
+        {
+          "symbol": "CANBK",
+          "return": 1.16,
+          "score": 2.26
+        },
+        {
+          "symbol": "NAVINFLUOR",
+          "return": 0.66,
+          "score": 2.25
+        },
+        {
+          "symbol": "MARUTI",
+          "return": 1.43,
+          "score": 2.23
+        }
+      ]
+    },
+    {
+      "week": "2025-12-19",
+      "portfolio_return": -0.89,
+      "benchmark_return": -0.32,
+      "holdings": [
+        {
+          "symbol": "LTF",
+          "return": -2.6,
+          "score": 3.64
+        },
+        {
+          "symbol": "MUTHOOTFIN",
+          "return": -2.29,
+          "score": 3.02
+        },
+        {
+          "symbol": "ABCAPITAL",
+          "return": -5.15,
+          "score": 2.82
+        },
+        {
+          "symbol": "AUBANK",
+          "return": 2.02,
+          "score": 2.53
+        },
+        {
+          "symbol": "FEDERALBNK",
+          "return": 1.55,
+          "score": 2.53
+        },
+        {
+          "symbol": "IMFA",
+          "return": 0.37,
+          "score": 2.49
+        },
+        {
+          "symbol": "NAVINFLUOR",
+          "return": -5.14,
+          "score": 2.47
+        },
+        {
+          "symbol": "CUB",
+          "return": 0.68,
+          "score": 2.44
+        },
+        {
+          "symbol": "LAURUSLABS",
+          "return": 0.32,
+          "score": 2.39
+        },
+        {
+          "symbol": "SOUTHBANK",
+          "return": -2.05,
+          "score": 2.35
+        },
+        {
+          "symbol": "CANBK",
+          "return": 2.18,
+          "score": 2.34
+        },
+        {
+          "symbol": "MARUTI",
+          "return": -1.17,
+          "score": 2.33
+        },
+        {
+          "symbol": "IDEA",
+          "return": -2.92,
+          "score": 2.3
+        },
+        {
+          "symbol": "THANGAMAYL",
+          "return": 2.6,
+          "score": 2.23
+        },
+        {
+          "symbol": "EICHERMOT",
+          "return": -1.69,
+          "score": 2.21
+        }
+      ]
+    },
+    {
+      "week": "2025-12-12",
+      "portfolio_return": -2.13,
+      "benchmark_return": -0.87,
+      "holdings": [
+        {
+          "symbol": "LTF",
+          "return": -2.55,
+          "score": 3.68
+        },
+        {
+          "symbol": "MUTHOOTFIN",
+          "return": -1.73,
+          "score": 3.12
+        },
+        {
+          "symbol": "ABCAPITAL",
+          "return": -1.2,
+          "score": 2.79
+        },
+        {
+          "symbol": "LUMAXTECH",
+          "return": -3.08,
+          "score": 2.69
+        },
+        {
+          "symbol": "HEROMOTOCO",
+          "return": -5.84,
+          "score": 2.6
+        },
+        {
+          "symbol": "AUBANK",
+          "return": 1.28,
+          "score": 2.4
+        },
+        {
+          "symbol": "FEDERALBNK",
+          "return": 0.66,
+          "score": 2.37
+        },
+        {
+          "symbol": "LAURUSLABS",
+          "return": -0.66,
+          "score": 2.33
+        },
+        {
+          "symbol": "MARUTI",
+          "return": -0.21,
+          "score": 2.31
+        },
+        {
+          "symbol": "CUB",
+          "return": -3.57,
+          "score": 2.31
+        },
+        {
+          "symbol": "IMFA",
+          "return": 2.2,
+          "score": 2.3
+        },
+        {
+          "symbol": "CANBK",
+          "return": -1.24,
+          "score": 2.24
+        },
+        {
+          "symbol": "ABDL",
+          "return": -2.18,
+          "score": 2.24
+        },
+        {
+          "symbol": "M&MFIN",
+          "return": -7.41,
+          "score": 2.23
+        },
+        {
+          "symbol": "ASIANPAINT",
+          "return": -6.37,
+          "score": 2.22
+        }
+      ]
+    },
+    {
+      "week": "2025-12-05",
+      "portfolio_return": -1.49,
+      "benchmark_return": -0.06,
+      "holdings": [
+        {
+          "symbol": "LTF",
+          "return": -0.88,
+          "score": 4.14
+        },
+        {
+          "symbol": "MUTHOOTFIN",
+          "return": 1.49,
+          "score": 3.39
+        },
+        {
+          "symbol": "IMFA",
+          "return": -1.93,
+          "score": 2.98
+        },
+        {
+          "symbol": "ABCAPITAL",
+          "return": 0.2,
+          "score": 2.81
+        },
+        {
+          "symbol": "M&MFIN",
+          "return": -1.16,
+          "score": 2.69
+        },
+        {
+          "symbol": "ABDL",
+          "return": -3.88,
+          "score": 2.58
+        },
+        {
+          "symbol": "LAURUSLABS",
+          "return": -0.51,
+          "score": 2.55
+        },
+        {
+          "symbol": "LUMAXTECH",
+          "return": -0.75,
+          "score": 2.54
+        },
+        {
+          "symbol": "CARTRADE",
+          "return": -3.86,
+          "score": 2.43
+        },
+        {
+          "symbol": "CANBK",
+          "return": -1.94,
+          "score": 2.42
+        },
+        {
+          "symbol": "INDIANB",
+          "return": -7.04,
+          "score": 2.4
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": -5.86,
+          "score": 2.39
+        },
+        {
+          "symbol": "HEROMOTOCO",
+          "return": 2.85,
+          "score": 2.26
+        },
+        {
+          "symbol": "CUB",
+          "return": 0.28,
+          "score": 2.22
+        },
+        {
+          "symbol": "AUBANK",
+          "return": 0.57,
+          "score": 2.19
         }
       ]
     }

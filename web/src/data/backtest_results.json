@@ -1,46 +1,90 @@
 {
   "backtest_metrics": {
     "time_metrics": {
-      "start": "2018-01",
+      "start": "2018-02",
       "end": "2025-11",
-      "period": "95 months (7.9 years)"
+      "period": "94 months (7.8 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 1189649.77,
-      "total_fees_paid": 102784.23,
+      "end_value": 1237156.58,
+      "total_fees_paid": 107106.2,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 1089.65,
-      "benchmark_return": 148.63,
-      "expectancy": 3.05,
-      "net_return_after_fees": 986.87
+      "total_return": 1137.16,
+      "benchmark_return": 137.42,
+      "expectancy": 3.13,
+      "net_return_after_fees": 1030.05
     },
     "risk_metrics": {
       "max_drawdown": -32.92,
       "max_drawdown_duration": 29,
-      "sharpe_ratio": 1.15,
-      "calmar_ratio": 1.12,
-      "omega_ratio": 2.41,
-      "sortino_ratio": 1.97
+      "sharpe_ratio": 1.18,
+      "calmar_ratio": 1.15,
+      "omega_ratio": 2.45,
+      "sortino_ratio": 1.99
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 95,
-      "total_closed_trades": 94,
+      "total_trades": 94,
+      "total_closed_trades": 93,
       "total_open_trades": 1,
-      "win_rate": 58.95,
+      "win_rate": 59.57,
       "best_trade": 32.18,
       "worst_trade": -25.21,
       "avg_winning_trade": 8.86,
-      "avg_losing_trade": -5.29,
+      "avg_losing_trade": -5.33,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.41,
-      "total_stock_transactions": 1229
+      "profit_factor": 2.45,
+      "total_stock_transactions": 1221
+    }
+  },
+  "current_metrics": {
+    "time_metrics": {
+      "start": "2025-12",
+      "end": "2026-01",
+      "period": "2 months (0.2 years)"
+    },
+    "capital_metrics": {
+      "start_value": 100000,
+      "end_value": 98204.89,
+      "total_fees_paid": 630.59,
+      "open_trade_pnl": 0
+    },
+    "return_metrics": {
+      "total_return": -1.8,
+      "benchmark_return": -2.06,
+      "expectancy": -0.88,
+      "net_return_after_fees": -2.43
+    },
+    "risk_metrics": {
+      "max_drawdown": -2.7,
+      "max_drawdown_duration": 1,
+      "sharpe_ratio": -1.69,
+      "calmar_ratio": -3.81,
+      "omega_ratio": 0.34,
+      "sortino_ratio": 0
+    },
+    "exposure_metrics": {
+      "max_gross_exposure": 100
+    },
+    "trade_statistics": {
+      "total_trades": 2,
+      "total_closed_trades": 1,
+      "total_open_trades": 1,
+      "win_rate": 50.0,
+      "best_trade": 0.93,
+      "worst_trade": -2.7,
+      "avg_winning_trade": 0.93,
+      "avg_losing_trade": -2.7,
+      "avg_winning_trade_duration": 1,
+      "avg_losing_trade_duration": 1,
+      "profit_factor": 0.34,
+      "total_stock_transactions": 38
     }
   },
   "backtest_results": [
@@ -7749,88 +7793,6 @@
           "symbol": "ZENTEC",
           "return": -2.93,
           "score": 1.23
-        }
-      ]
-    },
-    {
-      "month": "2018-01",
-      "portfolio_return": -3.84,
-      "benchmark_return": 4.72,
-      "holdings": [
-        {
-          "symbol": "RAIN",
-          "return": 2.75,
-          "score": 3.6
-        },
-        {
-          "symbol": "ZENTEC",
-          "return": -19.92,
-          "score": 2.89
-        },
-        {
-          "symbol": "PURVA",
-          "return": -9.9,
-          "score": 2.55
-        },
-        {
-          "symbol": "IFBIND",
-          "return": -6.82,
-          "score": 2.5
-        },
-        {
-          "symbol": "DBL",
-          "return": -8.09,
-          "score": 2.38
-        },
-        {
-          "symbol": "THANGAMAYL",
-          "return": -5.91,
-          "score": 1.98
-        },
-        {
-          "symbol": "BBTC",
-          "return": -17.77,
-          "score": 1.79
-        },
-        {
-          "symbol": "INDIAGLYCO",
-          "return": 13.37,
-          "score": 1.74
-        },
-        {
-          "symbol": "TEAMLEASE",
-          "return": -8.07,
-          "score": 1.51
-        },
-        {
-          "symbol": "SUNTECK",
-          "return": 1.03,
-          "score": 1.46
-        },
-        {
-          "symbol": "JINDWORLD",
-          "return": 14.53,
-          "score": 1.28
-        },
-        {
-          "symbol": "GRAVITA",
-          "return": 4.3,
-          "score": 1.22
-        },
-        {
-          "symbol": "V2RETAIL",
-          "return": -9.56,
-          "score": 1.19
-        },
-        {
-          "symbol": "DCMSHRIRAM",
-          "return": 2.78,
-          "score": 1.13
-        },
-        {
-          "symbol": "JAMNAAUTO",
-          "return": -10.3,
-          "score": 1.05
         }
       ]
     }

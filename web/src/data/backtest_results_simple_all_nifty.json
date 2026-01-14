@@ -8,14 +8,14 @@
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 1502769.6,
-      "total_fees_paid": 81082.22,
+      "total_fees_paid": 75639.02,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 1402.77,
       "benchmark_return": 137.42,
       "expectancy": 3.39,
-      "net_return_after_fees": 1310.25
+      "net_return_after_fees": 1327.13
     },
     "risk_metrics": {
       "max_drawdown": -39.59,
@@ -40,7 +40,51 @@
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
       "profit_factor": 2.55,
-      "total_stock_transactions": 1035
+      "total_stock_transactions": 1013
+    }
+  },
+  "current_metrics": {
+    "time_metrics": {
+      "start": "2025-12",
+      "end": "2026-01",
+      "period": "2 months (0.2 years)"
+    },
+    "capital_metrics": {
+      "start_value": 100000,
+      "end_value": 99238.87,
+      "total_fees_paid": 367.34,
+      "open_trade_pnl": 0
+    },
+    "return_metrics": {
+      "total_return": -0.76,
+      "benchmark_return": -2.06,
+      "expectancy": -0.37,
+      "net_return_after_fees": -1.13
+    },
+    "risk_metrics": {
+      "max_drawdown": -1.87,
+      "max_drawdown_duration": 1,
+      "sharpe_ratio": -0.85,
+      "calmar_ratio": -2.4,
+      "omega_ratio": 0.6,
+      "sortino_ratio": 0
+    },
+    "exposure_metrics": {
+      "max_gross_exposure": 100
+    },
+    "trade_statistics": {
+      "total_trades": 2,
+      "total_closed_trades": 1,
+      "total_open_trades": 1,
+      "win_rate": 50.0,
+      "best_trade": 1.13,
+      "worst_trade": -1.87,
+      "avg_winning_trade": 1.13,
+      "avg_losing_trade": -1.87,
+      "avg_winning_trade_duration": 1,
+      "avg_losing_trade_duration": 1,
+      "profit_factor": 0.6,
+      "total_stock_transactions": 22
     }
   },
   "backtest_results": [

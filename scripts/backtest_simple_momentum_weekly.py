@@ -121,6 +121,15 @@ def calculate_momentum_for_date(session, target_date, stocks_df, valid_stock_ids
 
 def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     """Calculate comprehensive backtest metrics"""
+    if not monthly_results:
+         return {
+            "time_metrics": {"start": "-", "end": "-", "period": "-"},
+            "capital_metrics": {"start_value": 0, "end_value": 0, "total_fees_paid": 0, "open_trade_pnl": 0},
+            "return_metrics": {"total_return": 0, "benchmark_return": 0, "expectancy": 0, "net_return_after_fees": 0},
+            "risk_metrics": {"max_drawdown": 0, "max_drawdown_duration": 0, "sharpe_ratio": 0, "calmar_ratio": 0, "omega_ratio": 0, "sortino_ratio": 0},
+            "exposure_metrics": {"max_gross_exposure": 0},
+            "trade_statistics": {"total_trades": 0, "total_stock_transactions": 0, "win_rate": 0, "best_trade": 0, "worst_trade": 0, "avg_winning_trade": 0, "avg_losing_trade": 0, "profit_factor": 0}
+        }
     
     # Convert to numpy arrays for calculations
     portfolio_returns = np.array([r['portfolio_return'] / 100 for r in monthly_results])
@@ -133,18 +142,16 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     period_years = period_weeks / 52
     
     # Capital Metrics
-    start_value = 100000  # Changed to 1 lakh
+    start_value = 100000 
     cumulative_portfolio = np.cumprod(1 + portfolio_returns)
     cumulative_benchmark = np.cumprod(1 + benchmark_returns)
     end_value = start_value * cumulative_portfolio[-1]
-    total_fees_paid = 0  # Will be updated later with actual fees
-    open_trade_pnl = 0  # No open trades at end of backtest period
     
     # Return Metrics
     total_return = (end_value - start_value) / start_value
     benchmark_total_return = (start_value * cumulative_benchmark[-1] - start_value) / start_value
     
-    # Expectancy (average return per trade/month)
+    # Expectancy (average return per week)
     expectancy = np.mean(portfolio_returns)
     
     # Risk Metrics
@@ -164,33 +171,30 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
         else:
             current_dd_duration = 0
     
-    # Sharpe Ratio (annualized, assuming risk-free rate = 0)
-    excess_returns = portfolio_returns - 0  # Assuming risk-free rate = 0
+    # Sharpe Ratio (annualized, sqrt(52))
+    excess_returns = portfolio_returns - 0 
     sharpe_ratio = (np.mean(excess_returns) * 52) / (np.std(excess_returns) * np.sqrt(52)) if np.std(excess_returns) > 0 else 0
     
-    # Calmar Ratio (annualized return / max drawdown)
-    annualized_return = (1 + total_return) ** (1 / period_years) - 1
+    # Calmar Ratio
+    annualized_return = (1 + total_return) ** (1 / period_years) - 1 if period_years > 0 else 0
     calmar_ratio = annualized_return / abs(max_drawdown) if max_drawdown != 0 else 0
     
-    # Sortino Ratio (using downside deviation)
+    # Sortino Ratio
     downside_returns = portfolio_returns[portfolio_returns < 0]
     downside_std = np.std(downside_returns) if len(downside_returns) > 0 else 0
     sortino_ratio = (np.mean(excess_returns) * 52) / (downside_std * np.sqrt(52)) if downside_std > 0 else 0
     
-    # Omega Ratio (probability weighted ratio of gains vs losses)
+    # Omega Ratio
     threshold = 0
     gains = portfolio_returns[portfolio_returns > threshold]
     losses = portfolio_returns[portfolio_returns < threshold]
     omega_ratio = np.sum(gains - threshold) / abs(np.sum(losses - threshold)) if len(losses) > 0 and np.sum(losses - threshold) != 0 else 0
     
     # Exposure Metrics
-    max_gross_exposure = 100  # Always 100% invested in this strategy
+    max_gross_exposure = 100
     
     # Trade Statistics
-    total_trades = period_weeks  # One trade per week (rebalancing)
-    total_closed_trades = period_weeks - 1  # All except current week
-    total_open_trades = 1  # Current month position
-    
+    total_trades = period_weeks
     winning_trades = np.sum(portfolio_returns > 0)
     losing_trades = np.sum(portfolio_returns < 0)
     win_rate = (winning_trades / total_trades) * 100 if total_trades > 0 else 0
@@ -200,10 +204,6 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     
     avg_winning_trade = np.mean(portfolio_returns[portfolio_returns > 0]) * 100 if winning_trades > 0 else 0
     avg_losing_trade = np.mean(portfolio_returns[portfolio_returns < 0]) * 100 if losing_trades > 0 else 0
-    
-    # Trade durations (all trades are 1 month)
-    avg_winning_trade_duration = 1
-    avg_losing_trade_duration = 1
     
     # Profit Factor
     gross_profit = np.sum(portfolio_returns[portfolio_returns > 0])
@@ -219,13 +219,14 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
         "capital_metrics": {
             "start_value": round(start_value, 2),
             "end_value": round(end_value, 2),
-            "total_fees_paid": round(total_fees_paid, 2),
-            "open_trade_pnl": round(open_trade_pnl, 2)
+            "total_fees_paid": 0,
+            "open_trade_pnl": 0
         },
         "return_metrics": {
             "total_return": round(total_return * 100, 2),
             "benchmark_return": round(benchmark_total_return * 100, 2),
-            "expectancy": round(expectancy * 100, 2)
+            "expectancy": round(expectancy * 100, 2),
+            "net_return_after_fees": 0
         },
         "risk_metrics": {
             "max_drawdown": round(max_drawdown * 100, 2),
@@ -240,15 +241,12 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
         },
         "trade_statistics": {
             "total_trades": total_trades,
-            "total_closed_trades": total_closed_trades,
-            "total_open_trades": total_open_trades,
+            "total_stock_transactions": 0,
             "win_rate": round(win_rate, 2),
             "best_trade": round(best_trade, 2),
             "worst_trade": round(worst_trade, 2),
             "avg_winning_trade": round(avg_winning_trade, 2),
             "avg_losing_trade": round(avg_losing_trade, 2),
-            "avg_winning_trade_duration": avg_winning_trade_duration,
-            "avg_losing_trade_duration": avg_losing_trade_duration,
             "profit_factor": round(profit_factor, 2)
         }
     }
@@ -295,8 +293,29 @@ def run_backtest():
     stocks = session.execute(text("SELECT id, nse_symbol FROM stocks")).fetchall()
     for s in stocks:
         stock_map[s.id] = s.nse_symbol
-        
-    # 2. Iterate Months (from 2017 to present)
+    
+    # Check for existing results (Freeze logic)
+    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_simple_weekly.json')
+    existing_results_map = {}
+    
+    if os.path.exists(output_path):
+        try:
+            with open(output_path, 'r') as f:
+                data = json.load(f)
+                combined_results = []
+                if isinstance(data, list):
+                     combined_results = data
+                elif isinstance(data, dict):
+                     combined_results = data.get('backtest_results', []) + data.get('current_performance', [])
+                
+                for r in combined_results:
+                     if 'week' in r:
+                         existing_results_map[r['week']] = r
+            print(f"Loaded existing results for {len(existing_results_map)} weeks.")
+        except Exception as e:
+            print(f"Could not load existing results: {e}")
+
+    # 2. Iterate Weeks (from 2017 to present)
     dates = get_week_ends(years=8)
     all_results = []
     
@@ -310,20 +329,13 @@ def run_backtest():
     valid_stock_ids = [r[0] for r in session.execute(valid_stocks_query).fetchall()]
     print(f"Applying Global Market Cap Filter (> {min_mcap_cr} Cr). Eligible Stocks: {len(valid_stock_ids)}")
     
-    # helper for processing a period
     def process_period(rebalance_date, next_rebalance_date, label_date=None, valid_stock_ids=None):
-        print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()}")
-        
         start_window = rebalance_date - timedelta(days=400)
-        
         try:
             df_slice = master_df.loc[start_window:rebalance_date]
         except KeyError:
-            print("  No price data found for this period.")
             return None
-            
         if df_slice.empty:
-            print("  No price data found for this period.")
             return None
             
         df_window = df_slice.reset_index()
@@ -331,18 +343,15 @@ def run_backtest():
         
         # Calculate Momentum
         top_stocks_df = calculate_momentum_for_date(session, rebalance_date, df_window, valid_stock_ids=valid_stock_ids)
-        
         if top_stocks_df.empty:
-            print("  No stocks found.")
             return None
-
-        # Select Top 15 (Standard)
+ 
+        # Select Top 15
         top_stocks = top_stocks_df.head(15)
         selected_stock_ids = top_stocks['stock_id'].tolist()
-        
         score_map = top_stocks.set_index('stock_id')['weighted_z'].to_dict()
         
-        # Calculate Portfolio Return
+        # Calculate Return
         portfolio_returns = []
         stock_returns_detail = []
         
@@ -355,28 +364,17 @@ def run_backtest():
         if not df_next.empty:
             for stock_id in selected_stock_ids:
                 try:
-                    # FIX: Buy at Next Day OPEN instead of Signal Day CLOSE
+                    # FIX: Buy at Next Day OPEN
                     stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
                     if stock_data_next.empty:
-                        stock_returns_detail.append({
-                            'symbol': stock_map.get(stock_id, 'Unknown'),
-                            'return': 0.0,
-                            'score': round(score_map.get(stock_id, 0), 2)
-                        })
-                        continue
-
+                         stock_returns_detail.append({'symbol': stock_map.get(stock_id, 'Unknown'), 'return': 0.0, 'score': round(score_map.get(stock_id, 0), 2)})
+                         continue
                     start_price = stock_data_next.iloc[0]['open_price']
                 except (KeyError, IndexError):
-                    stock_returns_detail.append({
-                        'symbol': stock_map.get(stock_id, 'Unknown'),
-                        'return': 0.0,
-                        'score': round(score_map.get(stock_id, 0), 2)
-                    })
+                    stock_returns_detail.append({'symbol': stock_map.get(stock_id, 'Unknown'), 'return': 0.0, 'score': round(score_map.get(stock_id, 0), 2)})
                     continue
                 
-                # Exit at End PRICE (Close)
                 end_price = stock_data_next.iloc[-1]['close_price']
-                
                 ret = (end_price - start_price) / start_price
                 portfolio_returns.append(ret)
                 stock_returns_detail.append({
@@ -384,16 +382,12 @@ def run_backtest():
                     'return': round(ret * 100, 2),
                     'score': round(score_map.get(stock_id, 0), 2)
                 })
-                
+        
         if not portfolio_returns:
             port_ret = 0
             if not stock_returns_detail:
                 for stock_id in selected_stock_ids:
-                     stock_returns_detail.append({
-                        'symbol': stock_map.get(stock_id, 'Unknown'),
-                        'return': 0.0,
-                        'score': round(score_map.get(stock_id, 0), 2)
-                    })
+                     stock_returns_detail.append({'symbol': stock_map.get(stock_id, 'Unknown'), 'return': 0.0, 'score': round(score_map.get(stock_id, 0), 2)})
         else:
             port_ret = sum(portfolio_returns) / len(portfolio_returns)
             
@@ -401,7 +395,6 @@ def run_backtest():
         if not nifty.empty:
             n_prev = nifty[nifty['date'] <= rebalance_date]
             n_curr = nifty[nifty['date'] <= next_rebalance_date]
-            
             if not n_prev.empty and not n_curr.empty:
                 n_start_price = n_prev.iloc[-1]['close']
                 n_end_price = n_curr.iloc[-1]['close']
@@ -411,13 +404,8 @@ def run_backtest():
         else:
             bench_ret = 0
             
-        print(f"  Port: {port_ret:.2%}, Bench: {bench_ret:.2%}")
-        
-        if label_date:
-            week_label = label_date
-        else:
-            week_label = next_rebalance_date.strftime('%Y-%m-%d')
-
+        print(f"Processed {rebalance_date.date()} -> {next_rebalance_date.date()}: Port {port_ret:.2%} vs Bench {bench_ret:.2%}")
+        week_label = label_date if label_date else next_rebalance_date.strftime('%Y-%m-%d')
         return {
             'week': week_label,
             'portfolio_return': round(port_ret * 100, 2),
@@ -429,27 +417,27 @@ def run_backtest():
         next_rebalance_date = dates[i+1]
         week_label = next_rebalance_date.strftime('%Y-%m-%d')
         
-        print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()} ({week_label})")
+        if week_label in existing_results_map:
+             all_results.append(existing_results_map[week_label])
+             continue
+
         res = process_period(rebalance_date, next_rebalance_date, valid_stock_ids=valid_stock_ids)
         if res:
             all_results.append(res)
             
-    # Current Month (Live)
+    # Current Week (Live)
     last_rebalance_date = dates[-1]
     today = datetime.now()
-    
     if today > last_rebalance_date:
         next_friday = last_rebalance_date + timedelta(days=7)
         current_week_label = next_friday.strftime('%Y-%m-%d')
-        
-        # Market Cap Filter is already applied globally
-
         print(f"Processing Current Week (Live): {last_rebalance_date.date()} -> {today.date()}")
+        
+        all_results = [r for r in all_results if r['week'] != current_week_label]
         res = process_period(last_rebalance_date, today, label_date=current_week_label, valid_stock_ids=valid_stock_ids)
         if res:
             all_results.append(res)
 
-    # Sort all results by week ascending for proper calculation/splitting
     all_results.sort(key=lambda x: x['week'])
 
     # Split into backtest period (until Nov 2025) and current performance (Dec 2025+)
@@ -457,79 +445,64 @@ def run_backtest():
     backtest_results = [r for r in all_results if r['week'] <= backtest_cutoff]
     current_results = [r for r in all_results if r['week'] > backtest_cutoff]
     
-    # Calculate actual transactions specific to the BACKTEST set
-    # Note: We need to carefully handle the transition. The transactions for the first week of current period
-    # depend on the last week of backtest period.
-    # However, for pure backtest metrics, we only care about transactions occurring WITHIN the backtest period.
+    print("\nCalculating metrics...")
     
-    print("\nCalculating actual transactions (Backtest Period)...")
-    total_transactions = 0
-    previous_holdings = set()
-    
-    # We iterate only through backtest_results to calculate fees relevant to that period
-    sorted_backtest = sorted(backtest_results, key=lambda x: x['week'])
-    
-    for result in sorted_backtest:
-        # Get current month's stock symbols
-        current_holdings = set([h['symbol'] for h in result['holdings']])
+    def calculate_stats_for_period(results, start_value=100000, initial_holdings=None):
+        total_transactions = 0
+        previous_holdings = initial_holdings if initial_holdings else set()
         
-        if previous_holdings:
-            # Stocks that need to be sold (in previous but not in current)
-            stocks_to_sell = previous_holdings - current_holdings
-            # Stocks that need to be bought (in current but not in previous)
-            stocks_to_buy = current_holdings - previous_holdings
-            
-            # Each buy or sell is a transaction
-            transactions_this_week = len(stocks_to_sell) + len(stocks_to_buy)
-            total_transactions += transactions_this_week
-        else:
-            # First week: buy all 15 stocks
-            total_transactions += len(current_holdings)
+        for result in results:
+            current_holdings = set([h['symbol'] for h in result['holdings']])
+            if previous_holdings:
+                stocks_to_sell = previous_holdings - current_holdings
+                stocks_to_buy = current_holdings - previous_holdings
+                total_transactions += len(stocks_to_sell) + len(stocks_to_buy)
+            else:
+                total_transactions += len(current_holdings)
+            previous_holdings = current_holdings
+
+        cumulative_values = []
+        port_value = start_value
+        for r in results:
+            port_value = port_value * (1 + r['portfolio_return'] / 100)
+            cumulative_values.append(port_value)
         
-        previous_holdings = current_holdings
-    
-    # Calculate fees (assuming 0.03% brokerage per transaction, both buy and sell)
-    # Fee per transaction = portfolio_value * position_size * fee_rate
-    # Simplified: Assume equal allocation, so each stock = 1/15 of portfolio
-    # Average portfolio value over the BACKTEST period
-    start_value = 100000  # 1 lakh
-    cumulative_values = []
-    port_value = start_value
-    for r in sorted_backtest:
-        port_value = port_value * (1 + r['portfolio_return'] / 100)
-        cumulative_values.append(port_value)
-    
-    if cumulative_values:
+        if not cumulative_values:
+            return 0, 0, 0, 0
+
         avg_portfolio_value = np.mean(cumulative_values)
-        fee_per_transaction = (avg_portfolio_value / 15) * 0.0025  # 0.25% fee
+        fee_per_transaction = (avg_portfolio_value / 15) * 0.0025
         total_fees_paid = total_transactions * fee_per_transaction
         
-        # Calculate net return after fees for BACKTEST period
         final_value = cumulative_values[-1]
         net_value_after_fees = final_value - total_fees_paid
         net_return_after_fees = ((net_value_after_fees - start_value) / start_value) * 100
-    else:
-        avg_portfolio_value = 0
-        total_fees_paid = 0
-        net_return_after_fees = 0
-
-    print(f"Total Transactions: {total_transactions}")
-    print(f"Average Portfolio Value: ₹{avg_portfolio_value:.2f}")
-    print(f"Total Fees Paid: ₹{total_fees_paid:.2f}")
-    print(f"Net Return After Fees: {net_return_after_fees:.2f}%")
+        
+        return total_transactions, total_fees_paid, net_return_after_fees, final_value
     
-    # Calculate comprehensive metrics for backtest period
-    print("\nCalculating comprehensive metrics...")
+    bt_transactions, bt_fees, bt_net_return, _ = calculate_stats_for_period(backtest_results)
+    
+    # Calculate comprehensive metrics
     backtest_metrics = calculate_comprehensive_metrics(backtest_results, backtest_results)
+    backtest_metrics['trade_statistics']['total_stock_transactions'] = bt_transactions
+    backtest_metrics['capital_metrics']['total_fees_paid'] = round(bt_fees, 2)
+    backtest_metrics['return_metrics']['net_return_after_fees'] = round(bt_net_return, 2)
     
-    # Update with actual transaction data
-    backtest_metrics['trade_statistics']['total_stock_transactions'] = total_transactions
-    backtest_metrics['capital_metrics']['total_fees_paid'] = round(total_fees_paid, 2)
-    backtest_metrics['return_metrics']['net_return_after_fees'] = round(net_return_after_fees, 2)
+    # Current Metrics
+    last_bt_holdings = set([h['symbol'] for h in backtest_results[-1]['holdings']]) if backtest_results else set()
+    cur_transactions, cur_fees, cur_net_return, cur_final_val = calculate_stats_for_period(current_results, start_value=100000, initial_holdings=last_bt_holdings)
     
+    current_metrics = None
+    if current_results:
+        current_metrics = calculate_comprehensive_metrics(current_results, current_results)
+        current_metrics['trade_statistics']['total_stock_transactions'] = cur_transactions
+        current_metrics['capital_metrics']['total_fees_paid'] = round(cur_fees, 2)
+        current_metrics['return_metrics']['net_return_after_fees'] = round(cur_net_return, 2)
+
     # Prepare final output
     output_data = {
         "backtest_metrics": backtest_metrics,
+        "current_metrics": current_metrics,
         "backtest_results": sorted(backtest_results, key=lambda x: x['week'], reverse=True),
         "current_performance": sorted(current_results, key=lambda x: x['week'], reverse=True)
     }
@@ -540,8 +513,6 @@ def run_backtest():
         json.dump(output_data, f, indent=2)
         
     print(f"\nBacktest saved to {output_path}")
-    print(f"Backtest period: {len(backtest_results)} weeks")
-    print(f"Current performance: {len(current_results)} weeks")
 
 if __name__ == "__main__":
     run_backtest()

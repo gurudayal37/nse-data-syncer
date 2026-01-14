@@ -5,7 +5,7 @@ import { TrendingUp, BarChart3, Calendar, Zap, Database, ArrowRight, Sparkles, P
 
 import momentumData from '@/data/backtest_results.json'
 import simpleMomentumData from '@/data/backtest_results_simple.json'
-import simpleNonNiftyData from '@/data/backtest_results_simple_non_nifty.json'
+import simpleAllNiftyData from '@/data/backtest_results_simple_all_nifty.json'
 import weeklyMomentumData from '@/data/backtest_results_weekly.json'
 import simpleWeeklyData from '@/data/backtest_results_simple_weekly.json'
 
@@ -41,13 +41,13 @@ export default function HomePage() {
     {
       title: 'Simple Momentum (High Cap)',
       description: 'Strategy with just top 15 stocks from > 2000 Cr cap (6M + 1Y)',
-      href: '/simple-momentum-non-nifty',
+      href: '/simple-momentum-all-nifty',
       icon: Zap,
       color: 'pink',
       rebalancing: 'Monthly',
       metrics: {
-        return: formatReturn(simpleNonNiftyData.backtest_metrics.return_metrics.net_return_after_fees),
-        sharpe: simpleNonNiftyData.backtest_metrics.risk_metrics.sharpe_ratio.toString()
+        return: formatReturn(simpleAllNiftyData.backtest_metrics.return_metrics.net_return_after_fees),
+        sharpe: simpleAllNiftyData.backtest_metrics.risk_metrics.sharpe_ratio.toString()
       }
     },
     {

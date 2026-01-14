@@ -19,7 +19,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.database import DatabaseManager, MomentumHistory
 from app.utils import get_nse_symbols
 from app.helpers import get_data_path
-from app.constants import CSV_FILENAME
+from app.constants import CSV_FILENAME, FULL_EQUITY_LIST_FILENAME
 
 def get_month_ends(years=8):
     """Get list of month-end dates for the last N years (default 8 years from 2017)"""
@@ -61,7 +61,6 @@ def calculate_momentum_for_date(session, target_date, stocks_df, valid_stock_ids
             if len(df) < 252:
                 continue
                 
-            # Calculate metrics
             # Log returns
             df['log_ret'] = np.log(df['close_price'] / df['close_price'].shift(1))
             
@@ -123,6 +122,16 @@ def calculate_momentum_for_date(session, target_date, stocks_df, valid_stock_ids
 def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     """Calculate comprehensive backtest metrics"""
     
+    if not monthly_results:
+         return {
+            "time_metrics": {"start": "-", "end": "-", "period": "-"},
+            "capital_metrics": {"start_value": 0, "end_value": 0, "total_fees_paid": 0, "open_trade_pnl": 0},
+            "return_metrics": {"total_return": 0, "benchmark_return": 0, "expectancy": 0, "net_return_after_fees": 0},
+            "risk_metrics": {"max_drawdown": 0, "max_drawdown_duration": 0, "sharpe_ratio": 0, "calmar_ratio": 0, "omega_ratio": 0, "sortino_ratio": 0},
+            "exposure_metrics": {"max_gross_exposure": 0},
+            "trade_statistics": {"total_trades": 0, "total_stock_transactions": 0, "win_rate": 0, "best_trade": 0, "worst_trade": 0, "avg_winning_trade": 0, "avg_losing_trade": 0, "profit_factor": 0}
+        }
+
     # Convert to numpy arrays for calculations
     portfolio_returns = np.array([r['portfolio_return'] / 100 for r in monthly_results])
     benchmark_returns = np.array([r['benchmark_return'] / 100 for r in monthly_results])
@@ -138,8 +147,6 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     cumulative_portfolio = np.cumprod(1 + portfolio_returns)
     cumulative_benchmark = np.cumprod(1 + benchmark_returns)
     end_value = start_value * cumulative_portfolio[-1]
-    total_fees_paid = 0  # Will be updated later with actual fees
-    open_trade_pnl = 0  # No open trades at end of backtest period
     
     # Return Metrics
     total_return = (end_value - start_value) / start_value
@@ -220,13 +227,14 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
         "capital_metrics": {
             "start_value": round(start_value, 2),
             "end_value": round(end_value, 2),
-            "total_fees_paid": round(total_fees_paid, 2),
-            "open_trade_pnl": round(open_trade_pnl, 2)
+            "total_fees_paid": 0, 
+            "open_trade_pnl": 0
         },
         "return_metrics": {
             "total_return": round(total_return * 100, 2),
             "benchmark_return": round(benchmark_total_return * 100, 2),
-            "expectancy": round(expectancy * 100, 2)
+            "expectancy": round(expectancy * 100, 2),
+             "net_return_after_fees": 0
         },
         "risk_metrics": {
             "max_drawdown": round(max_drawdown * 100, 2),
@@ -250,7 +258,8 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
             "avg_losing_trade": round(avg_losing_trade, 2),
             "avg_winning_trade_duration": avg_winning_trade_duration,
             "avg_losing_trade_duration": avg_losing_trade_duration,
-            "profit_factor": round(profit_factor, 2)
+            "profit_factor": round(profit_factor, 2),
+            "total_stock_transactions": 0
         }
     }
 
@@ -301,8 +310,6 @@ def run_backtest():
     dates = get_month_ends(years=8)
     all_results = []
     
-    print(f"Backtesting over {len(dates)} months...")
-    
     # Pre-calculate eligible stocks based on Market Cap AND Nifty Total Market List
     min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 2000))
     min_mcap = min_mcap_cr * 10000000
@@ -313,7 +320,6 @@ def run_backtest():
     print(f"Loaded {len(nifty_total_market_symbols)} symbols from Nifty Total Market List.")
     
     # Filter DB stocks: Active AND > Min Mcap AND in Nifty List
-    # We fetch all active stocks > mcap first
     valid_stocks_query = text(f"SELECT id, nse_symbol FROM stocks WHERE is_active = true AND market_cap >= {min_mcap}")
     valid_stocks_raw = session.execute(valid_stocks_query).fetchall()
     
@@ -337,11 +343,9 @@ def run_backtest():
         try:
             df_slice = master_df.loc[start_window:rebalance_date]
         except KeyError:
-            print("  No price data found for this period.")
             return None
             
         if df_slice.empty:
-            print("  No price data found for this period.")
             return None
             
         df_window = df_slice.reset_index()
@@ -351,9 +355,8 @@ def run_backtest():
         top_stocks_df = calculate_momentum_for_date(session, rebalance_date, df_window, valid_stock_ids=valid_stock_ids)
         
         if top_stocks_df.empty:
-            print("  No stocks found.")
             return None
-
+            
         # Select Top 15 (Standard)
         top_stocks = top_stocks_df.head(15)
         selected_stock_ids = top_stocks['stock_id'].tolist()
@@ -373,27 +376,21 @@ def run_backtest():
         if not df_next.empty:
             for stock_id in selected_stock_ids:
                 try:
+                    # Get next period data for this stock
+                    stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
+                    
                     # Determine Start Price
                     if use_close_to_close:
-                        # For Live Performance: Use Rebalance Date CLOSE (Close-to-Close)
-                        # This aligns with standard "Month to Date" return display
                         try:
-                            # Use the last available price from the momentum calculation window (Rebalance Date)
                             prev_close_row = df_window.xs(stock_id, level='stock_id').iloc[-1]
                             start_price = prev_close_row['close_price']
                         except (KeyError, IndexError):
-                            # Fallback if somehow missing
-                            stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
                             if not stock_data_next.empty:
                                 start_price = stock_data_next.iloc[0]['open_price']
                             else:
                                 raise IndexError
                     else:
-                        # For Backtest: Buy at Next Day OPEN (Next Day Open)
-                        # Get the first available price in the next period
-                        stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
                         if stock_data_next.empty:
-                            # No data for next month? Treat as 0 return (or skip)
                             stock_returns_detail.append({
                                 'symbol': stock_map.get(stock_id, 'Unknown'),
                                 'return': 0.0,
@@ -411,13 +408,7 @@ def run_backtest():
                      continue
                 
                 # Exit at End of Month Close
-                # We need to find the latest price in df_next for this stock
-                stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
-                if stock_data_next.empty:
-                     # Should have been caught above, but safety check
-                     end_price = start_price 
-                else:
-                    end_price = stock_data_next.iloc[-1]['close_price']
+                end_price = stock_data_next.iloc[-1]['close_price']
                 
                 ret = (end_price - start_price) / start_price
                 portfolio_returns.append(ret)
@@ -467,13 +458,39 @@ def run_backtest():
             'holdings': stock_returns_detail
         }
 
+    # 3. Load Existing Data (Freeze check)
+    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_simple.json')
+    
+    existing_results_map = {}
+    
+    if os.path.exists(output_path):
+        try:
+            with open(output_path, 'r') as f:
+                data = json.load(f)
+                combined_results = []
+                if isinstance(data, list):
+                     combined_results = data
+                elif isinstance(data, dict):
+                     combined_results = data.get('backtest_results', []) + data.get('current_performance', [])
+                
+                for r in combined_results:
+                     if 'month' in r:
+                         existing_results_map[r['month']] = r
+            print(f"Loaded existing results for {len(existing_results_map)} months.")
+        except Exception as e:
+            print(f"Could not load existing results: {e}")
+
+    # Processing Loop
     for i, rebalance_date in enumerate(dates[:-1]):
         next_rebalance_date = dates[i+1]
         month_label = next_rebalance_date.strftime('%Y-%m')
         
+        if month_label in existing_results_map:
+             all_results.append(existing_results_map[month_label])
+             continue
+            
         print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()} ({month_label})")
-        # Backtest uses standard logic (Next Day Open)
-        res = process_period(rebalance_date, next_rebalance_date, valid_stock_ids=valid_stock_ids, use_close_to_close=False)
+        res = process_period(rebalance_date, next_rebalance_date, valid_stock_ids=valid_stock_ids)
         if res:
             all_results.append(res)
             
@@ -484,97 +501,91 @@ def run_backtest():
     if today > last_rebalance_date:
         current_month_label = today.strftime('%Y-%m')
         print(f"Processing Current Month (Live): {last_rebalance_date.date()} -> {today.date()}")
-        # Market Cap Filter is already applied globally
         
-        # LIVE uses Close-to-Close for display accuracy
+        # Always recalculate current month
+        all_results = [r for r in all_results if r['month'] != current_month_label]
+        
         res = process_period(last_rebalance_date, today, label_date=current_month_label, valid_stock_ids=valid_stock_ids, use_close_to_close=True)
 
         if res:
             all_results.append(res)
 
-    # Sort all results by month ascending for proper calculation
+    # Sort all results by month ascending
     all_results.sort(key=lambda x: x['month'])
     
-    # Calculate actual transactions by tracking portfolio changes
-    print("\nCalculating actual transactions...")
-    total_transactions = 0
-    previous_holdings = set()
-    
-    for result in all_results:
-        # Get current month's stock symbols
-        current_holdings = set([h['symbol'] for h in result['holdings']])
-        
-        if previous_holdings:
-            # Stocks that need to be sold (in previous but not in current)
-            stocks_to_sell = previous_holdings - current_holdings
-            # Stocks that need to be bought (in current but not in previous)
-            stocks_to_buy = current_holdings - previous_holdings
-            
-            # Each buy or sell is a transaction
-            transactions_this_month = len(stocks_to_sell) + len(stocks_to_buy)
-            total_transactions += transactions_this_month
-        else:
-            # First month: buy all 15 stocks
-            total_transactions += len(current_holdings)
-        
-        previous_holdings = current_holdings
-    
-    # Calculate fees (assuming 0.25% brokerage + STT per transaction, both buy and sell)
-    # Fee per transaction = portfolio_value * position_size * fee_rate
-    # Simplified: Assume equal allocation, so each stock = 1/15 of portfolio
-    # Average portfolio value over the period
-    start_value = 100000  # 1 lakh
-    cumulative_values = []
-    port_value = start_value
-    for r in all_results:
-        port_value = port_value * (1 + r['portfolio_return'] / 100)
-        cumulative_values.append(port_value)
-    
-    avg_portfolio_value = np.mean(cumulative_values)
-    # FIX: Increased Fee to 0.25% (0.0025)
-    fee_per_transaction = (avg_portfolio_value / 15) * 0.0025  # 0.25% fee
-    total_fees_paid = total_transactions * fee_per_transaction
-    
-    # Calculate net return after fees
-    final_value = cumulative_values[-1] if cumulative_values else start_value
-    net_value_after_fees = final_value - total_fees_paid
-    net_return_after_fees = ((net_value_after_fees - start_value) / start_value) * 100
-    
-    print(f"Total Transactions: {total_transactions}")
-    print(f"Average Portfolio Value: ₹{avg_portfolio_value:.2f}")
-    print(f"Total Fees Paid: ₹{total_fees_paid:.2f}")
-    print(f"Net Return After Fees: {net_return_after_fees:.2f}%")
-    
     # Split into backtest period (until Nov 2025) and current performance (Dec 2025 onwards)
-    # Backtest period is fixed, current performance grows with each new month
     backtest_cutoff = "2025-11"
     backtest_results = [r for r in all_results if r['month'] <= backtest_cutoff]
     current_results = [r for r in all_results if r['month'] > backtest_cutoff]
+
+    print("\nCalculating metrics...")
     
-    # Calculate comprehensive metrics for backtest period
-    print("\nCalculating comprehensive metrics...")
+    def calculate_stats_for_period(results, start_value=100000, initial_holdings=None):
+        total_transactions = 0
+        previous_holdings = initial_holdings if initial_holdings else set()
+        
+        for result in results:
+            current_holdings = set([h['symbol'] for h in result['holdings']])
+            if previous_holdings:
+                stocks_to_sell = previous_holdings - current_holdings
+                stocks_to_buy = current_holdings - previous_holdings
+                transactions_this_month = len(stocks_to_sell) + len(stocks_to_buy)
+                total_transactions += transactions_this_month
+            else:
+                total_transactions += len(current_holdings)
+            previous_holdings = current_holdings
+
+        # Calculate fees
+        cumulative_values = []
+        port_value = start_value
+        for r in results:
+            port_value = port_value * (1 + r['portfolio_return'] / 100)
+            cumulative_values.append(port_value)
+        
+        if not cumulative_values:
+            return 0, 0, 0
+
+        avg_portfolio_value = np.mean(cumulative_values)
+        fee_per_transaction = (avg_portfolio_value / 15) * 0.0025
+        total_fees_paid = total_transactions * fee_per_transaction
+        
+        final_value = cumulative_values[-1]
+        net_value_after_fees = final_value - total_fees_paid
+        net_return_after_fees = ((net_value_after_fees - start_value) / start_value) * 100
+        
+        return total_transactions, total_fees_paid, net_return_after_fees
+
+    # Backtest Stats
+    bt_transactions, bt_fees, bt_net_return = calculate_stats_for_period(backtest_results)
+    
     backtest_metrics = calculate_comprehensive_metrics(backtest_results, backtest_results)
+    backtest_metrics['trade_statistics']['total_stock_transactions'] = bt_transactions
+    backtest_metrics['capital_metrics']['total_fees_paid'] = round(bt_fees, 2)
+    backtest_metrics['return_metrics']['net_return_after_fees'] = round(bt_net_return, 2)
     
-    # Update with actual transaction data
-    backtest_metrics['trade_statistics']['total_stock_transactions'] = total_transactions
-    backtest_metrics['capital_metrics']['total_fees_paid'] = round(total_fees_paid, 2)
-    backtest_metrics['return_metrics']['net_return_after_fees'] = round(net_return_after_fees, 2)
+    # Current Stats
+    last_backtest_holdings = set([h['symbol'] for h in backtest_results[-1]['holdings']]) if backtest_results else set()
+    cur_transactions, cur_fees, cur_net_return = calculate_stats_for_period(current_results, start_value=100000, initial_holdings=last_backtest_holdings)
+    
+    current_metrics = None
+    if current_results:
+        current_metrics = calculate_comprehensive_metrics(current_results, current_results)
+        current_metrics['trade_statistics']['total_stock_transactions'] = cur_transactions
+        current_metrics['capital_metrics']['total_fees_paid'] = round(cur_fees, 2)
+        current_metrics['return_metrics']['net_return_after_fees'] = round(cur_net_return, 2)
     
     # Prepare final output
     output_data = {
         "backtest_metrics": backtest_metrics,
+        "current_metrics": current_metrics,
         "backtest_results": sorted(backtest_results, key=lambda x: x['month'], reverse=True),
         "current_performance": sorted(current_results, key=lambda x: x['month'], reverse=True)
     }
     
-    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_simple.json')
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w') as f:
         json.dump(output_data, f, indent=2)
         
     print(f"\nBacktest saved to {output_path}")
-    print(f"Backtest period: {len(backtest_results)} months")
-    print(f"Current performance: {len(current_results)} months")
 
 if __name__ == "__main__":
     run_backtest()

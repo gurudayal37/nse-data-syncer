@@ -154,7 +154,7 @@ jobs:
           commit_message: "Auto-update simple momentum strategy results [skip ci]"
           file_pattern: "web/src/data/backtest_results_simple.json"
 
-  update-simple-momentum-non-nifty:
+  update-simple-momentum-all-nifty:
     needs: update-simple-momentum
     runs-on: ubuntu-latest
     permissions:
@@ -167,18 +167,18 @@ jobs:
       - run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run Simple Momentum Strategy (Non-Nifty)
+      - name: Run Simple Momentum Strategy (All Nifty)
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python scripts/backtest_simple_momentum_non_nifty.py
+        run: python scripts/backtest_simple_momentum_all_nifty.py
       - run: git pull origin main
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Auto-update simple momentum (non-nifty) strategy results [skip ci]"
-          file_pattern: "web/src/data/backtest_results_simple_non_nifty.json"
+          commit_message: "Auto-update simple momentum (all nifty) strategy results [skip ci]"
+          file_pattern: "web/src/data/backtest_results_simple_all_nifty.json"
 
   update-simple-weekly:
-    needs: update-simple-momentum-non-nifty
+    needs: update-simple-momentum-all-nifty
     runs-on: ubuntu-latest
     permissions:
       contents: write
