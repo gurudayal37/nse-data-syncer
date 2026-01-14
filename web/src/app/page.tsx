@@ -3,6 +3,14 @@
 import Link from 'next/link'
 import { TrendingUp, BarChart3, Calendar, Zap, Database, ArrowRight, Sparkles, PieChart } from 'lucide-react'
 
+import momentumData from '@/data/backtest_results.json'
+import simpleMomentumData from '@/data/backtest_results_simple.json'
+import weeklyMomentumData from '@/data/backtest_results_weekly.json'
+import simpleWeeklyData from '@/data/backtest_results_simple_weekly.json'
+
+// Helper to format return
+const formatReturn = (val: number) => `${Math.round(val)}%`
+
 export default function HomePage() {
   const strategies = [
     {
@@ -13,8 +21,8 @@ export default function HomePage() {
       color: 'blue',
       rebalancing: 'Monthly',
       metrics: {
-        return: '~1400%',
-        sharpe: '1.2+'
+        return: formatReturn(momentumData.backtest_metrics.return_metrics.net_return_after_fees),
+        sharpe: momentumData.backtest_metrics.risk_metrics.sharpe_ratio.toString()
       }
     },
     {
@@ -25,8 +33,8 @@ export default function HomePage() {
       color: 'purple',
       rebalancing: 'Monthly',
       metrics: {
-        return: '1415%',
-        sharpe: '1.21'
+        return: formatReturn(simpleMomentumData.backtest_metrics.return_metrics.net_return_after_fees),
+        sharpe: simpleMomentumData.backtest_metrics.risk_metrics.sharpe_ratio.toString()
       }
     },
     {
@@ -37,8 +45,8 @@ export default function HomePage() {
       color: 'green',
       rebalancing: 'Weekly',
       metrics: {
-        return: '~1300%',
-        sharpe: '1.1+'
+        return: formatReturn(weeklyMomentumData.backtest_metrics.return_metrics.net_return_after_fees),
+        sharpe: weeklyMomentumData.backtest_metrics.risk_metrics.sharpe_ratio.toString()
       }
     },
     {
@@ -49,8 +57,8 @@ export default function HomePage() {
       color: 'orange',
       rebalancing: 'Weekly',
       metrics: {
-        return: '996%',
-        sharpe: '~1.0'
+        return: formatReturn(simpleWeeklyData.backtest_metrics.return_metrics.net_return_after_fees),
+        sharpe: simpleWeeklyData.backtest_metrics.risk_metrics.sharpe_ratio.toString()
       }
     },
     {
@@ -229,10 +237,10 @@ export default function HomePage() {
                         </div>
                         {page.badge && (
                           <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${page.badge === 'New'
-                              ? 'bg-emerald-100 text-emerald-700'
-                              : page.badge === 'Live'
-                                ? 'bg-blue-100 text-blue-700'
-                                : 'bg-gray-100 text-gray-700'
+                            ? 'bg-emerald-100 text-emerald-700'
+                            : page.badge === 'Live'
+                              ? 'bg-blue-100 text-blue-700'
+                              : 'bg-gray-100 text-gray-700'
                             }`}>
                             {page.badge}
                           </span>

@@ -4,6 +4,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 import pandas as pd
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 # Database URL from environment variable
 DB_URL = os.getenv('DATABASE_URL')
@@ -325,14 +326,15 @@ class DatabaseManager:
             latest_volume = latest_volume_record[0] if latest_volume_record else None
             
             # Define time deltas
+            # Define time deltas
             deltas = {
-                '1w': timedelta(weeks=1),
-                '1m': timedelta(days=30),
-                '3m': timedelta(days=90),
-                '6m': timedelta(days=180),
-                '1y': timedelta(days=365),
-                '3y': timedelta(days=1095),
-                '5y': timedelta(days=1825)
+                '1w': relativedelta(weeks=1),
+                '1m': relativedelta(months=1),
+                '3m': relativedelta(months=3),
+                '6m': relativedelta(months=6),
+                '1y': relativedelta(years=1),
+                '3y': relativedelta(years=3),
+                '5y': relativedelta(years=5)
             }
             
             metrics = {}
@@ -490,14 +492,15 @@ class DatabaseManager:
             latest_volume = latest_volume_record[0] if latest_volume_record else None
             
             # Define time deltas
+            # Define time deltas
             deltas = {
-                '1w': timedelta(weeks=1),
-                '1m': timedelta(days=30),
-                '3m': timedelta(days=90),
-                '6m': timedelta(days=180),
-                '1y': timedelta(days=365),
-                '3y': timedelta(days=1095),
-                '5y': timedelta(days=1825)
+                '1w': relativedelta(weeks=1),
+                '1m': relativedelta(months=1),
+                '3m': relativedelta(months=3),
+                '6m': relativedelta(months=6),
+                '1y': relativedelta(years=1),
+                '3y': relativedelta(years=3),
+                '5y': relativedelta(years=5)
             }
             
             metrics = {}
