@@ -39,8 +39,8 @@ export default function HomePage() {
       }
     },
     {
-      title: 'Simple Momentum (Non-Nifty)',
-      description: 'Buying Top 15 Non-Nifty Stocks (> 2000 Cr) (6M & 1Y only)',
+      title: 'Simple Momentum (High Cap)',
+      description: 'Strategy with just top 15 stocks from > 2000 Cr cap (6M + 1Y)',
       href: '/simple-momentum-non-nifty',
       icon: Zap,
       color: 'pink',

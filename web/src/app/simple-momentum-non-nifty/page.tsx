@@ -56,9 +56,9 @@ export default function SimpleMomentumNonNiftyPage() {
                         <ArrowLeft className="w-6 h-6 text-gray-600" />
                     </Link>
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Simple Momentum (Non-Nifty)</h1>
+                        <h1 className="text-3xl font-bold text-gray-900">Simple Momentum (High Cap)</h1>
                         <p className="text-gray-500 mt-1">
-                            Buying Top 15 Non-Nifty Stocks (&gt;2000 Cr) (6M & 1Y only) • Monthly Rebalancing
+                            Buying Top 15 Stocks from Full Inverse (&gt;2000 Cr) (6M & 1Y only) • Monthly Rebalancing
                         </p>
                     </div>
                 </div>
@@ -91,7 +91,7 @@ export default function SimpleMomentumNonNiftyPage() {
                         <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
                             <h3 className="font-semibold text-blue-900 mb-2">1. Selection</h3>
                             <p className="text-blue-800">
-                                Select top 15 stocks with highest Simple Momentum Score from <strong>Non-Nifty High Cap Universe</strong>.
+                                Select top 15 stocks with highest Simple Momentum Score from <strong>All High Cap Universe (&gt;2000 Cr)</strong>.
                                 Score is based on volatility-adjusted returns over <strong>6 Months and 1 Year</strong> only.
                             </p>
                         </div>

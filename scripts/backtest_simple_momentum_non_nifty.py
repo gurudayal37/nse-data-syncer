@@ -303,31 +303,16 @@ def run_backtest():
     
     print(f"Backtesting over {len(dates)} months...")
     
-    # Pre-calculate eligible stocks: Active AND > Min Mcap AND NOT in Nifty Total Market
+    # Pre-calculate eligible stocks based on Market Cap (Global Filter)
     min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 2000))
     min_mcap = min_mcap_cr * 10000000
     
-    # Get Non-Nifty Symbols
-    full_list_path = get_data_path(FULL_EQUITY_LIST_FILENAME)
-    subset_list_path = get_data_path(CSV_FILENAME)
-    non_nifty_symbols = get_remaining_symbols(str(full_list_path), str(subset_list_path))
-    print(f"Loaded {len(non_nifty_symbols)} Non-Nifty symbols.")
+    # We fetch all active stocks > mcap
+    valid_stocks_query = text(f"SELECT id FROM stocks WHERE is_active = true AND market_cap >= {min_mcap}")
+    valid_stock_ids = [r[0] for r in session.execute(valid_stocks_query).fetchall()]
     
-    # We fetch all active stocks > mcap first
-    valid_stocks_query = text(f"SELECT id, nse_symbol FROM stocks WHERE is_active = true AND market_cap >= {min_mcap}")
-    valid_stocks_raw = session.execute(valid_stocks_query).fetchall()
-    
-    # Filter in python for Non-Nifty List
-    valid_stock_ids = []
-    skipped_count = 0
-    for row in valid_stocks_raw:
-        if row.nse_symbol in non_nifty_symbols:
-            valid_stock_ids.append(row.id)
-        else:
-            skipped_count += 1
-            
-    print(f"Applying Filters: Market Cap (> {min_mcap_cr} Cr) AND Non-Nifty Universe.")
-    print(f"Eligible Stocks: {len(valid_stock_ids)} (Skipped {skipped_count} Nifty/Other stocks)")
+    print(f"Applying Filters: Market Cap (> {min_mcap_cr} Cr) ONLY.")
+    print(f"Eligible Stocks: {len(valid_stock_ids)}")
     
     def process_period(rebalance_date, next_rebalance_date, label_date=None, valid_stock_ids=None, use_close_to_close=False):
         print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()}")
