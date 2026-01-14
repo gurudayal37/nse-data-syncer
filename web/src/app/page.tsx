@@ -5,6 +5,7 @@ import { TrendingUp, BarChart3, Calendar, Zap, Database, ArrowRight, Sparkles, P
 
 import momentumData from '@/data/backtest_results.json'
 import simpleMomentumData from '@/data/backtest_results_simple.json'
+import simpleNonNiftyData from '@/data/backtest_results_simple_non_nifty.json'
 import weeklyMomentumData from '@/data/backtest_results_weekly.json'
 import simpleWeeklyData from '@/data/backtest_results_simple_weekly.json'
 
@@ -26,8 +27,8 @@ export default function HomePage() {
       }
     },
     {
-      title: 'Simple Momentum Strategy',
-      description: 'Simplified momentum using only 6M and 1Y returns (excluding 3M)',
+      title: 'Simple Momentum (Nifty)',
+      description: 'Buying Top 15 Nifty Total Market Stocks (> 2000 Cr) (6M & 1Y only)',
       href: '/simple-momentum-strategy',
       icon: Zap,
       color: 'purple',
@@ -35,6 +36,18 @@ export default function HomePage() {
       metrics: {
         return: formatReturn(simpleMomentumData.backtest_metrics.return_metrics.net_return_after_fees),
         sharpe: simpleMomentumData.backtest_metrics.risk_metrics.sharpe_ratio.toString()
+      }
+    },
+    {
+      title: 'Simple Momentum (Non-Nifty)',
+      description: 'Buying Top 15 Non-Nifty Stocks (> 2000 Cr) (6M & 1Y only)',
+      href: '/simple-momentum-non-nifty',
+      icon: Zap,
+      color: 'pink',
+      rebalancing: 'Monthly',
+      metrics: {
+        return: formatReturn(simpleNonNiftyData.backtest_metrics.return_metrics.net_return_after_fees),
+        sharpe: simpleNonNiftyData.backtest_metrics.risk_metrics.sharpe_ratio.toString()
       }
     },
     {

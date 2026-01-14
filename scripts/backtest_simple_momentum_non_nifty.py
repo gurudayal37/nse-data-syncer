@@ -17,9 +17,9 @@ load_dotenv(os.path.join(base_dir, 'web', '.env'))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database import DatabaseManager, MomentumHistory
-from app.utils import get_nse_symbols
+from app.utils import get_remaining_symbols
 from app.helpers import get_data_path
-from app.constants import CSV_FILENAME
+from app.constants import CSV_FILENAME, FULL_EQUITY_LIST_FILENAME
 
 def get_month_ends(years=8):
     """Get list of month-end dates for the last N years (default 8 years from 2017)"""
@@ -255,7 +255,7 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     }
 
 def run_backtest():
-    print("Starting **Simple** Momentum Backtest (6M + 1Y)...")
+    print("Starting **Simple** Momentum Backtest (Non-Nifty)...")
     db = DatabaseManager()
     
     # Ensure tables exist
@@ -303,31 +303,31 @@ def run_backtest():
     
     print(f"Backtesting over {len(dates)} months...")
     
-    # Pre-calculate eligible stocks based on Market Cap AND Nifty Total Market List
+    # Pre-calculate eligible stocks: Active AND > Min Mcap AND NOT in Nifty Total Market
     min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 2000))
     min_mcap = min_mcap_cr * 10000000
     
-    # Get Nifty Total Market Symbols
-    csv_path = get_data_path(CSV_FILENAME)
-    nifty_total_market_symbols = get_nse_symbols(str(csv_path))
-    print(f"Loaded {len(nifty_total_market_symbols)} symbols from Nifty Total Market List.")
+    # Get Non-Nifty Symbols
+    full_list_path = get_data_path(FULL_EQUITY_LIST_FILENAME)
+    subset_list_path = get_data_path(CSV_FILENAME)
+    non_nifty_symbols = get_remaining_symbols(str(full_list_path), str(subset_list_path))
+    print(f"Loaded {len(non_nifty_symbols)} Non-Nifty symbols.")
     
-    # Filter DB stocks: Active AND > Min Mcap AND in Nifty List
     # We fetch all active stocks > mcap first
     valid_stocks_query = text(f"SELECT id, nse_symbol FROM stocks WHERE is_active = true AND market_cap >= {min_mcap}")
     valid_stocks_raw = session.execute(valid_stocks_query).fetchall()
     
-    # Filter in python for Nifty List
+    # Filter in python for Non-Nifty List
     valid_stock_ids = []
     skipped_count = 0
     for row in valid_stocks_raw:
-        if row.nse_symbol in nifty_total_market_symbols:
+        if row.nse_symbol in non_nifty_symbols:
             valid_stock_ids.append(row.id)
         else:
             skipped_count += 1
             
-    print(f"Applying Filters: Market Cap (> {min_mcap_cr} Cr) AND Nifty Total Market Universe.")
-    print(f"Eligible Stocks: {len(valid_stock_ids)} (Skipped {skipped_count} non-Nifty stocks)")
+    print(f"Applying Filters: Market Cap (> {min_mcap_cr} Cr) AND Non-Nifty Universe.")
+    print(f"Eligible Stocks: {len(valid_stock_ids)} (Skipped {skipped_count} Nifty/Other stocks)")
     
     def process_period(rebalance_date, next_rebalance_date, label_date=None, valid_stock_ids=None, use_close_to_close=False):
         print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()}")
@@ -375,25 +375,18 @@ def run_backtest():
                 try:
                     # Determine Start Price
                     if use_close_to_close:
-                        # For Live Performance: Use Rebalance Date CLOSE (Close-to-Close)
-                        # This aligns with standard "Month to Date" return display
                         try:
-                            # Use the last available price from the momentum calculation window (Rebalance Date)
                             prev_close_row = df_window.xs(stock_id, level='stock_id').iloc[-1]
                             start_price = prev_close_row['close_price']
                         except (KeyError, IndexError):
-                            # Fallback if somehow missing
                             stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
                             if not stock_data_next.empty:
                                 start_price = stock_data_next.iloc[0]['open_price']
                             else:
                                 raise IndexError
                     else:
-                        # For Backtest: Buy at Next Day OPEN (Next Day Open)
-                        # Get the first available price in the next period
                         stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
                         if stock_data_next.empty:
-                            # No data for next month? Treat as 0 return (or skip)
                             stock_returns_detail.append({
                                 'symbol': stock_map.get(stock_id, 'Unknown'),
                                 'return': 0.0,
@@ -411,10 +404,8 @@ def run_backtest():
                      continue
                 
                 # Exit at End of Month Close
-                # We need to find the latest price in df_next for this stock
                 stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
                 if stock_data_next.empty:
-                     # Should have been caught above, but safety check
                      end_price = start_price 
                 else:
                     end_price = stock_data_next.iloc[-1]['close_price']
@@ -472,7 +463,6 @@ def run_backtest():
         month_label = next_rebalance_date.strftime('%Y-%m')
         
         print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()} ({month_label})")
-        # Backtest uses standard logic (Next Day Open)
         res = process_period(rebalance_date, next_rebalance_date, valid_stock_ids=valid_stock_ids, use_close_to_close=False)
         if res:
             all_results.append(res)
@@ -484,46 +474,32 @@ def run_backtest():
     if today > last_rebalance_date:
         current_month_label = today.strftime('%Y-%m')
         print(f"Processing Current Month (Live): {last_rebalance_date.date()} -> {today.date()}")
-        # Market Cap Filter is already applied globally
-        
-        # LIVE uses Close-to-Close for display accuracy
         res = process_period(last_rebalance_date, today, label_date=current_month_label, valid_stock_ids=valid_stock_ids, use_close_to_close=True)
 
         if res:
             all_results.append(res)
 
-    # Sort all results by month ascending for proper calculation
+    # Sort all results
     all_results.sort(key=lambda x: x['month'])
     
-    # Calculate actual transactions by tracking portfolio changes
+    # Calculate actual transactions
     print("\nCalculating actual transactions...")
     total_transactions = 0
     previous_holdings = set()
     
     for result in all_results:
-        # Get current month's stock symbols
         current_holdings = set([h['symbol'] for h in result['holdings']])
-        
         if previous_holdings:
-            # Stocks that need to be sold (in previous but not in current)
             stocks_to_sell = previous_holdings - current_holdings
-            # Stocks that need to be bought (in current but not in previous)
             stocks_to_buy = current_holdings - previous_holdings
-            
-            # Each buy or sell is a transaction
             transactions_this_month = len(stocks_to_sell) + len(stocks_to_buy)
             total_transactions += transactions_this_month
         else:
-            # First month: buy all 15 stocks
             total_transactions += len(current_holdings)
-        
         previous_holdings = current_holdings
     
-    # Calculate fees (assuming 0.25% brokerage + STT per transaction, both buy and sell)
-    # Fee per transaction = portfolio_value * position_size * fee_rate
-    # Simplified: Assume equal allocation, so each stock = 1/15 of portfolio
-    # Average portfolio value over the period
-    start_value = 100000  # 1 lakh
+    # Calculate fees
+    start_value = 100000
     cumulative_values = []
     port_value = start_value
     for r in all_results:
@@ -531,50 +507,40 @@ def run_backtest():
         cumulative_values.append(port_value)
     
     avg_portfolio_value = np.mean(cumulative_values)
-    # FIX: Increased Fee to 0.25% (0.0025)
-    fee_per_transaction = (avg_portfolio_value / 15) * 0.0025  # 0.25% fee
+    fee_per_transaction = (avg_portfolio_value / 15) * 0.0025
     total_fees_paid = total_transactions * fee_per_transaction
     
-    # Calculate net return after fees
     final_value = cumulative_values[-1] if cumulative_values else start_value
     net_value_after_fees = final_value - total_fees_paid
     net_return_after_fees = ((net_value_after_fees - start_value) / start_value) * 100
     
     print(f"Total Transactions: {total_transactions}")
-    print(f"Average Portfolio Value: ₹{avg_portfolio_value:.2f}")
-    print(f"Total Fees Paid: ₹{total_fees_paid:.2f}")
     print(f"Net Return After Fees: {net_return_after_fees:.2f}%")
     
-    # Split into backtest period (until Nov 2025) and current performance (Dec 2025 onwards)
-    # Backtest period is fixed, current performance grows with each new month
     backtest_cutoff = "2025-11"
     backtest_results = [r for r in all_results if r['month'] <= backtest_cutoff]
     current_results = [r for r in all_results if r['month'] > backtest_cutoff]
     
-    # Calculate comprehensive metrics for backtest period
     print("\nCalculating comprehensive metrics...")
     backtest_metrics = calculate_comprehensive_metrics(backtest_results, backtest_results)
     
-    # Update with actual transaction data
     backtest_metrics['trade_statistics']['total_stock_transactions'] = total_transactions
     backtest_metrics['capital_metrics']['total_fees_paid'] = round(total_fees_paid, 2)
     backtest_metrics['return_metrics']['net_return_after_fees'] = round(net_return_after_fees, 2)
     
-    # Prepare final output
     output_data = {
         "backtest_metrics": backtest_metrics,
         "backtest_results": sorted(backtest_results, key=lambda x: x['month'], reverse=True),
         "current_performance": sorted(current_results, key=lambda x: x['month'], reverse=True)
     }
     
-    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_simple.json')
+    # Output to separate file
+    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_simple_non_nifty.json')
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w') as f:
         json.dump(output_data, f, indent=2)
         
     print(f"\nBacktest saved to {output_path}")
-    print(f"Backtest period: {len(backtest_results)} months")
-    print(f"Current performance: {len(current_results)} months")
 
 if __name__ == "__main__":
     run_backtest()

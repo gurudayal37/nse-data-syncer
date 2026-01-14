@@ -1,0 +1,7922 @@
+{
+  "backtest_metrics": {
+    "time_metrics": {
+      "start": "2018-02",
+      "end": "2025-11",
+      "period": "94 months (7.8 years)"
+    },
+    "capital_metrics": {
+      "start_value": 100000,
+      "end_value": 769298.79,
+      "total_fees_paid": 39456.3,
+      "open_trade_pnl": 0
+    },
+    "return_metrics": {
+      "total_return": 669.3,
+      "benchmark_return": 137.42,
+      "expectancy": 2.61,
+      "net_return_after_fees": 613.47
+    },
+    "risk_metrics": {
+      "max_drawdown": -39.66,
+      "max_drawdown_duration": 31,
+      "sharpe_ratio": 1.02,
+      "calmar_ratio": 0.75,
+      "omega_ratio": 2.19,
+      "sortino_ratio": 1.26
+    },
+    "exposure_metrics": {
+      "max_gross_exposure": 100
+    },
+    "trade_statistics": {
+      "total_trades": 94,
+      "total_closed_trades": 93,
+      "total_open_trades": 1,
+      "win_rate": 65.96,
+      "best_trade": 21.75,
+      "worst_trade": -36.39,
+      "avg_winning_trade": 7.28,
+      "avg_losing_trade": -6.45,
+      "avg_winning_trade_duration": 1,
+      "avg_losing_trade_duration": 1,
+      "profit_factor": 2.19,
+      "total_stock_transactions": 871
+    }
+  },
+  "backtest_results": [
+    {
+      "month": "2025-11",
+      "portfolio_return": 0.01,
+      "benchmark_return": 1.87,
+      "holdings": [
+        {
+          "symbol": "BGRENERGY",
+          "return": 0.88,
+          "score": 9.81
+        },
+        {
+          "symbol": "CUPID",
+          "return": 42.53,
+          "score": 4.0
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": 8.59,
+          "score": 3.16
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": -2.0,
+          "score": 2.56
+        },
+        {
+          "symbol": "LUMAXIND",
+          "return": 12.46,
+          "score": 2.22
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": -12.3,
+          "score": 2.05
+        },
+        {
+          "symbol": "APOLLO",
+          "return": -5.49,
+          "score": 1.86
+        },
+        {
+          "symbol": "TFCILTD",
+          "return": 4.96,
+          "score": 1.67
+        },
+        {
+          "symbol": "SIRCA",
+          "return": -0.56,
+          "score": 1.65
+        },
+        {
+          "symbol": "ZOTA",
+          "return": 3.71,
+          "score": 1.5
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": 0.44,
+          "score": 1.38
+        },
+        {
+          "symbol": "GMBREW",
+          "return": -17.45,
+          "score": 1.27
+        },
+        {
+          "symbol": "HLEGLAS",
+          "return": -17.79,
+          "score": 1.25
+        },
+        {
+          "symbol": "TATVA",
+          "return": 0.14,
+          "score": 1.25
+        },
+        {
+          "symbol": "HIRECT",
+          "return": -17.97,
+          "score": 1.24
+        }
+      ]
+    },
+    {
+      "month": "2025-10",
+      "portfolio_return": 6.95,
+      "benchmark_return": 4.51,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": 6.55,
+          "score": 5.32
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": 66.68,
+          "score": 4.97
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 9.08,
+          "score": 4.03
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": 34.49,
+          "score": 3.62
+        },
+        {
+          "symbol": "APOLLO",
+          "return": -14.97,
+          "score": 3.0
+        },
+        {
+          "symbol": "TFCILTD",
+          "return": -6.11,
+          "score": 2.61
+        },
+        {
+          "symbol": "LUMAXIND",
+          "return": -2.9,
+          "score": 2.41
+        },
+        {
+          "symbol": "NACLIND",
+          "return": 1.38,
+          "score": 2.38
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": -1.77,
+          "score": 2.08
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": 15.58,
+          "score": 2.02
+        },
+        {
+          "symbol": "SIRCA",
+          "return": 7.53,
+          "score": 1.9
+        },
+        {
+          "symbol": "ZOTA",
+          "return": 5.02,
+          "score": 1.86
+        },
+        {
+          "symbol": "AGIIL",
+          "return": -6.17,
+          "score": 1.79
+        },
+        {
+          "symbol": "FEDFINA",
+          "return": -9.06,
+          "score": 1.76
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": -1.12,
+          "score": 1.43
+        }
+      ]
+    },
+    {
+      "month": "2025-09",
+      "portfolio_return": 8.93,
+      "benchmark_return": 0.75,
+      "holdings": [
+        {
+          "symbol": "NACLIND",
+          "return": -25.65,
+          "score": 5.85
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 1.4,
+          "score": 4.69
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": -24.0,
+          "score": 4.24
+        },
+        {
+          "symbol": "CUPID",
+          "return": 24.28,
+          "score": 3.36
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": 85.11,
+          "score": 2.95
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": 29.28,
+          "score": 2.46
+        },
+        {
+          "symbol": "APOLLO",
+          "return": 21.77,
+          "score": 2.24
+        },
+        {
+          "symbol": "SABTNL",
+          "return": -18.91,
+          "score": 1.94
+        },
+        {
+          "symbol": "TFCILTD",
+          "return": 13.19,
+          "score": 1.77
+        },
+        {
+          "symbol": "LUMAXIND",
+          "return": 15.85,
+          "score": 1.72
+        },
+        {
+          "symbol": "CENTUM",
+          "return": -7.02,
+          "score": 1.58
+        },
+        {
+          "symbol": "AGIIL",
+          "return": 5.45,
+          "score": 1.46
+        },
+        {
+          "symbol": "63MOONS",
+          "return": -8.47,
+          "score": 1.37
+        },
+        {
+          "symbol": "SIRCA",
+          "return": 0.84,
+          "score": 1.29
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": 20.85,
+          "score": 1.26
+        }
+      ]
+    },
+    {
+      "month": "2025-08",
+      "portfolio_return": -4.76,
+      "benchmark_return": -1.38,
+      "holdings": [
+        {
+          "symbol": "NACLIND",
+          "return": -7.41,
+          "score": 5.92
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": -20.53,
+          "score": 4.81
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 6.25,
+          "score": 3.91
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": 7.37,
+          "score": 3.51
+        },
+        {
+          "symbol": "SABTNL",
+          "return": 0.54,
+          "score": 2.13
+        },
+        {
+          "symbol": "CUPID",
+          "return": 7.68,
+          "score": 2.09
+        },
+        {
+          "symbol": "CAMLINFINE",
+          "return": -22.61,
+          "score": 1.9
+        },
+        {
+          "symbol": "SUVEN",
+          "return": -20.46,
+          "score": 1.75
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": -6.28,
+          "score": 1.74
+        },
+        {
+          "symbol": "LUMAXIND",
+          "return": 12.17,
+          "score": 1.7
+        },
+        {
+          "symbol": "TFCILTD",
+          "return": 6.94,
+          "score": 1.57
+        },
+        {
+          "symbol": "HIRECT",
+          "return": -21.5,
+          "score": 1.36
+        },
+        {
+          "symbol": "GRMOVER",
+          "return": -1.95,
+          "score": 1.32
+        },
+        {
+          "symbol": "63MOONS",
+          "return": -8.45,
+          "score": 1.32
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": -3.22,
+          "score": 1.31
+        }
+      ]
+    },
+    {
+      "month": "2025-07",
+      "portfolio_return": 2.23,
+      "benchmark_return": -2.93,
+      "holdings": [
+        {
+          "symbol": "INDOTHAI",
+          "return": 5.64,
+          "score": 5.71
+        },
+        {
+          "symbol": "NACLIND",
+          "return": 34.29,
+          "score": 4.17
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 14.05,
+          "score": 4.09
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": 13.79,
+          "score": 3.53
+        },
+        {
+          "symbol": "CAMLINFINE",
+          "return": -12.88,
+          "score": 2.99
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": -9.22,
+          "score": 2.76
+        },
+        {
+          "symbol": "MBAPL",
+          "return": 5.2,
+          "score": 2.52
+        },
+        {
+          "symbol": "JSWHL",
+          "return": -8.73,
+          "score": 2.07
+        },
+        {
+          "symbol": "GRMOVER",
+          "return": 3.32,
+          "score": 1.97
+        },
+        {
+          "symbol": "SUVEN",
+          "return": 5.57,
+          "score": 1.81
+        },
+        {
+          "symbol": "APOLLO",
+          "return": -9.55,
+          "score": 1.78
+        },
+        {
+          "symbol": "SABTNL",
+          "return": -7.35,
+          "score": 1.56
+        },
+        {
+          "symbol": "LUMAXIND",
+          "return": 6.98,
+          "score": 1.36
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": -1.99,
+          "score": 1.26
+        },
+        {
+          "symbol": "SDBL",
+          "return": -5.63,
+          "score": 1.2
+        }
+      ]
+    },
+    {
+      "month": "2025-06",
+      "portfolio_return": 10.88,
+      "benchmark_return": 3.1,
+      "holdings": [
+        {
+          "symbol": "INDOTHAI",
+          "return": -4.21,
+          "score": 5.4
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 7.23,
+          "score": 4.46
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": -9.31,
+          "score": 4.27
+        },
+        {
+          "symbol": "NACLIND",
+          "return": 24.85,
+          "score": 3.98
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": 42.39,
+          "score": 2.31
+        },
+        {
+          "symbol": "JSWHL",
+          "return": -2.07,
+          "score": 2.23
+        },
+        {
+          "symbol": "ZOTA",
+          "return": -3.42,
+          "score": 2.13
+        },
+        {
+          "symbol": "SUVEN",
+          "return": 0.67,
+          "score": 2.08
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": 32.73,
+          "score": 1.94
+        },
+        {
+          "symbol": "WINDMACHIN",
+          "return": 11.74,
+          "score": 1.92
+        },
+        {
+          "symbol": "CAMLINFINE",
+          "return": 35.49,
+          "score": 1.89
+        },
+        {
+          "symbol": "PANACEABIO",
+          "return": -15.97,
+          "score": 1.87
+        },
+        {
+          "symbol": "APOLLO",
+          "return": 1.94,
+          "score": 1.71
+        },
+        {
+          "symbol": "GRMOVER",
+          "return": 22.09,
+          "score": 1.32
+        },
+        {
+          "symbol": "MBAPL",
+          "return": 19.01,
+          "score": 1.3
+        }
+      ]
+    },
+    {
+      "month": "2025-05",
+      "portfolio_return": 3.37,
+      "benchmark_return": 1.71,
+      "holdings": [
+        {
+          "symbol": "INDOTHAI",
+          "return": -1.65,
+          "score": 5.48
+        },
+        {
+          "symbol": "NACLIND",
+          "return": -10.18,
+          "score": 4.51
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 11.01,
+          "score": 4.07
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": 14.95,
+          "score": 3.97
+        },
+        {
+          "symbol": "SABTNL",
+          "return": -6.5,
+          "score": 3.55
+        },
+        {
+          "symbol": "JSWHL",
+          "return": 3.3,
+          "score": 3.48
+        },
+        {
+          "symbol": "PANACEABIO",
+          "return": -5.27,
+          "score": 2.87
+        },
+        {
+          "symbol": "WINDMACHIN",
+          "return": 14.1,
+          "score": 2.25
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": -6.62,
+          "score": 1.72
+        },
+        {
+          "symbol": "ZOTA",
+          "return": 16.08,
+          "score": 1.59
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": -14.59,
+          "score": 1.48
+        },
+        {
+          "symbol": "GRMOVER",
+          "return": -4.43,
+          "score": 1.48
+        },
+        {
+          "symbol": "SWARAJENG",
+          "return": -3.72,
+          "score": 1.41
+        },
+        {
+          "symbol": "JSLL",
+          "return": 0.34,
+          "score": 1.32
+        },
+        {
+          "symbol": "CAMLINFINE",
+          "return": 43.76,
+          "score": 1.21
+        }
+      ]
+    },
+    {
+      "month": "2025-04",
+      "portfolio_return": 4.1,
+      "benchmark_return": 3.46,
+      "holdings": [
+        {
+          "symbol": "INDOTHAI",
+          "return": 1.7,
+          "score": 7.48
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 16.51,
+          "score": 4.12
+        },
+        {
+          "symbol": "JSWHL",
+          "return": -1.73,
+          "score": 3.84
+        },
+        {
+          "symbol": "WINDMACHIN",
+          "return": -5.34,
+          "score": 2.83
+        },
+        {
+          "symbol": "PANACEABIO",
+          "return": 21.1,
+          "score": 2.28
+        },
+        {
+          "symbol": "63MOONS",
+          "return": -20.63,
+          "score": 2.19
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": 1.93,
+          "score": 2.07
+        },
+        {
+          "symbol": "JSLL",
+          "return": 1.98,
+          "score": 1.99
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": 24.34,
+          "score": 1.97
+        },
+        {
+          "symbol": "KIRIINDUS",
+          "return": -5.22,
+          "score": 1.91
+        },
+        {
+          "symbol": "NACLIND",
+          "return": 65.21,
+          "score": 1.78
+        },
+        {
+          "symbol": "POKARNA",
+          "return": -25.87,
+          "score": 1.6
+        },
+        {
+          "symbol": "NITCO",
+          "return": 8.71,
+          "score": 1.6
+        },
+        {
+          "symbol": "TCPLPACK",
+          "return": -16.77,
+          "score": 1.55
+        },
+        {
+          "symbol": "CAMLINFINE",
+          "return": -4.37,
+          "score": 1.54
+        }
+      ]
+    },
+    {
+      "month": "2025-03",
+      "portfolio_return": 16.8,
+      "benchmark_return": 6.3,
+      "holdings": [
+        {
+          "symbol": "INDOTHAI",
+          "return": -6.47,
+          "score": 10.52
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 31.83,
+          "score": 4.74
+        },
+        {
+          "symbol": "JSWHL",
+          "return": 38.47,
+          "score": 2.87
+        },
+        {
+          "symbol": "63MOONS",
+          "return": 16.3,
+          "score": 1.87
+        },
+        {
+          "symbol": "EPACK",
+          "return": -3.2,
+          "score": 1.62
+        },
+        {
+          "symbol": "WINDMACHIN",
+          "return": 34.5,
+          "score": 1.58
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": -7.72,
+          "score": 1.46
+        },
+        {
+          "symbol": "POKARNA",
+          "return": 12.48,
+          "score": 1.45
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": 17.33,
+          "score": 1.37
+        },
+        {
+          "symbol": "ZOTA",
+          "return": -6.9,
+          "score": 1.37
+        },
+        {
+          "symbol": "TCPLPACK",
+          "return": 18.52,
+          "score": 1.36
+        },
+        {
+          "symbol": "PANACEABIO",
+          "return": 48.07,
+          "score": 1.29
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": -3.28,
+          "score": 1.19
+        },
+        {
+          "symbol": "JSLL",
+          "return": 38.41,
+          "score": 1.19
+        },
+        {
+          "symbol": "NITCO",
+          "return": 23.66,
+          "score": 1.17
+        }
+      ]
+    },
+    {
+      "month": "2025-02",
+      "portfolio_return": -17.04,
+      "benchmark_return": -5.89,
+      "holdings": [
+        {
+          "symbol": "INDOTHAI",
+          "return": 13.02,
+          "score": 9.52
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": -2.7,
+          "score": 4.36
+        },
+        {
+          "symbol": "JSWHL",
+          "return": -1.44,
+          "score": 2.63
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": -29.38,
+          "score": 2.25
+        },
+        {
+          "symbol": "NITCO",
+          "return": -17.3,
+          "score": 2.24
+        },
+        {
+          "symbol": "WINDMACHIN",
+          "return": -25.73,
+          "score": 2.08
+        },
+        {
+          "symbol": "JSLL",
+          "return": -13.32,
+          "score": 1.92
+        },
+        {
+          "symbol": "POKARNA",
+          "return": -17.9,
+          "score": 1.88
+        },
+        {
+          "symbol": "PANACEABIO",
+          "return": -18.54,
+          "score": 1.83
+        },
+        {
+          "symbol": "E2E",
+          "return": -21.74,
+          "score": 1.74
+        },
+        {
+          "symbol": "INDRAMEDCO",
+          "return": -26.64,
+          "score": 1.69
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": -42.65,
+          "score": 1.64
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": -16.79,
+          "score": 1.56
+        },
+        {
+          "symbol": "DEEPINDS",
+          "return": -21.9,
+          "score": 1.49
+        },
+        {
+          "symbol": "ZOTA",
+          "return": -12.56,
+          "score": 1.35
+        }
+      ]
+    },
+    {
+      "month": "2025-01",
+      "portfolio_return": -16.26,
+      "benchmark_return": -0.58,
+      "holdings": [
+        {
+          "symbol": "INDOTHAI",
+          "return": 26.77,
+          "score": 6.5
+        },
+        {
+          "symbol": "E2E",
+          "return": -38.53,
+          "score": 4.12
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": -0.1,
+          "score": 3.97
+        },
+        {
+          "symbol": "NITCO",
+          "return": -3.99,
+          "score": 2.64
+        },
+        {
+          "symbol": "PANACEABIO",
+          "return": -22.36,
+          "score": 2.53
+        },
+        {
+          "symbol": "JSLL",
+          "return": -19.21,
+          "score": 2.53
+        },
+        {
+          "symbol": "WINDMACHIN",
+          "return": -18.99,
+          "score": 2.23
+        },
+        {
+          "symbol": "INDRAMEDCO",
+          "return": -16.14,
+          "score": 2.06
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": -15.74,
+          "score": 1.99
+        },
+        {
+          "symbol": "JSWHL",
+          "return": 7.02,
+          "score": 1.92
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": -13.57,
+          "score": 1.87
+        },
+        {
+          "symbol": "SABTNL",
+          "return": -71.02,
+          "score": 1.84
+        },
+        {
+          "symbol": "POCL",
+          "return": -22.11,
+          "score": 1.81
+        },
+        {
+          "symbol": "BBOX",
+          "return": -24.12,
+          "score": 1.73
+        },
+        {
+          "symbol": "NPST",
+          "return": -11.87,
+          "score": 1.69
+        }
+      ]
+    },
+    {
+      "month": "2024-12",
+      "portfolio_return": 0.97,
+      "benchmark_return": -2.02,
+      "holdings": [
+        {
+          "symbol": "E2E",
+          "return": -5.31,
+          "score": 5.59
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": 17.76,
+          "score": 4.72
+        },
+        {
+          "symbol": "SABTNL",
+          "return": -20.24,
+          "score": 3.63
+        },
+        {
+          "symbol": "WINDMACHIN",
+          "return": 2.28,
+          "score": 3.26
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 38.19,
+          "score": 3.01
+        },
+        {
+          "symbol": "NITCO",
+          "return": -1.5,
+          "score": 2.65
+        },
+        {
+          "symbol": "PANACEABIO",
+          "return": -7.39,
+          "score": 2.53
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": -5.23,
+          "score": 2.33
+        },
+        {
+          "symbol": "MARINE",
+          "return": -0.77,
+          "score": 2.14
+        },
+        {
+          "symbol": "NPST",
+          "return": -8.81,
+          "score": 2.09
+        },
+        {
+          "symbol": "POCL",
+          "return": -2.55,
+          "score": 2.01
+        },
+        {
+          "symbol": "BBOX",
+          "return": 1.84,
+          "score": 1.96
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": 0.78,
+          "score": 1.77
+        },
+        {
+          "symbol": "JSWHL",
+          "return": 8.49,
+          "score": 1.53
+        },
+        {
+          "symbol": "NSIL",
+          "return": -2.96,
+          "score": 1.52
+        }
+      ]
+    },
+    {
+      "month": "2024-11",
+      "portfolio_return": 7.75,
+      "benchmark_return": -0.31,
+      "holdings": [
+        {
+          "symbol": "E2E",
+          "return": -1.64,
+          "score": 6.97
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": 7.3,
+          "score": 3.62
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 3.86,
+          "score": 3.46
+        },
+        {
+          "symbol": "SABTNL",
+          "return": 39.99,
+          "score": 3.27
+        },
+        {
+          "symbol": "NPST",
+          "return": -4.06,
+          "score": 2.66
+        },
+        {
+          "symbol": "NITCO",
+          "return": 4.13,
+          "score": 2.63
+        },
+        {
+          "symbol": "POCL",
+          "return": -11.52,
+          "score": 2.42
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": -0.11,
+          "score": 2.35
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": 19.27,
+          "score": 1.84
+        },
+        {
+          "symbol": "POKARNA",
+          "return": -2.6,
+          "score": 1.71
+        },
+        {
+          "symbol": "MARINE",
+          "return": 13.95,
+          "score": 1.61
+        },
+        {
+          "symbol": "BBOX",
+          "return": 24.56,
+          "score": 1.49
+        },
+        {
+          "symbol": "PANACEABIO",
+          "return": 23.82,
+          "score": 1.42
+        },
+        {
+          "symbol": "JSLL",
+          "return": 10.39,
+          "score": 1.31
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": -11.16,
+          "score": 1.29
+        }
+      ]
+    },
+    {
+      "month": "2024-10",
+      "portfolio_return": 8.69,
+      "benchmark_return": -6.22,
+      "holdings": [
+        {
+          "symbol": "E2E",
+          "return": 45.27,
+          "score": 6.34
+        },
+        {
+          "symbol": "NPST",
+          "return": 20.09,
+          "score": 3.35
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": -10.7,
+          "score": 3.26
+        },
+        {
+          "symbol": "POCL",
+          "return": -2.41,
+          "score": 2.53
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 17.47,
+          "score": 2.43
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": 26.65,
+          "score": 2.4
+        },
+        {
+          "symbol": "MARINE",
+          "return": -4.94,
+          "score": 2.19
+        },
+        {
+          "symbol": "RAMRAT",
+          "return": -7.86,
+          "score": 2.18
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": 6.79,
+          "score": 1.92
+        },
+        {
+          "symbol": "INDRAMEDCO",
+          "return": -5.42,
+          "score": 1.87
+        },
+        {
+          "symbol": "TVSHLTD",
+          "return": -8.94,
+          "score": 1.66
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": 7.63,
+          "score": 1.65
+        },
+        {
+          "symbol": "POKARNA",
+          "return": 3.51,
+          "score": 1.63
+        },
+        {
+          "symbol": "NITCO",
+          "return": 44.79,
+          "score": 1.53
+        },
+        {
+          "symbol": "BBOX",
+          "return": -1.56,
+          "score": 1.5
+        }
+      ]
+    },
+    {
+      "month": "2024-09",
+      "portfolio_return": 4.71,
+      "benchmark_return": 2.28,
+      "holdings": [
+        {
+          "symbol": "E2E",
+          "return": 26.75,
+          "score": 4.9
+        },
+        {
+          "symbol": "NPST",
+          "return": -19.91,
+          "score": 4.55
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": 19.74,
+          "score": 2.73
+        },
+        {
+          "symbol": "MARINE",
+          "return": -15.77,
+          "score": 2.39
+        },
+        {
+          "symbol": "BHAGCHEM",
+          "return": -15.89,
+          "score": 2.31
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": 3.44,
+          "score": 2.27
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 26.42,
+          "score": 2.1
+        },
+        {
+          "symbol": "POCL",
+          "return": 8.23,
+          "score": 2.06
+        },
+        {
+          "symbol": "SMSPHARMA",
+          "return": 1.98,
+          "score": 1.97
+        },
+        {
+          "symbol": "TVSHLTD",
+          "return": 2.56,
+          "score": 1.81
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": -4.17,
+          "score": 1.76
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": 21.85,
+          "score": 1.73
+        },
+        {
+          "symbol": "NITCO",
+          "return": -0.67,
+          "score": 1.64
+        },
+        {
+          "symbol": "RAMRAT",
+          "return": 8.87,
+          "score": 1.52
+        },
+        {
+          "symbol": "INDRAMEDCO",
+          "return": 7.13,
+          "score": 1.51
+        }
+      ]
+    },
+    {
+      "month": "2024-08",
+      "portfolio_return": 7.37,
+      "benchmark_return": 1.14,
+      "holdings": [
+        {
+          "symbol": "NPST",
+          "return": 35.97,
+          "score": 6.13
+        },
+        {
+          "symbol": "E2E",
+          "return": 43.98,
+          "score": 3.97
+        },
+        {
+          "symbol": "MARINE",
+          "return": -0.51,
+          "score": 2.78
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": 4.38,
+          "score": 2.55
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": 2.89,
+          "score": 2.21
+        },
+        {
+          "symbol": "BHAGCHEM",
+          "return": 13.69,
+          "score": 2.2
+        },
+        {
+          "symbol": "TVSHLTD",
+          "return": 2.64,
+          "score": 2.13
+        },
+        {
+          "symbol": "SMSPHARMA",
+          "return": 11.27,
+          "score": 2.12
+        },
+        {
+          "symbol": "VEEDOL",
+          "return": 0.06,
+          "score": 1.93
+        },
+        {
+          "symbol": "CUPID",
+          "return": -7.19,
+          "score": 1.75
+        },
+        {
+          "symbol": "NITCO",
+          "return": 19.3,
+          "score": 1.74
+        },
+        {
+          "symbol": "PREMEXPLN",
+          "return": -10.01,
+          "score": 1.64
+        },
+        {
+          "symbol": "MTNL",
+          "return": -19.67,
+          "score": 1.62
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": 16.38,
+          "score": 1.56
+        },
+        {
+          "symbol": "KICL",
+          "return": -2.62,
+          "score": 1.44
+        }
+      ]
+    },
+    {
+      "month": "2024-07",
+      "portfolio_return": 11.16,
+      "benchmark_return": 3.92,
+      "holdings": [
+        {
+          "symbol": "E2E",
+          "return": 11.15,
+          "score": 5.83
+        },
+        {
+          "symbol": "PREMEXPLN",
+          "return": -13.01,
+          "score": 3.52
+        },
+        {
+          "symbol": "NPST",
+          "return": 68.21,
+          "score": 3.12
+        },
+        {
+          "symbol": "CUPID",
+          "return": 2.62,
+          "score": 3.05
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": -4.7,
+          "score": 3.0
+        },
+        {
+          "symbol": "NITCO",
+          "return": -0.7,
+          "score": 2.85
+        },
+        {
+          "symbol": "TVSHLTD",
+          "return": -2.88,
+          "score": 2.16
+        },
+        {
+          "symbol": "KICL",
+          "return": -5.66,
+          "score": 1.91
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": 31.97,
+          "score": 1.78
+        },
+        {
+          "symbol": "VEEDOL",
+          "return": 13.59,
+          "score": 1.67
+        },
+        {
+          "symbol": "HPL",
+          "return": 34.21,
+          "score": 1.64
+        },
+        {
+          "symbol": "JSLL",
+          "return": 9.6,
+          "score": 1.53
+        },
+        {
+          "symbol": "DREDGECORP",
+          "return": 2.79,
+          "score": 1.49
+        },
+        {
+          "symbol": "EIHAHOTELS",
+          "return": -1.82,
+          "score": 1.45
+        },
+        {
+          "symbol": "SMSPHARMA",
+          "return": 21.96,
+          "score": 1.41
+        }
+      ]
+    },
+    {
+      "month": "2024-06",
+      "portfolio_return": 7.53,
+      "benchmark_return": 6.57,
+      "holdings": [
+        {
+          "symbol": "E2E",
+          "return": 26.16,
+          "score": 4.34
+        },
+        {
+          "symbol": "CUPID",
+          "return": -3.7,
+          "score": 3.7
+        },
+        {
+          "symbol": "TVSHLTD",
+          "return": 10.44,
+          "score": 3.69
+        },
+        {
+          "symbol": "NITCO",
+          "return": 5.72,
+          "score": 3.03
+        },
+        {
+          "symbol": "NPST",
+          "return": 15.25,
+          "score": 3.02
+        },
+        {
+          "symbol": "PREMEXPLN",
+          "return": 39.11,
+          "score": 2.84
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": 9.96,
+          "score": 2.61
+        },
+        {
+          "symbol": "MANGLMCEM",
+          "return": 0.74,
+          "score": 2.41
+        },
+        {
+          "symbol": "JSLL",
+          "return": -4.87,
+          "score": 2.39
+        },
+        {
+          "symbol": "KIRLOSIND",
+          "return": -5.28,
+          "score": 2.06
+        },
+        {
+          "symbol": "HPL",
+          "return": 5.73,
+          "score": 1.86
+        },
+        {
+          "symbol": "SMSPHARMA",
+          "return": 8.97,
+          "score": 1.38
+        },
+        {
+          "symbol": "VENUSPIPES",
+          "return": -6.16,
+          "score": 1.32
+        },
+        {
+          "symbol": "JASH",
+          "return": -7.17,
+          "score": 1.28
+        },
+        {
+          "symbol": "DREDGECORP",
+          "return": 17.96,
+          "score": 1.27
+        }
+      ]
+    },
+    {
+      "month": "2024-05",
+      "portfolio_return": -1.47,
+      "benchmark_return": -0.33,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": -14.21,
+          "score": 5.52
+        },
+        {
+          "symbol": "NPST",
+          "return": -18.6,
+          "score": 5.01
+        },
+        {
+          "symbol": "E2E",
+          "return": 15.38,
+          "score": 3.65
+        },
+        {
+          "symbol": "NITCO",
+          "return": 1.27,
+          "score": 2.91
+        },
+        {
+          "symbol": "PREMEXPLN",
+          "return": 3.51,
+          "score": 2.47
+        },
+        {
+          "symbol": "MANGLMCEM",
+          "return": 1.36,
+          "score": 2.26
+        },
+        {
+          "symbol": "JSLL",
+          "return": 3.48,
+          "score": 1.97
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": -12.39,
+          "score": 1.95
+        },
+        {
+          "symbol": "TVSHLTD",
+          "return": 32.47,
+          "score": 1.68
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": 5.5,
+          "score": 1.64
+        },
+        {
+          "symbol": "MANINDS",
+          "return": -11.0,
+          "score": 1.62
+        },
+        {
+          "symbol": "SANGHVIMOV",
+          "return": -20.29,
+          "score": 1.52
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 1.99,
+          "score": 1.52
+        },
+        {
+          "symbol": "ARVSMART",
+          "return": -14.1,
+          "score": 1.47
+        },
+        {
+          "symbol": "HPL",
+          "return": 3.65,
+          "score": 1.42
+        }
+      ]
+    },
+    {
+      "month": "2024-04",
+      "portfolio_return": 21.75,
+      "benchmark_return": 1.24,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": -7.77,
+          "score": 7.9
+        },
+        {
+          "symbol": "NPST",
+          "return": 33.43,
+          "score": 4.18
+        },
+        {
+          "symbol": "SABTNL",
+          "return": 167.64,
+          "score": 3.47
+        },
+        {
+          "symbol": "E2E",
+          "return": 18.95,
+          "score": 3.07
+        },
+        {
+          "symbol": "NITCO",
+          "return": 12.91,
+          "score": 2.05
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": -8.18,
+          "score": 2.02
+        },
+        {
+          "symbol": "SANGHVIMOV",
+          "return": -2.63,
+          "score": 1.8
+        },
+        {
+          "symbol": "MANINDS",
+          "return": 8.1,
+          "score": 1.73
+        },
+        {
+          "symbol": "JSLL",
+          "return": 13.22,
+          "score": 1.73
+        },
+        {
+          "symbol": "MANGLMCEM",
+          "return": 15.2,
+          "score": 1.7
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": 1.57,
+          "score": 1.66
+        },
+        {
+          "symbol": "ARVSMART",
+          "return": 4.61,
+          "score": 1.54
+        },
+        {
+          "symbol": "PREMEXPLN",
+          "return": 59.64,
+          "score": 1.2
+        },
+        {
+          "symbol": "AJMERA",
+          "return": 10.15,
+          "score": 1.15
+        },
+        {
+          "symbol": "WONDERLA",
+          "return": -0.52,
+          "score": 1.04
+        }
+      ]
+    },
+    {
+      "month": "2024-03",
+      "portfolio_return": -12.35,
+      "benchmark_return": 1.57,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": -9.93,
+          "score": 8.29
+        },
+        {
+          "symbol": "NPST",
+          "return": -9.84,
+          "score": 5.73
+        },
+        {
+          "symbol": "E2E",
+          "return": -7.99,
+          "score": 3.01
+        },
+        {
+          "symbol": "SABTNL",
+          "return": 0.0,
+          "score": 2.12
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": -0.71,
+          "score": 2.05
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": -10.54,
+          "score": 1.91
+        },
+        {
+          "symbol": "NITCO",
+          "return": -19.67,
+          "score": 1.89
+        },
+        {
+          "symbol": "MANINDS",
+          "return": -12.05,
+          "score": 1.76
+        },
+        {
+          "symbol": "PAISALO",
+          "return": -37.09,
+          "score": 1.63
+        },
+        {
+          "symbol": "MANGLMCEM",
+          "return": 1.49,
+          "score": 1.37
+        },
+        {
+          "symbol": "APOLLO",
+          "return": -21.01,
+          "score": 1.18
+        },
+        {
+          "symbol": "TFCILTD",
+          "return": -25.99,
+          "score": 1.14
+        },
+        {
+          "symbol": "JSLL",
+          "return": -3.92,
+          "score": 1.03
+        },
+        {
+          "symbol": "HIRECT",
+          "return": -24.94,
+          "score": 1.0
+        },
+        {
+          "symbol": "AJMERA",
+          "return": -3.11,
+          "score": 0.99
+        }
+      ]
+    },
+    {
+      "month": "2024-02",
+      "portfolio_return": 3.77,
+      "benchmark_return": 1.18,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": 53.69,
+          "score": 6.26
+        },
+        {
+          "symbol": "NPST",
+          "return": 32.07,
+          "score": 4.31
+        },
+        {
+          "symbol": "MANINDS",
+          "return": -10.09,
+          "score": 3.18
+        },
+        {
+          "symbol": "E2E",
+          "return": 23.01,
+          "score": 2.85
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 36.21,
+          "score": 2.44
+        },
+        {
+          "symbol": "RAMKY",
+          "return": -40.48,
+          "score": 2.06
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": -5.98,
+          "score": 2.04
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": -4.62,
+          "score": 1.88
+        },
+        {
+          "symbol": "PFS",
+          "return": -25.54,
+          "score": 1.81
+        },
+        {
+          "symbol": "PRAKASH",
+          "return": -21.1,
+          "score": 1.77
+        },
+        {
+          "symbol": "SABTNL",
+          "return": 0.0,
+          "score": 1.71
+        },
+        {
+          "symbol": "HMT",
+          "return": -16.93,
+          "score": 1.56
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": 6.35,
+          "score": 1.53
+        },
+        {
+          "symbol": "MANGLMCEM",
+          "return": 6.45,
+          "score": 1.47
+        },
+        {
+          "symbol": "JSLL",
+          "return": 23.45,
+          "score": 1.36
+        }
+      ]
+    },
+    {
+      "month": "2024-01",
+      "portfolio_return": 9.9,
+      "benchmark_return": -0.03,
+      "holdings": [
+        {
+          "symbol": "NPST",
+          "return": 9.69,
+          "score": 6.77
+        },
+        {
+          "symbol": "CUPID",
+          "return": 51.28,
+          "score": 3.99
+        },
+        {
+          "symbol": "PREMEXPLN",
+          "return": -11.2,
+          "score": 3.06
+        },
+        {
+          "symbol": "E2E",
+          "return": 13.39,
+          "score": 3.05
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": -12.71,
+          "score": 2.92
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": -0.2,
+          "score": 2.53
+        },
+        {
+          "symbol": "MANGLMCEM",
+          "return": -11.54,
+          "score": 1.99
+        },
+        {
+          "symbol": "PRAKASH",
+          "return": 16.64,
+          "score": 1.59
+        },
+        {
+          "symbol": "RAMKY",
+          "return": 12.28,
+          "score": 1.49
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": 11.88,
+          "score": 1.49
+        },
+        {
+          "symbol": "JSLL",
+          "return": 11.39,
+          "score": 1.43
+        },
+        {
+          "symbol": "APOLLO",
+          "return": -1.12,
+          "score": 1.3
+        },
+        {
+          "symbol": "MANINDS",
+          "return": 56.08,
+          "score": 1.22
+        },
+        {
+          "symbol": "KDDL",
+          "return": -1.21,
+          "score": 1.17
+        },
+        {
+          "symbol": "MARINE",
+          "return": 3.9,
+          "score": 1.17
+        }
+      ]
+    },
+    {
+      "month": "2023-12",
+      "portfolio_return": -0.01,
+      "benchmark_return": 7.94,
+      "holdings": [
+        {
+          "symbol": "NPST",
+          "return": 14.41,
+          "score": 7.18
+        },
+        {
+          "symbol": "E2E",
+          "return": -2.0,
+          "score": 3.14
+        },
+        {
+          "symbol": "APOLLO",
+          "return": -11.67,
+          "score": 2.67
+        },
+        {
+          "symbol": "PREMEXPLN",
+          "return": 11.83,
+          "score": 2.48
+        },
+        {
+          "symbol": "CUPID",
+          "return": 32.91,
+          "score": 2.31
+        },
+        {
+          "symbol": "JSLL",
+          "return": -6.52,
+          "score": 2.28
+        },
+        {
+          "symbol": "KDDL",
+          "return": -5.66,
+          "score": 2.06
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": 8.51,
+          "score": 1.9
+        },
+        {
+          "symbol": "63MOONS",
+          "return": -10.2,
+          "score": 1.89
+        },
+        {
+          "symbol": "INDRAMEDCO",
+          "return": -18.66,
+          "score": 1.87
+        },
+        {
+          "symbol": "PRAKASH",
+          "return": 7.87,
+          "score": 1.72
+        },
+        {
+          "symbol": "ORISSAMINE",
+          "return": -0.64,
+          "score": 1.34
+        },
+        {
+          "symbol": "SANDHAR",
+          "return": -5.26,
+          "score": 1.32
+        },
+        {
+          "symbol": "GENUSPOWER",
+          "return": -1.19,
+          "score": 1.29
+        },
+        {
+          "symbol": "WONDERLA",
+          "return": -13.88,
+          "score": 1.26
+        }
+      ]
+    },
+    {
+      "month": "2023-11",
+      "portfolio_return": 5.01,
+      "benchmark_return": 5.52,
+      "holdings": [
+        {
+          "symbol": "NPST",
+          "return": 3.01,
+          "score": 6.86
+        },
+        {
+          "symbol": "JSLL",
+          "return": -20.32,
+          "score": 5.12
+        },
+        {
+          "symbol": "PRAKASH",
+          "return": -1.85,
+          "score": 2.42
+        },
+        {
+          "symbol": "PREMEXPLN",
+          "return": 10.4,
+          "score": 2.29
+        },
+        {
+          "symbol": "APOLLO",
+          "return": 23.61,
+          "score": 2.21
+        },
+        {
+          "symbol": "GENUSPOWER",
+          "return": -11.11,
+          "score": 1.85
+        },
+        {
+          "symbol": "DBCORP",
+          "return": -9.0,
+          "score": 1.84
+        },
+        {
+          "symbol": "E2E",
+          "return": 39.03,
+          "score": 1.63
+        },
+        {
+          "symbol": "NUCLEUS",
+          "return": -3.5,
+          "score": 1.61
+        },
+        {
+          "symbol": "INDRAMEDCO",
+          "return": 23.88,
+          "score": 1.56
+        },
+        {
+          "symbol": "SAKSOFT",
+          "return": -9.82,
+          "score": 1.46
+        },
+        {
+          "symbol": "CUPID",
+          "return": 34.59,
+          "score": 1.41
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": -6.92,
+          "score": 1.34
+        },
+        {
+          "symbol": "MANINDS",
+          "return": 6.76,
+          "score": 1.34
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": -3.55,
+          "score": 1.3
+        }
+      ]
+    },
+    {
+      "month": "2023-10",
+      "portfolio_return": 11.72,
+      "benchmark_return": -2.84,
+      "holdings": [
+        {
+          "symbol": "NPST",
+          "return": 59.0,
+          "score": 5.02
+        },
+        {
+          "symbol": "JSLL",
+          "return": 58.3,
+          "score": 3.34
+        },
+        {
+          "symbol": "PRAKASH",
+          "return": 10.62,
+          "score": 2.55
+        },
+        {
+          "symbol": "GENUSPOWER",
+          "return": -2.22,
+          "score": 2.49
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": -10.44,
+          "score": 2.4
+        },
+        {
+          "symbol": "SDBL",
+          "return": -11.56,
+          "score": 2.09
+        },
+        {
+          "symbol": "INDRAMEDCO",
+          "return": -2.47,
+          "score": 1.94
+        },
+        {
+          "symbol": "PARAGMILK",
+          "return": -5.84,
+          "score": 1.84
+        },
+        {
+          "symbol": "HPL",
+          "return": -9.04,
+          "score": 1.67
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": 3.67,
+          "score": 1.67
+        },
+        {
+          "symbol": "DBCORP",
+          "return": 16.85,
+          "score": 1.64
+        },
+        {
+          "symbol": "VENUSPIPES",
+          "return": 7.0,
+          "score": 1.62
+        },
+        {
+          "symbol": "RAMKY",
+          "return": -0.05,
+          "score": 1.58
+        },
+        {
+          "symbol": "APOLLO",
+          "return": 54.92,
+          "score": 1.52
+        },
+        {
+          "symbol": "SANGHVIMOV",
+          "return": 7.04,
+          "score": 1.47
+        }
+      ]
+    },
+    {
+      "month": "2023-09",
+      "portfolio_return": -5.66,
+      "benchmark_return": 2.0,
+      "holdings": [
+        {
+          "symbol": "NPST",
+          "return": -8.33,
+          "score": 5.63
+        },
+        {
+          "symbol": "VENUSPIPES",
+          "return": -14.82,
+          "score": 4.0
+        },
+        {
+          "symbol": "JSLL",
+          "return": -16.28,
+          "score": 3.8
+        },
+        {
+          "symbol": "SDBL",
+          "return": 9.28,
+          "score": 2.3
+        },
+        {
+          "symbol": "GENUSPOWER",
+          "return": -10.35,
+          "score": 2.26
+        },
+        {
+          "symbol": "PREMEXPLN",
+          "return": -12.95,
+          "score": 2.22
+        },
+        {
+          "symbol": "INDRAMEDCO",
+          "return": -6.65,
+          "score": 2.21
+        },
+        {
+          "symbol": "POCL",
+          "return": -5.03,
+          "score": 2.2
+        },
+        {
+          "symbol": "CENTUM",
+          "return": -14.11,
+          "score": 1.88
+        },
+        {
+          "symbol": "HPL",
+          "return": -11.01,
+          "score": 1.64
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": -8.49,
+          "score": 1.52
+        },
+        {
+          "symbol": "PRAKASH",
+          "return": 17.26,
+          "score": 1.45
+        },
+        {
+          "symbol": "APOLLO",
+          "return": 2.72,
+          "score": 1.41
+        },
+        {
+          "symbol": "SAKSOFT",
+          "return": 2.38,
+          "score": 1.4
+        },
+        {
+          "symbol": "SANGHVIMOV",
+          "return": -8.46,
+          "score": 1.37
+        }
+      ]
+    },
+    {
+      "month": "2023-08",
+      "portfolio_return": 7.19,
+      "benchmark_return": -2.53,
+      "holdings": [
+        {
+          "symbol": "NPST",
+          "return": 11.48,
+          "score": 5.88
+        },
+        {
+          "symbol": "SDBL",
+          "return": -7.37,
+          "score": 3.25
+        },
+        {
+          "symbol": "VENUSPIPES",
+          "return": 21.43,
+          "score": 3.17
+        },
+        {
+          "symbol": "PREMEXPLN",
+          "return": 17.29,
+          "score": 2.41
+        },
+        {
+          "symbol": "POCL",
+          "return": 10.88,
+          "score": 2.37
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": -5.65,
+          "score": 2.15
+        },
+        {
+          "symbol": "JSLL",
+          "return": 31.33,
+          "score": 2.08
+        },
+        {
+          "symbol": "NUCLEUS",
+          "return": -10.45,
+          "score": 2.0
+        },
+        {
+          "symbol": "CENTUM",
+          "return": 6.07,
+          "score": 1.88
+        },
+        {
+          "symbol": "APOLLO",
+          "return": -5.45,
+          "score": 1.79
+        },
+        {
+          "symbol": "SANGHVIMOV",
+          "return": 15.98,
+          "score": 1.69
+        },
+        {
+          "symbol": "KIRLOSIND",
+          "return": 3.68,
+          "score": 1.68
+        },
+        {
+          "symbol": "SAKSOFT",
+          "return": 1.86,
+          "score": 1.64
+        },
+        {
+          "symbol": "HPL",
+          "return": 7.18,
+          "score": 1.51
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": 9.67,
+          "score": 1.48
+        }
+      ]
+    },
+    {
+      "month": "2023-07",
+      "portfolio_return": 9.3,
+      "benchmark_return": 2.94,
+      "holdings": [
+        {
+          "symbol": "NPST",
+          "return": 31.53,
+          "score": 7.41
+        },
+        {
+          "symbol": "VENUSPIPES",
+          "return": 7.55,
+          "score": 3.34
+        },
+        {
+          "symbol": "APOLLO",
+          "return": 10.02,
+          "score": 2.97
+        },
+        {
+          "symbol": "SDBL",
+          "return": 25.29,
+          "score": 2.81
+        },
+        {
+          "symbol": "SAKSOFT",
+          "return": -4.33,
+          "score": 2.7
+        },
+        {
+          "symbol": "NUCLEUS",
+          "return": 2.77,
+          "score": 2.4
+        },
+        {
+          "symbol": "POCL",
+          "return": 9.8,
+          "score": 2.07
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 15.24,
+          "score": 1.96
+        },
+        {
+          "symbol": "CENTUM",
+          "return": 4.74,
+          "score": 1.85
+        },
+        {
+          "symbol": "KIRLOSIND",
+          "return": 2.3,
+          "score": 1.82
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": 4.37,
+          "score": 1.72
+        },
+        {
+          "symbol": "RML",
+          "return": -14.05,
+          "score": 1.6
+        },
+        {
+          "symbol": "MANINDS",
+          "return": -8.81,
+          "score": 1.59
+        },
+        {
+          "symbol": "LGBBROSLTD",
+          "return": -7.23,
+          "score": 1.37
+        },
+        {
+          "symbol": "JSLL",
+          "return": 60.39,
+          "score": 1.31
+        }
+      ]
+    },
+    {
+      "month": "2023-06",
+      "portfolio_return": 10.26,
+      "benchmark_return": 3.53,
+      "holdings": [
+        {
+          "symbol": "NPST",
+          "return": 25.18,
+          "score": 7.75
+        },
+        {
+          "symbol": "VENUSPIPES",
+          "return": 4.76,
+          "score": 3.62
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": -11.83,
+          "score": 3.14
+        },
+        {
+          "symbol": "POCL",
+          "return": -2.8,
+          "score": 2.83
+        },
+        {
+          "symbol": "NUCLEUS",
+          "return": -6.17,
+          "score": 2.78
+        },
+        {
+          "symbol": "SDBL",
+          "return": 15.43,
+          "score": 2.6
+        },
+        {
+          "symbol": "SAKSOFT",
+          "return": 21.44,
+          "score": 2.32
+        },
+        {
+          "symbol": "APOLLO",
+          "return": 60.09,
+          "score": 1.52
+        },
+        {
+          "symbol": "VSSL",
+          "return": -10.37,
+          "score": 1.47
+        },
+        {
+          "symbol": "CENTUM",
+          "return": 21.32,
+          "score": 1.47
+        },
+        {
+          "symbol": "SANGHVIMOV",
+          "return": 7.35,
+          "score": 1.4
+        },
+        {
+          "symbol": "JSLL",
+          "return": 10.84,
+          "score": 1.38
+        },
+        {
+          "symbol": "KINGFA",
+          "return": 1.66,
+          "score": 1.32
+        },
+        {
+          "symbol": "RML",
+          "return": 22.5,
+          "score": 1.32
+        },
+        {
+          "symbol": "STYLAMIND",
+          "return": -5.47,
+          "score": 1.31
+        }
+      ]
+    },
+    {
+      "month": "2023-05",
+      "portfolio_return": 4.04,
+      "benchmark_return": 2.6,
+      "holdings": [
+        {
+          "symbol": "NPST",
+          "return": 9.53,
+          "score": 7.9
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 2.6,
+          "score": 4.23
+        },
+        {
+          "symbol": "POCL",
+          "return": 11.32,
+          "score": 2.98
+        },
+        {
+          "symbol": "PSB",
+          "return": -12.13,
+          "score": 2.42
+        },
+        {
+          "symbol": "SAKSOFT",
+          "return": 18.58,
+          "score": 2.19
+        },
+        {
+          "symbol": "MBAPL",
+          "return": 3.84,
+          "score": 2.16
+        },
+        {
+          "symbol": "SANGHVIMOV",
+          "return": 14.15,
+          "score": 1.92
+        },
+        {
+          "symbol": "SDBL",
+          "return": 35.4,
+          "score": 1.87
+        },
+        {
+          "symbol": "TIIL",
+          "return": -4.08,
+          "score": 1.63
+        },
+        {
+          "symbol": "UNIVCABLES",
+          "return": -2.63,
+          "score": 1.54
+        },
+        {
+          "symbol": "RAMKY",
+          "return": -5.37,
+          "score": 1.44
+        },
+        {
+          "symbol": "LUMAXIND",
+          "return": -8.56,
+          "score": 1.32
+        },
+        {
+          "symbol": "APOLLO",
+          "return": 7.6,
+          "score": 1.32
+        },
+        {
+          "symbol": "KIRLOSIND",
+          "return": 1.5,
+          "score": 1.23
+        },
+        {
+          "symbol": "HONDAPOWER",
+          "return": -11.2,
+          "score": 1.19
+        }
+      ]
+    },
+    {
+      "month": "2023-04",
+      "portfolio_return": 7.84,
+      "benchmark_return": 4.06,
+      "holdings": [
+        {
+          "symbol": "NPST",
+          "return": 13.7,
+          "score": 7.16
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 6.11,
+          "score": 4.25
+        },
+        {
+          "symbol": "MBAPL",
+          "return": 5.93,
+          "score": 2.55
+        },
+        {
+          "symbol": "POCL",
+          "return": 19.33,
+          "score": 2.37
+        },
+        {
+          "symbol": "UNIVCABLES",
+          "return": 6.25,
+          "score": 2.17
+        },
+        {
+          "symbol": "APOLLO",
+          "return": 8.0,
+          "score": 2.0
+        },
+        {
+          "symbol": "PENIND",
+          "return": 1.12,
+          "score": 1.77
+        },
+        {
+          "symbol": "VSSL",
+          "return": -8.15,
+          "score": 1.73
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": 10.57,
+          "score": 1.72
+        },
+        {
+          "symbol": "MPSLTD",
+          "return": -20.66,
+          "score": 1.69
+        },
+        {
+          "symbol": "SDBL",
+          "return": 8.1,
+          "score": 1.68
+        },
+        {
+          "symbol": "SANGHVIMOV",
+          "return": 8.04,
+          "score": 1.65
+        },
+        {
+          "symbol": "PSB",
+          "return": 40.08,
+          "score": 1.56
+        },
+        {
+          "symbol": "KIRLOSIND",
+          "return": 6.94,
+          "score": 1.53
+        },
+        {
+          "symbol": "MARATHON",
+          "return": 12.25,
+          "score": 1.47
+        }
+      ]
+    },
+    {
+      "month": "2023-03",
+      "portfolio_return": 4.14,
+      "benchmark_return": 0.32,
+      "holdings": [
+        {
+          "symbol": "NPST",
+          "return": 45.34,
+          "score": 4.91
+        },
+        {
+          "symbol": "MBAPL",
+          "return": -11.2,
+          "score": 4.81
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": -12.22,
+          "score": 3.26
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 37.52,
+          "score": 2.78
+        },
+        {
+          "symbol": "APOLLO",
+          "return": -10.21,
+          "score": 2.68
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": -11.93,
+          "score": 2.61
+        },
+        {
+          "symbol": "PENIND",
+          "return": -7.03,
+          "score": 1.93
+        },
+        {
+          "symbol": "SDBL",
+          "return": 29.22,
+          "score": 1.81
+        },
+        {
+          "symbol": "PSB",
+          "return": -4.82,
+          "score": 1.68
+        },
+        {
+          "symbol": "UNIVCABLES",
+          "return": 4.62,
+          "score": 1.65
+        },
+        {
+          "symbol": "KIRLOSIND",
+          "return": 2.66,
+          "score": 1.58
+        },
+        {
+          "symbol": "SANGHVIMOV",
+          "return": -0.86,
+          "score": 1.5
+        },
+        {
+          "symbol": "MPSLTD",
+          "return": 1.86,
+          "score": 1.47
+        },
+        {
+          "symbol": "MARATHON",
+          "return": 6.21,
+          "score": 1.27
+        },
+        {
+          "symbol": "FOSECOIND",
+          "return": -7.01,
+          "score": 1.23
+        }
+      ]
+    },
+    {
+      "month": "2023-02",
+      "portfolio_return": -4.83,
+      "benchmark_return": -2.03,
+      "holdings": [
+        {
+          "symbol": "MBAPL",
+          "return": -1.37,
+          "score": 5.27
+        },
+        {
+          "symbol": "NPST",
+          "return": 19.06,
+          "score": 4.89
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": -2.72,
+          "score": 3.03
+        },
+        {
+          "symbol": "APOLLO",
+          "return": -1.48,
+          "score": 2.57
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": -38.05,
+          "score": 2.04
+        },
+        {
+          "symbol": "PSB",
+          "return": -7.33,
+          "score": 1.98
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": -9.61,
+          "score": 1.92
+        },
+        {
+          "symbol": "UNIVCABLES",
+          "return": 1.23,
+          "score": 1.82
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": 18.04,
+          "score": 1.64
+        },
+        {
+          "symbol": "TVSSRICHAK",
+          "return": -18.14,
+          "score": 1.58
+        },
+        {
+          "symbol": "SDBL",
+          "return": -2.88,
+          "score": 1.47
+        },
+        {
+          "symbol": "SHANTIGEAR",
+          "return": 3.64,
+          "score": 1.27
+        },
+        {
+          "symbol": "WSTCSTPAPR",
+          "return": -6.07,
+          "score": 1.21
+        },
+        {
+          "symbol": "JTEKTINDIA",
+          "return": -18.9,
+          "score": 1.2
+        },
+        {
+          "symbol": "RAYMOND",
+          "return": -7.81,
+          "score": 1.11
+        }
+      ]
+    },
+    {
+      "month": "2023-01",
+      "portfolio_return": 0.78,
+      "benchmark_return": -2.45,
+      "holdings": [
+        {
+          "symbol": "MBAPL",
+          "return": 15.62,
+          "score": 4.82
+        },
+        {
+          "symbol": "PSB",
+          "return": -12.61,
+          "score": 2.91
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": 6.03,
+          "score": 2.57
+        },
+        {
+          "symbol": "NPST",
+          "return": 39.68,
+          "score": 2.31
+        },
+        {
+          "symbol": "APOLLO",
+          "return": 8.79,
+          "score": 2.31
+        },
+        {
+          "symbol": "KKCL",
+          "return": -14.14,
+          "score": 2.21
+        },
+        {
+          "symbol": "UNIVCABLES",
+          "return": 11.04,
+          "score": 1.96
+        },
+        {
+          "symbol": "TVSSRICHAK",
+          "return": 7.06,
+          "score": 1.87
+        },
+        {
+          "symbol": "SDBL",
+          "return": 2.22,
+          "score": 1.8
+        },
+        {
+          "symbol": "JTEKTINDIA",
+          "return": -10.54,
+          "score": 1.67
+        },
+        {
+          "symbol": "TCPLPACK",
+          "return": -13.19,
+          "score": 1.66
+        },
+        {
+          "symbol": "WSTCSTPAPR",
+          "return": 2.62,
+          "score": 1.47
+        },
+        {
+          "symbol": "METROBRAND",
+          "return": -14.99,
+          "score": 1.45
+        },
+        {
+          "symbol": "ARVSMART",
+          "return": -9.12,
+          "score": 1.43
+        },
+        {
+          "symbol": "SHOPERSTOP",
+          "return": -6.78,
+          "score": 1.43
+        }
+      ]
+    },
+    {
+      "month": "2022-12",
+      "portfolio_return": -5.64,
+      "benchmark_return": -3.48,
+      "holdings": [
+        {
+          "symbol": "MBAPL",
+          "return": 8.73,
+          "score": 3.61
+        },
+        {
+          "symbol": "SDBL",
+          "return": -13.78,
+          "score": 3.02
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": 2.09,
+          "score": 2.99
+        },
+        {
+          "symbol": "APOLLO",
+          "return": 8.09,
+          "score": 2.23
+        },
+        {
+          "symbol": "TVSSRICHAK",
+          "return": -2.93,
+          "score": 2.14
+        },
+        {
+          "symbol": "TCPLPACK",
+          "return": -6.81,
+          "score": 2.02
+        },
+        {
+          "symbol": "UNIVCABLES",
+          "return": 2.22,
+          "score": 1.96
+        },
+        {
+          "symbol": "WSTCSTPAPR",
+          "return": -11.74,
+          "score": 1.94
+        },
+        {
+          "symbol": "FCL",
+          "return": -20.71,
+          "score": 1.91
+        },
+        {
+          "symbol": "KKCL",
+          "return": 1.95,
+          "score": 1.9
+        },
+        {
+          "symbol": "JTEKTINDIA",
+          "return": 2.65,
+          "score": 1.87
+        },
+        {
+          "symbol": "HONDAPOWER",
+          "return": -16.68,
+          "score": 1.73
+        },
+        {
+          "symbol": "GOODLUCK",
+          "return": -22.89,
+          "score": 1.72
+        },
+        {
+          "symbol": "MARATHON",
+          "return": -7.41,
+          "score": 1.63
+        },
+        {
+          "symbol": "BHAGCHEM",
+          "return": -7.36,
+          "score": 1.62
+        }
+      ]
+    },
+    {
+      "month": "2022-11",
+      "portfolio_return": 3.42,
+      "benchmark_return": 4.14,
+      "holdings": [
+        {
+          "symbol": "MBAPL",
+          "return": 3.95,
+          "score": 4.68
+        },
+        {
+          "symbol": "KKCL",
+          "return": -2.58,
+          "score": 3.18
+        },
+        {
+          "symbol": "FCL",
+          "return": -8.35,
+          "score": 2.67
+        },
+        {
+          "symbol": "SHANTIGEAR",
+          "return": -1.02,
+          "score": 2.41
+        },
+        {
+          "symbol": "WSTCSTPAPR",
+          "return": 0.21,
+          "score": 2.29
+        },
+        {
+          "symbol": "E2E",
+          "return": 1.45,
+          "score": 1.98
+        },
+        {
+          "symbol": "ROLEXRINGS",
+          "return": -6.41,
+          "score": 1.92
+        },
+        {
+          "symbol": "SDBL",
+          "return": 28.99,
+          "score": 1.84
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": 16.5,
+          "score": 1.71
+        },
+        {
+          "symbol": "BHAGCHEM",
+          "return": 0.58,
+          "score": 1.63
+        },
+        {
+          "symbol": "RAYMOND",
+          "return": 13.01,
+          "score": 1.6
+        },
+        {
+          "symbol": "MARATHON",
+          "return": 13.13,
+          "score": 1.59
+        },
+        {
+          "symbol": "VISHNU",
+          "return": -10.48,
+          "score": 1.57
+        },
+        {
+          "symbol": "SHOPERSTOP",
+          "return": -10.77,
+          "score": 1.55
+        },
+        {
+          "symbol": "GOODLUCK",
+          "return": 13.17,
+          "score": 1.48
+        }
+      ]
+    },
+    {
+      "month": "2022-10",
+      "portfolio_return": -2.26,
+      "benchmark_return": 5.37,
+      "holdings": [
+        {
+          "symbol": "MBAPL",
+          "return": 0.24,
+          "score": 4.49
+        },
+        {
+          "symbol": "RAJRATAN",
+          "return": -28.96,
+          "score": 3.18
+        },
+        {
+          "symbol": "E2E",
+          "return": -6.34,
+          "score": 2.65
+        },
+        {
+          "symbol": "FCL",
+          "return": 3.28,
+          "score": 2.51
+        },
+        {
+          "symbol": "SDBL",
+          "return": -8.59,
+          "score": 2.43
+        },
+        {
+          "symbol": "KKCL",
+          "return": 25.07,
+          "score": 2.3
+        },
+        {
+          "symbol": "SHOPERSTOP",
+          "return": 0.24,
+          "score": 2.26
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": -11.43,
+          "score": 2.07
+        },
+        {
+          "symbol": "ROLEXRINGS",
+          "return": -1.21,
+          "score": 2.03
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": -10.81,
+          "score": 1.73
+        },
+        {
+          "symbol": "GOODLUCK",
+          "return": -5.94,
+          "score": 1.7
+        },
+        {
+          "symbol": "SHANTIGEAR",
+          "return": 17.13,
+          "score": 1.68
+        },
+        {
+          "symbol": "MARATHON",
+          "return": -1.65,
+          "score": 1.62
+        },
+        {
+          "symbol": "VISHNU",
+          "return": 1.35,
+          "score": 1.53
+        },
+        {
+          "symbol": "LUMAXIND",
+          "return": -6.33,
+          "score": 1.5
+        }
+      ]
+    },
+    {
+      "month": "2022-09",
+      "portfolio_return": -5.44,
+      "benchmark_return": -3.74,
+      "holdings": [
+        {
+          "symbol": "MBAPL",
+          "return": 11.43,
+          "score": 4.97
+        },
+        {
+          "symbol": "WSTCSTPAPR",
+          "return": -21.48,
+          "score": 3.68
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": -11.96,
+          "score": 2.99
+        },
+        {
+          "symbol": "RAJRATAN",
+          "return": 5.95,
+          "score": 2.97
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": -55.61,
+          "score": 2.4
+        },
+        {
+          "symbol": "SDBL",
+          "return": 18.53,
+          "score": 2.36
+        },
+        {
+          "symbol": "MARATHON",
+          "return": -14.5,
+          "score": 2.27
+        },
+        {
+          "symbol": "E2E",
+          "return": -11.45,
+          "score": 2.27
+        },
+        {
+          "symbol": "KKCL",
+          "return": -3.84,
+          "score": 2.19
+        },
+        {
+          "symbol": "VISHNU",
+          "return": -1.42,
+          "score": 2.18
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": 0.59,
+          "score": 1.99
+        },
+        {
+          "symbol": "SHOPERSTOP",
+          "return": 19.13,
+          "score": 1.99
+        },
+        {
+          "symbol": "FCL",
+          "return": 11.51,
+          "score": 1.86
+        },
+        {
+          "symbol": "TCPLPACK",
+          "return": -19.59,
+          "score": 1.64
+        },
+        {
+          "symbol": "PREMEXPLN",
+          "return": -8.85,
+          "score": 1.43
+        }
+      ]
+    },
+    {
+      "month": "2022-08",
+      "portfolio_return": 13.89,
+      "benchmark_return": 3.5,
+      "holdings": [
+        {
+          "symbol": "MBAPL",
+          "return": 16.8,
+          "score": 6.5
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": 15.31,
+          "score": 2.86
+        },
+        {
+          "symbol": "MARATHON",
+          "return": 0.92,
+          "score": 2.65
+        },
+        {
+          "symbol": "E2E",
+          "return": 22.85,
+          "score": 2.59
+        },
+        {
+          "symbol": "XPROINDIA",
+          "return": -11.3,
+          "score": 2.32
+        },
+        {
+          "symbol": "RAJRATAN",
+          "return": 14.1,
+          "score": 2.08
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": 32.0,
+          "score": 2.0
+        },
+        {
+          "symbol": "WSTCSTPAPR",
+          "return": 31.64,
+          "score": 1.9
+        },
+        {
+          "symbol": "VISHNU",
+          "return": 28.15,
+          "score": 1.88
+        },
+        {
+          "symbol": "SHOPERSTOP",
+          "return": 2.39,
+          "score": 1.84
+        },
+        {
+          "symbol": "SDBL",
+          "return": -4.61,
+          "score": 1.83
+        },
+        {
+          "symbol": "TCPLPACK",
+          "return": 31.2,
+          "score": 1.77
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": 1.07,
+          "score": 1.4
+        },
+        {
+          "symbol": "VRLLOG",
+          "return": 3.04,
+          "score": 1.35
+        },
+        {
+          "symbol": "KKCL",
+          "return": 24.79,
+          "score": 1.29
+        }
+      ]
+    },
+    {
+      "month": "2022-07",
+      "portfolio_return": 9.91,
+      "benchmark_return": 8.73,
+      "holdings": [
+        {
+          "symbol": "MBAPL",
+          "return": 16.35,
+          "score": 6.07
+        },
+        {
+          "symbol": "XPROINDIA",
+          "return": -6.06,
+          "score": 3.69
+        },
+        {
+          "symbol": "VISHNU",
+          "return": -0.57,
+          "score": 2.87
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": 8.19,
+          "score": 2.57
+        },
+        {
+          "symbol": "RAJRATAN",
+          "return": 26.06,
+          "score": 2.11
+        },
+        {
+          "symbol": "MARATHON",
+          "return": 8.22,
+          "score": 1.95
+        },
+        {
+          "symbol": "E2E",
+          "return": 25.0,
+          "score": 1.92
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": -3.55,
+          "score": 1.71
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": -8.6,
+          "score": 1.63
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": 3.93,
+          "score": 1.56
+        },
+        {
+          "symbol": "SDBL",
+          "return": 20.73,
+          "score": 1.49
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": 14.07,
+          "score": 1.38
+        },
+        {
+          "symbol": "TCPLPACK",
+          "return": 21.9,
+          "score": 1.38
+        },
+        {
+          "symbol": "VRLLOG",
+          "return": 0.73,
+          "score": 1.38
+        },
+        {
+          "symbol": "SHOPERSTOP",
+          "return": 22.32,
+          "score": 1.33
+        }
+      ]
+    },
+    {
+      "month": "2022-06",
+      "portfolio_return": -1.43,
+      "benchmark_return": -4.85,
+      "holdings": [
+        {
+          "symbol": "MBAPL",
+          "return": -4.05,
+          "score": 5.67
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": -48.97,
+          "score": 4.4
+        },
+        {
+          "symbol": "XPROINDIA",
+          "return": 19.14,
+          "score": 3.44
+        },
+        {
+          "symbol": "VISHNU",
+          "return": 2.38,
+          "score": 2.48
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": -14.75,
+          "score": 2.31
+        },
+        {
+          "symbol": "E2E",
+          "return": 10.89,
+          "score": 2.06
+        },
+        {
+          "symbol": "RAJRATAN",
+          "return": -1.73,
+          "score": 1.88
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": -8.73,
+          "score": 1.87
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": -15.31,
+          "score": 1.75
+        },
+        {
+          "symbol": "RAYMOND",
+          "return": -17.07,
+          "score": 1.65
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": -12.68,
+          "score": 1.59
+        },
+        {
+          "symbol": "MARATHON",
+          "return": 35.62,
+          "score": 1.55
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": 12.54,
+          "score": 1.44
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": 29.8,
+          "score": 1.43
+        },
+        {
+          "symbol": "TCPLPACK",
+          "return": -8.56,
+          "score": 1.38
+        }
+      ]
+    },
+    {
+      "month": "2022-05",
+      "portfolio_return": -10.66,
+      "benchmark_return": -3.03,
+      "holdings": [
+        {
+          "symbol": "XPROINDIA",
+          "return": -19.33,
+          "score": 4.75
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": 0.97,
+          "score": 4.15
+        },
+        {
+          "symbol": "E2E",
+          "return": -25.43,
+          "score": 3.25
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": -19.18,
+          "score": 3.25
+        },
+        {
+          "symbol": "MBAPL",
+          "return": 37.03,
+          "score": 2.98
+        },
+        {
+          "symbol": "VISHNU",
+          "return": -11.9,
+          "score": 2.8
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": -18.98,
+          "score": 2.15
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": -16.69,
+          "score": 2.04
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": -8.58,
+          "score": 1.82
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": -6.93,
+          "score": 1.8
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": -10.08,
+          "score": 1.79
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": -1.21,
+          "score": 1.67
+        },
+        {
+          "symbol": "63MOONS",
+          "return": -13.31,
+          "score": 1.58
+        },
+        {
+          "symbol": "SANGAMIND",
+          "return": -25.41,
+          "score": 1.54
+        },
+        {
+          "symbol": "PREMEXPLN",
+          "return": -20.88,
+          "score": 1.46
+        }
+      ]
+    },
+    {
+      "month": "2022-04",
+      "portfolio_return": 5.94,
+      "benchmark_return": -2.07,
+      "holdings": [
+        {
+          "symbol": "XPROINDIA",
+          "return": -9.36,
+          "score": 7.37
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": -22.94,
+          "score": 5.58
+        },
+        {
+          "symbol": "VISHNU",
+          "return": -2.73,
+          "score": 2.62
+        },
+        {
+          "symbol": "E2E",
+          "return": 22.76,
+          "score": 2.19
+        },
+        {
+          "symbol": "63MOONS",
+          "return": -19.61,
+          "score": 2.07
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": -6.63,
+          "score": 1.91
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": 11.97,
+          "score": 1.54
+        },
+        {
+          "symbol": "MBAPL",
+          "return": 16.34,
+          "score": 1.38
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": 14.53,
+          "score": 1.25
+        },
+        {
+          "symbol": "KDDL",
+          "return": -9.69,
+          "score": 1.23
+        },
+        {
+          "symbol": "RAYMOND",
+          "return": -2.43,
+          "score": 1.2
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": 67.27,
+          "score": 1.05
+        },
+        {
+          "symbol": "SANGAMIND",
+          "return": 32.48,
+          "score": 0.96
+        },
+        {
+          "symbol": "SHOPERSTOP",
+          "return": 8.06,
+          "score": 0.94
+        },
+        {
+          "symbol": "POKARNA",
+          "return": -10.95,
+          "score": 0.92
+        }
+      ]
+    },
+    {
+      "month": "2022-03",
+      "portfolio_return": 16.25,
+      "benchmark_return": 3.99,
+      "holdings": [
+        {
+          "symbol": "XPROINDIA",
+          "return": 54.94,
+          "score": 6.91
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": 17.96,
+          "score": 5.53
+        },
+        {
+          "symbol": "VISHNU",
+          "return": 18.47,
+          "score": 3.53
+        },
+        {
+          "symbol": "SANGAMIND",
+          "return": -14.79,
+          "score": 2.14
+        },
+        {
+          "symbol": "E2E",
+          "return": 5.26,
+          "score": 1.93
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": -15.59,
+          "score": 1.53
+        },
+        {
+          "symbol": "MBAPL",
+          "return": 33.16,
+          "score": 1.53
+        },
+        {
+          "symbol": "63MOONS",
+          "return": 31.59,
+          "score": 1.44
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": -2.86,
+          "score": 1.43
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": 24.44,
+          "score": 1.4
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": 38.83,
+          "score": 1.3
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": 8.33,
+          "score": 1.25
+        },
+        {
+          "symbol": "RAYMOND",
+          "return": 18.53,
+          "score": 1.24
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": 8.47,
+          "score": 1.18
+        },
+        {
+          "symbol": "KDDL",
+          "return": 17.06,
+          "score": 1.16
+        }
+      ]
+    },
+    {
+      "month": "2022-02",
+      "portfolio_return": -12.99,
+      "benchmark_return": -3.15,
+      "holdings": [
+        {
+          "symbol": "XPROINDIA",
+          "return": -0.13,
+          "score": 7.2
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": 1.49,
+          "score": 6.15
+        },
+        {
+          "symbol": "SANGAMIND",
+          "return": -19.17,
+          "score": 2.24
+        },
+        {
+          "symbol": "VISHNU",
+          "return": 10.25,
+          "score": 2.14
+        },
+        {
+          "symbol": "KDDL",
+          "return": -18.98,
+          "score": 1.73
+        },
+        {
+          "symbol": "E2E",
+          "return": -18.45,
+          "score": 1.59
+        },
+        {
+          "symbol": "PRECWIRE",
+          "return": -22.03,
+          "score": 1.53
+        },
+        {
+          "symbol": "63MOONS",
+          "return": -25.19,
+          "score": 1.52
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": -6.08,
+          "score": 1.47
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": -0.67,
+          "score": 1.41
+        },
+        {
+          "symbol": "POKARNA",
+          "return": -19.63,
+          "score": 1.19
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": -12.2,
+          "score": 1.05
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": 0.32,
+          "score": 1.01
+        },
+        {
+          "symbol": "WAAREEINDO",
+          "return": -39.29,
+          "score": 0.95
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": -25.17,
+          "score": 0.87
+        }
+      ]
+    },
+    {
+      "month": "2022-01",
+      "portfolio_return": 1.82,
+      "benchmark_return": -0.08,
+      "holdings": [
+        {
+          "symbol": "XPROINDIA",
+          "return": 4.57,
+          "score": 8.19
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": -3.55,
+          "score": 7.16
+        },
+        {
+          "symbol": "SANGAMIND",
+          "return": 4.96,
+          "score": 2.18
+        },
+        {
+          "symbol": "GOODLUCK",
+          "return": -1.97,
+          "score": 2.0
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": -6.47,
+          "score": 1.68
+        },
+        {
+          "symbol": "HUBTOWN",
+          "return": -15.32,
+          "score": 1.63
+        },
+        {
+          "symbol": "KDDL",
+          "return": 11.8,
+          "score": 1.34
+        },
+        {
+          "symbol": "SSWL",
+          "return": -13.62,
+          "score": 1.21
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -9.38,
+          "score": 1.21
+        },
+        {
+          "symbol": "PDSL",
+          "return": 5.87,
+          "score": 1.07
+        },
+        {
+          "symbol": "63MOONS",
+          "return": 10.77,
+          "score": 1.07
+        },
+        {
+          "symbol": "VISHNU",
+          "return": 31.27,
+          "score": 1.07
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": 18.28,
+          "score": 0.97
+        },
+        {
+          "symbol": "POKARNA",
+          "return": 11.51,
+          "score": 0.95
+        },
+        {
+          "symbol": "WAAREEINDO",
+          "return": -21.48,
+          "score": 0.89
+        }
+      ]
+    },
+    {
+      "month": "2021-12",
+      "portfolio_return": 20.13,
+      "benchmark_return": 2.18,
+      "holdings": [
+        {
+          "symbol": "XPROINDIA",
+          "return": 9.03,
+          "score": 8.36
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": 173.81,
+          "score": 2.76
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": 12.5,
+          "score": 2.42
+        },
+        {
+          "symbol": "GOODLUCK",
+          "return": 33.11,
+          "score": 2.06
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": 5.18,
+          "score": 2.04
+        },
+        {
+          "symbol": "VISHNU",
+          "return": 4.02,
+          "score": 2.0
+        },
+        {
+          "symbol": "SANGAMIND",
+          "return": 38.12,
+          "score": 1.91
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": 0.83,
+          "score": 1.65
+        },
+        {
+          "symbol": "RAJRATAN",
+          "return": 1.89,
+          "score": 1.52
+        },
+        {
+          "symbol": "KDDL",
+          "return": 2.56,
+          "score": 1.44
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 2.07,
+          "score": 1.43
+        },
+        {
+          "symbol": "ZOTA",
+          "return": -2.37,
+          "score": 1.41
+        },
+        {
+          "symbol": "PDSL",
+          "return": 9.38,
+          "score": 1.4
+        },
+        {
+          "symbol": "SSWL",
+          "return": 8.45,
+          "score": 1.36
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": 3.42,
+          "score": 1.28
+        }
+      ]
+    },
+    {
+      "month": "2021-11",
+      "portfolio_return": -6.22,
+      "benchmark_return": -3.9,
+      "holdings": [
+        {
+          "symbol": "XPROINDIA",
+          "return": 24.37,
+          "score": 7.72
+        },
+        {
+          "symbol": "SANGAMIND",
+          "return": -23.53,
+          "score": 2.69
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": -12.81,
+          "score": 2.52
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": -16.1,
+          "score": 2.48
+        },
+        {
+          "symbol": "GOODLUCK",
+          "return": -6.54,
+          "score": 1.94
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": -17.19,
+          "score": 1.87
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -11.76,
+          "score": 1.86
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": 9.95,
+          "score": 1.63
+        },
+        {
+          "symbol": "PDSL",
+          "return": -0.05,
+          "score": 1.62
+        },
+        {
+          "symbol": "SSWL",
+          "return": -16.53,
+          "score": 1.62
+        },
+        {
+          "symbol": "RAJRATAN",
+          "return": -12.57,
+          "score": 1.6
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": 28.97,
+          "score": 1.57
+        },
+        {
+          "symbol": "VISHNU",
+          "return": 1.43,
+          "score": 1.5
+        },
+        {
+          "symbol": "AJMERA",
+          "return": -17.32,
+          "score": 1.4
+        },
+        {
+          "symbol": "TIRUMALCHM",
+          "return": -23.69,
+          "score": 1.33
+        }
+      ]
+    },
+    {
+      "month": "2021-10",
+      "portfolio_return": -0.68,
+      "benchmark_return": 0.3,
+      "holdings": [
+        {
+          "symbol": "XPROINDIA",
+          "return": -4.88,
+          "score": 9.91
+        },
+        {
+          "symbol": "GOODLUCK",
+          "return": -7.67,
+          "score": 2.89
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": -9.0,
+          "score": 2.46
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 5.45,
+          "score": 2.02
+        },
+        {
+          "symbol": "TIRUMALCHM",
+          "return": -11.88,
+          "score": 1.78
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": 24.7,
+          "score": 1.72
+        },
+        {
+          "symbol": "RAJRATAN",
+          "return": 18.74,
+          "score": 1.7
+        },
+        {
+          "symbol": "SSWL",
+          "return": -5.13,
+          "score": 1.55
+        },
+        {
+          "symbol": "VISHNU",
+          "return": -2.8,
+          "score": 1.53
+        },
+        {
+          "symbol": "AJMERA",
+          "return": -3.41,
+          "score": 1.37
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -2.51,
+          "score": 1.29
+        },
+        {
+          "symbol": "RPSGVENT",
+          "return": -19.6,
+          "score": 1.25
+        },
+        {
+          "symbol": "PDSL",
+          "return": 13.45,
+          "score": 1.19
+        },
+        {
+          "symbol": "SAKSOFT",
+          "return": -14.5,
+          "score": 1.14
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": 8.9,
+          "score": 1.1
+        }
+      ]
+    },
+    {
+      "month": "2021-09",
+      "portfolio_return": 7.03,
+      "benchmark_return": 2.84,
+      "holdings": [
+        {
+          "symbol": "XPROINDIA",
+          "return": 36.75,
+          "score": 8.51
+        },
+        {
+          "symbol": "RAJRATAN",
+          "return": 0.91,
+          "score": 3.0
+        },
+        {
+          "symbol": "GOODLUCK",
+          "return": 0.13,
+          "score": 2.87
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": 2.28,
+          "score": 2.67
+        },
+        {
+          "symbol": "VISHNU",
+          "return": 19.7,
+          "score": 2.6
+        },
+        {
+          "symbol": "SSWL",
+          "return": -9.66,
+          "score": 2.42
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": 32.67,
+          "score": 2.29
+        },
+        {
+          "symbol": "PDSL",
+          "return": -4.25,
+          "score": 2.2
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 29.72,
+          "score": 1.9
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": 0.92,
+          "score": 1.71
+        },
+        {
+          "symbol": "AJMERA",
+          "return": -0.54,
+          "score": 1.42
+        },
+        {
+          "symbol": "DALMIASUG",
+          "return": -4.0,
+          "score": 1.21
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": 9.58,
+          "score": 1.12
+        },
+        {
+          "symbol": "RAMKY",
+          "return": -11.73,
+          "score": 1.11
+        },
+        {
+          "symbol": "ZOTA",
+          "return": 2.96,
+          "score": 1.1
+        }
+      ]
+    },
+    {
+      "month": "2021-08",
+      "portfolio_return": -1.87,
+      "benchmark_return": 8.69,
+      "holdings": [
+        {
+          "symbol": "XPROINDIA",
+          "return": 16.94,
+          "score": 7.75
+        },
+        {
+          "symbol": "RAJRATAN",
+          "return": -17.79,
+          "score": 3.79
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": -16.03,
+          "score": 3.52
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": -24.24,
+          "score": 2.47
+        },
+        {
+          "symbol": "GOODLUCK",
+          "return": 4.54,
+          "score": 2.44
+        },
+        {
+          "symbol": "PDSL",
+          "return": 0.83,
+          "score": 2.27
+        },
+        {
+          "symbol": "VEEDOL",
+          "return": -39.58,
+          "score": 2.15
+        },
+        {
+          "symbol": "VISHNU",
+          "return": -1.75,
+          "score": 2.13
+        },
+        {
+          "symbol": "RAMKY",
+          "return": -11.43,
+          "score": 1.88
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 19.13,
+          "score": 1.71
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": -19.73,
+          "score": 1.7
+        },
+        {
+          "symbol": "DALMIASUG",
+          "return": -12.82,
+          "score": 1.69
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": 38.26,
+          "score": 1.34
+        },
+        {
+          "symbol": "VSSL",
+          "return": -2.84,
+          "score": 1.22
+        },
+        {
+          "symbol": "SSWL",
+          "return": 38.46,
+          "score": 1.1
+        }
+      ]
+    },
+    {
+      "month": "2021-07",
+      "portfolio_return": 17.2,
+      "benchmark_return": 0.26,
+      "holdings": [
+        {
+          "symbol": "RAJRATAN",
+          "return": 36.64,
+          "score": 3.96
+        },
+        {
+          "symbol": "XPROINDIA",
+          "return": 94.12,
+          "score": 3.89
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": 9.58,
+          "score": 3.39
+        },
+        {
+          "symbol": "PDSL",
+          "return": 24.3,
+          "score": 2.95
+        },
+        {
+          "symbol": "VISHNU",
+          "return": 11.29,
+          "score": 2.7
+        },
+        {
+          "symbol": "DALMIASUG",
+          "return": 1.28,
+          "score": 2.47
+        },
+        {
+          "symbol": "VEEDOL",
+          "return": 23.47,
+          "score": 2.18
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": -0.62,
+          "score": 2.13
+        },
+        {
+          "symbol": "RAMKY",
+          "return": -8.97,
+          "score": 2.1
+        },
+        {
+          "symbol": "PITTIENG",
+          "return": 42.55,
+          "score": 1.96
+        },
+        {
+          "symbol": "SPLPETRO",
+          "return": -3.27,
+          "score": 1.94
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": 16.55,
+          "score": 1.88
+        },
+        {
+          "symbol": "THEJO",
+          "return": -15.49,
+          "score": 1.78
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 32.66,
+          "score": 1.62
+        },
+        {
+          "symbol": "JASH",
+          "return": -6.04,
+          "score": 1.57
+        }
+      ]
+    },
+    {
+      "month": "2021-06",
+      "portfolio_return": 9.9,
+      "benchmark_return": 0.89,
+      "holdings": [
+        {
+          "symbol": "JAYNECOIND",
+          "return": 6.81,
+          "score": 5.02
+        },
+        {
+          "symbol": "XPROINDIA",
+          "return": 16.58,
+          "score": 4.1
+        },
+        {
+          "symbol": "PDSL",
+          "return": 10.49,
+          "score": 3.08
+        },
+        {
+          "symbol": "SPLPETRO",
+          "return": -4.32,
+          "score": 2.46
+        },
+        {
+          "symbol": "BBOX",
+          "return": -23.82,
+          "score": 2.27
+        },
+        {
+          "symbol": "RAJRATAN",
+          "return": 49.87,
+          "score": 2.26
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 9.27,
+          "score": 2.19
+        },
+        {
+          "symbol": "DALMIASUG",
+          "return": 43.73,
+          "score": 1.88
+        },
+        {
+          "symbol": "VSSL",
+          "return": 17.13,
+          "score": 1.69
+        },
+        {
+          "symbol": "ADFFOODS",
+          "return": -9.58,
+          "score": 1.67
+        },
+        {
+          "symbol": "FILATEX",
+          "return": 3.3,
+          "score": 1.65
+        },
+        {
+          "symbol": "VEEDOL",
+          "return": 21.56,
+          "score": 1.42
+        },
+        {
+          "symbol": "EVEREADY",
+          "return": -1.28,
+          "score": 1.4
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": 3.14,
+          "score": 1.4
+        },
+        {
+          "symbol": "SMSPHARMA",
+          "return": 5.58,
+          "score": 1.33
+        }
+      ]
+    },
+    {
+      "month": "2021-05",
+      "portfolio_return": 11.43,
+      "benchmark_return": 6.5,
+      "holdings": [
+        {
+          "symbol": "XPROINDIA",
+          "return": 21.38,
+          "score": 5.3
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": 38.4,
+          "score": 3.67
+        },
+        {
+          "symbol": "BBOX",
+          "return": -11.46,
+          "score": 3.4
+        },
+        {
+          "symbol": "SPLPETRO",
+          "return": 4.68,
+          "score": 2.89
+        },
+        {
+          "symbol": "VSSL",
+          "return": -2.76,
+          "score": 2.77
+        },
+        {
+          "symbol": "ADFFOODS",
+          "return": 3.82,
+          "score": 2.51
+        },
+        {
+          "symbol": "PDSL",
+          "return": 36.24,
+          "score": 2.43
+        },
+        {
+          "symbol": "EVEREADY",
+          "return": 11.08,
+          "score": 2.03
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 14.9,
+          "score": 1.91
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": -2.52,
+          "score": 1.86
+        },
+        {
+          "symbol": "FILATEX",
+          "return": 4.19,
+          "score": 1.76
+        },
+        {
+          "symbol": "DALMIASUG",
+          "return": 28.85,
+          "score": 1.7
+        },
+        {
+          "symbol": "NSIL",
+          "return": 12.25,
+          "score": 1.25
+        },
+        {
+          "symbol": "JASH",
+          "return": 11.1,
+          "score": 1.21
+        },
+        {
+          "symbol": "BEPL",
+          "return": 1.27,
+          "score": 1.2
+        }
+      ]
+    },
+    {
+      "month": "2021-04",
+      "portfolio_return": 8.84,
+      "benchmark_return": -0.41,
+      "holdings": [
+        {
+          "symbol": "BBOX",
+          "return": 13.64,
+          "score": 4.11
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": 17.17,
+          "score": 3.9
+        },
+        {
+          "symbol": "ADFFOODS",
+          "return": 1.56,
+          "score": 2.88
+        },
+        {
+          "symbol": "XPROINDIA",
+          "return": 69.67,
+          "score": 2.7
+        },
+        {
+          "symbol": "EVEREADY",
+          "return": 5.78,
+          "score": 2.42
+        },
+        {
+          "symbol": "PDSL",
+          "return": 2.5,
+          "score": 2.4
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": -6.78,
+          "score": 2.39
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 6.99,
+          "score": 1.97
+        },
+        {
+          "symbol": "POKARNA",
+          "return": -9.35,
+          "score": 1.79
+        },
+        {
+          "symbol": "FILATEX",
+          "return": 33.0,
+          "score": 1.79
+        },
+        {
+          "symbol": "RAMKY",
+          "return": -2.47,
+          "score": 1.64
+        },
+        {
+          "symbol": "BEPL",
+          "return": 3.62,
+          "score": 1.52
+        },
+        {
+          "symbol": "PAISALO",
+          "return": -22.95,
+          "score": 1.51
+        },
+        {
+          "symbol": "DALMIASUG",
+          "return": 37.28,
+          "score": 1.42
+        },
+        {
+          "symbol": "HMT",
+          "return": -17.03,
+          "score": 1.4
+        }
+      ]
+    },
+    {
+      "month": "2021-03",
+      "portfolio_return": 1.68,
+      "benchmark_return": 1.11,
+      "holdings": [
+        {
+          "symbol": "EVEREADY",
+          "return": -12.64,
+          "score": 4.7
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": 19.77,
+          "score": 2.76
+        },
+        {
+          "symbol": "BBOX",
+          "return": 28.96,
+          "score": 2.72
+        },
+        {
+          "symbol": "ADFFOODS",
+          "return": 8.32,
+          "score": 2.43
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": 8.72,
+          "score": 2.39
+        },
+        {
+          "symbol": "BEPL",
+          "return": 0.14,
+          "score": 2.37
+        },
+        {
+          "symbol": "PDSL",
+          "return": 1.92,
+          "score": 2.35
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": -4.21,
+          "score": 2.26
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": -10.95,
+          "score": 1.91
+        },
+        {
+          "symbol": "SMSPHARMA",
+          "return": -8.3,
+          "score": 1.87
+        },
+        {
+          "symbol": "SPLPETRO",
+          "return": -0.46,
+          "score": 1.76
+        },
+        {
+          "symbol": "VSSL",
+          "return": -19.15,
+          "score": 1.74
+        },
+        {
+          "symbol": "PAISALO",
+          "return": -7.06,
+          "score": 1.74
+        },
+        {
+          "symbol": "FCL",
+          "return": -5.87,
+          "score": 1.66
+        },
+        {
+          "symbol": "XPROINDIA",
+          "return": 25.95,
+          "score": 1.64
+        }
+      ]
+    },
+    {
+      "month": "2021-02",
+      "portfolio_return": 7.92,
+      "benchmark_return": 6.56,
+      "holdings": [
+        {
+          "symbol": "ASHAPURMIN",
+          "return": -1.61,
+          "score": 4.0
+        },
+        {
+          "symbol": "BBOX",
+          "return": 35.04,
+          "score": 3.23
+        },
+        {
+          "symbol": "BEPL",
+          "return": 1.26,
+          "score": 2.89
+        },
+        {
+          "symbol": "PDSL",
+          "return": 5.0,
+          "score": 2.84
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": -6.82,
+          "score": 2.72
+        },
+        {
+          "symbol": "EVEREADY",
+          "return": 60.78,
+          "score": 2.41
+        },
+        {
+          "symbol": "E2E",
+          "return": -12.06,
+          "score": 2.39
+        },
+        {
+          "symbol": "THEJO",
+          "return": 11.88,
+          "score": 2.33
+        },
+        {
+          "symbol": "MARINE",
+          "return": 0.0,
+          "score": 2.07
+        },
+        {
+          "symbol": "SOLARA",
+          "return": -4.45,
+          "score": 2.06
+        },
+        {
+          "symbol": "SUVEN",
+          "return": 8.66,
+          "score": 1.92
+        },
+        {
+          "symbol": "WAAREEINDO",
+          "return": -2.13,
+          "score": 1.78
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": -3.33,
+          "score": 1.6
+        },
+        {
+          "symbol": "SPLPETRO",
+          "return": 6.51,
+          "score": 1.44
+        },
+        {
+          "symbol": "ADFFOODS",
+          "return": 20.1,
+          "score": 1.43
+        }
+      ]
+    },
+    {
+      "month": "2021-01",
+      "portfolio_return": -4.46,
+      "benchmark_return": -2.48,
+      "holdings": [
+        {
+          "symbol": "EVEREADY",
+          "return": -8.28,
+          "score": 3.92
+        },
+        {
+          "symbol": "BBOX",
+          "return": 2.32,
+          "score": 3.47
+        },
+        {
+          "symbol": "SUVEN",
+          "return": -23.38,
+          "score": 3.27
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": -2.34,
+          "score": 3.25
+        },
+        {
+          "symbol": "BEPL",
+          "return": -5.36,
+          "score": 2.55
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": -6.92,
+          "score": 2.01
+        },
+        {
+          "symbol": "THEJO",
+          "return": 1.64,
+          "score": 1.97
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": 12.71,
+          "score": 1.89
+        },
+        {
+          "symbol": "E2E",
+          "return": -10.18,
+          "score": 1.81
+        },
+        {
+          "symbol": "MARINE",
+          "return": 0.0,
+          "score": 1.8
+        },
+        {
+          "symbol": "PAISALO",
+          "return": -3.2,
+          "score": 1.79
+        },
+        {
+          "symbol": "SPLPETRO",
+          "return": -0.43,
+          "score": 1.74
+        },
+        {
+          "symbol": "NUCLEUS",
+          "return": -11.62,
+          "score": 1.67
+        },
+        {
+          "symbol": "IOLCP",
+          "return": -10.52,
+          "score": 1.61
+        },
+        {
+          "symbol": "ADFFOODS",
+          "return": -1.35,
+          "score": 1.56
+        }
+      ]
+    },
+    {
+      "month": "2020-12",
+      "portfolio_return": 12.58,
+      "benchmark_return": 7.81,
+      "holdings": [
+        {
+          "symbol": "BBOX",
+          "return": 21.92,
+          "score": 3.96
+        },
+        {
+          "symbol": "EVEREADY",
+          "return": 19.05,
+          "score": 3.72
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": 4.39,
+          "score": 2.65
+        },
+        {
+          "symbol": "THEJO",
+          "return": -4.03,
+          "score": 2.65
+        },
+        {
+          "symbol": "IOLCP",
+          "return": -5.67,
+          "score": 2.63
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": 35.79,
+          "score": 2.48
+        },
+        {
+          "symbol": "BEPL",
+          "return": 19.22,
+          "score": 2.32
+        },
+        {
+          "symbol": "CAMLINFINE",
+          "return": 7.84,
+          "score": 1.95
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": 4.98,
+          "score": 1.93
+        },
+        {
+          "symbol": "E2E",
+          "return": 31.47,
+          "score": 1.79
+        },
+        {
+          "symbol": "MARINE",
+          "return": 0.0,
+          "score": 1.76
+        },
+        {
+          "symbol": "SOLARA",
+          "return": 0.4,
+          "score": 1.74
+        },
+        {
+          "symbol": "NUCLEUS",
+          "return": 13.14,
+          "score": 1.47
+        },
+        {
+          "symbol": "SPLPETRO",
+          "return": 11.37,
+          "score": 1.45
+        },
+        {
+          "symbol": "SMSPHARMA",
+          "return": 28.84,
+          "score": 1.36
+        }
+      ]
+    },
+    {
+      "month": "2020-11",
+      "portfolio_return": 1.95,
+      "benchmark_return": 11.39,
+      "holdings": [
+        {
+          "symbol": "THEJO",
+          "return": -14.11,
+          "score": 4.8
+        },
+        {
+          "symbol": "BBOX",
+          "return": -4.87,
+          "score": 4.54
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": -5.02,
+          "score": 2.95
+        },
+        {
+          "symbol": "EVEREADY",
+          "return": 29.67,
+          "score": 2.43
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": 6.22,
+          "score": 2.43
+        },
+        {
+          "symbol": "IOLCP",
+          "return": 16.86,
+          "score": 2.27
+        },
+        {
+          "symbol": "NUCLEUS",
+          "return": -6.63,
+          "score": 2.21
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": -30.39,
+          "score": 2.16
+        },
+        {
+          "symbol": "SOLARA",
+          "return": 6.32,
+          "score": 1.67
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": -1.36,
+          "score": 1.67
+        },
+        {
+          "symbol": "CAMLINFINE",
+          "return": 17.82,
+          "score": 1.64
+        },
+        {
+          "symbol": "SAGCEM",
+          "return": -2.82,
+          "score": 1.43
+        },
+        {
+          "symbol": "UFLEX",
+          "return": 3.74,
+          "score": 1.35
+        },
+        {
+          "symbol": "E2E",
+          "return": 9.3,
+          "score": 1.3
+        },
+        {
+          "symbol": "WAAREEINDO",
+          "return": 4.55,
+          "score": 1.29
+        }
+      ]
+    },
+    {
+      "month": "2020-10",
+      "portfolio_return": -2.18,
+      "benchmark_return": 3.51,
+      "holdings": [
+        {
+          "symbol": "IOLCP",
+          "return": -9.32,
+          "score": 3.74
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": 1.22,
+          "score": 3.7
+        },
+        {
+          "symbol": "THEJO",
+          "return": -6.25,
+          "score": 3.63
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 1.7,
+          "score": 3.32
+        },
+        {
+          "symbol": "EVEREADY",
+          "return": -10.33,
+          "score": 3.1
+        },
+        {
+          "symbol": "NUCLEUS",
+          "return": -10.76,
+          "score": 2.81
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": 1.81,
+          "score": 2.12
+        },
+        {
+          "symbol": "SMSPHARMA",
+          "return": -6.85,
+          "score": 2.09
+        },
+        {
+          "symbol": "SUVEN",
+          "return": -9.22,
+          "score": 2.03
+        },
+        {
+          "symbol": "CAMLINFINE",
+          "return": -14.51,
+          "score": 1.84
+        },
+        {
+          "symbol": "SOLARA",
+          "return": 4.13,
+          "score": 1.76
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": -25.79,
+          "score": 1.68
+        },
+        {
+          "symbol": "ALEMBICLTD",
+          "return": -15.95,
+          "score": 1.6
+        },
+        {
+          "symbol": "BBOX",
+          "return": 75.01,
+          "score": 1.55
+        },
+        {
+          "symbol": "ORISSAMINE",
+          "return": -7.62,
+          "score": 1.32
+        }
+      ]
+    },
+    {
+      "month": "2020-09",
+      "portfolio_return": 4.77,
+      "benchmark_return": -1.23,
+      "holdings": [
+        {
+          "symbol": "IOLCP",
+          "return": -6.92,
+          "score": 4.27
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": -2.18,
+          "score": 3.63
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": 28.69,
+          "score": 2.56
+        },
+        {
+          "symbol": "ORISSAMINE",
+          "return": -6.15,
+          "score": 2.43
+        },
+        {
+          "symbol": "SMSPHARMA",
+          "return": 7.93,
+          "score": 2.4
+        },
+        {
+          "symbol": "EVEREADY",
+          "return": 4.71,
+          "score": 2.21
+        },
+        {
+          "symbol": "SUVEN",
+          "return": 3.49,
+          "score": 1.9
+        },
+        {
+          "symbol": "MOREPENLAB",
+          "return": -10.75,
+          "score": 1.59
+        },
+        {
+          "symbol": "NUCLEUS",
+          "return": 29.66,
+          "score": 1.47
+        },
+        {
+          "symbol": "WAAREEINDO",
+          "return": -7.14,
+          "score": 1.45
+        },
+        {
+          "symbol": "UFLEX",
+          "return": -6.1,
+          "score": 1.41
+        },
+        {
+          "symbol": "ALEMBICLTD",
+          "return": 19.86,
+          "score": 1.35
+        },
+        {
+          "symbol": "SOLARA",
+          "return": 15.46,
+          "score": 1.32
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": 4.16,
+          "score": 1.29
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": -3.22,
+          "score": 1.26
+        }
+      ]
+    },
+    {
+      "month": "2020-08",
+      "portfolio_return": 6.2,
+      "benchmark_return": 2.84,
+      "holdings": [
+        {
+          "symbol": "IOLCP",
+          "return": -3.74,
+          "score": 6.2
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 15.0,
+          "score": 3.62
+        },
+        {
+          "symbol": "SUVEN",
+          "return": 30.53,
+          "score": 3.49
+        },
+        {
+          "symbol": "BBOX",
+          "return": -0.26,
+          "score": 3.14
+        },
+        {
+          "symbol": "EVEREADY",
+          "return": -1.0,
+          "score": 3.07
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": -1.95,
+          "score": 2.25
+        },
+        {
+          "symbol": "SOLARA",
+          "return": 19.67,
+          "score": 2.03
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": 9.41,
+          "score": 1.94
+        },
+        {
+          "symbol": "ORISSAMINE",
+          "return": 38.04,
+          "score": 1.58
+        },
+        {
+          "symbol": "HATHWAY",
+          "return": -6.37,
+          "score": 1.56
+        },
+        {
+          "symbol": "SMSPHARMA",
+          "return": 11.35,
+          "score": 1.53
+        },
+        {
+          "symbol": "PANACEABIO",
+          "return": -18.03,
+          "score": 1.52
+        },
+        {
+          "symbol": "ALEMBICLTD",
+          "return": 7.72,
+          "score": 1.35
+        },
+        {
+          "symbol": "GUFICBIO",
+          "return": -18.8,
+          "score": 1.33
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": 11.44,
+          "score": 1.22
+        }
+      ]
+    },
+    {
+      "month": "2020-07",
+      "portfolio_return": 5.35,
+      "benchmark_return": 7.49,
+      "holdings": [
+        {
+          "symbol": "SUVEN",
+          "return": -2.82,
+          "score": 4.86
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": -3.94,
+          "score": 4.47
+        },
+        {
+          "symbol": "IOLCP",
+          "return": 56.24,
+          "score": 3.9
+        },
+        {
+          "symbol": "BBOX",
+          "return": 5.67,
+          "score": 3.47
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": -24.18,
+          "score": 3.0
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": -1.91,
+          "score": 2.16
+        },
+        {
+          "symbol": "ORISSAMINE",
+          "return": 8.33,
+          "score": 1.73
+        },
+        {
+          "symbol": "ALEMBICLTD",
+          "return": -0.56,
+          "score": 1.72
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": 24.01,
+          "score": 1.71
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": 16.34,
+          "score": 1.62
+        },
+        {
+          "symbol": "SOLARA",
+          "return": 15.37,
+          "score": 1.36
+        },
+        {
+          "symbol": "WAAREEINDO",
+          "return": -32.43,
+          "score": 1.23
+        },
+        {
+          "symbol": "PANACEABIO",
+          "return": 7.35,
+          "score": 1.21
+        },
+        {
+          "symbol": "NACLIND",
+          "return": 2.23,
+          "score": 1.18
+        },
+        {
+          "symbol": "INDRAMEDCO",
+          "return": 10.49,
+          "score": 1.16
+        }
+      ]
+    },
+    {
+      "month": "2020-06",
+      "portfolio_return": 10.23,
+      "benchmark_return": 7.53,
+      "holdings": [
+        {
+          "symbol": "SUVEN",
+          "return": 19.65,
+          "score": 4.73
+        },
+        {
+          "symbol": "BBOX",
+          "return": 13.87,
+          "score": 4.01
+        },
+        {
+          "symbol": "IOLCP",
+          "return": 19.29,
+          "score": 3.87
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 3.1,
+          "score": 3.55
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": 2.08,
+          "score": 3.49
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": 3.58,
+          "score": 1.97
+        },
+        {
+          "symbol": "ORISSAMINE",
+          "return": 5.56,
+          "score": 1.96
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": 7.87,
+          "score": 1.91
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": 47.25,
+          "score": 1.78
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": -1.34,
+          "score": 1.57
+        },
+        {
+          "symbol": "INDOCO",
+          "return": -2.09,
+          "score": 1.45
+        },
+        {
+          "symbol": "INDOSTAR",
+          "return": -9.67,
+          "score": 1.32
+        },
+        {
+          "symbol": "SOLARA",
+          "return": 24.25,
+          "score": 1.21
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": 11.35,
+          "score": 1.2
+        },
+        {
+          "symbol": "GALAXYSURF",
+          "return": 8.67,
+          "score": 1.13
+        }
+      ]
+    },
+    {
+      "month": "2020-05",
+      "portfolio_return": 0.78,
+      "benchmark_return": -2.84,
+      "holdings": [
+        {
+          "symbol": "SUVEN",
+          "return": -28.21,
+          "score": 7.15
+        },
+        {
+          "symbol": "BBOX",
+          "return": 0.69,
+          "score": 3.63
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": 4.97,
+          "score": 3.56
+        },
+        {
+          "symbol": "IOLCP",
+          "return": 36.05,
+          "score": 2.31
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": -5.59,
+          "score": 2.07
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 24.05,
+          "score": 1.93
+        },
+        {
+          "symbol": "ORISSAMINE",
+          "return": 12.39,
+          "score": 1.85
+        },
+        {
+          "symbol": "SOLARA",
+          "return": -10.1,
+          "score": 1.8
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": 0.28,
+          "score": 1.78
+        },
+        {
+          "symbol": "INDOCO",
+          "return": -10.23,
+          "score": 1.56
+        },
+        {
+          "symbol": "GALAXYSURF",
+          "return": -3.98,
+          "score": 1.32
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": -7.14,
+          "score": 1.25
+        },
+        {
+          "symbol": "SIRCA",
+          "return": -2.62,
+          "score": 1.25
+        },
+        {
+          "symbol": "CUPID",
+          "return": -6.56,
+          "score": 1.15
+        },
+        {
+          "symbol": "WAAREEINDO",
+          "return": 7.69,
+          "score": 1.07
+        }
+      ]
+    },
+    {
+      "month": "2020-04",
+      "portfolio_return": 18.5,
+      "benchmark_return": 14.68,
+      "holdings": [
+        {
+          "symbol": "RSYSTEMS",
+          "return": 6.45,
+          "score": 4.58
+        },
+        {
+          "symbol": "BBOX",
+          "return": 6.36,
+          "score": 4.44
+        },
+        {
+          "symbol": "SUVEN",
+          "return": 137.47,
+          "score": 3.68
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": -7.82,
+          "score": 2.76
+        },
+        {
+          "symbol": "ORIENTELEC",
+          "return": -4.31,
+          "score": 2.52
+        },
+        {
+          "symbol": "INDOCO",
+          "return": 14.0,
+          "score": 2.21
+        },
+        {
+          "symbol": "SOLARA",
+          "return": 34.78,
+          "score": 1.72
+        },
+        {
+          "symbol": "SIRCA",
+          "return": -6.64,
+          "score": 1.7
+        },
+        {
+          "symbol": "JASH",
+          "return": 7.42,
+          "score": 1.66
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": 14.33,
+          "score": 1.66
+        },
+        {
+          "symbol": "ORISSAMINE",
+          "return": 37.01,
+          "score": 1.65
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": 25.89,
+          "score": 1.63
+        },
+        {
+          "symbol": "MBAPL",
+          "return": -6.08,
+          "score": 1.58
+        },
+        {
+          "symbol": "SIS",
+          "return": -6.61,
+          "score": 1.49
+        },
+        {
+          "symbol": "CUPID",
+          "return": 25.21,
+          "score": 1.46
+        }
+      ]
+    },
+    {
+      "month": "2020-03",
+      "portfolio_return": -36.39,
+      "benchmark_return": -23.25,
+      "holdings": [
+        {
+          "symbol": "SUVEN",
+          "return": -63.67,
+          "score": 8.59
+        },
+        {
+          "symbol": "BBOX",
+          "return": -48.35,
+          "score": 4.92
+        },
+        {
+          "symbol": "ORISSAMINE",
+          "return": -47.12,
+          "score": 2.56
+        },
+        {
+          "symbol": "ORIENTELEC",
+          "return": -25.61,
+          "score": 2.3
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": -10.95,
+          "score": 2.3
+        },
+        {
+          "symbol": "MASFIN",
+          "return": -51.81,
+          "score": 1.94
+        },
+        {
+          "symbol": "SIRCA",
+          "return": -42.53,
+          "score": 1.85
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": -28.55,
+          "score": 1.63
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": -42.65,
+          "score": 1.36
+        },
+        {
+          "symbol": "GALAXYSURF",
+          "return": -27.48,
+          "score": 1.35
+        },
+        {
+          "symbol": "PDSL",
+          "return": -30.52,
+          "score": 1.3
+        },
+        {
+          "symbol": "DPABHUSHAN",
+          "return": -6.48,
+          "score": 1.29
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": -27.11,
+          "score": 1.23
+        },
+        {
+          "symbol": "BFUTILITIE",
+          "return": -49.23,
+          "score": 1.12
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": -43.8,
+          "score": 1.09
+        }
+      ]
+    },
+    {
+      "month": "2020-02",
+      "portfolio_return": 15.47,
+      "benchmark_return": -6.36,
+      "holdings": [
+        {
+          "symbol": "ORISSAMINE",
+          "return": -1.23,
+          "score": 3.7
+        },
+        {
+          "symbol": "HIRECT",
+          "return": -31.8,
+          "score": 3.62
+        },
+        {
+          "symbol": "SUVEN",
+          "return": 129.87,
+          "score": 3.56
+        },
+        {
+          "symbol": "BBOX",
+          "return": 68.19,
+          "score": 3.38
+        },
+        {
+          "symbol": "MASFIN",
+          "return": 10.49,
+          "score": 2.76
+        },
+        {
+          "symbol": "ORIENTELEC",
+          "return": 11.19,
+          "score": 2.56
+        },
+        {
+          "symbol": "TCIEXP",
+          "return": -2.17,
+          "score": 2.14
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": -3.1,
+          "score": 2.08
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": -3.82,
+          "score": 1.67
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": 35.95,
+          "score": 1.53
+        },
+        {
+          "symbol": "SIRCA",
+          "return": 6.0,
+          "score": 1.51
+        },
+        {
+          "symbol": "CUPID",
+          "return": -17.82,
+          "score": 1.46
+        },
+        {
+          "symbol": "GALAXYSURF",
+          "return": 6.08,
+          "score": 1.44
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 9.92,
+          "score": 1.37
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": 14.3,
+          "score": 1.36
+        }
+      ]
+    },
+    {
+      "month": "2020-01",
+      "portfolio_return": 4.51,
+      "benchmark_return": -1.7,
+      "holdings": [
+        {
+          "symbol": "HIRECT",
+          "return": 14.78,
+          "score": 3.0
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": -1.27,
+          "score": 2.65
+        },
+        {
+          "symbol": "MASFIN",
+          "return": 13.64,
+          "score": 2.6
+        },
+        {
+          "symbol": "CUPID",
+          "return": -0.92,
+          "score": 2.31
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": -12.27,
+          "score": 2.13
+        },
+        {
+          "symbol": "MBAPL",
+          "return": -6.81,
+          "score": 2.12
+        },
+        {
+          "symbol": "BFUTILITIE",
+          "return": -5.12,
+          "score": 2.07
+        },
+        {
+          "symbol": "CAMLINFINE",
+          "return": -9.86,
+          "score": 2.03
+        },
+        {
+          "symbol": "PAISALO",
+          "return": -40.13,
+          "score": 1.93
+        },
+        {
+          "symbol": "ORISSAMINE",
+          "return": 54.84,
+          "score": 1.92
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -6.02,
+          "score": 1.92
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": 14.36,
+          "score": 1.88
+        },
+        {
+          "symbol": "BBOX",
+          "return": 60.8,
+          "score": 1.87
+        },
+        {
+          "symbol": "HONDAPOWER",
+          "return": -1.5,
+          "score": 1.78
+        },
+        {
+          "symbol": "ALEMBICLTD",
+          "return": -6.8,
+          "score": 1.62
+        }
+      ]
+    },
+    {
+      "month": "2019-12",
+      "portfolio_return": 1.54,
+      "benchmark_return": 0.93,
+      "holdings": [
+        {
+          "symbol": "HIRECT",
+          "return": 1.85,
+          "score": 2.87
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -9.29,
+          "score": 2.65
+        },
+        {
+          "symbol": "SIRCA",
+          "return": -2.16,
+          "score": 2.43
+        },
+        {
+          "symbol": "ORIENTELEC",
+          "return": -11.49,
+          "score": 2.42
+        },
+        {
+          "symbol": "GALAXYSURF",
+          "return": 4.9,
+          "score": 2.05
+        },
+        {
+          "symbol": "HONDAPOWER",
+          "return": -6.01,
+          "score": 1.97
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": 8.62,
+          "score": 1.97
+        },
+        {
+          "symbol": "PDSL",
+          "return": -4.56,
+          "score": 1.97
+        },
+        {
+          "symbol": "CUPID",
+          "return": 8.85,
+          "score": 1.95
+        },
+        {
+          "symbol": "MASFIN",
+          "return": 23.39,
+          "score": 1.94
+        },
+        {
+          "symbol": "ORISSAMINE",
+          "return": 0.88,
+          "score": 1.88
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": -1.82,
+          "score": 1.75
+        },
+        {
+          "symbol": "PAISALO",
+          "return": 2.73,
+          "score": 1.72
+        },
+        {
+          "symbol": "KANSAINER",
+          "return": -0.63,
+          "score": 1.69
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 7.89,
+          "score": 1.64
+        }
+      ]
+    },
+    {
+      "month": "2019-11",
+      "portfolio_return": -3.32,
+      "benchmark_return": 1.5,
+      "holdings": [
+        {
+          "symbol": "PAISALO",
+          "return": -7.34,
+          "score": 3.27
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": -8.24,
+          "score": 2.79
+        },
+        {
+          "symbol": "GALAXYSURF",
+          "return": -3.88,
+          "score": 2.68
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": -6.01,
+          "score": 2.24
+        },
+        {
+          "symbol": "PDSL",
+          "return": 1.16,
+          "score": 2.23
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": -4.87,
+          "score": 2.19
+        },
+        {
+          "symbol": "MBAPL",
+          "return": -10.26,
+          "score": 2.17
+        },
+        {
+          "symbol": "HIRECT",
+          "return": 11.44,
+          "score": 1.97
+        },
+        {
+          "symbol": "KANSAINER",
+          "return": -3.12,
+          "score": 1.96
+        },
+        {
+          "symbol": "PGHL",
+          "return": -6.29,
+          "score": 1.94
+        },
+        {
+          "symbol": "PSPPROJECT",
+          "return": -9.69,
+          "score": 1.87
+        },
+        {
+          "symbol": "ORIENTELEC",
+          "return": 9.9,
+          "score": 1.83
+        },
+        {
+          "symbol": "MASFIN",
+          "return": -1.99,
+          "score": 1.68
+        },
+        {
+          "symbol": "CAMLINFINE",
+          "return": -8.66,
+          "score": 1.46
+        },
+        {
+          "symbol": "TCIEXP",
+          "return": -1.97,
+          "score": 1.42
+        }
+      ]
+    },
+    {
+      "month": "2019-10",
+      "portfolio_return": 2.26,
+      "benchmark_return": 3.51,
+      "holdings": [
+        {
+          "symbol": "GOLDIAM",
+          "return": 1.99,
+          "score": 3.46
+        },
+        {
+          "symbol": "PAISALO",
+          "return": 11.48,
+          "score": 3.06
+        },
+        {
+          "symbol": "PGHL",
+          "return": 2.49,
+          "score": 2.76
+        },
+        {
+          "symbol": "MBAPL",
+          "return": -7.23,
+          "score": 2.54
+        },
+        {
+          "symbol": "PDSL",
+          "return": -5.09,
+          "score": 2.45
+        },
+        {
+          "symbol": "VADILALIND",
+          "return": 1.59,
+          "score": 2.24
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": 11.98,
+          "score": 2.21
+        },
+        {
+          "symbol": "63MOONS",
+          "return": 1.17,
+          "score": 2.16
+        },
+        {
+          "symbol": "HIRECT",
+          "return": 7.36,
+          "score": 2.05
+        },
+        {
+          "symbol": "GALAXYSURF",
+          "return": 3.93,
+          "score": 2.0
+        },
+        {
+          "symbol": "PSPPROJECT",
+          "return": 1.31,
+          "score": 1.97
+        },
+        {
+          "symbol": "MASFIN",
+          "return": -0.08,
+          "score": 1.86
+        },
+        {
+          "symbol": "GRINDWELL",
+          "return": 0.05,
+          "score": 1.47
+        },
+        {
+          "symbol": "KANSAINER",
+          "return": 8.78,
+          "score": 1.46
+        },
+        {
+          "symbol": "GOKULAGRO",
+          "return": -5.86,
+          "score": 1.43
+        }
+      ]
+    },
+    {
+      "month": "2019-09",
+      "portfolio_return": 4.25,
+      "benchmark_return": 4.09,
+      "holdings": [
+        {
+          "symbol": "PGHL",
+          "return": 14.46,
+          "score": 2.66
+        },
+        {
+          "symbol": "MBAPL",
+          "return": 6.67,
+          "score": 2.62
+        },
+        {
+          "symbol": "HATHWAY",
+          "return": -39.09,
+          "score": 2.51
+        },
+        {
+          "symbol": "PDSL",
+          "return": 4.9,
+          "score": 2.17
+        },
+        {
+          "symbol": "HEIDELBERG",
+          "return": -2.94,
+          "score": 2.15
+        },
+        {
+          "symbol": "JSWHL",
+          "return": 1.48,
+          "score": 2.05
+        },
+        {
+          "symbol": "SOLARA",
+          "return": -10.96,
+          "score": 2.03
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": 4.25,
+          "score": 2.02
+        },
+        {
+          "symbol": "PAISALO",
+          "return": 13.18,
+          "score": 1.98
+        },
+        {
+          "symbol": "SIRCA",
+          "return": 4.56,
+          "score": 1.97
+        },
+        {
+          "symbol": "PSPPROJECT",
+          "return": 14.79,
+          "score": 1.96
+        },
+        {
+          "symbol": "63MOONS",
+          "return": 14.1,
+          "score": 1.94
+        },
+        {
+          "symbol": "GALAXYSURF",
+          "return": 12.11,
+          "score": 1.89
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": 24.36,
+          "score": 1.69
+        },
+        {
+          "symbol": "FMGOETZE",
+          "return": 1.92,
+          "score": 1.62
+        }
+      ]
+    },
+    {
+      "month": "2019-08",
+      "portfolio_return": -0.48,
+      "benchmark_return": -0.85,
+      "holdings": [
+        {
+          "symbol": "PGHL",
+          "return": -12.74,
+          "score": 3.22
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": -2.6,
+          "score": 2.97
+        },
+        {
+          "symbol": "PAISALO",
+          "return": -10.45,
+          "score": 2.84
+        },
+        {
+          "symbol": "SIRCA",
+          "return": 14.3,
+          "score": 2.68
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -21.03,
+          "score": 2.5
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": -3.74,
+          "score": 2.35
+        },
+        {
+          "symbol": "HEIDELBERG",
+          "return": 6.73,
+          "score": 2.23
+        },
+        {
+          "symbol": "PDSL",
+          "return": -2.72,
+          "score": 2.16
+        },
+        {
+          "symbol": "IOLCP",
+          "return": -9.24,
+          "score": 1.96
+        },
+        {
+          "symbol": "SOLARA",
+          "return": 38.36,
+          "score": 1.84
+        },
+        {
+          "symbol": "ZOTA",
+          "return": -10.56,
+          "score": 1.79
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 5.74,
+          "score": 1.64
+        },
+        {
+          "symbol": "CENTUM",
+          "return": -21.05,
+          "score": 1.63
+        },
+        {
+          "symbol": "PSPPROJECT",
+          "return": 2.76,
+          "score": 1.54
+        },
+        {
+          "symbol": "MBAPL",
+          "return": 19.05,
+          "score": 1.46
+        }
+      ]
+    },
+    {
+      "month": "2019-07",
+      "portfolio_return": -8.3,
+      "benchmark_return": -5.69,
+      "holdings": [
+        {
+          "symbol": "SEAMECLTD",
+          "return": -14.23,
+          "score": 4.9
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": -7.35,
+          "score": 3.23
+        },
+        {
+          "symbol": "PGHL",
+          "return": 9.48,
+          "score": 2.4
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": -29.69,
+          "score": 2.35
+        },
+        {
+          "symbol": "SIRCA",
+          "return": 1.49,
+          "score": 2.33
+        },
+        {
+          "symbol": "IOLCP",
+          "return": -13.5,
+          "score": 2.32
+        },
+        {
+          "symbol": "ZOTA",
+          "return": -6.05,
+          "score": 2.32
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": -2.56,
+          "score": 2.11
+        },
+        {
+          "symbol": "PSPPROJECT",
+          "return": -10.13,
+          "score": 2.06
+        },
+        {
+          "symbol": "CENTUM",
+          "return": -12.27,
+          "score": 2.01
+        },
+        {
+          "symbol": "HEIDELBERG",
+          "return": -2.07,
+          "score": 1.85
+        },
+        {
+          "symbol": "JSWHL",
+          "return": -19.14,
+          "score": 1.82
+        },
+        {
+          "symbol": "PAISALO",
+          "return": 11.0,
+          "score": 1.76
+        },
+        {
+          "symbol": "TTKPRESTIG",
+          "return": -21.53,
+          "score": 1.47
+        },
+        {
+          "symbol": "FMGOETZE",
+          "return": -8.0,
+          "score": 1.41
+        }
+      ]
+    },
+    {
+      "month": "2019-06",
+      "portfolio_return": 1.17,
+      "benchmark_return": -1.12,
+      "holdings": [
+        {
+          "symbol": "SEAMECLTD",
+          "return": 6.96,
+          "score": 4.57
+        },
+        {
+          "symbol": "PGHL",
+          "return": 0.8,
+          "score": 2.5
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": 20.19,
+          "score": 2.46
+        },
+        {
+          "symbol": "HEIDELBERG",
+          "return": -6.41,
+          "score": 2.41
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": -1.94,
+          "score": 2.41
+        },
+        {
+          "symbol": "PAISALO",
+          "return": -7.85,
+          "score": 2.39
+        },
+        {
+          "symbol": "IOLCP",
+          "return": -1.48,
+          "score": 2.31
+        },
+        {
+          "symbol": "TTKPRESTIG",
+          "return": -5.17,
+          "score": 2.14
+        },
+        {
+          "symbol": "FMGOETZE",
+          "return": -4.81,
+          "score": 1.99
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": 12.52,
+          "score": 1.86
+        },
+        {
+          "symbol": "ZOTA",
+          "return": 7.47,
+          "score": 1.76
+        },
+        {
+          "symbol": "JSWHL",
+          "return": -1.48,
+          "score": 1.75
+        },
+        {
+          "symbol": "PSPPROJECT",
+          "return": 5.36,
+          "score": 1.56
+        },
+        {
+          "symbol": "GRINDWELL",
+          "return": 0.08,
+          "score": 1.53
+        },
+        {
+          "symbol": "TCIEXP",
+          "return": -6.75,
+          "score": 1.51
+        }
+      ]
+    },
+    {
+      "month": "2019-05",
+      "portfolio_return": 2.03,
+      "benchmark_return": 1.49,
+      "holdings": [
+        {
+          "symbol": "SEAMECLTD",
+          "return": 1.56,
+          "score": 4.31
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": -15.65,
+          "score": 3.21
+        },
+        {
+          "symbol": "PGHL",
+          "return": 9.42,
+          "score": 2.87
+        },
+        {
+          "symbol": "JSWHL",
+          "return": 1.56,
+          "score": 2.44
+        },
+        {
+          "symbol": "TTKPRESTIG",
+          "return": 3.83,
+          "score": 1.99
+        },
+        {
+          "symbol": "HEIDELBERG",
+          "return": 13.43,
+          "score": 1.9
+        },
+        {
+          "symbol": "IOLCP",
+          "return": 20.95,
+          "score": 1.87
+        },
+        {
+          "symbol": "FMGOETZE",
+          "return": 1.47,
+          "score": 1.87
+        },
+        {
+          "symbol": "63MOONS",
+          "return": -6.31,
+          "score": 1.79
+        },
+        {
+          "symbol": "MASFIN",
+          "return": -10.64,
+          "score": 1.72
+        },
+        {
+          "symbol": "GRINDWELL",
+          "return": -0.71,
+          "score": 1.67
+        },
+        {
+          "symbol": "BBOX",
+          "return": 1.99,
+          "score": 1.66
+        },
+        {
+          "symbol": "TCIEXP",
+          "return": 2.95,
+          "score": 1.49
+        },
+        {
+          "symbol": "DALMIASUG",
+          "return": 4.34,
+          "score": 1.48
+        },
+        {
+          "symbol": "ZOTA",
+          "return": 2.31,
+          "score": 1.43
+        }
+      ]
+    },
+    {
+      "month": "2019-04",
+      "portfolio_return": -4.63,
+      "benchmark_return": 1.54,
+      "holdings": [
+        {
+          "symbol": "CANTABIL",
+          "return": -18.37,
+          "score": 4.3
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": 6.19,
+          "score": 4.02
+        },
+        {
+          "symbol": "IOLCP",
+          "return": -11.65,
+          "score": 2.81
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": -11.56,
+          "score": 2.6
+        },
+        {
+          "symbol": "PGHL",
+          "return": -2.15,
+          "score": 2.41
+        },
+        {
+          "symbol": "TCIEXP",
+          "return": -5.89,
+          "score": 2.41
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": 2.0,
+          "score": 2.22
+        },
+        {
+          "symbol": "TTKPRESTIG",
+          "return": -3.27,
+          "score": 2.06
+        },
+        {
+          "symbol": "FMGOETZE",
+          "return": -0.02,
+          "score": 1.99
+        },
+        {
+          "symbol": "JSWHL",
+          "return": 2.91,
+          "score": 1.98
+        },
+        {
+          "symbol": "DALMIASUG",
+          "return": -11.8,
+          "score": 1.81
+        },
+        {
+          "symbol": "TAJGVK",
+          "return": -6.31,
+          "score": 1.69
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": -8.96,
+          "score": 1.6
+        },
+        {
+          "symbol": "GRINDWELL",
+          "return": 0.7,
+          "score": 1.55
+        },
+        {
+          "symbol": "HEIDELBERG",
+          "return": -1.22,
+          "score": 1.35
+        }
+      ]
+    },
+    {
+      "month": "2019-03",
+      "portfolio_return": 4.68,
+      "benchmark_return": 7.2,
+      "holdings": [
+        {
+          "symbol": "CANTABIL",
+          "return": 21.06,
+          "score": 4.03
+        },
+        {
+          "symbol": "IOLCP",
+          "return": -0.13,
+          "score": 3.22
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": -1.03,
+          "score": 2.74
+        },
+        {
+          "symbol": "DALMIASUG",
+          "return": -3.67,
+          "score": 2.68
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": 16.83,
+          "score": 2.64
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": -4.17,
+          "score": 2.46
+        },
+        {
+          "symbol": "PGHL",
+          "return": 7.85,
+          "score": 2.36
+        },
+        {
+          "symbol": "NRBBEARING",
+          "return": -5.31,
+          "score": 2.03
+        },
+        {
+          "symbol": "JSWHL",
+          "return": 14.2,
+          "score": 1.86
+        },
+        {
+          "symbol": "TTKPRESTIG",
+          "return": 6.99,
+          "score": 1.82
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": 4.58,
+          "score": 1.67
+        },
+        {
+          "symbol": "UNIVCABLES",
+          "return": 0.48,
+          "score": 1.48
+        },
+        {
+          "symbol": "GOLDIAM",
+          "return": -7.74,
+          "score": 1.41
+        },
+        {
+          "symbol": "GRINDWELL",
+          "return": 5.41,
+          "score": 1.3
+        },
+        {
+          "symbol": "TCIEXP",
+          "return": 14.85,
+          "score": 1.3
+        }
+      ]
+    },
+    {
+      "month": "2019-02",
+      "portfolio_return": -0.63,
+      "benchmark_return": -0.36,
+      "holdings": [
+        {
+          "symbol": "IOLCP",
+          "return": -9.02,
+          "score": 4.37
+        },
+        {
+          "symbol": "PGHL",
+          "return": -4.29,
+          "score": 3.16
+        },
+        {
+          "symbol": "JSWHL",
+          "return": -12.0,
+          "score": 2.83
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": -3.09,
+          "score": 2.73
+        },
+        {
+          "symbol": "UNIVCABLES",
+          "return": -15.4,
+          "score": 2.46
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": 4.39,
+          "score": 2.46
+        },
+        {
+          "symbol": "ZOTA",
+          "return": -4.03,
+          "score": 2.17
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": -2.46,
+          "score": 2.1
+        },
+        {
+          "symbol": "HATHWAY",
+          "return": -22.03,
+          "score": 1.89
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": -0.73,
+          "score": 1.86
+        },
+        {
+          "symbol": "DALMIASUG",
+          "return": 33.41,
+          "score": 1.74
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": 13.78,
+          "score": 1.58
+        },
+        {
+          "symbol": "FILATEX",
+          "return": -13.94,
+          "score": 1.53
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": 56.12,
+          "score": 1.52
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": -30.21,
+          "score": 1.37
+        }
+      ]
+    },
+    {
+      "month": "2019-01",
+      "portfolio_return": -0.74,
+      "benchmark_return": -0.29,
+      "holdings": [
+        {
+          "symbol": "IOLCP",
+          "return": 21.16,
+          "score": 3.89
+        },
+        {
+          "symbol": "PGHL",
+          "return": 5.26,
+          "score": 2.91
+        },
+        {
+          "symbol": "UNIVCABLES",
+          "return": -7.86,
+          "score": 2.76
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": -2.47,
+          "score": 2.59
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": -17.5,
+          "score": 2.5
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": 5.45,
+          "score": 2.17
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": 1.77,
+          "score": 2.08
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": -2.98,
+          "score": 1.86
+        },
+        {
+          "symbol": "JSWHL",
+          "return": 18.01,
+          "score": 1.85
+        },
+        {
+          "symbol": "FILATEX",
+          "return": -13.33,
+          "score": 1.82
+        },
+        {
+          "symbol": "SAKSOFT",
+          "return": -9.97,
+          "score": 1.61
+        },
+        {
+          "symbol": "TIIL",
+          "return": -9.95,
+          "score": 1.47
+        },
+        {
+          "symbol": "NRBBEARING",
+          "return": -8.77,
+          "score": 1.4
+        },
+        {
+          "symbol": "TTKPRESTIG",
+          "return": 2.38,
+          "score": 1.38
+        },
+        {
+          "symbol": "ZOTA",
+          "return": 7.7,
+          "score": 1.31
+        }
+      ]
+    },
+    {
+      "month": "2018-12",
+      "portfolio_return": 1.91,
+      "benchmark_return": -0.13,
+      "holdings": [
+        {
+          "symbol": "IOLCP",
+          "return": -2.12,
+          "score": 3.6
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": -0.71,
+          "score": 3.02
+        },
+        {
+          "symbol": "PGHL",
+          "return": 6.75,
+          "score": 2.94
+        },
+        {
+          "symbol": "ZOTA",
+          "return": -0.87,
+          "score": 2.35
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": -1.97,
+          "score": 2.26
+        },
+        {
+          "symbol": "UNIVCABLES",
+          "return": -1.84,
+          "score": 2.24
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": 21.25,
+          "score": 2.17
+        },
+        {
+          "symbol": "WSTCSTPAPR",
+          "return": -10.81,
+          "score": 1.79
+        },
+        {
+          "symbol": "NRBBEARING",
+          "return": 8.52,
+          "score": 1.78
+        },
+        {
+          "symbol": "THEJO",
+          "return": -1.33,
+          "score": 1.76
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": 13.02,
+          "score": 1.73
+        },
+        {
+          "symbol": "FILATEX",
+          "return": 3.23,
+          "score": 1.71
+        },
+        {
+          "symbol": "RSYSTEMS",
+          "return": 1.66,
+          "score": 1.66
+        },
+        {
+          "symbol": "PAISALO",
+          "return": -3.06,
+          "score": 1.48
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": -3.01,
+          "score": 1.43
+        }
+      ]
+    },
+    {
+      "month": "2018-11",
+      "portfolio_return": -1.76,
+      "benchmark_return": 4.72,
+      "holdings": [
+        {
+          "symbol": "PGHL",
+          "return": -10.24,
+          "score": 3.81
+        },
+        {
+          "symbol": "WSTCSTPAPR",
+          "return": -14.68,
+          "score": 2.79
+        },
+        {
+          "symbol": "ZOTA",
+          "return": 0.24,
+          "score": 2.55
+        },
+        {
+          "symbol": "UNIVCABLES",
+          "return": -3.1,
+          "score": 2.47
+        },
+        {
+          "symbol": "IOLCP",
+          "return": 25.0,
+          "score": 2.44
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": -2.29,
+          "score": 2.3
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": 2.96,
+          "score": 2.28
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": -4.64,
+          "score": 1.89
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": -14.32,
+          "score": 1.86
+        },
+        {
+          "symbol": "TIIL",
+          "return": -8.47,
+          "score": 1.8
+        },
+        {
+          "symbol": "FCL",
+          "return": -11.27,
+          "score": 1.68
+        },
+        {
+          "symbol": "SUVEN",
+          "return": -0.29,
+          "score": 1.66
+        },
+        {
+          "symbol": "THEJO",
+          "return": 16.96,
+          "score": 1.57
+        },
+        {
+          "symbol": "ESABINDIA",
+          "return": 12.62,
+          "score": 1.56
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -14.83,
+          "score": 1.56
+        }
+      ]
+    },
+    {
+      "month": "2018-10",
+      "portfolio_return": 0.01,
+      "benchmark_return": -4.98,
+      "holdings": [
+        {
+          "symbol": "PGHL",
+          "return": 12.15,
+          "score": 3.09
+        },
+        {
+          "symbol": "ZOTA",
+          "return": 1.6,
+          "score": 2.93
+        },
+        {
+          "symbol": "IOLCP",
+          "return": 12.27,
+          "score": 2.57
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": 13.01,
+          "score": 2.48
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": -12.14,
+          "score": 2.36
+        },
+        {
+          "symbol": "THEJO",
+          "return": -17.92,
+          "score": 2.35
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": -2.21,
+          "score": 2.24
+        },
+        {
+          "symbol": "JSWHL",
+          "return": -4.48,
+          "score": 2.2
+        },
+        {
+          "symbol": "SUVEN",
+          "return": -9.76,
+          "score": 2.02
+        },
+        {
+          "symbol": "WSTCSTPAPR",
+          "return": 15.85,
+          "score": 1.93
+        },
+        {
+          "symbol": "MMFL",
+          "return": -7.23,
+          "score": 1.91
+        },
+        {
+          "symbol": "SASKEN",
+          "return": -27.61,
+          "score": 1.84
+        },
+        {
+          "symbol": "CANTABIL",
+          "return": 6.93,
+          "score": 1.73
+        },
+        {
+          "symbol": "KDDL",
+          "return": 1.53,
+          "score": 1.67
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": 18.16,
+          "score": 1.57
+        }
+      ]
+    },
+    {
+      "month": "2018-09",
+      "portfolio_return": -12.32,
+      "benchmark_return": -6.42,
+      "holdings": [
+        {
+          "symbol": "PGHL",
+          "return": -26.25,
+          "score": 3.65
+        },
+        {
+          "symbol": "ZOTA",
+          "return": -7.65,
+          "score": 3.05
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": -20.92,
+          "score": 2.53
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": -25.05,
+          "score": 2.52
+        },
+        {
+          "symbol": "KDDL",
+          "return": -15.89,
+          "score": 1.99
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": -21.13,
+          "score": 1.9
+        },
+        {
+          "symbol": "THEJO",
+          "return": -8.09,
+          "score": 1.85
+        },
+        {
+          "symbol": "SASKEN",
+          "return": -10.59,
+          "score": 1.82
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": -8.56,
+          "score": 1.67
+        },
+        {
+          "symbol": "UNIVCABLES",
+          "return": -10.42,
+          "score": 1.66
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -21.15,
+          "score": 1.64
+        },
+        {
+          "symbol": "SUVEN",
+          "return": -3.62,
+          "score": 1.64
+        },
+        {
+          "symbol": "IOLCP",
+          "return": -3.72,
+          "score": 1.61
+        },
+        {
+          "symbol": "MMFL",
+          "return": -1.63,
+          "score": 1.5
+        },
+        {
+          "symbol": "JSWHL",
+          "return": -0.1,
+          "score": 1.48
+        }
+      ]
+    },
+    {
+      "month": "2018-08",
+      "portfolio_return": 5.89,
+      "benchmark_return": 2.85,
+      "holdings": [
+        {
+          "symbol": "BHARATRAS",
+          "return": -1.66,
+          "score": 3.18
+        },
+        {
+          "symbol": "ZOTA",
+          "return": 16.67,
+          "score": 2.65
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": -1.83,
+          "score": 2.62
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -6.94,
+          "score": 2.48
+        },
+        {
+          "symbol": "KDDL",
+          "return": 0.98,
+          "score": 2.4
+        },
+        {
+          "symbol": "BOMDYEING",
+          "return": 4.54,
+          "score": 2.12
+        },
+        {
+          "symbol": "PGHL",
+          "return": 57.99,
+          "score": 2.1
+        },
+        {
+          "symbol": "MMFL",
+          "return": -1.53,
+          "score": 1.96
+        },
+        {
+          "symbol": "FCL",
+          "return": -7.13,
+          "score": 1.91
+        },
+        {
+          "symbol": "SASKEN",
+          "return": 5.86,
+          "score": 1.87
+        },
+        {
+          "symbol": "IOLCP",
+          "return": 22.32,
+          "score": 1.5
+        },
+        {
+          "symbol": "TAJGVK",
+          "return": -14.93,
+          "score": 1.41
+        },
+        {
+          "symbol": "SHOPERSTOP",
+          "return": 12.24,
+          "score": 1.36
+        },
+        {
+          "symbol": "GMBREW",
+          "return": 7.49,
+          "score": 1.3
+        },
+        {
+          "symbol": "LGBBROSLTD",
+          "return": -5.69,
+          "score": 1.29
+        }
+      ]
+    },
+    {
+      "month": "2018-07",
+      "portfolio_return": 0.56,
+      "benchmark_return": 5.99,
+      "holdings": [
+        {
+          "symbol": "PGHL",
+          "return": -5.23,
+          "score": 3.09
+        },
+        {
+          "symbol": "KDDL",
+          "return": 0.14,
+          "score": 2.56
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": 2.53,
+          "score": 2.43
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": 16.85,
+          "score": 2.34
+        },
+        {
+          "symbol": "GMBREW",
+          "return": -21.67,
+          "score": 2.28
+        },
+        {
+          "symbol": "SASKEN",
+          "return": 2.9,
+          "score": 2.05
+        },
+        {
+          "symbol": "ZOTA",
+          "return": 5.55,
+          "score": 2.05
+        },
+        {
+          "symbol": "FCL",
+          "return": 2.96,
+          "score": 1.89
+        },
+        {
+          "symbol": "MMFL",
+          "return": -5.17,
+          "score": 1.89
+        },
+        {
+          "symbol": "SDBL",
+          "return": 2.38,
+          "score": 1.58
+        },
+        {
+          "symbol": "PAISALO",
+          "return": -0.21,
+          "score": 1.56
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": -5.8,
+          "score": 1.52
+        },
+        {
+          "symbol": "RESPONIND",
+          "return": 14.85,
+          "score": 1.49
+        },
+        {
+          "symbol": "BEPL",
+          "return": -0.79,
+          "score": 1.44
+        },
+        {
+          "symbol": "PSPPROJECT",
+          "return": -0.91,
+          "score": 1.4
+        }
+      ]
+    },
+    {
+      "month": "2018-06",
+      "portfolio_return": -2.53,
+      "benchmark_return": -0.2,
+      "holdings": [
+        {
+          "symbol": "PGHL",
+          "return": -7.46,
+          "score": 3.05
+        },
+        {
+          "symbol": "SASKEN",
+          "return": -7.81,
+          "score": 2.52
+        },
+        {
+          "symbol": "KDDL",
+          "return": -1.64,
+          "score": 2.06
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": 8.78,
+          "score": 2.04
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -0.7,
+          "score": 1.89
+        },
+        {
+          "symbol": "GMBREW",
+          "return": 6.77,
+          "score": 1.88
+        },
+        {
+          "symbol": "MMFL",
+          "return": 14.14,
+          "score": 1.84
+        },
+        {
+          "symbol": "KIOCL",
+          "return": -9.81,
+          "score": 1.82
+        },
+        {
+          "symbol": "LGBBROSLTD",
+          "return": -28.03,
+          "score": 1.72
+        },
+        {
+          "symbol": "BOMDYEING",
+          "return": -8.12,
+          "score": 1.68
+        },
+        {
+          "symbol": "SSWL",
+          "return": -6.63,
+          "score": 1.61
+        },
+        {
+          "symbol": "SDBL",
+          "return": -11.76,
+          "score": 1.56
+        },
+        {
+          "symbol": "BEPL",
+          "return": 8.47,
+          "score": 1.51
+        },
+        {
+          "symbol": "GUFICBIO",
+          "return": -7.38,
+          "score": 1.49
+        },
+        {
+          "symbol": "VIMTALABS",
+          "return": 13.22,
+          "score": 1.39
+        }
+      ]
+    },
+    {
+      "month": "2018-05",
+      "portfolio_return": -11.14,
+      "benchmark_return": -0.03,
+      "holdings": [
+        {
+          "symbol": "KIOCL",
+          "return": -9.38,
+          "score": 4.07
+        },
+        {
+          "symbol": "KDDL",
+          "return": -16.47,
+          "score": 2.77
+        },
+        {
+          "symbol": "BEPL",
+          "return": -24.27,
+          "score": 2.19
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": -3.18,
+          "score": 1.88
+        },
+        {
+          "symbol": "SASKEN",
+          "return": 3.18,
+          "score": 1.85
+        },
+        {
+          "symbol": "PGHL",
+          "return": 11.37,
+          "score": 1.8
+        },
+        {
+          "symbol": "AUTOAXLES",
+          "return": -17.81,
+          "score": 1.67
+        },
+        {
+          "symbol": "MOREPENLAB",
+          "return": -21.39,
+          "score": 1.39
+        },
+        {
+          "symbol": "BOMDYEING",
+          "return": -22.59,
+          "score": 1.39
+        },
+        {
+          "symbol": "GMBREW",
+          "return": -3.79,
+          "score": 1.29
+        },
+        {
+          "symbol": "VENKEYS",
+          "return": -23.12,
+          "score": 1.27
+        },
+        {
+          "symbol": "RML",
+          "return": -18.93,
+          "score": 1.27
+        },
+        {
+          "symbol": "SSWL",
+          "return": -4.4,
+          "score": 1.27
+        },
+        {
+          "symbol": "GLOBUSSPR",
+          "return": -15.18,
+          "score": 1.23
+        },
+        {
+          "symbol": "LGBBROSLTD",
+          "return": -1.09,
+          "score": 1.17
+        }
+      ]
+    },
+    {
+      "month": "2018-04",
+      "portfolio_return": 14.16,
+      "benchmark_return": 6.19,
+      "holdings": [
+        {
+          "symbol": "KIOCL",
+          "return": 3.8,
+          "score": 5.23
+        },
+        {
+          "symbol": "BEPL",
+          "return": 9.17,
+          "score": 2.82
+        },
+        {
+          "symbol": "GMBREW",
+          "return": 10.79,
+          "score": 2.13
+        },
+        {
+          "symbol": "VENKEYS",
+          "return": -0.04,
+          "score": 2.05
+        },
+        {
+          "symbol": "AUTOAXLES",
+          "return": 4.59,
+          "score": 1.8
+        },
+        {
+          "symbol": "MMFL",
+          "return": 4.34,
+          "score": 1.65
+        },
+        {
+          "symbol": "KDDL",
+          "return": 59.0,
+          "score": 1.61
+        },
+        {
+          "symbol": "LUMAXIND",
+          "return": 4.35,
+          "score": 1.32
+        },
+        {
+          "symbol": "LGBBROSLTD",
+          "return": 21.64,
+          "score": 1.2
+        },
+        {
+          "symbol": "MAITHANALL",
+          "return": 1.18,
+          "score": 1.12
+        },
+        {
+          "symbol": "RML",
+          "return": 12.24,
+          "score": 1.12
+        },
+        {
+          "symbol": "RAMKY",
+          "return": 15.37,
+          "score": 1.04
+        },
+        {
+          "symbol": "NOCIL",
+          "return": 12.13,
+          "score": 1.01
+        },
+        {
+          "symbol": "BHARATRAS",
+          "return": 34.51,
+          "score": 0.94
+        },
+        {
+          "symbol": "MOREPENLAB",
+          "return": 19.37,
+          "score": 0.94
+        }
+      ]
+    },
+    {
+      "month": "2018-03",
+      "portfolio_return": -7.55,
+      "benchmark_return": -3.61,
+      "holdings": [
+        {
+          "symbol": "KIOCL",
+          "return": -21.22,
+          "score": 7.01
+        },
+        {
+          "symbol": "BEPL",
+          "return": -2.01,
+          "score": 2.04
+        },
+        {
+          "symbol": "AUTOAXLES",
+          "return": -3.12,
+          "score": 2.02
+        },
+        {
+          "symbol": "BOMDYEING",
+          "return": -6.13,
+          "score": 2.0
+        },
+        {
+          "symbol": "MMFL",
+          "return": -4.1,
+          "score": 1.5
+        },
+        {
+          "symbol": "PRECWIRE",
+          "return": -9.16,
+          "score": 1.39
+        },
+        {
+          "symbol": "KOLTEPATIL",
+          "return": -11.49,
+          "score": 1.38
+        },
+        {
+          "symbol": "RAMKY",
+          "return": -17.85,
+          "score": 1.31
+        },
+        {
+          "symbol": "VENKEYS",
+          "return": -4.4,
+          "score": 1.3
+        },
+        {
+          "symbol": "GMBREW",
+          "return": 6.36,
+          "score": 1.28
+        },
+        {
+          "symbol": "KDDL",
+          "return": 1.82,
+          "score": 1.11
+        },
+        {
+          "symbol": "RML",
+          "return": -12.1,
+          "score": 0.93
+        },
+        {
+          "symbol": "LGBBROSLTD",
+          "return": -5.78,
+          "score": 0.89
+        },
+        {
+          "symbol": "MAITHANALL",
+          "return": -14.98,
+          "score": 0.87
+        },
+        {
+          "symbol": "SASKEN",
+          "return": -9.05,
+          "score": 0.84
+        }
+      ]
+    },
+    {
+      "month": "2018-02",
+      "portfolio_return": -0.38,
+      "benchmark_return": -4.85,
+      "holdings": [
+        {
+          "symbol": "KIOCL",
+          "return": -9.24,
+          "score": 9.05
+        },
+        {
+          "symbol": "BEPL",
+          "return": 0.31,
+          "score": 1.89
+        },
+        {
+          "symbol": "AUTOAXLES",
+          "return": 0.44,
+          "score": 1.85
+        },
+        {
+          "symbol": "BOMDYEING",
+          "return": 21.43,
+          "score": 1.79
+        },
+        {
+          "symbol": "KOLTEPATIL",
+          "return": -4.41,
+          "score": 1.29
+        },
+        {
+          "symbol": "MMFL",
+          "return": 1.82,
+          "score": 1.26
+        },
+        {
+          "symbol": "RAMKY",
+          "return": -4.26,
+          "score": 1.14
+        },
+        {
+          "symbol": "MAITHANALL",
+          "return": 4.9,
+          "score": 0.96
+        },
+        {
+          "symbol": "GUJALKALI",
+          "return": -0.22,
+          "score": 0.93
+        },
+        {
+          "symbol": "GMBREW",
+          "return": 5.88,
+          "score": 0.92
+        },
+        {
+          "symbol": "JAICORPLTD",
+          "return": -9.86,
+          "score": 0.83
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": -8.26,
+          "score": 0.82
+        },
+        {
+          "symbol": "SIYSIL",
+          "return": -0.16,
+          "score": 0.82
+        },
+        {
+          "symbol": "WINDMACHIN",
+          "return": 3.22,
+          "score": 0.77
+        },
+        {
+          "symbol": "MARATHON",
+          "return": -7.32,
+          "score": 0.7
+        }
+      ]
+    }
+  ],
+  "current_performance": [
+    {
+      "month": "2026-01",
+      "portfolio_return": -4.0,
+      "benchmark_return": -1.52,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": -15.3,
+          "score": 10.2
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": -14.26,
+          "score": 5.15
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": -12.57,
+          "score": 2.14
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": -2.92,
+          "score": 2.12
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 10.9,
+          "score": 2.1
+        },
+        {
+          "symbol": "GRMOVER",
+          "return": 5.08,
+          "score": 2.02
+        },
+        {
+          "symbol": "KMEW",
+          "return": -1.79,
+          "score": 1.94
+        },
+        {
+          "symbol": "JAYNECOIND",
+          "return": -2.36,
+          "score": 1.85
+        },
+        {
+          "symbol": "INFOBEAN",
+          "return": 3.57,
+          "score": 1.81
+        },
+        {
+          "symbol": "LUMAXIND",
+          "return": 4.88,
+          "score": 1.8
+        },
+        {
+          "symbol": "TFCILTD",
+          "return": -4.36,
+          "score": 1.58
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": -6.24,
+          "score": 1.56
+        },
+        {
+          "symbol": "YATRA",
+          "return": -5.14,
+          "score": 1.5
+        },
+        {
+          "symbol": "ZOTA",
+          "return": -11.08,
+          "score": 1.48
+        },
+        {
+          "symbol": "APOLLO",
+          "return": -8.49,
+          "score": 1.41
+        }
+      ]
+    },
+    {
+      "month": "2025-12",
+      "portfolio_return": 1.95,
+      "benchmark_return": -0.28,
+      "holdings": [
+        {
+          "symbol": "BGRENERGY",
+          "return": -12.44,
+          "score": 9.2
+        },
+        {
+          "symbol": "CUPID",
+          "return": 48.24,
+          "score": 4.95
+        },
+        {
+          "symbol": "INDOTHAI",
+          "return": -25.04,
+          "score": 3.73
+        },
+        {
+          "symbol": "LUMAXIND",
+          "return": -8.02,
+          "score": 2.4
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 4.49,
+          "score": 2.29
+        },
+        {
+          "symbol": "GRMOVER",
+          "return": 2.99,
+          "score": 1.81
+        },
+        {
+          "symbol": "ZOTA",
+          "return": -5.08,
+          "score": 1.8
+        },
+        {
+          "symbol": "TFCILTD",
+          "return": -5.54,
+          "score": 1.74
+        },
+        {
+          "symbol": "AXISCADES",
+          "return": -7.06,
+          "score": 1.68
+        },
+        {
+          "symbol": "LGBBROSLTD",
+          "return": -5.87,
+          "score": 1.45
+        },
+        {
+          "symbol": "ASHAPURMIN",
+          "return": 23.84,
+          "score": 1.44
+        },
+        {
+          "symbol": "SIRCA",
+          "return": -3.38,
+          "score": 1.32
+        },
+        {
+          "symbol": "FEDFINA",
+          "return": -0.62,
+          "score": 1.3
+        },
+        {
+          "symbol": "KRISHANA",
+          "return": 6.56,
+          "score": 1.26
+        },
+        {
+          "symbol": "SABTNL",
+          "return": 16.12,
+          "score": 1.24
+        }
+      ]
+    }
+  ]
+}
