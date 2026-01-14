@@ -46,7 +46,7 @@ export default function HomePage() {
       rebalancing: 'Weekly',
       metrics: {
         return: formatReturn(weeklyMomentumData.backtest_metrics.return_metrics.net_return_after_fees),
-        sharpe: weeklyMomentumData.backtest_metrics.risk_metrics.sharpe_ratio.toString()
+        sharpe: (weeklyMomentumData.backtest_metrics as any).risk_metrics?.sharpe_ratio?.toString() || 'N/A'
       }
     },
     {
