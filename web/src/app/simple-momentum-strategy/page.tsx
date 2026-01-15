@@ -19,6 +19,20 @@ export default function SimpleMomentumStrategyPage() {
     const backtestResults = data.backtest_results || []
     const currentPerformance = data.current_performance || []
 
+    // Prepare Equity Curve Data (Live) with Baseline
+    const equityCurveData = React.useMemo(() => {
+        if (!currentPerformance || currentPerformance.length === 0) return []
+
+        // Add baseline entry for Nov 2025 so chart starts at 100k
+        const baseline = {
+            month: '2025-11',
+            portfolio_return: 0,
+            benchmark_return: 0
+        }
+
+        return [baseline, ...currentPerformance]
+    }, [currentPerformance])
+
     if (!backtestMetrics) {
         return <div className="p-8 text-center text-gray-500">Loading metrics or invalid data format...</div>
     }
@@ -108,7 +122,7 @@ export default function SimpleMomentumStrategyPage() {
                         {/* Live Equity Curve */}
                         <div className="mt-8">
                             <PerformanceChart
-                                data={currentPerformance}
+                                data={equityCurveData}
                                 title="Equity Curve (Live Period)"
                                 showBenchmark={true}
                                 benchmarkName="Nifty 50"

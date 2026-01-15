@@ -149,6 +149,7 @@ export default function MomentumWeeklyStrategyPage() {
                     </div>
 
                     {/* Historical Detailed Metrics */}
+                    <MetricsGrid metrics={backtestMetrics} />
                     <DetailedMetrics
                         metrics={backtestMetrics}
                         title="Historical Backtest Metrics"

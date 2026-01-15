@@ -281,11 +281,27 @@ def run_backtest():
             print("Warning: Could not fetch Nifty data. Benchmark returns will be 0.")
             nifty = pd.DataFrame(columns=['close'])
         else:
-            nifty['date'] = nifty.index
-            nifty = nifty[['date', 'Close']]
+            # Handle MultiIndex columns (common in new yfinance)
             if isinstance(nifty.columns, pd.MultiIndex):
                 nifty.columns = nifty.columns.get_level_values(0)
-            nifty.rename(columns={'Close': 'close'}, inplace=True)
+            
+            nifty.reset_index(inplace=True)
+            
+            # Standardize column names
+            nifty.columns = [c.lower() for c in nifty.columns]
+            
+            # Ensure we have date and close
+            if 'date' not in nifty.columns:
+                 nifty.rename(columns={'index': 'date'}, inplace=True)
+            
+            if 'close' in nifty.columns:
+                nifty = nifty[['date', 'close']]
+            elif 'adj close' in nifty.columns:
+                 nifty = nifty[['date', 'adj close']]
+                 nifty.rename(columns={'adj close': 'close'}, inplace=True)
+            else:
+                 print("Warning: 'Close' column not found in Nifty data")
+                 nifty = pd.DataFrame(columns=['close'])
     except Exception as e:
         print(f"Error fetching benchmark: {e}")
         nifty = pd.DataFrame(columns=['close'])

@@ -147,6 +147,9 @@ export default function SimpleMomentumWeeklyStrategyPage() {
                         </span>
                     </div>
 
+                    {/* Historical Metrics Grid */}
+                    <MetricsGrid metrics={backtestMetrics} />
+
                     {/* Historical Detailed Metrics */}
                     <DetailedMetrics
                         metrics={backtestMetrics}

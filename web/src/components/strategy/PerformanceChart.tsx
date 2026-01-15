@@ -82,7 +82,7 @@ export default function PerformanceChart({
                             iconType="line"
                         />
                         <Line
-                            type="monotone"
+                            type="linear"
                             dataKey="Portfolio"
                             stroke="#2563eb"
                             strokeWidth={3}
@@ -92,7 +92,7 @@ export default function PerformanceChart({
                         />
                         {showBenchmark && (
                             <Line
-                                type="monotone"
+                                type="linear"
                                 dataKey="Benchmark"
                                 stroke="#9ca3af"
                                 strokeWidth={2}
