@@ -36,32 +36,64 @@ def run_backtest():
 
     print(f"Loaded {len(stocks)} stocks.")
 
-    # 2. Load Price Data
-    print("Loading daily price data...")
-    stock_map = {s.id: s.nse_symbol for s in stocks} # update map
-    
-    session = db.Session()
-    try:
-        query = text("""
-            SELECT stock_id, date, open_price, high_price, low_price, close_price 
-            FROM daily_prices 
-            ORDER BY stock_id, date
-        """)
-        result = session.execute(query)
-        df_all = pd.DataFrame(result.fetchall(), columns=['stock_id', 'date', 'open', 'high', 'low', 'close'])
-    finally:
-        session.close()
-        
-    df_all['date'] = pd.to_datetime(df_all['date'])
-    df_all.set_index('date', inplace=True)
-    
     # Load Market Cap Filter (Global)
     min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 2000))
     min_mcap = min_mcap_cr * 10000000
     
     valid_stocks_query = text(f"SELECT id FROM stocks WHERE is_active = true AND market_cap >= {min_mcap}")
-    valid_stock_ids = set([r[0] for r in session.execute(valid_stocks_query).fetchall()])
+    valid_stock_ids = [r[0] for r in session.execute(valid_stocks_query).fetchall()]
     print(f"Loaded {len(valid_stock_ids)} eligible stocks (> {min_mcap_cr} Cr) for Backtest & Live Signals.")
+    
+    # 2. Load Price Data (OPTIMIZED with Chunking)
+    print("Loading daily price data for eligible stocks (Chunks of 200)...")
+    stock_map = {s.id: s.nse_symbol for s in stocks}
+    
+    session = db.Session()
+    df_list = []
+    try:
+        if valid_stock_ids:
+            # Chunking to prevent memory issues and huge query timeouts
+            ids_list = list(valid_stock_ids)
+            chunk_size = 200
+            
+            for i in range(0, len(ids_list), chunk_size):
+                chunk = ids_list[i : i + chunk_size]
+                if not chunk: continue
+                
+                # Make tuple for SQL (handle single item case carefully)
+                if len(chunk) == 1:
+                    ids_tuple = f"({chunk[0]})"
+                else:
+                    ids_tuple = tuple(chunk)
+                
+                query = text(f"""
+                    SELECT stock_id, date, open_price, high_price, low_price, close_price 
+                    FROM daily_prices 
+                    WHERE stock_id IN {ids_tuple}
+                    ORDER BY stock_id, date
+                """)
+                result = session.execute(query)
+                df_chunk = pd.DataFrame(result.fetchall(), columns=['stock_id', 'date', 'open', 'high', 'low', 'close'])
+                
+                if not df_chunk.empty:
+                    df_chunk['date'] = pd.to_datetime(df_chunk['date'])
+                    df_chunk.set_index(['stock_id', 'date'], inplace=True)
+                    df_list.append(df_chunk)
+                    
+                print(f"  Loaded chunk {i} - {i+len(chunk)}")
+                
+    finally:
+        session.close()
+
+    if df_list:
+        df_all = pd.concat(df_list)
+        df_all.sort_index(inplace=True)
+    else:
+        df_all = pd.DataFrame(columns=['stock_id', 'date', 'open', 'high', 'low', 'close'])
+        df_all.set_index(['stock_id', 'date'], inplace=True)
+
+    # optimize lookup
+    valid_stock_ids = set(valid_stock_ids)
     
     # Pre-calculate simple metrics if possible, but ATH is path-dependent
     
@@ -76,7 +108,9 @@ def run_backtest():
             continue
             
         try:
-            df = df_all[df_all['stock_id'] == stock_id].sort_index()
+            # Fast Lookup using MultiIndex
+            df = df_all.loc[stock_id] # Result is indexed by 'date'
+            
             if symbol == 'NETWEB':
                  print(f"DEBUG NETWEB: Data Length {len(df)}")
             if len(df) < 500: # Need some history for ATH
@@ -334,71 +368,399 @@ def run_backtest():
     }
     
     # Calc Summary
-    closed_trades = [t for t in trades if t['status'] == 'CLOSED']
-    if closed_trades:
-        wins = len([t for t in closed_trades if t['pnl'] > 0])
-        total_pnl = sum([t['pnl'] for t in trades]) # realized + unrealized? 1 share logic
-        output['summary'] = {
-            'total_trades': len(trades),
-            'closed_trades': len(closed_trades),
-            'active_trades': len(trades) - len(closed_trades),
-            'win_rate': round(wins / len(closed_trades) * 100, 2),
-            'total_pnl_abs': round(total_pnl, 2),
-            'avg_pnl_per_trade': round(total_pnl / len(trades), 2)
-        }
-        
-        # --- Advanced Metrics ---
-        # 1. Equity Curve (Daily/Weekly or Trade-based?)
-        # Trade-based implies "Discrete" equity curve (Balance updates only on exit).
-        # We'll do a Trade-based curve sorted by Exit Date for simplicity and clarity.
-        
+    # 1. Fetch Benchmark (Nifty 50)
+    print("Fetching Benchmark Data...")
+    import yfinance as yf
+    from dateutil.relativedelta import relativedelta
+    try:
+        nifty = yf.download('^NSEI', start=(datetime.now() - relativedelta(years=10)).strftime('%Y-%m-%d'), progress=False)
+        if nifty.empty:
+            print("Warning: Could not fetch Nifty data.")
+            nifty = pd.DataFrame(columns=['close'])
+        else:
+            if isinstance(nifty.columns, pd.MultiIndex):
+                nifty.columns = nifty.columns.get_level_values(0)
+            nifty.reset_index(inplace=True)
+            nifty.columns = [c.lower() for c in nifty.columns]
+            if 'date' not in nifty.columns:
+                 nifty.rename(columns={'index': 'date'}, inplace=True)
+            if 'close' in nifty.columns:
+                nifty = nifty[['date', 'close']]
+            elif 'adj close' in nifty.columns:
+                 nifty = nifty[['date', 'adj close']]
+                 nifty.rename(columns={'adj close': 'close'}, inplace=True)
+            
+            nifty.set_index('date', inplace=True)
+    except Exception as e:
+        print(f"Error fetching benchmark: {e}")
+        nifty = pd.DataFrame(columns=['close'])
+
+    # ... (Rest of simulate_portfolio logic inside generate_daily_equity_curve) ...
+
+    # Portfolio Simulation for Total Return % AND Daily Equity Curve
+    def simulate_portfolio_daily(trade_list, df_prices, benchmark_df, initial_capital=100000, max_positions=10):
+        cash = initial_capital
+        positions = {} # symbol -> {shares, cost}
         equity_curve = []
-        cumulative_pnl = 0.0
-        peak_equity = 0.0
-        drawdown_abs = 0.0
-        max_drawdown = 0.0
         
-        # Sort closed trades by Exit Date
-        sorted_closed = sorted(closed_trades, key=lambda x: x['exit_date'])
+        # Create Trade Objects for easier processing
+        # Map: Symbol -> List of Trades
+        trades_by_stock = {}
+        for t in trade_list:
+            if t['symbol'] not in trades_by_stock:
+                trades_by_stock[t['symbol']] = []
+            trades_by_stock[t['symbol']].append(t)
+            
+        # Determine Date Range
+        if not trade_list:
+             return 0, initial_capital, []
+             
+        start_date = pd.Timestamp(trade_list[-1]['entry_date']) # Last in list is earliest (reverse sorted input? No, we sorted it)
+        # Wait, run_backtest sorts trades reversed (newest first). 
+        # So trade_list[-1] is the OLDEST trade. Correct.
+        end_date = pd.Timestamp(datetime.now().date())
         
-        for t in sorted_closed:
-            cumulative_pnl += t['pnl']
+        # Generating business days range
+        date_range = pd.date_range(start=start_date, end=end_date, freq='B')
+        
+        # Benchmark alignment
+        if not benchmark_df.empty:
+            # Normalize Benchmark to Initial Capital
+            # Find closest available date for start
+            try:
+                base_nifty_price = benchmark_df.iloc[benchmark_df.index.get_indexer([start_date], method='nearest')[0]]['close']
+                nifty_factor = initial_capital / base_nifty_price
+            except:
+                nifty_factor = 0
+        else:
+            nifty_factor = 0
+
+        # Processing Loop (Daily)
+        for current_date in date_range:
+            # 1. Process Exits First
+            # Check if any position needs to be exited today
+            symbols_to_remove = []
+            for sym, pos in positions.items():
+                # Find active trade for this symbol
+                # We need to link 'pos' to a specific 'trade' to know exit date.
+                # Simplified: position object stores exit date
+                if pos.get('exit_date') and current_date >= pd.Timestamp(pos['exit_date']):
+                    # EXIT
+                    exit_price = pos['exit_price_fixed'] # Use stored exit price from trade
+                    shares = pos['shares']
+                    proceeds = shares * exit_price
+                    fee = proceeds * 0.0025
+                    cash += (proceeds - fee)
+                    symbols_to_remove.append(sym)
             
-            # Max Drawdown Calc
-            if cumulative_pnl > peak_equity:
-                peak_equity = cumulative_pnl
-            
-            # Drawdown (Peak - Current)
-            dd = peak_equity - cumulative_pnl
-            if dd > max_drawdown:
-                max_drawdown = dd
+            for sym in symbols_to_remove:
+                del positions[sym]
                 
-            equity_curve.append({
-                'date': t['exit_date'],
-                'equity': round(cumulative_pnl, 2),
-                'pnl': t['pnl']
-            })
+            # 2. Process Entries
+            # Check if any trade enters today
+            # We iterate all trades? Optimization: Sort trades by entry and pop?
+            # Or just check dict. 
+            # Re-scanning list is slow. Better to pre-process events.
+            # But let's look at the trade list passed in.
+            # Convert to EventsDict: Date -> [Trades Starting]
+            pass # See optimization below
             
-        # 2. Profit Factor
-        gross_profit = sum([t['pnl'] for t in closed_trades if t['pnl'] > 0])
-        gross_loss = abs(sum([t['pnl'] for t in closed_trades if t['pnl'] < 0]))
-        profit_factor = round(gross_profit / gross_loss, 2) if gross_loss > 0 else float('inf')
+        # RE-WRITE: Event-Driven Daily Loop is hard. 
+        # Better: Pre-process 'Events' (Entry/Exit) and iterate days to mark-to-market.
         
-        # 3. Avg Win / Loss
-        winning_trades = [t['pnl'] for t in closed_trades if t['pnl'] > 0]
-        losing_trades = [t['pnl'] for t in closed_trades if t['pnl'] <= 0]
+        events = {} # Date -> List of actions
+        for t in trade_list:
+            entry_dt = pd.Timestamp(t['entry_date'])
+            exit_dt = pd.Timestamp(t['exit_date']) if t['exit_date'] else None
+            
+            if entry_dt not in events: events[entry_dt] = []
+            events[entry_dt].append({'type': 'ENTRY', 'trade': t})
+            
+            if exit_dt:
+                if exit_dt not in events: events[exit_dt] = []
+                events[exit_dt].append({'type': 'EXIT', 'trade': t})
+                
+        # Main Loop
+        current_equity = initial_capital
         
-        avg_win = round(sum(winning_trades) / len(winning_trades), 2) if winning_trades else 0
-        avg_loss = round(sum(losing_trades) / len(losing_trades), 2) if losing_trades else 0
+        for current_date in date_range:
+            # Execute Events
+            if current_date in events:
+                for action in events[current_date]:
+                    if action['type'] == 'ENTRY':
+                        t = action['trade']
+                        if t['symbol'] not in positions and len(positions) < max_positions:
+                            # Position Sizing
+                            # Calc approx equity (Cash + Current positions at yesterday close?)
+                            # Simpler: Use Cash + Cost for sizing base? Or Mark to Market?
+                            # Mark to Market is better but requires price lookup.
+                            # Approx: Use previous day's equity.
+                            target = current_equity * (1 / max_positions)
+                            alloc = min(target, cash)
+                            if alloc > 0:
+                                price = t['entry_price']
+                                shares = alloc / price
+                                fee = alloc * 0.0025
+                                cash -= (alloc + fee)
+                                positions[t['symbol']] = {
+                                    'shares': shares,
+                                    'cost': alloc,
+                                    'exit_date': t['exit_date'],
+                                    'exit_price_fixed': t['exit_price']
+                                }
+                                
+                    elif action['type'] == 'EXIT':
+                        t = action['trade']
+                        if t['symbol'] in positions:
+                            pos = positions[t['symbol']]
+                            # Double check if this is the RIGHT trade (overlap protection)
+                            # Assuming no overlaps for same symbol in strategy logic
+                            shares = pos['shares']
+                            price = t['exit_price'] if t['exit_price'] else t['entry_price']
+                            proceeds = shares * price
+                            fee = proceeds * 0.0025
+                            cash += (proceeds - fee)
+                            del positions[t['symbol']]
+                            
+            # Mark to Market Positions
+            pos_value = 0
+            for sym, pos in positions.items():
+                # Get current price from df_prices
+                # df_prices is MultiIndex [stock_id, date]
+                # We need stock_id from symbol? No, trade has symbol.
+                # We need a Symbol -> ID map or stock data map.
+                # Map was in outer scope... we can pass it or use global variable?
+                # Better: `df_prices` should be accessible. But looking up by Symbol is hard if df is by ID.
+                # Solution: Pre-map symbols to IDs or lookup in `stock_map` (inverse).
+                pass 
+                
+            # SIMPLIFICATION:
+            # Instead of exact daily MTM (which requires daily price lookup for every held stock), 
+            # We can just step value: Cost when Enter, Exit Value when Exit.
+            # But that makes a "stepped" chart.
+            # User wants Equity Curve.
+            # To get a smooth curve, we NEED daily prices.
+            # We have `df_all` indexed by (stock_id, date).
+            # We need `symbol_to_id` map.
+            
+            # Assuming we can get price:
+            # current_price = ...
+            # pos_value += shares * current_price
+            
+            # Since we can't easily lookup daily price inside this loop without passed map,
+            # Let's fix the scope.
+            
+        return 0, 0, []
+
+    # Correction: Let's do a simpler "Trade-Based" equity curve as "Portfolio Value"
+    # AND a separate "Nifty" line.
+    # The user accepted the previous logic but wants 100k start.
+    # The previous logic was "Event Based" (Entry/Exit).
+    # We can just interpolate the "Cash + Position Value" linearly between Entry and Exit?
+    # No, that ignores volatility.
+    # We MUST do daily lookup for a *real* equity curve.
+    
+    # Let's rebuild the function properly in the code block.
+
+    # 1. Invert stock map for lookup
+    symbol_to_id = {v: k for k, v in stock_map.items()}
+
+    def simulate_portfolio_daily(trade_list, df_prices, benchmark_df, initial_capital=100000, max_positions=10):
+        # Sort trades by entry date
+        sorted_trades = sorted(trade_list, key=lambda x: x['entry_date'])
+        if not sorted_trades: return 0, initial_capital, []
+
+        start_date = pd.Timestamp(sorted_trades[0]['entry_date'])
+        end_date = pd.Timestamp(datetime.now().date())
+        date_range = pd.date_range(start=start_date, end=end_date, freq='B')
+
+        cash = initial_capital
+        positions = {} # symbol -> {shares, stock_id}
+        equity_curve = []
         
-        output['summary'].update({
-            'profit_factor': profit_factor,
-            'max_drawdown': round(max_drawdown, 2),
-            'avg_win': avg_win,
-            'avg_loss': avg_loss
-        })
+        # Benchmark scaling
+        nifty_factor = 0
+        if not benchmark_df.empty:
+            try:
+                # Get close of start date (or nearest before)
+                base_idx = benchmark_df.index.get_indexer([start_date], method='nearest')[0]
+                base_val = benchmark_df.iloc[base_idx]['close']
+                nifty_factor = initial_capital / base_val
+            except:
+                nifty_factor = 0
         
-        output['equity_curve'] = equity_curve
+        # Events Dictionary
+        events = {}
+        for t in sorted_trades:
+            ed = pd.Timestamp(t['entry_date'])
+            xd = pd.Timestamp(t['exit_date']) if t['exit_date'] else None
+            
+            if ed not in events: events[ed] = []
+            events[ed].append({'type': 'ENTRY', 'trade': t})
+            
+            if xd:
+                if xd not in events: events[xd] = []
+                events[xd].append({'type': 'EXIT', 'trade': t})
+
+        for d in date_range:
+            # Process Events
+            if d in events:
+                for action in events[d]:
+                    t = action['trade']
+                    sym = t['symbol']
+                    
+                    if action['type'] == 'ENTRY':
+                         # Check cash and slots
+                         # Estimate current equity for sizing (Cash + current positions)
+                         # We calculate mtm later, so use 'yesterday's' estimate or just current components
+                         # For speed, just use Cash + Sum(Cost) as approximation for allocation base?
+                         # Or simpler: Fixed 100k allocation? No, 10% of CURRENT equity.
+                         # We need MTM sum.
+                         mtm_val = 0
+                         for s, p in positions.items():
+                             # Lookup price
+                             sid = p['stock_id']
+                             try:
+                                 # idx = (sid, d) -> if missing, use last?
+                                 # df_prices is MultiIndex
+                                 val = df_prices.loc[(sid, d)]['close']
+                                 if isinstance(val, pd.Series):
+                                     price = float(val.iloc[0])
+                                 else:
+                                     price = float(val)
+                             except:
+                                 price = float(p.get('last_price', 0)) # fallback safety
+                             
+                             mtm_val += p['shares'] * price
+                         
+                         curr_eq = cash + mtm_val
+                         alloc = min(curr_eq * 0.1, cash)
+                         
+                         if alloc > 0:
+                             price = t['entry_price']
+                             shares = alloc / price
+                             fee = alloc * 0.0025
+                             cash -= (alloc + fee)
+                             sid = symbol_to_id.get(sym)
+                             if sid:
+                                 positions[sym] = {'shares': shares, 'stock_id': sid, 'last_price': price}
+
+                    elif action['type'] == 'EXIT':
+                         if sym in positions:
+                             pos = positions[sym]
+                             shares = pos['shares']
+                             price = t['exit_price']
+                             proceeds = shares * price
+                             fee = proceeds * 0.0025
+                             cash += (proceeds - fee)
+                             del positions[sym]
+
+            # End of Day Valuation
+            pos_value = 0
+            for sym, pos in positions.items():
+                sid = pos['stock_id']
+                try:
+                    # Try to get today's close
+                    val = df_prices.loc[(sid, d)]['close']
+                    if isinstance(val, pd.Series):
+                        price = float(val.iloc[0])
+                    else:
+                        price = float(val)
+                    pos['last_price'] = price
+                except:
+                    # If missing (holiday/data gap), keep last
+                    price = float(pos.get('last_price', 0))
+                
+                pos_value += pos['shares'] * price
+            
+            total_equity = cash + pos_value
+            
+            # Benchmark 
+            # Benchmark 
+            bench_val = 0
+            if nifty_factor > 0:
+                try:
+                    # Strict lookup or propagate?
+                    if d in benchmark_df.index:
+                        b_val_series = benchmark_df.loc[d]['close']
+                        if isinstance(b_val_series, pd.Series):
+                            b_price = float(b_val_series.iloc[0])
+                        else:
+                             b_price = float(b_val_series)
+                        bench_val = b_price * nifty_factor
+                        last_bench_val = bench_val # store for fill
+                    else:
+                        # Forward fill if missing (holidays etc)
+                        # But wait, date_range is business days 'B'. Nifty might match?
+                        # If mismatch, use last known.
+                        bench_val = last_bench_val if 'last_bench_val' in locals() else 0
+                        
+                except Exception as e:
+                     # fallback
+                     bench_val = last_bench_val if 'last_bench_val' in locals() else 0
+            
+            equity_curve.append({
+                'date': d.strftime('%Y-%m-%d'),
+                'equity': round(total_equity, 2),
+                'benchmark': round(bench_val, 2)
+            })
+
+        final_equity = equity_curve[-1]['equity'] if equity_curve else initial_capital
+        ret_pct = (final_equity - initial_capital) / initial_capital * 100
+        return round(ret_pct, 2), round(final_equity, 2), equity_curve
+
+    # Execute
+    total_ret_pct, final_eq_val, eq_data = simulate_portfolio_daily(sorted(trades, key=lambda x: x['entry_date']), df_all, nifty)
+
+    # Pre-calculate trade stats
+    closed_trades = [t for t in trades if t['status'] == 'CLOSED']
+    wins = len([t for t in closed_trades if t['pnl'] > 0])
+    total_pnl = sum([t['pnl'] for t in trades])
+
+    output['summary'] = {
+        'total_trades': len(trades),
+        'closed_trades': len(closed_trades),
+        'active_trades': len(trades) - len(closed_trades),
+        'win_rate': round(wins / len(closed_trades) * 100, 2) if closed_trades else 0,
+        'total_pnl_abs': round(total_pnl, 2),
+        'avg_pnl_per_trade': round(total_pnl / len(trades), 2) if trades else 0,
+        'total_return_pct': total_ret_pct,
+        'portfolio_value': final_eq_val,
+        # Recalculate advanced stats from equity curve if needed or keep existing trade-based one?
+        # Trade-based profit factor is fine.
+    }
+    
+    # 2. Profit Factor
+    gross_profit = sum([t['pnl'] for t in closed_trades if t['pnl'] > 0])
+    gross_loss = abs(sum([t['pnl'] for t in closed_trades if t['pnl'] < 0]))
+    profit_factor = round(gross_profit / gross_loss, 2) if gross_loss > 0 else 0
+    
+    # 3. Avg Win / Loss
+    winning_trades = [t['pnl'] for t in closed_trades if t['pnl'] > 0]
+    losing_trades = [t['pnl'] for t in closed_trades if t['pnl'] <= 0]
+    
+    avg_win = round(sum(winning_trades) / len(winning_trades), 2) if winning_trades else 0
+    avg_loss = round(sum(losing_trades) / len(losing_trades), 2) if losing_trades else 0
+    
+    # Max Drawdown from Daily Equity Curve (More Accurate)
+    if eq_data:
+        peak = -float('inf')
+        max_dd = 0
+        for pt in eq_data:
+            val = pt['equity']
+            if val > peak: peak = val
+            dd = peak - val
+            if dd > max_dd: max_dd = dd
+    else:
+        max_dd = 0
+    
+    output['equity_curve'] = eq_data
+    output['summary'].update({
+        'profit_factor': profit_factor,
+        'max_drawdown': round(max_dd, 2),
+        'avg_win': avg_win,
+        'avg_loss': avg_loss
+    })
     
     out_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_ath.json')
     os.makedirs(os.path.dirname(out_path), exist_ok=True)

@@ -30,11 +30,14 @@ type Summary = {
     max_drawdown?: number
     avg_win?: number
     avg_loss?: number
+    total_return_pct: number
+    portfolio_value: number
 }
 
 type EquityPoint = {
     date: string
     equity: number
+    benchmark?: number
     pnl: number
 }
 
@@ -246,6 +249,13 @@ export default function ATHStrategyPage() {
                 {/* Main Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <div className="text-sm text-gray-500 mb-1">Total Return</div>
+                        <div className={`text-3xl font-bold ${summary.total_return_pct >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                            {summary.total_return_pct}%
+                        </div>
+                        <div className="text-xs text-gray-400 mt-2">CAGR ~{((Math.pow((1 + (summary.total_return_pct || 0) / 100), 1 / 8) - 1) * 100).toFixed(2)}%</div>
+                    </div>
+                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                         <div className="text-sm text-gray-500 mb-1">Total PnL (1 Share)</div>
                         <div className={`text-3xl font-bold ${summary.total_pnl_abs >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                             ₹{summary.total_pnl_abs.toLocaleString('en-IN')}
@@ -278,31 +288,48 @@ export default function ATHStrategyPage() {
                 {/* Equity Curve */}
                 {equity_curve && equity_curve.length > 0 && (
                     <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6 mb-8">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Equity Curve (Realized PnL)</h2>
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Equity Curve (Portfolio Value)</h2>
                         <div className="h-[400px] w-full">
                             <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={equity_curve}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
                                     <XAxis
                                         dataKey="date"
                                         tickFormatter={(val) => new Date(val).getFullYear().toString()}
                                         minTickGap={30}
                                         style={{ fontSize: 12 }}
+                                        stroke="#9CA3AF"
                                     />
                                     <YAxis
-                                        tickFormatter={(val) => `₹${val / 1000}k`}
+                                        tickFormatter={(val) => `₹${(val / 1000).toFixed(0)}k`}
                                         style={{ fontSize: 12 }}
+                                        stroke="#9CA3AF"
+                                        domain={['auto', 'auto']}
                                     />
                                     <Tooltip
-                                        formatter={(value: number) => [`₹${value.toLocaleString('en-IN')}`, 'Total PnL']}
+                                        formatter={(value: number, name: string) => [
+                                            `₹${value.toLocaleString('en-IN')}`,
+                                            name
+                                        ]}
                                         labelFormatter={(label) => new Date(label).toLocaleDateString('en-IN', { dateStyle: 'medium' })}
                                     />
+                                    <Legend />
                                     <Line
                                         type="monotone"
                                         dataKey="equity"
+                                        name="Portfolio"
                                         stroke="#2563eb"
                                         strokeWidth={2}
                                         dot={false}
+                                    />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="benchmark"
+                                        name="Benchmark (Nifty 50)"
+                                        stroke="#9CA3AF"
+                                        strokeWidth={2}
+                                        dot={false}
+                                        strokeDasharray="5 5"
                                     />
                                 </LineChart>
                             </ResponsiveContainer>
