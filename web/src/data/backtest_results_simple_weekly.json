@@ -42,41 +42,41 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-01-16",
-      "period": "7 weeks (0.1 years)"
+      "end": "2026-01-23",
+      "period": "8 weeks (0.2 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 97817.44,
-      "total_fees_paid": 717.5,
+      "end_value": 97377.26,
+      "total_fees_paid": 847.45,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -2.18,
-      "benchmark_return": -1.94,
-      "expectancy": -0.31,
-      "net_return_after_fees": -2.9
+      "total_return": -2.62,
+      "benchmark_return": -2.35,
+      "expectancy": -0.32,
+      "net_return_after_fees": -3.47
     },
     "risk_metrics": {
       "max_drawdown": -2.19,
       "max_drawdown_duration": 3,
-      "sharpe_ratio": -1.65,
-      "calmar_ratio": -6.9,
-      "omega_ratio": 0.6,
-      "sortino_ratio": -4.41
+      "sharpe_ratio": -1.86,
+      "calmar_ratio": -7.24,
+      "omega_ratio": 0.55,
+      "sortino_ratio": -3.24
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 7,
-      "total_stock_transactions": 44,
-      "win_rate": 57.14,
+      "total_trades": 8,
+      "total_stock_transactions": 52,
+      "win_rate": 50.0,
       "best_trade": 1.18,
       "worst_trade": -2.19,
       "avg_winning_trade": 0.8,
-      "avg_losing_trade": -1.78,
-      "profit_factor": 0.6
+      "avg_losing_trade": -1.45,
+      "profit_factor": 0.55
     }
   },
   "backtest_results": [
@@ -33702,6 +33702,88 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-01-23",
+      "portfolio_return": -0.45,
+      "benchmark_return": -0.42,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": -7.59,
+          "score": 9.25
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": 0.0,
+          "score": 5.3
+        },
+        {
+          "symbol": "SILVERTUC",
+          "return": -0.24,
+          "score": 4.31
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 0.76,
+          "score": 3.86
+        },
+        {
+          "symbol": "HINDCOPPER",
+          "return": -3.89,
+          "score": 3.38
+        },
+        {
+          "symbol": "SHRIRAMFIN",
+          "return": 0.83,
+          "score": 3.1
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 1.56,
+          "score": 3.07
+        },
+        {
+          "symbol": "LTF",
+          "return": 5.47,
+          "score": 3.02
+        },
+        {
+          "symbol": "ASHOKLEY",
+          "return": 2.67,
+          "score": 2.92
+        },
+        {
+          "symbol": "GRMOVER",
+          "return": -4.7,
+          "score": 2.88
+        },
+        {
+          "symbol": "THANGAMAYL",
+          "return": -0.26,
+          "score": 2.79
+        },
+        {
+          "symbol": "ABCAPITAL",
+          "return": -0.25,
+          "score": 2.73
+        },
+        {
+          "symbol": "SBIN",
+          "return": 0.33,
+          "score": 2.73
+        },
+        {
+          "symbol": "VEDL",
+          "return": -1.48,
+          "score": 2.71
+        },
+        {
+          "symbol": "MUTHOOTFIN",
+          "return": 0.12,
+          "score": 2.67
+        }
+      ]
+    },
     {
       "week": "2026-01-16",
       "portfolio_return": 0.83,
