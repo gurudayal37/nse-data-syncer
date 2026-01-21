@@ -51,22 +51,22 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 98342.04,
-      "total_fees_paid": 432.56,
+      "end_value": 97501.25,
+      "total_fees_paid": 430.74,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -1.66,
-      "benchmark_return": -3.7,
-      "expectancy": -0.81,
-      "net_return_after_fees": -2.09
+      "total_return": -2.5,
+      "benchmark_return": -3.99,
+      "expectancy": -1.22,
+      "net_return_after_fees": -2.93
     },
     "risk_metrics": {
-      "max_drawdown": -2.92,
+      "max_drawdown": -3.75,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": -1.33,
-      "calmar_ratio": -3.27,
-      "omega_ratio": 0.45,
+      "sharpe_ratio": -1.68,
+      "calmar_ratio": -3.76,
+      "omega_ratio": 0.35,
       "sortino_ratio": 0
     },
     "exposure_metrics": {
@@ -78,12 +78,12 @@
       "total_open_trades": 1,
       "win_rate": 50.0,
       "best_trade": 1.3,
-      "worst_trade": -2.92,
+      "worst_trade": -3.75,
       "avg_winning_trade": 1.3,
-      "avg_losing_trade": -2.92,
+      "avg_losing_trade": -3.75,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 0.45,
+      "profit_factor": 0.35,
       "total_stock_transactions": 26
     }
   },
@@ -7800,82 +7800,82 @@
   "current_performance": [
     {
       "month": "2026-01",
-      "portfolio_return": -2.92,
-      "benchmark_return": -3.43,
+      "portfolio_return": -3.75,
+      "benchmark_return": -3.72,
       "holdings": [
         {
           "symbol": "LTF",
-          "return": -7.01,
+          "return": -10.95,
           "score": 4.06
         },
         {
           "symbol": "HINDCOPPER",
-          "return": 2.63,
+          "return": 7.52,
           "score": 3.48
         },
         {
           "symbol": "MARUTI",
-          "return": -4.9,
+          "return": -5.55,
           "score": 2.99
         },
         {
           "symbol": "ABCAPITAL",
-          "return": -0.66,
+          "return": -3.2,
           "score": 2.83
         },
         {
           "symbol": "IMFA",
-          "return": -26.89,
+          "return": -26.76,
           "score": 2.78
         },
         {
           "symbol": "FORCEMOT",
-          "return": 0.99,
+          "return": -3.46,
           "score": 2.77
         },
         {
           "symbol": "MUTHOOTFIN",
-          "return": 3.11,
+          "return": 2.49,
           "score": 2.75
         },
         {
           "symbol": "M&MFIN",
-          "return": -12.68,
-          "score": 2.63
+          "return": -13.24,
+          "score": 2.62
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 0.89,
+          "return": 1.14,
           "score": 2.62
         },
         {
           "symbol": "ANANDRATHI",
-          "return": -1.46,
+          "return": -1.89,
           "score": 2.61
         },
         {
           "symbol": "NATIONALUM",
-          "return": 14.21,
+          "return": 15.02,
           "score": 2.61
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": -0.87,
+          "return": -1.02,
           "score": 2.6
         },
         {
           "symbol": "EICHERMOT",
-          "return": -1.9,
+          "return": -2.36,
           "score": 2.57
         },
         {
           "symbol": "TVSMOTOR",
-          "return": -2.8,
+          "return": -3.17,
           "score": 2.51
         },
         {
           "symbol": "LAURUSLABS",
-          "return": -6.54,
+          "return": -10.84,
           "score": 2.5
         }
       ]
