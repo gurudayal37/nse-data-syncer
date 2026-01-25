@@ -154,10 +154,11 @@ def main():
                 last_date = last_date.date()
                 
             # FETCH WITH OVERLAP:
-            # We start 7 days BEFORE the last synced date.
-            # This ensures we have ~5 trading days of overlap.
-            # This allows validate_data_mismatch to detect splits/bonuses (back-adjusted prices).
-            start_date = last_date - timedelta(days=7)
+            # We start 90 days BEFORE the last synced date.
+            # This ensures we have ~60 trading days of overlap.
+            # This allows validate_data_mismatch to detect splits/bonuses (back-adjusted prices)
+            # even if the provider updates history weeks later.
+            start_date = last_date - timedelta(days=90)
             
             # Note: We must filter out the overlapping records later to avoid duplicates/PK errors
             # unless a mismatch triggers a full resync. 

@@ -40,7 +40,7 @@ def sync_etf_daily():
     
     # Get last 5 trading days to ensure we don't miss any data
     end_date = datetime.now()
-    start_date = end_date - timedelta(days=7)
+    start_date = end_date - timedelta(days=90)
     
     successful = 0
     failed = 0
