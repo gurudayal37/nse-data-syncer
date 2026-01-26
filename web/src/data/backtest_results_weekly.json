@@ -29610,77 +29610,77 @@
         {
           "symbol": "CUPID",
           "return": 0.0,
-          "score": 6.18
+          "score": 6.14
         },
         {
           "symbol": "SABTNL",
           "return": 0.0,
-          "score": 5.05
+          "score": 5.01
         },
         {
           "symbol": "NATIONALUM",
           "return": 0.0,
-          "score": 4.18
+          "score": 4.15
         },
         {
           "symbol": "RMDRIP",
           "return": 0.0,
-          "score": 3.98
+          "score": 3.95
         },
         {
           "symbol": "HINDCOPPER",
           "return": 0.0,
-          "score": 3.96
+          "score": 3.93
         },
         {
           "symbol": "ASHOKLEY",
           "return": 0.0,
-          "score": 3.77
+          "score": 3.74
         },
         {
           "symbol": "VEDL",
           "return": 0.0,
-          "score": 3.45
+          "score": 3.43
         },
         {
           "symbol": "BGRENERGY",
           "return": 0.0,
-          "score": 3.32
-        },
-        {
-          "symbol": "HINDZINC",
-          "return": 0.0,
-          "score": 3.24
-        },
-        {
-          "symbol": "SHRIRAMFIN",
-          "return": 0.0,
-          "score": 3.12
-        },
-        {
-          "symbol": "FEDERALBNK",
-          "return": 0.0,
-          "score": 2.8
+          "score": 3.3
         },
         {
           "symbol": "THANGAMAYL",
           "return": 0.0,
-          "score": 2.67
+          "score": 3.27
+        },
+        {
+          "symbol": "HINDZINC",
+          "return": 0.0,
+          "score": 3.22
+        },
+        {
+          "symbol": "SHRIRAMFIN",
+          "return": 0.0,
+          "score": 3.1
+        },
+        {
+          "symbol": "FEDERALBNK",
+          "return": 0.0,
+          "score": 2.77
         },
         {
           "symbol": "HINDALCO",
           "return": 0.0,
-          "score": 2.65
+          "score": 2.63
         },
         {
           "symbol": "MUTHOOTFIN",
           "return": 0.0,
-          "score": 2.62
+          "score": 2.6
         },
         {
           "symbol": "LTF",
           "return": 0.0,
-          "score": 2.62
+          "score": 2.6
         }
       ]
     },
