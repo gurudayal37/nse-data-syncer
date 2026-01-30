@@ -51,22 +51,22 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 101846.62,
-      "total_fees_paid": 575.72,
+      "end_value": 99302.73,
+      "total_fees_paid": 535.07,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 1.85,
-      "benchmark_return": -2.99,
-      "expectancy": 0.92,
-      "net_return_after_fees": 1.27
+      "total_return": -0.7,
+      "benchmark_return": -3.37,
+      "expectancy": -0.33,
+      "net_return_after_fees": -1.23
     },
     "risk_metrics": {
-      "max_drawdown": 0.0,
-      "max_drawdown_duration": 0,
-      "sharpe_ratio": 7.41,
-      "calmar_ratio": 0,
-      "omega_ratio": 0,
+      "max_drawdown": -2.02,
+      "max_drawdown_duration": 1,
+      "sharpe_ratio": -0.69,
+      "calmar_ratio": -2.04,
+      "omega_ratio": 0.67,
       "sortino_ratio": 0
     },
     "exposure_metrics": {
@@ -76,15 +76,15 @@
       "total_trades": 2,
       "total_closed_trades": 1,
       "total_open_trades": 1,
-      "win_rate": 100.0,
+      "win_rate": 50.0,
       "best_trade": 1.35,
-      "worst_trade": 0.49,
-      "avg_winning_trade": 0.92,
-      "avg_losing_trade": 0,
+      "worst_trade": -2.02,
+      "avg_winning_trade": 1.35,
+      "avg_losing_trade": -2.02,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 0,
-      "total_stock_transactions": 34
+      "profit_factor": 0.67,
+      "total_stock_transactions": 32
     }
   },
   "backtest_results": [
@@ -7800,83 +7800,83 @@
   "current_performance": [
     {
       "month": "2026-01",
-      "portfolio_return": 0.49,
-      "benchmark_return": -2.72,
+      "portfolio_return": -2.02,
+      "benchmark_return": -3.1,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": -25.8,
-          "score": 11.37
+          "return": -23.75,
+          "score": 11.43
         },
         {
           "symbol": "BGRENERGY",
-          "return": -3.65,
-          "score": 5.38
+          "return": -3.94,
+          "score": 5.41
         },
         {
           "symbol": "LTF",
-          "return": -9.5,
-          "score": 3.03
+          "return": -10.38,
+          "score": 3.05
         },
         {
           "symbol": "HINDCOPPER",
-          "return": 43.41,
-          "score": 2.96
+          "return": 29.42,
+          "score": 2.98
         },
         {
           "symbol": "M&MFIN",
-          "return": -7.34,
-          "score": 2.78
+          "return": -7.02,
+          "score": 2.8
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": -0.19,
-          "score": 2.75
-        },
-        {
-          "symbol": "INFOBEAN",
-          "return": 4.89,
-          "score": 2.68
+          "return": -0.46,
+          "score": 2.77
         },
         {
           "symbol": "KMEW",
-          "return": -3.44,
-          "score": 2.66
+          "return": -6.02,
+          "score": 2.68
         },
         {
           "symbol": "GRMOVER",
-          "return": 0.22,
-          "score": 2.51
+          "return": 2.24,
+          "score": 2.53
         },
         {
           "symbol": "FEDERALBNK",
-          "return": 7.51,
+          "return": 7.57,
+          "score": 2.41
+        },
+        {
+          "symbol": "GMBREW",
+          "return": -19.49,
           "score": 2.39
         },
         {
           "symbol": "ASHAPURMIN",
-          "return": -19.34,
-          "score": 2.37
-        },
-        {
-          "symbol": "GMBREW",
-          "return": -20.49,
-          "score": 2.37
+          "return": -24.39,
+          "score": 2.39
         },
         {
           "symbol": "NATIONALUM",
-          "return": 35.63,
-          "score": 2.36
+          "return": 21.9,
+          "score": 2.38
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 4.9,
-          "score": 2.35
+          "return": 6.32,
+          "score": 2.37
         },
         {
           "symbol": "CUB",
-          "return": 0.6,
-          "score": 2.33
+          "return": 4.07,
+          "score": 2.34
+        },
+        {
+          "symbol": "ABCAPITAL",
+          "return": -6.39,
+          "score": 2.24
         }
       ]
     },
