@@ -51,22 +51,22 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 98470.28,
-      "total_fees_paid": 399.2,
+      "end_value": 95082.43,
+      "total_fees_paid": 359.72,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -1.53,
-      "benchmark_return": -2.99,
-      "expectancy": -0.75,
-      "net_return_after_fees": -1.93
+      "total_return": -4.92,
+      "benchmark_return": -3.37,
+      "expectancy": -2.43,
+      "net_return_after_fees": -5.28
     },
     "risk_metrics": {
-      "max_drawdown": -2.63,
+      "max_drawdown": -5.98,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": -1.38,
-      "calmar_ratio": -3.36,
-      "omega_ratio": 0.43,
+      "sharpe_ratio": -2.36,
+      "calmar_ratio": -4.37,
+      "omega_ratio": 0.19,
       "sortino_ratio": 0
     },
     "exposure_metrics": {
@@ -78,13 +78,13 @@
       "total_open_trades": 1,
       "win_rate": 50.0,
       "best_trade": 1.13,
-      "worst_trade": -2.63,
+      "worst_trade": -5.98,
       "avg_winning_trade": 1.13,
-      "avg_losing_trade": -2.63,
+      "avg_losing_trade": -5.98,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 0.43,
-      "total_stock_transactions": 24
+      "profit_factor": 0.19,
+      "total_stock_transactions": 22
     }
   },
   "backtest_results": [
@@ -7800,83 +7800,83 @@
   "current_performance": [
     {
       "month": "2026-01",
-      "portfolio_return": -2.63,
-      "benchmark_return": -2.72,
+      "portfolio_return": -5.98,
+      "benchmark_return": -3.1,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": -24.69,
-          "score": 13.05
+          "return": -22.6,
+          "score": 13.11
         },
         {
           "symbol": "BGRENERGY",
-          "return": -6.42,
-          "score": 6.65
+          "return": -6.7,
+          "score": 6.69
         },
         {
           "symbol": "LTF",
-          "return": -8.48,
-          "score": 3.5
+          "return": -9.37,
+          "score": 3.52
         },
         {
           "symbol": "HINDCOPPER",
-          "return": 46.64,
-          "score": 2.97
+          "return": 32.34,
+          "score": 2.99
         },
         {
           "symbol": "ASHAPURMIN",
-          "return": -20.51,
-          "score": 2.75
+          "return": -25.48,
+          "score": 2.77
         },
         {
           "symbol": "INDOTHAI",
-          "return": -17.47,
-          "score": 2.75
+          "return": -18.81,
+          "score": 2.76
         },
         {
           "symbol": "RMDRIP",
-          "return": 25.19,
-          "score": 2.7
+          "return": 26.4,
+          "score": 2.72
         },
         {
           "symbol": "GRMOVER",
-          "return": -0.68,
-          "score": 2.58
+          "return": 1.33,
+          "score": 2.6
         },
         {
           "symbol": "KMEW",
-          "return": -1.95,
-          "score": 2.57
+          "return": -4.57,
+          "score": 2.58
         },
         {
           "symbol": "MARUTI",
-          "return": -13.15,
-          "score": 2.55
+          "return": -12.57,
+          "score": 2.57
         },
         {
           "symbol": "ABCAPITAL",
-          "return": -3.75,
-          "score": 2.44
+          "return": -5.0,
+          "score": 2.45
         },
         {
           "symbol": "JAYNECOIND",
-          "return": -14.85,
-          "score": 2.43
+          "return": -16.58,
+          "score": 2.44
         },
         {
           "symbol": "FORCEMOT",
-          "return": -10.36,
-          "score": 2.4
-        },
-        {
-          "symbol": "INFOBEAN",
-          "return": 3.66,
-          "score": 2.37
+          "return": -6.67,
+          "score": 2.42
         },
         {
           "symbol": "MUTHOOTFIN",
-          "return": 7.35,
-          "score": 2.35
+          "return": 0.47,
+          "score": 2.37
+        },
+        {
+          "symbol": "IMFA",
+          "return": -21.87,
+          "score": 2.36
         }
       ]
     },
