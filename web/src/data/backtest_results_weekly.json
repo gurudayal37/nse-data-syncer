@@ -42,36 +42,36 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-01-30",
-      "period": "9 weeks (0.2 years)"
+      "end": "2026-02-06",
+      "period": "10 weeks (0.2 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 102369.22,
-      "total_fees_paid": 1276.91,
+      "total_fees_paid": 1413.81,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 2.37,
       "benchmark_return": -2.16,
-      "expectancy": 0.28,
-      "net_return_after_fees": 1.09
+      "expectancy": 0.26,
+      "net_return_after_fees": 0.96
     },
     "risk_metrics": {
       "max_drawdown": -3.1,
       "max_drawdown_duration": 5,
-      "sharpe_ratio": 0.93,
-      "calmar_ratio": 4.67,
+      "sharpe_ratio": 0.88,
+      "calmar_ratio": 4.18,
       "omega_ratio": 1.41,
-      "sortino_ratio": 3.01
+      "sortino_ratio": 2.71
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 9,
-      "total_stock_transactions": 78,
-      "win_rate": 33.33,
+      "total_trades": 10,
+      "total_stock_transactions": 86,
+      "win_rate": 30.0,
       "best_trade": 4.38,
       "worst_trade": -1.8,
       "avg_winning_trade": 2.91,
@@ -29602,6 +29602,88 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-02-06",
+      "portfolio_return": 0,
+      "benchmark_return": 0.0,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": 0.0,
+          "score": 6.13
+        },
+        {
+          "symbol": "HINDCOPPER",
+          "return": 0.0,
+          "score": 5.21
+        },
+        {
+          "symbol": "SABTNL",
+          "return": 0.0,
+          "score": 4.07
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 0.0,
+          "score": 4.05
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 0.0,
+          "score": 3.92
+        },
+        {
+          "symbol": "ASHOKLEY",
+          "return": 0.0,
+          "score": 3.79
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": 0.0,
+          "score": 3.23
+        },
+        {
+          "symbol": "MCX",
+          "return": 0.0,
+          "score": 3.02
+        },
+        {
+          "symbol": "FEDERALBNK",
+          "return": 0.0,
+          "score": 2.96
+        },
+        {
+          "symbol": "SHRIRAMFIN",
+          "return": 0.0,
+          "score": 2.94
+        },
+        {
+          "symbol": "VEDL",
+          "return": 0.0,
+          "score": 2.9
+        },
+        {
+          "symbol": "SBIN",
+          "return": 0.0,
+          "score": 2.83
+        },
+        {
+          "symbol": "HINDALCO",
+          "return": 0.0,
+          "score": 2.72
+        },
+        {
+          "symbol": "TMB",
+          "return": 0.0,
+          "score": 2.6
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": 0.0,
+          "score": 2.58
+        }
+      ]
+    },
     {
       "week": "2026-01-30",
       "portfolio_return": 4.38,
