@@ -20,7 +20,7 @@ from app.database import DatabaseManager, MomentumHistory
 
 def get_month_ends(years=8):
     """Get list of month-end dates for the last N years (default 8 years from 2017)"""
-    today = datetime.now()
+    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     dates = []
     # Start from N years ago
     start_date = today - relativedelta(years=years)

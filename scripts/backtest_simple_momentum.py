@@ -23,9 +23,13 @@ from app.constants import CSV_FILENAME, FULL_EQUITY_LIST_FILENAME
 
 def get_month_ends(years=8):
     """Get list of month-end dates for the last N years (default 8 years from 2017)"""
-    today = datetime.now()
+    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     dates = []
     # Start from N years ago
+    start_date = today - relativedelta(years=years)
+    # Align to next month start
+    # ... logic continues, but I only replace the function Start ...
+
     start_date = today - relativedelta(years=years)
     # Align to next month start
     current = start_date.replace(day=1) + relativedelta(months=1)
@@ -433,7 +437,7 @@ def run_backtest():
                     'return': round(ret * 100, 2),
                     'score': round(score_map.get(stock_id, 0), 2)
                 })
-                
+
         if not portfolio_returns:
             port_ret = 0
             if not stock_returns_detail:
