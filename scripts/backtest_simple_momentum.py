@@ -30,7 +30,7 @@ def get_month_ends(years=8):
     # Align to next month start
     current = start_date.replace(day=1) + relativedelta(months=1)
     
-    while current < today:
+    while current <= today:
         # Get last day of previous month (rebalancing date)
         last_month_end = current - timedelta(days=1)
         dates.append(last_month_end)
