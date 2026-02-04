@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 97335.97,
-      "total_fees_paid": 727.13,
+      "end_value": 98768.98,
+      "total_fees_paid": 730.64,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -2.66,
-      "benchmark_return": -1.82,
-      "expectancy": -0.88,
-      "net_return_after_fees": -3.39
+      "total_return": -1.23,
+      "benchmark_return": -1.63,
+      "expectancy": -0.4,
+      "net_return_after_fees": -1.96
     },
     "risk_metrics": {
-      "max_drawdown": -3.91,
+      "max_drawdown": -2.5,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": -1.92,
-      "calmar_ratio": -2.62,
-      "omega_ratio": 0.33,
-      "sortino_ratio": -6.58
+      "sharpe_ratio": -0.9,
+      "calmar_ratio": -1.93,
+      "omega_ratio": 0.52,
+      "sortino_ratio": -1.16
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -80,10 +80,10 @@
       "best_trade": 1.3,
       "worst_trade": -2.44,
       "avg_winning_trade": 1.3,
-      "avg_losing_trade": -1.98,
+      "avg_losing_trade": -1.25,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 0.33,
+      "profit_factor": 0.52,
       "total_stock_transactions": 44
     }
   },
@@ -7718,82 +7718,82 @@
   "current_performance": [
     {
       "month": "2026-02",
-      "portfolio_return": -1.51,
-      "benchmark_return": 1.61,
+      "portfolio_return": -0.06,
+      "benchmark_return": 1.8,
       "holdings": [
         {
           "symbol": "HINDCOPPER",
-          "return": -10.37,
-          "score": 4.86
+          "return": -10.53,
+          "score": 4.87
         },
         {
           "symbol": "NATIONALUM",
-          "return": -3.79,
+          "return": -2.74,
           "score": 3.77
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 1.62,
+          "return": 2.15,
           "score": 3.73
         },
         {
           "symbol": "MCX",
-          "return": -3.71,
+          "return": 0.61,
           "score": 3.27
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": -1.92,
+          "return": -2.08,
           "score": 3.22
         },
         {
           "symbol": "SBIN",
-          "return": -1.2,
+          "return": -0.83,
           "score": 3.11
         },
         {
           "symbol": "FEDERALBNK",
-          "return": -0.78,
-          "score": 3.09
+          "return": -0.12,
+          "score": 3.08
         },
         {
           "symbol": "LTF",
-          "return": -0.58,
+          "return": 0.26,
           "score": 3.05
         },
         {
           "symbol": "INDIANB",
-          "return": -4.56,
+          "return": -3.56,
           "score": 2.88
         },
         {
           "symbol": "VEDL",
-          "return": -0.87,
+          "return": 0.92,
           "score": 2.85
         },
         {
           "symbol": "HINDALCO",
-          "return": -0.76,
+          "return": 0.24,
           "score": 2.81
         },
         {
           "symbol": "MTARTECH",
-          "return": 10.49,
+          "return": 15.71,
           "score": 2.74
         },
         {
           "symbol": "JKTYRE",
-          "return": 2.8,
+          "return": 5.16,
           "score": 2.71
         },
         {
           "symbol": "MUTHOOTFIN",
-          "return": -5.36,
+          "return": -2.82,
           "score": 2.61
         },
         {
           "symbol": "DCBBANK",
-          "return": -3.66,
+          "return": -3.23,
           "score": 2.45
         }
       ]
