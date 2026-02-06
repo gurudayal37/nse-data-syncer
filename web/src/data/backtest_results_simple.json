@@ -57,7 +57,7 @@
     },
     "return_metrics": {
       "total_return": -3.11,
-      "benchmark_return": -2.14,
+      "benchmark_return": -1.95,
       "expectancy": -1.03,
       "net_return_after_fees": -3.83
     },
@@ -7719,81 +7719,81 @@
     {
       "month": "2026-02",
       "portfolio_return": -1.96,
-      "benchmark_return": 1.27,
+      "benchmark_return": 1.47,
       "holdings": [
         {
           "symbol": "HINDCOPPER",
-          "return": -11.46,
+          "return": -15.46,
           "score": 4.86
         },
         {
           "symbol": "NATIONALUM",
-          "return": -5.6,
+          "return": -7.99,
           "score": 3.77
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 2.45,
+          "return": 2.62,
           "score": 3.73
         },
         {
           "symbol": "MCX",
-          "return": -4.65,
+          "return": -5.84,
           "score": 3.27
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": -2.75,
+          "return": -1.72,
           "score": 3.22
         },
         {
           "symbol": "SBIN",
-          "return": -0.34,
+          "return": -1.0,
           "score": 3.11
         },
         {
           "symbol": "FEDERALBNK",
-          "return": -0.05,
+          "return": -0.33,
           "score": 3.09
         },
         {
           "symbol": "LTF",
-          "return": -1.03,
+          "return": -0.37,
           "score": 3.05
         },
         {
           "symbol": "INDIANB",
-          "return": -3.53,
+          "return": -4.44,
           "score": 2.88
         },
         {
           "symbol": "VEDL",
-          "return": -3.87,
+          "return": -1.54,
           "score": 2.85
         },
         {
           "symbol": "HINDALCO",
-          "return": -2.82,
+          "return": -2.08,
           "score": 2.81
         },
         {
           "symbol": "MTARTECH",
-          "return": 12.01,
+          "return": 11.57,
           "score": 2.74
         },
         {
           "symbol": "JKTYRE",
-          "return": 3.15,
+          "return": 4.19,
           "score": 2.71
         },
         {
           "symbol": "MUTHOOTFIN",
-          "return": -6.55,
+          "return": -3.27,
           "score": 2.61
         },
         {
           "symbol": "DCBBANK",
-          "return": -4.38,
+          "return": -3.72,
           "score": 2.45
         }
       ]
