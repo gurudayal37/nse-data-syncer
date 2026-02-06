@@ -42,36 +42,36 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-02-06",
-      "period": "10 weeks (0.2 years)"
+      "end": "2026-02-13",
+      "period": "11 weeks (0.2 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 102573.96,
-      "total_fees_paid": 1414.11,
+      "total_fees_paid": 1518.22,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 2.57,
       "benchmark_return": -0.92,
-      "expectancy": 0.28,
-      "net_return_after_fees": 1.16
+      "expectancy": 0.25,
+      "net_return_after_fees": 1.06
     },
     "risk_metrics": {
       "max_drawdown": -3.1,
       "max_drawdown_duration": 5,
-      "sharpe_ratio": 0.95,
-      "calmar_ratio": 4.56,
+      "sharpe_ratio": 0.91,
+      "calmar_ratio": 4.12,
       "omega_ratio": 1.45,
-      "sortino_ratio": 2.92
+      "sortino_ratio": 2.65
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 10,
-      "total_stock_transactions": 86,
-      "win_rate": 40.0,
+      "total_trades": 11,
+      "total_stock_transactions": 92,
+      "win_rate": 36.36,
       "best_trade": 4.38,
       "worst_trade": -1.8,
       "avg_winning_trade": 2.24,
@@ -29602,6 +29602,88 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-02-13",
+      "portfolio_return": 0,
+      "benchmark_return": 0.0,
+      "holdings": [
+        {
+          "symbol": "SABTNL",
+          "return": 0.0,
+          "score": 5.88
+        },
+        {
+          "symbol": "CUPID",
+          "return": 0.0,
+          "score": 5.63
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 0.0,
+          "score": 4.22
+        },
+        {
+          "symbol": "HINDCOPPER",
+          "return": 0.0,
+          "score": 3.75
+        },
+        {
+          "symbol": "ASHOKLEY",
+          "return": 0.0,
+          "score": 3.72
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 0.0,
+          "score": 3.05
+        },
+        {
+          "symbol": "TMB",
+          "return": 0.0,
+          "score": 2.98
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": 0.0,
+          "score": 2.9
+        },
+        {
+          "symbol": "FEDERALBNK",
+          "return": 0.0,
+          "score": 2.87
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": 0.0,
+          "score": 2.81
+        },
+        {
+          "symbol": "SHRIRAMFIN",
+          "return": 0.0,
+          "score": 2.79
+        },
+        {
+          "symbol": "VEDL",
+          "return": 0.0,
+          "score": 2.7
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": 0.0,
+          "score": 2.59
+        },
+        {
+          "symbol": "APLAPOLLO",
+          "return": 0.0,
+          "score": 2.56
+        },
+        {
+          "symbol": "JKTYRE",
+          "return": 0.0,
+          "score": 2.56
+        }
+      ]
+    },
     {
       "week": "2026-02-06",
       "portfolio_return": 0.2,
