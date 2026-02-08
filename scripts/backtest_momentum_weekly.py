@@ -366,8 +366,8 @@ def run_backtest():
         if top_stocks_df.empty:
             return None
             
-        # Select Top 15
-        top_stocks = top_stocks_df.head(15)
+        # Select Top 7
+        top_stocks = top_stocks_df.head(7)
         selected_stock_ids = top_stocks['stock_id'].tolist()
         score_map = top_stocks.set_index('stock_id')['weighted_z'].to_dict()
         
@@ -493,7 +493,7 @@ def run_backtest():
             return 0, 0, 0
 
         avg_portfolio_value = np.mean(cumulative_values)
-        fee_per_transaction = (avg_portfolio_value / 15) * 0.0025
+        fee_per_transaction = (avg_portfolio_value / 7) * 0.0025
         total_fees_paid = total_transactions * fee_per_transaction
         
         final_value = cumulative_values[-1]

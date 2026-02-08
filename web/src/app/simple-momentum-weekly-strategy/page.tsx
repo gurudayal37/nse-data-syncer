@@ -33,7 +33,7 @@ export default function SimpleMomentumWeeklyStrategyPage() {
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900">Simple Momentum Short Term</h1>
                         <p className="text-gray-500 mt-1">
-                            Buying Top 15 Simple Momentum Stocks from High Cap Universe (&gt; 2000 Cr) (6M & 1Y only) • Weekly Rebalancing
+                            Buying Top 7 Simple Momentum Stocks from High Cap Universe (&gt; 2000 Cr) (6M & 1Y only) • Weekly Rebalancing
                         </p>
                     </div>
                 </div>
@@ -63,14 +63,14 @@ export default function SimpleMomentumWeeklyStrategyPage() {
                         <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
                             <h3 className="font-semibold text-blue-900 mb-2">1. Selection</h3>
                             <p className="text-blue-800">
-                                Select top 15 stocks from High Cap Universe (&gt; 2000 Cr) with highest Simple Momentum Score.
+                                Select top 7 stocks from High Cap Universe (&gt; 2000 Cr) with highest Simple Momentum Score.
                                 Score is based on volatility-adjusted returns over <strong>6 Months and 1 Year</strong> only.
                             </p>
                         </div>
                         <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
                             <h3 className="font-semibold text-purple-900 mb-2">2. Weighting</h3>
                             <p className="text-purple-800">
-                                Equal weighting (6.67% per stock) to avoid concentration risk.
+                                Equal weighting (~14.29% per stock) to avoid concentration risk.
                             </p>
                         </div>
                         <div className="bg-green-50 p-4 rounded-lg border border-green-100">

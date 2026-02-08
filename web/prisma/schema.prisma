@@ -65,7 +65,7 @@ model daily_prices {
   high_price          Float
   low_price           Float
   close_price         Float
-  volume              Int?
+  volume              BigInt?
   turnover            Float?
   vwap                Float?
   delivery_quantity   Int?
@@ -259,6 +259,12 @@ model stock_performance {
   @@index([change_3y])
   @@index([change_5y])
   @@index([daily_volume])
+  
+  // VCP Metrics
+  is_vcp                Boolean?  @default(false)
+  vcp_score             Float?
+
+  @@index([is_vcp])
 }
 
 model momentum_history {
@@ -277,7 +283,7 @@ model etfs {
   name              String?             @db.VarChar(255)
   underlying_asset  String?             @db.VarChar(255)
   nav               Float?
-  is_active         Boolean?            @default(true)
+  is_active         Int?                @default(1)
   created_at        DateTime?           @default(now()) @db.Timestamp(6)
   updated_at        DateTime?           @db.Timestamp(6)
   etf_daily_prices  etf_daily_prices[]

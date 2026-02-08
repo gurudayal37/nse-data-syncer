@@ -219,7 +219,22 @@ jobs:
       - run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run Sync (Remaining) - Shard ${{ matrix.shard }}
+        run: python -m app.main --source remaining --shard-index ${{ matrix.shard }} --total-shards 5 --skip-momentum
+
+  update-vcp-strategy:
+    needs: update-simple-weekly
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # In case we need to commit logs or artifacts later, generally good practice if we expand
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run VCP Analysis
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python -m app.main --source remaining --shard-index ${{ matrix.shard }} --total-shards 5 --skip-momentum
+        run: python3 scripts/calculate_vcp.py

@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Float, BigInteger, text, Date, Index, ForeignKey, func
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Float, BigInteger, text, Date, Index, ForeignKey, func, Boolean
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 import pandas as pd
@@ -582,6 +582,10 @@ class StockPerformance(Base):
     
     daily_volume = Column(BigInteger)
     updated_at = Column(DateTime, default=datetime.now)
+
+    # VCP Metrics
+    is_vcp = Column(Boolean, default=False)
+    vcp_score = Column(Float)
 
 class MomentumHistory(Base):
     __tablename__ = 'momentum_history'
