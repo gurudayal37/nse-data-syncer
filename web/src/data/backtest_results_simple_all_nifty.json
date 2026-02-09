@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 95677.25,
-      "total_fees_paid": 716.92,
+      "end_value": 97674.35,
+      "total_fees_paid": 721.8,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -4.32,
-      "benchmark_return": -1.95,
-      "expectancy": -1.43,
-      "net_return_after_fees": -5.04
+      "total_return": -2.33,
+      "benchmark_return": -1.28,
+      "expectancy": -0.74,
+      "net_return_after_fees": -3.05
     },
     "risk_metrics": {
-      "max_drawdown": -5.39,
+      "max_drawdown": -4.6,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": -2.09,
-      "calmar_ratio": -3.0,
-      "omega_ratio": 0.21,
-      "sortino_ratio": -2.63
+      "sharpe_ratio": -0.94,
+      "calmar_ratio": -1.95,
+      "omega_ratio": 0.52,
+      "sortino_ratio": 0
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -76,14 +76,14 @@
       "total_trades": 3,
       "total_closed_trades": 2,
       "total_open_trades": 1,
-      "win_rate": 33.33,
-      "best_trade": 1.13,
+      "win_rate": 66.67,
+      "best_trade": 1.24,
       "worst_trade": -4.6,
-      "avg_winning_trade": 1.13,
-      "avg_losing_trade": -2.72,
+      "avg_winning_trade": 1.18,
+      "avg_losing_trade": -4.6,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 0.21,
+      "profit_factor": 0.52,
       "total_stock_transactions": 44
     }
   },
@@ -7718,83 +7718,83 @@
   "current_performance": [
     {
       "month": "2026-02",
-      "portfolio_return": -0.83,
-      "benchmark_return": 1.47,
+      "portfolio_return": 1.24,
+      "benchmark_return": 2.16,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 5.45,
-          "score": 7.19
+          "return": 5.02,
+          "score": 7.22
         },
         {
           "symbol": "BGRENERGY",
-          "return": -5.73,
-          "score": 4.99
+          "return": -3.18,
+          "score": 5.01
         },
         {
           "symbol": "HINDCOPPER",
-          "return": -15.46,
-          "score": 4.7
+          "return": -12.82,
+          "score": 4.72
         },
         {
           "symbol": "RMDRIP",
-          "return": 5.73,
-          "score": 4.39
+          "return": 6.57,
+          "score": 4.41
         },
         {
           "symbol": "NATIONALUM",
-          "return": -7.99,
-          "score": 3.65
+          "return": -5.25,
+          "score": 3.67
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 2.62,
-          "score": 3.6
+          "return": 4.63,
+          "score": 3.61
         },
         {
           "symbol": "SABTNL",
-          "return": 20.29,
-          "score": 3.29
+          "return": 14.58,
+          "score": 3.31
         },
         {
           "symbol": "MCX",
-          "return": -5.84,
-          "score": 3.15
+          "return": -3.68,
+          "score": 3.17
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": -1.72,
-          "score": 3.11
+          "return": 4.19,
+          "score": 3.12
         },
         {
           "symbol": "SBIN",
-          "return": -1.0,
-          "score": 3.0
+          "return": 6.39,
+          "score": 3.02
         },
         {
           "symbol": "FEDERALBNK",
-          "return": -0.33,
-          "score": 2.98
+          "return": -0.38,
+          "score": 3.0
         },
         {
           "symbol": "LTF",
-          "return": -0.37,
-          "score": 2.94
+          "return": 3.67,
+          "score": 2.95
         },
         {
           "symbol": "INDIANB",
-          "return": -4.44,
-          "score": 2.78
+          "return": -1.01,
+          "score": 2.79
         },
         {
           "symbol": "VEDL",
-          "return": -1.54,
-          "score": 2.76
+          "return": -0.26,
+          "score": 2.77
         },
         {
           "symbol": "HINDALCO",
-          "return": -2.08,
-          "score": 2.71
+          "return": 0.17,
+          "score": 2.73
         }
       ]
     },
