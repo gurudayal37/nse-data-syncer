@@ -53,7 +53,7 @@
     },
     "return_metrics": {
       "total_return": -4.35,
-      "benchmark_return": -1.94,
+      "benchmark_return": -1.27,
       "expectancy": -0.39,
       "net_return_after_fees": -5.57
     },
@@ -15204,43 +15204,43 @@
   "current_performance": [
     {
       "week": "2026-02-13",
-      "portfolio_return": 0,
-      "benchmark_return": 0.0,
+      "portfolio_return": 0.0,
+      "benchmark_return": 0.68,
       "holdings": [
         {
           "symbol": "SABTNL",
-          "return": 0.0,
-          "score": 5.88
+          "return": -8.2,
+          "score": 5.89
         },
         {
           "symbol": "CUPID",
-          "return": 0.0,
-          "score": 5.63
+          "return": -0.99,
+          "score": 5.65
         },
         {
           "symbol": "RMDRIP",
-          "return": 0.0,
-          "score": 4.22
+          "return": 0.34,
+          "score": 4.24
         },
         {
           "symbol": "HINDCOPPER",
-          "return": 0.0,
-          "score": 3.74
+          "return": 0.63,
+          "score": 3.76
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 0.0,
-          "score": 3.72
+          "return": 1.48,
+          "score": 3.73
         },
         {
           "symbol": "NATIONALUM",
-          "return": 0.0,
-          "score": 3.05
+          "return": 1.94,
+          "score": 3.06
         },
         {
           "symbol": "TMB",
-          "return": 0.0,
-          "score": 2.98
+          "return": 4.83,
+          "score": 2.99
         }
       ]
     },
