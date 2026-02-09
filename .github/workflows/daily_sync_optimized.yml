@@ -219,7 +219,10 @@ jobs:
       - run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          python -m app.main --source remaining --shard-index ${{ matrix.shard }} --total-shards 5 --skip-momentum
+        name: Run Sync Remaining
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python -m app.main --source remaining --shard-index ${{ matrix.shard }} --total-shards 5 --skip-momentum
 
   update-vcp-strategy:
     needs: update-simple-weekly
