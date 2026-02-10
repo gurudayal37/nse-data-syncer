@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 95654.54,
-      "total_fees_paid": 1222.94,
+      "end_value": 98131.99,
+      "total_fees_paid": 1225.84,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -4.35,
-      "benchmark_return": -1.27,
-      "expectancy": -0.39,
-      "net_return_after_fees": -5.57
+      "total_return": -1.87,
+      "benchmark_return": -1.02,
+      "expectancy": -0.15,
+      "net_return_after_fees": -3.09
     },
     "risk_metrics": {
       "max_drawdown": -6.47,
       "max_drawdown_duration": 10,
-      "sharpe_ratio": -1.58,
-      "calmar_ratio": -2.93,
-      "omega_ratio": 0.6,
-      "sortino_ratio": -3.01
+      "sharpe_ratio": -0.56,
+      "calmar_ratio": -1.32,
+      "omega_ratio": 0.84,
+      "sortino_ratio": -1.18
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -71,12 +71,12 @@
     "trade_statistics": {
       "total_trades": 11,
       "total_stock_transactions": 36,
-      "win_rate": 45.45,
-      "best_trade": 2.19,
+      "win_rate": 54.55,
+      "best_trade": 2.59,
       "worst_trade": -3.35,
-      "avg_winning_trade": 1.26,
+      "avg_winning_trade": 1.48,
       "avg_losing_trade": -2.12,
-      "profit_factor": 0.6
+      "profit_factor": 0.84
     }
   },
   "backtest_results": [
@@ -15204,42 +15204,42 @@
   "current_performance": [
     {
       "week": "2026-02-13",
-      "portfolio_return": 0.0,
-      "benchmark_return": 0.68,
+      "portfolio_return": 2.59,
+      "benchmark_return": 0.94,
       "holdings": [
         {
           "symbol": "SABTNL",
-          "return": -8.2,
+          "return": -3.61,
           "score": 5.89
         },
         {
           "symbol": "CUPID",
-          "return": -0.99,
+          "return": 2.26,
           "score": 5.65
         },
         {
           "symbol": "RMDRIP",
-          "return": 0.34,
-          "score": 4.24
+          "return": 1.11,
+          "score": 4.23
         },
         {
           "symbol": "HINDCOPPER",
-          "return": 0.63,
+          "return": 0.56,
           "score": 3.76
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 1.48,
+          "return": 3.42,
           "score": 3.73
         },
         {
           "symbol": "NATIONALUM",
-          "return": 1.94,
+          "return": 2.9,
           "score": 3.06
         },
         {
           "symbol": "TMB",
-          "return": 4.83,
+          "return": 11.49,
           "score": 2.99
         }
       ]
