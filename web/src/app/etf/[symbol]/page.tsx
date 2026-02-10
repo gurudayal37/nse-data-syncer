@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import PercentageChange from '@/components/PercentageChange'
+import StockChart from '@/components/StockChart'
 import { PERFORMANCE_PERIODS } from '@/lib/constants'
 
 export const dynamic = 'force-dynamic'
@@ -18,8 +19,7 @@ export default async function ETFDetailPage(props: ETFDetailProps) {
         where: { symbol: symbol },
         include: {
             etf_daily_prices: {
-                orderBy: { date: 'desc' },
-                take: 100 // Last 100 days
+                orderBy: { date: 'asc' },
             },
             etf_performance: true
         }
@@ -29,7 +29,12 @@ export default async function ETFDetailPage(props: ETFDetailProps) {
         notFound()
     }
 
-    const latestPrice = etf.etf_daily_prices[0]
+    const latestPrice = etf.etf_daily_prices[etf.etf_daily_prices.length - 1]
+    const chartData = etf.etf_daily_prices.map(p => ({
+        date: p.date.toISOString(),
+        close: p.close_price,
+        volume: Number(p.volume || 0)
+    }))
     const perf = etf.etf_performance
 
     return (
@@ -56,6 +61,15 @@ export default async function ETFDetailPage(props: ETFDetailProps) {
                                 </div>
                             )}
                         </div>
+                    </div>
+                </div>
+
+
+                {/* Chart Section */}
+                <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6 mb-6">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4">Price History</h2>
+                    <div className="h-[400px]">
+                        <StockChart data={chartData} />
                     </div>
                 </div>
 
@@ -152,7 +166,7 @@ export default async function ETFDetailPage(props: ETFDetailProps) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
-                                {etf.etf_daily_prices.slice(0, 20).map((price) => (
+                                {[...etf.etf_daily_prices].reverse().slice(0, 20).map((price) => (
                                     <tr key={price.id} className="hover:bg-gray-50">
                                         <td className="px-4 py-3 text-gray-900">
                                             {new Date(price.date).toLocaleDateString()}
@@ -171,6 +185,6 @@ export default async function ETFDetailPage(props: ETFDetailProps) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
