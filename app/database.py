@@ -266,6 +266,18 @@ class DatabaseManager:
         finally:
             session.close()
 
+    def get_etf_last_synced_date(self, etf_id):
+        """Returns the latest date present in etf_daily_prices for the given etf."""
+        session = self.Session()
+        try:
+            last_date = session.query(ETFDailyPrice.date)\
+                .filter(ETFDailyPrice.etf_id == etf_id)\
+                .order_by(ETFDailyPrice.date.desc())\
+                .first()
+            return last_date[0] if last_date else None
+        finally:
+            session.close()
+
     def get_etf_last_n_records(self, etf_id, n=5):
         """
         Fetches the last n price records for an ETF.

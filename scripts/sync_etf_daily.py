@@ -6,6 +6,7 @@ import os
 import sys
 from datetime import datetime, timedelta
 import yfinance as yf
+import pandas as pd
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -117,13 +118,31 @@ def sync_etf_daily():
                             continue
 
                     # Insert daily prices (will skip duplicates based on date)
-                    db.insert_etf_daily_prices(etf_id, etf_df)
+                    # Check last synced date to avoid duplicates
+                    last_synced_date = db.get_etf_last_synced_date(etf_id)
                     
+                    if last_synced_date:
+                        # Ensure last_synced_date is timezone-naive/aware matching df
+                        last_ts = pd.Timestamp(last_synced_date)
+                        if etf_df.index.tz is not None and last_ts.tz is None:
+                             last_ts = last_ts.tz_localize(etf_df.index.tz)
+                        elif etf_df.index.tz is None and last_ts.tz is not None:
+                             last_ts = last_ts.tz_convert(None)
+                             
+                        etf_df_to_insert = etf_df[etf_df.index > last_ts]
+                    else:
+                        etf_df_to_insert = etf_df
+
+                    if not etf_df_to_insert.empty:
+                        db.insert_etf_daily_prices(etf_id, etf_df_to_insert)
+                        print(f"  ✓ {symbol}: {len(etf_df_to_insert)} new records synced")
+                        successful += 1
+                    else:
+                        print(f"  - {symbol}: No new data")
+                        successful += 1 # Count as success even if no new data
+
                     # Update performance metrics
                     db.update_etf_performance_metrics(etf_id)
-                    
-                    print(f"  ✓ {symbol}: {len(etf_df)} records synced")
-                    successful += 1
                     
                 except Exception as e:
                     print(f"  ✗ {symbol}: Error - {e}")
