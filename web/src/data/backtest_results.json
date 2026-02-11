@@ -57,7 +57,7 @@
     },
     "return_metrics": {
       "total_return": 3.72,
-      "benchmark_return": -1.02,
+      "benchmark_return": -0.96,
       "expectancy": 1.25,
       "net_return_after_fees": 2.87
     },
@@ -7719,82 +7719,82 @@
     {
       "month": "2026-02",
       "portfolio_return": 4.03,
-      "benchmark_return": 2.43,
+      "benchmark_return": 2.5,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 7.16,
-          "score": 6.14
+          "return": 6.91,
+          "score": 6.15
         },
         {
           "symbol": "HINDCOPPER",
-          "return": -17.69,
-          "score": 5.2
+          "return": -16.85,
+          "score": 5.22
         },
         {
           "symbol": "SABTNL",
           "return": 20.31,
-          "score": 4.07
+          "score": 4.08
         },
         {
           "symbol": "NATIONALUM",
-          "return": 4.43,
-          "score": 4.05
+          "return": 4.16,
+          "score": 4.06
         },
         {
           "symbol": "RMDRIP",
-          "return": 7.72,
+          "return": 8.34,
           "score": 3.93
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 8.72,
-          "score": 3.79
+          "return": 6.97,
+          "score": 3.8
         },
         {
           "symbol": "BGRENERGY",
-          "return": -3.4,
+          "return": 0.53,
           "score": 3.25
         },
         {
           "symbol": "MCX",
-          "return": 7.42,
+          "return": 3.17,
           "score": 3.03
         },
         {
           "symbol": "FEDERALBNK",
-          "return": -2.18,
+          "return": 0.68,
           "score": 2.97
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": 2.3,
+          "return": 3.1,
           "score": 2.95
         },
         {
           "symbol": "VEDL",
-          "return": -8.59,
-          "score": 2.9
+          "return": -7.13,
+          "score": 2.91
         },
         {
           "symbol": "SBIN",
-          "return": 7.53,
+          "return": 11.17,
           "score": 2.84
         },
         {
           "symbol": "HINDALCO",
-          "return": 5.32,
-          "score": 2.72
+          "return": 4.99,
+          "score": 2.73
         },
         {
           "symbol": "TMB",
-          "return": 16.24,
-          "score": 2.6
+          "return": 10.24,
+          "score": 2.61
         },
         {
           "symbol": "SEAMECLTD",
-          "return": 5.12,
-          "score": 2.58
+          "return": 3.81,
+          "score": 2.59
         }
       ]
     },
