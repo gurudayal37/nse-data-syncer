@@ -335,7 +335,7 @@ def run_backtest():
     valid_stock_ids = [r[0] for r in session.execute(valid_stocks_query).fetchall()]
     print(f"Applying Global Market Cap Filter (> {min_mcap_cr} Cr). Eligible Stocks: {len(valid_stock_ids)}")
     
-    def process_period(rebalance_date, next_rebalance_date, label_date=None, valid_stock_ids=None):
+    def process_period(rebalance_date, next_rebalance_date, label_date=None, valid_stock_ids=None, use_close_to_close=False):
         print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()}")
         
         start_window = rebalance_date - timedelta(days=400)
@@ -376,17 +376,55 @@ def run_backtest():
         if not df_next.empty:
             for stock_id in selected_stock_ids:
                 try:
-                    # FIX: Buy at Next Day OPEN instead of Signal Day CLOSE
+                    # Get next period data for this stock
                     stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
+                    
                     if stock_data_next.empty:
-                        stock_returns_detail.append({
-                            'symbol': stock_map.get(stock_id, 'Unknown'),
-                            'return': 0.0,
-                            'score': round(score_map.get(stock_id, 0), 2)
-                        })
-                        continue
+                        end_price = None # Will be handled below or skipped
+                    else:
+                        end_price = stock_data_next.iloc[-1]['close_price']
 
-                    start_price = stock_data_next.iloc[0]['open_price']
+                    # Determine Start Price
+                    if use_close_to_close:
+                        try:
+                            # Get Close from Rebalance Date (Previous Close)
+                            prev_close_row = df_window.xs(stock_id, level='stock_id').iloc[-1]
+                            start_price = prev_close_row['close_price']
+                        except (KeyError, IndexError):
+                             # Fallback to Next Day Open if missing
+                             if not stock_data_next.empty:
+                                 start_price = stock_data_next.iloc[0]['open_price']
+                             else:
+                                 raise IndexError
+                    else:
+                        # FIX: Buy at Next Day OPEN instead of Signal Day CLOSE
+                        if stock_data_next.empty:
+                            stock_returns_detail.append({
+                                'symbol': stock_map.get(stock_id, 'Unknown'),
+                                'return': 0.0,
+                                'score': round(score_map.get(stock_id, 0), 2)
+                            })
+                            continue
+
+                        start_price = stock_data_next.iloc[0]['open_price']
+                    
+                    # Exit at End of Month Close
+                    if stock_data_next.empty:
+                        # If we had a start price (e.g. from prev close) but no data next month?
+                        # Assume flat if no data? Or use start price as end price?
+                        # If start_price exists but no next data, return is 0
+                        end_price = start_price
+                    else:
+                         end_price = stock_data_next.iloc[-1]['close_price']
+
+                    ret = (end_price - start_price) / start_price
+                    portfolio_returns.append(ret)
+                    stock_returns_detail.append({
+                        'symbol': stock_map.get(stock_id, 'Unknown'),
+                        'return': round(ret * 100, 2),
+                        'score': round(score_map.get(stock_id, 0), 2)
+                    })
+
                 except (KeyError, IndexError):
                      stock_returns_detail.append({
                         'symbol': stock_map.get(stock_id, 'Unknown'),
@@ -394,17 +432,6 @@ def run_backtest():
                         'score': round(score_map.get(stock_id, 0), 2)
                     })
                      continue
-                
-                # Exit at End of Month Close
-                end_price = stock_data_next.iloc[-1]['close_price']
-                
-                ret = (end_price - start_price) / start_price
-                portfolio_returns.append(ret)
-                stock_returns_detail.append({
-                    'symbol': stock_map.get(stock_id, 'Unknown'),
-                    'return': round(ret * 100, 2),
-                    'score': round(score_map.get(stock_id, 0), 2)
-                })
                 
         if not portfolio_returns:
             port_ret = 0
@@ -492,7 +519,7 @@ def run_backtest():
         # Always recalculate current month
         all_results = [r for r in all_results if r['month'] != current_month_label]
         
-        res = process_period(last_rebalance_date, today, label_date=current_month_label, valid_stock_ids=valid_stock_ids)
+        res = process_period(last_rebalance_date, today, label_date=current_month_label, valid_stock_ids=valid_stock_ids, use_close_to_close=True)
         if res:
             all_results.append(res)
 

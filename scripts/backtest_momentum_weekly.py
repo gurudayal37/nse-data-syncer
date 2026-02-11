@@ -347,7 +347,7 @@ def run_backtest():
     valid_stock_ids = [r[0] for r in session.execute(valid_stocks_query).fetchall()]
     print(f"Applying Global Market Cap Filter (> {min_mcap_cr} Cr). Eligible Stocks: {len(valid_stock_ids)}")
     
-    def process_period(rebalance_date, next_rebalance_date, label_date=None, valid_stock_ids=None):
+    def process_period(rebalance_date, next_rebalance_date, label_date=None, valid_stock_ids=None, use_close_to_close=False):
         start_window = rebalance_date - timedelta(days=400)
         try:
             df_slice = master_df.loc[start_window:rebalance_date]
@@ -384,18 +384,41 @@ def run_backtest():
         if not df_next.empty:
             for stock_id in selected_stock_ids:
                 try:
-                    # Buy at Next Day OPEN
-                    stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
-                    if stock_data_next.empty:
-                        stock_returns_detail.append({'symbol': stock_map.get(stock_id, 'Unknown'), 'return': 0.0, 'score': round(score_map.get(stock_id, 0), 2)})
-                        continue
 
-                    start_price = stock_data_next.iloc[0]['open_price']
+                    # Get next period data for this stock
+                    stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
+
+                    # Determine Start Price
+                    if use_close_to_close:
+                        try:
+                            # Get Close from Rebalance Date (Previous Close)
+                            prev_close_row = df_window.xs(stock_id, level='stock_id').iloc[-1]
+                            start_price = prev_close_row['close_price']
+                        except (KeyError, IndexError):
+                             # Fallback
+                             if not stock_data_next.empty:
+                                 start_price = stock_data_next.iloc[0]['open_price']
+                             else:
+                                 raise IndexError
+                    else:
+                        # Buy at Next Day OPEN
+                        if stock_data_next.empty:
+                            stock_returns_detail.append({'symbol': stock_map.get(stock_id, 'Unknown'), 'return': 0.0, 'score': round(score_map.get(stock_id, 0), 2)})
+                            continue
+
+                        start_price = stock_data_next.iloc[0]['open_price']
                 except (KeyError, IndexError):
                     stock_returns_detail.append({'symbol': stock_map.get(stock_id, 'Unknown'), 'return': 0.0, 'score': round(score_map.get(stock_id, 0), 2)})
                     continue
+                
+                if stock_data_next.empty:
+                    # If we have start price (e.g. from prev close) but no next data, we can't calculate return?
+                    # Or assume 0 return if price didn't move/exist?
+                    # Let's assume start_price as end_price so return is 0
+                    end_price = start_price
+                else:
+                    end_price = stock_data_next.iloc[-1]['close_price']
                     
-                end_price = stock_data_next.iloc[-1]['close_price']
                 ret = (end_price - start_price) / start_price
                 portfolio_returns.append(ret)
                 stock_returns_detail.append({'symbol': stock_map.get(stock_id, 'Unknown'), 'return': round(ret * 100, 2), 'score': round(score_map.get(stock_id, 0), 2)})
@@ -449,13 +472,13 @@ def run_backtest():
     if today > last_rebalance_date:
         # Determine current week label (Next Friday)
         next_friday = last_rebalance_date + timedelta(days=7)
-        live_label = next_friday.strftime('%Y-%m-%d')
+        current_week_label = next_friday.strftime('%Y-%m-%d')
         
         print(f"Processing Live Week: {last_rebalance_date.date()} -> {today.date()}")
         # Check if live label exists in all_results (from frozen map), remove it to recalculate
-        all_results = [r for r in all_results if r['week'] != live_label]
+        all_results = [r for r in all_results if r['week'] != current_week_label]
         
-        res = process_period(last_rebalance_date, today, label_date=live_label, valid_stock_ids=valid_stock_ids)
+        res = process_period(last_rebalance_date, today, label_date=current_week_label, valid_stock_ids=valid_stock_ids, use_close_to_close=True)
         if res:
             all_results.append(res)
 

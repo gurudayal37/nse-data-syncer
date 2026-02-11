@@ -402,13 +402,14 @@ def run_backtest():
                     # Determine Start Price
                     if use_close_to_close:
                         try:
+                            # Get Close from Rebalance Date (Previous Close)
                             prev_close_row = df_window.xs(stock_id, level='stock_id').iloc[-1]
                             start_price = prev_close_row['close_price']
                         except (KeyError, IndexError):
-                            if not stock_data_next.empty:
-                                start_price = stock_data_next.iloc[0]['open_price']
-                            else:
-                                raise IndexError
+                             if not stock_data_next.empty:
+                                 start_price = stock_data_next.iloc[0]['open_price']
+                             else:
+                                 raise IndexError
                     else:
                         if stock_data_next.empty:
                             stock_returns_detail.append({
