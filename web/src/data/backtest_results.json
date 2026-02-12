@@ -51,22 +51,22 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 103157.52,
-      "total_fees_paid": 845.02,
+      "end_value": 103825.49,
+      "total_fees_paid": 846.87,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 3.16,
-      "benchmark_return": -0.96,
-      "expectancy": 1.06,
-      "net_return_after_fees": 2.31
+      "total_return": 3.83,
+      "benchmark_return": -1.52,
+      "expectancy": 1.29,
+      "net_return_after_fees": 2.98
     },
     "risk_metrics": {
       "max_drawdown": -1.63,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 1.76,
-      "calmar_ratio": 8.12,
-      "omega_ratio": 2.96,
+      "sharpe_ratio": 1.89,
+      "calmar_ratio": 9.94,
+      "omega_ratio": 3.37,
       "sortino_ratio": 0
     },
     "exposure_metrics": {
@@ -77,13 +77,13 @@
       "total_closed_trades": 2,
       "total_open_trades": 1,
       "win_rate": 66.67,
-      "best_trade": 3.47,
+      "best_trade": 4.14,
       "worst_trade": -1.63,
-      "avg_winning_trade": 2.41,
+      "avg_winning_trade": 2.74,
       "avg_losing_trade": -1.63,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.96,
+      "profit_factor": 3.37,
       "total_stock_transactions": 50
     }
   },
@@ -7718,82 +7718,82 @@
   "current_performance": [
     {
       "month": "2026-02",
-      "portfolio_return": 3.47,
-      "benchmark_return": 2.5,
+      "portfolio_return": 4.14,
+      "benchmark_return": 1.92,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 8.22,
+          "return": 7.04,
           "score": 6.15
         },
         {
           "symbol": "HINDCOPPER",
-          "return": -11.98,
-          "score": 5.22
+          "return": -8.92,
+          "score": 5.21
         },
         {
           "symbol": "SABTNL",
-          "return": 20.31,
+          "return": 21.18,
           "score": 4.08
         },
         {
           "symbol": "NATIONALUM",
-          "return": -4.61,
+          "return": -4.09,
           "score": 4.06
         },
         {
           "symbol": "RMDRIP",
-          "return": 8.0,
+          "return": 8.5,
           "score": 3.93
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 4.91,
+          "return": 7.29,
           "score": 3.8
         },
         {
           "symbol": "BGRENERGY",
-          "return": 0.49,
+          "return": -0.85,
           "score": 3.25
         },
         {
           "symbol": "MCX",
-          "return": -6.14,
+          "return": -3.41,
           "score": 3.03
         },
         {
           "symbol": "FEDERALBNK",
-          "return": 0.96,
+          "return": -0.23,
           "score": 2.97
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": 3.61,
+          "return": 6.16,
           "score": 2.95
         },
         {
           "symbol": "VEDL",
-          "return": 2.88,
+          "return": 3.11,
           "score": 2.91
         },
         {
           "symbol": "SBIN",
-          "return": 9.82,
+          "return": 10.7,
           "score": 2.84
         },
         {
           "symbol": "HINDALCO",
-          "return": 0.35,
+          "return": 0.19,
           "score": 2.73
         },
         {
           "symbol": "TMB",
-          "return": 9.83,
+          "return": 7.99,
           "score": 2.61
         },
         {
           "symbol": "SEAMECLTD",
-          "return": 5.37,
+          "return": 7.42,
           "score": 2.59
         }
       ]
