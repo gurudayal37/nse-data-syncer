@@ -419,14 +419,6 @@ def run_backtest():
                     stock_returns_detail.append({'symbol': stock_map.get(stock_id, 'Unknown'), 'return': 0.0, 'score': round(score_map.get(stock_id, 0), 2)})
                     continue
                 
-                end_price = stock_data_next.iloc[-1]['close_price']
-                ret = (end_price - start_price) / start_price
-                portfolio_returns.append(ret)
-                stock_returns_detail.append({
-                    'symbol': stock_map.get(stock_id, 'Unknown'),
-                    'return': round(ret * 100, 2),
-                    'score': round(score_map.get(stock_id, 0), 2)
-                })
         
         if not portfolio_returns:
             port_ret = 0
