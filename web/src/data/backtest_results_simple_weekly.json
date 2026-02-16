@@ -42,41 +42,41 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-02-13",
-      "period": "11 weeks (0.2 years)"
+      "end": "2026-02-20",
+      "period": "12 weeks (0.2 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 100591.62,
-      "total_fees_paid": 825.79,
+      "end_value": 100209.38,
+      "total_fees_paid": 897.6,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 0.59,
-      "benchmark_return": -2.79,
-      "expectancy": 0.08,
-      "net_return_after_fees": -0.23
+      "total_return": 0.21,
+      "benchmark_return": -1.98,
+      "expectancy": 0.04,
+      "net_return_after_fees": -0.69
     },
     "risk_metrics": {
       "max_drawdown": -4.87,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": 0.26,
-      "calmar_ratio": 0.58,
-      "omega_ratio": 1.08,
-      "sortino_ratio": 0.66
+      "sharpe_ratio": 0.14,
+      "calmar_ratio": 0.19,
+      "omega_ratio": 1.04,
+      "sortino_ratio": 0.24
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 11,
-      "total_stock_transactions": 24,
-      "win_rate": 63.64,
+      "total_trades": 12,
+      "total_stock_transactions": 26,
+      "win_rate": 58.33,
       "best_trade": 2.99,
       "worst_trade": -3.76,
       "avg_winning_trade": 1.55,
-      "avg_losing_trade": -2.5,
-      "profit_factor": 1.08
+      "avg_losing_trade": -2.08,
+      "profit_factor": 1.04
     }
   },
   "backtest_results": [
@@ -17134,6 +17134,48 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-02-20",
+      "portfolio_return": -0.38,
+      "benchmark_return": 0.83,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": -3.5,
+          "score": 6.39
+        },
+        {
+          "symbol": "RMDRIP",
+          "return": 1.38,
+          "score": 4.39
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": 3.48,
+          "score": 4.28
+        },
+        {
+          "symbol": "SABTNL",
+          "return": 0.0,
+          "score": 4.04
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": -1.87,
+          "score": 3.95
+        },
+        {
+          "symbol": "HINDCOPPER",
+          "return": -2.92,
+          "score": 3.65
+        },
+        {
+          "symbol": "SBIN",
+          "return": 0.79,
+          "score": 3.5
+        }
+      ]
+    },
     {
       "week": "2026-02-13",
       "portfolio_return": 2.09,
