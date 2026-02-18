@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 99047.85,
-      "total_fees_paid": 1367.62,
+      "end_value": 98839.7,
+      "total_fees_paid": 1367.38,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -0.95,
-      "benchmark_return": -0.52,
-      "expectancy": -0.06,
-      "net_return_after_fees": -2.32
+      "total_return": -1.16,
+      "benchmark_return": -0.16,
+      "expectancy": -0.08,
+      "net_return_after_fees": -2.53
     },
     "risk_metrics": {
       "max_drawdown": -6.47,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": -0.21,
-      "calmar_ratio": -0.63,
-      "omega_ratio": 0.93,
-      "sortino_ratio": -0.37
+      "sharpe_ratio": -0.27,
+      "calmar_ratio": -0.76,
+      "omega_ratio": 0.92,
+      "sortino_ratio": -0.51
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -75,8 +75,8 @@
       "best_trade": 3.62,
       "worst_trade": -3.35,
       "avg_winning_trade": 1.66,
-      "avg_losing_trade": -1.78,
-      "profit_factor": 0.93
+      "avg_losing_trade": -1.81,
+      "profit_factor": 0.92
     }
   },
   "backtest_results": [
@@ -15204,42 +15204,42 @@
   "current_performance": [
     {
       "week": "2026-02-20",
-      "portfolio_return": -0.07,
-      "benchmark_return": 1.0,
+      "portfolio_return": -0.28,
+      "benchmark_return": 1.37,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 2.03,
+          "return": 0.46,
           "score": 4.96
         },
         {
           "symbol": "RMDRIP",
-          "return": 2.12,
-          "score": 4.34
+          "return": 3.17,
+          "score": 4.33
         },
         {
           "symbol": "SABTNL",
-          "return": -5.0,
-          "score": 4.32
+          "return": -9.74,
+          "score": 4.31
         },
         {
           "symbol": "HINDCOPPER",
-          "return": -7.13,
-          "score": 3.98
+          "return": -3.76,
+          "score": 3.97
         },
         {
           "symbol": "MTARTECH",
-          "return": 4.79,
-          "score": 3.75
+          "return": 4.42,
+          "score": 3.74
         },
         {
           "symbol": "SBIN",
-          "return": 1.23,
+          "return": 1.69,
           "score": 3.49
         },
         {
           "symbol": "ASHOKLEY",
-          "return": 1.49,
+          "return": 1.81,
           "score": 3.45
         }
       ]
