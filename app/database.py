@@ -183,6 +183,15 @@ class DatabaseManager:
         # Select only relevant columns
         columns = ['stock_id', 'date', 'open_price', 'high_price', 'low_price', 'close_price', 'volume', 'created_at']
         df_to_insert = df_to_insert[columns]
+        
+        # Drop rows where close_price is NaN — Prisma cannot handle NaN floats
+        df_to_insert = df_to_insert.dropna(subset=['close_price'])
+        # Replace remaining NaN values with None (SQL NULL) for other float columns
+        df_to_insert = df_to_insert.where(pd.notna(df_to_insert), other=None)
+        
+        if df_to_insert.empty:
+            print(f"No valid (non-NaN close_price) records to insert for stock_id {stock_id}")
+            return
 
         try:
             df_to_insert.to_sql('daily_prices', self.engine, if_exists='append', index=False, method='multi', chunksize=1000)
@@ -223,7 +232,15 @@ class DatabaseManager:
                      if c == 'volume': df_curr[c] = 0
                      else: df_curr[c] = None
             
-            dfs_to_insert.append(df_curr[cols])
+            df_curr = df_curr[cols]
+            
+            # Drop rows where close_price is NaN — Prisma cannot handle NaN floats
+            df_curr = df_curr.dropna(subset=['close_price'])
+            # Replace remaining NaN in other float columns with None (SQL NULL)
+            df_curr = df_curr.where(pd.notna(df_curr), other=None)
+            
+            if not df_curr.empty:
+                dfs_to_insert.append(df_curr)
             
         if not dfs_to_insert:
             return
