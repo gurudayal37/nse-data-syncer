@@ -1,90 +1,90 @@
 {
   "backtest_metrics": {
     "time_metrics": {
-      "start": "2018-03",
+      "start": "2018-04",
       "end": "2025-11",
-      "period": "93 months (7.8 years)"
+      "period": "92 months (7.7 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 1495441.93,
-      "total_fees_paid": 75298.62,
+      "end_value": 1603175.32,
+      "total_fees_paid": 80446.42,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 1395.44,
-      "benchmark_return": 149.52,
-      "expectancy": 3.42,
-      "net_return_after_fees": 1320.14
+      "total_return": 1503.18,
+      "benchmark_return": 158.87,
+      "expectancy": 3.53,
+      "net_return_after_fees": 1422.73
     },
     "risk_metrics": {
       "max_drawdown": -39.59,
       "max_drawdown_duration": 28,
-      "sharpe_ratio": 1.23,
-      "calmar_ratio": 1.05,
-      "omega_ratio": 2.54,
-      "sortino_ratio": 1.84
+      "sharpe_ratio": 1.27,
+      "calmar_ratio": 1.1,
+      "omega_ratio": 2.63,
+      "sortino_ratio": 1.87
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 93,
-      "total_closed_trades": 92,
+      "total_trades": 92,
+      "total_closed_trades": 91,
       "total_open_trades": 1,
-      "win_rate": 63.44,
+      "win_rate": 64.13,
       "best_trade": 28.57,
       "worst_trade": -33.63,
       "avg_winning_trade": 8.88,
-      "avg_losing_trade": -6.06,
+      "avg_losing_trade": -6.04,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.54,
-      "total_stock_transactions": 1005
+      "profit_factor": 2.63,
+      "total_stock_transactions": 993
     }
   },
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12",
-      "end": "2026-02",
-      "period": "3 months (0.2 years)"
+      "end": "2026-03",
+      "period": "4 months (0.3 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 97143.72,
-      "total_fees_paid": 753.25,
+      "end_value": 94899.7,
+      "total_fees_paid": 974.13,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -2.86,
-      "benchmark_return": -3.91,
-      "expectancy": -0.93,
-      "net_return_after_fees": -3.61
+      "total_return": -5.1,
+      "benchmark_return": -5.1,
+      "expectancy": -1.27,
+      "net_return_after_fees": -6.07
     },
     "risk_metrics": {
-      "max_drawdown": -4.6,
-      "max_drawdown_duration": 2,
-      "sharpe_ratio": -1.23,
-      "calmar_ratio": -2.38,
-      "omega_ratio": 0.4,
-      "sortino_ratio": 0
+      "max_drawdown": -6.16,
+      "max_drawdown_duration": 3,
+      "sharpe_ratio": -1.89,
+      "calmar_ratio": -2.36,
+      "omega_ratio": 0.26,
+      "sortino_ratio": -3.85
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 3,
-      "total_closed_trades": 2,
+      "total_trades": 4,
+      "total_closed_trades": 3,
       "total_open_trades": 1,
-      "win_rate": 66.67,
+      "win_rate": 50.0,
       "best_trade": 1.13,
       "worst_trade": -4.6,
       "avg_winning_trade": 0.91,
-      "avg_losing_trade": -4.6,
+      "avg_losing_trade": -3.45,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 0.4,
-      "total_stock_transactions": 46
+      "profit_factor": 0.26,
+      "total_stock_transactions": 60
     }
   },
   "backtest_results": [
@@ -7631,91 +7631,91 @@
           "score": 1.55
         }
       ]
-    },
-    {
-      "month": "2018-03",
-      "portfolio_return": -6.72,
-      "benchmark_return": -3.61,
-      "holdings": [
-        {
-          "symbol": "KIOCL",
-          "return": -21.22,
-          "score": 8.64
-        },
-        {
-          "symbol": "BEPL",
-          "return": -2.01,
-          "score": 2.5
-        },
-        {
-          "symbol": "RAIN",
-          "return": 3.8,
-          "score": 2.46
-        },
-        {
-          "symbol": "BOMDYEING",
-          "return": -6.13,
-          "score": 2.28
-        },
-        {
-          "symbol": "AUTOAXLES",
-          "return": -3.12,
-          "score": 2.26
-        },
-        {
-          "symbol": "INDIAGLYCO",
-          "return": -6.39,
-          "score": 2.1
-        },
-        {
-          "symbol": "IFBIND",
-          "return": -18.98,
-          "score": 2.04
-        },
-        {
-          "symbol": "MMFL",
-          "return": -4.1,
-          "score": 1.72
-        },
-        {
-          "symbol": "KOLTEPATIL",
-          "return": -11.49,
-          "score": 1.61
-        },
-        {
-          "symbol": "VENKEYS",
-          "return": -4.4,
-          "score": 1.6
-        },
-        {
-          "symbol": "PRECWIRE",
-          "return": -9.16,
-          "score": 1.57
-        },
-        {
-          "symbol": "AHLUCONT",
-          "return": 0.24,
-          "score": 1.52
-        },
-        {
-          "symbol": "RAMKY",
-          "return": -17.85,
-          "score": 1.46
-        },
-        {
-          "symbol": "LUXIND",
-          "return": -5.1,
-          "score": 1.46
-        },
-        {
-          "symbol": "SUNTECK",
-          "return": 5.14,
-          "score": 1.43
-        }
-      ]
     }
   ],
   "current_performance": [
+    {
+      "month": "2026-03",
+      "portfolio_return": -2.31,
+      "benchmark_return": -1.24,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": -5.45,
+          "score": 5.93
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": -1.68,
+          "score": 4.99
+        },
+        {
+          "symbol": "ASHOKLEY",
+          "return": -0.99,
+          "score": 3.44
+        },
+        {
+          "symbol": "SBIN",
+          "return": -0.98,
+          "score": 3.39
+        },
+        {
+          "symbol": "HINDCOPPER",
+          "return": 1.71,
+          "score": 3.23
+        },
+        {
+          "symbol": "SANSERA",
+          "return": -4.79,
+          "score": 3.2
+        },
+        {
+          "symbol": "BGRENERGY",
+          "return": -4.62,
+          "score": 3.12
+        },
+        {
+          "symbol": "FEDERALBNK",
+          "return": -1.63,
+          "score": 3.04
+        },
+        {
+          "symbol": "SHRIRAMFIN",
+          "return": -2.49,
+          "score": 2.85
+        },
+        {
+          "symbol": "KARURVYSYA",
+          "return": -3.34,
+          "score": 2.81
+        },
+        {
+          "symbol": "TMB",
+          "return": 0.46,
+          "score": 2.8
+        },
+        {
+          "symbol": "LUMAXTECH",
+          "return": -5.32,
+          "score": 2.8
+        },
+        {
+          "symbol": "BHARATFORG",
+          "return": -1.67,
+          "score": 2.72
+        },
+        {
+          "symbol": "CANBK",
+          "return": -2.42,
+          "score": 2.67
+        },
+        {
+          "symbol": "TDPOWERSYS",
+          "return": -1.49,
+          "score": 2.66
+        }
+      ]
+    },
     {
       "month": "2026-02",
       "portfolio_return": 0.69,
