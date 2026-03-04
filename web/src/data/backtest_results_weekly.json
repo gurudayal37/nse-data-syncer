@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 95323.26,
-      "total_fees_paid": 1571.68,
+      "end_value": 92182.12,
+      "total_fees_paid": 1567.99,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -4.68,
-      "benchmark_return": -3.08,
-      "expectancy": -0.32,
-      "net_return_after_fees": -6.25
+      "total_return": -7.82,
+      "benchmark_return": -4.58,
+      "expectancy": -0.55,
+      "net_return_after_fees": -9.39
     },
     "risk_metrics": {
-      "max_drawdown": -6.47,
+      "max_drawdown": -7.0,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": -1.16,
-      "calmar_ratio": -2.52,
-      "omega_ratio": 0.69,
-      "sortino_ratio": -2.95
+      "sharpe_ratio": -1.7,
+      "calmar_ratio": -3.73,
+      "omega_ratio": 0.57,
+      "sortino_ratio": -2.98
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -73,10 +73,10 @@
       "total_stock_transactions": 46,
       "win_rate": 50.0,
       "best_trade": 3.62,
-      "worst_trade": -3.35,
+      "worst_trade": -5.21,
       "avg_winning_trade": 1.45,
-      "avg_losing_trade": -2.1,
-      "profit_factor": 0.69
+      "avg_losing_trade": -2.56,
+      "profit_factor": 0.57
     }
   },
   "backtest_results": [
@@ -15204,42 +15204,42 @@
   "current_performance": [
     {
       "week": "2026-03-06",
-      "portfolio_return": -1.98,
-      "benchmark_return": -1.24,
+      "portfolio_return": -5.21,
+      "benchmark_return": -2.77,
       "holdings": [
         {
           "symbol": "MTARTECH",
-          "return": -1.68,
+          "return": -7.94,
           "score": 4.52
         },
         {
           "symbol": "CUPID",
-          "return": -5.45,
+          "return": -6.75,
           "score": 4.29
         },
         {
           "symbol": "SBIN",
-          "return": -0.98,
+          "return": -2.26,
           "score": 3.32
         },
         {
           "symbol": "ASHOKLEY",
-          "return": -0.99,
-          "score": 3.3
+          "return": -5.04,
+          "score": 3.29
         },
         {
           "symbol": "SANSERA",
-          "return": -4.79,
+          "return": -7.43,
           "score": 3.22
         },
         {
           "symbol": "HINDCOPPER",
-          "return": 1.71,
+          "return": -3.44,
           "score": 3.0
         },
         {
           "symbol": "BHARATFORG",
-          "return": -1.67,
+          "return": -3.63,
           "score": 2.79
         }
       ]
