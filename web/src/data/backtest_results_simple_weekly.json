@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 94678.95,
-      "total_fees_paid": 1240.7,
+      "end_value": 94904.66,
+      "total_fees_paid": 1240.91,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -5.32,
-      "benchmark_return": -5.49,
-      "expectancy": -0.37,
-      "net_return_after_fees": -6.56
+      "total_return": -5.1,
+      "benchmark_return": -6.69,
+      "expectancy": -0.35,
+      "net_return_after_fees": -6.34
     },
     "risk_metrics": {
-      "max_drawdown": -5.88,
+      "max_drawdown": -5.65,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": -1.23,
-      "calmar_ratio": -3.13,
-      "omega_ratio": 0.68,
-      "sortino_ratio": -2.39
+      "sharpe_ratio": -1.18,
+      "calmar_ratio": -3.12,
+      "omega_ratio": 0.69,
+      "sortino_ratio": -2.36
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -75,8 +75,8 @@
       "best_trade": 2.99,
       "worst_trade": -3.76,
       "avg_winning_trade": 1.55,
-      "avg_losing_trade": -2.28,
-      "profit_factor": 0.68
+      "avg_losing_trade": -2.25,
+      "profit_factor": 0.69
     }
   },
   "backtest_results": [
@@ -17010,42 +17010,42 @@
   "current_performance": [
     {
       "week": "2026-03-06",
-      "portfolio_return": -3.52,
-      "benchmark_return": -1.64,
+      "portfolio_return": -3.29,
+      "benchmark_return": -2.89,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": -0.27,
+          "return": -1.08,
           "score": 5.93
         },
         {
           "symbol": "MTARTECH",
-          "return": -5.98,
+          "return": -0.65,
           "score": 4.99
         },
         {
           "symbol": "ASHOKLEY",
-          "return": -3.82,
+          "return": -7.78,
           "score": 3.44
         },
         {
           "symbol": "SBIN",
-          "return": -2.68,
+          "return": -4.88,
           "score": 3.4
         },
         {
           "symbol": "HINDCOPPER",
-          "return": -1.47,
+          "return": -1.36,
           "score": 3.23
         },
         {
           "symbol": "SANSERA",
-          "return": -4.63,
+          "return": -6.17,
           "score": 3.2
         },
         {
           "symbol": "BGRENERGY",
-          "return": -5.81,
+          "return": -1.11,
           "score": 3.12
         }
       ]
