@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 94522.88,
-      "total_fees_paid": 1016.89,
+      "end_value": 92179.17,
+      "total_fees_paid": 1010.83,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -5.48,
-      "benchmark_return": -6.69,
-      "expectancy": -1.38,
-      "net_return_after_fees": -6.49
+      "total_return": -7.82,
+      "benchmark_return": -8.3,
+      "expectancy": -1.98,
+      "net_return_after_fees": -8.83
     },
     "risk_metrics": {
-      "max_drawdown": -6.74,
+      "max_drawdown": -9.05,
       "max_drawdown_duration": 3,
-      "sharpe_ratio": -2.7,
-      "calmar_ratio": -2.31,
-      "omega_ratio": 0.2,
-      "sortino_ratio": -5.14
+      "sharpe_ratio": -2.62,
+      "calmar_ratio": -2.4,
+      "omega_ratio": 0.15,
+      "sortino_ratio": -3.33
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -78,12 +78,12 @@
       "total_open_trades": 1,
       "win_rate": 25.0,
       "best_trade": 1.35,
-      "worst_trade": -3.61,
+      "worst_trade": -6.0,
       "avg_winning_trade": 1.35,
-      "avg_losing_trade": -2.29,
+      "avg_losing_trade": -3.09,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 0.2,
+      "profit_factor": 0.15,
       "total_stock_transactions": 62
     }
   },
@@ -7636,83 +7636,83 @@
   "current_performance": [
     {
       "month": "2026-03",
-      "portfolio_return": -3.61,
-      "benchmark_return": -2.89,
+      "portfolio_return": -6.0,
+      "benchmark_return": -4.57,
       "holdings": [
         {
           "symbol": "MTARTECH",
-          "return": -0.65,
-          "score": 4.52
+          "return": -5.09,
+          "score": 4.5
         },
         {
           "symbol": "CUPID",
-          "return": -1.08,
-          "score": 4.29
+          "return": 12.64,
+          "score": 4.4
         },
         {
           "symbol": "SBIN",
-          "return": -4.88,
-          "score": 3.32
+          "return": -8.59,
+          "score": 3.31
         },
         {
           "symbol": "ASHOKLEY",
-          "return": -7.78,
-          "score": 3.3
+          "return": -11.44,
+          "score": 3.28
         },
         {
           "symbol": "SANSERA",
-          "return": -6.17,
-          "score": 3.22
+          "return": -10.48,
+          "score": 3.21
         },
         {
           "symbol": "HINDCOPPER",
-          "return": -1.36,
-          "score": 3.0
+          "return": -4.55,
+          "score": 2.99
         },
         {
           "symbol": "BHARATFORG",
-          "return": 0.66,
-          "score": 2.79
+          "return": -2.56,
+          "score": 2.78
         },
         {
           "symbol": "KARURVYSYA",
-          "return": -4.18,
-          "score": 2.77
-        },
-        {
-          "symbol": "TMB",
-          "return": -5.81,
+          "return": -10.38,
           "score": 2.76
         },
         {
+          "symbol": "TMB",
+          "return": -11.23,
+          "score": 2.74
+        },
+        {
           "symbol": "VEDL",
-          "return": 0.36,
-          "score": 2.7
+          "return": -1.25,
+          "score": 2.68
         },
         {
           "symbol": "FEDERALBNK",
-          "return": -4.45,
-          "score": 2.65
-        },
-        {
-          "symbol": "SHRIRAMFIN",
-          "return": -6.66,
+          "return": -8.85,
           "score": 2.64
         },
         {
+          "symbol": "SHRIRAMFIN",
+          "return": -8.54,
+          "score": 2.63
+        },
+        {
           "symbol": "BAJAJCON",
-          "return": -5.9,
-          "score": 2.59
+          "return": -6.09,
+          "score": 2.58
         },
         {
           "symbol": "GVT&D",
-          "return": 0.49,
-          "score": 2.55
+          "return": -2.12,
+          "score": 2.54
         },
         {
           "symbol": "UNIONBANK",
-          "return": -6.73,
-          "score": 2.52
+          "return": -11.47,
+          "score": 2.5
         }
       ]
     },
