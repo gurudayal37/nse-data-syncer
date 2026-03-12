@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 93041.88,
-      "total_fees_paid": 1704.28,
+      "end_value": 91680.57,
+      "total_fees_paid": 1702.66,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -6.96,
-      "benchmark_return": -5.78,
-      "expectancy": -0.46,
-      "net_return_after_fees": -8.66
+      "total_return": -8.32,
+      "benchmark_return": -6.68,
+      "expectancy": -0.56,
+      "net_return_after_fees": -10.02
     },
     "risk_metrics": {
-      "max_drawdown": -6.47,
+      "max_drawdown": -7.5,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": -1.64,
-      "calmar_ratio": -3.42,
-      "omega_ratio": 0.6,
-      "sortino_ratio": -4.17
+      "sharpe_ratio": -1.91,
+      "calmar_ratio": -3.47,
+      "omega_ratio": 0.55,
+      "sortino_ratio": -4.94
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -75,8 +75,8 @@
       "best_trade": 3.62,
       "worst_trade": -3.35,
       "avg_winning_trade": 1.45,
-      "avg_losing_trade": -2.13,
-      "profit_factor": 0.6
+      "avg_losing_trade": -2.31,
+      "profit_factor": 0.55
     }
   },
   "backtest_results": [
@@ -15204,43 +15204,43 @@
   "current_performance": [
     {
       "week": "2026-03-13",
-      "portfolio_return": -1.58,
-      "benchmark_return": -2.39,
+      "portfolio_return": -3.02,
+      "benchmark_return": -3.32,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 8.03,
-          "score": 4.33
+          "return": 1.13,
+          "score": 4.32
         },
         {
           "symbol": "MTARTECH",
-          "return": -5.47,
+          "return": -7.09,
           "score": 4.24
         },
         {
           "symbol": "NATIONALUM",
-          "return": 0.4,
+          "return": 3.28,
           "score": 3.14
         },
         {
           "symbol": "HINDCOPPER",
-          "return": -2.81,
+          "return": -5.59,
           "score": 3.08
         },
         {
           "symbol": "SBIN",
-          "return": -4.54,
+          "return": -5.06,
           "score": 2.93
         },
         {
           "symbol": "MCX",
-          "return": -0.09,
-          "score": 2.89
+          "return": -0.31,
+          "score": 2.88
         },
         {
           "symbol": "BHARATFORG",
-          "return": -6.59,
-          "score": 2.84
+          "return": -7.5,
+          "score": 2.83
         }
       ]
     },
