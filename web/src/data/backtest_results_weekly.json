@@ -42,36 +42,36 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-03-13",
-      "period": "15 weeks (0.3 years)"
+      "end": "2026-03-20",
+      "period": "16 weeks (0.3 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 91680.57,
-      "total_fees_paid": 1702.66,
+      "total_fees_paid": 1902.4,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": -8.32,
       "benchmark_return": -6.68,
-      "expectancy": -0.56,
-      "net_return_after_fees": -10.02
+      "expectancy": -0.52,
+      "net_return_after_fees": -10.22
     },
     "risk_metrics": {
       "max_drawdown": -7.5,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": -1.91,
-      "calmar_ratio": -3.47,
+      "sharpe_ratio": -1.84,
+      "calmar_ratio": -3.28,
       "omega_ratio": 0.55,
-      "sortino_ratio": -4.94
+      "sortino_ratio": -4.63
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 15,
-      "total_stock_transactions": 50,
-      "win_rate": 46.67,
+      "total_trades": 16,
+      "total_stock_transactions": 56,
+      "win_rate": 43.75,
       "best_trade": 3.62,
       "worst_trade": -3.35,
       "avg_winning_trade": 1.45,
@@ -15202,6 +15202,48 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-03-20",
+      "portfolio_return": 0,
+      "benchmark_return": 0.0,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": 0.0,
+          "score": 4.11
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": 0.0,
+          "score": 3.79
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 0.0,
+          "score": 3.39
+        },
+        {
+          "symbol": "MCX",
+          "return": 0.0,
+          "score": 3.23
+        },
+        {
+          "symbol": "JINDALPOLY",
+          "return": 0.0,
+          "score": 3.13
+        },
+        {
+          "symbol": "GESHIP",
+          "return": 0.0,
+          "score": 2.72
+        },
+        {
+          "symbol": "STLTECH",
+          "return": 0.0,
+          "score": 2.63
+        }
+      ]
+    },
     {
       "week": "2026-03-13",
       "portfolio_return": -3.02,
