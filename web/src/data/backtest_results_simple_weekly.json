@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 92000.58,
-      "total_fees_paid": 1374.49,
+      "end_value": 87312.29,
+      "total_fees_paid": 1370.02,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -8.0,
-      "benchmark_return": -9.79,
-      "expectancy": -0.53,
-      "net_return_after_fees": -9.37
+      "total_return": -12.69,
+      "benchmark_return": -11.65,
+      "expectancy": -0.86,
+      "net_return_after_fees": -14.06
     },
     "risk_metrics": {
-      "max_drawdown": -8.54,
+      "max_drawdown": -13.2,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": -1.76,
-      "calmar_ratio": -2.94,
-      "omega_ratio": 0.58,
-      "sortino_ratio": -3.69
+      "sharpe_ratio": -2.21,
+      "calmar_ratio": -2.84,
+      "omega_ratio": 0.46,
+      "sortino_ratio": -2.89
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -73,10 +73,10 @@
       "total_stock_transactions": 40,
       "win_rate": 46.67,
       "best_trade": 2.99,
-      "worst_trade": -3.76,
+      "worst_trade": -8.0,
       "avg_winning_trade": 1.55,
-      "avg_losing_trade": -2.35,
-      "profit_factor": 0.58
+      "avg_losing_trade": -2.97,
+      "profit_factor": 0.46
     }
   },
   "backtest_results": [
@@ -16968,43 +16968,43 @@
   "current_performance": [
     {
       "week": "2026-03-13",
-      "portfolio_return": -3.06,
-      "benchmark_return": -3.32,
+      "portfolio_return": -8.0,
+      "benchmark_return": -5.31,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 1.13,
-          "score": 6.12
+          "return": -5.21,
+          "score": 6.11
         },
         {
           "symbol": "MTARTECH",
-          "return": -7.09,
-          "score": 4.4
+          "return": -10.42,
+          "score": 4.39
         },
         {
           "symbol": "BGRENERGY",
-          "return": -0.36,
-          "score": 3.65
+          "return": -4.31,
+          "score": 3.64
         },
         {
           "symbol": "MCX",
-          "return": -0.31,
-          "score": 3.42
+          "return": -1.39,
+          "score": 3.41
         },
         {
           "symbol": "HINDCOPPER",
-          "return": -5.59,
-          "score": 3.25
+          "return": -11.15,
+          "score": 3.24
         },
         {
           "symbol": "SBIN",
-          "return": -5.06,
-          "score": 3.07
+          "return": -8.4,
+          "score": 3.06
         },
         {
           "symbol": "PRECWIRE",
-          "return": -4.14,
-          "score": 3.03
+          "return": -15.08,
+          "score": 3.02
         }
       ]
     },
