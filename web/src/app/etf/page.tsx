@@ -3,12 +3,13 @@ import Link from 'next/link'
 import { PAGE_SIZE, SORTABLE_COLUMNS, PERFORMANCE_PERIODS, type SortableColumn } from '@/lib/constants'
 import PercentageChange from '@/components/PercentageChange'
 import Pagination from '@/components/Pagination'
+import Search from '@/components/Search'
 import type { ETF } from '@/types/etf'
 
 export const dynamic = 'force-dynamic'
 
 interface ETFPageProps {
-    searchParams: Promise<{ page?: string; sort?: string; order?: string }>
+    searchParams: Promise<{ page?: string; sort?: string; order?: string; query?: string }>
 }
 
 export default async function ETFPage(props: ETFPageProps) {
@@ -16,6 +17,7 @@ export default async function ETFPage(props: ETFPageProps) {
     const page = Number(searchParams.page) || 1
     const sort = (searchParams.sort || 'change_1w') as SortableColumn
     const order = searchParams.order || 'desc'
+    const query = searchParams.query || ''
     const skip = (page - 1) * PAGE_SIZE
 
     let etfs: ETF[] = []
@@ -39,10 +41,27 @@ export default async function ETFPage(props: ETFPageProps) {
 
     try {
         // Get total count first
-        totalCount = await prisma.etfs.count()
+        totalCount = await prisma.etfs.count({
+            where: {
+                OR: query
+                    ? [
+                        { symbol: { contains: query, mode: 'insensitive' } },
+                        { underlying_asset: { contains: query, mode: 'insensitive' } },
+                    ]
+                    : undefined,
+            }
+        })
 
         // Fetch ETFs with pagination and sorting
         etfs = await prisma.etfs.findMany({
+            where: {
+                OR: query
+                    ? [
+                        { symbol: { contains: query, mode: 'insensitive' } },
+                        { underlying_asset: { contains: query, mode: 'insensitive' } },
+                    ]
+                    : undefined,
+            },
             take: PAGE_SIZE,
             skip: skip,
             include: {
@@ -88,9 +107,10 @@ export default async function ETFPage(props: ETFPageProps) {
 
     const SortHeader = ({ column, label, align = 'left' }: { column: string, label: string, align?: string }) => {
         const newOrder = sort === column && order === 'desc' ? 'asc' : 'desc'
+        const queryParam = query ? `&query=${encodeURIComponent(query)}` : ''
         return (
             <th className={`px-6 py-4 ${align === 'right' ? 'text-right' : ''}`}>
-                <Link href={`/etf?page=${page}&sort=${column}&order=${newOrder}`} className="group inline-flex items-center hover:text-blue-600">
+                <Link href={`/etf?page=${page}&sort=${column}&order=${newOrder}${queryParam}`} className="group inline-flex items-center hover:text-blue-600">
                     {label}
                     <SortIcon column={column} />
                 </Link>
@@ -108,7 +128,12 @@ export default async function ETFPage(props: ETFPageProps) {
                             Showing {skip + 1}-{Math.min(skip + PAGE_SIZE, totalCount)} of {totalCount} NSE ETFs
                         </p>
                     </div>
-                    <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/etf" />
+                    <div className="flex flex-col items-end gap-4">
+                        <div className="w-full sm:w-80">
+                            <Search placeholder="Search ETFs..." />
+                        </div>
+                        <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/etf" query={query} />
+                    </div>
                 </header>
 
                 <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
@@ -167,7 +192,7 @@ export default async function ETFPage(props: ETFPageProps) {
                     <p className="text-sm text-gray-500">
                         Page {page} of {totalPages}
                     </p>
-                    <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/etf" />
+                    <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/etf" query={query} />
                 </div>
             </div>
         </div>
