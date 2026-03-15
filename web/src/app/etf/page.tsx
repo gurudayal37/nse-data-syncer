@@ -87,7 +87,7 @@ export default async function ETFPage(props: ETFPageProps) {
     if (error) {
         return (
             <div className="min-h-screen bg-gray-50 p-8">
-                <div className="max-w-7xl mx-auto">
+                <div className="max-w-[95%] mx-auto">
                     <div className="bg-red-50 border border-red-200 rounded-lg p-6">
                         <h1 className="text-2xl font-bold text-red-900 mb-2">Database Connection Error</h1>
                         <p className="text-red-700 mb-4">{error}</p>
@@ -120,7 +120,7 @@ export default async function ETFPage(props: ETFPageProps) {
 
     return (
         <div className="min-h-screen bg-gray-50 p-8">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-[95%] mx-auto">
                 <header className="mb-8 flex justify-between items-end">
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900">ETF Dashboard</h1>
