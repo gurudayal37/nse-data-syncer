@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 93761.72,
-      "total_fees_paid": 1905.0,
+      "end_value": 94852.72,
+      "total_fees_paid": 1906.36,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -6.24,
-      "benchmark_return": -4.94,
-      "expectancy": -0.38,
-      "net_return_after_fees": -8.14
+      "total_return": -5.15,
+      "benchmark_return": -4.15,
+      "expectancy": -0.3,
+      "net_return_after_fees": -7.05
     },
     "risk_metrics": {
       "max_drawdown": -7.5,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": -1.27,
-      "calmar_ratio": -2.52,
-      "omega_ratio": 0.67,
-      "sortino_ratio": -3.37
+      "sharpe_ratio": -0.97,
+      "calmar_ratio": -2.1,
+      "omega_ratio": 0.74,
+      "sortino_ratio": -2.71
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 50.0,
       "best_trade": 3.62,
       "worst_trade": -3.35,
-      "avg_winning_trade": 1.56,
+      "avg_winning_trade": 1.7,
       "avg_losing_trade": -2.31,
-      "profit_factor": 0.67
+      "profit_factor": 0.74
     }
   },
   "backtest_results": [
@@ -15204,43 +15204,43 @@
   "current_performance": [
     {
       "week": "2026-03-20",
-      "portfolio_return": 2.27,
-      "benchmark_return": 1.86,
+      "portfolio_return": 3.46,
+      "benchmark_return": 2.71,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 3.67,
-          "score": 4.1
+          "return": 4.0,
+          "score": 4.11
         },
         {
           "symbol": "MTARTECH",
-          "return": 7.01,
-          "score": 3.78
+          "return": 5.58,
+          "score": 3.79
         },
         {
           "symbol": "NATIONALUM",
-          "return": 2.01,
-          "score": 3.38
+          "return": 0.08,
+          "score": 3.39
         },
         {
           "symbol": "MCX",
-          "return": 6.92,
+          "return": 4.17,
           "score": 3.23
         },
         {
           "symbol": "JINDALPOLY",
-          "return": 4.32,
-          "score": 3.13
+          "return": 8.36,
+          "score": 3.14
         },
         {
           "symbol": "GESHIP",
-          "return": -2.29,
-          "score": 2.71
+          "return": -1.29,
+          "score": 2.72
         },
         {
           "symbol": "STLTECH",
-          "return": -5.77,
-          "score": 2.63
+          "return": 3.29,
+          "score": 2.64
         }
       ]
     },
