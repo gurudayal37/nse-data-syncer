@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 89486.36,
-      "total_fees_paid": 1500.72,
+      "end_value": 89259.35,
+      "total_fees_paid": 1500.5,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -10.51,
-      "benchmark_return": -10.0,
-      "expectancy": -0.65,
-      "net_return_after_fees": -12.01
+      "total_return": -10.74,
+      "benchmark_return": -9.25,
+      "expectancy": -0.67,
+      "net_return_after_fees": -12.24
     },
     "risk_metrics": {
       "max_drawdown": -13.2,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": -1.65,
-      "calmar_ratio": -2.3,
-      "omega_ratio": 0.56,
-      "sortino_ratio": -2.18
+      "sharpe_ratio": -1.71,
+      "calmar_ratio": -2.34,
+      "omega_ratio": 0.55,
+      "sortino_ratio": -2.24
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 50.0,
       "best_trade": 2.99,
       "worst_trade": -8.0,
-      "avg_winning_trade": 1.67,
+      "avg_winning_trade": 1.64,
       "avg_losing_trade": -2.97,
-      "profit_factor": 0.56
+      "profit_factor": 0.55
     }
   },
   "backtest_results": [
@@ -16926,43 +16926,43 @@
   "current_performance": [
     {
       "week": "2026-03-20",
-      "portfolio_return": 2.49,
-      "benchmark_return": 1.86,
+      "portfolio_return": 2.23,
+      "benchmark_return": 2.71,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 3.67,
+          "return": 4.0,
           "score": 5.86
         },
         {
           "symbol": "MTARTECH",
-          "return": 7.01,
-          "score": 4.13
+          "return": 5.58,
+          "score": 4.14
         },
         {
           "symbol": "MCX",
-          "return": 6.92,
-          "score": 3.78
+          "return": 4.17,
+          "score": 3.79
         },
         {
           "symbol": "NATIONALUM",
-          "return": 2.01,
+          "return": 0.08,
           "score": 3.52
         },
         {
           "symbol": "BGRENERGY",
-          "return": -1.64,
+          "return": 1.42,
           "score": 3.44
         },
         {
           "symbol": "HINDCOPPER",
-          "return": -0.63,
+          "return": -1.44,
           "score": 2.74
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": 0.1,
-          "score": 2.66
+          "return": 1.79,
+          "score": 2.67
         }
       ]
     },
