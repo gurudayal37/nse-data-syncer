@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 89148.79,
-      "total_fees_paid": 959.75,
+      "end_value": 85962.48,
+      "total_fees_paid": 951.79,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -10.85,
-      "benchmark_return": -9.25,
-      "expectancy": -2.75,
-      "net_return_after_fees": -11.81
+      "total_return": -14.04,
+      "benchmark_return": -12.21,
+      "expectancy": -3.57,
+      "net_return_after_fees": -14.99
     },
     "risk_metrics": {
-      "max_drawdown": -11.85,
+      "max_drawdown": -15.0,
       "max_drawdown_duration": 3,
-      "sharpe_ratio": -2.45,
-      "calmar_ratio": -2.46,
-      "omega_ratio": 0.14,
-      "sortino_ratio": -5.25
+      "sharpe_ratio": -2.42,
+      "calmar_ratio": -2.43,
+      "omega_ratio": 0.11,
+      "sortino_ratio": -3.58
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -78,12 +78,12 @@
       "total_open_trades": 1,
       "win_rate": 50.0,
       "best_trade": 1.13,
-      "worst_trade": -8.23,
+      "worst_trade": -11.51,
       "avg_winning_trade": 0.91,
-      "avg_losing_trade": -6.42,
+      "avg_losing_trade": -8.06,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 0.14,
+      "profit_factor": 0.11,
       "total_stock_transactions": 60
     }
   },
@@ -7636,83 +7636,83 @@
   "current_performance": [
     {
       "month": "2026-03",
-      "portfolio_return": -8.23,
-      "benchmark_return": -5.56,
+      "portfolio_return": -11.51,
+      "benchmark_return": -8.64,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": -2.48,
-          "score": 5.94
+          "return": -3.1,
+          "score": 5.93
         },
         {
           "symbol": "MTARTECH",
-          "return": -6.03,
-          "score": 4.97
+          "return": -8.26,
+          "score": 4.96
         },
         {
           "symbol": "ASHOKLEY",
-          "return": -15.39,
+          "return": -20.15,
           "score": 3.42
         },
         {
           "symbol": "SBIN",
-          "return": -10.98,
-          "score": 3.38
+          "return": -12.72,
+          "score": 3.37
         },
         {
           "symbol": "HINDCOPPER",
-          "return": -13.62,
+          "return": -16.92,
           "score": 3.21
         },
         {
           "symbol": "SANSERA",
-          "return": -6.12,
+          "return": -8.85,
           "score": 3.18
         },
         {
           "symbol": "BGRENERGY",
-          "return": -4.04,
-          "score": 3.11
+          "return": -8.66,
+          "score": 3.1
         },
         {
           "symbol": "FEDERALBNK",
-          "return": -9.45,
-          "score": 3.03
+          "return": -11.32,
+          "score": 3.02
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": -5.35,
+          "return": -12.01,
           "score": 2.83
         },
         {
           "symbol": "KARURVYSYA",
-          "return": -12.72,
+          "return": -16.68,
           "score": 2.79
         },
         {
           "symbol": "TMB",
-          "return": -5.46,
-          "score": 2.79
+          "return": -10.02,
+          "score": 2.78
         },
         {
           "symbol": "LUMAXTECH",
-          "return": -6.16,
+          "return": -10.36,
           "score": 2.78
         },
         {
           "symbol": "BHARATFORG",
-          "return": -5.59,
+          "return": -10.4,
           "score": 2.71
         },
         {
           "symbol": "CANBK",
-          "return": -12.62,
-          "score": 2.66
+          "return": -15.54,
+          "score": 2.65
         },
         {
           "symbol": "TDPOWERSYS",
-          "return": -7.4,
-          "score": 2.65
+          "return": -7.73,
+          "score": 2.64
         }
       ]
     },
