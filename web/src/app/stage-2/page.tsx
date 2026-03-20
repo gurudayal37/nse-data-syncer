@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowUpDown, TrendingUp } from 'lucide-react'
 import prisma from '@/lib/prisma'
 import PercentageChange from '@/components/PercentageChange'
+import Search from '@/components/Search'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,6 +32,7 @@ interface PageProps {
         page?: string
         sort?: string
         order?: string
+        query?: string
     }>
 }
 
@@ -39,6 +41,7 @@ export default async function Stage2Page(props: PageProps) {
     const page = Number(searchParams.page) || 1
     const sort = (searchParams.sort as SortField) || 'stage2_rs_rank'
     const order = (searchParams.order as SortOrder) || 'desc'
+    const query = searchParams.query || ''
     const limit = 50
     const skip = (page - 1) * limit
 
@@ -54,9 +57,15 @@ export default async function Stage2Page(props: PageProps) {
     const orderByArray: any[] = [orderBy]
     if (sort !== 'nse_symbol') orderByArray.push({ nse_symbol: 'asc' })
 
-    const whereClause = {
+    const whereClause: any = {
         is_active: true,
         stock_performance: { is_stage2: true }
+    }
+    if (query) {
+        whereClause.OR = [
+            { nse_symbol: { contains: query, mode: 'insensitive' } },
+            { name: { contains: query, mode: 'insensitive' } }
+        ]
     }
 
     const [stocks, totalCount] = await Promise.all([
@@ -75,7 +84,8 @@ export default async function Stage2Page(props: PageProps) {
     // Build sort link — same pattern as VCP page
     const sortLink = (field: SortField) => {
         const newOrder = sort === field && order === 'desc' ? 'asc' : 'desc'
-        return `/stage-2?page=${page}&sort=${field}&order=${newOrder}`
+        const queryParam = query ? `&query=${encodeURIComponent(query)}` : ''
+        return `/stage-2?page=${page}&sort=${field}&order=${newOrder}${queryParam}`
     }
 
     // Inline sort icon — not extracted as a sub-component to avoid hydration issues
@@ -122,8 +132,13 @@ export default async function Stage2Page(props: PageProps) {
                             </p>
                         </div>
                     </div>
-                    <div className="text-sm text-gray-500 bg-white border border-gray-200 rounded-lg px-4 py-2 shadow-sm">
-                        <span className="font-semibold text-gray-900">{totalCount}</span> Candidates
+                    <div className="flex flex-col sm:flex-row items-end sm:items-center gap-3">
+                        <div className="w-full sm:w-64">
+                            <Search placeholder="Search stocks..." />
+                        </div>
+                        <div className="text-sm text-gray-500 bg-white border border-gray-200 rounded-lg px-4 py-2 shadow-sm whitespace-nowrap">
+                            <span className="font-semibold text-gray-900">{totalCount}</span> Candidates
+                        </div>
                     </div>
                 </div>
 
@@ -242,13 +257,13 @@ export default async function Stage2Page(props: PageProps) {
                             </div>
                             <div className="flex gap-2">
                                 <Link
-                                    href={`/stage-2?page=${page - 1}&sort=${sort}&order=${order}`}
+                                    href={`/stage-2?page=${page - 1}&sort=${sort}&order=${order}${query ? `&query=${encodeURIComponent(query)}` : ''}`}
                                     className={`px-3 py-1 rounded border ${page <= 1 ? 'bg-gray-100 text-gray-400 pointer-events-none' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
                                 >
                                     Previous
                                 </Link>
                                 <Link
-                                    href={`/stage-2?page=${page + 1}&sort=${sort}&order=${order}`}
+                                    href={`/stage-2?page=${page + 1}&sort=${sort}&order=${order}${query ? `&query=${encodeURIComponent(query)}` : ''}`}
                                     className={`px-3 py-1 rounded border ${page >= totalPages ? 'bg-gray-100 text-gray-400 pointer-events-none' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
                                 >
                                     Next
