@@ -120,6 +120,14 @@ export default function HomePage() {
       icon: PieChart,
       color: 'emerald',
       badge: 'New'
+    },
+    {
+      title: 'Stage 2 Stocks',
+      description: 'Stocks in Stage 2 uptrend — all 8 Minervini Trend Template criteria',
+      href: '/stage-2',
+      icon: TrendingUp,
+      color: 'teal',
+      badge: 'Live'
     }
   ]
 
@@ -132,7 +140,8 @@ export default function HomePage() {
     violet: 'from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700',
     pink: 'from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700',
     slate: 'from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700',
-    emerald: 'from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700'
+    emerald: 'from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700',
+    teal: 'from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700',
   }
 
   return (

@@ -616,6 +616,12 @@ class StockPerformance(Base):
     is_vcp = Column(Boolean, default=False)
     vcp_score = Column(Float)
 
+    # Stage 2 (Minervini Trend Template) Metrics
+    is_stage2 = Column(Boolean, default=False)
+    stage2_rs_rank = Column(Float)
+    stage2_pct_from_52w_high = Column(Float)
+    stage2_pct_above_52w_low = Column(Float)
+
 class MomentumHistory(Base):
     __tablename__ = 'momentum_history'
     id = Column(Integer, primary_key=True, autoincrement=True)
