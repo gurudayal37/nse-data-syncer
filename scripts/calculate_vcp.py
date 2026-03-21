@@ -23,7 +23,7 @@ def calculate_vcp_candidates():
         # Pre-calculate eligible stocks based on Market Cap (Global Filter)
         # Assuming a reasonable liquidity filter is still desired, though not explicitly requested in the prompt.
         # We will keep the env var usage but default to 0 if not set, to follow the user's "screen universe" instruction.
-        min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 0)) 
+        min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 2000)) 
         min_mcap = min_mcap_cr * 10000000
         
         # Get active stocks

@@ -36,7 +36,7 @@ def calculate_stage2_candidates():
 
     try:
         # Optional market cap filter (defaults to 0 = no filter)
-        min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 0))
+        min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 2000))
         min_mcap = min_mcap_cr * 10_000_000
 
         print(f"Fetching stocks (Market Cap >= {min_mcap_cr} Cr)...")
