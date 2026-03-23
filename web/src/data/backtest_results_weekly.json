@@ -47,36 +47,36 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 93119.96,
-      "total_fees_paid": 1969.66,
+      "end_value": 89255.48,
+      "total_fees_paid": 2032.71,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -6.88,
-      "benchmark_return": -7.27,
-      "expectancy": -0.4,
-      "net_return_after_fees": -8.85
+      "total_return": -10.74,
+      "benchmark_return": -9.68,
+      "expectancy": -0.64,
+      "net_return_after_fees": -12.78
     },
     "risk_metrics": {
-      "max_drawdown": -7.5,
+      "max_drawdown": -9.95,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": -1.41,
-      "calmar_ratio": -2.61,
-      "omega_ratio": 0.63,
-      "sortino_ratio": -3.53
+      "sharpe_ratio": -2.09,
+      "calmar_ratio": -2.95,
+      "omega_ratio": 0.52,
+      "sortino_ratio": -4.83
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
       "total_trades": 17,
-      "total_stock_transactions": 58,
+      "total_stock_transactions": 60,
       "win_rate": 47.06,
       "best_trade": 3.62,
-      "worst_trade": -3.35,
+      "worst_trade": -4.15,
       "avg_winning_trade": 1.47,
-      "avg_losing_trade": -2.31,
-      "profit_factor": 0.63
+      "avg_losing_trade": -2.52,
+      "profit_factor": 0.52
     }
   },
   "backtest_results": [
@@ -15204,43 +15204,43 @@
   "current_performance": [
     {
       "week": "2026-03-27",
-      "portfolio_return": 0,
-      "benchmark_return": 0.0,
+      "portfolio_return": -4.15,
+      "benchmark_return": -2.6,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 0.0,
-          "score": 4.3
+          "return": 0.63,
+          "score": 4.32
         },
         {
           "symbol": "MTARTECH",
-          "return": 0.0,
+          "return": -4.34,
           "score": 3.75
         },
         {
           "symbol": "JINDALPOLY",
-          "return": 0.0,
-          "score": 3.27
+          "return": -5.0,
+          "score": 3.26
         },
         {
           "symbol": "NATIONALUM",
-          "return": 0.0,
+          "return": -5.09,
           "score": 3.12
         },
         {
-          "symbol": "MCX",
-          "return": 0.0,
-          "score": 2.97
-        },
-        {
           "symbol": "AETHER",
-          "return": 0.0,
+          "return": -6.1,
           "score": 2.74
         },
         {
           "symbol": "GESHIP",
-          "return": 0.0,
+          "return": -4.88,
           "score": 2.71
+        },
+        {
+          "symbol": "BAJAJCON",
+          "return": -4.27,
+          "score": 2.68
         }
       ]
     },
