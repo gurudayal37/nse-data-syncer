@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowUpDown, TrendingUp } from 'lucide-react'
 import prisma from '@/lib/prisma'
 import PercentageChange from '@/components/PercentageChange'
 import Search from '@/components/Search'
+import CopyWatchlist from '@/components/CopyWatchlist'
 
 export const dynamic = 'force-dynamic'
 
@@ -68,7 +69,7 @@ export default async function Stage2Page(props: PageProps) {
         ]
     }
 
-    const [stocks, totalCount] = await Promise.all([
+    const [stocks, totalCount, allSymbols] = await Promise.all([
         prisma.stocks.findMany({
             where: whereClause,
             include: { stock_performance: true },
@@ -77,7 +78,14 @@ export default async function Stage2Page(props: PageProps) {
             skip,
         }),
         prisma.stocks.count({ where: whereClause }),
+        prisma.stocks.findMany({
+            where: whereClause,
+            select: { nse_symbol: true },
+            orderBy: orderByArray,
+        }),
     ])
+
+    const symbolsList = allSymbols.map((s: any) => s.nse_symbol).filter(Boolean) as string[]
 
     const totalPages = Math.ceil(totalCount / limit)
 
@@ -136,6 +144,7 @@ export default async function Stage2Page(props: PageProps) {
                         <div className="w-full sm:w-64">
                             <Search placeholder="Search stocks..." />
                         </div>
+                        <CopyWatchlist symbols={symbolsList} />
                         <div className="text-sm text-gray-500 bg-white border border-gray-200 rounded-lg px-4 py-2 shadow-sm whitespace-nowrap">
                             <span className="font-semibold text-gray-900">{totalCount}</span> Candidates
                         </div>
