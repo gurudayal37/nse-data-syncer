@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 82649.88,
-      "total_fees_paid": 943.5,
+      "end_value": 85505.9,
+      "total_fees_paid": 950.64,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -17.35,
-      "benchmark_return": -14.09,
-      "expectancy": -4.42,
-      "net_return_after_fees": -18.29
+      "total_return": -14.49,
+      "benchmark_return": -12.56,
+      "expectancy": -3.69,
+      "net_return_after_fees": -15.44
     },
     "risk_metrics": {
-      "max_drawdown": -18.27,
+      "max_drawdown": -15.45,
       "max_drawdown_duration": 3,
-      "sharpe_ratio": -2.37,
-      "calmar_ratio": -2.38,
-      "omega_ratio": 0.09,
-      "sortino_ratio": -2.97
+      "sharpe_ratio": -2.42,
+      "calmar_ratio": -2.43,
+      "omega_ratio": 0.11,
+      "sortino_ratio": -3.46
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -78,12 +78,12 @@
       "total_open_trades": 1,
       "win_rate": 50.0,
       "best_trade": 1.13,
-      "worst_trade": -14.92,
+      "worst_trade": -11.98,
       "avg_winning_trade": 0.91,
-      "avg_losing_trade": -9.76,
+      "avg_losing_trade": -8.29,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 0.09,
+      "profit_factor": 0.11,
       "total_stock_transactions": 60
     }
   },
@@ -7636,83 +7636,83 @@
   "current_performance": [
     {
       "month": "2026-03",
-      "portfolio_return": -14.92,
-      "benchmark_return": -10.59,
+      "portfolio_return": -11.98,
+      "benchmark_return": -9.0,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": -1.5,
-          "score": 5.94
+          "return": -0.95,
+          "score": 5.96
         },
         {
           "symbol": "MTARTECH",
-          "return": -11.42,
-          "score": 4.96
+          "return": -6.83,
+          "score": 4.98
         },
         {
           "symbol": "ASHOKLEY",
-          "return": -23.27,
-          "score": 3.42
+          "return": -20.83,
+          "score": 3.43
         },
         {
           "symbol": "SBIN",
-          "return": -14.13,
-          "score": 3.38
+          "return": -14.22,
+          "score": 3.39
         },
         {
           "symbol": "HINDCOPPER",
-          "return": -20.69,
-          "score": 3.21
+          "return": -18.14,
+          "score": 3.22
         },
         {
           "symbol": "SANSERA",
-          "return": -12.71,
-          "score": 3.18
+          "return": -9.66,
+          "score": 3.19
         },
         {
           "symbol": "FEDERALBNK",
-          "return": -15.17,
-          "score": 3.02
+          "return": -12.46,
+          "score": 3.03
         },
         {
           "symbol": "SHRIRAMFIN",
-          "return": -18.69,
-          "score": 2.83
+          "return": -16.29,
+          "score": 2.84
         },
         {
           "symbol": "KARURVYSYA",
-          "return": -19.94,
-          "score": 2.79
+          "return": -16.52,
+          "score": 2.8
         },
         {
           "symbol": "LUMAXTECH",
-          "return": -15.76,
-          "score": 2.78
+          "return": -10.56,
+          "score": 2.79
         },
         {
           "symbol": "TMB",
-          "return": -14.54,
-          "score": 2.78
+          "return": -10.49,
+          "score": 2.79
         },
         {
           "symbol": "BHARATFORG",
-          "return": -13.74,
-          "score": 2.7
+          "return": -10.59,
+          "score": 2.71
         },
         {
           "symbol": "CANBK",
-          "return": -17.67,
-          "score": 2.66
+          "return": -15.39,
+          "score": 2.67
         },
         {
           "symbol": "TDPOWERSYS",
-          "return": -9.25,
-          "score": 2.65
+          "return": -4.79,
+          "score": 2.66
         },
         {
           "symbol": "INDIANB",
-          "return": -15.38,
-          "score": 2.64
+          "return": -12.02,
+          "score": 2.65
         }
       ]
     },
