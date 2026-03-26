@@ -7657,7 +7657,7 @@
         {
           "symbol": "SBIN",
           "return": -11.74,
-          "score": 3.4
+          "score": 3.39
         },
         {
           "symbol": "HINDCOPPER",
@@ -7677,7 +7677,7 @@
         {
           "symbol": "SHRIRAMFIN",
           "return": -11.43,
-          "score": 2.85
+          "score": 2.84
         },
         {
           "symbol": "KARURVYSYA",
@@ -7685,13 +7685,13 @@
           "score": 2.81
         },
         {
-          "symbol": "TMB",
-          "return": -9.79,
+          "symbol": "LUMAXTECH",
+          "return": -7.63,
           "score": 2.8
         },
         {
-          "symbol": "LUMAXTECH",
-          "return": -7.63,
+          "symbol": "TMB",
+          "return": -9.79,
           "score": 2.8
         },
         {
