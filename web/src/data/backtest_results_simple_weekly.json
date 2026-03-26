@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 88612.29,
-      "total_fees_paid": 1694.78,
+      "end_value": 88586.4,
+      "total_fees_paid": 1694.76,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -11.39,
+      "total_return": -11.41,
       "benchmark_return": -11.06,
       "expectancy": -0.67,
-      "net_return_after_fees": -13.08
+      "net_return_after_fees": -13.11
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": -1.74,
+      "sharpe_ratio": -1.75,
       "calmar_ratio": -2.18,
       "omega_ratio": 0.54,
-      "sortino_ratio": -2.29
+      "sortino_ratio": -2.3
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -16884,13 +16884,13 @@
   "current_performance": [
     {
       "week": "2026-03-27",
-      "portfolio_return": 2.68,
+      "portfolio_return": 2.65,
       "benchmark_return": 0.83,
       "holdings": [
         {
           "symbol": "CUPID",
           "return": 1.32,
-          "score": 6.38
+          "score": 6.37
         },
         {
           "symbol": "MTARTECH",
@@ -16905,7 +16905,7 @@
         {
           "symbol": "MCX",
           "return": 2.1,
-          "score": 3.06
+          "score": 3.05
         },
         {
           "symbol": "PFOCUS",
@@ -16919,7 +16919,7 @@
         },
         {
           "symbol": "MEGASOFT",
-          "return": -5.02,
+          "return": -5.24,
           "score": 2.62
         }
       ]
