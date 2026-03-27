@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 88586.4,
-      "total_fees_paid": 1694.76,
+      "end_value": 88819.41,
+      "total_fees_paid": 1695.0,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -11.41,
-      "benchmark_return": -11.06,
-      "expectancy": -0.67,
-      "net_return_after_fees": -13.11
+      "total_return": -11.18,
+      "benchmark_return": -12.92,
+      "expectancy": -0.66,
+      "net_return_after_fees": -12.88
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": -1.75,
-      "calmar_ratio": -2.18,
-      "omega_ratio": 0.54,
-      "sortino_ratio": -2.3
+      "sharpe_ratio": -1.7,
+      "calmar_ratio": -2.14,
+      "omega_ratio": 0.55,
+      "sortino_ratio": -2.25
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 47.06,
       "best_trade": 2.99,
       "worst_trade": -8.0,
-      "avg_winning_trade": 1.69,
+      "avg_winning_trade": 1.72,
       "avg_losing_trade": -2.77,
-      "profit_factor": 0.54
+      "profit_factor": 0.55
     }
   },
   "backtest_results": [
@@ -16884,43 +16884,43 @@
   "current_performance": [
     {
       "week": "2026-03-27",
-      "portfolio_return": 2.65,
-      "benchmark_return": 0.83,
+      "portfolio_return": 2.92,
+      "benchmark_return": -1.28,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 1.32,
-          "score": 6.37
+          "return": 6.34,
+          "score": 6.36
         },
         {
           "symbol": "MTARTECH",
-          "return": 0.86,
-          "score": 3.94
+          "return": 1.45,
+          "score": 3.93
         },
         {
           "symbol": "NATIONALUM",
-          "return": -0.33,
-          "score": 3.42
+          "return": 0.68,
+          "score": 3.41
         },
         {
           "symbol": "MCX",
-          "return": 2.1,
-          "score": 3.05
+          "return": -0.68,
+          "score": 3.04
         },
         {
           "symbol": "PFOCUS",
-          "return": 15.76,
-          "score": 2.71
+          "return": 18.22,
+          "score": 2.7
         },
         {
           "symbol": "PRECWIRE",
-          "return": 4.08,
-          "score": 2.71
+          "return": -0.31,
+          "score": 2.7
         },
         {
           "symbol": "MEGASOFT",
           "return": -5.24,
-          "score": 2.62
+          "score": 2.61
         }
       ]
     },
