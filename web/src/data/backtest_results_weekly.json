@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 91155.13,
-      "total_fees_paid": 2233.61,
+      "end_value": 89742.22,
+      "total_fees_paid": 2231.76,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -8.84,
-      "benchmark_return": -6.5,
-      "expectancy": -0.49,
-      "net_return_after_fees": -11.08
+      "total_return": -10.26,
+      "benchmark_return": -8.5,
+      "expectancy": -0.58,
+      "net_return_after_fees": -12.49
     },
     "risk_metrics": {
-      "max_drawdown": -8.03,
+      "max_drawdown": -9.46,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": -1.76,
-      "calmar_ratio": -2.92,
-      "omega_ratio": 0.57,
-      "sortino_ratio": -4.63
+      "sharpe_ratio": -2.06,
+      "calmar_ratio": -2.84,
+      "omega_ratio": 0.53,
+      "sortino_ratio": -5.48
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -75,8 +75,8 @@
       "best_trade": 3.62,
       "worst_trade": -3.35,
       "avg_winning_trade": 1.47,
-      "avg_losing_trade": -2.29,
-      "profit_factor": 0.57
+      "avg_losing_trade": -2.22,
+      "profit_factor": 0.53
     }
   },
   "backtest_results": [
@@ -15204,43 +15204,43 @@
   "current_performance": [
     {
       "week": "2026-04-03",
-      "portfolio_return": 0,
-      "benchmark_return": 0.0,
+      "portfolio_return": -1.55,
+      "benchmark_return": -2.14,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 0.0,
-          "score": 4.81
+          "return": -1.83,
+          "score": 4.79
         },
         {
           "symbol": "MTARTECH",
-          "return": 0.0,
-          "score": 3.87
+          "return": -3.04,
+          "score": 3.86
         },
         {
           "symbol": "PFOCUS",
-          "return": 0.0,
-          "score": 3.03
+          "return": 0.7,
+          "score": 3.02
         },
         {
           "symbol": "NATIONALUM",
-          "return": 0.0,
-          "score": 2.97
+          "return": 4.07,
+          "score": 2.96
         },
         {
           "symbol": "AETHER",
-          "return": 0.0,
-          "score": 2.79
+          "return": -6.48,
+          "score": 2.78
         },
         {
           "symbol": "SANSERA",
-          "return": 0.0,
-          "score": 2.75
+          "return": -3.92,
+          "score": 2.74
         },
         {
           "symbol": "MCX",
-          "return": 0.0,
-          "score": 2.58
+          "return": -0.37,
+          "score": 2.57
         }
       ]
     },
