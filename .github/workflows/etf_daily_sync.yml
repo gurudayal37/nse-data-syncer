@@ -5,6 +5,9 @@ on:
     - cron: '30 10 * * 1-5'  # Runs at 4:00 PM IST (10:30 AM UTC) Mon-Fri
   workflow_dispatch:  # Allows manual trigger
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   sync-etf-data:
     runs-on: ubuntu-latest
