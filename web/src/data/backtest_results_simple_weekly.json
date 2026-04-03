@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 90817.84,
-      "total_fees_paid": 1826.21,
+      "end_value": 90533.62,
+      "total_fees_paid": 1825.9,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -9.18,
-      "benchmark_return": -13.45,
-      "expectancy": -0.49,
-      "net_return_after_fees": -11.01
+      "total_return": -9.47,
+      "benchmark_return": -13.33,
+      "expectancy": -0.51,
+      "net_return_after_fees": -11.29
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": -1.28,
-      "calmar_ratio": -1.71,
-      "omega_ratio": 0.64,
-      "sortino_ratio": -1.69
+      "sharpe_ratio": -1.33,
+      "calmar_ratio": -1.76,
+      "omega_ratio": 0.63,
+      "sortino_ratio": -1.75
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 50.0,
       "best_trade": 2.99,
       "worst_trade": -8.0,
-      "avg_winning_trade": 1.78,
+      "avg_winning_trade": 1.74,
       "avg_losing_trade": -2.77,
-      "profit_factor": 0.64
+      "profit_factor": 0.63
     }
   },
   "backtest_results": [
@@ -16842,27 +16842,27 @@
   "current_performance": [
     {
       "week": "2026-04-03",
-      "portfolio_return": 2.25,
-      "benchmark_return": -0.61,
+      "portfolio_return": 1.93,
+      "benchmark_return": -0.47,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 2.59,
+          "return": 3.41,
           "score": 7.0
         },
         {
           "symbol": "MTARTECH",
-          "return": 0.76,
+          "return": -0.01,
           "score": 4.13
         },
         {
           "symbol": "PFOCUS",
-          "return": 3.13,
+          "return": 1.27,
           "score": 3.43
         },
         {
           "symbol": "NATIONALUM",
-          "return": 7.67,
+          "return": 8.3,
           "score": 3.29
         },
         {
@@ -16872,12 +16872,12 @@
         },
         {
           "symbol": "SANSERA",
-          "return": -0.78,
+          "return": -1.05,
           "score": 2.82
         },
         {
           "symbol": "FEDERALBNK",
-          "return": -0.63,
+          "return": -1.39,
           "score": 2.69
         }
       ]
