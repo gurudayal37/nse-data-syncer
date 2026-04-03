@@ -108,10 +108,14 @@ def main():
         
     # ONE-TIME FIX: Ensure all stocks in symbol_map have is_active = True
     # Since we found some might be NULL
-    print("Ensuring all tracked stocks are active...")
-    with db_manager.engine.connect() as conn:
-        conn.execute(text("UPDATE stocks SET is_active = true WHERE is_active IS NULL"))
-        conn.commit()
+    if args.shard_index == 0:
+        print("Ensuring all tracked stocks are active...")
+        try:
+            with db_manager.engine.connect() as conn:
+                conn.execute(text("UPDATE stocks SET is_active = true WHERE is_active IS NULL"))
+                conn.commit()
+        except Exception as e:
+            print(f"Warning: Could not update is_active: {e}")
     
     # 3. Group by Last Synced Date
     print("Getting sync status for all stocks...")
@@ -256,10 +260,14 @@ def main():
     # 6. Update Market Caps (New Feature)
     print("Updating Market Caps for all active stocks...")
     # We can do this based on active stocks in DB
-    with db_manager.Session() as session:
-        active_stocks = session.execute(text("SELECT nse_symbol, id FROM stocks WHERE is_active = true")).fetchall()
-        active_map = {row[0]: row[1] for row in active_stocks}
-    
+    active_map = {}
+    try:
+        with db_manager.Session() as session:
+            active_stocks = session.execute(text("SELECT nse_symbol, id FROM stocks WHERE is_active = true")).fetchall()
+            active_map = {row[0]: row[1] for row in active_stocks}
+    except Exception as e:
+        print(f"Error fetching active stocks for market cap update: {e}")
+        
     all_symbols = list(active_map.keys())
     
     # Apply Sharding to Market Caps as well
