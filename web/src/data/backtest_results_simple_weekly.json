@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 90533.62,
-      "total_fees_paid": 1825.9,
+      "end_value": 90391.51,
+      "total_fees_paid": 1825.75,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -9.47,
+      "total_return": -9.61,
       "benchmark_return": -13.33,
-      "expectancy": -0.51,
-      "net_return_after_fees": -11.29
+      "expectancy": -0.52,
+      "net_return_after_fees": -11.43
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": -1.33,
-      "calmar_ratio": -1.76,
-      "omega_ratio": 0.63,
-      "sortino_ratio": -1.75
+      "sharpe_ratio": -1.36,
+      "calmar_ratio": -1.78,
+      "omega_ratio": 0.62,
+      "sortino_ratio": -1.78
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 50.0,
       "best_trade": 2.99,
       "worst_trade": -8.0,
-      "avg_winning_trade": 1.74,
+      "avg_winning_trade": 1.73,
       "avg_losing_trade": -2.77,
-      "profit_factor": 0.63
+      "profit_factor": 0.62
     }
   },
   "backtest_results": [
@@ -16842,7 +16842,7 @@
   "current_performance": [
     {
       "week": "2026-04-03",
-      "portfolio_return": 1.93,
+      "portfolio_return": 1.77,
       "benchmark_return": -0.47,
       "holdings": [
         {
@@ -16867,7 +16867,7 @@
         },
         {
           "symbol": "MCX",
-          "return": 2.98,
+          "return": 1.87,
           "score": 3.2
         },
         {
