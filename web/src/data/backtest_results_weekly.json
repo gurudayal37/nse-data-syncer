@@ -42,36 +42,36 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-04-03",
-      "period": "18 weeks (0.3 years)"
+      "end": "2026-04-10",
+      "period": "19 weeks (0.4 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 92677.42,
-      "total_fees_paid": 2235.61,
+      "total_fees_paid": 2435.91,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": -7.32,
       "benchmark_return": -7.07,
-      "expectancy": -0.4,
-      "net_return_after_fees": -9.56
+      "expectancy": -0.38,
+      "net_return_after_fees": -9.76
     },
     "risk_metrics": {
       "max_drawdown": -8.03,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": -1.39,
-      "calmar_ratio": -2.46,
+      "sharpe_ratio": -1.35,
+      "calmar_ratio": -2.34,
       "omega_ratio": 0.65,
-      "sortino_ratio": -3.76
+      "sortino_ratio": -3.56
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 18,
-      "total_stock_transactions": 66,
-      "win_rate": 50.0,
+      "total_trades": 19,
+      "total_stock_transactions": 72,
+      "win_rate": 47.37,
       "best_trade": 3.62,
       "worst_trade": -3.35,
       "avg_winning_trade": 1.49,
@@ -15202,6 +15202,48 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-04-10",
+      "portfolio_return": 0,
+      "benchmark_return": 0.0,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": 0.0,
+          "score": 4.72
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": 0.0,
+          "score": 3.93
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 0.0,
+          "score": 3.75
+        },
+        {
+          "symbol": "PFOCUS",
+          "return": 0.0,
+          "score": 3.26
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": 0.0,
+          "score": 2.89
+        },
+        {
+          "symbol": "GVT&D",
+          "return": 0.0,
+          "score": 2.82
+        },
+        {
+          "symbol": "GESHIP",
+          "return": 0.0,
+          "score": 2.75
+        }
+      ]
+    },
     {
       "week": "2026-04-03",
       "portfolio_return": 1.67,
