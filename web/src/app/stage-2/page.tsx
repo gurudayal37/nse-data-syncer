@@ -22,6 +22,7 @@ type SortField =
     | 'name'
     | 'market_cap'
     | 'stage2_rs_rank'
+    | 'stage2_pct_from_52w_high'
     | 'change_1w'
     | 'change_1m'
     | 'change_3m'
@@ -107,7 +108,7 @@ export default async function Stage2Page(props: PageProps) {
     }
 
     const SortTh = ({ field, label, align = 'right' }: { field: SortField; label: string; align?: 'left' | 'right' }) => (
-        <th className={`px-6 py-4${align === 'right' ? ' text-right' : ''}`}>
+        <th className={`px-6 py-4${align === 'right' ? ' text-right' : ''} whitespace-nowrap`}>
             <Link
                 href={sortLink(field)}
                 className={`flex items-center gap-1 hover:bg-gray-50 py-1 px-2 rounded cursor-pointer group${align === 'right' ? ' justify-end' : ''}`}
@@ -185,9 +186,7 @@ export default async function Stage2Page(props: PageProps) {
                                     <SortTh field="name" label="Company Name" align="left" />
                                     <SortTh field="market_cap" label="Market Cap" />
                                     <SortTh field="stage2_rs_rank" label="RS Rank" />
-                                    <th className="px-6 py-4 text-right whitespace-nowrap">
-                                        <span className="font-semibold text-gray-600 block text-right px-2">% from 52W High</span>
-                                    </th>
+                                    <SortTh field="stage2_pct_from_52w_high" label="% from 52W High" />
                                     <th className="px-6 py-4 text-right whitespace-nowrap">
                                         <span className="font-semibold text-gray-600 block text-right px-2">% above 52W Low</span>
                                     </th>
