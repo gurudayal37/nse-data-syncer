@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 92677.42,
-      "total_fees_paid": 2435.91,
+      "end_value": 93678.33,
+      "total_fees_paid": 2437.27,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -7.32,
-      "benchmark_return": -7.07,
-      "expectancy": -0.38,
-      "net_return_after_fees": -9.76
+      "total_return": -6.32,
+      "benchmark_return": -6.03,
+      "expectancy": -0.32,
+      "net_return_after_fees": -8.76
     },
     "risk_metrics": {
       "max_drawdown": -8.03,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": -1.35,
-      "calmar_ratio": -2.34,
-      "omega_ratio": 0.65,
-      "sortino_ratio": -3.56
+      "sharpe_ratio": -1.13,
+      "calmar_ratio": -2.04,
+      "omega_ratio": 0.7,
+      "sortino_ratio": -3.03
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -71,12 +71,12 @@
     "trade_statistics": {
       "total_trades": 19,
       "total_stock_transactions": 72,
-      "win_rate": 47.37,
+      "win_rate": 52.63,
       "best_trade": 3.62,
       "worst_trade": -3.35,
-      "avg_winning_trade": 1.49,
+      "avg_winning_trade": 1.45,
       "avg_losing_trade": -2.29,
-      "profit_factor": 0.65
+      "profit_factor": 0.7
     }
   },
   "backtest_results": [
@@ -15204,42 +15204,42 @@
   "current_performance": [
     {
       "week": "2026-04-10",
-      "portfolio_return": 0,
-      "benchmark_return": 0.0,
+      "portfolio_return": 1.08,
+      "benchmark_return": 1.12,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 0.0,
+          "return": 1.15,
           "score": 4.71
         },
         {
           "symbol": "MTARTECH",
-          "return": 0.0,
-          "score": 3.93
+          "return": 1.35,
+          "score": 3.92
         },
         {
           "symbol": "NATIONALUM",
-          "return": 0.0,
+          "return": 1.51,
           "score": 3.75
         },
         {
           "symbol": "PFOCUS",
-          "return": 0.0,
+          "return": 5.53,
           "score": 3.26
         },
         {
           "symbol": "SEAMECLTD",
-          "return": 0.0,
+          "return": -1.04,
           "score": 2.89
         },
         {
           "symbol": "GVT&D",
-          "return": 0.0,
+          "return": -2.59,
           "score": 2.81
         },
         {
           "symbol": "GESHIP",
-          "return": 0.0,
+          "return": 1.63,
           "score": 2.75
         }
       ]
