@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 92669.38,
-      "total_fees_paid": 1958.81,
+      "end_value": 94359.7,
+      "total_fees_paid": 1960.65,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -7.33,
-      "benchmark_return": -11.76,
-      "expectancy": -0.36,
-      "net_return_after_fees": -9.29
+      "total_return": -5.64,
+      "benchmark_return": -8.43,
+      "expectancy": -0.26,
+      "net_return_after_fees": -7.6
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": -0.94,
-      "calmar_ratio": -1.32,
-      "omega_ratio": 0.73,
-      "sortino_ratio": -1.24
+      "sharpe_ratio": -0.65,
+      "calmar_ratio": -1.03,
+      "omega_ratio": 0.8,
+      "sortino_ratio": -0.9
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -72,11 +72,11 @@
       "total_trades": 19,
       "total_stock_transactions": 58,
       "win_rate": 52.63,
-      "best_trade": 2.99,
+      "best_trade": 4.39,
       "worst_trade": -8.0,
-      "avg_winning_trade": 1.81,
+      "avg_winning_trade": 1.99,
       "avg_losing_trade": -2.77,
-      "profit_factor": 0.73
+      "profit_factor": 0.8
     }
   },
   "backtest_results": [
@@ -16800,42 +16800,42 @@
   "current_performance": [
     {
       "week": "2026-04-10",
-      "portfolio_return": 2.52,
-      "benchmark_return": 1.81,
+      "portfolio_return": 4.39,
+      "benchmark_return": 5.65,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": -1.37,
-          "score": 6.99
+          "return": 4.91,
+          "score": 6.98
         },
         {
           "symbol": "NATIONALUM",
-          "return": 2.48,
+          "return": -0.41,
           "score": 4.43
         },
         {
           "symbol": "MTARTECH",
-          "return": 9.79,
+          "return": 15.77,
           "score": 4.11
         },
         {
           "symbol": "PFOCUS",
-          "return": 2.87,
-          "score": 3.79
+          "return": 1.78,
+          "score": 3.78
         },
         {
           "symbol": "GVT&D",
-          "return": -3.9,
+          "return": -2.54,
           "score": 3.23
         },
         {
           "symbol": "VEDL",
-          "return": 3.72,
+          "return": 4.91,
           "score": 3.18
         },
         {
           "symbol": "MCX",
-          "return": 4.05,
+          "return": 6.28,
           "score": 3.07
         }
       ]
