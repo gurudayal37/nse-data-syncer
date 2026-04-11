@@ -227,29 +227,35 @@ model sync_tracker {
 }
 
 model stock_performance {
-  id                    Int       @id @default(autoincrement())
-  stock_id              Int       @unique
-  change_1w             Float?
-  change_1m             Float?
-  change_3m             Float?
-  change_1y             Float?
-  change_5y             Float?
-  updated_at            DateTime? @default(now()) @db.Timestamp(6)
-  daily_volume          BigInt?
-  change_3y             Float?
-  change_6m             Float?
-  momentum_score        Float?
-  simple_momentum_score Float?
-  mr_1m                 Float?
-  mr_1y                 Float?
-  mr_3m                 Float?
-  mr_6m                 Float?
-  volatility            Float?
-  z_1m                  Float?
-  z_1y                  Float?
-  z_3m                  Float?
-  z_6m                  Float?
-  stocks                stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                       Int       @id @default(autoincrement())
+  stock_id                 Int       @unique
+  change_1w                Float?
+  change_1m                Float?
+  change_3m                Float?
+  change_1y                Float?
+  change_5y                Float?
+  updated_at               DateTime? @default(now()) @db.Timestamp(6)
+  daily_volume             BigInt?
+  change_3y                Float?
+  change_6m                Float?
+  momentum_score           Float?
+  mr_1m                    Float?
+  mr_1y                    Float?
+  mr_3m                    Float?
+  mr_6m                    Float?
+  volatility               Float?
+  z_1m                     Float?
+  z_1y                     Float?
+  z_3m                     Float?
+  z_6m                     Float?
+  simple_momentum_score    Float?
+  is_vcp                   Boolean?  @default(false)
+  vcp_score                Float?
+  is_stage2                Boolean?  @default(false)
+  stage2_rs_rank           Float?
+  stage2_pct_from_52w_high Float?
+  stage2_pct_above_52w_low Float?
+  stocks                   stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([change_1w])
   @@index([change_1m])
@@ -259,19 +265,7 @@ model stock_performance {
   @@index([change_3y])
   @@index([change_5y])
   @@index([daily_volume])
-  
-  // VCP Metrics
-  is_vcp                Boolean?  @default(false)
-  vcp_score             Float?
-
-  // Stage 2 (Minervini Trend Template) Metrics
-  is_stage2                Boolean?  @default(false)
-  stage2_rs_rank           Float?
-  stage2_pct_from_52w_high Float?
-  stage2_pct_above_52w_low Float?
-
   @@index([is_vcp])
-  @@index([is_stage2])
 }
 
 model momentum_history {
@@ -285,16 +279,16 @@ model momentum_history {
 }
 
 model etfs {
-  id                Int                 @id @default(autoincrement())
-  symbol            String              @unique @db.VarChar(50)
-  name              String?             @db.VarChar(255)
-  underlying_asset  String?             @db.VarChar(255)
-  nav               Float?
-  is_active         Int?                @default(1)
-  created_at        DateTime?           @default(now()) @db.Timestamp(6)
-  updated_at        DateTime?           @db.Timestamp(6)
-  etf_daily_prices  etf_daily_prices[]
-  etf_performance   etf_performance?
+  id               Int                @id @default(autoincrement())
+  symbol           String             @unique @db.VarChar(50)
+  name             String?            @db.VarChar(255)
+  underlying_asset String?            @db.VarChar(255)
+  nav              Float?
+  is_active        Int?               @default(1)
+  created_at       DateTime?          @default(now()) @db.Timestamp(6)
+  updated_at       DateTime?          @db.Timestamp(6)
+  etf_daily_prices etf_daily_prices[]
+  etf_performance  etf_performance?
 
   @@index([id], map: "ix_etfs_id")
   @@index([symbol], map: "ix_etfs_symbol")
@@ -318,18 +312,18 @@ model etf_daily_prices {
 }
 
 model etf_performance {
-  id                    Int       @id @default(autoincrement())
-  etf_id                Int       @unique
-  change_1w             Float?
-  change_1m             Float?
-  change_3m             Float?
-  change_6m             Float?
-  change_1y             Float?
-  change_3y             Float?
-  change_5y             Float?
-  daily_volume          BigInt?
-  updated_at            DateTime? @default(now()) @db.Timestamp(6)
-  etfs                  etfs      @relation(fields: [etf_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id           Int       @id @default(autoincrement())
+  etf_id       Int       @unique
+  change_1w    Float?
+  change_1m    Float?
+  change_3m    Float?
+  change_6m    Float?
+  change_1y    Float?
+  change_3y    Float?
+  change_5y    Float?
+  daily_volume BigInt?
+  updated_at   DateTime? @default(now()) @db.Timestamp(6)
+  etfs         etfs      @relation(fields: [etf_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([change_1w])
   @@index([change_1m])
@@ -339,4 +333,71 @@ model etf_performance {
   @@index([change_3y])
   @@index([change_5y])
   @@index([daily_volume])
+}
+
+model index_daily_prices {
+  id          Int       @id @default(autoincrement())
+  index_id    Int
+  date        DateTime  @db.Timestamp(6)
+  open_price  Float?
+  high_price  Float?
+  low_price   Float?
+  close_price Float?
+  volume      BigInt?
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+  indices     indices   @relation(fields: [index_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([index_id, date], map: "ix_index_daily_prices_index_date")
+  @@index([date], map: "ix_index_daily_prices_date")
+  @@index([id], map: "ix_index_daily_prices_id")
+  @@index([index_id, date(sort: Desc)], map: "ix_index_daily_prices_index_date_idx")
+}
+
+model index_performance {
+  id           Int       @id @default(autoincrement())
+  index_id     Int       @unique
+  change_1w    Float?
+  change_1m    Float?
+  change_3m    Float?
+  change_6m    Float?
+  change_1y    Float?
+  change_3y    Float?
+  change_5y    Float?
+  daily_volume BigInt?
+  updated_at   DateTime? @default(now()) @db.Timestamp(6)
+  indices      indices   @relation(fields: [index_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([change_1m], map: "idx_index_perf_change_1m")
+  @@index([change_1w], map: "idx_index_perf_change_1w")
+  @@index([change_1y], map: "idx_index_perf_change_1y")
+  @@index([change_3m], map: "idx_index_perf_change_3m")
+  @@index([change_3y], map: "idx_index_perf_change_3y")
+  @@index([change_5y], map: "idx_index_perf_change_5y")
+  @@index([change_6m], map: "idx_index_perf_change_6m")
+  @@index([daily_volume], map: "idx_index_perf_daily_volume")
+}
+
+model indices {
+  id                 Int                  @id @default(autoincrement())
+  symbol             String               @unique @db.VarChar(50)
+  name               String?              @db.VarChar(255)
+  is_active          Int?                 @default(1)
+  created_at         DateTime?            @default(now()) @db.Timestamp(6)
+  updated_at         DateTime?            @db.Timestamp(6)
+  index_daily_prices index_daily_prices[]
+  index_performance  index_performance?
+
+  @@index([id], map: "ix_indices_id")
+  @@index([symbol], map: "ix_indices_symbol")
+}
+
+enum tradedirection {
+  long
+  short
+}
+
+enum tradestatus {
+  placed
+  executed
+  closed
 }

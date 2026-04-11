@@ -128,6 +128,14 @@ export default function HomePage() {
       icon: TrendingUp,
       color: 'teal',
       badge: 'Live'
+    },
+    {
+      title: 'Market Indices',
+      description: 'Daily OHLCV data for Nifty 50, Midcap, Smallcap and more',
+      href: '/index',
+      icon: BarChart3,
+      color: 'blue',
+      badge: 'New'
     }
   ]
 
