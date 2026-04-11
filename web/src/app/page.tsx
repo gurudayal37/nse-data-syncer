@@ -132,7 +132,7 @@ export default function HomePage() {
     {
       title: 'Market Indices',
       description: 'Daily OHLCV data for Nifty 50, Midcap, Smallcap and more',
-      href: '/index',
+      href: '/indices',
       icon: BarChart3,
       color: 'blue',
       badge: 'New'

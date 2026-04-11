@@ -110,7 +110,7 @@ export default async function IndexPage(props: IndexPageProps) {
         const queryParam = query ? `&query=${encodeURIComponent(query)}` : ''
         return (
             <th className={`px-6 py-4 ${align === 'right' ? 'text-right' : ''}`}>
-                <Link href={`/index?page=${page}&sort=${column}&order=${newOrder}${queryParam}`} className="group inline-flex items-center hover:text-blue-600">
+                <Link href={`/indices?page=${page}&sort=${column}&order=${newOrder}${queryParam}`} className="group inline-flex items-center hover:text-blue-600">
                     {label}
                     <SortIcon column={column} />
                 </Link>
@@ -132,7 +132,7 @@ export default async function IndexPage(props: IndexPageProps) {
                         <div className="w-full sm:w-80">
                             <Search placeholder="Search Indices..." />
                         </div>
-                        <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/index" query={query} />
+                        <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/indices" query={query} />
                     </div>
                 </header>
 
@@ -162,7 +162,7 @@ export default async function IndexPage(props: IndexPageProps) {
                                     return (
                                         <tr key={indexObj.id} className="hover:bg-gray-50 transition-colors">
                                             <td className="px-6 py-4 font-medium text-gray-900">
-                                                <Link href={`/index/${encodeURIComponent(indexObj.symbol || '')}`} className="hover:underline text-blue-600">
+                                                <Link href={`/indices/${encodeURIComponent(indexObj.symbol || '')}`} className="hover:underline text-blue-600">
                                                     {indexObj.symbol}
                                                 </Link>
                                             </td>
@@ -199,7 +199,7 @@ export default async function IndexPage(props: IndexPageProps) {
                     <p className="text-sm text-gray-500">
                         Page {page} of {totalPages}
                     </p>
-                    <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/index" query={query} />
+                    <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/indices" query={query} />
                 </div>
             </div>
         </div>
