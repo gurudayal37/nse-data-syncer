@@ -101,7 +101,7 @@ export default async function IndexDetailPage(props: IndexDetailProps) {
                                 <span className="text-gray-600">Name</span>
                                 <span className="font-medium text-gray-900">{marketIndex.name || '-'}</span>
                             </div>
-                            {perf?.daily_volume && perf.daily_volume > 0n && (
+                            {perf?.daily_volume && perf.daily_volume > BigInt(0) && (
                                 <div className="flex justify-between">
                                     <span className="text-gray-600">Daily Volume</span>
                                     <span className="font-medium text-gray-900">{perf.daily_volume.toLocaleString()}</span>
@@ -130,7 +130,7 @@ export default async function IndexDetailPage(props: IndexDetailProps) {
                                     <span className="text-gray-600">Close</span>
                                     <span className="font-medium text-gray-900">₹{latestPrice.close_price?.toFixed(2) || '-'}</span>
                                 </div>
-                                {latestPrice.volume && latestPrice.volume > 0n && (
+                                {latestPrice.volume && latestPrice.volume > BigInt(0) && (
                                     <div className="flex justify-between">
                                         <span className="text-gray-600">Volume</span>
                                         <span className="font-medium text-gray-900">{latestPrice.volume.toLocaleString()}</span>
@@ -169,7 +169,7 @@ export default async function IndexDetailPage(props: IndexDetailProps) {
                                         <td className="px-4 py-3 text-right text-red-600">₹{price.low_price?.toFixed(2) || '-'}</td>
                                         <td className="px-4 py-3 text-right font-medium text-gray-900">₹{price.close_price?.toFixed(2) || '-'}</td>
                                         <td className="px-4 py-3 text-right text-gray-600">
-                                            {price.volume && price.volume > 0n ? price.volume.toLocaleString() : '-'}
+                                            {price.volume && price.volume > BigInt(0) ? price.volume.toLocaleString() : '-'}
                                         </td>
                                     </tr>
                                 ))}
