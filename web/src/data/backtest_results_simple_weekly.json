@@ -42,41 +42,41 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-04-10",
-      "period": "19 weeks (0.4 years)"
+      "end": "2026-04-17",
+      "period": "20 weeks (0.4 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 97179.91,
-      "total_fees_paid": 1963.73,
+      "end_value": 98589.02,
+      "total_fees_paid": 2035.5,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -2.82,
-      "benchmark_return": -8.22,
-      "expectancy": -0.1,
-      "net_return_after_fees": -4.78
+      "total_return": -1.41,
+      "benchmark_return": -9.01,
+      "expectancy": -0.02,
+      "net_return_after_fees": -3.45
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
-      "max_drawdown_duration": 8,
-      "sharpe_ratio": -0.22,
-      "calmar_ratio": -0.53,
-      "omega_ratio": 0.93,
-      "sortino_ratio": -0.34
+      "max_drawdown_duration": 9,
+      "sharpe_ratio": -0.05,
+      "calmar_ratio": -0.26,
+      "omega_ratio": 0.98,
+      "sortino_ratio": -0.07
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 19,
-      "total_stock_transactions": 58,
-      "win_rate": 52.63,
+      "total_trades": 20,
+      "total_stock_transactions": 60,
+      "win_rate": 55.0,
       "best_trade": 7.51,
       "worst_trade": -8.0,
-      "avg_winning_trade": 2.3,
+      "avg_winning_trade": 2.23,
       "avg_losing_trade": -2.77,
-      "profit_factor": 0.93
+      "profit_factor": 0.98
     }
   },
   "backtest_results": [
@@ -16798,6 +16798,48 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-04-17",
+      "portfolio_return": 1.45,
+      "benchmark_return": -0.86,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": -1.37,
+          "score": 7.39
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 0.25,
+          "score": 4.11
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": 5.36,
+          "score": 4.06
+        },
+        {
+          "symbol": "PFOCUS",
+          "return": 0.91,
+          "score": 3.42
+        },
+        {
+          "symbol": "SANSERA",
+          "return": 0.37,
+          "score": 3.28
+        },
+        {
+          "symbol": "MCX",
+          "return": 3.6,
+          "score": 3.19
+        },
+        {
+          "symbol": "VEDL",
+          "return": 0.99,
+          "score": 3.14
+        }
+      ]
+    },
     {
       "week": "2026-04-10",
       "portfolio_return": 7.51,
