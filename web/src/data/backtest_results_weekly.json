@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 95448.47,
-      "total_fees_paid": 2643.76,
+      "end_value": 96068.89,
+      "total_fees_paid": 2644.63,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -4.55,
-      "benchmark_return": -2.72,
-      "expectancy": -0.21,
-      "net_return_after_fees": -7.2
+      "total_return": -3.93,
+      "benchmark_return": -3.56,
+      "expectancy": -0.18,
+      "net_return_after_fees": -6.58
     },
     "risk_metrics": {
       "max_drawdown": -8.03,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": -0.72,
-      "calmar_ratio": -1.42,
-      "omega_ratio": 0.8,
-      "sortino_ratio": -1.98
+      "sharpe_ratio": -0.61,
+      "calmar_ratio": -1.23,
+      "omega_ratio": 0.83,
+      "sortino_ratio": -1.67
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -71,12 +71,12 @@
     "trade_statistics": {
       "total_trades": 20,
       "total_stock_transactions": 78,
-      "win_rate": 50.0,
+      "win_rate": 55.0,
       "best_trade": 3.62,
       "worst_trade": -3.35,
-      "avg_winning_trade": 1.64,
+      "avg_winning_trade": 1.55,
       "avg_losing_trade": -2.29,
-      "profit_factor": 0.8
+      "profit_factor": 0.83
     }
   },
   "backtest_results": [
@@ -15204,43 +15204,43 @@
   "current_performance": [
     {
       "week": "2026-04-17",
-      "portfolio_return": 0,
-      "benchmark_return": 0.0,
+      "portfolio_return": 0.65,
+      "benchmark_return": -0.86,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 0.0,
-          "score": 5.21
+          "return": -1.37,
+          "score": 5.2
         },
         {
           "symbol": "MTARTECH",
-          "return": 0.0,
-          "score": 4.04
+          "return": 5.36,
+          "score": 4.03
         },
         {
           "symbol": "NATIONALUM",
-          "return": 0.0,
-          "score": 3.31
+          "return": 0.25,
+          "score": 3.3
         },
         {
           "symbol": "STLTECH",
-          "return": 0.0,
-          "score": 3.29
+          "return": 5.0,
+          "score": 3.28
         },
         {
           "symbol": "BAJAJCON",
-          "return": 0.0,
-          "score": 3.17
+          "return": -2.71,
+          "score": 3.16
         },
         {
           "symbol": "AVANTIFEED",
-          "return": 0.0,
-          "score": 3.02
+          "return": -2.89,
+          "score": 3.01
         },
         {
           "symbol": "PFOCUS",
-          "return": 0.0,
-          "score": 2.92
+          "return": 0.91,
+          "score": 2.91
         }
       ]
     },
