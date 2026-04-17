@@ -42,20 +42,20 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-04-17",
-      "period": "20 weeks (0.4 years)"
+      "end": "2026-04-24",
+      "period": "21 weeks (0.4 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 99648.2,
-      "total_fees_paid": 2649.61,
+      "total_fees_paid": 2723.72,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": -0.35,
       "benchmark_return": -2.13,
       "expectancy": 0.01,
-      "net_return_after_fees": -3.0
+      "net_return_after_fees": -3.08
     },
     "risk_metrics": {
       "max_drawdown": -8.03,
@@ -63,15 +63,15 @@
       "sharpe_ratio": 0.03,
       "calmar_ratio": -0.11,
       "omega_ratio": 1.01,
-      "sortino_ratio": 0.09
+      "sortino_ratio": 0.08
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 20,
-      "total_stock_transactions": 78,
-      "win_rate": 55.0,
+      "total_trades": 21,
+      "total_stock_transactions": 80,
+      "win_rate": 52.38,
       "best_trade": 4.4,
       "worst_trade": -3.35,
       "avg_winning_trade": 1.89,
@@ -15202,6 +15202,48 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-04-24",
+      "portfolio_return": 0,
+      "benchmark_return": 0.0,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": 0.0,
+          "score": 5.32
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": 0.0,
+          "score": 4.48
+        },
+        {
+          "symbol": "STLTECH",
+          "return": 0.0,
+          "score": 3.75
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 0.0,
+          "score": 3.19
+        },
+        {
+          "symbol": "BAJAJCON",
+          "return": 0.0,
+          "score": 3.07
+        },
+        {
+          "symbol": "PRECWIRE",
+          "return": 0.0,
+          "score": 2.9
+        },
+        {
+          "symbol": "PFOCUS",
+          "return": 0.0,
+          "score": 2.85
+        }
+      ]
+    },
     {
       "week": "2026-04-17",
       "portfolio_return": 4.4,
