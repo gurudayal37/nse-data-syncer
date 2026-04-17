@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 102748.32,
-      "total_fees_paid": 2039.96,
+      "end_value": 104011.66,
+      "total_fees_paid": 2041.31,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 2.75,
-      "benchmark_return": -7.66,
-      "expectancy": 0.19,
-      "net_return_after_fees": 0.71
+      "total_return": 4.01,
+      "benchmark_return": -7.07,
+      "expectancy": 0.26,
+      "net_return_after_fees": 1.97
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": 0.41,
-      "calmar_ratio": 0.51,
-      "omega_ratio": 1.16,
-      "sortino_ratio": 0.66
+      "sharpe_ratio": 0.53,
+      "calmar_ratio": 0.76,
+      "omega_ratio": 1.21,
+      "sortino_ratio": 0.89
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 55.0,
       "best_trade": 7.51,
       "worst_trade": -8.0,
-      "avg_winning_trade": 2.62,
+      "avg_winning_trade": 2.73,
       "avg_losing_trade": -2.77,
-      "profit_factor": 1.16
+      "profit_factor": 1.21
     }
   },
   "backtest_results": [
@@ -16758,42 +16758,42 @@
   "current_performance": [
     {
       "week": "2026-04-17",
-      "portfolio_return": 5.73,
-      "benchmark_return": 0.61,
+      "portfolio_return": 7.03,
+      "benchmark_return": 1.26,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 1.97,
+          "return": 10.06,
           "score": 7.44
         },
         {
           "symbol": "NATIONALUM",
-          "return": 3.76,
+          "return": 5.22,
           "score": 4.14
         },
         {
           "symbol": "MTARTECH",
-          "return": 15.58,
-          "score": 4.08
+          "return": 16.39,
+          "score": 4.09
         },
         {
           "symbol": "PFOCUS",
-          "return": 3.95,
+          "return": 3.15,
           "score": 3.44
         },
         {
           "symbol": "SANSERA",
-          "return": 2.55,
-          "score": 3.3
+          "return": 1.75,
+          "score": 3.31
         },
         {
           "symbol": "MCX",
-          "return": 7.22,
+          "return": 6.99,
           "score": 3.22
         },
         {
           "symbol": "VEDL",
-          "return": 5.06,
+          "return": 5.68,
           "score": 3.17
         }
       ]
