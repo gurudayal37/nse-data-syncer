@@ -42,41 +42,41 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-04-17",
-      "period": "20 weeks (0.4 years)"
+      "end": "2026-04-24",
+      "period": "21 weeks (0.4 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 104011.66,
-      "total_fees_paid": 2041.31,
+      "end_value": 102784.32,
+      "total_fees_paid": 2185.59,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 4.01,
-      "benchmark_return": -7.07,
-      "expectancy": 0.26,
-      "net_return_after_fees": 1.97
+      "total_return": 2.78,
+      "benchmark_return": -7.02,
+      "expectancy": 0.19,
+      "net_return_after_fees": 0.6
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": 0.53,
-      "calmar_ratio": 0.76,
-      "omega_ratio": 1.21,
-      "sortino_ratio": 0.89
+      "sharpe_ratio": 0.4,
+      "calmar_ratio": 0.5,
+      "omega_ratio": 1.15,
+      "sortino_ratio": 0.67
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 20,
-      "total_stock_transactions": 60,
-      "win_rate": 55.0,
+      "total_trades": 21,
+      "total_stock_transactions": 64,
+      "win_rate": 52.38,
       "best_trade": 7.51,
       "worst_trade": -8.0,
       "avg_winning_trade": 2.73,
-      "avg_losing_trade": -2.77,
-      "profit_factor": 1.21
+      "avg_losing_trade": -2.61,
+      "profit_factor": 1.15
     }
   },
   "backtest_results": [
@@ -16756,6 +16756,48 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-04-24",
+      "portfolio_return": -1.18,
+      "benchmark_return": 0.05,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": 2.19,
+          "score": 7.65
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": 1.73,
+          "score": 4.8
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": -2.76,
+          "score": 4.11
+        },
+        {
+          "symbol": "PFOCUS",
+          "return": -5.07,
+          "score": 3.56
+        },
+        {
+          "symbol": "VEDL",
+          "return": -2.1,
+          "score": 3.33
+        },
+        {
+          "symbol": "BAJAJCON",
+          "return": 0.93,
+          "score": 3.1
+        },
+        {
+          "symbol": "PRECWIRE",
+          "return": -3.16,
+          "score": 3.06
+        }
+      ]
+    },
     {
       "week": "2026-04-17",
       "portfolio_return": 7.03,
