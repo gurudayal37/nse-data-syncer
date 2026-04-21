@@ -1,27 +1,27 @@
 {
   "backtest_metrics": {
     "time_metrics": {
-      "start": "2018-04-27",
+      "start": "2018-05-04",
       "end": "2025-11-28",
-      "period": "397 weeks (7.6 years)"
+      "period": "396 weeks (7.6 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 479849.57,
-      "total_fees_paid": 71514.49,
+      "end_value": 481873.44,
+      "total_fees_paid": 71638.13,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 379.85,
-      "benchmark_return": 147.99,
+      "total_return": 381.87,
+      "benchmark_return": 145.03,
       "expectancy": 0.49,
-      "net_return_after_fees": 308.34
+      "net_return_after_fees": 310.24
     },
     "risk_metrics": {
-      "max_drawdown": -55.07,
-      "max_drawdown_duration": 147,
+      "max_drawdown": -54.69,
+      "max_drawdown_duration": 146,
       "sharpe_ratio": 0.82,
-      "calmar_ratio": 0.41,
+      "calmar_ratio": 0.42,
       "omega_ratio": 1.35,
       "sortino_ratio": 1.21
     },
@@ -29,13 +29,13 @@
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 397,
-      "total_stock_transactions": 1109,
-      "win_rate": 53.15,
+      "total_trades": 396,
+      "total_stock_transactions": 1105,
+      "win_rate": 53.28,
       "best_trade": 13.85,
       "worst_trade": -16.48,
       "avg_winning_trade": 3.59,
-      "avg_losing_trade": -3.06,
+      "avg_losing_trade": -3.07,
       "profit_factor": 1.35
     }
   },
@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 102784.32,
-      "total_fees_paid": 2185.59,
+      "end_value": 104032.46,
+      "total_fees_paid": 2186.95,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 2.78,
-      "benchmark_return": -7.02,
-      "expectancy": 0.19,
-      "net_return_after_fees": 0.6
+      "total_return": 4.03,
+      "benchmark_return": -6.21,
+      "expectancy": 0.25,
+      "net_return_after_fees": 1.85
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": 0.4,
-      "calmar_ratio": 0.5,
-      "omega_ratio": 1.15,
-      "sortino_ratio": 0.67
+      "sharpe_ratio": 0.52,
+      "calmar_ratio": 0.72,
+      "omega_ratio": 1.21,
+      "sortino_ratio": 0.85
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -71,12 +71,12 @@
     "trade_statistics": {
       "total_trades": 21,
       "total_stock_transactions": 64,
-      "win_rate": 52.38,
+      "win_rate": 57.14,
       "best_trade": 7.51,
       "worst_trade": -8.0,
-      "avg_winning_trade": 2.73,
-      "avg_losing_trade": -2.61,
-      "profit_factor": 1.15
+      "avg_winning_trade": 2.51,
+      "avg_losing_trade": -2.77,
+      "profit_factor": 1.21
     }
   },
   "backtest_results": [
@@ -16711,89 +16711,47 @@
           "score": 1.87
         }
       ]
-    },
-    {
-      "week": "2018-04-27",
-      "portfolio_return": -0.42,
-      "benchmark_return": 1.21,
-      "holdings": [
-        {
-          "symbol": "KIOCL",
-          "return": -11.07,
-          "score": 6.07
-        },
-        {
-          "symbol": "BEPL",
-          "return": -6.57,
-          "score": 2.72
-        },
-        {
-          "symbol": "LUXIND",
-          "return": 9.28,
-          "score": 2.12
-        },
-        {
-          "symbol": "KDDL",
-          "return": 16.97,
-          "score": 2.11
-        },
-        {
-          "symbol": "VENKEYS",
-          "return": -13.56,
-          "score": 1.95
-        },
-        {
-          "symbol": "AUTOAXLES",
-          "return": 1.6,
-          "score": 1.82
-        },
-        {
-          "symbol": "POWERMECH",
-          "return": 0.41,
-          "score": 1.78
-        }
-      ]
     }
   ],
   "current_performance": [
     {
       "week": "2026-04-24",
-      "portfolio_return": -1.18,
-      "benchmark_return": 0.05,
+      "portfolio_return": 0.02,
+      "benchmark_return": 0.92,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 2.19,
-          "score": 7.65
+          "return": 6.55,
+          "score": 7.66
         },
         {
           "symbol": "MTARTECH",
-          "return": 1.73,
-          "score": 4.8
+          "return": 4.39,
+          "score": 4.81
         },
         {
           "symbol": "NATIONALUM",
-          "return": -2.76,
+          "return": -3.6,
           "score": 4.11
         },
         {
           "symbol": "PFOCUS",
-          "return": -5.07,
-          "score": 3.56
+          "return": -4.88,
+          "score": 3.57
         },
         {
           "symbol": "VEDL",
-          "return": -2.1,
-          "score": 3.33
+          "return": -2.63,
+          "score": 3.34
         },
         {
           "symbol": "BAJAJCON",
-          "return": 0.93,
-          "score": 3.1
+          "return": -2.35,
+          "score": 3.11
         },
         {
           "symbol": "PRECWIRE",
-          "return": -3.16,
+          "return": 2.67,
           "score": 3.06
         }
       ]
