@@ -20,7 +20,7 @@ if not DB_URL:
     raise ValueError("DATABASE_URL environment variable is not set.")
 
 START_DATE = "2020-01-01"  # Get 5+ years of data
-CSV_PATH = "data/MW-ETF-02-Jan-2026.csv"
+CSV_PATH = "data/MW-ETF-22-Apr-2026.csv"
 
 def parse_etf_csv():
     """Parse the ETF CSV file and extract ETF details."""
