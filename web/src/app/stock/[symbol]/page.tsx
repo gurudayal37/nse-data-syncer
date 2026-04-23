@@ -130,15 +130,31 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         : null
     const isUp = dailyChange != null && dailyChange >= 0
 
-    // 52W High/Low from last 252 trading days of daily prices
+    // 52W High/Low from last 252 trading days
     const last252 = stock.daily_prices.slice(-252)
     const w52High = last252.length ? Math.max(...last252.map((p: any) => p.high_price)) : null
     const w52Low  = last252.length ? Math.min(...last252.map((p: any) => p.low_price))  : null
+
+    // Dates when 52W high/low were hit
+    const w52HighEntry = w52High != null
+        ? last252.slice().reverse().find((p: any) => p.high_price === w52High) : null
+    const w52LowEntry  = w52Low  != null
+        ? last252.slice().reverse().find((p: any) => p.low_price  === w52Low)  : null
 
     // All-time high from full price history
     const ath = stock.daily_prices.length
         ? Math.max(...stock.daily_prices.map((p: any) => p.close_price))
         : null
+    const athEntry = ath != null
+        ? stock.daily_prices.slice().reverse().find((p: any) => p.close_price === ath) : null
+
+    function daysAgo(date: Date | string | null | undefined): string {
+        if (!date) return ''
+        const d = Math.floor((Date.now() - new Date(date).getTime()) / 86_400_000)
+        if (d === 0) return 'today'
+        if (d === 1) return '1d ago'
+        return `${d}d ago`
+    }
 
     return (
         <div className="min-h-screen bg-slate-100">
@@ -205,8 +221,16 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                         <div className="px-6 py-4">
                             <MetricRow label="Market Cap"     value={fmtCr(stock.market_cap)} />
                             <MetricRow label="Current Price"  value={latest ? `₹${latest.close_price.toFixed(2)}` : '—'} />
-                            <MetricRow label="52W High / Low" value={w52High && w52Low ? `₹${fmtNum(w52High, 2)} / ₹${fmtNum(w52Low, 2)}` : '—'} />
-                            <MetricRow label="All Time High"  value={ath ? `₹${fmtNum(ath, 2)}` : '—'} />
+                            <MetricRow
+                                label="52W High / Low"
+                                value={w52High && w52Low
+                                    ? `₹${fmtNum(w52High, 2)} (${daysAgo(w52HighEntry?.date)})  /  ₹${fmtNum(w52Low, 2)} (${daysAgo(w52LowEntry?.date)})`
+                                    : '—'}
+                            />
+                            <MetricRow
+                                label="All Time High"
+                                value={ath ? `₹${fmtNum(ath, 2)} (${daysAgo(athEntry?.date)})` : '—'}
+                            />
                         </div>
                         {/* Col 2: sector classification */}
                         <div className="px-6 py-4">
