@@ -48,23 +48,26 @@ export default function StockChart({ data }: StockChartProps) {
 
     return (
         <div className="w-full">
-            <div className="flex flex-wrap gap-2 mb-4">
-                {(['1W', '1M', '3M', '6M', '1Y', '3Y', '5Y', 'All'] as Period[]).map((p) => (
-                    <button
-                        key={p}
-                        onClick={() => setPeriod(p)}
-                        className={cn(
-                            "px-3 py-1 text-xs font-medium rounded-full transition-colors",
-                            period === p
-                                ? "bg-blue-600 text-white"
-                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                        )}
-                    >
-                        {p}
-                    </button>
-                ))}
+            <div className="flex items-center justify-between mb-5">
+                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Price Chart</p>
+                <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
+                    {(['1W', '1M', '3M', '6M', '1Y', '3Y', '5Y', 'All'] as Period[]).map((p) => (
+                        <button
+                            key={p}
+                            onClick={() => setPeriod(p)}
+                            className={cn(
+                                "px-3 py-1.5 text-xs font-medium transition-colors border-r border-slate-200 last:border-0",
+                                period === p
+                                    ? "bg-blue-600 text-white"
+                                    : "text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+                            )}
+                        >
+                            {p}
+                        </button>
+                    ))}
+                </div>
             </div>
-            <div className="h-[400px] w-full">
+            <div className="h-[380px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={filteredData}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />

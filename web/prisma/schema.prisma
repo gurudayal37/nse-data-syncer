@@ -139,13 +139,15 @@ model quarterly_results {
   opm_percent           Decimal?  @db.Decimal(5, 2)
   npm_percent           Decimal?  @db.Decimal(5, 2)
   quarterly_result_link String?
-  source                String?   @default("BSE") @db.VarChar(20)
+  source                String?   @default("screener") @db.VarChar(20)
   filing_date           DateTime? @db.Date
   tax_percent           Float?
   expected_eps          Float?
   stocks                stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+  @@unique([stock_id, quarter, year], map: "uq_quarterly_results_stock_quarter_year")
   @@index([id], map: "ix_quarterly_results_id")
+  @@index([stock_id], map: "ix_quarterly_results_stock_id")
 }
 
 model shareholding_patterns {
@@ -165,6 +167,18 @@ model shareholding_patterns {
   stocks           stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([id], map: "ix_shareholding_patterns_id")
+}
+
+model stock_tags {
+  id         Int      @id @default(autoincrement())
+  stock_id   Int
+  tag        String   @db.VarChar(100)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  stocks     stocks   @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([stock_id, tag], map: "uq_stock_tags_stock_tag")
+  @@index([stock_id], map: "ix_stock_tags_stock_id")
+  @@index([tag], map: "ix_stock_tags_tag")
 }
 
 model stocks {
@@ -204,6 +218,7 @@ model stocks {
   quarterly_results     quarterly_results[]
   shareholding_patterns shareholding_patterns[]
   stock_performance     stock_performance?
+  stock_tags            stock_tags[]
   sync_tracker          sync_tracker[]
 
   @@index([id], map: "ix_stocks_id")

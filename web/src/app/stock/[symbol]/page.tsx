@@ -1,9 +1,9 @@
 import prisma from '@/lib/prisma'
 import StockChart from '@/components/StockChart'
-import MomentumChart from '@/components/MomentumChart'
-import PercentageChange from '@/components/PercentageChange'
+import SyncButton from '@/components/SyncButton'
+import StockTags from '@/components/StockTags'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, TrendingUp } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import type { NewsItem } from '@/types/stock'
 import athData from '@/data/backtest_results_ath.json'
@@ -11,385 +11,460 @@ import simpleData from '@/data/backtest_results_simple.json'
 
 export const dynamic = 'force-dynamic'
 
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function pct(a: number | null | undefined, b: number | null | undefined): number | null {
+    if (a == null || b == null || b === 0) return null
+    return ((a - b) / Math.abs(b)) * 100
+}
+
+function fmtNum(v: number | null | undefined, dec = 0): string {
+    if (v == null) return '—'
+    return v.toLocaleString('en-IN', { maximumFractionDigits: dec, minimumFractionDigits: dec })
+}
+
+function fmtCr(v: number | bigint | null | undefined): string {
+    if (v == null) return '—'
+    return `₹${Math.round(Number(v) / 10_000_000).toLocaleString('en-IN')} Cr`
+}
+
+function GrowthCell({ value }: { value: number | null }) {
+    if (value == null) return <td className="px-3 py-3 text-slate-300 text-right text-xs">—</td>
+    const pos = value >= 0
+    return (
+        <td className={`px-3 py-3 text-right text-xs font-semibold ${pos ? 'text-emerald-600' : 'text-red-500'}`}>
+            {pos ? '+' : ''}{value.toFixed(1)}%
+        </td>
+    )
+}
+
+function MetricRow({ label, value }: { label: string; value: string }) {
+    return (
+        <div className="flex justify-between items-center py-2.5 border-b border-slate-100 last:border-0">
+            <span className="text-sm text-slate-500">{label}</span>
+            <span className="text-sm font-semibold text-slate-800">{value}</span>
+        </div>
+    )
+}
+
+function PerfTab({ label, value }: { label: string; value: number | null | undefined }) {
+    const isNull = value == null
+    const pos = !isNull && value! >= 0
+    const color = isNull ? 'text-slate-400' : pos ? 'text-emerald-600' : 'text-red-500'
+    const border = isNull ? 'border-slate-200' : pos ? 'border-emerald-200 bg-emerald-50/50' : 'border-red-200 bg-red-50/50'
+    return (
+        <div className={`flex flex-col items-center justify-center py-3 border rounded-lg w-full ${border}`}>
+            <span className="text-[11px] text-slate-400 font-medium mb-0.5">{label}</span>
+            <span className={`text-sm font-bold ${color}`}>
+                {isNull ? '—' : `${value! >= 0 ? '+' : ''}${value!.toFixed(2)}%`}
+            </span>
+        </div>
+    )
+}
+
+// ─── Page ────────────────────────────────────────────────────────────────────
 
 export default async function StockPage(props: { params: Promise<{ symbol: string }> }) {
-    const params = await props.params
-    const { symbol } = params
+    const { symbol } = await props.params
+    const sym = decodeURIComponent(symbol)
 
-    const decodedSymbol = decodeURIComponent(symbol)
-
-    // Filter Strategy Data
-    const athTrades = (athData.trades || []).filter((t: any) => t.symbol === decodedSymbol)
-
-    // Filter Simple Momentum Data
-    // We need to iterate over all monthly results and check 'holdings'
+    // Strategy data
+    const athTrades = (athData.trades || []).filter((t: any) => t.symbol === sym)
     const momentumTrades: any[] = []
-
-    // Check backtest results
-    if (simpleData.backtest_results) {
-        simpleData.backtest_results.forEach((month: any) => {
-            const holding = month.holdings.find((h: any) => h.symbol === decodedSymbol)
-            if (holding) {
-                momentumTrades.push({
-                    month: month.month,
-                    return: holding.return,
-                    score: holding.score
-                })
-            }
-        })
-    }
-
-    // Check current performance (live/forward test data)
-    if ((simpleData as any).current_performance) {
-        (simpleData as any).current_performance.forEach((month: any) => {
-            const holding = month.holdings.find((h: any) => h.symbol === decodedSymbol)
-            if (holding) {
-                momentumTrades.push({
-                    month: month.month,
-                    return: holding.return, // might be null if current month open?
-                    score: holding.score
-                })
-            }
-        })
-    }
-
-    // Sort reverse chronological
+    ;(simpleData.backtest_results ?? []).forEach((month: any) => {
+        const h = month.holdings.find((h: any) => h.symbol === sym)
+        if (h) momentumTrades.push({ month: month.month, return: h.return, score: h.score })
+    })
+    ;((simpleData as any).current_performance ?? []).forEach((month: any) => {
+        const h = month.holdings.find((h: any) => h.symbol === sym)
+        if (h) momentumTrades.push({ month: month.month, return: h.return, score: h.score })
+    })
     momentumTrades.sort((a, b) => new Date(b.month).getTime() - new Date(a.month).getTime())
 
     const stock = await prisma.stocks.findFirst({
-        where: { nse_symbol: decodedSymbol },
+        where: { nse_symbol: sym },
         include: {
-            daily_prices: {
-                orderBy: { date: 'asc' },
-            },
+            daily_prices: { orderBy: { date: 'asc' } },
             stock_performance: true,
-            news: {
-                orderBy: { published_date: 'desc' },
-                take: 10
-            }
+            news: { orderBy: { published_date: 'desc' }, take: 8 },
         },
     })
-
-    if (!stock) {
-        notFound()
-    }
+    if (!stock) notFound()
 
     const chartData = stock.daily_prices.map((p: any) => ({
         date: p.date.toISOString(),
         close: p.close_price,
-        volume: Number(p.volume || 0)
+        volume: Number(p.volume || 0),
     }))
 
-    // Fetch momentum history
-    const momentumHistory = await prisma.momentum_history.findMany({
-        where: {
-            stock_id: stock.id
-        },
-        orderBy: {
-            date: 'asc'
-        },
-        select: {
-            date: true,
-            momentum_score: true,
-            rank: true
-        }
+    // Quarterly results
+    const qRaw = await prisma.quarterly_results.findMany({
+        where: { stock_id: stock.id },
+        orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }],
+        take: 8,
     })
-
-    const momentumChartData = momentumHistory.map((h: any) => ({
-        date: h.date.toISOString(),
-        score: h.momentum_score || 0,
-        rank: h.rank || 0
+    const quarters = qRaw.map((r) => ({
+        quarter: r.quarter,
+        year: r.year,
+        quarter_number: r.quarter_number,
+        revenue: r.revenue,
+        ebitda: r.ebitda,
+        operating_profit: r.operating_profit,
+        opm_percent: r.opm_percent ? Number(r.opm_percent) : null,
+        net_profit: r.net_profit,
+        eps: r.eps,
     }))
-    const latest = stock.daily_prices[stock.daily_prices.length - 1]
-    const perf = stock.stock_performance
 
-    const performanceMetrics = [
-        { label: '1 Week', value: perf?.change_1w },
-        { label: '1 Month', value: perf?.change_1m },
-        { label: '3 Months', value: perf?.change_3m },
-        { label: '6 Months', value: perf?.change_6m },
-        { label: '1 Year', value: perf?.change_1y },
-        { label: '3 Years', value: perf?.change_3y },
-        { label: '5 Years', value: perf?.change_5y },
-    ]
+    const tagRows = await prisma.stock_tags.findMany({
+        where: { stock_id: stock.id },
+        orderBy: { created_at: 'asc' },
+    })
+    const tags = tagRows.map((r) => r.tag)
+
+    const latest = stock.daily_prices.at(-1)
+    const prev   = stock.daily_prices.at(-2)
+    const perf   = stock.stock_performance
+
+    const dailyChange = latest && prev
+        ? ((latest.close_price - prev.close_price) / prev.close_price) * 100
+        : null
+    const isUp = dailyChange != null && dailyChange >= 0
+
+    // 52W High/Low from last 252 trading days of daily prices
+    const last252 = stock.daily_prices.slice(-252)
+    const w52High = last252.length ? Math.max(...last252.map((p: any) => p.high_price)) : null
+    const w52Low  = last252.length ? Math.min(...last252.map((p: any) => p.low_price))  : null
+
+    // All-time high from full price history
+    const ath = stock.daily_prices.length
+        ? Math.max(...stock.daily_prices.map((p: any) => p.close_price))
+        : null
 
     return (
-        <div className="min-h-screen bg-gray-50 p-8">
-            <div className="max-w-7xl mx-auto">
-                <Link href="/" className="inline-flex items-center text-gray-500 hover:text-gray-900 mb-6">
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back to Dashboard
+        <div className="min-h-screen bg-slate-100">
+            {/* ── Top nav bar ───────────────────────────────────────────── */}
+            <div className="bg-white border-b border-slate-200 px-6 py-3">
+                <Link href="/" className="inline-flex items-center text-slate-500 hover:text-slate-800 text-sm transition-colors">
+                    <ArrowLeft className="w-4 h-4 mr-1.5" />
+                    Dashboard
                 </Link>
+            </div>
 
-                {/* Header Section */}
-                <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6 mb-6">
-                    <div className="flex justify-between items-start">
+            <div className="px-6 py-5 space-y-4">
+
+                {/* ── Header card ───────────────────────────────────────── */}
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    {/* Title bar */}
+                    <div className="px-6 pt-5 pb-4 flex items-start justify-between gap-4 border-b border-slate-100">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-900">{stock.nse_symbol}</h1>
-                            <p className="text-gray-500 mt-1 text-lg">{stock.name}</p>
-                            <div className="flex gap-4 mt-4 text-sm text-gray-600">
-                                {stock.market_cap && (
-                                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center font-medium">
-                                        <span className="mr-1">M.Cap:</span>
-                                        ₹{Math.round(Number(stock.market_cap) / 10000000).toLocaleString('en-IN')} Cr
+                            <div className="flex items-center gap-3 flex-wrap">
+                                <h1 className="text-3xl font-bold text-slate-900 tracking-tight">{stock.name}</h1>
+                                <div className="flex items-baseline gap-2">
+                                    <span className="text-2xl font-bold text-slate-800">
+                                        {latest ? `₹${latest.close_price.toFixed(2)}` : '—'}
+                                    </span>
+                                    {dailyChange != null && (
+                                        <span className={`inline-flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
+                                            isUp ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'
+                                        }`}>
+                                            <span className={`w-1.5 h-1.5 rounded-full ${isUp ? 'bg-emerald-500' : 'bg-red-500'}`} />
+                                            {isUp ? '+' : ''}{dailyChange.toFixed(2)}%
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                            <p className="text-xs text-slate-400 mt-1">
+                                {latest ? new Date(latest.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) + ' · close price' : ''}
+                            </p>
+                            {/* NSE / BSE badges */}
+                            <div className="flex items-center gap-3 mt-2.5">
+                                <span className="text-xs text-slate-500 border border-slate-200 px-2 py-0.5 rounded">
+                                    NSE: <span className="font-semibold text-slate-700">{stock.nse_symbol}</span>
+                                </span>
+                                {stock.bse_symbol && (
+                                    <span className="text-xs text-slate-500 border border-slate-200 px-2 py-0.5 rounded">
+                                        BSE: <span className="font-semibold text-slate-700">{stock.bse_symbol}</span>
                                     </span>
                                 )}
-                                {stock.sector && (
-                                    <span className="bg-gray-100 px-3 py-1 rounded-full">
-                                        Sector: {stock.sector}
+                                {tags.map((tag) => (
+                                    <span key={tag} className="text-xs bg-indigo-50 text-indigo-600 border border-indigo-100 px-2 py-0.5 rounded font-medium">
+                                        {tag}
                                     </span>
-                                )}
-                                {stock.subsector && (
-                                    <span className="bg-gray-100 px-3 py-1 rounded-full">
-                                        Industry: {stock.subsector}
-                                    </span>
-                                )}
+                                ))}
                             </div>
                         </div>
-                        <div className="text-right">
-                            <p className="text-4xl font-bold text-gray-900">
-                                {latest ? `₹${latest.close_price?.toFixed(2)}` : '-'}
-                            </p>
-                            <p className="text-sm text-gray-500 mt-1">
-                                {latest ? new Date(latest.date).toLocaleDateString() : '-'}
-                            </p>
+                        {/* Sync button */}
+                        <div className="shrink-0 pt-1">
+                            <SyncButton symbol={sym} />
                         </div>
                     </div>
 
-                    {stock.long_business_summary && (
-                        <div className="mt-6 border-t border-gray-100 pt-4">
-                            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-2">Overview</h3>
-                            <p className="text-gray-600 leading-relaxed text-sm">
-                                {stock.long_business_summary}
-                            </p>
+                    {/* Metrics + description */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-100">
+                        {/* Col 1: price metrics */}
+                        <div className="px-6 py-4">
+                            <MetricRow label="Market Cap"     value={fmtCr(stock.market_cap)} />
+                            <MetricRow label="Current Price"  value={latest ? `₹${latest.close_price.toFixed(2)}` : '—'} />
+                            <MetricRow label="52W High / Low" value={w52High && w52Low ? `₹${fmtNum(w52High, 2)} / ₹${fmtNum(w52Low, 2)}` : '—'} />
+                            <MetricRow label="All Time High"  value={ath ? `₹${fmtNum(ath, 2)}` : '—'} />
+                        </div>
+                        {/* Col 2: sector classification */}
+                        <div className="px-6 py-4">
+                            <MetricRow label="Sector"       value={stock.sector    || '—'} />
+                            <MetricRow label="Industry"     value={stock.subsector1 || '—'} />
+                            <MetricRow label="Group"        value={stock.subsector2 || '—'} />
+                            <MetricRow label="Sub-group"    value={stock.subsector3 || '—'} />
+                        </div>
+                        {/* Col 3: scores + about */}
+                        <div className="px-6 py-4 flex flex-col gap-3">
+                            {/* Score cards row */}
+                            <div className="grid grid-cols-3 gap-2">
+                                {perf?.momentum_score != null && (
+                                    <div className={`flex flex-col items-center px-2 py-2.5 rounded-lg border text-center ${
+                                        perf.momentum_score >= 2
+                                            ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                                            : perf.momentum_score >= 1
+                                                ? 'bg-blue-50 border-blue-200 text-blue-700'
+                                                : 'bg-slate-50 border-slate-200 text-slate-500'
+                                    }`}>
+                                        <TrendingUp className="w-3.5 h-3.5 mb-1 opacity-70" />
+                                        <p className="text-[10px] font-semibold uppercase tracking-wide opacity-70 leading-none mb-1">Momentum</p>
+                                        <p className="text-lg font-bold leading-none">{perf.momentum_score.toFixed(2)}</p>
+                                    </div>
+                                )}
+                                {perf?.simple_momentum_score != null && (
+                                    <div className={`flex flex-col items-center px-2 py-2.5 rounded-lg border text-center ${
+                                        perf.simple_momentum_score >= 2
+                                            ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                                            : perf.simple_momentum_score >= 1
+                                                ? 'bg-blue-50 border-blue-200 text-blue-700'
+                                                : 'bg-slate-50 border-slate-200 text-slate-500'
+                                    }`}>
+                                        <TrendingUp className="w-3.5 h-3.5 mb-1 opacity-70" />
+                                        <p className="text-[10px] font-semibold uppercase tracking-wide opacity-70 leading-none mb-1">Simple Mom.</p>
+                                        <p className="text-lg font-bold leading-none">{perf.simple_momentum_score.toFixed(2)}</p>
+                                    </div>
+                                )}
+                                {perf?.stage2_rs_rank != null && (
+                                    <div className={`flex flex-col items-center px-2 py-2.5 rounded-lg border text-center ${
+                                        perf.stage2_rs_rank >= 80
+                                            ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                                            : perf.stage2_rs_rank >= 50
+                                                ? 'bg-blue-50 border-blue-200 text-blue-700'
+                                                : 'bg-slate-50 border-slate-200 text-slate-500'
+                                    }`}>
+                                        <TrendingUp className="w-3.5 h-3.5 mb-1 opacity-70" />
+                                        <p className="text-[10px] font-semibold uppercase tracking-wide opacity-70 leading-none mb-1">Rel. Strength</p>
+                                        <p className="text-lg font-bold leading-none">{perf.stage2_rs_rank.toFixed(1)}</p>
+                                    </div>
+                                )}
+                            </div>
+                            {stock.long_business_summary && (
+                                <div>
+                                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">About</p>
+                                    <p className="text-xs text-slate-500 leading-relaxed line-clamp-4">
+                                        {stock.long_business_summary}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Performance strip — full width grid */}
+                    <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/50 grid grid-cols-7 gap-2">
+                        <PerfTab label="1W"  value={perf?.change_1w} />
+                        <PerfTab label="1M"  value={perf?.change_1m} />
+                        <PerfTab label="3M"  value={perf?.change_3m} />
+                        <PerfTab label="6M"  value={perf?.change_6m} />
+                        <PerfTab label="1Y"  value={perf?.change_1y} />
+                        <PerfTab label="3Y"  value={perf?.change_3y} />
+                        <PerfTab label="5Y"  value={perf?.change_5y} />
+                    </div>
+                </div>
+
+                {/* ── Tags card ─────────────────────────────────────────── */}
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Tags</p>
+                    <StockTags symbol={sym} initialTags={tags} />
+                </div>
+
+                {/* ── Chart card ────────────────────────────────────────── */}
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
+                    <StockChart data={chartData} />
+                </div>
+
+                {/* ── Quarterly Results ─────────────────────────────────── */}
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
+                    <div className="flex items-center justify-between mb-4">
+                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Quarterly Results</p>
+                        <span className="text-xs text-slate-400">Values in ₹ Cr</span>
+                    </div>
+                    {quarters.length === 0 ? (
+                        <p className="text-sm text-slate-400 italic py-4">
+                            No data yet — click <strong className="text-slate-600 font-semibold">Sync Now</strong> to fetch from Screener.in.
+                        </p>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-sm border-collapse">
+                                <thead>
+                                    <tr className="border-b-2 border-slate-200">
+                                        <th className="px-3 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Quarter</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide">Sales</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-medium text-slate-300">QoQ</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-medium text-slate-300">YoY</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide">EBITDA</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-medium text-slate-300">QoQ</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-medium text-slate-300">YoY</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide">Net Profit</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-medium text-slate-300">QoQ</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-medium text-slate-300">YoY</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide">EPS</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-medium text-slate-300">QoQ</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-medium text-slate-300">YoY</th>
+                                        <th className="px-3 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide">OPM%</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {quarters.map((q, i) => {
+                                        const prev4 = quarters[i + 4]
+                                        const prev1 = quarters[i + 1]
+                                        const isLatest = i === 0
+                                        return (
+                                            <tr
+                                                key={`${q.quarter}-${q.year}`}
+                                                className={`border-b border-slate-100 transition-colors ${
+                                                    isLatest
+                                                        ? 'bg-blue-50 hover:bg-blue-100/70'
+                                                        : 'hover:bg-slate-50'
+                                                }`}
+                                            >
+                                                <td className={`px-3 py-3 whitespace-nowrap ${isLatest ? 'font-bold text-slate-900' : 'text-slate-600'}`}>
+                                                    {isLatest && <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5 mb-0.5 align-middle" />}
+                                                    {q.quarter}
+                                                </td>
+                                                <td className={`px-3 py-3 text-right tabular-nums ${isLatest ? 'font-bold text-slate-900' : 'text-slate-700'}`}>{fmtNum(q.revenue)}</td>
+                                                <GrowthCell value={pct(q.revenue, prev1?.revenue)} />
+                                                <GrowthCell value={pct(q.revenue, prev4?.revenue)} />
+                                                <td className={`px-3 py-3 text-right tabular-nums ${isLatest ? 'font-bold text-slate-900' : 'text-slate-700'}`}>{fmtNum(q.ebitda)}</td>
+                                                <GrowthCell value={pct(q.ebitda, prev1?.ebitda)} />
+                                                <GrowthCell value={pct(q.ebitda, prev4?.ebitda)} />
+                                                <td className={`px-3 py-3 text-right tabular-nums ${isLatest ? 'font-bold text-slate-900' : 'text-slate-700'}`}>{fmtNum(q.net_profit)}</td>
+                                                <GrowthCell value={pct(q.net_profit, prev1?.net_profit)} />
+                                                <GrowthCell value={pct(q.net_profit, prev4?.net_profit)} />
+                                                <td className={`px-3 py-3 text-right tabular-nums ${isLatest ? 'font-bold text-slate-900' : 'text-slate-700'}`}>{fmtNum(q.eps, 2)}</td>
+                                                <GrowthCell value={pct(q.eps, prev1?.eps)} />
+                                                <GrowthCell value={pct(q.eps, prev4?.eps)} />
+                                                <td className={`px-3 py-3 text-right tabular-nums text-slate-500 ${isLatest ? 'font-bold' : ''}`}>
+                                                    {q.opm_percent != null ? `${q.opm_percent.toFixed(1)}%` : '—'}
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
                         </div>
                     )}
                 </div>
 
-                <div className="space-y-6">
-                    {/* Chart Section */}
-                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Price History</h2>
-                        <div className="h-[400px]">
-                            <StockChart data={chartData} />
-                        </div>
-                    </div>
-
-                    {/* Momentum History Chart */}
-                    {momentumChartData.length > 0 && (
-                        <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-                            <h2 className="text-lg font-semibold text-gray-900 mb-4">Momentum Score History</h2>
-                            <MomentumChart data={momentumChartData} />
-                        </div>
-                    )}
-
-                    {/* Performance Table */}
-                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Performance</h2>
-                        <div className="space-y-4">
-                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                                <span className="text-gray-500">1 Week</span>
-                                <PercentageChange value={perf?.change_1w} />
-                            </div>
-                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                                <span className="text-gray-500">1 Month</span>
-                                <PercentageChange value={perf?.change_1m} />
-                            </div>
-                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                                <span className="text-gray-500">3 Months</span>
-                                <PercentageChange value={perf?.change_3m} />
-                            </div>
-                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                                <span className="text-gray-500">6 Months</span>
-                                <PercentageChange value={perf?.change_6m} />
-                            </div>
-                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                                <span className="text-gray-500">1 Year</span>
-                                <PercentageChange value={perf?.change_1y} />
-                            </div>
-                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                                <span className="text-gray-500">3 Years</span>
-                                <PercentageChange value={perf?.change_3y} />
-                            </div>
-                            <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                                <span className="text-gray-500">5 Years</span>
-                                <PercentageChange value={perf?.change_5y} />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Momentum Score Card */}
-                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-2">Momentum Score</h2>
-                        <div className="flex items-end gap-2">
-                            <span className={`text-4xl font-bold ${(perf?.momentum_score || 0) >= 2 ? 'text-green-600' :
-                                (perf?.momentum_score || 0) >= 1 ? 'text-blue-600' : 'text-gray-600'
-                                }`}>
-                                {perf?.momentum_score ? perf.momentum_score.toFixed(2) : '-'}
-                            </span>
-                            <span className="text-sm text-gray-500 mb-1">/ 10.0</span>
-                        </div>
-                        <p className="text-xs text-gray-500 mt-2">
-                            Based on volatility-adjusted returns (3M, 6M, 1Y) relative to the market.
-                        </p>
-
-                        {/* Mini Calculation Details */}
-                        {perf?.volatility && (
-                            <div className="mt-4 pt-4 border-t border-gray-100 text-sm">
-                                <div className="flex justify-between py-1">
-                                    <span className="text-gray-500">Volatility (1Y)</span>
-                                    <span className="font-medium">{(perf.volatility * 100).toFixed(2)}%</span>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Momentum Calculation Details */}
-                    {perf?.mr_3m && (
-                        <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-                            <h2 className="text-lg font-semibold text-gray-900 mb-4">Momentum Calculation Breakdown</h2>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-sm text-left text-gray-600">
-                                    <thead className="bg-gray-50 text-gray-900 font-medium">
-                                        <tr>
-                                            <th className="px-4 py-2">Period</th>
-                                            <th className="px-4 py-2 text-right">Return</th>
-                                            <th className="px-4 py-2 text-right">Volatility (Ann.)</th>
-                                            <th className="px-4 py-2 text-right">Momentum Ratio</th>
-                                            <th className="px-4 py-2 text-right">Z-Score</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-100">
-                                        <tr>
-                                            <td className="px-4 py-2 font-medium">3 Months</td>
-                                            <td className="px-4 py-2 text-right">{perf.change_3m?.toFixed(2)}%</td>
-                                            <td className="px-4 py-2 text-right">{(perf.volatility! * 100).toFixed(2)}%</td>
-                                            <td className="px-4 py-2 text-right">{perf.mr_3m?.toFixed(2)}</td>
-                                            <td className="px-4 py-2 text-right">{perf.z_3m?.toFixed(2)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="px-4 py-2 font-medium">6 Months</td>
-                                            <td className="px-4 py-2 text-right">{perf.change_6m?.toFixed(2)}%</td>
-                                            <td className="px-4 py-2 text-right">{(perf.volatility! * 100).toFixed(2)}%</td>
-                                            <td className="px-4 py-2 text-right">{perf.mr_6m?.toFixed(2)}</td>
-                                            <td className="px-4 py-2 text-right">{perf.z_6m?.toFixed(2)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="px-4 py-2 font-medium">1 Year</td>
-                                            <td className="px-4 py-2 text-right">{perf.change_1y?.toFixed(2)}%</td>
-                                            <td className="px-4 py-2 text-right">{(perf.volatility! * 100).toFixed(2)}%</td>
-                                            <td className="px-4 py-2 text-right">{perf.mr_1y?.toFixed(2)}</td>
-                                            <td className="px-4 py-2 text-right">{perf.z_1y?.toFixed(2)}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* News Section */}
-                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Latest News</h2>
+                {/* ── Two-column: News + Strategies ─────────────────────── */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    {/* News */}
+                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
+                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Latest News</p>
                         {stock.news && stock.news.length > 0 ? (
-                            <div className="grid gap-4">
+                            <div className="divide-y divide-slate-100">
                                 {stock.news.map((item: NewsItem) => (
-                                    <div key={item.id} className="border-b border-gray-50 last:border-0 pb-4 last:pb-0">
-                                        <div className="flex justify-between items-start gap-4">
-                                            <div>
-                                                <h3 className="font-medium text-gray-900 mb-1">
+                                    <div key={item.id} className="py-3 first:pt-0 last:pb-0">
+                                        <div className="flex justify-between items-start gap-3">
+                                            <div className="min-w-0">
+                                                <h3 className="text-sm font-medium text-slate-800 leading-snug mb-0.5">
                                                     {item.url ? (
-                                                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 hover:underline">
+                                                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
                                                             {item.title}
                                                         </a>
-                                                    ) : (
-                                                        item.title
-                                                    )}
+                                                    ) : item.title}
                                                 </h3>
-                                                <p className="text-sm text-gray-500 line-clamp-2">{item.content}</p>
+                                                <p className="text-xs text-slate-400 line-clamp-1">{item.content}</p>
                                             </div>
-                                            <span className="text-xs text-gray-400 whitespace-nowrap">
-                                                {new Date(item.published_date).toLocaleDateString()}
+                                            <span className="text-xs text-slate-300 whitespace-nowrap shrink-0 pt-0.5">
+                                                {new Date(item.published_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                                             </span>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <p className="text-gray-500 text-sm italic">No recent news available for this stock.</p>
+                            <p className="text-sm text-slate-400 italic">No recent news available.</p>
                         )}
                     </div>
 
-                    {/* ATH Strategy History */}
-                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">ATH Strategy History</h2>
-                        {athTrades.length > 0 ? (
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-sm text-left">
-                                    <thead className="bg-gray-50 text-gray-900 font-medium">
-                                        <tr>
-                                            <th className="px-6 py-4">Entry Date</th>
-                                            <th className="px-6 py-4">Entry Price</th>
-                                            <th className="px-6 py-4">Exit Date</th>
-                                            <th className="px-6 py-4">Exit Price</th>
-                                            <th className="px-6 py-4 text-center">Status</th>
-                                            <th className="px-6 py-4 text-right">PnL</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-100">
-                                        {athTrades.map((trade: any, i: number) => (
-                                            <tr key={i} className="hover:bg-gray-50">
-                                                <td className="px-6 py-4 text-gray-900">{trade.entry_date}</td>
-                                                <td className="px-6 py-4 text-gray-900">₹{trade.entry_price}</td>
-                                                <td className="px-6 py-4 text-gray-900">{trade.exit_date || '-'}</td>
-                                                <td className="px-6 py-4 text-gray-900">{trade.exit_price ? `₹${trade.exit_price}` : '-'}</td>
-                                                <td className="px-6 py-4 text-center">
-                                                    <span className={`px-2 py-1 rounded text-xs font-medium ${trade.status === 'OPEN' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
-                                                        }`}>
-                                                        {trade.status}
-                                                    </span>
-                                                </td>
-                                                <td className={`px-6 py-4 text-right font-medium ${trade.pnl >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                                    {trade.pnl > 0 ? '+' : ''}{trade.pnl.toFixed(2)} ({trade.pnl_pct.toFixed(2)}%)
-                                                </td>
+                    {/* Strategy history stacked */}
+                    <div className="space-y-4">
+                        {/* ATH */}
+                        <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
+                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">ATH Strategy</p>
+                            {athTrades.length > 0 ? (
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-xs">
+                                        <thead className="text-slate-400 border-b border-slate-100">
+                                            <tr>
+                                                <th className="pb-2 text-left font-medium">Entry</th>
+                                                <th className="pb-2 text-right font-medium">Price</th>
+                                                <th className="pb-2 text-right font-medium">Exit</th>
+                                                <th className="pb-2 text-right font-medium">Price</th>
+                                                <th className="pb-2 text-right font-medium">PnL</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ) : (
-                            <p className="text-gray-500 text-sm italic">No trades found for this stock in ATH Strategy.</p>
-                        )}
-                    </div>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-50">
+                                            {athTrades.map((t: any, i: number) => (
+                                                <tr key={i} className="hover:bg-slate-50">
+                                                    <td className="py-2 text-slate-500">{t.entry_date}</td>
+                                                    <td className="py-2 text-right font-medium text-slate-700">₹{t.entry_price}</td>
+                                                    <td className="py-2 text-right text-slate-500">{t.exit_date || '—'}</td>
+                                                    <td className="py-2 text-right font-medium text-slate-700">{t.exit_price ? `₹${t.exit_price}` : '—'}</td>
+                                                    <td className={`py-2 text-right font-bold ${t.pnl >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+                                                        {t.pnl >= 0 ? '+' : ''}{t.pnl.toFixed(2)}%
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <p className="text-sm text-slate-400 italic">No trades in ATH Strategy.</p>
+                            )}
+                        </div>
 
-                    {/* Simple Momentum History */}
-                    <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Simple Momentum Strategy History</h2>
-                        {momentumTrades.length > 0 ? (
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-sm text-left">
-                                    <thead className="bg-gray-50 text-gray-900 font-medium">
-                                        <tr>
-                                            <th className="px-6 py-4">Month</th>
-                                            <th className="px-6 py-4">Momentum Score</th>
-                                            <th className="px-6 py-4 text-right">Monthly Return</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-100">
-                                        {momentumTrades.map((trade: any, i: number) => (
-                                            <tr key={i} className="hover:bg-gray-50">
-                                                <td className="px-6 py-4 text-gray-900">{trade.month}</td>
-                                                <td className="px-6 py-4 text-gray-900">{trade.score.toFixed(2)}</td>
-                                                <td className={`px-6 py-4 text-right font-medium ${trade.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                                    {trade.return > 0 ? '+' : ''}{trade.return.toFixed(2)}%
-                                                </td>
+                        {/* Simple Momentum */}
+                        <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
+                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Simple Momentum</p>
+                            {momentumTrades.length > 0 ? (
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-xs">
+                                        <thead className="text-slate-400 border-b border-slate-100">
+                                            <tr>
+                                                <th className="pb-2 text-left font-medium">Month</th>
+                                                <th className="pb-2 text-right font-medium">Score</th>
+                                                <th className="pb-2 text-right font-medium">Return</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ) : (
-                            <p className="text-gray-500 text-sm italic">This stock was never selected in Simple Momentum Strategy.</p>
-                        )}
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-50">
+                                            {momentumTrades.map((t: any, i: number) => (
+                                                <tr key={i} className="hover:bg-slate-50">
+                                                    <td className="py-2 text-slate-500">{t.month}</td>
+                                                    <td className="py-2 text-right font-medium text-slate-700">{t.score.toFixed(2)}</td>
+                                                    <td className={`py-2 text-right font-bold ${t.return >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+                                                        {t.return >= 0 ? '+' : ''}{t.return.toFixed(2)}%
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <p className="text-sm text-slate-400 italic">Not selected in Simple Momentum.</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
