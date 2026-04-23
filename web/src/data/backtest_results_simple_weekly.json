@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 106227.11,
-      "total_fees_paid": 2189.33,
+      "end_value": 105488.63,
+      "total_fees_paid": 2188.53,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 6.23,
-      "benchmark_return": -6.97,
-      "expectancy": 0.35,
-      "net_return_after_fees": 4.04
+      "total_return": 5.49,
+      "benchmark_return": -7.75,
+      "expectancy": 0.31,
+      "net_return_after_fees": 3.3
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": 0.73,
-      "calmar_ratio": 1.14,
-      "omega_ratio": 1.29,
-      "sortino_ratio": 1.19
+      "sharpe_ratio": 0.66,
+      "calmar_ratio": 1.0,
+      "omega_ratio": 1.26,
+      "sortino_ratio": 1.08
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 57.14,
       "best_trade": 7.51,
       "worst_trade": -8.0,
-      "avg_winning_trade": 2.68,
+      "avg_winning_trade": 2.62,
       "avg_losing_trade": -2.77,
-      "profit_factor": 1.29
+      "profit_factor": 1.26
     }
   },
   "backtest_results": [
@@ -16716,42 +16716,42 @@
   "current_performance": [
     {
       "week": "2026-04-24",
-      "portfolio_return": 2.13,
-      "benchmark_return": 0.1,
+      "portfolio_return": 1.42,
+      "benchmark_return": -0.74,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 9.48,
+          "return": 9.66,
           "score": 7.66
         },
         {
           "symbol": "MTARTECH",
-          "return": 8.68,
-          "score": 4.8
+          "return": 10.08,
+          "score": 4.81
         },
         {
           "symbol": "NATIONALUM",
-          "return": -0.64,
+          "return": 0.11,
           "score": 4.11
         },
         {
           "symbol": "PFOCUS",
-          "return": -3.64,
+          "return": -6.1,
           "score": 3.56
         },
         {
           "symbol": "VEDL",
-          "return": -3.87,
-          "score": 3.33
+          "return": -6.59,
+          "score": 3.34
         },
         {
           "symbol": "BAJAJCON",
-          "return": -0.1,
+          "return": -1.28,
           "score": 3.1
         },
         {
           "symbol": "PRECWIRE",
-          "return": 4.97,
+          "return": 4.07,
           "score": 3.06
         }
       ]
