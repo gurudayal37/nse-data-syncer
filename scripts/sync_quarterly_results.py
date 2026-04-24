@@ -157,11 +157,19 @@ def _match_row(label: str):
 
 def scrape_quarterly_results(session: requests.Session, symbol: str):
     """Returns list of dicts, one per quarter (newest first from Screener)."""
-    url = f"{BASE_URL}/company/{symbol}/consolidated/"
-    resp = session.get(url, timeout=20)
-    if resp.status_code == 404:
-        url = f"{BASE_URL}/company/{symbol}/"
-        resp = session.get(url, timeout=20)
+    urls_to_try = [
+        f"{BASE_URL}/company/{symbol}/consolidated/",
+        f"{BASE_URL}/company/{symbol}/",
+    ]
+    resp = None
+    for url in urls_to_try:
+        r = session.get(url, timeout=20)
+        if r.status_code == 200:
+            resp = r
+            logger.info(f"Fetched page: {url}")
+            break
+    if resp is None:
+        raise RuntimeError(f"Could not fetch page for {symbol} (tried consolidated + standalone)")
     resp.raise_for_status()
 
     soup = BeautifulSoup(resp.text, 'html.parser')
@@ -174,22 +182,38 @@ def scrape_quarterly_results(session: requests.Session, symbol: str):
     if not table:
         raise RuntimeError(f"No table in #quarters section for {symbol}")
 
-    # Parse column headers (quarter strings)
+    # Parse column headers — try thead>th, then thead>td, then first tbody row
+    quarter_cols = []
     thead = table.find('thead')
-    if not thead:
-        raise RuntimeError("No thead in quarterly results table")
+    if thead:
+        cells = thead.find_all(['th', 'td'])
+        if cells:
+            quarter_cols = [c.get_text(strip=True) for c in cells][1:]
 
-    col_headers = [th.get_text(strip=True) for th in thead.find_all('th')]
-    # col_headers[0] is the row-label column; the rest are quarters
-    quarter_cols = col_headers[1:]
     if not quarter_cols:
+        # Fallback: first <tr> anywhere in the table
+        first_row = table.find('tr')
+        if first_row:
+            cells = first_row.find_all(['th', 'td'])
+            quarter_cols = [c.get_text(strip=True) for c in cells][1:]
+
+    if not quarter_cols:
+        # Last resort: dump raw HTML to help debug future failures
+        logger.debug("Table HTML: %s", table.prettify()[:2000])
         raise RuntimeError("No quarter columns found in table")
 
     # Parse body rows into {field: [val_q0, val_q1, ...]}
     field_values: dict[str, list] = {}
     tbody = table.find('tbody')
     if tbody:
-        for tr in tbody.find_all('tr'):
+        all_rows = tbody.find_all('tr')
+        # If we fell back to reading headers from the first tbody row, skip it
+        first_row_is_header = bool(
+            tbody.find('tr') and
+            tbody.find('tr').find('th')
+        )
+        data_rows = all_rows[1:] if first_row_is_header else all_rows
+        for tr in data_rows:
             cells = tr.find_all('td')
             if not cells:
                 continue
