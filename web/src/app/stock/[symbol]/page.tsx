@@ -446,8 +446,8 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                                                     <td className="py-2 text-right font-medium text-slate-700">₹{t.entry_price}</td>
                                                     <td className="py-2 text-right text-slate-500">{t.exit_date || '—'}</td>
                                                     <td className="py-2 text-right font-medium text-slate-700">{t.exit_price ? `₹${t.exit_price}` : '—'}</td>
-                                                    <td className={`py-2 text-right font-bold ${t.pnl >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
-                                                        {t.pnl >= 0 ? '+' : ''}{t.pnl.toFixed(2)}%
+                                                    <td className={`py-2 text-right font-bold ${t.pnl_pct >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+                                                        {t.pnl_pct >= 0 ? '+' : ''}{Number(t.pnl_pct).toFixed(2)}%
                                                     </td>
                                                 </tr>
                                             ))}
