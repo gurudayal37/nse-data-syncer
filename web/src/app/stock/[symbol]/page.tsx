@@ -2,14 +2,57 @@ import prisma from '@/lib/prisma'
 import StockChart from '@/components/StockChart'
 import SyncButton from '@/components/SyncButton'
 import StockTags from '@/components/StockTags'
+import StockNotes from '@/components/StockNotes'
 import Link from 'next/link'
 import { ArrowLeft, TrendingUp } from 'lucide-react'
 import { notFound } from 'next/navigation'
-import type { NewsItem } from '@/types/stock'
 import athData from '@/data/backtest_results_ath.json'
 import simpleData from '@/data/backtest_results_simple.json'
 
 export const dynamic = 'force-dynamic'
+
+// ─── Google News RSS ─────────────────────────────────────────────────────────
+
+interface LiveNewsItem {
+  title: string
+  url: string
+  source: string
+  pubDate: string
+}
+
+async function fetchGoogleNews(companyName: string, symbol: string): Promise<LiveNewsItem[]> {
+  const query = encodeURIComponent(`${companyName} ${symbol} NSE stock`)
+  const rssUrl = `https://news.google.com/rss/search?q=${query}&hl=en-IN&gl=IN&ceid=IN:en`
+  try {
+    const res = await fetch(rssUrl, {
+      next: { revalidate: 3600 },
+      headers: { 'User-Agent': 'Mozilla/5.0' },
+    })
+    if (!res.ok) return []
+    const xml = await res.text()
+
+    const items: LiveNewsItem[] = []
+    const itemMatches = xml.matchAll(/<item>([\s\S]*?)<\/item>/g)
+    for (const match of itemMatches) {
+      const block = match[1]
+      // Title: try CDATA first, then plain text (strip trailing " - Source" suffix)
+      const titleRaw = block.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/)?.[1]
+                    ?? block.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? ''
+      // Link: Google News redirect URL is in <link> after a newline (it's not a self-closing tag)
+      const link    = block.match(/<link>([^<]+)<\/link>/)?.[1]
+                   ?? block.match(/<guid[^>]*>([^<]+)<\/guid>/)?.[1] ?? ''
+      const pubDate = block.match(/<pubDate>([^<]+)<\/pubDate>/)?.[1] ?? ''
+      const source  = block.match(/<source[^>]*>([^<]+)<\/source>/)?.[1] ?? ''
+      // Decode XML entities in title
+      const title = titleRaw.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#39;/g, "'").replace(/&quot;/g, '"').trim()
+      if (title && link) items.push({ title, url: link.trim(), source: source.trim(), pubDate })
+      if (items.length >= 5) break
+    }
+    return items
+  } catch {
+    return []
+  }
+}
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -86,7 +129,6 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         include: {
             daily_prices: { orderBy: { date: 'asc' } },
             stock_performance: true,
-            news: { orderBy: { published_date: 'desc' }, take: 8 },
         },
     })
     if (!stock) notFound()
@@ -97,12 +139,25 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         volume: Number(p.volume || 0),
     }))
 
-    // Quarterly results
-    const qRaw = await prisma.quarterly_results.findMany({
-        where: { stock_id: stock.id },
-        orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }],
-        take: 8,
-    })
+    // Fetch quarterly results, tags, notes, and live news in parallel
+    const [qRaw, tagRows, noteRows, liveNews] = await Promise.all([
+        prisma.quarterly_results.findMany({
+            where: { stock_id: stock.id },
+            orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }],
+            take: 8,
+        }),
+        prisma.stock_tags.findMany({
+            where: { stock_id: stock.id },
+            orderBy: { created_at: 'asc' },
+        }),
+        prisma.stock_notes.findMany({
+            where: { stock_id: stock.id },
+            orderBy: { created_at: 'desc' },
+            select: { id: true, note: true, created_at: true },
+        }),
+        fetchGoogleNews(stock.name, sym),
+    ])
+
     const quarters = qRaw.map((r) => ({
         quarter: r.quarter,
         year: r.year,
@@ -115,11 +170,8 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         eps: r.eps,
     }))
 
-    const tagRows = await prisma.stock_tags.findMany({
-        where: { stock_id: stock.id },
-        orderBy: { created_at: 'asc' },
-    })
     const tags = tagRows.map((r) => r.tag)
+    const notes = noteRows.map((r) => ({ ...r, created_at: r.created_at.toISOString() }))
 
     const latest = stock.daily_prices.at(-1)
     const prev   = stock.daily_prices.at(-2)
@@ -390,35 +442,46 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                     )}
                 </div>
 
+                {/* ── Notes card ────────────────────────────────────────── */}
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Research Notes</p>
+                    <StockNotes symbol={sym} initialNotes={notes} />
+                </div>
+
                 {/* ── Two-column: News + Strategies ─────────────────────── */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    {/* News */}
+                    {/* Live News */}
                     <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
-                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Latest News</p>
-                        {stock.news && stock.news.length > 0 ? (
+                        <div className="flex items-center justify-between mb-4">
+                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Latest News</p>
+                            <span className="text-[10px] text-slate-300">via Google News</span>
+                        </div>
+                        {liveNews.length > 0 ? (
                             <div className="divide-y divide-slate-100">
-                                {stock.news.map((item: NewsItem) => (
-                                    <div key={item.id} className="py-3 first:pt-0 last:pb-0">
+                                {liveNews.map((item, i) => (
+                                    <div key={i} className="py-3 first:pt-0 last:pb-0">
                                         <div className="flex justify-between items-start gap-3">
                                             <div className="min-w-0">
                                                 <h3 className="text-sm font-medium text-slate-800 leading-snug mb-0.5">
-                                                    {item.url ? (
-                                                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
-                                                            {item.title}
-                                                        </a>
-                                                    ) : item.title}
+                                                    <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
+                                                        {item.title}
+                                                    </a>
                                                 </h3>
-                                                <p className="text-xs text-slate-400 line-clamp-1">{item.content}</p>
+                                                {item.source && (
+                                                    <p className="text-xs text-slate-400">{item.source}</p>
+                                                )}
                                             </div>
-                                            <span className="text-xs text-slate-300 whitespace-nowrap shrink-0 pt-0.5">
-                                                {new Date(item.published_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
-                                            </span>
+                                            {item.pubDate && (
+                                                <span className="text-xs text-slate-300 whitespace-nowrap shrink-0 pt-0.5">
+                                                    {new Date(item.pubDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <p className="text-sm text-slate-400 italic">No recent news available.</p>
+                            <p className="text-sm text-slate-400 italic">No recent news found.</p>
                         )}
                     </div>
 

@@ -189,6 +189,16 @@ model stock_tags {
   @@index([tag], map: "ix_stock_tags_tag")
 }
 
+model stock_notes {
+  id         Int      @id @default(autoincrement())
+  stock_id   Int
+  note       String   @db.Text
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  stocks     stocks   @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([stock_id], map: "ix_stock_notes_stock_id")
+}
+
 model stocks {
   id                    Int                     @id @default(autoincrement())
   name                  String                  @db.VarChar(255)
@@ -227,6 +237,7 @@ model stocks {
   shareholding_patterns shareholding_patterns[]
   stock_performance     stock_performance?
   stock_tags            stock_tags[]
+  stock_notes           stock_notes[]
   sync_tracker          sync_tracker[]
 
   @@index([id], map: "ix_stocks_id")
