@@ -35,20 +35,22 @@ async function fetchGoogleNews(companyName: string, symbol: string): Promise<Liv
     const itemMatches = xml.matchAll(/<item>([\s\S]*?)<\/item>/g)
     for (const match of itemMatches) {
       const block = match[1]
-      // Title: try CDATA first, then plain text (strip trailing " - Source" suffix)
       const titleRaw = block.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/)?.[1]
                     ?? block.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? ''
-      // Link: Google News redirect URL is in <link> after a newline (it's not a self-closing tag)
       const link    = block.match(/<link>([^<]+)<\/link>/)?.[1]
                    ?? block.match(/<guid[^>]*>([^<]+)<\/guid>/)?.[1] ?? ''
       const pubDate = block.match(/<pubDate>([^<]+)<\/pubDate>/)?.[1] ?? ''
       const source  = block.match(/<source[^>]*>([^<]+)<\/source>/)?.[1] ?? ''
-      // Decode XML entities in title
       const title = titleRaw.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#39;/g, "'").replace(/&quot;/g, '"').trim()
       if (title && link) items.push({ title, url: link.trim(), source: source.trim(), pubDate })
-      if (items.length >= 5) break
     }
-    return items
+    // Sort newest first, then take top 5
+    items.sort((a, b) => {
+      const da = a.pubDate ? new Date(a.pubDate).getTime() : 0
+      const db = b.pubDate ? new Date(b.pubDate).getTime() : 0
+      return db - da
+    })
+    return items.slice(0, 5)
   } catch {
     return []
   }
