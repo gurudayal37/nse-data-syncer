@@ -3,6 +3,7 @@ import StockChart from '@/components/StockChart'
 import SyncButton from '@/components/SyncButton'
 import StockTags from '@/components/StockTags'
 import StockNotes from '@/components/StockNotes'
+import StockAbout from '@/components/StockAbout'
 import Link from 'next/link'
 import { ArrowLeft, TrendingUp } from 'lucide-react'
 import { notFound } from 'next/navigation'
@@ -337,14 +338,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                                     </div>
                                 )}
                             </div>
-                            {stock.long_business_summary && (
-                                <div>
-                                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">About</p>
-                                    <p className="text-xs text-slate-500 leading-relaxed line-clamp-4">
-                                        {stock.long_business_summary}
-                                    </p>
-                                </div>
-                            )}
+                            <StockAbout symbol={sym} initialAbout={stock.long_business_summary ?? null} />
                         </div>
                     </div>
 
