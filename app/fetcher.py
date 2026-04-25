@@ -22,11 +22,11 @@ def fetch_stock_data(symbol, start_date=None):
         if start_date:
             # yfinance start is inclusive, but we want data AFTER the last synced date.
             # So if we have a last synced date, we should ask for start = last_synced + 1 day.
-            # However, the caller will handle the logic of "next day". 
+            # However, the caller will handle the logic of "next day".
             # Here we strictly respect the passed start_date.
-            df = ticker.history(start=start_date, auto_adjust=False)
+            df = ticker.history(start=start_date, auto_adjust=True)
         else:
-            df = ticker.history(period="max", auto_adjust=False)
+            df = ticker.history(period="max", auto_adjust=True)
             
         if df.empty:
             return pd.DataFrame()
@@ -66,9 +66,9 @@ def fetch_batch_data(symbols, start_date=None):
         # threads=True enables parallel downloads
         # If start_date is None, use period="max"
         kwargs = {
-            "group_by": 'ticker', 
-            "auto_adjust": False, 
-            "threads": True, 
+            "group_by": 'ticker',
+            "auto_adjust": True,
+            "threads": True,
             "progress": False
         }
         
