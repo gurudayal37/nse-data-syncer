@@ -24,15 +24,23 @@ export default function StockNotes({
 }) {
   const [notes, setNotes] = useState<Note[]>(initialNotes)
   const [input, setInput] = useState('')
-  const [busy, setBusy] = useState(false)
+  const [saving, setSaving] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const apiUrl = `/api/stock/${encodeURIComponent(symbol)}/notes`
 
   const addNote = async () => {
     const trimmed = input.trim()
-    if (!trimmed || busy) return
-    setBusy(true)
+    if (!trimmed || saving) return
+
+    // Optimistic: add immediately with a temp id
+    const tempId = -Date.now()
+    const tempNote: Note = { id: tempId, note: trimmed, created_at: new Date().toISOString() }
+    setNotes((prev) => [tempNote, ...prev])
+    setInput('')
+    if (textareaRef.current) textareaRef.current.style.height = 'auto'
+
+    setSaving(true)
     try {
       const res = await fetch(apiUrl, {
         method: 'POST',
@@ -41,29 +49,29 @@ export default function StockNotes({
       })
       const data = await res.json()
       if (data.note) {
-        setNotes((prev) => [data.note, ...prev])
-        setInput('')
-        if (textareaRef.current) {
-          textareaRef.current.style.height = 'auto'
-        }
+        // Replace temp entry with real one from server
+        setNotes((prev) => prev.map((n) => (n.id === tempId ? data.note : n)))
       }
+    } catch {
+      // Rollback on error
+      setNotes((prev) => prev.filter((n) => n.id !== tempId))
+      setInput(trimmed)
     } finally {
-      setBusy(false)
+      setSaving(false)
     }
   }
 
   const deleteNote = async (id: number) => {
-    setBusy(true)
+    // Optimistic: remove immediately
+    setNotes((prev) => prev.filter((n) => n.id !== id))
     try {
-      const res = await fetch(apiUrl, {
+      await fetch(apiUrl, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id }),
       })
-      const data = await res.json()
-      if (data.notes) setNotes(data.notes)
-    } finally {
-      setBusy(false)
+    } catch {
+      // On failure just let it be — next page load will restore from DB
     }
   }
 
@@ -83,7 +91,6 @@ export default function StockNotes({
 
   return (
     <div className="space-y-2">
-      {/* Input row */}
       <div className="flex gap-2 items-start">
         <textarea
           ref={textareaRef}
@@ -91,13 +98,12 @@ export default function StockNotes({
           onChange={(e) => { setInput(e.target.value); autoResize() }}
           onKeyDown={onKey}
           placeholder="Add a note… (⌘↵ to save)"
-          disabled={busy}
           rows={1}
-          className="flex-1 px-2.5 py-1.5 text-xs text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent disabled:opacity-50 overflow-hidden leading-relaxed"
+          className="flex-1 px-2.5 py-1.5 text-xs text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent overflow-hidden leading-relaxed"
         />
         <button
           onClick={addNote}
-          disabled={busy || !input.trim()}
+          disabled={!input.trim()}
           className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-white bg-amber-500 hover:bg-amber-600 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-colors"
         >
           <StickyNote className="w-3 h-3" />
@@ -105,14 +111,10 @@ export default function StockNotes({
         </button>
       </div>
 
-      {/* Notes list — scrollable, max 3 visible */}
       {notes.length > 0 && (
         <div className="space-y-1.5 max-h-36 overflow-y-auto pr-0.5">
           {notes.map((n) => (
-            <div
-              key={n.id}
-              className="group relative bg-amber-50 border border-amber-100 rounded-lg px-3 py-2"
-            >
+            <div key={n.id} className="group relative bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
                   <p className="text-[10px] text-amber-500 font-medium mb-0.5">{fmtDate(n.created_at)}</p>
@@ -120,8 +122,7 @@ export default function StockNotes({
                 </div>
                 <button
                   onClick={() => deleteNote(n.id)}
-                  disabled={busy}
-                  className="shrink-0 text-amber-300 hover:text-red-500 disabled:opacity-40 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5"
+                  className="shrink-0 text-amber-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5"
                   aria-label="Delete note"
                 >
                   <X className="w-3 h-3" />
@@ -131,10 +132,7 @@ export default function StockNotes({
           ))}
         </div>
       )}
-
-      {notes.length === 0 && (
-        <p className="text-xs text-gray-400 italic">No notes yet.</p>
-      )}
+      {notes.length === 0 && <p className="text-xs text-gray-400 italic">No notes yet.</p>}
     </div>
   )
 }

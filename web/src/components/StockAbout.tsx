@@ -28,6 +28,11 @@ export default function StockAbout({
   const cancel = () => setEditing(false)
 
   const save = async () => {
+    const prev = about
+    // Optimistic: apply immediately
+    setAbout(draft.trim())
+    setEditing(false)
+
     setBusy(true)
     try {
       await fetch(`/api/stock/${encodeURIComponent(symbol)}/about`, {
@@ -35,8 +40,9 @@ export default function StockAbout({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ about: draft }),
       })
-      setAbout(draft.trim())
-      setEditing(false)
+    } catch {
+      // Rollback on network error
+      setAbout(prev)
     } finally {
       setBusy(false)
     }

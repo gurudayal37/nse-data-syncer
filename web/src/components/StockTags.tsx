@@ -14,7 +14,6 @@ export default function StockTags({
 }) {
     const [tags, setTags] = useState<string[]>(initialTags)
     const [input, setInput] = useState('')
-    const [busy, setBusy] = useState(false)
     const [suggestions, setSuggestions] = useState<MasterTag[]>([])
     const [open, setOpen] = useState(false)
     const [highlighted, setHighlighted] = useState(-1)
@@ -48,8 +47,13 @@ export default function StockTags({
     }, [])
 
     const applyTag = async (tagName: string, createInMaster = false) => {
-        if (!tagName || busy || tags.includes(tagName)) return
-        setBusy(true)
+        if (!tagName || tags.includes(tagName)) return
+
+        // Optimistic: add chip immediately
+        setTags((prev) => [...prev, tagName])
+        setInput('')
+        setOpen(false)
+
         try {
             if (createInMaster) {
                 await fetch('/api/tags', {
@@ -58,30 +62,29 @@ export default function StockTags({
                     body: JSON.stringify({ name: tagName }),
                 })
             }
-            const res = await fetch(stockTagsUrl, {
+            await fetch(stockTagsUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ tag: tagName }),
             })
-            const data = await res.json()
-            if (data.tags) { setTags(data.tags); setInput(''); setOpen(false) }
-        } finally {
-            setBusy(false)
+        } catch {
+            // Rollback on error
+            setTags((prev) => prev.filter((t) => t !== tagName))
         }
     }
 
     const removeTag = async (tag: string) => {
-        setBusy(true)
+        // Optimistic: remove chip immediately
+        setTags((prev) => prev.filter((t) => t !== tag))
         try {
-            const res = await fetch(stockTagsUrl, {
+            await fetch(stockTagsUrl, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ tag }),
             })
-            const data = await res.json()
-            if (data.tags) setTags(data.tags)
-        } finally {
-            setBusy(false)
+        } catch {
+            // Rollback on error
+            setTags((prev) => [...prev, tag])
         }
     }
 
@@ -129,7 +132,7 @@ export default function StockTags({
                         {tag}
                         <button
                             onClick={() => removeTag(tag)}
-                            disabled={busy}
+                            disabled={false}
                             className="text-indigo-400 hover:text-indigo-700 disabled:opacity-40 transition-colors"
                             aria-label={`Remove tag ${tag}`}
                         >
@@ -148,7 +151,7 @@ export default function StockTags({
                         onKeyDown={onKey}
                         onFocus={() => { if (suggestions.length > 0) setOpen(true) }}
                         placeholder="Search or add a tag…"
-                        disabled={busy}
+                        disabled={false}
                         className="w-full px-2.5 py-1.5 pr-7 text-xs text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent disabled:opacity-50"
                     />
                     {input && (
