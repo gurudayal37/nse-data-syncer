@@ -355,7 +355,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                 </div>
 
                 {/* ── Tags + Notes (side by side) ───────────────────────── */}
-                <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
                     <div className="grid grid-cols-2 divide-x divide-slate-100">
                         <div className="px-5 py-4">
                             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2.5">Tags</p>
