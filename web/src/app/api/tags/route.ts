@@ -3,13 +3,18 @@ import prisma from '@/lib/prisma'
 
 // GET /api/tags?q=searchterm  — list master tags (optionally filtered)
 export async function GET(req: NextRequest) {
-  const q = req.nextUrl.searchParams.get('q') ?? ''
-  const tags = await prisma.tag_master.findMany({
-    where: q ? { name: { contains: q, mode: 'insensitive' } } : undefined,
-    orderBy: { name: 'asc' },
-    select: { id: true, name: true },
-  })
-  return NextResponse.json({ tags })
+  try {
+    const q = req.nextUrl.searchParams.get('q') ?? ''
+    const tags = await prisma.tag_master.findMany({
+      where: q ? { name: { contains: q, mode: 'insensitive' } } : undefined,
+      orderBy: { name: 'asc' },
+      select: { id: true, name: true },
+    })
+    return NextResponse.json({ tags })
+  } catch (e) {
+    console.error('[GET /api/tags]', e)
+    return NextResponse.json({ error: String(e) }, { status: 500 })
+  }
 }
 
 // POST /api/tags  — add a new tag to master list
