@@ -358,10 +358,18 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                     </div>
                 </div>
 
-                {/* ── Tags card ─────────────────────────────────────────── */}
-                <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Tags</p>
-                    <StockTags symbol={sym} initialTags={tags} />
+                {/* ── Tags + Notes (side by side) ───────────────────────── */}
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div className="grid grid-cols-2 divide-x divide-slate-100">
+                        <div className="px-5 py-4">
+                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2.5">Tags</p>
+                            <StockTags symbol={sym} initialTags={tags} />
+                        </div>
+                        <div className="px-5 py-4">
+                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2.5">Research Notes</p>
+                            <StockNotes symbol={sym} initialNotes={notes} />
+                        </div>
+                    </div>
                 </div>
 
                 {/* ── Chart card ────────────────────────────────────────── */}
@@ -440,12 +448,6 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                             </table>
                         </div>
                     )}
-                </div>
-
-                {/* ── Notes card ────────────────────────────────────────── */}
-                <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Research Notes</p>
-                    <StockNotes symbol={sym} initialNotes={notes} />
                 </div>
 
                 {/* ── Two-column: News + Strategies ─────────────────────── */}
