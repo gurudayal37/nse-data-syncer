@@ -101,9 +101,26 @@ def calculate_stage2_candidates():
             rs_rank_series = returns_series.rank(pct=True) * 100
             rs_ranks = rs_rank_series.to_dict()
 
-        # --- Step 2: Apply Trend Template to each stock ---
+        # --- Step 2: Save RS rank for ALL eligible stocks (>= 63 days of data) ---
+        # Do this before the Stage 2 loop so every stock gets an RS rank regardless
+        # of whether it passes the Trend Template criteria.
+        print(f"Saving RS ranks for {len(rs_ranks)} eligible stocks...")
+        session.execute(text("""
+            UPDATE stock_performance
+            SET is_stage2 = false,
+                stage2_rs_rank = NULL,
+                stage2_pct_from_52w_high = NULL,
+                stage2_pct_above_52w_low = NULL
+        """))
+        for stock_id, rs_rank in rs_ranks.items():
+            session.execute(text("""
+                UPDATE stock_performance
+                SET stage2_rs_rank = :rs_rank
+                WHERE stock_id = :stock_id
+            """), {'stock_id': int(stock_id), 'rs_rank': float(round(rs_rank, 2))})
+
+        # --- Step 3: Apply Trend Template to each stock ---
         grouped = master_df.groupby('stock_id')
-        stock_map = {s.id: s for s in stocks}
 
         stage2_candidates = []
         count = 0
@@ -183,35 +200,23 @@ def calculate_stage2_candidates():
 
             stage2_candidates.append({
                 'stock_id': stock_id,
-                'stage2_rs_rank': float(round(rs_rank, 2)),
                 'stage2_pct_from_52w_high': float(round(pct_from_52w_high, 2)),
                 'stage2_pct_above_52w_low': float(round(pct_above_52w_low, 2)),
             })
 
         print(f"Found {len(stage2_candidates)} Stage 2 candidates.")
 
-        # Reset all flags
-        session.execute(text("""
-            UPDATE stock_performance
-            SET is_stage2 = false,
-                stage2_rs_rank = NULL,
-                stage2_pct_from_52w_high = NULL,
-                stage2_pct_above_52w_low = NULL
-        """))
-
-        # Update candidates
+        # Mark Stage 2 candidates (RS rank already written above for all stocks)
         if stage2_candidates:
             for cand in stage2_candidates:
                 session.execute(text("""
                     UPDATE stock_performance
                     SET is_stage2 = true,
-                        stage2_rs_rank = :rs_rank,
                         stage2_pct_from_52w_high = :pct_high,
                         stage2_pct_above_52w_low = :pct_low,
                         updated_at = NOW()
                     WHERE stock_id = :stock_id
                 """), {
-                    'rs_rank': cand['stage2_rs_rank'],
                     'pct_high': cand['stage2_pct_from_52w_high'],
                     'pct_low': cand['stage2_pct_above_52w_low'],
                     'stock_id': cand['stock_id'],
