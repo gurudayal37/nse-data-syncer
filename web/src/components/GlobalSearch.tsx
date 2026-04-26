@@ -72,7 +72,7 @@ export default function GlobalSearch() {
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={onKey}
           onFocus={() => { if (results.length > 0) setOpen(true) }}
-          placeholder="Search stocks or ETFs… e.g. TCS, NIFTY, HDFC"
+          placeholder="Search for a company, stock or ETF…"
           className="flex-1 text-base text-slate-800 placeholder-slate-400 bg-transparent outline-none"
         />
         {loading && (
