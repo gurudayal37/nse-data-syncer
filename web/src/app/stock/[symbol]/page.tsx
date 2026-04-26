@@ -143,7 +143,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
     }))
 
     // Fetch quarterly results, tags, notes, and live news in parallel
-    const [qRaw, tagRows, noteRows, liveNews] = await Promise.all([
+    const [qRaw, tagRows, noteRows, liveNews, shareholdingRaw] = await Promise.all([
         prisma.quarterly_results.findMany({
             where: { stock_id: stock.id },
             orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }],
@@ -159,7 +159,32 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
             select: { id: true, note: true, created_at: true },
         }),
         fetchGoogleNews(stock.name, sym),
+        prisma.shareholding_patterns.findMany({
+            where: { stock_id: stock.id },
+            orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }],
+            take: 8,
+        }),
     ])
+
+    // Compute QoQ changes for shareholding
+    const shareholding = shareholdingRaw.map((r, i) => {
+        const prev = shareholdingRaw[i + 1]
+        const chg = (curr: number | null, p: number | null) =>
+            curr != null && p != null ? Number((curr - p).toFixed(2)) : null
+        return {
+            quarter: r.quarter,
+            year: r.year,
+            promoter: r.promoter_holding ? Number(r.promoter_holding) : null,
+            fii:      r.fii_holding      ? Number(r.fii_holding)      : null,
+            dii:      r.dii_holding      ? Number(r.dii_holding)      : null,
+            public:   r.public_holding   ? Number(r.public_holding)   : null,
+            govt:     r.government_holding ? Number(r.government_holding) : null,
+            promoter_chg: chg(r.promoter_holding ? Number(r.promoter_holding) : null, prev?.promoter_holding ? Number(prev.promoter_holding) : null),
+            fii_chg:      chg(r.fii_holding ? Number(r.fii_holding) : null, prev?.fii_holding ? Number(prev.fii_holding) : null),
+            dii_chg:      chg(r.dii_holding ? Number(r.dii_holding) : null, prev?.dii_holding ? Number(prev.dii_holding) : null),
+            public_chg:   chg(r.public_holding ? Number(r.public_holding) : null, prev?.public_holding ? Number(prev.public_holding) : null),
+        }
+    })
 
     const quarters = qRaw.map((r) => ({
         quarter: r.quarter,
@@ -445,6 +470,66 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                         </div>
                     )}
                 </div>
+
+                {/* ── Shareholding Pattern ──────────────────────────────── */}
+                {shareholding.length > 0 && (
+                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
+                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Shareholding Pattern</p>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-sm border-collapse">
+                                <thead>
+                                    <tr className="border-b-2 border-slate-200">
+                                        <th className="px-3 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Quarter</th>
+                                        {[
+                                            { key: 'promoter', label: 'Promoters' },
+                                            { key: 'fii',      label: 'FIIs' },
+                                            { key: 'dii',      label: 'DIIs' },
+                                            { key: 'public',   label: 'Public' },
+                                        ].map(({ key, label }) => (
+                                            <th key={key} className="px-3 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide whitespace-nowrap">
+                                                {label}
+                                            </th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {shareholding.map((s, i) => {
+                                        const isLatest = i === 0
+                                        const ChgBadge = ({ val }: { val: number | null }) => {
+                                            if (val == null || val === 0) return null
+                                            const pos = val > 0
+                                            return (
+                                                <span className={`ml-1 text-[10px] font-semibold ${pos ? 'text-emerald-600' : 'text-red-500'}`}>
+                                                    {pos ? '▲' : '▼'}{Math.abs(val).toFixed(2)}
+                                                </span>
+                                            )
+                                        }
+                                        return (
+                                            <tr key={`${s.quarter}-${s.year}`}
+                                                className={`border-b border-slate-100 transition-colors ${isLatest ? 'bg-blue-50 hover:bg-blue-100/70' : 'hover:bg-slate-50'}`}>
+                                                <td className={`px-3 py-2.5 whitespace-nowrap text-sm ${isLatest ? 'font-bold text-slate-900' : 'text-slate-600'}`}>
+                                                    {isLatest && <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5 mb-0.5 align-middle" />}
+                                                    {s.quarter}
+                                                </td>
+                                                {([
+                                                    { val: s.promoter, chg: s.promoter_chg },
+                                                    { val: s.fii,      chg: s.fii_chg },
+                                                    { val: s.dii,      chg: s.dii_chg },
+                                                    { val: s.public,   chg: s.public_chg },
+                                                ] as { val: number | null; chg: number | null }[]).map(({ val, chg }, ci) => (
+                                                    <td key={ci} className={`px-3 py-2.5 text-right tabular-nums ${isLatest ? 'font-bold text-slate-900' : 'text-slate-700'}`}>
+                                                        {val != null ? `${val.toFixed(2)}%` : '—'}
+                                                        <ChgBadge val={chg} />
+                                                    </td>
+                                                ))}
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
 
                 {/* ── Two-column: News + Strategies ─────────────────────── */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

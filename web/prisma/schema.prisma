@@ -161,12 +161,16 @@ model shareholding_patterns {
   dii_holding      Float?
   public_holding   Float?
   other_holding    Float?
+  government_holding Float?
+  num_shareholders Int?
   total_shares     Int?
   filing_date      DateTime? @db.Timestamp(6)
   created_at       DateTime? @default(now()) @db.Timestamptz(6)
   stocks           stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+  @@unique([stock_id, quarter, year], map: "uq_shareholding_stock_quarter_year")
   @@index([id], map: "ix_shareholding_patterns_id")
+  @@index([stock_id], map: "ix_shareholding_stock_id")
 }
 
 model tag_master {

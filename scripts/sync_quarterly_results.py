@@ -155,24 +155,23 @@ def _match_row(label: str):
     return None
 
 
-def scrape_quarterly_results(session: requests.Session, symbol: str):
-    """Returns list of dicts, one per quarter (newest first from Screener)."""
-    urls_to_try = [
-        f"{BASE_URL}/company/{symbol}/consolidated/",
-        f"{BASE_URL}/company/{symbol}/",
-    ]
-    resp = None
-    for url in urls_to_try:
+def fetch_company_page(session: requests.Session, symbol: str) -> BeautifulSoup:
+    """Fetch the Screener company page (consolidated first, then standalone)."""
+    for url in [f"{BASE_URL}/company/{symbol}/consolidated/", f"{BASE_URL}/company/{symbol}/"]:
         r = session.get(url, timeout=20)
         if r.status_code == 200:
-            resp = r
             logger.info(f"Fetched page: {url}")
-            break
-    if resp is None:
-        raise RuntimeError(f"Could not fetch page for {symbol} (tried consolidated + standalone)")
-    resp.raise_for_status()
+            return BeautifulSoup(r.text, 'html.parser')
+    raise RuntimeError(f"Could not fetch page for {symbol} (tried consolidated + standalone)")
 
-    soup = BeautifulSoup(resp.text, 'html.parser')
+
+def scrape_quarterly_results(session: requests.Session, symbol: str):
+    """Returns list of dicts, one per quarter (newest first from Screener)."""
+    soup = fetch_company_page(session, symbol)
+    return scrape_quarterly_results_from_soup(soup, symbol)
+
+
+def scrape_quarterly_results_from_soup(soup: BeautifulSoup, symbol: str):
 
     section = soup.find('section', {'id': 'quarters'})
     if not section:
@@ -266,30 +265,156 @@ def scrape_quarterly_results(session: requests.Session, symbol: str):
     return results
 
 
-def save_to_db(symbol: str, results: list) -> int:
+# ── Shareholding ─────────────────────────────────────────────────────────────
+
+_SHAREHOLDING_MAP = {
+    'promoter': 'promoter_holding',
+    'fii': 'fii_holding',
+    'dii': 'dii_holding',
+    'public': 'public_holding',
+    'government': 'government_holding',
+}
+
+def _match_shareholding_row(label: str):
+    norm = label.lower().strip().rstrip('+').strip()
+    for key, field in _SHAREHOLDING_MAP.items():
+        if key in norm:
+            return field
+    return None
+
+
+def scrape_shareholding(soup: BeautifulSoup) -> list:
+    """Parse #shareholding section from an already-fetched Screener page."""
+    section = soup.find('section', {'id': 'shareholding'})
+    if not section:
+        return []
+
+    table = section.find('table')
+    if not table:
+        return []
+
+    # Headers (quarter strings)
+    thead = table.find('thead')
+    if not thead:
+        return []
+    header_cells = thead.find_all(['th', 'td'])
+    quarter_cols = [c.get_text(strip=True) for c in header_cells][1:]
+    if not quarter_cols:
+        return []
+
+    # Parse rows
+    field_values: dict[str, list] = {}
+    num_shareholders: list = []
+    tbody = table.find('tbody')
+    if tbody:
+        for tr in tbody.find_all('tr'):
+            cells = tr.find_all(['td', 'th'])
+            if not cells:
+                continue
+            label = cells[0].get_text(strip=True)
+            vals = [cells[i].get_text(strip=True) if i < len(cells) else '' for i in range(1, len(quarter_cols) + 1)]
+            if 'no. of shareholders' in label.lower():
+                num_shareholders = vals
+            else:
+                field = _match_shareholding_row(label)
+                if field:
+                    field_values[field] = vals
+
+    results = []
+    for idx, col in enumerate(quarter_cols):
+        if not col:
+            continue
+        quarter_str, fy_year, qnum = _quarter_info(col)
+        rec: dict = {
+            'quarter': quarter_str,
+            'year': fy_year,
+            'quarter_number': qnum,
+        }
+        for field, vals in field_values.items():
+            if idx < len(vals):
+                rec[field] = _parse_number(vals[idx])
+        if idx < len(num_shareholders):
+            ns = _parse_number(num_shareholders[idx])
+            if ns is not None:
+                rec['num_shareholders'] = int(ns)
+        results.append(rec)
+
+    return results
+
+
+def save_shareholding_to_db(stock_id: int, results: list, conn) -> int:
+    cur = conn.cursor()
+    upserted = 0
+    for rec in results:
+        try:
+            cur.execute(
+                """
+                INSERT INTO shareholding_patterns
+                    (stock_id, quarter, year, quarter_number,
+                     promoter_holding, fii_holding, dii_holding,
+                     public_holding, government_holding, num_shareholders)
+                VALUES (%s,%s,%s,%s, %s,%s,%s,%s,%s,%s)
+                ON CONFLICT (stock_id, quarter, year) DO UPDATE SET
+                    promoter_holding   = EXCLUDED.promoter_holding,
+                    fii_holding        = EXCLUDED.fii_holding,
+                    dii_holding        = EXCLUDED.dii_holding,
+                    public_holding     = EXCLUDED.public_holding,
+                    government_holding = EXCLUDED.government_holding,
+                    num_shareholders   = EXCLUDED.num_shareholders
+                """,
+                (
+                    stock_id,
+                    rec.get('quarter'),
+                    rec.get('year'),
+                    rec.get('quarter_number'),
+                    rec.get('promoter_holding'),
+                    rec.get('fii_holding'),
+                    rec.get('dii_holding'),
+                    rec.get('public_holding'),
+                    rec.get('government_holding'),
+                    rec.get('num_shareholders'),
+                ),
+            )
+            upserted += 1
+        except Exception as e:
+            logger.warning(f"  Skipped shareholding {rec.get('quarter')}: {e}")
+            conn.rollback()
+            continue
+    return upserted
+
+
+def _open_db_conn():
     db_url = os.environ.get('DATABASE_URL')
     if not db_url:
         raise RuntimeError("DATABASE_URL not set")
-
     parsed = urlparse(db_url)
-    conn = psycopg2.connect(
-        host=parsed.hostname,
-        port=parsed.port or 5432,
+    return psycopg2.connect(
+        host=parsed.hostname, port=parsed.port or 5432,
         database=parsed.path.lstrip('/'),
-        user=parsed.username,
-        password=parsed.password,
+        user=parsed.username, password=parsed.password,
         sslmode='require',
     )
 
+
+def save_to_db(symbol: str, results: list) -> int:
+    conn = _open_db_conn()
     cur = conn.cursor()
     cur.execute("SELECT id FROM stocks WHERE nse_symbol = %s", (symbol,))
     row = cur.fetchone()
     if not row:
-        cur.close()
-        conn.close()
+        cur.close(); conn.close()
         raise RuntimeError(f"Stock '{symbol}' not found in database")
     stock_id = row[0]
 
+    upserted = _save_quarterly(stock_id, results, conn)
+    conn.commit()
+    cur.close()
+    conn.close()
+    return upserted
+
+
+def _save_quarterly(stock_id: int, results: list, conn) -> int:
+    cur = conn.cursor()
     upserted = 0
     for rec in results:
         try:
@@ -348,10 +473,6 @@ def save_to_db(symbol: str, results: list) -> int:
             logger.warning(f"  Skipped quarter {rec.get('quarter')}: {e}")
             conn.rollback()
             continue
-
-    conn.commit()
-    cur.close()
-    conn.close()
     return upserted
 
 
@@ -364,18 +485,34 @@ def main():
 
     try:
         session = login_to_screener()
-        results = scrape_quarterly_results(session, symbol)
-        logger.info(f"Scraped {len(results)} quarters for {symbol}")
 
-        saved = save_to_db(symbol, results)
-        logger.info(f"Saved/updated {saved} quarters in DB")
+        # Fetch page once, parse both sections
+        soup = fetch_company_page(session, symbol)
 
-        # Emit JSON for the API route to consume
+        quarterly = scrape_quarterly_results_from_soup(soup, symbol)
+        shareholding = scrape_shareholding(soup)
+        logger.info(f"Scraped {len(quarterly)} quarters, {len(shareholding)} shareholding rows for {symbol}")
+
+        conn = _open_db_conn()
+        cur = conn.cursor()
+        cur.execute("SELECT id FROM stocks WHERE nse_symbol = %s", (symbol,))
+        row = cur.fetchone()
+        if not row:
+            raise RuntimeError(f"Stock '{symbol}' not found in database")
+        stock_id = row[0]
+
+        saved_q = _save_quarterly(stock_id, quarterly, conn)
+        saved_s = save_shareholding_to_db(stock_id, shareholding, conn)
+        conn.commit(); conn.close()
+
+        logger.info(f"Saved {saved_q} quarters, {saved_s} shareholding rows")
+
         print(json.dumps({
             'success': True,
             'symbol': symbol,
-            'quarters_scraped': len(results),
-            'quarters_saved': saved,
+            'quarters_scraped': len(quarterly),
+            'quarters_saved': saved_q,
+            'shareholding_saved': saved_s,
         }))
 
     except Exception as exc:
