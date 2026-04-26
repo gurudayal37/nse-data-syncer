@@ -215,6 +215,108 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
     const w52High = last252.length ? Math.max(...last252.map((p: any) => p.high_price)) : null
     const w52Low  = last252.length ? Math.min(...last252.map((p: any) => p.low_price))  : null
 
+    // ── Stage 2 conditions ───────────────────────────────────────────────────
+    const prices = stock.daily_prices
+    const avgClose = (arr: typeof prices) =>
+        arr.length ? arr.reduce((s: number, p: any) => s + p.close_price, 0) / arr.length : null
+
+    const ma50      = prices.length >= 50  ? avgClose(prices.slice(-50))        : null
+    const ma150     = prices.length >= 150 ? avgClose(prices.slice(-150))       : null
+    const ma200     = prices.length >= 200 ? avgClose(prices.slice(-200))       : null
+    // 200 DMA from ~22 trading days ago to check if it's trending up
+    const ma200_1m  = prices.length >= 222 ? avgClose(prices.slice(-222, -22))  : null
+
+    const curPrice  = latest?.close_price ?? null
+
+    type CondResult = 'pass' | 'fail' | 'na'
+    const cond = (test: boolean | null, na: boolean): CondResult =>
+        na ? 'na' : test ? 'pass' : 'fail'
+
+    const stage2Conditions: { label: string; result: CondResult; detail: string }[] = [
+        {
+            label: 'Price > 150 DMA & 200 DMA',
+            result: cond(
+                curPrice != null && ma150 != null && ma200 != null
+                    ? curPrice > ma150 && curPrice > ma200 : false,
+                curPrice == null || ma150 == null || ma200 == null,
+            ),
+            detail: ma150 != null && ma200 != null
+                ? `150 DMA ₹${ma150.toFixed(0)} · 200 DMA ₹${ma200.toFixed(0)}`
+                : 'Insufficient history',
+        },
+        {
+            label: '150 DMA > 200 DMA',
+            result: cond(
+                ma150 != null && ma200 != null ? ma150 > ma200 : false,
+                ma150 == null || ma200 == null,
+            ),
+            detail: ma150 != null && ma200 != null
+                ? `₹${ma150.toFixed(0)} vs ₹${ma200.toFixed(0)}`
+                : 'Insufficient history',
+        },
+        {
+            label: '200 DMA trending up ≥ 1 month',
+            result: cond(
+                ma200 != null && ma200_1m != null ? ma200 > ma200_1m : false,
+                ma200 == null || ma200_1m == null,
+            ),
+            detail: ma200 != null && ma200_1m != null
+                ? `Now ₹${ma200.toFixed(0)} · 1M ago ₹${ma200_1m.toFixed(0)}`
+                : 'Insufficient history',
+        },
+        {
+            label: '50 DMA > 150 DMA & 200 DMA',
+            result: cond(
+                ma50 != null && ma150 != null && ma200 != null
+                    ? ma50 > ma150 && ma50 > ma200 : false,
+                ma50 == null || ma150 == null || ma200 == null,
+            ),
+            detail: ma50 != null ? `50 DMA ₹${ma50.toFixed(0)}` : 'Insufficient history',
+        },
+        {
+            label: 'Price > 50 DMA',
+            result: cond(
+                curPrice != null && ma50 != null ? curPrice > ma50 : false,
+                curPrice == null || ma50 == null,
+            ),
+            detail: ma50 != null ? `50 DMA ₹${ma50.toFixed(0)}` : 'Insufficient history',
+        },
+        {
+            label: 'Price ≥ 30% above 52-week low',
+            result: cond(
+                curPrice != null && w52Low != null ? curPrice >= w52Low * 1.3 : false,
+                curPrice == null || w52Low == null,
+            ),
+            detail: w52Low != null
+                ? `52W Low ₹${w52Low.toFixed(0)} · need ≥ ₹${(w52Low * 1.3).toFixed(0)}`
+                : 'No data',
+        },
+        {
+            label: 'Within 25% of 52-week high',
+            result: cond(
+                curPrice != null && w52High != null ? curPrice >= w52High * 0.75 : false,
+                curPrice == null || w52High == null,
+            ),
+            detail: w52High != null
+                ? `52W High ₹${w52High.toFixed(0)} · need ≥ ₹${(w52High * 0.75).toFixed(0)}`
+                : 'No data',
+        },
+        {
+            label: 'Relative Strength rank ≥ 70',
+            result: cond(
+                perf?.stage2_rs_rank != null ? perf.stage2_rs_rank >= 70 : false,
+                perf?.stage2_rs_rank == null,
+            ),
+            detail: perf?.stage2_rs_rank != null
+                ? `RS Rank: ${perf.stage2_rs_rank.toFixed(1)}`
+                : 'No RS data',
+        },
+    ]
+
+    const passCount = stage2Conditions.filter(c => c.result === 'pass').length
+    const naCount   = stage2Conditions.filter(c => c.result === 'na').length
+    const eligible  = stage2Conditions.length - naCount
+
     // Dates when 52W high/low were hit
     const w52HighEntry = w52High != null
         ? last252.slice().reverse().find((p: any) => p.high_price === w52High) : null
@@ -396,6 +498,58 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                 {/* ── Chart card ────────────────────────────────────────── */}
                 <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
                     <StockChart data={chartData} />
+                </div>
+
+                {/* ── Stage 2 Screening Criteria ───────────────────────── */}
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
+                    <div className="flex items-center justify-between mb-4">
+                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Stage 2 Screening Criteria</p>
+                        <div className="flex items-center gap-2">
+                            {naCount > 0 && (
+                                <span className="text-[10px] text-slate-400 font-medium">
+                                    {naCount} N/A (insufficient history)
+                                </span>
+                            )}
+                            <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${
+                                passCount === eligible
+                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                    : passCount >= eligible * 0.6
+                                        ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                        : 'bg-red-50 text-red-600 border-red-200'
+                            }`}>
+                                {passCount}/{eligible} pass
+                            </span>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                        {stage2Conditions.map((c) => (
+                            <div key={c.label} className={`flex items-start gap-2.5 rounded-lg px-3 py-2.5 border ${
+                                c.result === 'pass'
+                                    ? 'bg-emerald-50 border-emerald-100'
+                                    : c.result === 'fail'
+                                        ? 'bg-red-50 border-red-100'
+                                        : 'bg-slate-50 border-slate-100'
+                            }`}>
+                                <span className={`mt-0.5 shrink-0 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                                    c.result === 'pass'
+                                        ? 'bg-emerald-500 text-white'
+                                        : c.result === 'fail'
+                                            ? 'bg-red-400 text-white'
+                                            : 'bg-slate-300 text-white'
+                                }`}>
+                                    {c.result === 'pass' ? '✓' : c.result === 'fail' ? '✗' : '—'}
+                                </span>
+                                <div className="min-w-0">
+                                    <p className={`text-xs font-semibold leading-tight ${
+                                        c.result === 'pass' ? 'text-emerald-800'
+                                        : c.result === 'fail' ? 'text-red-700'
+                                        : 'text-slate-400'
+                                    }`}>{c.label}</p>
+                                    <p className="text-[10px] text-slate-400 mt-0.5 leading-tight">{c.detail}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 {/* ── Quarterly Results ─────────────────────────────────── */}
