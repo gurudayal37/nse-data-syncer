@@ -113,21 +113,6 @@ export default function HomePage() {
             <p className="text-xs text-slate-400 mt-2">Search 750+ NSE stocks and 300+ ETFs</p>
           </div>
 
-          {/* Stats strip */}
-          <div className="flex flex-wrap justify-center gap-6 mt-2">
-            {[
-              { value: '5', label: 'Strategies' },
-              { value: '8+', label: 'Years Backtested' },
-              { value: '750+', label: 'NSE Stocks' },
-              { value: '300+', label: 'ETFs' },
-              { value: 'Daily', label: 'Price Updates' },
-            ].map((s) => (
-              <div key={s.label} className="text-center">
-                <div className="text-2xl font-extrabold text-slate-800">{s.value}</div>
-                <div className="text-xs text-slate-400 font-medium mt-0.5">{s.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 
