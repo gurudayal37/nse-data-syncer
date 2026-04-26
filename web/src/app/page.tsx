@@ -101,7 +101,7 @@ export default function HomePage() {
             NSE India · Updated Daily
           </div>
           <h1 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Guru Momentum App
+            Momentum App
           </h1>
           <p className="text-slate-500 text-base max-w-xl">
             Systematic momentum investing for Indian equities — live rankings, backtested strategies, and research tools.

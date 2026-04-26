@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Guru Momentum App",
+  title: "Momentum App",
   description: "Systematic momentum investing for Indian equities — live rankings, backtested strategies, and research tools.",
 };
 
