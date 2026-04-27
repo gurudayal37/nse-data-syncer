@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 102727.33,
-      "total_fees_paid": 2942.63,
+      "end_value": 103456.7,
+      "total_fees_paid": 2943.64,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 2.73,
-      "benchmark_return": -2.86,
-      "expectancy": 0.15,
-      "net_return_after_fees": -0.22
+      "total_return": 3.46,
+      "benchmark_return": -2.07,
+      "expectancy": 0.18,
+      "net_return_after_fees": 0.51
     },
     "risk_metrics": {
       "max_drawdown": -8.03,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": 0.46,
-      "calmar_ratio": 0.82,
-      "omega_ratio": 1.16,
-      "sortino_ratio": 1.4
+      "sharpe_ratio": 0.56,
+      "calmar_ratio": 1.04,
+      "omega_ratio": 1.19,
+      "sortino_ratio": 1.7
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -71,12 +71,12 @@
     "trade_statistics": {
       "total_trades": 22,
       "total_stock_transactions": 86,
-      "win_rate": 54.55,
+      "win_rate": 59.09,
       "best_trade": 4.4,
       "worst_trade": -3.35,
-      "avg_winning_trade": 1.99,
+      "avg_winning_trade": 1.89,
       "avg_losing_trade": -2.29,
-      "profit_factor": 1.16
+      "profit_factor": 1.19
     }
   },
   "backtest_results": [
@@ -15204,43 +15204,43 @@
   "current_performance": [
     {
       "week": "2026-05-01",
-      "portfolio_return": 0,
-      "benchmark_return": 0.0,
+      "portfolio_return": 0.71,
+      "benchmark_return": 0.81,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 0.0,
-          "score": 5.28
+          "return": -0.73,
+          "score": 5.3
         },
         {
           "symbol": "MTARTECH",
-          "return": 0.0,
-          "score": 4.56
+          "return": 3.19,
+          "score": 4.58
         },
         {
           "symbol": "STLTECH",
-          "return": 0.0,
-          "score": 4.37
+          "return": 5.0,
+          "score": 4.39
         },
         {
           "symbol": "GVT&D",
-          "return": 0.0,
+          "return": -0.9,
           "score": 3.28
         },
         {
           "symbol": "POWERINDIA",
-          "return": 0.0,
-          "score": 3.2
+          "return": -0.42,
+          "score": 3.21
         },
         {
           "symbol": "NATIONALUM",
-          "return": 0.0,
-          "score": 3.01
+          "return": 0.9,
+          "score": 3.02
         },
         {
           "symbol": "TDPOWERSYS",
-          "return": 0.0,
-          "score": 2.99
+          "return": -2.07,
+          "score": 3.0
         }
       ]
     },
