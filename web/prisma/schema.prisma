@@ -242,6 +242,7 @@ model stocks {
   stock_performance     stock_performance?
   stock_tags            stock_tags[]
   stock_notes           stock_notes[]
+  stage2_changes        stage2_changes[]
   sync_tracker          sync_tracker[]
 
   @@index([id], map: "ix_stocks_id")
@@ -304,6 +305,20 @@ model stock_performance {
   @@index([change_5y])
   @@index([daily_volume])
   @@index([is_vcp])
+}
+
+model stage2_changes {
+  id          Int      @id @default(autoincrement())
+  stock_id    Int
+  nse_symbol  String
+  stock_name  String
+  change_type String   // 'added' | 'removed'
+  run_date    DateTime @db.Date
+
+  stocks      stocks   @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([run_date])
+  @@index([stock_id])
 }
 
 model momentum_history {

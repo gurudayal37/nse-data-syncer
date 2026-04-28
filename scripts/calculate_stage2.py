@@ -101,9 +101,18 @@ def calculate_stage2_candidates():
             rs_rank_series = returns_series.rank(pct=True) * 100
             rs_ranks = rs_rank_series.to_dict()
 
-        # --- Step 2: Save RS rank for ALL eligible stocks (>= 63 days of data) ---
-        # Do this before the Stage 2 loop so every stock gets an RS rank regardless
-        # of whether it passes the Trend Template criteria.
+        # --- Step 2: Snapshot current Stage 2 set before any reset ---
+        prev_rows = session.execute(text("""
+            SELECT sp.stock_id, s.nse_symbol, s.name
+            FROM stock_performance sp
+            JOIN stocks s ON s.id = sp.stock_id
+            WHERE sp.is_stage2 = true
+        """)).fetchall()
+        prev_stage2 = {row.stock_id: {'nse_symbol': row.nse_symbol, 'name': row.name}
+                       for row in prev_rows}
+        print(f"Previous Stage 2 count: {len(prev_stage2)}")
+
+        # --- Save RS rank for ALL eligible stocks (>= 63 days of data) ---
         print(f"Saving RS ranks for {len(rs_ranks)} eligible stocks...")
         session.execute(text("""
             UPDATE stock_performance
@@ -222,7 +231,53 @@ def calculate_stage2_candidates():
                     'stock_id': cand['stock_id'],
                 })
 
-            print("Database updated successfully.")
+        # --- Compute and persist daily diff ---
+        new_stage2_ids  = {c['stock_id'] for c in stage2_candidates}
+        prev_stage2_ids = set(prev_stage2.keys())
+        added_ids   = new_stage2_ids - prev_stage2_ids
+        removed_ids = prev_stage2_ids - new_stage2_ids
+
+        if added_ids or removed_ids:
+            # Fetch stock info for any IDs not already in prev_stage2
+            missing_ids = added_ids - set(prev_stage2.keys())
+            if missing_ids:
+                info_rows = session.execute(
+                    text("SELECT id, nse_symbol, name FROM stocks WHERE id = ANY(:ids)"),
+                    {'ids': list(missing_ids)}
+                ).fetchall()
+                for row in info_rows:
+                    prev_stage2[row.id] = {'nse_symbol': row.nse_symbol, 'name': row.name}
+
+            # Build combined lookup
+            stock_map_local = {s.id: s for s in stocks}
+            def get_info(sid):
+                if sid in prev_stage2:
+                    return prev_stage2[sid]['nse_symbol'], prev_stage2[sid]['name']
+                s = stock_map_local.get(sid)
+                return (s.nse_symbol, s.name) if s else (str(sid), '')
+
+            today = datetime.now().date()
+            # Remove any existing records for today (handles re-runs)
+            session.execute(text("DELETE FROM stage2_changes WHERE run_date = :today"),
+                            {'today': today})
+
+            for sid in added_ids:
+                sym, name = get_info(sid)
+                session.execute(text("""
+                    INSERT INTO stage2_changes (stock_id, nse_symbol, stock_name, change_type, run_date)
+                    VALUES (:sid, :sym, :name, 'added', :today)
+                """), {'sid': sid, 'sym': sym, 'name': name, 'today': today})
+
+            for sid in removed_ids:
+                sym, name = get_info(sid)
+                session.execute(text("""
+                    INSERT INTO stage2_changes (stock_id, nse_symbol, stock_name, change_type, run_date)
+                    VALUES (:sid, :sym, :name, 'removed', :today)
+                """), {'sid': sid, 'sym': sym, 'name': name, 'today': today})
+
+            print(f"Stage 2 changes: +{len(added_ids)} added, -{len(removed_ids)} removed.")
+        else:
+            print("No Stage 2 changes today.")
 
         session.commit()
         print("Stage 2 screen complete.")

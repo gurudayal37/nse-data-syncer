@@ -70,7 +70,7 @@ export default async function Stage2Page(props: PageProps) {
         ]
     }
 
-    const [stocks, totalCount, allSymbols] = await Promise.all([
+    const [stocks, totalCount, allSymbols, recentChanges] = await Promise.all([
         prisma.stocks.findMany({
             where: whereClause,
             include: { stock_performance: true },
@@ -84,9 +84,31 @@ export default async function Stage2Page(props: PageProps) {
             select: { nse_symbol: true },
             orderBy: orderByArray,
         }),
+        // Fetch last 7 distinct run dates of changes
+        prisma.stage2_changes.findMany({
+            orderBy: { run_date: 'desc' },
+            where: {
+                run_date: {
+                    gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+                },
+            },
+        }),
     ])
 
     const symbolsList = allSymbols.map((s: any) => s.nse_symbol).filter(Boolean) as string[]
+
+    // Group changes by run_date, newest first
+    const changesByDate = recentChanges.reduce((acc, row) => {
+        const key = row.run_date.toISOString().slice(0, 10)
+        if (!acc[key]) acc[key] = { added: [], removed: [] }
+        if (row.change_type === 'added') acc[key].added.push(row)
+        else acc[key].removed.push(row)
+        return acc
+    }, {} as Record<string, { added: typeof recentChanges; removed: typeof recentChanges }>)
+
+    const changeDates = Object.keys(changesByDate).sort((a, b) => b.localeCompare(a))
+    const latestChangeDate = changeDates[0] ?? null
+    const latestChanges = latestChangeDate ? changesByDate[latestChangeDate] : null
 
     const totalPages = Math.ceil(totalCount / limit)
 
@@ -151,6 +173,97 @@ export default async function Stage2Page(props: PageProps) {
                         </div>
                     </div>
                 </div>
+
+                {/* ── Daily Changes Panel ─────────────────────────────── */}
+                {latestChanges && (latestChanges.added.length > 0 || latestChanges.removed.length > 0) ? (
+                    <div className="mb-6 space-y-3">
+                        {/* Latest run header */}
+                        <div className="flex items-center gap-3">
+                            <span className="text-sm font-bold text-gray-700">
+                                Changes on {new Date(latestChangeDate! + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                            </span>
+                            <span className="h-px flex-1 bg-gray-200" />
+                            {latestChanges.added.length > 0 && (
+                                <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2.5 py-0.5">
+                                    +{latestChanges.added.length} added
+                                </span>
+                            )}
+                            {latestChanges.removed.length > 0 && (
+                                <span className="text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded-full px-2.5 py-0.5">
+                                    −{latestChanges.removed.length} removed
+                                </span>
+                            )}
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {/* Added */}
+                            {latestChanges.added.length > 0 && (
+                                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+                                    <p className="text-xs font-bold text-emerald-700 uppercase tracking-wide mb-3 flex items-center gap-1.5">
+                                        <span className="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold">+</span>
+                                        Newly Added
+                                    </p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {latestChanges.added.map((c) => (
+                                            <Link
+                                                key={c.id}
+                                                href={`/stock/${c.nse_symbol}`}
+                                                className="inline-flex flex-col bg-white border border-emerald-200 rounded-lg px-3 py-1.5 hover:border-emerald-400 hover:shadow-sm transition-all"
+                                            >
+                                                <span className="text-xs font-bold text-emerald-700">{c.nse_symbol}</span>
+                                                <span className="text-[10px] text-gray-400 leading-tight max-w-[120px] truncate">{c.stock_name}</span>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Removed */}
+                            {latestChanges.removed.length > 0 && (
+                                <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                                    <p className="text-xs font-bold text-red-600 uppercase tracking-wide mb-3 flex items-center gap-1.5">
+                                        <span className="w-4 h-4 rounded-full bg-red-400 text-white flex items-center justify-center text-[10px] font-bold">−</span>
+                                        Removed
+                                    </p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {latestChanges.removed.map((c) => (
+                                            <Link
+                                                key={c.id}
+                                                href={`/stock/${c.nse_symbol}`}
+                                                className="inline-flex flex-col bg-white border border-red-200 rounded-lg px-3 py-1.5 hover:border-red-400 hover:shadow-sm transition-all"
+                                            >
+                                                <span className="text-xs font-bold text-red-600">{c.nse_symbol}</span>
+                                                <span className="text-[10px] text-gray-400 leading-tight max-w-[120px] truncate">{c.stock_name}</span>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Previous days compact strip */}
+                        {changeDates.length > 1 && (
+                            <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-[11px] text-gray-400 font-medium">Earlier:</span>
+                                {changeDates.slice(1).map((date) => {
+                                    const d = changesByDate[date]
+                                    return (
+                                        <span key={date} className="text-[11px] text-gray-500 bg-white border border-gray-200 rounded-full px-2.5 py-0.5 font-medium">
+                                            {new Date(date + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                                            {d.added.length > 0 && <span className="text-emerald-600 ml-1">+{d.added.length}</span>}
+                                            {d.removed.length > 0 && <span className="text-red-500 ml-1">−{d.removed.length}</span>}
+                                        </span>
+                                    )
+                                })}
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <div className="mb-6 flex items-center gap-2 text-xs text-gray-400 bg-white border border-gray-200 rounded-xl px-4 py-3">
+                        <span className="w-2 h-2 rounded-full bg-gray-300" />
+                        No changes recorded yet — will populate after the next daily sync run.
+                    </div>
+                )}
 
                 {/* Criteria Summary */}
                 <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-5 mb-6">
