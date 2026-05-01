@@ -146,8 +146,8 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
     const [qRaw, tagRows, noteRows, liveNews, shareholdingRaw] = await Promise.all([
         prisma.quarterly_results.findMany({
             where: { stock_id: stock.id },
-            orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }],
-            take: 8,
+            orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }, { id: 'desc' }],
+            take: 40, // fetch more, then deduplicate below
         }),
         prisma.stock_tags.findMany({
             where: { stock_id: stock.id },
@@ -161,14 +161,25 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         fetchGoogleNews(stock.name, sym),
         prisma.shareholding_patterns.findMany({
             where: { stock_id: stock.id },
-            orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }],
-            take: 8,
+            orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }, { id: 'desc' }],
+            take: 32,
         }),
     ])
 
+    // Deduplicate shareholding by (quarter_number, year), same reason as quarterly_results
+    const seenSKey = new Set<string>()
+    const shareholdingDeduped = shareholdingRaw
+        .filter((r) => {
+            const key = `${r.year}-${r.quarter_number}`
+            if (seenSKey.has(key)) return false
+            seenSKey.add(key)
+            return true
+        })
+        .slice(0, 8)
+
     // Compute QoQ changes for shareholding
-    const shareholding = shareholdingRaw.map((r, i) => {
-        const prev = shareholdingRaw[i + 1]
+    const shareholding = shareholdingDeduped.map((r, i) => {
+        const prev = shareholdingDeduped[i + 1]
         const chg = (curr: number | null, p: number | null) =>
             curr != null && p != null ? Number((curr - p).toFixed(2)) : null
         return {
@@ -186,17 +197,28 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         }
     })
 
-    const quarters = qRaw.map((r) => ({
-        quarter: r.quarter,
-        year: r.year,
-        quarter_number: r.quarter_number,
-        revenue: r.revenue,
-        ebitda: r.ebitda,
-        operating_profit: r.operating_profit,
-        opm_percent: r.opm_percent ? Number(r.opm_percent) : null,
-        net_profit: r.net_profit,
-        eps: r.eps,
-    }))
+    // Deduplicate by (quarter_number, year) — keep the highest id (most recent sync).
+    // Handles legacy "Q3 2023" rows coexisting with new "Sep 2023" rows for the same period.
+    const seenQKey = new Set<string>()
+    const quarters = qRaw
+        .filter((r) => {
+            const key = `${r.year}-${r.quarter_number}`
+            if (seenQKey.has(key)) return false
+            seenQKey.add(key)
+            return true
+        })
+        .slice(0, 8)
+        .map((r) => ({
+            quarter: r.quarter,
+            year: r.year,
+            quarter_number: r.quarter_number,
+            revenue: r.revenue,
+            ebitda: r.ebitda,
+            operating_profit: r.operating_profit,
+            opm_percent: r.opm_percent ? Number(r.opm_percent) : null,
+            net_profit: r.net_profit,
+            eps: r.eps,
+        }))
 
     const tags = tagRows.map((r) => r.tag)
     const notes = noteRows.map((r) => ({ ...r, created_at: r.created_at.toISOString() }))

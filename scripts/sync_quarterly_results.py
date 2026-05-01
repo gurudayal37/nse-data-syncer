@@ -344,6 +344,10 @@ def scrape_shareholding(soup: BeautifulSoup) -> list:
 
 def save_shareholding_to_db(stock_id: int, results: list, conn) -> int:
     cur = conn.cursor()
+    cur.execute(
+        "DELETE FROM shareholding_patterns WHERE stock_id = %s AND quarter ~ '^Q[1-4] [0-9]{4}$'",
+        (stock_id,)
+    )
     upserted = 0
     for rec in results:
         try:
@@ -415,6 +419,12 @@ def save_to_db(symbol: str, results: list) -> int:
 
 def _save_quarterly(stock_id: int, results: list, conn) -> int:
     cur = conn.cursor()
+    # Remove legacy "Q1 YYYY" / "Q2 YYYY" etc. rows — old sync used calendar-based
+    # quarter labels that conflict with the "MMM YYYY" format Screener returns.
+    cur.execute(
+        "DELETE FROM quarterly_results WHERE stock_id = %s AND quarter ~ '^Q[1-4] [0-9]{4}$'",
+        (stock_id,)
+    )
     upserted = 0
     for rec in results:
         try:
