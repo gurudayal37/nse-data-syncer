@@ -156,13 +156,13 @@ def _match_row(label: str):
 
 
 def fetch_company_page(session: requests.Session, symbol: str) -> BeautifulSoup:
-    """Fetch the Screener company page (consolidated first, then standalone)."""
-    for url in [f"{BASE_URL}/company/{symbol}/consolidated/", f"{BASE_URL}/company/{symbol}/"]:
+    """Fetch the default Screener company page, falling back to consolidated if needed."""
+    for url in [f"{BASE_URL}/company/{symbol}/", f"{BASE_URL}/company/{symbol}/consolidated/"]:
         r = session.get(url, timeout=20)
         if r.status_code == 200:
             logger.info(f"Fetched page: {url}")
             return BeautifulSoup(r.text, 'html.parser')
-    raise RuntimeError(f"Could not fetch page for {symbol} (tried consolidated + standalone)")
+    raise RuntimeError(f"Could not fetch page for {symbol}")
 
 
 def scrape_quarterly_results(session: requests.Session, symbol: str):
