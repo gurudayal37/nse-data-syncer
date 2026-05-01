@@ -42,36 +42,36 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-05-01",
-      "period": "22 weeks (0.4 years)"
+      "end": "2026-05-08",
+      "period": "23 weeks (0.4 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 108346.52,
-      "total_fees_paid": 2950.47,
+      "total_fees_paid": 3104.87,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 8.35,
       "benchmark_return": -2.45,
-      "expectancy": 0.4,
-      "net_return_after_fees": 5.4
+      "expectancy": 0.38,
+      "net_return_after_fees": 5.24
     },
     "risk_metrics": {
       "max_drawdown": -8.03,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": 1.12,
-      "calmar_ratio": 2.6,
+      "sharpe_ratio": 1.09,
+      "calmar_ratio": 2.47,
       "omega_ratio": 1.42,
-      "sortino_ratio": 3.74
+      "sortino_ratio": 3.57
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 22,
-      "total_stock_transactions": 86,
-      "win_rate": 59.09,
+      "total_trades": 23,
+      "total_stock_transactions": 90,
+      "win_rate": 56.52,
       "best_trade": 5.47,
       "worst_trade": -3.35,
       "avg_winning_trade": 2.26,
@@ -15202,6 +15202,48 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-05-08",
+      "portfolio_return": 0,
+      "benchmark_return": 0.0,
+      "holdings": [
+        {
+          "symbol": "MTARTECH",
+          "return": 0.0,
+          "score": 5.94
+        },
+        {
+          "symbol": "CUPID",
+          "return": 0.0,
+          "score": 5.88
+        },
+        {
+          "symbol": "STLTECH",
+          "return": 0.0,
+          "score": 5.11
+        },
+        {
+          "symbol": "PRECWIRE",
+          "return": 0.0,
+          "score": 3.07
+        },
+        {
+          "symbol": "QPOWER",
+          "return": 0.0,
+          "score": 2.99
+        },
+        {
+          "symbol": "POWERINDIA",
+          "return": 0.0,
+          "score": 2.89
+        },
+        {
+          "symbol": "TDPOWERSYS",
+          "return": 0.0,
+          "score": 2.83
+        }
+      ]
+    },
     {
       "week": "2026-05-01",
       "portfolio_return": 5.47,
