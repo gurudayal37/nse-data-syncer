@@ -38,7 +38,7 @@ type EquityPoint = {
     date: string
     equity: number
     benchmark?: number
-    pnl: number
+    pnl?: number
 }
 
 type EligibleStock = {
