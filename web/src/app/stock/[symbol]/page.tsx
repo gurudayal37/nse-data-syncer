@@ -263,7 +263,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                 curPrice == null || ma150 == null || ma200 == null,
             ),
             detail: ma150 != null && ma200 != null
-                ? `150 DMA ₹${ma150.toFixed(0)} · 200 DMA ₹${ma200.toFixed(0)}`
+                ? `150 DMA ₹${ma150.toFixed(1)} · 200 DMA ₹${ma200.toFixed(1)}`
                 : 'Insufficient history',
         },
         {
@@ -273,7 +273,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                 ma150 == null || ma200 == null,
             ),
             detail: ma150 != null && ma200 != null
-                ? `₹${ma150.toFixed(0)} vs ₹${ma200.toFixed(0)}`
+                ? `₹${ma150.toFixed(1)} vs ₹${ma200.toFixed(1)}`
                 : 'Insufficient history',
         },
         {
@@ -283,7 +283,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                 ma200 == null || ma200_1m == null,
             ),
             detail: ma200 != null && ma200_1m != null
-                ? `Now ₹${ma200.toFixed(0)} · 1M ago ₹${ma200_1m.toFixed(0)}`
+                ? `Now ₹${ma200.toFixed(1)} · 1M ago ₹${ma200_1m.toFixed(1)}`
                 : 'Insufficient history',
         },
         {
@@ -293,7 +293,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                     ? ma50 > ma150 && ma50 > ma200 : false,
                 ma50 == null || ma150 == null || ma200 == null,
             ),
-            detail: ma50 != null ? `50 DMA ₹${ma50.toFixed(0)}` : 'Insufficient history',
+            detail: ma50 != null ? `50 DMA ₹${ma50.toFixed(1)}` : 'Insufficient history',
         },
         {
             label: 'Price > 50 DMA',
@@ -301,7 +301,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                 curPrice != null && ma50 != null ? curPrice > ma50 : false,
                 curPrice == null || ma50 == null,
             ),
-            detail: ma50 != null ? `50 DMA ₹${ma50.toFixed(0)}` : 'Insufficient history',
+            detail: ma50 != null ? `50 DMA ₹${ma50.toFixed(1)}` : 'Insufficient history',
         },
         {
             label: 'Price ≥ 30% above 52-week low',
