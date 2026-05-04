@@ -42,41 +42,41 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-05-01",
-      "period": "22 weeks (0.4 years)"
+      "end": "2026-05-08",
+      "period": "23 weeks (0.4 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 108957.67,
-      "total_fees_paid": 2406.28,
+      "end_value": 110276.06,
+      "total_fees_paid": 2490.71,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 8.96,
-      "benchmark_return": -8.42,
-      "expectancy": 0.45,
-      "net_return_after_fees": 6.55
+      "total_return": 10.28,
+      "benchmark_return": -7.95,
+      "expectancy": 0.49,
+      "net_return_after_fees": 7.79
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": 0.93,
-      "calmar_ratio": 1.58,
-      "omega_ratio": 1.39,
-      "sortino_ratio": 1.56
+      "sharpe_ratio": 1.01,
+      "calmar_ratio": 1.74,
+      "omega_ratio": 1.44,
+      "sortino_ratio": 1.67
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 22,
-      "total_stock_transactions": 70,
-      "win_rate": 54.55,
+      "total_trades": 23,
+      "total_stock_transactions": 72,
+      "win_rate": 56.52,
       "best_trade": 7.51,
       "worst_trade": -8.0,
-      "avg_winning_trade": 2.96,
+      "avg_winning_trade": 2.82,
       "avg_losing_trade": -2.56,
-      "profit_factor": 1.39
+      "profit_factor": 1.44
     }
   },
   "backtest_results": [
@@ -16672,6 +16672,48 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-05-08",
+      "portfolio_return": 1.21,
+      "benchmark_return": 0.51,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": 5.97,
+          "score": 8.23
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": -5.1,
+          "score": 6.23
+        },
+        {
+          "symbol": "STLTECH",
+          "return": 4.94,
+          "score": 4.53
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 2.13,
+          "score": 3.31
+        },
+        {
+          "symbol": "PRECWIRE",
+          "return": 2.48,
+          "score": 3.31
+        },
+        {
+          "symbol": "SANSERA",
+          "return": -0.95,
+          "score": 3.1
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -1.0,
+          "score": 2.95
+        }
+      ]
+    },
     {
       "week": "2026-05-01",
       "portfolio_return": 5.43,
