@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 112204.61,
-      "total_fees_paid": 2492.87,
+      "end_value": 110570.25,
+      "total_fees_paid": 2491.04,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 12.2,
-      "benchmark_return": -8.28,
-      "expectancy": 0.56,
-      "net_return_after_fees": 9.71
+      "total_return": 10.57,
+      "benchmark_return": -7.15,
+      "expectancy": 0.5,
+      "net_return_after_fees": 8.08
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": 1.16,
-      "calmar_ratio": 2.09,
-      "omega_ratio": 1.51,
-      "sortino_ratio": 1.94
+      "sharpe_ratio": 1.04,
+      "calmar_ratio": 1.8,
+      "omega_ratio": 1.45,
+      "sortino_ratio": 1.71
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 56.52,
       "best_trade": 7.51,
       "worst_trade": -8.0,
-      "avg_winning_trade": 2.96,
+      "avg_winning_trade": 2.85,
       "avg_losing_trade": -2.56,
-      "profit_factor": 1.51
+      "profit_factor": 1.45
     }
   },
   "backtest_results": [
@@ -16632,42 +16632,42 @@
   "current_performance": [
     {
       "week": "2026-05-08",
-      "portfolio_return": 2.98,
-      "benchmark_return": 0.15,
+      "portfolio_return": 1.48,
+      "benchmark_return": 1.39,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 9.43,
-          "score": 8.25
+          "return": 5.78,
+          "score": 8.24
         },
         {
           "symbol": "MTARTECH",
-          "return": -2.96,
+          "return": -2.64,
           "score": 6.24
         },
         {
           "symbol": "STLTECH",
-          "return": 10.18,
+          "return": 15.67,
           "score": 4.54
         },
         {
           "symbol": "NATIONALUM",
-          "return": 3.58,
+          "return": 1.82,
           "score": 3.32
         },
         {
           "symbol": "PRECWIRE",
-          "return": 2.29,
-          "score": 3.31
+          "return": -6.53,
+          "score": 3.32
         },
         {
           "symbol": "SANSERA",
-          "return": 0.52,
+          "return": -0.28,
           "score": 3.11
         },
         {
           "symbol": "SEAMECLTD",
-          "return": -2.2,
+          "return": -3.45,
           "score": 2.96
         }
       ]
