@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 111391.06,
-      "total_fees_paid": 3109.12,
+      "end_value": 108292.34,
+      "total_fees_paid": 3104.79,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 11.39,
-      "benchmark_return": -2.3,
-      "expectancy": 0.5,
-      "net_return_after_fees": 8.28
+      "total_return": 8.29,
+      "benchmark_return": -1.09,
+      "expectancy": 0.38,
+      "net_return_after_fees": 5.19
     },
     "risk_metrics": {
       "max_drawdown": -8.03,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": 1.42,
-      "calmar_ratio": 3.44,
-      "omega_ratio": 1.56,
-      "sortino_ratio": 4.72
+      "sharpe_ratio": 1.09,
+      "calmar_ratio": 2.46,
+      "omega_ratio": 1.42,
+      "sortino_ratio": 2.75
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -71,12 +71,12 @@
     "trade_statistics": {
       "total_trades": 23,
       "total_stock_transactions": 90,
-      "win_rate": 60.87,
+      "win_rate": 56.52,
       "best_trade": 5.47,
       "worst_trade": -3.35,
-      "avg_winning_trade": 2.3,
-      "avg_losing_trade": -2.29,
-      "profit_factor": 1.56
+      "avg_winning_trade": 2.26,
+      "avg_losing_trade": -2.07,
+      "profit_factor": 1.42
     }
   },
   "backtest_results": [
@@ -15204,42 +15204,42 @@
   "current_performance": [
     {
       "week": "2026-05-08",
-      "portfolio_return": 2.81,
-      "benchmark_return": 0.15,
+      "portfolio_return": -0.05,
+      "benchmark_return": 1.39,
       "holdings": [
         {
           "symbol": "MTARTECH",
-          "return": -2.96,
-          "score": 5.95
+          "return": -2.64,
+          "score": 5.96
         },
         {
           "symbol": "CUPID",
-          "return": 9.43,
+          "return": 5.78,
           "score": 5.89
         },
         {
           "symbol": "STLTECH",
-          "return": 10.18,
+          "return": 15.67,
           "score": 5.13
         },
         {
           "symbol": "PRECWIRE",
-          "return": 2.29,
+          "return": -6.53,
           "score": 3.08
         },
         {
           "symbol": "QPOWER",
-          "return": -3.49,
+          "return": -13.14,
           "score": 3.0
         },
         {
           "symbol": "POWERINDIA",
-          "return": 2.1,
-          "score": 2.89
+          "return": -0.51,
+          "score": 2.9
         },
         {
           "symbol": "TDPOWERSYS",
-          "return": 2.09,
+          "return": 1.0,
           "score": 2.84
         }
       ]
