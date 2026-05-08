@@ -155,14 +155,45 @@ def _match_row(label: str):
     return None
 
 
+def _latest_quarter_month(soup: BeautifulSoup) -> tuple:
+    """Return (year, month_num) of the most recent quarter column, or (0, 0)."""
+    MONTH_NUM = {'jan':1,'feb':2,'mar':3,'apr':4,'may':5,'jun':6,
+                 'jul':7,'aug':8,'sep':9,'oct':10,'nov':11,'dec':12}
+    section = soup.find('section', {'id': 'quarters'})
+    if not section:
+        return (0, 0)
+    table = section.find('table')
+    if not table:
+        return (0, 0)
+    thead = table.find('thead')
+    cells = (thead or table.find('tr') or BeautifulSoup('', 'html.parser')).find_all(['th', 'td'])
+    headers = [c.get_text(strip=True) for c in cells][1:]
+    if not headers:
+        return (0, 0)
+    parts = headers[-1].strip().split()
+    if len(parts) != 2:
+        return (0, 0)
+    try:
+        return (int(parts[1]), MONTH_NUM.get(parts[0][:3].lower(), 0))
+    except ValueError:
+        return (0, 0)
+
+
 def fetch_company_page(session: requests.Session, symbol: str) -> BeautifulSoup:
-    """Fetch the default Screener company page, falling back to consolidated if needed."""
+    """Fetch both default and consolidated Screener pages, use whichever has more recent data."""
+    pages: dict[str, BeautifulSoup] = {}
     for url in [f"{BASE_URL}/company/{symbol}/", f"{BASE_URL}/company/{symbol}/consolidated/"]:
         r = session.get(url, timeout=20)
         if r.status_code == 200:
-            logger.info(f"Fetched page: {url}")
-            return BeautifulSoup(r.text, 'html.parser')
-    raise RuntimeError(f"Could not fetch page for {symbol}")
+            pages[url] = BeautifulSoup(r.text, 'html.parser')
+
+    if not pages:
+        raise RuntimeError(f"Could not fetch page for {symbol}")
+
+    # Pick whichever page has the most recent quarter column
+    best_url = max(pages, key=lambda u: _latest_quarter_month(pages[u]))
+    logger.info(f"Fetched page: {best_url} (most recent quarters)")
+    return pages[best_url]
 
 
 def scrape_quarterly_results(session: requests.Session, symbol: str):
