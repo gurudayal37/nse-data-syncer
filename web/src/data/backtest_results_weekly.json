@@ -42,36 +42,36 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-05-08",
-      "period": "23 weeks (0.4 years)"
+      "end": "2026-05-15",
+      "period": "24 weeks (0.5 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 113818.02,
-      "total_fees_paid": 3112.52,
+      "total_fees_paid": 3413.95,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 13.82,
       "benchmark_return": -1.11,
-      "expectancy": 0.6,
-      "net_return_after_fees": 10.71
+      "expectancy": 0.58,
+      "net_return_after_fees": 10.4
     },
     "risk_metrics": {
       "max_drawdown": -8.03,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": 1.61,
-      "calmar_ratio": 4.23,
+      "sharpe_ratio": 1.58,
+      "calmar_ratio": 4.03,
       "omega_ratio": 1.67,
-      "sortino_ratio": 5.64
+      "sortino_ratio": 5.4
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 23,
-      "total_stock_transactions": 90,
-      "win_rate": 60.87,
+      "total_trades": 24,
+      "total_stock_transactions": 98,
+      "win_rate": 58.33,
       "best_trade": 5.47,
       "worst_trade": -3.35,
       "avg_winning_trade": 2.46,
@@ -15202,6 +15202,48 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-05-15",
+      "portfolio_return": 0,
+      "benchmark_return": 0.0,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": 0.0,
+          "score": 6.05
+        },
+        {
+          "symbol": "STLTECH",
+          "return": 0.0,
+          "score": 6.01
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": 0.0,
+          "score": 4.88
+        },
+        {
+          "symbol": "AEROFLEX",
+          "return": 0.0,
+          "score": 4.03
+        },
+        {
+          "symbol": "HFCL",
+          "return": 0.0,
+          "score": 2.89
+        },
+        {
+          "symbol": "DEEDEV",
+          "return": 0.0,
+          "score": 2.78
+        },
+        {
+          "symbol": "SCHNEIDER",
+          "return": 0.0,
+          "score": 2.68
+        }
+      ]
+    },
     {
       "week": "2026-05-08",
       "portfolio_return": 5.05,
