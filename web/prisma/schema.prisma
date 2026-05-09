@@ -454,3 +454,20 @@ enum tradestatus {
   executed
   closed
 }
+
+model board_meetings {
+  id           Int       @id @default(autoincrement())
+  symbol       String    @db.VarChar(20)
+  company_name String?   @db.VarChar(500)
+  meeting_date DateTime  @db.Date
+  purpose      String?   @db.VarChar(500)
+  bm_desc      String?
+  attachment   String?   @db.VarChar(1000)
+  sm_isin      String?   @db.VarChar(20)
+  created_at   DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime  @default(now()) @db.Timestamptz(6)
+
+  @@unique([symbol, meeting_date], map: "uq_board_meetings_symbol_date")
+  @@index([id], map: "ix_board_meetings_id")
+  @@index([meeting_date], map: "ix_board_meetings_date")
+}
