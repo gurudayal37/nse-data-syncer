@@ -92,16 +92,23 @@ def parse_date(date_str: str) -> date | None:
         return None
 
 
+RESULT_KEYWORDS = [
+    'result', 'quarterly', 'financial result',
+    'annual result', 'half yearly', 'unaudited', 'audited',
+]
+
+
+def is_result(row: dict) -> bool:
+    text = f"{row.get('PURPOSE', '')} {row.get('DETAILS', '')}".lower()
+    return any(kw in text for kw in RESULT_KEYWORDS)
+
+
 def fetch_bse_meetings(from_date: date, to_date: date) -> list[dict]:
-    """
-    BSE board meetings API — no auth or session cookie needed.
-    type=Results filters to financial result meetings only.
-    """
+    """BSE board meetings API — no auth or session cookie needed."""
     params = {
         'scripcode': '',
         'fromdate': fmt_bse(from_date),
         'todate': fmt_bse(to_date),
-        'type': 'Results',
     }
     headers = {
         'User-Agent': UA,
@@ -151,7 +158,9 @@ def main():
         log.error(f'Failed to fetch from BSE: {e}')
         sys.exit(1)
 
-    log.info(f'BSE returned {len(raw)} result meetings')
+    log.info(f'BSE returned {len(raw)} total meetings')
+    raw = [r for r in raw if is_result(r)]
+    log.info(f'{len(raw)} are result announcements')
 
     conn = psycopg2.connect(db_url)
     try:
