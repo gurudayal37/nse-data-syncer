@@ -112,7 +112,12 @@ def fetch_bse_meetings(from_date: date, to_date: date) -> list[dict]:
     resp = requests.get(BSE_URL, params=params, headers=headers, timeout=30)
     resp.raise_for_status()
     data = resp.json()
-    return data.get('Table', [])
+    # BSE returns either a plain list or {"Table": [...]}
+    if isinstance(data, list):
+        return data
+    if isinstance(data, dict):
+        return data.get('Table', [])
+    return []
 
 
 def normalize(row: dict) -> dict:
