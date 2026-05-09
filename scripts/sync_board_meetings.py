@@ -172,7 +172,8 @@ def main():
         sys.exit(1)
 
     db_url = clean_db_url(db_url.strip())
-    log.info(f'Connecting to DB (sslmode portion: {re.search(r"sslmode=[^&\\s]*", db_url)})')
+    ssl_match = re.search(r'sslmode=[^&\s]*', db_url)
+    log.info(f'Connecting to DB (sslmode: {ssl_match.group() if ssl_match else "not set"})')
 
     today = date.today()
     to_date = today + timedelta(days=90)
