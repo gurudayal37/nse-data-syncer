@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
-Fetch NSE board meeting result dates for the next 90 days and upsert into DB.
+Fetch BSE board meeting result dates for the next 90 days and upsert into DB.
 Run daily via GitHub Actions at 6 AM IST (Mon-Fri).
+
+Uses BSE's public API instead of NSE — NSE blocks GitHub Actions IPs.
 
 Usage:
     python scripts/sync_board_meetings.py
@@ -12,7 +14,6 @@ Requires:
 
 import os
 import sys
-import time
 import logging
 from datetime import date, timedelta
 
@@ -32,16 +33,12 @@ for _candidate in [
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 log = logging.getLogger(__name__)
 
-NSE_BASE = 'https://www.nseindia.com'
+BSE_URL = 'https://api.bseindia.com/BseIndiaAPI/api/boardMeetings/w'
 UA = (
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
     'AppleWebKit/537.36 (KHTML, like Gecko) '
     'Chrome/122.0.0.0 Safari/537.36'
 )
-RESULT_KEYWORDS = [
-    'result', 'quarterly', 'financial result',
-    'annual result', 'half yearly', 'unaudited', 'audited',
-]
 
 CREATE_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS board_meetings (
@@ -68,66 +65,66 @@ ON CONFLICT (symbol, meeting_date) DO UPDATE SET
     company_name = EXCLUDED.company_name,
     purpose      = EXCLUDED.purpose,
     bm_desc      = EXCLUDED.bm_desc,
-    attachment   = EXCLUDED.attachment,
-    sm_isin      = EXCLUDED.sm_isin,
     updated_at   = NOW();
 """
 
 
-def get_nse_session() -> requests.Session:
-    session = requests.Session()
-    session.headers.update({
-        'User-Agent': UA,
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.5',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
-    })
-    resp = session.get(NSE_BASE, timeout=20)
-    resp.raise_for_status()
-    time.sleep(1)
-    return session
-
-
-def fmt_nse(d: date) -> str:
-    return d.strftime('%d-%m-%Y')
-
-
-def fetch_meetings(session: requests.Session, from_date: date, to_date: date) -> list:
-    url = (
-        f'{NSE_BASE}/api/corporate-board-meetings'
-        f'?index=equities'
-        f'&from_date={fmt_nse(from_date)}'
-        f'&to_date={fmt_nse(to_date)}'
-    )
-    resp = session.get(url, headers={
-        'Accept': 'application/json, text/plain, */*',
-        'Referer': f'{NSE_BASE}/companies-listing/corporate-filings-board-meetings',
-        'X-Requested-With': 'XMLHttpRequest',
-    }, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
-    return data if isinstance(data, list) else []
+def fmt_bse(d: date) -> str:
+    """BSE date format: DDMMYYYY (no separators)."""
+    return d.strftime('%d%m%Y')
 
 
 def parse_date(date_str: str) -> date | None:
+    """Parse DD-MM-YYYY or YYYY-MM-DD."""
     if not date_str:
         return None
-    parts = date_str.strip().split('-')
+    s = date_str.strip()
+    parts = s.split('-')
     if len(parts) == 3 and len(parts[0]) == 2:
         try:
             return date(int(parts[2]), int(parts[1]), int(parts[0]))
         except ValueError:
             pass
     try:
-        return date.fromisoformat(date_str[:10])
+        return date.fromisoformat(s[:10])
     except ValueError:
         return None
 
 
-def is_result(row: dict) -> bool:
-    text = f"{row.get('purpose', '')} {row.get('bm_desc', '')}".lower()
-    return any(kw in text for kw in RESULT_KEYWORDS)
+def fetch_bse_meetings(from_date: date, to_date: date) -> list[dict]:
+    """
+    BSE board meetings API — no auth or session cookie needed.
+    type=Results filters to financial result meetings only.
+    """
+    params = {
+        'scripcode': '',
+        'fromdate': fmt_bse(from_date),
+        'todate': fmt_bse(to_date),
+        'type': 'Results',
+    }
+    headers = {
+        'User-Agent': UA,
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Referer': 'https://www.bseindia.com/',
+        'Origin': 'https://www.bseindia.com',
+    }
+    resp = requests.get(BSE_URL, params=params, headers=headers, timeout=30)
+    resp.raise_for_status()
+    data = resp.json()
+    return data.get('Table', [])
+
+
+def normalize(row: dict) -> dict:
+    """Map BSE response fields to our common schema."""
+    return {
+        'symbol':       (row.get('short_name') or '').strip(),
+        'company_name': (row.get('SCRIP_NAME') or '').strip(),
+        'meeting_date': row.get('DT_TM', ''),
+        'purpose':      (row.get('PURPOSE') or '').strip(),
+        'bm_desc':      (row.get('PURPOSE') or '').strip(),
+        'sm_isin':      (row.get('ISIN_CODE') or '').strip(),
+    }
 
 
 def main():
@@ -138,18 +135,15 @@ def main():
 
     today = date.today()
     to_date = today + timedelta(days=90)
-    log.info(f'Syncing board meetings {fmt_nse(today)} → {fmt_nse(to_date)}')
+    log.info(f'Fetching BSE board meetings {fmt_bse(today)} → {fmt_bse(to_date)}')
 
     try:
-        session = get_nse_session()
-        raw = fetch_meetings(session, today, to_date)
+        raw = fetch_bse_meetings(today, to_date)
     except Exception as e:
-        log.error(f'Failed to fetch from NSE: {e}')
+        log.error(f'Failed to fetch from BSE: {e}')
         sys.exit(1)
 
-    log.info(f'NSE returned {len(raw)} meetings total')
-    meetings = [m for m in raw if is_result(m)]
-    log.info(f'{len(meetings)} are result announcements')
+    log.info(f'BSE returned {len(raw)} result meetings')
 
     conn = psycopg2.connect(db_url)
     try:
@@ -157,23 +151,29 @@ def main():
         cur.execute(CREATE_TABLE_SQL)
 
         count = 0
-        for m in meetings:
-            meeting_date = parse_date(m.get('meetingDate', ''))
+        skipped = 0
+        for row in raw:
+            m = normalize(row)
+            if not m['symbol']:
+                skipped += 1
+                continue
+            meeting_date = parse_date(m['meeting_date'])
             if not meeting_date:
+                skipped += 1
                 continue
             cur.execute(UPSERT_SQL, (
-                m.get('symbol', '')[:20],
-                (m.get('companyName', '') or '')[:500],
+                m['symbol'][:20],
+                m['company_name'][:500],
                 meeting_date,
-                (m.get('purpose', '') or '')[:500],
-                m.get('bm_desc', ''),
-                (m.get('attachment', '') or '')[:1000],
-                (m.get('sm_isin', '') or '')[:20],
+                m['purpose'][:500],
+                m['bm_desc'],
+                '',           # BSE API doesn't return attachment URL
+                m['sm_isin'][:20],
             ))
             count += 1
 
         conn.commit()
-        log.info(f'Upserted {count} records into board_meetings')
+        log.info(f'Upserted {count} records into board_meetings (skipped {skipped})')
     finally:
         conn.close()
 
