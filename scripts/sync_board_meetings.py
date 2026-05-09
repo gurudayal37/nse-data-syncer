@@ -13,6 +13,7 @@ Requires:
 """
 
 import os
+import re
 import sys
 import logging
 from datetime import date, timedelta
@@ -137,6 +138,8 @@ def main():
     if not db_url:
         log.error('DATABASE_URL not set')
         sys.exit(1)
+    # Strip quotes around query param values, e.g. sslmode="require" → sslmode=require
+    db_url = re.sub(r'="([^"]*)"', r'=\1', db_url)
 
     today = date.today()
     to_date = today + timedelta(days=90)
