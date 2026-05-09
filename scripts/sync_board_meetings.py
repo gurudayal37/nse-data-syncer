@@ -15,6 +15,7 @@ Requires:
 import os
 import re
 import sys
+import json
 import logging
 from datetime import date, timedelta
 
@@ -40,6 +41,10 @@ UA = (
     'AppleWebKit/537.36 (KHTML, like Gecko) '
     'Chrome/122.0.0.0 Safari/537.36'
 )
+RESULT_KEYWORDS = [
+    'result', 'quarterly', 'financial result',
+    'annual result', 'half yearly', 'unaudited', 'audited',
+]
 
 CREATE_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS board_meetings (
@@ -70,6 +75,13 @@ ON CONFLICT (symbol, meeting_date) DO UPDATE SET
 """
 
 
+def clean_db_url(url: str) -> str:
+    """Remove any quoting around individual query-param values.
+    Handles sslmode="require", sslmode='require', sslmode="require (no closing quote).
+    """
+    return re.sub(r'=(["\'])?([\w-]+)\1?(?=[&\s]|$)', r'=\2', url)
+
+
 def fmt_bse(d: date) -> str:
     """BSE date format: DDMMYYYY (no separators)."""
     return d.strftime('%d%m%Y')
@@ -92,51 +104,64 @@ def parse_date(date_str: str) -> date | None:
         return None
 
 
-RESULT_KEYWORDS = [
-    'result', 'quarterly', 'financial result',
-    'annual result', 'half yearly', 'unaudited', 'audited',
-]
-
-
 def is_result(row: dict) -> bool:
-    text = f"{row.get('PURPOSE', '')} {row.get('DETAILS', '')}".lower()
+    # Check all string values in the row for result keywords
+    text = ' '.join(str(v) for v in row.values() if isinstance(v, str)).lower()
     return any(kw in text for kw in RESULT_KEYWORDS)
 
 
 def fetch_bse_meetings(from_date: date, to_date: date) -> list[dict]:
     """BSE board meetings API — no auth or session cookie needed."""
-    params = {
-        'scripcode': '',
-        'fromdate': fmt_bse(from_date),
-        'todate': fmt_bse(to_date),
-    }
-    headers = {
-        'User-Agent': UA,
-        'Accept': 'application/json, text/plain, */*',
-        'Accept-Language': 'en-US,en;q=0.9',
-        'Referer': 'https://www.bseindia.com/',
-        'Origin': 'https://www.bseindia.com',
-    }
-    resp = requests.get(BSE_URL, params=params, headers=headers, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
-    # BSE returns either a plain list or {"Table": [...]}
-    if isinstance(data, list):
-        return data
-    if isinstance(data, dict):
-        return data.get('Table', [])
+    # Try both date formats BSE might expect
+    for date_fmt in ('%d%m%Y', '%d-%m-%Y'):
+        params = {
+            'scripcode': '',
+            'fromdate': from_date.strftime(date_fmt),
+            'todate': to_date.strftime(date_fmt),
+        }
+        headers = {
+            'User-Agent': UA,
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Referer': 'https://www.bseindia.com/',
+            'Origin': 'https://www.bseindia.com',
+        }
+        resp = requests.get(BSE_URL, params=params, headers=headers, timeout=30)
+        resp.raise_for_status()
+        data = resp.json()
+
+        # Log raw response shape so we can debug if needed
+        if isinstance(data, list):
+            rows = data
+        elif isinstance(data, dict):
+            rows = data.get('Table', data.get('data', []))
+        else:
+            rows = []
+
+        log.info(f'Date fmt {date_fmt}: got {len(rows)} rows')
+        if rows:
+            log.info(f'Sample row keys: {list(rows[0].keys())}')
+            log.info(f'Sample row: {json.dumps(rows[0], default=str)}')
+            return rows
+
     return []
 
 
 def normalize(row: dict) -> dict:
-    """Map BSE response fields to our common schema."""
+    """Map BSE response fields to our schema — try common field name variants."""
+    def pick(*keys):
+        for k in keys:
+            v = row.get(k) or row.get(k.upper()) or row.get(k.lower())
+            if v:
+                return str(v).strip()
+        return ''
+
     return {
-        'symbol':       (row.get('short_name') or '').strip(),
-        'company_name': (row.get('SCRIP_NAME') or '').strip(),
-        'meeting_date': row.get('DT_TM', ''),
-        'purpose':      (row.get('PURPOSE') or '').strip(),
-        'bm_desc':      (row.get('PURPOSE') or '').strip(),
-        'sm_isin':      (row.get('ISIN_CODE') or '').strip(),
+        'symbol':       pick('short_name', 'NSE_CD', 'nse_cd', 'NSECODE'),
+        'company_name': pick('SCRIP_NAME', 'scrip_name', 'CompanyName', 'COMPANYNAME'),
+        'meeting_date': pick('DT_TM', 'dt_tm', 'MEETING_DATE', 'MeetingDate', 'BoardDate'),
+        'purpose':      pick('PURPOSE', 'purpose', 'AGENDADESC', 'AgendaDesc'),
+        'sm_isin':      pick('ISIN_CODE', 'isin_code', 'ISIN'),
     }
 
 
@@ -145,8 +170,9 @@ def main():
     if not db_url:
         log.error('DATABASE_URL not set')
         sys.exit(1)
-    # Strip quotes around query param values, e.g. sslmode="require" → sslmode=require
-    db_url = re.sub(r'="([^"]*)"', r'=\1', db_url)
+
+    db_url = clean_db_url(db_url.strip())
+    log.info(f'Connecting to DB (sslmode portion: {re.search(r"sslmode=[^&\\s]*", db_url)})')
 
     today = date.today()
     to_date = today + timedelta(days=90)
@@ -158,9 +184,9 @@ def main():
         log.error(f'Failed to fetch from BSE: {e}')
         sys.exit(1)
 
-    log.info(f'BSE returned {len(raw)} total meetings')
-    raw = [r for r in raw if is_result(r)]
-    log.info(f'{len(raw)} are result announcements')
+    log.info(f'BSE returned {len(raw)} total rows')
+    result_rows = [r for r in raw if is_result(r)]
+    log.info(f'{len(result_rows)} are result announcements')
 
     conn = psycopg2.connect(db_url)
     try:
@@ -169,13 +195,15 @@ def main():
 
         count = 0
         skipped = 0
-        for row in raw:
+        for row in result_rows:
             m = normalize(row)
             if not m['symbol']:
+                log.warning(f'No symbol found in row: {row}')
                 skipped += 1
                 continue
             meeting_date = parse_date(m['meeting_date'])
             if not meeting_date:
+                log.warning(f'Could not parse date "{m["meeting_date"]}" in row: {row}')
                 skipped += 1
                 continue
             cur.execute(UPSERT_SQL, (
@@ -183,8 +211,8 @@ def main():
                 m['company_name'][:500],
                 meeting_date,
                 m['purpose'][:500],
-                m['bm_desc'],
-                '',           # BSE API doesn't return attachment URL
+                m['purpose'],
+                '',
                 m['sm_isin'][:20],
             ))
             count += 1
