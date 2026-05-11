@@ -65,6 +65,8 @@ def is_result(ann: dict) -> bool:
     cat = ann.get('desc', '').lower()
     if any(excl in cat for excl in EXCLUDE_CATEGORIES):
         return False
+    if 'outcome of board meeting' in cat:
+        return True
     text = (ann.get('desc', '') + ' ' + ann.get('attchmntText', '')).lower()
     return any(kw in text for kw in RESULT_KEYWORDS)
 

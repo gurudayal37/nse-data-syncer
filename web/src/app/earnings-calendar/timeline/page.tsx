@@ -44,6 +44,7 @@ interface NseAnn {
 function isResult(ann: NseAnn): boolean {
   const cat = (ann.desc ?? '').toLowerCase()
   if (EXCLUDE_CATEGORIES.some(e => cat.includes(e))) return false
+  if (cat.includes('outcome of board meeting')) return true
   const text = `${ann.desc ?? ''} ${ann.attchmntText ?? ''}`.toLowerCase()
   return RESULT_KEYWORDS.some(kw => text.includes(kw))
 }
