@@ -27,8 +27,8 @@ interface PageProps {
 
 export default async function EarningsCalendarPage({ searchParams }: PageProps) {
   const sp = await searchParams
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  const ist = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }))
+  const today = new Date(ist.getFullYear(), ist.getMonth(), ist.getDate())
 
   const defaultMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`
   const month = sp.month || defaultMonth
