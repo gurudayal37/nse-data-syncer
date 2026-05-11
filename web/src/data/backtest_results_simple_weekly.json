@@ -42,41 +42,41 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-05-08",
-      "period": "23 weeks (0.4 years)"
+      "end": "2026-05-15",
+      "period": "24 weeks (0.5 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 114307.5,
-      "total_fees_paid": 2495.22,
+      "end_value": 113027.25,
+      "total_fees_paid": 2791.5,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 14.31,
-      "benchmark_return": -7.74,
-      "expectancy": 0.65,
-      "net_return_after_fees": 11.81
+      "total_return": 13.03,
+      "benchmark_return": -9.12,
+      "expectancy": 0.57,
+      "net_return_after_fees": 10.24
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": 1.31,
-      "calmar_ratio": 2.48,
-      "omega_ratio": 1.58,
-      "sortino_ratio": 2.22
+      "sharpe_ratio": 1.18,
+      "calmar_ratio": 2.14,
+      "omega_ratio": 1.52,
+      "sortino_ratio": 2.02
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 23,
-      "total_stock_transactions": 72,
-      "win_rate": 56.52,
+      "total_trades": 24,
+      "total_stock_transactions": 80,
+      "win_rate": 54.17,
       "best_trade": 7.51,
       "worst_trade": -8.0,
       "avg_winning_trade": 3.11,
-      "avg_losing_trade": -2.56,
-      "profit_factor": 1.58
+      "avg_losing_trade": -2.42,
+      "profit_factor": 1.52
     }
   },
   "backtest_results": [
@@ -16630,6 +16630,48 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-05-15",
+      "portfolio_return": -1.12,
+      "benchmark_return": -1.49,
+      "holdings": [
+        {
+          "symbol": "CUPID",
+          "return": -1.95,
+          "score": 8.33
+        },
+        {
+          "symbol": "STLTECH",
+          "return": 4.99,
+          "score": 5.84
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": 0.77,
+          "score": 5.44
+        },
+        {
+          "symbol": "AEROFLEX",
+          "return": -9.28,
+          "score": 3.56
+        },
+        {
+          "symbol": "BAJAJCON",
+          "return": -1.28,
+          "score": 3.24
+        },
+        {
+          "symbol": "MCX",
+          "return": 2.91,
+          "score": 2.96
+        },
+        {
+          "symbol": "KIRLOSENG",
+          "return": -3.99,
+          "score": 2.92
+        }
+      ]
+    },
     {
       "week": "2026-05-08",
       "portfolio_return": 4.91,
