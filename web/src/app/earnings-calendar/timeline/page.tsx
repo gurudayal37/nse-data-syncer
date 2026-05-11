@@ -1,16 +1,16 @@
 import Link from 'next/link'
-import { ChevronLeft, Calendar, Clock, FileText } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Calendar, Clock, FileText } from 'lucide-react'
 import prisma from '@/lib/prisma'
 import AnalyseButton, { AnalysisDisplay } from './AnalyseButton'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: "Today's Results Timeline",
+  title: "Results Timeline",
   description: 'Real-time tracker of quarterly result announcements on NSE.',
 }
 
-// ── NSE filtering (mirrors test_pead_local.py) ────────────────────────────────
+// ── NSE filtering ─────────────────────────────────────────────────────────────
 
 const RESULT_KEYWORDS = [
   'financial result', 'quarterly result', 'unaudited result',
@@ -83,20 +83,47 @@ async function fetchNseResults(dateStr: string): Promise<NseAnn[]> {
   } catch { return [] }
 }
 
+function offsetDate(isoDate: string, days: number): string {
+  const d = new Date(isoDate)
+  d.setDate(d.getDate() + days)
+  return d.toISOString().slice(0, 10)
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
-export default async function TimelinePage() {
-  const now = new Date()
-  const ist = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }))
-  const dd   = String(ist.getDate()).padStart(2, '0')
-  const mm   = String(ist.getMonth() + 1).padStart(2, '0')
-  const yyyy = ist.getFullYear()
-  const nseDate  = `${dd}-${mm}-${yyyy}`
-  const dbDate   = new Date(yyyy, ist.getMonth(), ist.getDate())
-  const dbDateEnd = new Date(yyyy, ist.getMonth(), ist.getDate(), 23, 59, 59)
-  const isoDate  = `${yyyy}-${mm}-${dd}` // for client component
+export default async function TimelinePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ date?: string }>
+}) {
+  const params = await searchParams
 
-  const displayDate = ist.toLocaleDateString('en-IN', {
+  // Resolve the date: use ?date=YYYY-MM-DD or fall back to today IST
+  let isoDate: string
+  if (params.date && /^\d{4}-\d{2}-\d{2}$/.test(params.date)) {
+    isoDate = params.date
+  } else {
+    const now = new Date()
+    const ist = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }))
+    const dd  = String(ist.getDate()).padStart(2, '0')
+    const mm  = String(ist.getMonth() + 1).padStart(2, '0')
+    isoDate = `${ist.getFullYear()}-${mm}-${dd}`
+  }
+
+  const [yyyy, mm, dd] = isoDate.split('-')
+  const nseDate   = `${dd}-${mm}-${yyyy}`           // DD-MM-YYYY for NSE API
+  const dbDate    = new Date(`${isoDate}T00:00:00`)
+  const dbDateEnd = new Date(`${isoDate}T23:59:59`)
+
+  const prevDate = offsetDate(isoDate, -1)
+  const nextDate = offsetDate(isoDate, +1)
+
+  // Is this today IST?
+  const nowIst = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }))
+  const todayIso = `${nowIst.getFullYear()}-${String(nowIst.getMonth()+1).padStart(2,'0')}-${String(nowIst.getDate()).padStart(2,'0')}`
+  const isToday = isoDate === todayIso
+
+  const displayDate = new Date(`${isoDate}T12:00:00`).toLocaleDateString('en-IN', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   })
 
@@ -112,7 +139,7 @@ export default async function TimelinePage() {
 
   const calendarSymbols = new Set(scheduled.map(s => s.symbol.toUpperCase()))
 
-  // Stored Claude analyses for today
+  // Stored Claude analyses
   const analyses = await prisma.result_analyses.findMany({
     where: { result_date: { gte: dbDate, lte: dbDateEnd } },
   }).catch(() => [])
@@ -138,9 +165,36 @@ export default async function TimelinePage() {
           </Link>
           <Calendar className="w-5 h-5 text-sky-500 shrink-0" />
           <div>
-            <h1 className="text-xl font-bold text-slate-900">Today&apos;s Results Timeline</h1>
+            <h1 className="text-xl font-bold text-slate-900">Results Timeline</h1>
             <p className="text-xs text-slate-400 mt-0.5">{displayDate} · IST</p>
           </div>
+
+          {/* Date navigation */}
+          <div className="flex items-center gap-1 ml-4">
+            <Link
+              href={`/earnings-calendar/timeline?date=${prevDate}`}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              title="Previous day"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </Link>
+            {!isToday && (
+              <Link
+                href="/earnings-calendar/timeline"
+                className="px-2.5 py-1 rounded-lg text-xs font-medium text-sky-600 hover:bg-sky-50 transition-colors"
+              >
+                Today
+              </Link>
+            )}
+            <Link
+              href={`/earnings-calendar/timeline?date=${nextDate}`}
+              className={`p-1.5 rounded-lg transition-colors ${isToday ? 'text-slate-200 pointer-events-none' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'}`}
+              title="Next day"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
+
           <div className="ml-auto flex items-center gap-2 text-xs">
             <span className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 border border-green-200 rounded-full px-2.5 py-1 font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
@@ -161,7 +215,7 @@ export default async function TimelinePage() {
         {/* Announced table */}
         {announced.length === 0 ? (
           <div className="text-center py-16 text-slate-400 text-sm">
-            No result announcements detected yet for today.
+            No result announcements detected for this date.
           </div>
         ) : (
           <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
@@ -179,8 +233,8 @@ export default async function TimelinePage() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {announced.map((ann) => {
-                  const sym      = ann.symbol.toUpperCase()
-                  const saved    = analysisMap.get(sym)
+                  const sym   = ann.symbol.toUpperCase()
+                  const saved = analysisMap.get(sym)
 
                   return (
                     <tr key={ann.seq_id} className="align-top hover:bg-slate-50/60 transition-colors">
