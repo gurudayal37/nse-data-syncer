@@ -2,7 +2,7 @@ name: Sync Earnings Calendar
 
 on:
   schedule:
-    - cron: '30 0 * * 1-5'  # 6:00 AM IST (00:30 UTC) Mon-Fri
+    - cron: '30 22 * * 0-4'  # 4:00 AM IST (22:30 UTC prev night) Mon-Fri
   workflow_dispatch:          # manual trigger
 
 env:

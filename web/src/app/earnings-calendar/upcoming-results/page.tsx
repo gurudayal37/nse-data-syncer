@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight, Calendar, ArrowRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Calendar, ArrowRight, Clock } from 'lucide-react'
 import prisma from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
@@ -83,6 +83,15 @@ export default async function EarningsCalendarPage({ searchParams }: PageProps) 
               <h1 className="text-xl font-bold text-slate-900">Earnings Calendar</h1>
             </div>
           </div>
+
+          {/* Today's timeline link */}
+          <Link
+            href="/earnings-calendar/timeline"
+            className="flex items-center gap-1.5 text-xs font-medium text-sky-600 hover:text-sky-800 border border-sky-200 hover:border-sky-400 bg-sky-50 hover:bg-sky-100 rounded-lg px-3 py-1.5 transition-colors"
+          >
+            <Clock className="w-3.5 h-3.5" />
+            Today's Timeline
+          </Link>
 
           {/* Month navigation */}
           <div className="flex items-center gap-2">

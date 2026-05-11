@@ -23,6 +23,15 @@ RESULT_KEYWORDS = [
     'audited result', 'half yearly result', 'annual result',
 ]
 
+EXCLUDE_CATEGORIES = [
+    'copy of newspaper publication',
+    'clarification - financial results',
+    'reply to clarification',
+    'analysts/institutional investor meet',
+    'corporate insolvency',
+    'general updates',
+]
+
 IST = timezone(timedelta(hours=5, minutes=30))
 
 CREATE_TABLE_SQL = """
@@ -53,6 +62,9 @@ def clean_db_url(url: str) -> str:
 
 
 def is_result(ann: dict) -> bool:
+    cat = ann.get('desc', '').lower()
+    if any(excl in cat for excl in EXCLUDE_CATEGORIES):
+        return False
     text = (ann.get('desc', '') + ' ' + ann.get('attchmntText', '')).lower()
     return any(kw in text for kw in RESULT_KEYWORDS)
 
@@ -127,6 +139,21 @@ def lambda_handler(event, context):
 
     result_anns = [a for a in announcements if is_result(a)]
     print(f'Announcements today: {len(announcements)}, results: {len(result_anns)}')
+
+    # Filter to companies scheduled in today's earnings calendar
+    conn_check = psycopg2.connect(db_url)
+    try:
+        cur_check = conn_check.cursor()
+        cur_check.execute(
+            'SELECT UPPER(symbol) FROM board_meetings WHERE meeting_date = %s',
+            (now_ist.date(),)
+        )
+        calendar_symbols = {row[0] for row in cur_check.fetchall()}
+    finally:
+        conn_check.close()
+
+    result_anns = [a for a in result_anns if a.get('symbol', '').upper() in calendar_symbols]
+    print(f'After calendar filter: {len(result_anns)}')
 
     if not result_anns:
         return {'processed': 0}
