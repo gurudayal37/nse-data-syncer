@@ -58,14 +58,17 @@ jobs:
             --zip-file fileb://aws/pead/poller.zip \
             --region ap-south-1
 
+          aws lambda wait function-updated \
+            --function-name pead-poller \
+            --region ap-south-1
+
           aws lambda update-function-configuration \
             --function-name pead-poller \
             --environment "Variables={
               DATABASE_URL=${{ secrets.PEAD_DATABASE_URL }},
               TELEGRAM_BOT_TOKEN=${{ secrets.PEAD_TELEGRAM_BOT_TOKEN }},
               TELEGRAM_CHAT_ID=${{ secrets.PEAD_TELEGRAM_CHAT_ID }},
-              SQS_QUEUE_URL=${{ secrets.PEAD_SQS_QUEUE_URL }},
-              AWS_REGION=ap-south-1
+              SQS_QUEUE_URL=${{ secrets.PEAD_SQS_QUEUE_URL }}
             }" \
             --region ap-south-1
 
@@ -83,6 +86,10 @@ jobs:
           aws lambda update-function-code \
             --function-name pead-processor \
             --zip-file fileb://aws/pead/processor.zip \
+            --region ap-south-1
+
+          aws lambda wait function-updated \
+            --function-name pead-processor \
             --region ap-south-1
 
           aws lambda update-function-configuration \

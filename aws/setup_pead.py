@@ -11,10 +11,12 @@ Usage:
     python aws/setup_pead.py
 """
 
+import io
 import json
 import os
 import sys
 import time
+import zipfile
 import boto3
 
 REGION = os.environ.get('AWS_REGION', 'ap-south-1')
@@ -45,7 +47,16 @@ SQS_POLICY = json.dumps({
     }],
 })
 
-LAMBDA_PLACEHOLDER = b'UEsDBBQAAAAIAA=='  # minimal valid zip placeholder
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def make_zip(handler_filename: str) -> bytes:
+    """Create a zip containing just the handler file (no dependencies)."""
+    buf = io.BytesIO()
+    src = os.path.join(SCRIPT_DIR, 'pead', handler_filename)
+    with zipfile.ZipFile(buf, 'w', zipfile.ZIP_DEFLATED) as zf:
+        zf.write(src, arcname=handler_filename)
+    return buf.getvalue()
 
 
 def p(msg): print(f'  {msg}')
@@ -111,13 +122,15 @@ def setup():
     )['Attributes']['QueueArn']
 
     # ── 3. Lambda: pead-poller ────────────────────────────────────────────────
+    poller_zip     = make_zip('poller.py')
+    processor_zip  = make_zip('processor.py')
+
     print('\n[3/5] Lambda: pead-poller')
     poller_env = {
         'DATABASE_URL':        os.environ.get('DATABASE_URL', 'REPLACE_ME'),
         'TELEGRAM_BOT_TOKEN':  os.environ.get('TELEGRAM_BOT_TOKEN', 'REPLACE_ME'),
         'TELEGRAM_CHAT_ID':    os.environ.get('TELEGRAM_CHAT_ID', 'REPLACE_ME'),
         'SQS_QUEUE_URL':       queue_url,
-        'AWS_REGION':          REGION,
     }
     try:
         fn = lam.create_function(
@@ -125,7 +138,7 @@ def setup():
             Runtime='python3.11',
             Role=role_arn,
             Handler='poller.lambda_handler',
-            Code={'ZipFile': LAMBDA_PLACEHOLDER},
+            Code={'ZipFile': poller_zip},
             Timeout=60,
             MemorySize=256,
             Environment={'Variables': poller_env},
@@ -157,7 +170,7 @@ def setup():
             Runtime='python3.11',
             Role=role_arn,
             Handler='processor.lambda_handler',
-            Code={'ZipFile': LAMBDA_PLACEHOLDER},
+            Code={'ZipFile': processor_zip},
             Timeout=300,
             MemorySize=512,
             Environment={'Variables': processor_env},
