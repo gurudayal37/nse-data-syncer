@@ -455,6 +455,27 @@ enum tradestatus {
   closed
 }
 
+model result_analyses {
+  id            Int      @id @default(autoincrement())
+  symbol        String   @db.VarChar(20)
+  result_date   DateTime @db.Date
+  seq_id        String?  @db.VarChar(50)
+  pdf_url       String?  @db.Text
+  revenue       Decimal? @db.Decimal(15, 2)
+  ebit          Decimal? @db.Decimal(15, 2)
+  net_profit    Decimal? @db.Decimal(15, 2)
+  eps           Decimal? @db.Decimal(10, 2)
+  signal        String?  @db.VarChar(10)
+  confidence    String?  @db.VarChar(10)
+  key_positives String?  @db.Text
+  key_negatives String?  @db.Text
+  reasoning     String?  @db.Text
+  analysed_at   DateTime @default(now()) @db.Timestamptz(6)
+
+  @@unique([symbol, result_date], map: "uq_result_analyses_symbol_date")
+  @@index([result_date], map: "ix_result_analyses_date")
+}
+
 model board_meetings {
   id           Int       @id @default(autoincrement())
   symbol       String    @db.VarChar(20)
