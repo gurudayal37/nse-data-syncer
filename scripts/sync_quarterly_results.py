@@ -180,20 +180,42 @@ def _latest_quarter_month(soup: BeautifulSoup) -> tuple:
 
 
 def fetch_company_page(session: requests.Session, symbol: str) -> BeautifulSoup:
-    """Fetch both default and consolidated Screener pages, use whichever has more recent data."""
-    pages: dict[str, BeautifulSoup] = {}
-    for url in [f"{BASE_URL}/company/{symbol}/", f"{BASE_URL}/company/{symbol}/consolidated/"]:
-        r = session.get(url, timeout=20)
-        if r.status_code == 200:
-            pages[url] = BeautifulSoup(r.text, 'html.parser')
+    """Fetch both Screener pages and prefer consolidated (for correct group numbers),
+    falling back to standalone only if standalone has more recent data."""
+    default_url      = f"{BASE_URL}/company/{symbol}/"
+    consolidated_url = f"{BASE_URL}/company/{symbol}/consolidated/"
 
-    if not pages:
+    default_soup = consolidated_soup = None
+
+    r = session.get(consolidated_url, timeout=20)
+    if r.status_code == 200:
+        consolidated_soup = BeautifulSoup(r.text, 'html.parser')
+
+    r = session.get(default_url, timeout=20)
+    if r.status_code == 200:
+        default_soup = BeautifulSoup(r.text, 'html.parser')
+
+    if consolidated_soup is None and default_soup is None:
         raise RuntimeError(f"Could not fetch page for {symbol}")
 
-    # Pick whichever page has the most recent quarter column
-    best_url = max(pages, key=lambda u: _latest_quarter_month(pages[u]))
-    logger.info(f"Fetched page: {best_url} (most recent quarters)")
-    return pages[best_url]
+    if consolidated_soup is None:
+        logger.info(f"Fetched page: {default_url} (no consolidated available)")
+        return default_soup  # type: ignore
+
+    if default_soup is None:
+        logger.info(f"Fetched page: {consolidated_url}")
+        return consolidated_soup
+
+    # Prefer consolidated unless standalone has strictly newer quarterly data
+    cons_date = _latest_quarter_month(consolidated_soup)
+    dflt_date = _latest_quarter_month(default_soup)
+
+    if dflt_date > cons_date:
+        logger.info(f"Fetched page: {default_url} (standalone is more recent: {dflt_date} vs {cons_date})")
+        return default_soup
+
+    logger.info(f"Fetched page: {consolidated_url} (consolidated preferred)")
+    return consolidated_soup
 
 
 def scrape_quarterly_results(session: requests.Session, symbol: str):
