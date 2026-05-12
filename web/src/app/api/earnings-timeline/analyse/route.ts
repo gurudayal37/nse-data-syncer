@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     const pdfBytes = await pdfRes.arrayBuffer()
     const pdfBase64 = Buffer.from(pdfBytes).toString('base64')
 
-    // Call Claude with the PDF
+    // Call Claude with the PDF (retry up to 3x on overload)
     const userMessage: MessageParam = {
       role: 'user',
       content: [
@@ -66,11 +66,25 @@ export async function POST(req: NextRequest) {
         { type: 'text', text: PROMPT },
       ],
     }
-    const msg = await client.messages.create({
-      model: 'claude-opus-4-7',
-      max_tokens: 1024,
-      messages: [userMessage],
-    })
+    let msg
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        msg = await client.messages.create({
+          model: 'claude-opus-4-7',
+          max_tokens: 1024,
+          messages: [userMessage],
+        })
+        break
+      } catch (err: unknown) {
+        const isOverloaded = err instanceof Error && err.message.includes('overloaded')
+        if (isOverloaded && attempt < 3) {
+          await new Promise(r => setTimeout(r, attempt * 10_000))
+        } else {
+          throw err
+        }
+      }
+    }
+    if (!msg) throw new Error('Claude API unavailable after retries')
 
     const raw = (msg.content[0] as { type: string; text: string }).text.trim()
 
