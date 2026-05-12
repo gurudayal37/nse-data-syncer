@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, Calendar, ArrowRight, Clock } from 'lucide-react'
 import prisma from '@/lib/prisma'
+import ScrollToToday from './ScrollToToday'
 
 export const dynamic = 'force-dynamic'
 
@@ -133,6 +134,8 @@ export default async function EarningsCalendarPage({ searchParams }: PageProps) 
           </div>
         )}
 
+        {month === defaultMonth && <ScrollToToday />}
+
         <div className="space-y-8">
           {sortedDays.map(([key, { date: d, items }]) => {
             const diff = Math.round((d.getTime() - today.getTime()) / 86_400_000)
@@ -142,7 +145,7 @@ export default async function EarningsCalendarPage({ searchParams }: PageProps) 
             const dateStr = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })
 
             return (
-              <div key={key}>
+              <div key={key} id={isToday ? 'today' : undefined}>
                 {/* Day header */}
                 <div className="flex items-center gap-3 mb-3">
                   <h2 className={`text-base font-bold ${isPast ? 'text-slate-400' : 'text-slate-800'}`}>
