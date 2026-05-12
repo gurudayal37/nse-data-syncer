@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 114250.53,
-      "total_fees_paid": 3414.58,
+      "end_value": 110323.8,
+      "total_fees_paid": 3408.86,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 14.25,
-      "benchmark_return": -2.58,
-      "expectancy": 0.59,
-      "net_return_after_fees": 10.84
+      "total_return": 10.32,
+      "benchmark_return": -4.36,
+      "expectancy": 0.45,
+      "net_return_after_fees": 6.91
     },
     "risk_metrics": {
       "max_drawdown": -8.03,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": 1.62,
-      "calmar_ratio": 4.17,
-      "omega_ratio": 1.69,
-      "sortino_ratio": 5.55
+      "sharpe_ratio": 1.18,
+      "calmar_ratio": 2.95,
+      "omega_ratio": 1.45,
+      "sortino_ratio": 4.22
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -71,12 +71,12 @@
     "trade_statistics": {
       "total_trades": 24,
       "total_stock_transactions": 98,
-      "win_rate": 62.5,
+      "win_rate": 58.33,
       "best_trade": 5.47,
       "worst_trade": -3.35,
-      "avg_winning_trade": 2.32,
-      "avg_losing_trade": -2.29,
-      "profit_factor": 1.69
+      "avg_winning_trade": 2.46,
+      "avg_losing_trade": -2.37,
+      "profit_factor": 1.45
     }
   },
   "backtest_results": [
@@ -15204,42 +15204,42 @@
   "current_performance": [
     {
       "week": "2026-05-15",
-      "portfolio_return": 0.38,
-      "benchmark_return": -1.49,
+      "portfolio_return": -3.07,
+      "benchmark_return": -3.29,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": -1.95,
-          "score": 6.05
+          "return": -10.44,
+          "score": 6.03
         },
         {
           "symbol": "STLTECH",
-          "return": 4.99,
-          "score": 6.01
+          "return": 5.94,
+          "score": 5.99
         },
         {
           "symbol": "MTARTECH",
-          "return": 0.77,
-          "score": 4.87
+          "return": -3.42,
+          "score": 4.86
         },
         {
           "symbol": "AEROFLEX",
-          "return": -9.28,
-          "score": 4.03
+          "return": -16.87,
+          "score": 4.02
         },
         {
           "symbol": "HFCL",
-          "return": 5.18,
-          "score": 2.89
+          "return": 4.7,
+          "score": 2.88
         },
         {
           "symbol": "DEEDEV",
-          "return": 5.0,
-          "score": 2.78
+          "return": 4.52,
+          "score": 2.77
         },
         {
           "symbol": "SCHNEIDER",
-          "return": -2.06,
+          "return": -5.91,
           "score": 2.67
         }
       ]
