@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 110866.84,
-      "total_fees_paid": 2788.93,
+      "end_value": 114158.9,
+      "total_fees_paid": 2792.85,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 10.87,
-      "benchmark_return": -10.66,
-      "expectancy": 0.49,
-      "net_return_after_fees": 8.08
+      "total_return": 14.16,
+      "benchmark_return": -9.6,
+      "expectancy": 0.61,
+      "net_return_after_fees": 11.37
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": 1.0,
-      "calmar_ratio": 1.76,
-      "omega_ratio": 1.42,
-      "sortino_ratio": 1.78
+      "sharpe_ratio": 1.27,
+      "calmar_ratio": 2.34,
+      "omega_ratio": 1.57,
+      "sortino_ratio": 2.09
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -75,8 +75,8 @@
       "best_trade": 7.51,
       "worst_trade": -8.0,
       "avg_winning_trade": 3.11,
-      "avg_losing_trade": -2.6,
-      "profit_factor": 1.42
+      "avg_losing_trade": -2.33,
+      "profit_factor": 1.57
     }
   },
   "backtest_results": [
@@ -16590,42 +16590,42 @@
   "current_performance": [
     {
       "week": "2026-05-15",
-      "portfolio_return": -3.01,
-      "benchmark_return": -3.16,
+      "portfolio_return": -0.13,
+      "benchmark_return": -2.01,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": -8.55,
+          "return": -7.85,
           "score": 8.3
         },
         {
           "symbol": "STLTECH",
-          "return": 7.77,
+          "return": 12.49,
           "score": 5.82
         },
         {
           "symbol": "MTARTECH",
-          "return": 4.54,
+          "return": 17.28,
           "score": 5.43
         },
         {
           "symbol": "AEROFLEX",
-          "return": -16.92,
+          "return": -17.84,
           "score": 3.55
         },
         {
           "symbol": "BAJAJCON",
-          "return": -3.84,
+          "return": -5.09,
           "score": 3.22
         },
         {
           "symbol": "MCX",
-          "return": 3.43,
+          "return": 7.79,
           "score": 2.95
         },
         {
           "symbol": "KIRLOSENG",
-          "return": -7.48,
+          "return": -7.65,
           "score": 2.91
         }
       ]
