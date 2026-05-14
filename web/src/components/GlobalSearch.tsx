@@ -10,7 +10,7 @@ interface Result {
   type: 'stock' | 'etf'
 }
 
-export default function GlobalSearch() {
+export default function GlobalSearch({ compact = false }: { compact?: boolean }) {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<Result[]>([])
   const [open, setOpen] = useState(false)
@@ -64,16 +64,18 @@ export default function GlobalSearch() {
 
   return (
     <div ref={wrapperRef} className="relative w-full max-w-2xl mx-auto">
-      <div className={`flex items-center gap-3 bg-white border-2 rounded-2xl px-4 py-3.5 shadow-sm transition-all ${open || query ? 'border-blue-400 shadow-blue-100' : 'border-slate-200 hover:border-slate-300'}`}>
-        <Search className={`w-5 h-5 shrink-0 transition-colors ${open || query ? 'text-blue-500' : 'text-slate-400'}`} />
+      <div className={`flex items-center gap-2 bg-white border rounded-xl transition-all
+        ${compact ? 'px-3 py-2' : 'border-2 px-4 py-3.5 shadow-sm rounded-2xl'}
+        ${open || query ? 'border-blue-400 shadow-blue-100' : 'border-slate-200 hover:border-slate-300'}`}>
+        <Search className={`shrink-0 transition-colors ${compact ? 'w-4 h-4' : 'w-5 h-5'} ${open || query ? 'text-blue-500' : 'text-slate-400'}`} />
         <input
           ref={inputRef}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={onKey}
           onFocus={() => { if (results.length > 0) setOpen(true) }}
-          placeholder="Search for a company, stock or ETF…"
-          className="flex-1 text-base text-slate-800 placeholder-slate-400 bg-transparent outline-none"
+          placeholder={compact ? 'Search stocks & ETFs…' : 'Search for a company, stock or ETF…'}
+          className={`flex-1 text-slate-800 placeholder-slate-400 bg-transparent outline-none ${compact ? 'text-sm' : 'text-base'}`}
         />
         {loading && (
           <div className="w-4 h-4 border-2 border-blue-300 border-t-blue-500 rounded-full animate-spin shrink-0" />
