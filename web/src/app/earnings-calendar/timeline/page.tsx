@@ -101,6 +101,16 @@ async function fetchNseAnns(dateStr: string): Promise<NseAnn[]> {
   } catch { return [] }
 }
 
+async function getPdfSize(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url, {
+      method: 'HEAD',
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
+    })
+    return res.headers.get('content-length')
+  } catch { return null }
+}
+
 function toNseDate(iso: string): string {
   const [y, m, d] = iso.split('-')
   return `${d}-${m}-${y}`
@@ -173,9 +183,12 @@ export default async function TimelinePage({
   const pending = scheduled.filter(s => !announcedSymbols.has(s.symbol.toUpperCase()))
 
   // Additional docs: all PDFs from both days for announced companies, excluding primary filing
-  // Deduplicate by URL first, then by friendly label (catches same doc filed with different seq_ids)
+  // Step 1: deduplicate by URL + label
+  // Step 2: HEAD request to filter out docs with same file size as primary or each other
   const allDaysAnns = [...todayNse, ...nextDayNse]
-  const extraDocsMap = new Map<string, { desc: string; url: string }[]>()
+
+  // Collect candidates per symbol (label-deduped)
+  const candidatesMap = new Map<string, { desc: string; url: string }[]>()
   for (const sym of announcedSymbols) {
     const primaryUrl = announced.find(a => a.symbol.toUpperCase() === sym)?.attchmntFile
     const seenUrls   = new Set<string>(primaryUrl ? [primaryUrl] : [])
@@ -190,8 +203,32 @@ export default async function TimelinePage({
       seenLabels.add(label)
       docs.push({ desc: ann.desc, url: ann.attchmntFile })
     }
-    if (docs.length > 0) extraDocsMap.set(sym, docs)
+    if (docs.length > 0) candidatesMap.set(sym, docs)
   }
+
+  // Step 2: fetch primary + candidate sizes in parallel, then filter by size
+  const extraDocsMap = new Map<string, { desc: string; url: string }[]>()
+  await Promise.all(
+    Array.from(announcedSymbols).map(async (sym) => {
+      const candidates = candidatesMap.get(sym)
+      if (!candidates?.length) return
+
+      const primaryUrl  = announced.find(a => a.symbol.toUpperCase() === sym)?.attchmntFile
+      const allUrls     = [primaryUrl, ...candidates.map(d => d.url)].filter(Boolean) as string[]
+      const sizes       = await Promise.all(allUrls.map(getPdfSize))
+      const primarySize = primaryUrl ? sizes[0] : null
+      const seenSizes   = new Set<string>(primarySize ? [primarySize] : [])
+
+      const unique: { desc: string; url: string }[] = []
+      for (let i = 0; i < candidates.length; i++) {
+        const size = sizes[primaryUrl ? i + 1 : i]
+        if (size && seenSizes.has(size)) continue
+        if (size) seenSizes.add(size)
+        unique.push(candidates[i])
+      }
+      if (unique.length > 0) extraDocsMap.set(sym, unique)
+    })
+  )
 
   return (
     <div className="min-h-screen bg-slate-50">
