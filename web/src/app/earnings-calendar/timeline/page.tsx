@@ -25,6 +25,24 @@ const CATEGORY_PRIORITY: Record<string, number> = {
   'outcome of board meeting': 0, 'press release': 1, 'updates': 2,
 }
 
+// Docs we want to highlight with a friendly label
+const DOC_LABELS: [RegExp, string][] = [
+  [/investor\s*presentation/i,        'Presentation'],
+  [/transcript/i,                      'Concall Transcript'],
+  [/concall|con\s*call/i,             'Concall'],
+  [/press\s*release/i,                'Press Release'],
+  [/annual\s*report/i,                'Annual Report'],
+  [/shareholder.*letter|letter.*shareholder/i, 'Shareholder Letter'],
+  [/outcome\s*of\s*board/i,           'Board Outcome'],
+]
+
+function docLabel(desc: string): string {
+  for (const [re, label] of DOC_LABELS) {
+    if (re.test(desc)) return label
+  }
+  return desc.length > 28 ? desc.slice(0, 26) + '…' : desc
+}
+
 interface NseAnn {
   seq_id: string; symbol: string; sm_name: string
   an_dt: string; desc: string; attchmntFile: string; attchmntText: string
@@ -64,7 +82,7 @@ function fmtTime(s: string): string {
   return d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
 }
 
-async function fetchNseResults(dateStr: string): Promise<NseAnn[]> {
+async function fetchNseAnns(dateStr: string): Promise<NseAnn[]> {
   try {
     const res = await fetch(
       `https://www.nseindia.com/api/corporate-announcements?index=equities&from_date=${dateStr}&to_date=${dateStr}`,
@@ -83,6 +101,11 @@ async function fetchNseResults(dateStr: string): Promise<NseAnn[]> {
   } catch { return [] }
 }
 
+function toNseDate(iso: string): string {
+  const [y, m, d] = iso.split('-')
+  return `${d}-${m}-${y}`
+}
+
 function offsetDate(isoDate: string, days: number): string {
   const d = new Date(isoDate)
   d.setDate(d.getDate() + days)
@@ -98,7 +121,6 @@ export default async function TimelinePage({
 }) {
   const params = await searchParams
 
-  // Resolve the date: use ?date=YYYY-MM-DD or fall back to today IST
   let isoDate: string
   if (params.date && /^\d{4}-\d{2}-\d{2}$/.test(params.date)) {
     isoDate = params.date
@@ -110,50 +132,61 @@ export default async function TimelinePage({
     isoDate = `${ist.getFullYear()}-${mm}-${dd}`
   }
 
-  const [yyyy, mm, dd] = isoDate.split('-')
-  const nseDate   = `${dd}-${mm}-${yyyy}`           // DD-MM-YYYY for NSE API
   const dbDate    = new Date(`${isoDate}T00:00:00`)
   const dbDateEnd = new Date(`${isoDate}T23:59:59`)
+  const prevDate  = offsetDate(isoDate, -1)
+  const nextDate  = offsetDate(isoDate, +1)
 
-  const prevDate = offsetDate(isoDate, -1)
-  const nextDate = offsetDate(isoDate, +1)
-
-  // Is this today IST?
-  const nowIst = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }))
+  const nowIst   = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }))
   const todayIso = `${nowIst.getFullYear()}-${String(nowIst.getMonth()+1).padStart(2,'0')}-${String(nowIst.getDate()).padStart(2,'0')}`
-  const isToday = isoDate === todayIso
+  const isToday  = isoDate === todayIso
 
   const displayDate = new Date(`${isoDate}T12:00:00`).toLocaleDateString('en-IN', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   })
 
-  // Scheduled companies
-  let scheduled: { symbol: string; company_name: string | null }[] = []
-  try {
-    scheduled = await prisma.board_meetings.findMany({
+  // Scheduled companies + analyses + NSE today + NSE next day (in parallel)
+  const [scheduled, analyses, todayNse, nextDayNse] = await Promise.all([
+    prisma.board_meetings.findMany({
       where: { meeting_date: { gte: dbDate, lte: dbDateEnd } },
       select: { symbol: true, company_name: true },
       orderBy: { symbol: 'asc' },
-    })
-  } catch { /* empty */ }
+    }).catch(() => [] as { symbol: string; company_name: string | null }[]),
+
+    prisma.result_analyses.findMany({
+      where: { result_date: { gte: dbDate, lte: dbDateEnd } },
+    }).catch(() => []),
+
+    fetchNseAnns(toNseDate(isoDate)),
+    fetchNseAnns(toNseDate(nextDate)),
+  ])
 
   const calendarSymbols = new Set(scheduled.map(s => s.symbol.toUpperCase()))
+  const analysisMap     = new Map(analyses.map(a => [a.symbol.toUpperCase(), a]))
 
-  // Stored Claude analyses
-  const analyses = await prisma.result_analyses.findMany({
-    where: { result_date: { gte: dbDate, lte: dbDateEnd } },
-  }).catch(() => [])
-
-  const analysisMap = new Map(analyses.map(a => [a.symbol.toUpperCase(), a]))
-
-  // NSE announcements
-  const allNse = await fetchNseResults(nseDate)
-  const announced = deduplicate(allNse.filter(isResult))
+  // Primary result announcements
+  const announced = deduplicate(todayNse.filter(isResult))
     .filter(r => calendarSymbols.has(r.symbol.toUpperCase()))
     .sort((a, b) => (parseNseTime(a.an_dt)?.getTime() ?? 0) - (parseNseTime(b.an_dt)?.getTime() ?? 0))
 
   const announcedSymbols = new Set(announced.map(r => r.symbol.toUpperCase()))
   const pending = scheduled.filter(s => !announcedSymbols.has(s.symbol.toUpperCase()))
+
+  // Additional docs: all PDFs from both days for announced companies, excluding the primary filing
+  const allDaysAnns = [...todayNse, ...nextDayNse]
+  const extraDocsMap = new Map<string, { desc: string; url: string }[]>()
+  for (const sym of announcedSymbols) {
+    const primaryUrl = announced.find(a => a.symbol.toUpperCase() === sym)?.attchmntFile
+    const seen = new Set<string>(primaryUrl ? [primaryUrl] : [])
+    const docs: { desc: string; url: string }[] = []
+    for (const ann of allDaysAnns) {
+      if (ann.symbol.toUpperCase() !== sym) continue
+      if (!ann.attchmntFile || seen.has(ann.attchmntFile)) continue
+      seen.add(ann.attchmntFile)
+      docs.push({ desc: ann.desc, url: ann.attchmntFile })
+    }
+    if (docs.length > 0) extraDocsMap.set(sym, docs)
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -226,29 +259,46 @@ export default async function TimelinePage({
                     <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> Time</span>
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide w-32">Symbol</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide w-56">Company</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide w-20">Filing</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide w-48">Company</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide w-48">Documents</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Claude Analysis</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {announced.map((ann) => {
-                  const sym   = ann.symbol.toUpperCase()
-                  const saved = analysisMap.get(sym)
+                  const sym      = ann.symbol.toUpperCase()
+                  const saved    = analysisMap.get(sym)
+                  const extraDocs = extraDocsMap.get(sym) ?? []
 
                   return (
                     <tr key={ann.seq_id} className="align-top hover:bg-slate-50/60 transition-colors">
                       <td className="px-4 py-4 font-mono text-slate-600 text-xs whitespace-nowrap">{fmtTime(ann.an_dt)}</td>
                       <td className="px-4 py-4 font-bold text-slate-800 whitespace-nowrap">{ann.symbol}</td>
                       <td className="px-4 py-4 text-slate-600 text-xs">{ann.sm_name}</td>
+
+                      {/* Documents column */}
                       <td className="px-4 py-4">
-                        {ann.attchmntFile ? (
-                          <a href={ann.attchmntFile} target="_blank" rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-sky-600 hover:text-sky-800 font-medium text-xs">
-                            <FileText className="w-3.5 h-3.5" /> PDF
-                          </a>
-                        ) : <span className="text-slate-300 text-xs">—</span>}
+                        <div className="flex flex-col gap-1.5">
+                          {/* Primary filing */}
+                          {ann.attchmntFile ? (
+                            <a href={ann.attchmntFile} target="_blank" rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-sky-600 hover:text-sky-800 font-semibold text-xs">
+                              <FileText className="w-3.5 h-3.5 shrink-0" /> Result PDF
+                            </a>
+                          ) : (
+                            <span className="text-slate-300 text-xs">—</span>
+                          )}
+                          {/* Additional docs */}
+                          {extraDocs.map((doc, i) => (
+                            <a key={i} href={doc.url} target="_blank" rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-slate-500 hover:text-slate-800 text-xs">
+                              <FileText className="w-3 h-3 shrink-0 text-slate-400" />
+                              {docLabel(doc.desc)}
+                            </a>
+                          ))}
+                        </div>
                       </td>
+
                       <td className="px-4 py-4 min-w-0">
                         {saved ? (
                           <AnalysisDisplay analysis={{
