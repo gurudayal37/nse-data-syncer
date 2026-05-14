@@ -172,17 +172,22 @@ export default async function TimelinePage({
   const announcedSymbols = new Set(announced.map(r => r.symbol.toUpperCase()))
   const pending = scheduled.filter(s => !announcedSymbols.has(s.symbol.toUpperCase()))
 
-  // Additional docs: all PDFs from both days for announced companies, excluding the primary filing
+  // Additional docs: all PDFs from both days for announced companies, excluding primary filing
+  // Deduplicate by URL first, then by friendly label (catches same doc filed with different seq_ids)
   const allDaysAnns = [...todayNse, ...nextDayNse]
   const extraDocsMap = new Map<string, { desc: string; url: string }[]>()
   for (const sym of announcedSymbols) {
     const primaryUrl = announced.find(a => a.symbol.toUpperCase() === sym)?.attchmntFile
-    const seen = new Set<string>(primaryUrl ? [primaryUrl] : [])
+    const seenUrls   = new Set<string>(primaryUrl ? [primaryUrl] : [])
+    const seenLabels = new Set<string>()
     const docs: { desc: string; url: string }[] = []
     for (const ann of allDaysAnns) {
       if (ann.symbol.toUpperCase() !== sym) continue
-      if (!ann.attchmntFile || seen.has(ann.attchmntFile)) continue
-      seen.add(ann.attchmntFile)
+      if (!ann.attchmntFile || seenUrls.has(ann.attchmntFile)) continue
+      const label = docLabel(ann.desc)
+      if (seenLabels.has(label)) continue
+      seenUrls.add(ann.attchmntFile)
+      seenLabels.add(label)
       docs.push({ desc: ann.desc, url: ann.attchmntFile })
     }
     if (docs.length > 0) extraDocsMap.set(sym, docs)
