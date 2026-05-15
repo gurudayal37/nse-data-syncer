@@ -150,7 +150,8 @@ export default async function TimelinePage({
 
   const nowIst   = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }))
   const todayIso = `${nowIst.getFullYear()}-${String(nowIst.getMonth()+1).padStart(2,'0')}-${String(nowIst.getDate()).padStart(2,'0')}`
-  const isToday  = isoDate === todayIso
+  const isToday   = isoDate === todayIso
+  const nextIsFuture = nextDate > todayIso
 
   const displayDate = new Date(`${isoDate}T12:00:00`).toLocaleDateString('en-IN', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
@@ -264,7 +265,7 @@ export default async function TimelinePage({
             )}
             <Link
               href={`/earnings-calendar/timeline?date=${nextDate}`}
-              className={`p-1.5 rounded-lg transition-colors ${isToday ? 'text-slate-200 pointer-events-none' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'}`}
+              className={`p-1.5 rounded-lg transition-colors ${nextIsFuture ? 'text-slate-200 pointer-events-none' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'}`}
               title="Next day"
             >
               <ChevronRight className="w-4 h-4" />
