@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ChevronLeft, ChevronRight, Calendar, Clock, FileText } from 'lucide-react'
 import prisma from '@/lib/prisma'
 import AnalyseButton, { AnalysisDisplay } from './AnalyseButton'
+import TradingViewWatchlist from './TradingViewWatchlist'
 
 export const dynamic = 'force-dynamic'
 
@@ -373,6 +374,11 @@ export default async function TimelinePage({
               </tbody>
             </table>
           </div>
+        )}
+
+        {/* TradingView watchlist */}
+        {announced.length > 0 && (
+          <TradingViewWatchlist symbols={announced.map(a => a.symbol)} />
         )}
 
         {/* Pending companies */}
