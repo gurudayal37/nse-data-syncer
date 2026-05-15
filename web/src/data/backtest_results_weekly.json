@@ -42,36 +42,36 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-05-15",
-      "period": "24 weeks (0.5 years)"
+      "end": "2026-05-22",
+      "period": "25 weeks (0.5 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 116333.4,
-      "total_fees_paid": 3417.62,
+      "total_fees_paid": 3584.35,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 16.33,
       "benchmark_return": -3.1,
-      "expectancy": 0.67,
-      "net_return_after_fees": 12.92
+      "expectancy": 0.64,
+      "net_return_after_fees": 12.75
     },
     "risk_metrics": {
       "max_drawdown": -8.03,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": 1.82,
-      "calmar_ratio": 4.83,
+      "sharpe_ratio": 1.78,
+      "calmar_ratio": 4.6,
       "omega_ratio": 1.78,
-      "sortino_ratio": 6.27
+      "sortino_ratio": 6.02
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 24,
-      "total_stock_transactions": 98,
-      "win_rate": 62.5,
+      "total_trades": 25,
+      "total_stock_transactions": 102,
+      "win_rate": 60.0,
       "best_trade": 5.47,
       "worst_trade": -3.35,
       "avg_winning_trade": 2.44,
@@ -15202,6 +15202,48 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-05-22",
+      "portfolio_return": 0,
+      "benchmark_return": 0.0,
+      "holdings": [
+        {
+          "symbol": "STLTECH",
+          "return": 0.0,
+          "score": 6.79
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": 0.0,
+          "score": 5.52
+        },
+        {
+          "symbol": "CUPID",
+          "return": 0.0,
+          "score": 5.07
+        },
+        {
+          "symbol": "DEEDEV",
+          "return": 0.0,
+          "score": 3.61
+        },
+        {
+          "symbol": "HFCL",
+          "return": 0.0,
+          "score": 3.53
+        },
+        {
+          "symbol": "MCX",
+          "return": 0.0,
+          "score": 3.17
+        },
+        {
+          "symbol": "WHEELS",
+          "return": 0.0,
+          "score": 3.07
+        }
+      ]
+    },
     {
       "week": "2026-05-15",
       "portfolio_return": 2.21,
