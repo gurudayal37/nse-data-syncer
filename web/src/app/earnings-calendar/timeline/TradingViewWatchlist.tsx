@@ -6,7 +6,7 @@ import { Copy, Check } from 'lucide-react'
 export default function TradingViewWatchlist({ symbols }: { symbols: string[] }) {
   const [copied, setCopied] = useState(false)
 
-  const watchlist = symbols.map(s => `NSE:${s}`).join('\n')
+  const watchlist = symbols.map(s => `NSE:${s}`).join(',')
 
   async function handleCopy() {
     await navigator.clipboard.writeText(watchlist)
@@ -37,7 +37,7 @@ export default function TradingViewWatchlist({ symbols }: { symbols: string[] })
       <textarea
         readOnly
         value={watchlist}
-        rows={Math.min(symbols.length, 8)}
+        rows={3}
         className="w-full font-mono text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 resize-none outline-none"
       />
     </div>
