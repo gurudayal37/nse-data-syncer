@@ -185,24 +185,20 @@ export default async function TimelinePage({
   const pending = scheduled.filter(s => !announcedSymbols.has(s.symbol.toUpperCase()))
 
   // Additional docs: all PDFs from both days for announced companies, excluding primary filing
-  // Step 1: deduplicate by URL + label
+  // Step 1: deduplicate by URL only
   // Step 2: HEAD request to filter out docs with same file size as primary or each other
   const allDaysAnns = [...todayNse, ...nextDayNse]
 
-  // Collect candidates per symbol (label-deduped)
+  // Collect candidates per symbol (URL-deduped only — label dedup was dropping legit docs)
   const candidatesMap = new Map<string, { desc: string; url: string }[]>()
   for (const sym of announcedSymbols) {
     const primaryUrl = announced.find(a => a.symbol.toUpperCase() === sym)?.attchmntFile
     const seenUrls   = new Set<string>(primaryUrl ? [primaryUrl] : [])
-    const seenLabels = new Set<string>()
     const docs: { desc: string; url: string }[] = []
     for (const ann of allDaysAnns) {
       if (ann.symbol.toUpperCase() !== sym) continue
       if (!ann.attchmntFile || seenUrls.has(ann.attchmntFile)) continue
-      const label = docLabel(ann.desc)
-      if (seenLabels.has(label)) continue
       seenUrls.add(ann.attchmntFile)
-      seenLabels.add(label)
       docs.push({ desc: ann.desc, url: ann.attchmntFile })
     }
     if (docs.length > 0) candidatesMap.set(sym, docs)
