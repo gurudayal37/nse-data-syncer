@@ -42,41 +42,41 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2025-12-05",
-      "end": "2026-05-15",
-      "period": "24 weeks (0.5 years)"
+      "end": "2026-05-22",
+      "period": "25 weeks (0.5 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 115370.56,
-      "total_fees_paid": 2794.29,
+      "end_value": 114470.67,
+      "total_fees_paid": 2954.01,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 15.37,
-      "benchmark_return": -9.77,
-      "expectancy": 0.66,
-      "net_return_after_fees": 12.58
+      "total_return": 14.47,
+      "benchmark_return": -9.74,
+      "expectancy": 0.6,
+      "net_return_after_fees": 11.52
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": 1.36,
-      "calmar_ratio": 2.56,
-      "omega_ratio": 1.62,
-      "sortino_ratio": 2.27
+      "sharpe_ratio": 1.26,
+      "calmar_ratio": 2.28,
+      "omega_ratio": 1.57,
+      "sortino_ratio": 2.1
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 24,
-      "total_stock_transactions": 80,
-      "win_rate": 58.33,
+      "total_trades": 25,
+      "total_stock_transactions": 84,
+      "win_rate": 56.0,
       "best_trade": 7.51,
       "worst_trade": -8.0,
       "avg_winning_trade": 2.95,
-      "avg_losing_trade": -2.56,
-      "profit_factor": 1.62
+      "avg_losing_trade": -2.39,
+      "profit_factor": 1.57
     }
   },
   "backtest_results": [
@@ -16588,6 +16588,48 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-05-22",
+      "portfolio_return": -0.78,
+      "benchmark_return": 0.03,
+      "holdings": [
+        {
+          "symbol": "STLTECH",
+          "return": 0.5,
+          "score": 7.11
+        },
+        {
+          "symbol": "CUPID",
+          "return": 0.4,
+          "score": 6.86
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": -1.71,
+          "score": 6.05
+        },
+        {
+          "symbol": "MCX",
+          "return": -1.26,
+          "score": 3.75
+        },
+        {
+          "symbol": "BAJAJCON",
+          "return": -3.0,
+          "score": 3.57
+        },
+        {
+          "symbol": "TDPOWERSYS",
+          "return": 1.27,
+          "score": 3.14
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -1.69,
+          "score": 3.02
+        }
+      ]
+    },
     {
       "week": "2026-05-15",
       "portfolio_return": 0.93,
