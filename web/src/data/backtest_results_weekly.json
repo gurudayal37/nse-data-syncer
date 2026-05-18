@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 116333.4,
-      "total_fees_paid": 3584.35,
+      "end_value": 115635.4,
+      "total_fees_paid": 3583.33,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 16.33,
-      "benchmark_return": -3.1,
-      "expectancy": 0.64,
-      "net_return_after_fees": 12.75
+      "total_return": 15.64,
+      "benchmark_return": -3.07,
+      "expectancy": 0.62,
+      "net_return_after_fees": 12.05
     },
     "risk_metrics": {
       "max_drawdown": -8.03,
       "max_drawdown_duration": 9,
-      "sharpe_ratio": 1.78,
-      "calmar_ratio": 4.6,
-      "omega_ratio": 1.78,
-      "sortino_ratio": 6.02
+      "sharpe_ratio": 1.71,
+      "calmar_ratio": 4.39,
+      "omega_ratio": 1.73,
+      "sortino_ratio": 5.01
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -75,8 +75,8 @@
       "best_trade": 5.47,
       "worst_trade": -3.35,
       "avg_winning_trade": 2.44,
-      "avg_losing_trade": -2.29,
-      "profit_factor": 1.78
+      "avg_losing_trade": -2.12,
+      "profit_factor": 1.73
     }
   },
   "backtest_results": [
@@ -15204,43 +15204,43 @@
   "current_performance": [
     {
       "week": "2026-05-22",
-      "portfolio_return": 0,
-      "benchmark_return": 0.0,
+      "portfolio_return": -0.6,
+      "benchmark_return": 0.03,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": 0.0,
-          "score": 6.79
+          "return": 0.5,
+          "score": 6.78
         },
         {
           "symbol": "MTARTECH",
-          "return": 0.0,
-          "score": 5.52
+          "return": -1.71,
+          "score": 5.51
         },
         {
           "symbol": "CUPID",
-          "return": 0.0,
-          "score": 5.07
+          "return": 0.4,
+          "score": 5.06
         },
         {
           "symbol": "DEEDEV",
-          "return": 0.0,
-          "score": 3.61
+          "return": -5.0,
+          "score": 3.6
         },
         {
           "symbol": "HFCL",
-          "return": 0.0,
-          "score": 3.53
+          "return": -5.54,
+          "score": 3.52
         },
         {
           "symbol": "MCX",
-          "return": 0.0,
-          "score": 3.17
+          "return": -1.26,
+          "score": 3.16
         },
         {
           "symbol": "WHEELS",
-          "return": 0.0,
-          "score": 3.07
+          "return": 8.4,
+          "score": 3.06
         }
       ]
     },
