@@ -1,22 +1,30 @@
 'use client'
 
-import React from 'react'
+import React, { useMemo } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, TrendingDown } from 'lucide-react'
+import { ArrowLeft, TrendingDown, AlertTriangle } from 'lucide-react'
 import backtestData from '@/data/backtest_results_weekly.json'
 
-// Import reusable components
 import MetricsGrid from '@/components/strategy/MetricsGrid'
 import DetailedMetrics from '@/components/strategy/DetailedMetrics'
 import PerformanceChart from '@/components/strategy/PerformanceChart'
 import PerformanceTable from '@/components/strategy/PerformanceTable'
+import CagrCards from '@/components/strategy/CagrCards'
+import YearlyReturnsTable from '@/components/strategy/YearlyReturnsTable'
 
 export default function MomentumWeeklyStrategyPage() {
-    // Safe access to data
-    const backtestMetrics = backtestData.backtest_metrics
-    const currentMetrics = backtestData.current_metrics
-    const backtestResults = backtestData.backtest_results || []
-    const currentPerformance = backtestData.current_performance || []
+    const data = backtestData as any
+    const backtestMetrics = data.backtest_metrics
+    const currentMetrics = data.current_metrics
+
+    // Ascending for chart + CAGR/yearly computation; descending for tables
+    const backtestAsc = useMemo(() =>
+        [...(data.backtest_results || [])].sort((a: any, b: any) => a.week.localeCompare(b.week)), [])
+    const backtestDesc = useMemo(() => [...backtestAsc].reverse(), [backtestAsc])
+
+    const currentAsc = useMemo(() =>
+        [...(data.current_performance || [])].sort((a: any, b: any) => a.week.localeCompare(b.week)), [])
+    const currentDesc = useMemo(() => [...currentAsc].reverse(), [currentAsc])
 
     if (!backtestMetrics) {
         return <div className="p-8 text-center text-gray-500">Loading metrics or invalid data format...</div>
@@ -33,12 +41,12 @@ export default function MomentumWeeklyStrategyPage() {
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900">Weekly Momentum Strategy</h1>
                         <p className="text-gray-500 mt-1">
-                            Buying Top 7 Momentum Stocks from High Cap Universe (&gt; 2000 Cr) (Equal Weight) • Weekly Rebalancing • Since 2019
+                            Buying Top 15 Momentum Stocks from High Cap Universe (&gt; 2000 Cr) (Equal Weight) • Weekly Rebalancing • Since 2018
                         </p>
                     </div>
                 </div>
 
-                {/* Audit Warning */}
+                {/* Survivorship Bias Warning */}
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
                     <div className="flex">
                         <div className="flex-shrink-0">
@@ -63,52 +71,50 @@ export default function MomentumWeeklyStrategyPage() {
                         <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
                             <h3 className="font-semibold text-blue-900 mb-2">1. Selection</h3>
                             <p className="text-blue-800">
-                                Select top 7 stocks from High Cap Universe (&gt; 2000 Cr) with highest Momentum Score.
-                                Score is based on volatility-adjusted returns over 3M, 6M, and 1Y periods (equal weight).
+                                Select top 15 stocks from High Cap Universe (&gt; 2000 Cr) with highest Momentum Score.
+                                Score is based on volatility-adjusted returns over <strong>3M, 6M, and 1Y</strong> periods (equal weight).
                             </p>
                         </div>
                         <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
                             <h3 className="font-semibold text-purple-900 mb-2">2. Weighting</h3>
                             <p className="text-purple-800">
-                                Equal weighting (~14.29% per stock) to avoid concentration risk in a single winner.
+                                Equal weighting (~6.67% per stock) to avoid concentration risk in a single winner.
                             </p>
                         </div>
                         <div className="bg-green-50 p-4 rounded-lg border border-green-100">
                             <h3 className="font-semibold text-green-900 mb-2">3. Rebalancing</h3>
                             <p className="text-green-800">
                                 Portfolio is rebalanced <strong>every Friday</strong>.
-                                Stocks dropping out of Top 7 are sold, new entrants are bought.
+                                Stocks dropping out of Top 15 are sold, new entrants are bought.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* =========================================
-                    CURRENT PERFORMANCE SECTION (Live)
-                   ========================================= */}
+                {/* ── Current Performance ─────────────────── */}
                 {currentMetrics && (
                     <div className="mb-12">
                         <div className="flex items-center gap-2 mb-6">
                             <div className="w-2 h-8 bg-green-500 rounded-full"></div>
                             <h2 className="text-2xl font-bold text-gray-900">Current Performance (Live)</h2>
                             <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200 ml-2">
-                                Dec 2025 Onwards
+                                Jan 2026 Onwards
                             </span>
                         </div>
 
-                        {/* Live Metrics Grid */}
                         <MetricsGrid metrics={currentMetrics} />
+                        <CagrCards monthlyData={currentAsc} label="Annualised from live period" />
 
-                        {/* Live Detailed Metrics */}
                         <DetailedMetrics
                             metrics={currentMetrics}
                             title={`Current Metrics (${currentMetrics.time_metrics.start} to ${currentMetrics.time_metrics.end})`}
                         />
 
-                        {/* Live Equity Curve */}
+                        <YearlyReturnsTable monthlyData={currentAsc} timeKey="week" />
+
                         <div className="mt-8">
                             <PerformanceChart
-                                data={currentPerformance}
+                                data={currentAsc}
                                 title="Equity Curve (Live Period)"
                                 timeKey="week"
                                 showBenchmark={true}
@@ -116,10 +122,9 @@ export default function MomentumWeeklyStrategyPage() {
                             />
                         </div>
 
-                        {/* Live Weekly Table */}
                         <div className="mt-8">
                             <PerformanceTable
-                                data={currentPerformance}
+                                data={currentDesc}
                                 title="Weekly Live Performance"
                                 timeKey="week"
                                 timeLabel="Week Ending"
@@ -135,10 +140,7 @@ export default function MomentumWeeklyStrategyPage() {
                     <div className="flex-grow border-t border-gray-300"></div>
                 </div>
 
-
-                {/* =========================================
-                    BACKTEST DATA SECTION (Historical)
-                   ========================================= */}
+                {/* ── Backtest Data ────────────────────────── */}
                 <div>
                     <div className="flex items-center gap-2 mb-6">
                         <div className="w-2 h-8 bg-gray-500 rounded-full"></div>
@@ -148,17 +150,18 @@ export default function MomentumWeeklyStrategyPage() {
                         </span>
                     </div>
 
-                    {/* Historical Detailed Metrics */}
                     <MetricsGrid metrics={backtestMetrics} />
+                    <CagrCards monthlyData={backtestAsc} label={`${(backtestAsc.length / 52).toFixed(1)}-year backtest`} />
+                    <YearlyReturnsTable monthlyData={backtestAsc} timeKey="week" />
+
                     <DetailedMetrics
                         metrics={backtestMetrics}
                         title="Historical Backtest Metrics"
                     />
 
-                    {/* Historical Equity Curve */}
                     <div className="mt-8">
                         <PerformanceChart
-                            data={backtestResults}
+                            data={backtestAsc}
                             title="Historical Equity Curve"
                             timeKey="week"
                             showBenchmark={true}
@@ -166,14 +169,46 @@ export default function MomentumWeeklyStrategyPage() {
                         />
                     </div>
 
-                    {/* Historical Weekly Table */}
                     <div className="mt-8">
                         <PerformanceTable
-                            data={backtestResults}
+                            data={backtestDesc}
                             title="Weekly Backtest Returns"
                             timeKey="week"
                             timeLabel="Week Ending"
                         />
+                    </div>
+                </div>
+
+                {/* ── Backtest Audit (end of page) ─────────── */}
+                <div className="mt-12 bg-orange-50 border border-orange-200 rounded-lg p-5">
+                    <div className="flex items-start gap-3">
+                        <AlertTriangle className="h-5 w-5 text-orange-500 shrink-0 mt-0.5" />
+                        <div>
+                            <h3 className="text-sm font-semibold text-orange-900 mb-2">Backtest Audit — Why the headline return may be inflated</h3>
+                            <ul className="text-sm text-orange-800 space-y-1.5 list-disc list-inside">
+                                <li>
+                                    <strong>Look-ahead bias on universe:</strong> Market cap filter uses today's values.
+                                    Small-caps from 2018 that grew large are included retroactively, biasing selection toward winners.
+                                </li>
+                                <li>
+                                    <strong>Illiquid extreme movers:</strong> Several holdings had &gt;50% single-week returns
+                                    in thinly traded stocks. In practice, large positions couldn't be built or exited at those prices.
+                                </li>
+                                <li>
+                                    <strong>2020–2021 outlier years:</strong> The COVID recovery + pharma/telecom rally was a
+                                    once-in-a-decade event. The compounded gains from those two years alone account for
+                                    a significant portion of the total return.
+                                </li>
+                                <li>
+                                    <strong>No slippage or market impact modelled.</strong> Weekly rebalancing across 15 stocks
+                                    assumes perfect execution at open price — unrealistic for thinly traded names.
+                                </li>
+                                <li>
+                                    <strong>Higher turnover cost:</strong> Weekly rebalancing generates far more transactions than monthly,
+                                    meaning real brokerage fees and market impact would erode returns significantly more.
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 

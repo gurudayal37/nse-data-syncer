@@ -18,23 +18,20 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database import DatabaseManager, MomentumHistory
 
-def get_week_ends(years=8):
-    """Get list of Friday dates for the last N years (default 8 years from 2017)"""
+def get_week_ends():
+    """Get list of Friday dates from first Friday of Jan 2018 to present"""
     today = datetime.now()
     dates = []
-    # Start from N years ago
-    start_date = today - relativedelta(years=years)
-    
-    # Find the first Friday
-    current = start_date
-    # weekday(): Monday=0, Sunday=6, so Friday=4
+
+    # Start from Jan 1, 2018 and find first Friday
+    current = datetime(2018, 1, 1)
     days_until_friday = (4 - current.weekday()) % 7
     current = current + timedelta(days=days_until_friday)
-    
+
     while current < today:
         dates.append(current)
-        current += timedelta(weeks=1)  # Move to next Friday
-        
+        current += timedelta(weeks=1)
+
     return dates
 
 def calculate_momentum_for_date(session, target_date, stocks_df, valid_stock_ids=None):
@@ -331,8 +328,8 @@ def run_backtest():
         except Exception as e:
             print(f"Could not load existing results: {e}")
 
-    # 2. Iterate Weeks (from 2017 to present)
-    dates = get_week_ends(years=8)
+    # 2. Iterate Weeks (from 2018 to present)
+    dates = get_week_ends()
     all_results = []
     
     print(f"Backtesting over {len(dates)} weeks...")
@@ -362,8 +359,8 @@ def run_backtest():
         if top_stocks_df.empty:
             return None
  
-        # Select Top 7
-        top_stocks = top_stocks_df.head(7)
+        # Select Top 15
+        top_stocks = top_stocks_df.head(15)
         selected_stock_ids = top_stocks['stock_id'].tolist()
         score_map = top_stocks.set_index('stock_id')['weighted_z'].to_dict()
         
@@ -478,7 +475,7 @@ def run_backtest():
     all_results.sort(key=lambda x: x['week'])
 
     # Split into backtest period (until Nov 2025) and current performance (Dec 2025+)
-    backtest_cutoff = "2025-11-28"
+    backtest_cutoff = "2025-12-26"
     backtest_results = [r for r in all_results if r['week'] <= backtest_cutoff]
     current_results = [r for r in all_results if r['week'] > backtest_cutoff]
     
@@ -508,7 +505,7 @@ def run_backtest():
             return 0, 0, 0, 0
 
         avg_portfolio_value = np.mean(cumulative_values)
-        fee_per_transaction = (avg_portfolio_value / 7) * 0.0025
+        fee_per_transaction = (avg_portfolio_value / 15) * 0.0025
         total_fees_paid = total_transactions * fee_per_transaction
         
         final_value = cumulative_values[-1]

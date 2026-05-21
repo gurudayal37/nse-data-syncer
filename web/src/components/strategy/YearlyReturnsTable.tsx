@@ -2,12 +2,13 @@ import React, { useMemo } from 'react'
 
 interface YearlyReturnsTableProps {
     monthlyData: any[]
+    timeKey?: string
 }
 
-function computeYearlyReturns(monthlyData: any[]) {
+function computeYearlyReturns(monthlyData: any[], timeKey = 'month') {
     const years: Record<string, { port: number; bench: number }> = {}
     for (const r of monthlyData) {
-        const year = r.month.substring(0, 4)
+        const year = (r[timeKey] ?? '').substring(0, 4)
         if (!years[year]) years[year] = { port: 1, bench: 1 }
         years[year].port *= (1 + r.portfolio_return / 100)
         years[year].bench *= (1 + r.benchmark_return / 100)
@@ -22,8 +23,8 @@ function computeYearlyReturns(monthlyData: any[]) {
         }))
 }
 
-export default function YearlyReturnsTable({ monthlyData }: YearlyReturnsTableProps) {
-    const rows = useMemo(() => computeYearlyReturns(monthlyData), [monthlyData])
+export default function YearlyReturnsTable({ monthlyData, timeKey = 'month' }: YearlyReturnsTableProps) {
+    const rows = useMemo(() => computeYearlyReturns(monthlyData, timeKey), [monthlyData, timeKey])
     if (rows.length === 0) return null
 
     const fmt = (v: number) => `${v >= 0 ? '+' : ''}${v.toFixed(2)}%`
