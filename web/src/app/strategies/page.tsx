@@ -5,6 +5,8 @@ import simpleMomentumData from '@/data/backtest_results_simple.json'
 import simpleAllNiftyData from '@/data/backtest_results_simple_all_nifty.json'
 import weeklyMomentumData from '@/data/backtest_results_weekly.json'
 import simpleWeeklyData from '@/data/backtest_results_simple_weekly.json'
+import momentum10PctStopData from '@/data/backtest_results_10pct_stop.json'
+import simpleMomentum10PctStopData from '@/data/backtest_results_simple_10pct_stop.json'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const g = (obj: any, path: string, fallback: number | string = 0) => {
@@ -56,6 +58,18 @@ const strategies = [
     href: '/simple-momentum-weekly-strategy', icon: BarChart3, dot: 'bg-orange-400', rebalancing: 'Weekly',
     historical: { period: g(simpleWeeklyData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(simpleWeeklyData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleWeeklyData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(simpleWeeklyData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(simpleWeeklyData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(simpleWeeklyData, 'backtest_metrics.trade_statistics.win_rate') as number },
     current: { period: g(simpleWeeklyData, 'current_metrics.time_metrics.period') as string, totalReturn: g(simpleWeeklyData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleWeeklyData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(simpleWeeklyData, 'current_metrics.risk_metrics.max_drawdown') as number },
+  },
+  {
+    title: 'Simple Momentum (Nifty) + 10% Stop', subtitle: '6M + 1Y, Nifty Total Market, -10% Monthly Stop',
+    href: '/simple-momentum-10pct-stop-strategy', icon: Zap, dot: 'bg-amber-400', rebalancing: 'Monthly',
+    historical: g(simpleMomentum10PctStopData, 'backtest_metrics') ? { period: g(simpleMomentum10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(simpleMomentum10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleMomentum10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(simpleMomentum10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(simpleMomentum10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(simpleMomentum10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(simpleMomentum10PctStopData, 'current_metrics') ? { period: g(simpleMomentum10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(simpleMomentum10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleMomentum10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(simpleMomentum10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
+  },
+  {
+    title: 'Momentum + 10% Stop', subtitle: '3M + 6M + 1Y, -10% Monthly Stop Loss',
+    href: '/momentum-10pct-stop-strategy', icon: TrendingUp, dot: 'bg-red-400', rebalancing: 'Monthly',
+    historical: g(momentum10PctStopData, 'backtest_metrics') ? { period: g(momentum10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(momentum10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(momentum10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(momentum10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(momentum10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(momentum10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(momentum10PctStopData, 'current_metrics') ? { period: g(momentum10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(momentum10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(momentum10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(momentum10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
   },
   {
     title: 'ATH Breakout', subtitle: 'Monthly Breakouts > All-Time High',
