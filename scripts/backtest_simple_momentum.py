@@ -21,25 +21,18 @@ from app.utils import get_nse_symbols
 from app.helpers import get_data_path
 from app.constants import CSV_FILENAME, FULL_EQUITY_LIST_FILENAME
 
-def get_month_ends(years=8):
-    """Get list of month-end dates for the last N years (default 8 years from 2017)"""
+def get_month_ends():
+    """Get list of month-end dates from 2018-01 through today."""
     today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     dates = []
-    # Start from N years ago
-    start_date = today - relativedelta(years=years)
-    # Align to next month start
-    # ... logic continues, but I only replace the function Start ...
+    # Start at 2017-12-01 so the first period end is 2017-12-31 → label 2018-01
+    current = datetime(2017, 12, 1) + relativedelta(months=1)
 
-    start_date = today - relativedelta(years=years)
-    # Align to next month start
-    current = start_date.replace(day=1) + relativedelta(months=1)
-    
     while current <= today:
-        # Get last day of previous month (rebalancing date)
         last_month_end = current - timedelta(days=1)
         dates.append(last_month_end)
         current += relativedelta(months=1)
-        
+
     return dates
 
 def calculate_momentum_for_date(session, target_date, stocks_df, valid_stock_ids=None):
@@ -327,7 +320,7 @@ def run_backtest():
         stock_map[s.id] = s.nse_symbol
         
     # 2. Iterate Months (from 2017 to present)
-    dates = get_month_ends(years=8)
+    dates = get_month_ends()
     all_results = []
     
     # Pre-calculate eligible stocks based on Market Cap AND Nifty Total Market List
@@ -535,7 +528,7 @@ def run_backtest():
     all_results.sort(key=lambda x: x['month'])
     
     # Split into backtest period (until Nov 2025) and current performance (Dec 2025 onwards)
-    backtest_cutoff = "2025-11"
+    backtest_cutoff = "2025-12"
     backtest_results = [r for r in all_results if r['month'] <= backtest_cutoff]
     current_results = [r for r in all_results if r['month'] > backtest_cutoff]
 

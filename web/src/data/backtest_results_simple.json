@@ -1,93 +1,175 @@
 {
   "backtest_metrics": {
     "time_metrics": {
-      "start": "2018-06",
-      "end": "2025-11",
-      "period": "90 months (7.5 years)"
+      "start": "2018-01",
+      "end": "2025-12",
+      "period": "96 months (8.0 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 964097.45,
-      "total_fees_paid": 76479.94,
+      "end_value": 907556.16,
+      "total_fees_paid": 73193.68,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 864.1,
-      "benchmark_return": 143.85,
-      "expectancy": 3.0,
-      "net_return_after_fees": 787.62
+      "total_return": 807.56,
+      "benchmark_return": 147.93,
+      "expectancy": 2.77,
+      "net_return_after_fees": 734.36
     },
     "risk_metrics": {
-      "max_drawdown": -28.88,
-      "max_drawdown_duration": 23,
-      "sharpe_ratio": 1.09,
-      "calmar_ratio": 1.22,
-      "omega_ratio": 2.36,
-      "sortino_ratio": 1.61
+      "max_drawdown": -33.24,
+      "max_drawdown_duration": 27,
+      "sharpe_ratio": 1.01,
+      "calmar_ratio": 0.95,
+      "omega_ratio": 2.22,
+      "sortino_ratio": 1.55
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 90,
-      "total_closed_trades": 89,
+      "total_trades": 96,
+      "total_closed_trades": 95,
       "total_open_trades": 1,
-      "win_rate": 64.44,
+      "win_rate": 62.5,
       "best_trade": 31.8,
       "worst_trade": -26.97,
-      "avg_winning_trade": 8.09,
-      "avg_losing_trade": -6.22,
+      "avg_winning_trade": 8.05,
+      "avg_losing_trade": -6.04,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.36,
-      "total_stock_transactions": 959
+      "profit_factor": 2.22,
+      "total_stock_transactions": 1017
     }
   },
   "current_metrics": {
     "time_metrics": {
-      "start": "2025-12",
+      "start": "2026-01",
       "end": "2026-05",
-      "period": "6 months (0.5 years)"
+      "period": "5 months (0.4 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 108016.78,
-      "total_fees_paid": 1374.04,
+      "end_value": 106757.05,
+      "total_fees_paid": 1157.8,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 8.02,
-      "benchmark_return": -9.73,
-      "expectancy": 1.61,
-      "net_return_after_fees": 6.64
+      "total_return": 6.76,
+      "benchmark_return": -9.48,
+      "expectancy": 1.69,
+      "net_return_after_fees": 5.6
     },
     "risk_metrics": {
       "max_drawdown": -12.53,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 0.71,
-      "calmar_ratio": 1.33,
-      "omega_ratio": 1.69,
-      "sortino_ratio": 1.0
+      "sharpe_ratio": 0.68,
+      "calmar_ratio": 1.36,
+      "omega_ratio": 1.61,
+      "sortino_ratio": 1.05
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 6,
-      "total_closed_trades": 5,
+      "total_trades": 5,
+      "total_closed_trades": 4,
       "total_open_trades": 1,
-      "win_rate": 66.67,
+      "win_rate": 60.0,
       "best_trade": 13.68,
       "worst_trade": -12.53,
-      "avg_winning_trade": 5.89,
+      "avg_winning_trade": 7.46,
       "avg_losing_trade": -6.95,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 1.69,
-      "total_stock_transactions": 82
+      "profit_factor": 1.61,
+      "total_stock_transactions": 70
     }
   },
   "backtest_results": [
+    {
+      "month": "2025-12",
+      "portfolio_return": 1.18,
+      "benchmark_return": -0.28,
+      "holdings": [
+        {
+          "symbol": "LTF",
+          "return": 0.7,
+          "score": 4.62
+        },
+        {
+          "symbol": "MUTHOOTFIN",
+          "return": 0.87,
+          "score": 3.72
+        },
+        {
+          "symbol": "LUMAXTECH",
+          "return": 0.1,
+          "score": 3.33
+        },
+        {
+          "symbol": "ABCAPITAL",
+          "return": -0.08,
+          "score": 3.21
+        },
+        {
+          "symbol": "LAURUSLABS",
+          "return": 7.05,
+          "score": 3.2
+        },
+        {
+          "symbol": "CARTRADE",
+          "return": -9.38,
+          "score": 3.19
+        },
+        {
+          "symbol": "IMFA",
+          "return": 10.86,
+          "score": 3.06
+        },
+        {
+          "symbol": "ABDL",
+          "return": -5.9,
+          "score": 3.03
+        },
+        {
+          "symbol": "MARUTI",
+          "return": 4.52,
+          "score": 2.77
+        },
+        {
+          "symbol": "RBLBANK",
+          "return": 0.81,
+          "score": 2.73
+        },
+        {
+          "symbol": "FORCEMOT",
+          "return": 15.42,
+          "score": 2.7
+        },
+        {
+          "symbol": "EICHERMOT",
+          "return": 3.55,
+          "score": 2.53
+        },
+        {
+          "symbol": "HEROMOTOCO",
+          "return": -7.37,
+          "score": 2.44
+        },
+        {
+          "symbol": "BLACKBUCK",
+          "return": 0.83,
+          "score": 2.44
+        },
+        {
+          "symbol": "INDIANB",
+          "return": -4.31,
+          "score": 2.42
+        }
+      ]
+    },
     {
       "month": "2025-11",
       "portfolio_return": 1.85,
@@ -7467,6 +7549,416 @@
           "score": 1.4
         }
       ]
+    },
+    {
+      "month": "2018-05",
+      "portfolio_return": -9.64,
+      "benchmark_return": -0.03,
+      "holdings": [
+        {
+          "symbol": "LUXIND",
+          "return": -9.35,
+          "score": 2.87
+        },
+        {
+          "symbol": "COFORGE",
+          "return": -3.69,
+          "score": 2.8
+        },
+        {
+          "symbol": "TEAMLEASE",
+          "return": -1.62,
+          "score": 2.31
+        },
+        {
+          "symbol": "INDIAGLYCO",
+          "return": -15.89,
+          "score": 2.15
+        },
+        {
+          "symbol": "GRAVITA",
+          "return": -18.12,
+          "score": 1.93
+        },
+        {
+          "symbol": "POWERMECH",
+          "return": -6.33,
+          "score": 1.92
+        },
+        {
+          "symbol": "CHOLAFIN",
+          "return": -12.08,
+          "score": 1.84
+        },
+        {
+          "symbol": "LMW",
+          "return": -3.71,
+          "score": 1.78
+        },
+        {
+          "symbol": "ZYDUSWELL",
+          "return": -11.93,
+          "score": 1.77
+        },
+        {
+          "symbol": "BALKRISIND",
+          "return": -11.46,
+          "score": 1.7
+        },
+        {
+          "symbol": "SHAKTIPUMP",
+          "return": -20.15,
+          "score": 1.68
+        },
+        {
+          "symbol": "BAJAJELEC",
+          "return": -18.55,
+          "score": 1.57
+        },
+        {
+          "symbol": "DBL",
+          "return": -28.84,
+          "score": 1.56
+        },
+        {
+          "symbol": "VMART",
+          "return": 15.52,
+          "score": 1.49
+        },
+        {
+          "symbol": "VIPIND",
+          "return": 1.55,
+          "score": 1.45
+        }
+      ]
+    },
+    {
+      "month": "2018-04",
+      "portfolio_return": 12.44,
+      "benchmark_return": 6.19,
+      "holdings": [
+        {
+          "symbol": "RAIN",
+          "return": -15.42,
+          "score": 2.88
+        },
+        {
+          "symbol": "LUXIND",
+          "return": 15.8,
+          "score": 2.52
+        },
+        {
+          "symbol": "DBL",
+          "return": 14.59,
+          "score": 2.44
+        },
+        {
+          "symbol": "JINDWORLD",
+          "return": -0.9,
+          "score": 2.36
+        },
+        {
+          "symbol": "COFORGE",
+          "return": 41.72,
+          "score": 2.12
+        },
+        {
+          "symbol": "INDIAGLYCO",
+          "return": 32.17,
+          "score": 1.99
+        },
+        {
+          "symbol": "IFBIND",
+          "return": 5.81,
+          "score": 1.8
+        },
+        {
+          "symbol": "TEAMLEASE",
+          "return": 20.28,
+          "score": 1.79
+        },
+        {
+          "symbol": "SUNTECK",
+          "return": 0.83,
+          "score": 1.76
+        },
+        {
+          "symbol": "ZENTEC",
+          "return": 4.61,
+          "score": 1.75
+        },
+        {
+          "symbol": "PURVA",
+          "return": 12.98,
+          "score": 1.71
+        },
+        {
+          "symbol": "VMART",
+          "return": 8.91,
+          "score": 1.51
+        },
+        {
+          "symbol": "SHAKTIPUMP",
+          "return": 28.6,
+          "score": 1.51
+        },
+        {
+          "symbol": "LUMAXTECH",
+          "return": 5.08,
+          "score": 1.42
+        },
+        {
+          "symbol": "STLTECH",
+          "return": 11.61,
+          "score": 1.37
+        }
+      ]
+    },
+    {
+      "month": "2018-03",
+      "portfolio_return": -4.33,
+      "benchmark_return": -3.61,
+      "holdings": [
+        {
+          "symbol": "RAIN",
+          "return": -1.92,
+          "score": 3.23
+        },
+        {
+          "symbol": "INDIAGLYCO",
+          "return": -7.89,
+          "score": 2.54
+        },
+        {
+          "symbol": "IFBIND",
+          "return": -20.13,
+          "score": 2.51
+        },
+        {
+          "symbol": "SUNTECK",
+          "return": 6.13,
+          "score": 2.12
+        },
+        {
+          "symbol": "LUXIND",
+          "return": -7.28,
+          "score": 2.11
+        },
+        {
+          "symbol": "JINDWORLD",
+          "return": 0.09,
+          "score": 1.95
+        },
+        {
+          "symbol": "DBL",
+          "return": 4.68,
+          "score": 1.89
+        },
+        {
+          "symbol": "AHLUCONT",
+          "return": -0.21,
+          "score": 1.85
+        },
+        {
+          "symbol": "PURVA",
+          "return": -3.6,
+          "score": 1.8
+        },
+        {
+          "symbol": "COFORGE",
+          "return": 3.48,
+          "score": 1.55
+        },
+        {
+          "symbol": "GRAVITA",
+          "return": 0.65,
+          "score": 1.53
+        },
+        {
+          "symbol": "POWERMECH",
+          "return": -10.86,
+          "score": 1.51
+        },
+        {
+          "symbol": "ZENTEC",
+          "return": -2.31,
+          "score": 1.44
+        },
+        {
+          "symbol": "FDC",
+          "return": -12.76,
+          "score": 1.42
+        },
+        {
+          "symbol": "STLTECH",
+          "return": -12.97,
+          "score": 1.41
+        }
+      ]
+    },
+    {
+      "month": "2018-02",
+      "portfolio_return": -1.89,
+      "benchmark_return": -4.85,
+      "holdings": [
+        {
+          "symbol": "RAIN",
+          "return": -0.21,
+          "score": 3.85
+        },
+        {
+          "symbol": "JINDWORLD",
+          "return": -6.41,
+          "score": 2.61
+        },
+        {
+          "symbol": "SUNTECK",
+          "return": -5.82,
+          "score": 2.5
+        },
+        {
+          "symbol": "DBL",
+          "return": 2.96,
+          "score": 2.44
+        },
+        {
+          "symbol": "INDIAGLYCO",
+          "return": -6.61,
+          "score": 2.39
+        },
+        {
+          "symbol": "GRAVITA",
+          "return": -7.01,
+          "score": 2.39
+        },
+        {
+          "symbol": "VIPIND",
+          "return": -1.4,
+          "score": 1.98
+        },
+        {
+          "symbol": "IFBIND",
+          "return": 13.1,
+          "score": 1.92
+        },
+        {
+          "symbol": "PURVA",
+          "return": -3.3,
+          "score": 1.85
+        },
+        {
+          "symbol": "LUXIND",
+          "return": 4.08,
+          "score": 1.7
+        },
+        {
+          "symbol": "TEAMLEASE",
+          "return": -7.76,
+          "score": 1.59
+        },
+        {
+          "symbol": "BBTC",
+          "return": 1.31,
+          "score": 1.5
+        },
+        {
+          "symbol": "THANGAMAYL",
+          "return": -11.32,
+          "score": 1.49
+        },
+        {
+          "symbol": "V2RETAIL",
+          "return": 1.04,
+          "score": 1.47
+        },
+        {
+          "symbol": "STLTECH",
+          "return": -0.95,
+          "score": 1.47
+        }
+      ]
+    },
+    {
+      "month": "2018-01",
+      "portfolio_return": -2.44,
+      "benchmark_return": 4.72,
+      "holdings": [
+        {
+          "symbol": "RAIN",
+          "return": 2.78,
+          "score": 4.19
+        },
+        {
+          "symbol": "DBL",
+          "return": -8.48,
+          "score": 2.73
+        },
+        {
+          "symbol": "PURVA",
+          "return": -9.33,
+          "score": 2.24
+        },
+        {
+          "symbol": "THANGAMAYL",
+          "return": -7.41,
+          "score": 2.23
+        },
+        {
+          "symbol": "BBTC",
+          "return": -18.27,
+          "score": 2.18
+        },
+        {
+          "symbol": "IFBIND",
+          "return": -6.01,
+          "score": 2.06
+        },
+        {
+          "symbol": "V2RETAIL",
+          "return": -9.99,
+          "score": 2.01
+        },
+        {
+          "symbol": "JINDWORLD",
+          "return": 13.05,
+          "score": 2.0
+        },
+        {
+          "symbol": "SUNTECK",
+          "return": 0.67,
+          "score": 1.94
+        },
+        {
+          "symbol": "GRAVITA",
+          "return": 3.52,
+          "score": 1.85
+        },
+        {
+          "symbol": "ZENTEC",
+          "return": -19.81,
+          "score": 1.74
+        },
+        {
+          "symbol": "INDIAGLYCO",
+          "return": 13.33,
+          "score": 1.73
+        },
+        {
+          "symbol": "TEAMLEASE",
+          "return": -9.41,
+          "score": 1.62
+        },
+        {
+          "symbol": "VIPIND",
+          "return": -3.23,
+          "score": 1.55
+        },
+        {
+          "symbol": "STLTECH",
+          "return": 22.06,
+          "score": 1.44
+        }
+      ]
     }
   ],
   "current_performance": [
@@ -7877,88 +8369,6 @@
           "symbol": "LAURUSLABS",
           "return": -12.91,
           "score": 2.5
-        }
-      ]
-    },
-    {
-      "month": "2025-12",
-      "portfolio_return": 1.18,
-      "benchmark_return": -0.28,
-      "holdings": [
-        {
-          "symbol": "LTF",
-          "return": 0.7,
-          "score": 4.62
-        },
-        {
-          "symbol": "MUTHOOTFIN",
-          "return": 0.87,
-          "score": 3.72
-        },
-        {
-          "symbol": "LUMAXTECH",
-          "return": 0.1,
-          "score": 3.33
-        },
-        {
-          "symbol": "ABCAPITAL",
-          "return": -0.08,
-          "score": 3.21
-        },
-        {
-          "symbol": "LAURUSLABS",
-          "return": 7.05,
-          "score": 3.2
-        },
-        {
-          "symbol": "CARTRADE",
-          "return": -9.38,
-          "score": 3.19
-        },
-        {
-          "symbol": "IMFA",
-          "return": 10.86,
-          "score": 3.06
-        },
-        {
-          "symbol": "ABDL",
-          "return": -5.9,
-          "score": 3.03
-        },
-        {
-          "symbol": "MARUTI",
-          "return": 4.52,
-          "score": 2.77
-        },
-        {
-          "symbol": "RBLBANK",
-          "return": 0.81,
-          "score": 2.73
-        },
-        {
-          "symbol": "FORCEMOT",
-          "return": 15.42,
-          "score": 2.7
-        },
-        {
-          "symbol": "EICHERMOT",
-          "return": 3.55,
-          "score": 2.53
-        },
-        {
-          "symbol": "HEROMOTOCO",
-          "return": -7.37,
-          "score": 2.44
-        },
-        {
-          "symbol": "BLACKBUCK",
-          "return": 0.83,
-          "score": 2.44
-        },
-        {
-          "symbol": "INDIANB",
-          "return": -4.31,
-          "score": 2.42
         }
       ]
     }

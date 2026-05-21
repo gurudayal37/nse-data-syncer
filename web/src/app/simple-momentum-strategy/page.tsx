@@ -106,7 +106,7 @@ export default function SimpleMomentumStrategyPage() {
                             <div className="w-2 h-8 bg-green-500 rounded-full"></div>
                             <h2 className="text-2xl font-bold text-gray-900">Current Performance (Live)</h2>
                             <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200 ml-2">
-                                Dec 2025 Onwards
+                                Jan 2026 Onwards
                             </span>
                         </div>
 

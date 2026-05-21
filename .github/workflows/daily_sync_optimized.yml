@@ -229,8 +229,54 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: python -m app.main --source remaining --shard-index ${{ matrix.shard }} --total-shards 5 --skip-momentum
 
-  update-vcp-strategy:
+  update-momentum-10pct-stop:
     needs: update-simple-weekly
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Momentum + 10% Stop Strategy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scripts/backtest_momentum_10pct_stop.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update momentum 10pct stop strategy results [skip ci]"
+          file_pattern: "web/src/data/backtest_results_10pct_stop.json"
+
+  update-simple-momentum-10pct-stop:
+    needs: update-momentum-10pct-stop
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Simple Momentum (Nifty) + 10% Stop Strategy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scripts/backtest_simple_momentum_10pct_stop.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update simple momentum 10pct stop strategy results [skip ci]"
+          file_pattern: "web/src/data/backtest_results_simple_10pct_stop.json"
+
+  update-vcp-strategy:
+    needs: update-simple-momentum-10pct-stop
     runs-on: ubuntu-latest
     permissions:
       contents: write # In case we need to commit logs or artifacts later, generally good practice if we expand
