@@ -18,21 +18,17 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database import DatabaseManager, MomentumHistory
 
-def get_month_ends(years=8):
-    """Get list of month-end dates for the last N years (default 8 years from 2017)"""
+def get_month_ends():
+    """Get list of month-end dates from 2018-01 through today."""
     today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     dates = []
-    # Start from N years ago
-    start_date = today - relativedelta(years=years)
-    # Align to next month start
-    current = start_date.replace(day=1) + relativedelta(months=1)
-    
+    current = datetime(2017, 12, 1) + relativedelta(months=1)
+
     while current <= today:
-        # Get last day of previous month (rebalancing date)
         last_month_end = current - timedelta(days=1)
         dates.append(last_month_end)
         current += relativedelta(months=1)
-        
+
     return dates
 
 def calculate_momentum_for_date(session, target_date, stocks_df, valid_stock_ids=None):
@@ -324,7 +320,7 @@ def run_backtest():
         stock_map[s.id] = s.nse_symbol
         
     # 2. Iterate Months (from 2017 to present)
-    dates = get_month_ends(years=8)
+    dates = get_month_ends()
     all_results = []
     
     # Pre-calculate eligible stocks based on Market Cap (Global Filter)
@@ -527,7 +523,7 @@ def run_backtest():
     all_results.sort(key=lambda x: x['month'])
     
     # Split into backtest period (until Nov 2025) and current performance (Dec 2025+)
-    backtest_cutoff = "2025-11"
+    backtest_cutoff = "2025-12"
     backtest_results = [r for r in all_results if r['month'] <= backtest_cutoff]
     current_results = [r for r in all_results if r['month'] > backtest_cutoff]
 
