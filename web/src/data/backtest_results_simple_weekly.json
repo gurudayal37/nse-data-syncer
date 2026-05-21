@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 115866.65,
-      "total_fees_paid": 2955.69,
+      "end_value": 117574.13,
+      "total_fees_paid": 2957.74,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 15.87,
-      "benchmark_return": -9.71,
-      "expectancy": 0.65,
-      "net_return_after_fees": 12.91
+      "total_return": 17.57,
+      "benchmark_return": -9.73,
+      "expectancy": 0.71,
+      "net_return_after_fees": 14.62
     },
     "risk_metrics": {
       "max_drawdown": -14.21,
       "max_drawdown_duration": 8,
-      "sharpe_ratio": 1.37,
-      "calmar_ratio": 2.52,
-      "omega_ratio": 1.64,
-      "sortino_ratio": 2.23
+      "sharpe_ratio": 1.49,
+      "calmar_ratio": 2.82,
+      "omega_ratio": 1.69,
+      "sortino_ratio": 2.44
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 60.0,
       "best_trade": 7.51,
       "worst_trade": -8.0,
-      "avg_winning_trade": 2.79,
+      "avg_winning_trade": 2.88,
       "avg_losing_trade": -2.56,
-      "profit_factor": 1.64
+      "profit_factor": 1.69
     }
   },
   "backtest_results": [
@@ -16548,42 +16548,42 @@
   "current_performance": [
     {
       "week": "2026-05-22",
-      "portfolio_return": 0.43,
-      "benchmark_return": 0.07,
+      "portfolio_return": 1.91,
+      "benchmark_return": 0.05,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": -3.55,
+          "return": 0.08,
           "score": 7.13
         },
         {
           "symbol": "CUPID",
-          "return": -0.76,
-          "score": 6.87
+          "return": -0.17,
+          "score": 6.88
         },
         {
           "symbol": "MTARTECH",
-          "return": 3.08,
+          "return": 9.86,
           "score": 6.06
         },
         {
           "symbol": "MCX",
-          "return": 1.5,
+          "return": -2.01,
           "score": 3.76
         },
         {
           "symbol": "BAJAJCON",
-          "return": 2.31,
-          "score": 3.57
+          "return": 1.71,
+          "score": 3.58
         },
         {
           "symbol": "TDPOWERSYS",
-          "return": -6.11,
+          "return": -0.7,
           "score": 3.14
         },
         {
           "symbol": "SEAMECLTD",
-          "return": 6.55,
+          "return": 4.57,
           "score": 3.02
         }
       ]
