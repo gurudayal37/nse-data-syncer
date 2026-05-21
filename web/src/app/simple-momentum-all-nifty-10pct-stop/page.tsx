@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, TrendingDown, AlertTriangle } from 'lucide-react'
-import backtestData from '@/data/backtest_results_simple_all_nifty.json'
+import backtestData from '@/data/backtest_results_simple_all_nifty_10pct_stop.json'
 
 import MetricsGrid from '@/components/strategy/MetricsGrid'
 import DetailedMetrics from '@/components/strategy/DetailedMetrics'
@@ -12,7 +12,7 @@ import PerformanceTable from '@/components/strategy/PerformanceTable'
 import CagrCards from '@/components/strategy/CagrCards'
 import YearlyReturnsTable from '@/components/strategy/YearlyReturnsTable'
 
-export default function SimpleMomentumAllNiftyPage() {
+export default function SimpleMomentumAllNifty10PctStopPage() {
     const data = backtestData as any
     const backtestMetrics = data.backtest_metrics
     const currentMetrics = data.current_metrics
@@ -27,7 +27,25 @@ export default function SimpleMomentumAllNiftyPage() {
     const currentDesc = useMemo(() => [...currentAsc].reverse(), [currentAsc])
 
     if (!backtestMetrics) {
-        return <div className="p-8 text-center text-gray-500">Loading metrics or invalid data format...</div>
+        return (
+            <div className="min-h-screen bg-gray-50 p-8">
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex items-center gap-4 mb-8">
+                        <Link href="/strategies" className="p-2 hover:bg-gray-200 rounded-full transition-colors">
+                            <ArrowLeft className="w-6 h-6 text-gray-600" />
+                        </Link>
+                        <div>
+                            <h1 className="text-3xl font-bold text-gray-900">Simple Momentum (High Cap) + 10% Stop</h1>
+                            <p className="text-gray-500 mt-1">Run the backtest script to generate results.</p>
+                        </div>
+                    </div>
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-blue-800">
+                        <p className="font-semibold mb-2">Backtest not yet run</p>
+                        <p className="text-sm font-mono">python scripts/backtest_simple_momentum_all_nifty_10pct_stop.py</p>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     return (
@@ -35,13 +53,13 @@ export default function SimpleMomentumAllNiftyPage() {
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-8">
-                    <Link href="/" className="p-2 hover:bg-gray-200 rounded-full transition-colors">
+                    <Link href="/strategies" className="p-2 hover:bg-gray-200 rounded-full transition-colors">
                         <ArrowLeft className="w-6 h-6 text-gray-600" />
                     </Link>
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Simple Momentum (High Cap)</h1>
+                        <h1 className="text-3xl font-bold text-gray-900">Simple Momentum (High Cap) + 10% Stop</h1>
                         <p className="text-gray-500 mt-1">
-                            Buying Top 15 Stocks from Full High Cap Universe (&gt;2000 Cr) (6M &amp; 1Y only) • Monthly Rebalancing
+                            Top 15 from Full High Cap Universe (&gt;2000 Cr) (6M &amp; 1Y only) • Monthly Rebalancing • −10% stop per stock per month
                         </p>
                     </div>
                 </div>
@@ -49,18 +67,13 @@ export default function SimpleMomentumAllNiftyPage() {
                 {/* Survivorship Bias Warning */}
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
                     <div className="flex">
-                        <div className="flex-shrink-0">
-                            <TrendingDown className="h-5 w-5 text-yellow-400" aria-hidden="true" />
-                        </div>
+                        <TrendingDown className="h-5 w-5 text-yellow-400 shrink-0" />
                         <div className="ml-3">
                             <h3 className="text-sm font-medium text-yellow-800">Survivorship Bias Warning</h3>
-                            <div className="mt-2 text-sm text-yellow-700">
-                                <p>
-                                    This backtest uses the <strong>current</strong> universe of listed stocks (&gt;2000 Cr Market Cap) for historical simulation.
-                                    This introduces survivorship bias, as it excludes companies that were large in the past but have since delisted or crashed.
-                                    <strong> Actual historical returns would likely be lower.</strong>
-                                </p>
-                            </div>
+                            <p className="mt-1 text-sm text-yellow-700">
+                                This backtest uses the <strong>current</strong> high cap universe (&gt;2000 Cr).
+                                Stocks that delisted or shrank below 2000 Cr are excluded from history — actual returns would be lower.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -68,24 +81,28 @@ export default function SimpleMomentumAllNiftyPage() {
                 {/* Strategy Logic */}
                 <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6 mb-8">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4">Strategy Logic</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-sm">
                         <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
                             <h3 className="font-semibold text-blue-900 mb-2">1. Selection</h3>
                             <p className="text-blue-800">
-                                Select top 15 stocks with highest Simple Momentum Score from <strong>All High Cap Universe (&gt;2000 Cr)</strong>.
-                                Score is based on volatility-adjusted returns over <strong>6 Months and 1 Year</strong> only.
+                                Top 15 stocks from <strong>All High Cap Universe (&gt;2000 Cr)</strong> by volatility-adjusted momentum
+                                over <strong>6M and 1Y</strong> (no 3M).
                             </p>
                         </div>
                         <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
                             <h3 className="font-semibold text-purple-900 mb-2">2. Weighting</h3>
-                            <p className="text-purple-800">
-                                Equal weighting (6.67% per stock) to avoid concentration risk.
-                            </p>
+                            <p className="text-purple-800">Equal weighting — 6.67% per stock.</p>
                         </div>
                         <div className="bg-green-50 p-4 rounded-lg border border-green-100">
                             <h3 className="font-semibold text-green-900 mb-2">3. Rebalancing</h3>
                             <p className="text-green-800">
-                                Portfolio is rebalanced on the <strong>1st of every month</strong>.
+                                1st of every month. Stocks outside Top 15 are sold; new entrants bought at next-day open.
+                            </p>
+                        </div>
+                        <div className="bg-red-50 p-4 rounded-lg border border-red-100">
+                            <h3 className="font-semibold text-red-900 mb-2">4. Stop Loss</h3>
+                            <p className="text-red-800">
+                                Exit if daily close falls <strong>≥10%</strong> from entry. Loss capped at <strong>−10%</strong> per stock per month.
                             </p>
                         </div>
                     </div>
@@ -95,7 +112,7 @@ export default function SimpleMomentumAllNiftyPage() {
                 {currentMetrics && (
                     <div className="mb-12">
                         <div className="flex items-center gap-2 mb-6">
-                            <div className="w-2 h-8 bg-green-500 rounded-full"></div>
+                            <div className="w-2 h-8 bg-green-500 rounded-full" />
                             <h2 className="text-2xl font-bold text-gray-900">Current Performance (Live)</h2>
                             <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200 ml-2">
                                 Jan 2026 Onwards
@@ -129,15 +146,15 @@ export default function SimpleMomentumAllNiftyPage() {
 
                 {/* Divider */}
                 <div className="relative flex py-5 items-center mb-12">
-                    <div className="flex-grow border-t border-gray-300"></div>
+                    <div className="flex-grow border-t border-gray-300" />
                     <span className="flex-shrink-0 mx-4 text-gray-400 text-sm font-medium uppercase tracking-wider">Historical Data</span>
-                    <div className="flex-grow border-t border-gray-300"></div>
+                    <div className="flex-grow border-t border-gray-300" />
                 </div>
 
                 {/* ── Backtest Data ────────────────────────── */}
                 <div>
                     <div className="flex items-center gap-2 mb-6">
-                        <div className="w-2 h-8 bg-gray-500 rounded-full"></div>
+                        <div className="w-2 h-8 bg-gray-500 rounded-full" />
                         <h2 className="text-2xl font-bold text-gray-900">Backtest Data</h2>
                         <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200 ml-2">
                             {backtestMetrics.time_metrics.start} to {backtestMetrics.time_metrics.end}
@@ -148,10 +165,7 @@ export default function SimpleMomentumAllNiftyPage() {
                     <CagrCards monthlyData={backtestAsc} label={`${(backtestAsc.length / 12).toFixed(1)}-year backtest`} />
                     <YearlyReturnsTable monthlyData={backtestAsc} />
 
-                    <DetailedMetrics
-                        metrics={backtestMetrics}
-                        title="Historical Backtest Metrics"
-                    />
+                    <DetailedMetrics metrics={backtestMetrics} title="Historical Backtest Metrics" />
 
                     <div className="mt-8">
                         <PerformanceChart
@@ -183,9 +197,12 @@ export default function SimpleMomentumAllNiftyPage() {
                                     this strategy uses the full high-cap universe — meaning more stocks with survivorship bias are included.
                                 </li>
                                 <li>
+                                    <strong>Stop-loss uses daily close, not intraday:</strong> If a stock gaps down −15% at open,
+                                    the model records only −10%. Real execution would record the actual gap loss.
+                                </li>
+                                <li>
                                     <strong>Illiquid extreme movers:</strong> Several holdings had &gt;50% single-month returns
-                                    (ORCHPHARMA, TTML, OPTIEMUS during 2020–2021). In practice, large positions
-                                    couldn't be built or exited at those prices.
+                                    in thinly traded stocks. Large positions couldn't be built or exited at those prices.
                                 </li>
                                 <li>
                                     <strong>2020–2021 outlier years:</strong> The COVID recovery + pharma/telecom rally was a
