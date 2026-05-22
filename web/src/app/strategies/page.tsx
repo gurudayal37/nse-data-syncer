@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { TrendingUp, BarChart3, Calendar, Zap, Shield, ArrowLeft, ChevronRight } from 'lucide-react'
+import { Shield, ArrowLeft } from 'lucide-react'
 import momentumData from '@/data/backtest_results.json'
 import simpleMomentumData from '@/data/backtest_results_simple.json'
 import simpleAllNiftyData from '@/data/backtest_results_simple_all_nifty.json'
@@ -32,55 +32,55 @@ const FreqBadge = ({ label }: { label: string }) => (
 const strategies = [
   {
     title: 'Momentum Strategy', subtitle: '3M + 6M + 1Y, Equal Weight',
-    href: '/momentum-strategy', icon: TrendingUp, dot: 'bg-sky-400', rebalancing: 'Monthly',
+    href: '/momentum-strategy', dot: 'bg-sky-400', rebalancing: 'Monthly',
     historical: { period: g(momentumData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(momentumData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(momentumData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(momentumData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(momentumData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(momentumData, 'backtest_metrics.trade_statistics.win_rate') as number },
     current: { period: g(momentumData, 'current_metrics.time_metrics.period') as string, totalReturn: g(momentumData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(momentumData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(momentumData, 'current_metrics.risk_metrics.max_drawdown') as number },
   },
   {
     title: 'Momentum + 10% Stop', subtitle: '3M + 6M + 1Y, -10% Monthly Stop Loss',
-    href: '/momentum-10pct-stop-strategy', icon: TrendingUp, dot: 'bg-red-400', rebalancing: 'Monthly',
+    href: '/momentum-10pct-stop-strategy', dot: 'bg-red-400', rebalancing: 'Monthly',
     historical: g(momentum10PctStopData, 'backtest_metrics') ? { period: g(momentum10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(momentum10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(momentum10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(momentum10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(momentum10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(momentum10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
     current: g(momentum10PctStopData, 'current_metrics') ? { period: g(momentum10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(momentum10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(momentum10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(momentum10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
   },
   {
     title: 'Simple Momentum (Nifty)', subtitle: '6M + 1Y, Nifty Total Market',
-    href: '/simple-momentum-strategy', icon: Zap, dot: 'bg-violet-400', rebalancing: 'Monthly',
+    href: '/simple-momentum-strategy', dot: 'bg-violet-400', rebalancing: 'Monthly',
     historical: { period: g(simpleMomentumData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(simpleMomentumData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleMomentumData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(simpleMomentumData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(simpleMomentumData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(simpleMomentumData, 'backtest_metrics.trade_statistics.win_rate') as number },
     current: { period: g(simpleMomentumData, 'current_metrics.time_metrics.period') as string, totalReturn: g(simpleMomentumData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleMomentumData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(simpleMomentumData, 'current_metrics.risk_metrics.max_drawdown') as number },
   },
   {
     title: 'Simple Momentum (Nifty) + 10% Stop', subtitle: '6M + 1Y, Nifty Total Market, -10% Monthly Stop',
-    href: '/simple-momentum-10pct-stop-strategy', icon: Zap, dot: 'bg-amber-400', rebalancing: 'Monthly',
+    href: '/simple-momentum-10pct-stop-strategy', dot: 'bg-amber-400', rebalancing: 'Monthly',
     historical: g(simpleMomentum10PctStopData, 'backtest_metrics') ? { period: g(simpleMomentum10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(simpleMomentum10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleMomentum10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(simpleMomentum10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(simpleMomentum10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(simpleMomentum10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
     current: g(simpleMomentum10PctStopData, 'current_metrics') ? { period: g(simpleMomentum10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(simpleMomentum10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleMomentum10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(simpleMomentum10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
   },
   {
     title: 'Simple Momentum (High Cap)', subtitle: '6M + 1Y, >2000 Cr Market Cap',
-    href: '/simple-momentum-all-nifty', icon: Zap, dot: 'bg-pink-400', rebalancing: 'Monthly',
+    href: '/simple-momentum-all-nifty', dot: 'bg-pink-400', rebalancing: 'Monthly',
     historical: { period: g(simpleAllNiftyData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(simpleAllNiftyData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleAllNiftyData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(simpleAllNiftyData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(simpleAllNiftyData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(simpleAllNiftyData, 'backtest_metrics.trade_statistics.win_rate') as number },
     current: { period: g(simpleAllNiftyData, 'current_metrics.time_metrics.period') as string, totalReturn: g(simpleAllNiftyData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleAllNiftyData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(simpleAllNiftyData, 'current_metrics.risk_metrics.max_drawdown') as number },
   },
   {
     title: 'Simple Momentum (High Cap) + 10% Stop', subtitle: '6M + 1Y, >2000 Cr, -10% Monthly Stop',
-    href: '/simple-momentum-all-nifty-10pct-stop', icon: Zap, dot: 'bg-fuchsia-400', rebalancing: 'Monthly',
+    href: '/simple-momentum-all-nifty-10pct-stop', dot: 'bg-fuchsia-400', rebalancing: 'Monthly',
     historical: g(simpleAllNifty10PctStopData, 'backtest_metrics') ? { period: g(simpleAllNifty10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(simpleAllNifty10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleAllNifty10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(simpleAllNifty10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(simpleAllNifty10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(simpleAllNifty10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
     current: g(simpleAllNifty10PctStopData, 'current_metrics') ? { period: g(simpleAllNifty10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(simpleAllNifty10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleAllNifty10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(simpleAllNifty10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
   },
   {
     title: 'Weekly Momentum', subtitle: 'Full Momentum, Weekly Rebalancing',
-    href: '/momentum-weekly-strategy', icon: Calendar, dot: 'bg-emerald-400', rebalancing: 'Weekly',
+    href: '/momentum-weekly-strategy', dot: 'bg-emerald-400', rebalancing: 'Weekly',
     historical: { period: g(weeklyMomentumData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(weeklyMomentumData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(weeklyMomentumData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(weeklyMomentumData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(weeklyMomentumData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(weeklyMomentumData, 'backtest_metrics.trade_statistics.win_rate') as number },
     current: { period: g(weeklyMomentumData, 'current_metrics.time_metrics.period') as string, totalReturn: g(weeklyMomentumData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(weeklyMomentumData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(weeklyMomentumData, 'current_metrics.risk_metrics.max_drawdown') as number },
   },
   {
     title: 'Simple Momentum Weekly', subtitle: '6M + 1Y, Friday Rebalancing',
-    href: '/simple-momentum-weekly-strategy', icon: BarChart3, dot: 'bg-orange-400', rebalancing: 'Weekly',
+    href: '/simple-momentum-weekly-strategy', dot: 'bg-orange-400', rebalancing: 'Weekly',
     historical: { period: g(simpleWeeklyData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(simpleWeeklyData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleWeeklyData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(simpleWeeklyData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(simpleWeeklyData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(simpleWeeklyData, 'backtest_metrics.trade_statistics.win_rate') as number },
     current: { period: g(simpleWeeklyData, 'current_metrics.time_metrics.period') as string, totalReturn: g(simpleWeeklyData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleWeeklyData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(simpleWeeklyData, 'current_metrics.risk_metrics.max_drawdown') as number },
   },
   {
     title: 'ATH Breakout', subtitle: 'Monthly Breakouts > All-Time High',
-    href: '/ath', icon: TrendingUp, dot: 'bg-rose-400', rebalancing: 'Daily/Weekly',
+    href: '/ath', dot: 'bg-rose-400', rebalancing: 'Daily/Weekly',
     historical: null, current: null,
   },
 ]
@@ -108,7 +108,6 @@ export default function StrategiesPage() {
                   <th className="px-5 py-2.5 text-left text-slate-400 bg-slate-50" colSpan={2} />
                   <th className="px-4 py-2.5 text-center text-sky-500 bg-sky-50 border-l border-sky-100" colSpan={6}>Historical Performance</th>
                   <th className="px-4 py-2.5 text-center text-violet-500 bg-violet-50 border-l border-violet-100" colSpan={4}>Current Period</th>
-                  <th className="bg-slate-50 px-4 py-2.5 border-l border-slate-100" />
                 </tr>
                 <tr className="bg-slate-50 text-[11px] text-slate-600 font-semibold border-b border-slate-200">
                   <th className="px-5 py-3 text-left text-slate-700 whitespace-nowrap">Strategy</th>
@@ -123,19 +122,17 @@ export default function StrategiesPage() {
                   <th className="px-4 py-3 text-center whitespace-nowrap">Net Return</th>
                   <th className="px-4 py-3 text-center whitespace-nowrap">vs Nifty</th>
                   <th className="px-4 py-3 text-center whitespace-nowrap">Max DD</th>
-                  <th className="px-4 py-3 text-center border-l border-slate-100" />
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {strategies.map((s) => {
-                  const Icon = s.icon
                   return (
                     <tr key={s.href} className="group hover:bg-slate-50 transition-colors">
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
                           <span className={`w-2 h-2 rounded-full shrink-0 ${s.dot}`} />
                           <div>
-                            <div className="font-bold text-slate-900 text-sm">{s.title}</div>
+                            <Link href={s.href} target="_blank" rel="noopener noreferrer" className="font-bold text-slate-900 text-sm hover:text-sky-600 transition-colors">{s.title}</Link>
                             <div className="text-[11px] text-slate-500 mt-0.5">{s.subtitle}</div>
                           </div>
                         </div>
@@ -163,11 +160,6 @@ export default function StrategiesPage() {
                       ) : (
                         <td className="px-4 py-4 text-center text-slate-300 text-xs border-l border-slate-100" colSpan={4}>—</td>
                       )}
-                      <td className="px-4 py-4 text-center border-l border-slate-100">
-                        <Link href={s.href} className="inline-flex items-center gap-1 text-xs font-medium text-slate-400 hover:text-sky-600 transition-colors whitespace-nowrap group-hover:text-sky-600">
-                          <Icon className="w-3.5 h-3.5" /> View <ChevronRight className="w-3 h-3" />
-                        </Link>
-                      </td>
                     </tr>
                   )
                 })}
