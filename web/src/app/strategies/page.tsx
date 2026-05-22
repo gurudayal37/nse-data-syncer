@@ -8,6 +8,7 @@ import simpleWeeklyData from '@/data/backtest_results_simple_weekly.json'
 import momentum10PctStopData from '@/data/backtest_results_10pct_stop.json'
 import simpleMomentum10PctStopData from '@/data/backtest_results_simple_10pct_stop.json'
 import simpleAllNifty10PctStopData from '@/data/backtest_results_simple_all_nifty_10pct_stop.json'
+import longShortData from '@/data/backtest_results_long_short.json'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const g = (obj: any, path: string, fallback: number | string = 0) => {
@@ -77,6 +78,12 @@ const strategies = [
     href: '/simple-momentum-weekly-strategy', dot: 'bg-orange-400', rebalancing: 'Weekly',
     historical: { period: g(simpleWeeklyData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(simpleWeeklyData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleWeeklyData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(simpleWeeklyData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(simpleWeeklyData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(simpleWeeklyData, 'backtest_metrics.trade_statistics.win_rate') as number },
     current: { period: g(simpleWeeklyData, 'current_metrics.time_metrics.period') as string, totalReturn: g(simpleWeeklyData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleWeeklyData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(simpleWeeklyData, 'current_metrics.risk_metrics.max_drawdown') as number },
+  },
+  {
+    title: 'Long-Short Momentum (Futures)', subtitle: 'Top 7 Long + Bottom 7 Short, Dollar-Neutral',
+    href: '/long-short-strategy', dot: 'bg-cyan-400', rebalancing: 'Monthly',
+    historical: g(longShortData, 'backtest_metrics') ? { period: g(longShortData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(longShortData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(longShortData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(longShortData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(longShortData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(longShortData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(longShortData, 'current_metrics') ? { period: g(longShortData, 'current_metrics.time_metrics.period') as string, totalReturn: g(longShortData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(longShortData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(longShortData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
   },
   {
     title: 'ATH Breakout', subtitle: 'Monthly Breakouts > All-Time High',
