@@ -48,14 +48,14 @@
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 112960.87,
-      "total_fees_paid": 2997.07,
+      "total_fees_paid": 2930.47,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 12.96,
       "benchmark_return": -8.5,
       "expectancy": 0.6,
-      "net_return_after_fees": 9.96
+      "net_return_after_fees": 10.03
     },
     "risk_metrics": {
       "max_drawdown": -10.79,
@@ -70,7 +70,7 @@
     },
     "trade_statistics": {
       "total_trades": 22,
-      "total_stock_transactions": 180,
+      "total_stock_transactions": 176,
       "win_rate": 54.55,
       "best_trade": 7.59,
       "worst_trade": -6.89,
@@ -34202,77 +34202,77 @@
         {
           "symbol": "STLTECH",
           "return": 0.0,
-          "score": 7.12
+          "score": 7.56
         },
         {
           "symbol": "MTARTECH",
           "return": 0.0,
-          "score": 6.7
+          "score": 6.73
         },
         {
           "symbol": "CUPID",
           "return": 0.0,
-          "score": 5.73
+          "score": 5.77
         },
         {
           "symbol": "BAJAJCON",
           "return": 0.0,
-          "score": 3.45
-        },
-        {
-          "symbol": "MCX",
-          "return": 0.0,
-          "score": 3.39
+          "score": 3.79
         },
         {
           "symbol": "WHEELS",
           "return": 0.0,
-          "score": 3.3
+          "score": 3.27
         },
         {
-          "symbol": "SANSERA",
+          "symbol": "MCX",
           "return": 0.0,
-          "score": 3.11
-        },
-        {
-          "symbol": "TDPOWERSYS",
-          "return": 0.0,
-          "score": 3.04
-        },
-        {
-          "symbol": "LAURUSLABS",
-          "return": 0.0,
-          "score": 3.02
+          "score": 3.2
         },
         {
           "symbol": "SEAMECLTD",
           "return": 0.0,
-          "score": 2.97
+          "score": 3.07
         },
         {
-          "symbol": "NATIONALUM",
+          "symbol": "SANSERA",
           "return": 0.0,
-          "score": 2.75
+          "score": 3.02
         },
         {
-          "symbol": "GESHIP",
+          "symbol": "TDPOWERSYS",
           "return": 0.0,
-          "score": 2.69
-        },
-        {
-          "symbol": "GVT&D",
-          "return": 0.0,
-          "score": 2.66
+          "score": 2.98
         },
         {
           "symbol": "AEROFLEX",
           "return": 0.0,
-          "score": 2.61
+          "score": 2.96
         },
         {
-          "symbol": "RPTECH",
+          "symbol": "LAURUSLABS",
           "return": 0.0,
-          "score": 2.6
+          "score": 2.92
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 0.0,
+          "score": 2.76
+        },
+        {
+          "symbol": "HFCL",
+          "return": 0.0,
+          "score": 2.73
+        },
+        {
+          "symbol": "GVT&D",
+          "return": 0.0,
+          "score": 2.69
+        },
+        {
+          "symbol": "DEEDEV",
+          "return": 0.0,
+          "score": 2.62
         }
       ]
     },
