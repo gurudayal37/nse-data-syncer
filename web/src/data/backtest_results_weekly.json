@@ -48,14 +48,14 @@
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 113753.4,
-      "total_fees_paid": 3027.84,
+      "total_fees_paid": 3061.48,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 13.75,
       "benchmark_return": -8.58,
       "expectancy": 0.64,
-      "net_return_after_fees": 10.73
+      "net_return_after_fees": 10.69
     },
     "risk_metrics": {
       "max_drawdown": -9.5,
@@ -70,7 +70,7 @@
     },
     "trade_statistics": {
       "total_trades": 22,
-      "total_stock_transactions": 180,
+      "total_stock_transactions": 182,
       "win_rate": 54.55,
       "best_trade": 8.43,
       "worst_trade": -6.92,
@@ -34202,77 +34202,77 @@
         {
           "symbol": "STLTECH",
           "return": 0.0,
-          "score": 6.4
+          "score": 6.88
         },
         {
           "symbol": "MTARTECH",
           "return": 0.0,
-          "score": 5.91
+          "score": 5.9
         },
         {
           "symbol": "CUPID",
           "return": 0.0,
-          "score": 4.23
-        },
-        {
-          "symbol": "WHEELS",
-          "return": 0.0,
-          "score": 3.68
+          "score": 4.32
         },
         {
           "symbol": "DEEDEV",
           "return": 0.0,
-          "score": 3.27
+          "score": 3.61
+        },
+        {
+          "symbol": "WHEELS",
+          "return": 0.0,
+          "score": 3.54
         },
         {
           "symbol": "HFCL",
           "return": 0.0,
-          "score": 3.21
+          "score": 3.53
         },
         {
           "symbol": "AEROFLEX",
           "return": 0.0,
-          "score": 2.93
-        },
-        {
-          "symbol": "MCX",
-          "return": 0.0,
-          "score": 2.89
+          "score": 3.24
         },
         {
           "symbol": "BAJAJCON",
           "return": 0.0,
-          "score": 2.79
+          "score": 3.13
         },
         {
-          "symbol": "TDPOWERSYS",
+          "symbol": "MCX",
           "return": 0.0,
-          "score": 2.77
-        },
-        {
-          "symbol": "LAURUSLABS",
-          "return": 0.0,
-          "score": 2.68
+          "score": 2.73
         },
         {
           "symbol": "BBOX",
           "return": 0.0,
+          "score": 2.71
+        },
+        {
+          "symbol": "TDPOWERSYS",
+          "return": 0.0,
           "score": 2.66
+        },
+        {
+          "symbol": "LAURUSLABS",
+          "return": 0.0,
+          "score": 2.6
         },
         {
           "symbol": "RPTECH",
           "return": 0.0,
-          "score": 2.62
-        },
-        {
-          "symbol": "WELCORP",
-          "return": 0.0,
           "score": 2.49
         },
         {
-          "symbol": "POWERINDIA",
+          "symbol": "SANSERA",
           "return": 0.0,
           "score": 2.47
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": 0.0,
+          "score": 2.29
         }
       ]
     },
