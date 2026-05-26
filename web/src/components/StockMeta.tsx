@@ -74,6 +74,7 @@ function EnumInput({
         }}
         placeholder={`Enter ${LABELS[field].toLowerCase()}…`}
         className="w-full text-sm border border-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-sky-300 bg-white"
+        style={{ color: '#0f172a' }}
       />
       {open && (
         <ul className="absolute z-50 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-48 overflow-y-auto text-sm">
@@ -81,6 +82,7 @@ function EnumInput({
             <li
               key={s}
               onMouseDown={() => pick(s)}
+              style={{ color: i === highlighted ? undefined : '#0f172a' }}
               className={`px-3 py-2 cursor-pointer ${i === highlighted ? 'bg-sky-50 text-sky-700' : 'hover:bg-slate-50'}`}
             >
               {s}

@@ -98,7 +98,7 @@ export default function StockAbout({
           </div>
         </div>
       ) : about ? (
-        <p className="text-xs text-slate-500 leading-relaxed line-clamp-4">{about}</p>
+        <p className="text-xs font-semibold text-slate-900 leading-relaxed line-clamp-4">{about}</p>
       ) : (
         <button
           onClick={startEdit}
