@@ -4,6 +4,7 @@ import SyncButton from '@/components/SyncButton'
 import StockTags from '@/components/StockTags'
 import StockNotes from '@/components/StockNotes'
 import StockAbout from '@/components/StockAbout'
+import StockMeta from '@/components/StockMeta'
 import Link from 'next/link'
 import { ArrowLeft, TrendingUp } from 'lucide-react'
 import { notFound } from 'next/navigation'
@@ -438,10 +439,15 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                         </div>
                         {/* Col 2: sector classification */}
                         <div className="px-6 py-4">
-                            <MetricRow label="Sector"       value={stock.sector    || '—'} />
-                            <MetricRow label="Industry"     value={stock.subsector1 || '—'} />
-                            <MetricRow label="Group"        value={stock.subsector2 || '—'} />
-                            <MetricRow label="Sub-group"    value={stock.subsector3 || '—'} />
+                            <StockMeta
+                                symbol={sym}
+                                initial={{
+                                    sector:     stock.sector     ?? null,
+                                    subsector1: stock.subsector1 ?? null,
+                                    subsector2: stock.subsector2 ?? null,
+                                    subsector3: stock.subsector3 ?? null,
+                                }}
+                            />
                         </div>
                         {/* Col 3: scores + about */}
                         <div className="px-6 py-4 flex flex-col gap-3">
