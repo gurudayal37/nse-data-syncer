@@ -51,22 +51,22 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 128073.83,
-      "total_fees_paid": 1447.29,
+      "end_value": 131145.06,
+      "total_fees_paid": 1455.48,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 28.07,
-      "benchmark_return": -8.04,
-      "expectancy": 5.6,
-      "net_return_after_fees": 26.63
+      "total_return": 31.15,
+      "benchmark_return": -8.51,
+      "expectancy": 6.12,
+      "net_return_after_fees": 29.69
     },
     "risk_metrics": {
       "max_drawdown": -7.35,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 1.81,
-      "calmar_ratio": 11.03,
-      "omega_ratio": 4.81,
+      "sharpe_ratio": 1.94,
+      "calmar_ratio": 12.48,
+      "omega_ratio": 5.16,
       "sortino_ratio": 0
     },
     "exposure_metrics": {
@@ -79,11 +79,11 @@
       "win_rate": 80.0,
       "best_trade": 24.4,
       "worst_trade": -7.35,
-      "avg_winning_trade": 8.83,
+      "avg_winning_trade": 9.48,
       "avg_losing_trade": -7.35,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 4.81,
+      "profit_factor": 5.16,
       "total_stock_transactions": 80
     }
   },
@@ -9404,97 +9404,97 @@
   "current_performance": [
     {
       "month": "2026-05",
-      "portfolio_return": 8.84,
-      "benchmark_return": 0.14,
+      "portfolio_return": 11.45,
+      "benchmark_return": -0.38,
       "holdings": [
         {
           "symbol": "MTARTECH",
-          "return": 23.14,
-          "score": 5.95,
+          "return": 22.18,
+          "score": 5.97,
           "stop_triggered": false
         },
         {
           "symbol": "CUPID",
-          "return": 4.27,
-          "score": 5.89,
+          "return": 7.79,
+          "score": 5.91,
           "stop_triggered": false
         },
         {
           "symbol": "STLTECH",
-          "return": 57.12,
-          "score": 5.12,
+          "return": 73.22,
+          "score": 5.14,
           "stop_triggered": false
         },
         {
           "symbol": "PRECWIRE",
           "return": -10.0,
-          "score": 3.07,
+          "score": 3.08,
           "stop_triggered": true
         },
         {
           "symbol": "QPOWER",
           "return": -10.0,
-          "score": 2.99,
+          "score": 3.0,
           "stop_triggered": true
         },
         {
           "symbol": "POWERINDIA",
-          "return": 6.21,
-          "score": 2.88,
+          "return": 11.92,
+          "score": 2.9,
           "stop_triggered": false
         },
         {
           "symbol": "TDPOWERSYS",
-          "return": 12.93,
-          "score": 2.83,
+          "return": 15.51,
+          "score": 2.84,
           "stop_triggered": false
         },
         {
           "symbol": "SANSERA",
-          "return": 15.58,
-          "score": 2.8,
+          "return": 17.03,
+          "score": 2.81,
           "stop_triggered": false
         },
         {
           "symbol": "GVT&D",
-          "return": 6.91,
-          "score": 2.68,
+          "return": 14.14,
+          "score": 2.69,
           "stop_triggered": false
         },
         {
           "symbol": "KRN",
           "return": -10.0,
-          "score": 2.62,
+          "score": 2.63,
           "stop_triggered": true
         },
         {
           "symbol": "SCHNEIDER",
-          "return": 9.73,
-          "score": 2.56,
+          "return": 10.77,
+          "score": 2.57,
           "stop_triggered": false
         },
         {
           "symbol": "KIRLOSENG",
-          "return": 0.27,
-          "score": 2.49,
+          "return": 7.76,
+          "score": 2.5,
           "stop_triggered": false
         },
         {
           "symbol": "VOLTAMP",
           "return": -10.0,
-          "score": 2.45,
+          "score": 2.46,
           "stop_triggered": true
         },
         {
           "symbol": "GESHIP",
-          "return": 4.55,
-          "score": 2.43,
+          "return": -4.15,
+          "score": 2.44,
           "stop_triggered": false
         },
         {
           "symbol": "DEEDEV",
-          "return": 31.88,
-          "score": 2.43,
+          "return": 35.53,
+          "score": 2.44,
           "stop_triggered": false
         }
       ]
