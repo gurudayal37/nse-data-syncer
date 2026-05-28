@@ -34207,7 +34207,7 @@
         {
           "symbol": "MTARTECH",
           "return": -2.3,
-          "score": 5.9
+          "score": 5.91
         },
         {
           "symbol": "CUPID",
@@ -34242,7 +34242,7 @@
         {
           "symbol": "MCX",
           "return": -3.41,
-          "score": 2.73
+          "score": 2.74
         },
         {
           "symbol": "BBOX",
@@ -34262,12 +34262,12 @@
         {
           "symbol": "RPTECH",
           "return": -3.58,
-          "score": 2.49
+          "score": 2.5
         },
         {
           "symbol": "SANSERA",
           "return": 3.08,
-          "score": 2.47
+          "score": 2.48
         },
         {
           "symbol": "SEAMECLTD",
