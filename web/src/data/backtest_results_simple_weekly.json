@@ -34202,17 +34202,17 @@
         {
           "symbol": "STLTECH",
           "return": 15.75,
-          "score": 7.58
+          "score": 7.59
         },
         {
           "symbol": "MTARTECH",
           "return": -2.3,
-          "score": 6.75
+          "score": 6.76
         },
         {
           "symbol": "CUPID",
           "return": 7.14,
-          "score": 5.79
+          "score": 5.8
         },
         {
           "symbol": "BAJAJCON",
@@ -34227,12 +34227,12 @@
         {
           "symbol": "MCX",
           "return": -3.41,
-          "score": 3.21
+          "score": 3.22
         },
         {
           "symbol": "SEAMECLTD",
           "return": 1.6,
-          "score": 3.08
+          "score": 3.09
         },
         {
           "symbol": "SANSERA",
@@ -34257,12 +34257,12 @@
         {
           "symbol": "NATIONALUM",
           "return": 5.82,
-          "score": 2.77
+          "score": 2.78
         },
         {
           "symbol": "HFCL",
           "return": 17.35,
-          "score": 2.73
+          "score": 2.74
         },
         {
           "symbol": "GVT&D",
@@ -34272,7 +34272,7 @@
         {
           "symbol": "DEEDEV",
           "return": 7.89,
-          "score": 2.63
+          "score": 2.64
         }
       ]
     },
