@@ -42,39 +42,39 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2026-01",
-      "end": "2026-05",
-      "period": "5 months (0.4 years)"
+      "end": "2026-06",
+      "period": "6 months (0.5 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 96875.12,
-      "total_fees_paid": 1348.73,
+      "end_value": 96952.62,
+      "total_fees_paid": 1484.63,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -3.12,
-      "benchmark_return": -9.88,
-      "expectancy": -0.52,
-      "net_return_after_fees": -4.47
+      "total_return": -3.05,
+      "benchmark_return": -10.51,
+      "expectancy": -0.42,
+      "net_return_after_fees": -4.53
     },
     "risk_metrics": {
       "max_drawdown": -11.36,
-      "max_drawdown_duration": 3,
-      "sharpe_ratio": -0.39,
-      "calmar_ratio": -0.65,
+      "max_drawdown_duration": 4,
+      "sharpe_ratio": -0.35,
+      "calmar_ratio": -0.53,
       "omega_ratio": 0.78,
-      "sortino_ratio": -3.24
+      "sortino_ratio": -2.62
     },
     "exposure_metrics": {
       "max_gross_exposure": 200
     },
     "trade_statistics": {
-      "total_trades": 5,
-      "total_stock_transactions": 76,
-      "win_rate": 60.0,
+      "total_trades": 6,
+      "total_stock_transactions": 84,
+      "win_rate": 66.67,
       "best_trade": 4.7,
       "worst_trade": -6.41,
-      "avg_winning_trade": 3.03,
+      "avg_winning_trade": 2.29,
       "avg_losing_trade": -5.85,
       "profit_factor": 0.78
     }
@@ -2650,6 +2650,113 @@
     }
   ],
   "current_performance": [
+    {
+      "month": "2026-06",
+      "portfolio_return": 0.08,
+      "benchmark_return": -0.7,
+      "long_return": -1.13,
+      "short_return": 1.3,
+      "holdings": [
+        {
+          "symbol": "LAURUSLABS",
+          "return": 1.17,
+          "raw_return": 1.17,
+          "score": 2.67,
+          "side": "long"
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": 2.06,
+          "raw_return": 2.06,
+          "score": 2.4,
+          "side": "long"
+        },
+        {
+          "symbol": "BHEL",
+          "return": -2.93,
+          "raw_return": -2.93,
+          "score": 2.3,
+          "side": "long"
+        },
+        {
+          "symbol": "HINDALCO",
+          "return": 1.0,
+          "raw_return": 1.0,
+          "score": 2.17,
+          "side": "long"
+        },
+        {
+          "symbol": "ADANIENSOL",
+          "return": -1.66,
+          "raw_return": -1.66,
+          "score": 2.15,
+          "side": "long"
+        },
+        {
+          "symbol": "CUMMINSIND",
+          "return": -5.0,
+          "raw_return": -5.0,
+          "score": 2.14,
+          "side": "long"
+        },
+        {
+          "symbol": "MCX",
+          "return": -2.58,
+          "raw_return": -2.58,
+          "score": 2.1,
+          "side": "long"
+        },
+        {
+          "symbol": "HCLTECH",
+          "return": -0.42,
+          "raw_return": 0.42,
+          "score": -1.45,
+          "side": "short"
+        },
+        {
+          "symbol": "ICICIPRULI",
+          "return": 3.62,
+          "raw_return": -3.62,
+          "score": -1.48,
+          "side": "short"
+        },
+        {
+          "symbol": "HDFCLIFE",
+          "return": 1.38,
+          "raw_return": -1.38,
+          "score": -1.57,
+          "side": "short"
+        },
+        {
+          "symbol": "SBICARD",
+          "return": 1.42,
+          "raw_return": -1.42,
+          "score": -1.61,
+          "side": "short"
+        },
+        {
+          "symbol": "TCS",
+          "return": -0.59,
+          "raw_return": 0.59,
+          "score": -1.74,
+          "side": "short"
+        },
+        {
+          "symbol": "HDFCBANK",
+          "return": 0.84,
+          "raw_return": -0.84,
+          "score": -1.77,
+          "side": "short"
+        },
+        {
+          "symbol": "ITC",
+          "return": 2.83,
+          "raw_return": -2.83,
+          "score": -1.81,
+          "side": "short"
+        }
+      ]
+    },
     {
       "month": "2026-05",
       "portfolio_return": 4.7,
