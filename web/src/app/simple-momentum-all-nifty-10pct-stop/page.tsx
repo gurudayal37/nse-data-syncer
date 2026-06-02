@@ -11,6 +11,7 @@ import PerformanceChart from '@/components/strategy/PerformanceChart'
 import PerformanceTable from '@/components/strategy/PerformanceTable'
 import CagrCards from '@/components/strategy/CagrCards'
 import YearlyReturnsTable from '@/components/strategy/YearlyReturnsTable'
+import KeyInsights from '@/components/strategy/KeyInsights'
 
 export default function SimpleMomentumAllNifty10PctStopPage() {
     const data = backtestData as any
@@ -182,6 +183,9 @@ export default function SimpleMomentumAllNifty10PctStopPage() {
                 </div>
 
                 {/* ── Backtest Audit (end of page) ─────────── */}
+                
+                <KeyInsights monthlyData={backtestAsc} />
+
                 <div className="mt-12 bg-orange-50 border border-orange-200 rounded-lg p-5">
                     <div className="flex items-start gap-3">
                         <AlertTriangle className="h-5 w-5 text-orange-500 shrink-0 mt-0.5" />

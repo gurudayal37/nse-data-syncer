@@ -10,6 +10,7 @@ import DetailedMetrics from '@/components/strategy/DetailedMetrics'
 import PerformanceChart from '@/components/strategy/PerformanceChart'
 import CagrCards from '@/components/strategy/CagrCards'
 import YearlyReturnsTable from '@/components/strategy/YearlyReturnsTable'
+import KeyInsights from '@/components/strategy/KeyInsights'
 
 // Inline monthly table that shows long + short leg breakdown
 function LongShortTable({ data, title }: { data: any[]; title: string }) {
@@ -280,6 +281,9 @@ export default function LongShortStrategyPage() {
                 </div>
 
                 {/* ── Audit ─────────────── */}
+                
+                <KeyInsights monthlyData={backtestAsc} />
+
                 <div className="mt-12 bg-orange-50 border border-orange-200 rounded-lg p-5">
                     <div className="flex items-start gap-3">
                         <AlertTriangle className="h-5 w-5 text-orange-500 shrink-0 mt-0.5" />
