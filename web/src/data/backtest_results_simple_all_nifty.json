@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 113123.94,
-      "total_fees_paid": 1524.05,
+      "end_value": 115061.42,
+      "total_fees_paid": 1529.0,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 13.12,
-      "benchmark_return": -10.13,
-      "expectancy": 2.59,
-      "net_return_after_fees": 11.6
+      "total_return": 15.06,
+      "benchmark_return": -10.42,
+      "expectancy": 2.88,
+      "net_return_after_fees": 13.53
     },
     "risk_metrics": {
       "max_drawdown": -10.93,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 0.87,
-      "calmar_ratio": 2.56,
-      "omega_ratio": 1.82,
-      "sortino_ratio": 6.41
+      "sharpe_ratio": 0.97,
+      "calmar_ratio": 2.96,
+      "omega_ratio": 1.91,
+      "sortino_ratio": 7.13
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -79,11 +79,11 @@
       "win_rate": 66.67,
       "best_trade": 18.34,
       "worst_trade": -10.93,
-      "avg_winning_trade": 8.65,
+      "avg_winning_trade": 9.09,
       "avg_losing_trade": -9.53,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 1.82,
+      "profit_factor": 1.91,
       "total_stock_transactions": 92
     }
   },
@@ -7964,82 +7964,82 @@
   "current_performance": [
     {
       "month": "2026-06",
-      "portfolio_return": 1.01,
-      "benchmark_return": -0.27,
+      "portfolio_return": 2.74,
+      "benchmark_return": -0.6,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": 10.24,
-          "score": 9.16
+          "return": 15.75,
+          "score": 9.17
         },
         {
           "symbol": "MTARTECH",
-          "return": -8.42,
+          "return": -5.22,
           "score": 6.32
         },
         {
           "symbol": "CUPID",
-          "return": -0.55,
+          "return": 0.57,
           "score": 5.58
         },
         {
           "symbol": "BLISSGVS",
-          "return": 2.15,
+          "return": 3.37,
           "score": 3.78
         },
         {
           "symbol": "HFCL",
-          "return": 5.56,
+          "return": 10.82,
           "score": 3.66
         },
         {
           "symbol": "BAJAJCON",
-          "return": 3.41,
+          "return": 0.47,
           "score": 3.56
         },
         {
           "symbol": "DEEDEV",
-          "return": 10.25,
+          "return": 10.84,
           "score": 3.37
         },
         {
           "symbol": "BBOX",
-          "return": -0.52,
+          "return": 1.85,
           "score": 3.0
         },
         {
           "symbol": "AEROFLEX",
-          "return": 4.5,
+          "return": 8.22,
           "score": 2.9
         },
         {
           "symbol": "WHEELS",
-          "return": -3.67,
+          "return": -4.96,
           "score": 2.8
         },
         {
           "symbol": "TDPOWERSYS",
-          "return": -6.34,
+          "return": -2.45,
           "score": 2.77
         },
         {
           "symbol": "SEAMECLTD",
-          "return": 1.78,
-          "score": 2.75
+          "return": 0.17,
+          "score": 2.76
         },
         {
           "symbol": "GVT&D",
-          "return": -7.14,
+          "return": -3.58,
           "score": 2.75
         },
         {
           "symbol": "NATIONALUM",
-          "return": 2.34,
+          "return": 2.93,
           "score": 2.74
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 1.51,
+          "return": 2.37,
           "score": 2.68
         }
       ]
