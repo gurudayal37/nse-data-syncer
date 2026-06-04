@@ -47,36 +47,36 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 120814.29,
-      "total_fees_paid": 3030.39,
+      "end_value": 123765.85,
+      "total_fees_paid": 3067.96,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 20.81,
-      "benchmark_return": -8.33,
-      "expectancy": 0.87,
-      "net_return_after_fees": 17.78
+      "total_return": 23.77,
+      "benchmark_return": -8.29,
+      "expectancy": 0.98,
+      "net_return_after_fees": 20.7
     },
     "risk_metrics": {
       "max_drawdown": -10.79,
       "max_drawdown_duration": 14,
-      "sharpe_ratio": 2.02,
-      "calmar_ratio": 4.95,
-      "omega_ratio": 2.11,
-      "sortino_ratio": 3.07
+      "sharpe_ratio": 2.2,
+      "calmar_ratio": 5.74,
+      "omega_ratio": 2.25,
+      "sortino_ratio": 3.45
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
       "total_trades": 23,
-      "total_stock_transactions": 180,
+      "total_stock_transactions": 182,
       "win_rate": 60.87,
       "best_trade": 7.59,
       "worst_trade": -6.89,
-      "avg_winning_trade": 2.73,
+      "avg_winning_trade": 2.91,
       "avg_losing_trade": -2.01,
-      "profit_factor": 2.11
+      "profit_factor": 2.25
     }
   },
   "backtest_results": [
@@ -34196,83 +34196,83 @@
   "current_performance": [
     {
       "week": "2026-06-05",
-      "portfolio_return": 2.74,
-      "benchmark_return": -0.6,
+      "portfolio_return": 5.25,
+      "benchmark_return": -0.56,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": 15.75,
-          "score": 9.17
+          "return": 21.53,
+          "score": 9.1
         },
         {
           "symbol": "MTARTECH",
-          "return": -5.22,
-          "score": 6.32
+          "return": -1.57,
+          "score": 6.28
         },
         {
           "symbol": "CUPID",
-          "return": 0.57,
-          "score": 5.58
+          "return": 3.12,
+          "score": 5.53
         },
         {
           "symbol": "BLISSGVS",
-          "return": 3.37,
-          "score": 3.78
+          "return": 7.27,
+          "score": 3.75
         },
         {
           "symbol": "HFCL",
-          "return": 10.82,
-          "score": 3.66
+          "return": 9.53,
+          "score": 3.64
         },
         {
           "symbol": "BAJAJCON",
-          "return": 0.47,
-          "score": 3.56
+          "return": 1.09,
+          "score": 3.54
+        },
+        {
+          "symbol": "VENUSREM",
+          "return": 21.54,
+          "score": 3.45
         },
         {
           "symbol": "DEEDEV",
-          "return": 10.84,
-          "score": 3.37
+          "return": 7.72,
+          "score": 3.35
         },
         {
           "symbol": "BBOX",
-          "return": 1.85,
-          "score": 3.0
+          "return": 3.96,
+          "score": 2.98
         },
         {
           "symbol": "AEROFLEX",
-          "return": 8.22,
-          "score": 2.9
+          "return": 9.47,
+          "score": 2.88
         },
         {
           "symbol": "WHEELS",
-          "return": -4.96,
-          "score": 2.8
+          "return": -2.99,
+          "score": 2.78
         },
         {
           "symbol": "TDPOWERSYS",
-          "return": -2.45,
-          "score": 2.77
-        },
-        {
-          "symbol": "SEAMECLTD",
-          "return": 0.17,
-          "score": 2.76
-        },
-        {
-          "symbol": "GVT&D",
-          "return": -3.58,
-          "score": 2.75
-        },
-        {
-          "symbol": "NATIONALUM",
-          "return": 2.93,
+          "return": 0.52,
           "score": 2.74
         },
         {
-          "symbol": "LAURUSLABS",
-          "return": 2.37,
-          "score": 2.68
+          "symbol": "SEAMECLTD",
+          "return": 1.21,
+          "score": 2.74
+        },
+        {
+          "symbol": "GVT&D",
+          "return": -1.21,
+          "score": 2.73
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": -2.46,
+          "score": 2.72
         }
       ]
     },
