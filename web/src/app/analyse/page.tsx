@@ -30,27 +30,27 @@ const KEYWORD_LABELS: Record<Keyword, string> = {
   capex:         'Capex',
 }
 
-type SortField = 'mentions' | 'change_1m' | 'change_3m' | 'change_1w' | 'change_6m'
+type SortField = 'mentions' | 'change_1w' | 'change_1m' | 'change_3m' | 'change_6m'
 type SortOrder = 'asc' | 'desc'
 
 interface Row {
-  symbol:       string
-  company_name: string
-  mentions:     number
-  change_1w:    number | null
-  change_1m:    number | null
-  change_3m:    number | null
-  change_6m:    number | null
-  market_cap:   number | null
+  symbol:           string
+  company_name:     string
+  mentions:         number
+  change_1w:        number | null
+  change_1m:        number | null
+  change_3m:        number | null
+  change_6m:        number | null
+  market_cap:       number | null
   presentation_url: string | null
 }
 
 async function fetchRows(keyword: Keyword, sort: SortField, order: SortOrder): Promise<Row[]> {
-  const rows = await prisma.$queryRawUnsafe<Row[]>(`
+  return prisma.$queryRawUnsafe<Row[]>(`
     SELECT
       pka.symbol,
       pka.company_name,
-      pka."${keyword}" AS mentions,
+      pka."${keyword}"   AS mentions,
       sp.change_1w,
       sp.change_1m,
       sp.change_3m,
@@ -64,131 +64,119 @@ async function fetchRows(keyword: Keyword, sort: SortField, order: SortOrder): P
     ORDER BY ${sort === 'mentions' ? 'mentions' : `sp.${sort}`} ${order} NULLS LAST,
              pka."${keyword}" DESC
   `)
-  return rows
 }
 
 interface PageProps {
-  searchParams: Promise<{
-    keyword?: string
-    sort?: string
-    order?: string
-  }>
+  searchParams: Promise<{ keyword?: string; sort?: string; order?: string }>
 }
 
-function SortLink({
-  field, current, order, keyword, label,
-}: {
-  field: SortField; current: SortField; order: SortOrder; keyword: string; label: string
-}) {
-  const isActive = field === current
-  const nextOrder = isActive && order === 'desc' ? 'asc' : 'desc'
-  const arrow = isActive ? (order === 'desc' ? ' ↓' : ' ↑') : ''
-  return (
-    <Link
-      href={`/analyse?keyword=${keyword}&sort=${field}&order=${nextOrder}`}
-      className={`hover:text-slate-900 ${isActive ? 'text-slate-900 font-semibold' : 'text-slate-500'}`}
-    >
-      {label}{arrow}
-    </Link>
-  )
-}
+const SORT_COLS: { field: SortField; label: string }[] = [
+  { field: 'mentions',   label: 'Mentions' },
+  { field: 'change_1w',  label: '1W'       },
+  { field: 'change_1m',  label: '1M'       },
+  { field: 'change_3m',  label: '3M'       },
+  { field: 'change_6m',  label: '6M'       },
+]
 
 export default async function AnalysePage({ searchParams }: PageProps) {
   const params  = await searchParams
   const keyword = (ALLOWED_KEYWORDS.includes(params.keyword as Keyword)
     ? params.keyword : 'data_centre') as Keyword
-  const sort    = (['mentions','change_1m','change_3m','change_1w','change_6m'].includes(params.sort ?? '')
+  const sort    = (['mentions','change_1w','change_1m','change_3m','change_6m'].includes(params.sort ?? '')
     ? params.sort : 'mentions') as SortField
   const order   = params.order === 'asc' ? 'asc' : 'desc'
 
   const rows = await fetchRows(keyword, sort, order)
 
+  const SortIcon = ({ col }: { col: SortField }) => {
+    if (sort !== col) return <span className="ml-1 text-slate-400">↕</span>
+    return order === 'asc'
+      ? <span className="ml-1 text-blue-600">↑</span>
+      : <span className="ml-1 text-blue-600">↓</span>
+  }
+
+  const SortHeader = ({ col, label }: { col: SortField; label: string }) => {
+    const nextOrder = sort === col && order === 'desc' ? 'asc' : 'desc'
+    return (
+      <th className="px-4 py-3 text-right">
+        <Link
+          href={`/analyse?keyword=${keyword}&sort=${col}&order=${nextOrder}`}
+          className="inline-flex items-center justify-end hover:text-blue-600 whitespace-nowrap"
+        >
+          {label}<SortIcon col={col} />
+        </Link>
+      </th>
+    )
+  }
+
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-slate-100">
+      <div className="px-6 py-6">
 
         {/* Header */}
-        <div className="mb-6">
-          <Link href="/" className="text-sm text-slate-400 hover:text-slate-600 mb-2 inline-block">← Home</Link>
-          <h1 className="text-2xl font-bold text-slate-900">Keyword Analysis</h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Companies mentioning key themes in Q4 FY26 investor presentations
-          </p>
-        </div>
+        <header className="mb-5 flex justify-between items-end">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Keyword Analysis</h1>
+            <p className="text-slate-500 text-sm mt-1">
+              {rows.length} companies mentioning <span className="font-semibold text-slate-700">{KEYWORD_LABELS[keyword]}</span> in Q4 FY26 investor presentations
+            </p>
+          </div>
+        </header>
 
         {/* Keyword tabs */}
-        <div className="bg-white rounded-xl border border-slate-200 p-4 mb-6">
-          <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-3">Select theme</p>
+        <div className="bg-white shadow-sm rounded-xl border border-slate-200 px-5 py-4 mb-5">
           <Suspense>
             <KeywordTabs active={keyword} />
           </Suspense>
         </div>
 
-        {/* Results */}
-        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-            <div>
-              <span className="font-semibold text-slate-900">{KEYWORD_LABELS[keyword]}</span>
-              <span className="text-slate-400 text-sm ml-2">— {rows.length} companies</span>
-            </div>
-            <span className="text-xs text-slate-400">Q4 FY26 investor presentations</span>
-          </div>
-
+        {/* Table */}
+        <div className="bg-white shadow-sm rounded-xl border border-slate-200 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-slate-100 bg-slate-50 text-xs">
-                  <th className="text-left px-4 py-3 text-slate-500 font-medium w-10">#</th>
-                  <th className="text-left px-4 py-3 text-slate-500 font-medium">Company</th>
-                  <th className="text-right px-4 py-3">
-                    <SortLink field="mentions" current={sort} order={order} keyword={keyword} label="Mentions" />
-                  </th>
-                  <th className="text-right px-4 py-3">
-                    <SortLink field="change_1w" current={sort} order={order} keyword={keyword} label="1W" />
-                  </th>
-                  <th className="text-right px-4 py-3">
-                    <SortLink field="change_1m" current={sort} order={order} keyword={keyword} label="1M" />
-                  </th>
-                  <th className="text-right px-4 py-3">
-                    <SortLink field="change_3m" current={sort} order={order} keyword={keyword} label="3M" />
-                  </th>
-                  <th className="text-right px-4 py-3">
-                    <SortLink field="change_6m" current={sort} order={order} keyword={keyword} label="6M" />
-                  </th>
-                  <th className="text-right px-4 py-3 text-slate-500 font-medium">Mkt Cap</th>
-                  <th className="text-center px-4 py-3 text-slate-500 font-medium">PDF</th>
+            <table className="w-full text-left text-sm text-slate-600">
+              <thead className="bg-slate-50 text-slate-700 font-medium border-b border-slate-200 text-xs uppercase tracking-wide">
+                <tr>
+                  <th className="px-4 py-3 w-8 text-slate-400">#</th>
+                  <th className="px-4 py-3">Symbol</th>
+                  <th className="px-4 py-3">Company</th>
+                  <th className="px-4 py-3 text-right">Mkt Cap</th>
+                  {SORT_COLS.map(({ field, label }) => (
+                    <SortHeader key={field} col={field} label={label} />
+                  ))}
+                  <th className="px-4 py-3 text-center">PDF</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+              <tbody className="divide-y divide-slate-100">
                 {rows.map((row, i) => (
                   <tr key={row.symbol} className="hover:bg-slate-50 transition-colors">
                     <td className="px-4 py-3 text-slate-300 text-xs">{i + 1}</td>
-                    <td className="px-4 py-3">
-                      <Link href={`/stock/${row.symbol}`} className="hover:text-sky-600 transition-colors">
-                        <div className="font-semibold text-slate-800">{row.symbol}</div>
-                        <div className="text-xs text-slate-400">{row.company_name}</div>
+
+                    <td className="px-4 py-3 font-semibold">
+                      <Link href={`/stock/${row.symbol}`} className="text-blue-600 hover:underline">
+                        {row.symbol}
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-right">
-                      <span className="font-bold text-slate-900">{Number(row.mentions)}</span>
+
+                    <td className="px-4 py-3 text-slate-500 truncate max-w-[220px]" title={row.company_name}>
+                      {row.company_name}
                     </td>
-                    <td className="px-4 py-3 text-right">
-                      <PercentageChange value={row.change_1w != null ? Number(row.change_1w) : null} />
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <PercentageChange value={row.change_1m != null ? Number(row.change_1m) : null} />
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <PercentageChange value={row.change_3m != null ? Number(row.change_3m) : null} />
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <PercentageChange value={row.change_6m != null ? Number(row.change_6m) : null} />
-                    </td>
-                    <td className="px-4 py-3 text-right text-xs text-slate-500">
+
+                    <td className="px-4 py-3 text-right text-slate-500">
                       {row.market_cap
-                        ? `₹${(Number(row.market_cap) / 100).toFixed(0)}Cr`
+                        ? `₹${Math.round(Number(row.market_cap) / 10_000_000).toLocaleString('en-IN')} Cr`
                         : '—'}
                     </td>
+
+                    <td className="px-4 py-3 text-right font-bold text-slate-800">
+                      {Number(row.mentions)}
+                    </td>
+
+                    {(['change_1w','change_1m','change_3m','change_6m'] as const).map(f => (
+                      <td key={f} className="px-4 py-3 text-right">
+                        <PercentageChange value={row[f] != null ? Number(row[f]) : null} />
+                      </td>
+                    ))}
+
                     <td className="px-4 py-3 text-center">
                       {row.presentation_url ? (
                         <a
@@ -215,6 +203,7 @@ export default async function AnalysePage({ searchParams }: PageProps) {
             </div>
           )}
         </div>
+
       </div>
     </div>
   )
