@@ -5,6 +5,7 @@ import {
   TrendingUp, BarChart3, Zap, Database,
   ArrowRight, PieChart, Activity, Shield,
   AlertCircle, ChevronRight, TrendingDown, Calendar,
+  Search, Crosshair,
 } from 'lucide-react'
 import GlobalSearch from '@/components/GlobalSearch'
 
@@ -78,18 +79,23 @@ export default function HomePage() {
     { title: 'Stage 2 Stocks', desc: 'Minervini Trend Template', href: '/stage-2', icon: Activity, badge: 'Live', color: 'teal' },
     { title: 'Market Indices', desc: 'Nifty 50, Midcap & more', href: '/indices', icon: BarChart3, badge: 'New', color: 'indigo' },
     { title: 'Earnings Calendar', desc: 'Upcoming result announcements', href: '/earnings-calendar/upcoming-results', icon: Calendar, badge: 'Live', color: 'amber' },
+    { title: 'Keyword Analysis', desc: 'AI, Data Centre & more in Q4 FY26', href: '/analyse', icon: Search, badge: 'New', color: 'rose' },
+    { title: 'VCP Screener', desc: 'Volatility Contraction Pattern', href: '/vcp', icon: Crosshair, badge: 'New', color: 'orange' },
   ]
 
   const iconBgMap: Record<string, string> = {
     sky: 'bg-sky-100 text-sky-600', violet: 'bg-violet-100 text-violet-600',
     slate: 'bg-slate-100 text-slate-500', emerald: 'bg-emerald-100 text-emerald-600',
-    teal: 'bg-teal-100 text-teal-600', indigo: 'bg-indigo-100 text-indigo-600', amber: 'bg-amber-100 text-amber-600',
+    teal: 'bg-teal-100 text-teal-600', indigo: 'bg-indigo-100 text-indigo-600',
+    amber: 'bg-amber-100 text-amber-600', rose: 'bg-rose-100 text-rose-600',
+    orange: 'bg-orange-100 text-orange-600',
   }
   const badgeMap: Record<string, string> = {
     sky: 'bg-sky-50 text-sky-600 border border-sky-100', violet: 'bg-violet-50 text-violet-600 border border-violet-100',
     slate: 'bg-slate-50 text-slate-500 border border-slate-100', emerald: 'bg-emerald-50 text-emerald-600 border border-emerald-100',
     teal: 'bg-teal-50 text-teal-600 border border-teal-100', indigo: 'bg-indigo-50 text-indigo-600 border border-indigo-100',
-    amber: 'bg-amber-50 text-amber-600 border border-amber-100',
+    amber: 'bg-amber-50 text-amber-600 border border-amber-100', rose: 'bg-rose-50 text-rose-600 border border-rose-100',
+    orange: 'bg-orange-50 text-orange-600 border border-orange-100',
   }
 
   return (
