@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 97262.62,
-      "total_fees_paid": 1485.41,
+      "end_value": 97068.87,
+      "total_fees_paid": 1484.92,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -2.74,
-      "benchmark_return": -10.58,
-      "expectancy": -0.37,
-      "net_return_after_fees": -4.22
+      "total_return": -2.93,
+      "benchmark_return": -11.5,
+      "expectancy": -0.4,
+      "net_return_after_fees": -4.42
     },
     "risk_metrics": {
       "max_drawdown": -11.36,
       "max_drawdown_duration": 4,
-      "sharpe_ratio": -0.3,
-      "calmar_ratio": -0.48,
-      "omega_ratio": 0.81,
-      "sortino_ratio": -2.29
+      "sharpe_ratio": -0.33,
+      "calmar_ratio": -0.51,
+      "omega_ratio": 0.79,
+      "sortino_ratio": -2.49
     },
     "exposure_metrics": {
       "max_gross_exposure": 200
@@ -74,9 +74,9 @@
       "win_rate": 66.67,
       "best_trade": 4.7,
       "worst_trade": -6.41,
-      "avg_winning_trade": 2.37,
+      "avg_winning_trade": 2.32,
       "avg_losing_trade": -5.85,
-      "profit_factor": 0.81
+      "profit_factor": 0.79
     }
   },
   "backtest_results": [
@@ -2652,106 +2652,106 @@
   "current_performance": [
     {
       "month": "2026-06",
-      "portfolio_return": 0.4,
-      "benchmark_return": -0.77,
-      "long_return": -2.49,
-      "short_return": 3.29,
+      "portfolio_return": 0.2,
+      "benchmark_return": -1.8,
+      "long_return": -4.27,
+      "short_return": 4.67,
       "holdings": [
         {
           "symbol": "LAURUSLABS",
-          "return": 5.42,
-          "raw_return": 5.42,
+          "return": 2.35,
+          "raw_return": 2.35,
           "score": 2.67,
           "side": "long"
         },
         {
           "symbol": "NATIONALUM",
-          "return": -6.99,
-          "raw_return": -6.99,
-          "score": 2.4,
+          "return": -11.11,
+          "raw_return": -11.11,
+          "score": 2.39,
           "side": "long"
         },
         {
           "symbol": "BHEL",
-          "return": -7.21,
-          "raw_return": -7.21,
+          "return": -7.36,
+          "raw_return": -7.36,
           "score": 2.3,
           "side": "long"
         },
         {
           "symbol": "HINDALCO",
-          "return": -3.31,
-          "raw_return": -3.31,
+          "return": -5.98,
+          "raw_return": -5.98,
           "score": 2.16,
           "side": "long"
         },
         {
           "symbol": "ADANIENSOL",
-          "return": 3.76,
-          "raw_return": 3.76,
+          "return": 3.19,
+          "raw_return": 3.19,
           "score": 2.15,
           "side": "long"
         },
         {
           "symbol": "CUMMINSIND",
-          "return": -3.27,
-          "raw_return": -3.27,
+          "return": -6.17,
+          "raw_return": -6.17,
           "score": 2.14,
           "side": "long"
         },
         {
           "symbol": "MCX",
-          "return": -5.8,
-          "raw_return": -5.8,
+          "return": -4.83,
+          "raw_return": -4.83,
           "score": 2.09,
           "side": "long"
         },
         {
           "symbol": "HCLTECH",
-          "return": 2.97,
-          "raw_return": -2.97,
+          "return": 3.26,
+          "raw_return": -3.26,
           "score": -1.45,
           "side": "short"
         },
         {
           "symbol": "ICICIPRULI",
-          "return": 4.68,
-          "raw_return": -4.68,
-          "score": -1.48,
+          "return": 6.22,
+          "raw_return": -6.22,
+          "score": -1.47,
           "side": "short"
         },
         {
           "symbol": "HDFCLIFE",
-          "return": 3.27,
-          "raw_return": -3.27,
-          "score": -1.57,
+          "return": 5.08,
+          "raw_return": -5.08,
+          "score": -1.56,
           "side": "short"
         },
         {
           "symbol": "SBICARD",
-          "return": 5.63,
-          "raw_return": -5.63,
-          "score": -1.61,
+          "return": 8.04,
+          "raw_return": -8.04,
+          "score": -1.6,
           "side": "short"
         },
         {
           "symbol": "TCS",
-          "return": 3.73,
-          "raw_return": -3.73,
-          "score": -1.74,
+          "return": 5.81,
+          "raw_return": -5.81,
+          "score": -1.73,
           "side": "short"
         },
         {
           "symbol": "HDFCBANK",
-          "return": 0.26,
-          "raw_return": -0.26,
-          "score": -1.77,
+          "return": 1.38,
+          "raw_return": -1.38,
+          "score": -1.76,
           "side": "short"
         },
         {
           "symbol": "ITC",
-          "return": 2.47,
-          "raw_return": -2.47,
+          "return": 2.9,
+          "raw_return": -2.9,
           "score": -1.81,
           "side": "short"
         }
