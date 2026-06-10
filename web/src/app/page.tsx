@@ -5,7 +5,7 @@ import {
   TrendingUp, BarChart3, Zap, Database,
   ArrowRight, PieChart, Activity, Shield,
   AlertCircle, ChevronRight, TrendingDown, Calendar,
-  Search, Crosshair,
+  Search, Crosshair, GitCompare,
 } from 'lucide-react'
 import GlobalSearch from '@/components/GlobalSearch'
 
@@ -81,6 +81,7 @@ export default function HomePage() {
     { title: 'Earnings Calendar', desc: 'Upcoming result announcements', href: '/earnings-calendar/upcoming-results', icon: Calendar, badge: 'Live', color: 'amber' },
     { title: 'Keyword Analysis', desc: 'AI, Data Centre & more in Q4 FY26', href: '/analyse', icon: Search, badge: 'New', color: 'rose' },
     { title: 'VCP Screener', desc: 'Volatility Contraction Pattern', href: '/vcp', icon: Crosshair, badge: 'New', color: 'orange' },
+    { title: 'Market Breadth', desc: 'Advance/decline & 52W highs/lows', href: '/market-breadth', icon: GitCompare, badge: 'New', color: 'sky' },
   ]
 
   const iconBgMap: Record<string, string> = {

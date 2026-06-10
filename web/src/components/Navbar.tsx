@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { TrendingUp, Database, PieChart, Calendar, BarChart3 } from 'lucide-react'
+import { TrendingUp, Database, PieChart, Calendar, BarChart3, Activity } from 'lucide-react'
 import GlobalSearch from './GlobalSearch'
 
 const NAV_LINKS = [
@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { label: 'Momentum', href: '/momentum',                        icon: TrendingUp },
   { label: 'Earnings', href: '/earnings-calendar/upcoming-results', icon: Calendar  },
   { label: 'Indices',  href: '/indices',                         icon: BarChart3 },
+  { label: 'Breadth',  href: '/market-breadth',                  icon: Activity  },
 ]
 
 export default function Navbar() {
