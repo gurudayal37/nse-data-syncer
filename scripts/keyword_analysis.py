@@ -159,6 +159,49 @@ def clean_db_url(url: str) -> str:
     return re.sub(r'sslmode=["\']?(\w+)["\']?', r'sslmode=\1', url.strip())
 
 
+class DB:
+    """Thin psycopg2 wrapper that transparently reconnects on dropped
+    connections (RDS closes idle connections during long PDF-fetch gaps)."""
+
+    def __init__(self, url: str):
+        self.url = url
+        self._connect()
+
+    def _connect(self):
+        self.conn = psycopg2.connect(self.url)
+        self.cur = self.conn.cursor()
+
+    def execute(self, sql: str, params=None):
+        for attempt in range(2):
+            try:
+                self.cur.execute(sql, params)
+                return
+            except psycopg2.OperationalError:
+                try:
+                    self.conn.close()
+                except Exception:
+                    pass
+                self._connect()
+                if attempt == 1:
+                    raise
+
+    def commit(self):
+        try:
+            self.conn.commit()
+        except psycopg2.OperationalError:
+            self._connect()
+
+    def fetchone(self):
+        return self.cur.fetchone()
+
+    def fetchall(self):
+        return self.cur.fetchall()
+
+    def close(self):
+        self.cur.close()
+        self.conn.close()
+
+
 def fetch_nse_day(date_str: str) -> list[dict]:
     """date_str in DD-MM-YYYY."""
     try:
@@ -331,18 +374,18 @@ def main():
     parser.add_argument('--out', default='results/keyword_analysis.csv')
     parser.add_argument('--symbol', help='Run for a single symbol only (for testing)')
     parser.add_argument('--force', action='store_true', help='Re-process even if already analysed')
+    parser.add_argument('--resume-after', help='Skip companies alphabetically <= this symbol (for resuming a --force run)')
     args = parser.parse_args()
 
     season_start = date.fromisoformat(args.season_start)
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
-    conn = psycopg2.connect(clean_db_url(DB_URL))
-    cur = conn.cursor()
-    cur.execute(CREATE_TABLE_SQL)
+    db = DB(clean_db_url(DB_URL))
+    db.execute(CREATE_TABLE_SQL)
     for stmt in ALTER_TABLE_SQL:
-        cur.execute(stmt)
-    conn.commit()
+        db.execute(stmt)
+    db.commit()
 
     # Get all companies that announced results this season
     # Pick earliest announcement per symbol (their actual result date)
@@ -358,11 +401,14 @@ def main():
     IST_start = datetime.combine(season_start, datetime.min.time()).replace(
         tzinfo=timezone(timedelta(hours=5, minutes=30))
     )
-    cur.execute(query, (IST_start,))
-    companies = cur.fetchall()
+    db.execute(query, (IST_start,))
+    companies = db.fetchall()
 
     if args.symbol:
         companies = [(s, n, d) for s, n, d in companies if s.upper() == args.symbol.upper()]
+
+    if args.resume_after:
+        companies = [(s, n, d) for s, n, d in companies if s.upper() > args.resume_after.upper()]
 
     print(f'Companies to analyse: {len(companies)}')
     print(f'Output CSV: {out_path}\n')
@@ -389,11 +435,11 @@ def main():
         print(f'[{i}/{len(companies)}] {symbol} ({result_date})', end=' … ', flush=True)
 
         if not args.force:
-            cur.execute(
+            db.execute(
                 'SELECT id FROM presentation_keyword_analysis WHERE symbol = %s AND result_date = %s',
                 (symbol, result_date)
             )
-            if cur.fetchone():
+            if db.fetchone():
                 print('already done, skipping')
                 continue
 
@@ -402,13 +448,13 @@ def main():
 
         if not pres_url:
             print('no presentation found')
-            cur.execute("""
+            db.execute("""
                 INSERT INTO presentation_keyword_analysis
                     (symbol, company_name, result_date, has_presentation)
                 VALUES (%s, %s, %s, FALSE)
                 ON CONFLICT (symbol, result_date) DO NOTHING
             """, (symbol, company_name, result_date))
-            conn.commit()
+            db.commit()
             rows.append({
                 'symbol': symbol, 'company_name': company_name,
                 'result_date': result_date, 'has_presentation': False,
@@ -424,14 +470,14 @@ def main():
         pdf_bytes = download_pdf(pres_url)
         if not pdf_bytes:
             print('download failed')
-            cur.execute("""
+            db.execute("""
                 INSERT INTO presentation_keyword_analysis
                     (symbol, company_name, result_date, presentation_url, has_presentation)
                 VALUES (%s, %s, %s, %s, TRUE)
                 ON CONFLICT (symbol, result_date) DO UPDATE
                   SET presentation_url = EXCLUDED.presentation_url
             """, (symbol, company_name, result_date, pres_url))
-            conn.commit()
+            db.commit()
             continue
 
         text = extract_text(pdf_bytes)
@@ -453,8 +499,8 @@ def main():
         values += [sentiment['word_count'], sentiment['positive_hits'], sentiment['negative_hits'],
                    sentiment['positive_density'], sentiment['negative_density'], sentiment['sentiment_score']]
 
-        cur.execute(insert_sql, values)
-        conn.commit()
+        db.execute(insert_sql, values)
+        db.commit()
 
         row = {
             'symbol': symbol, 'company_name': company_name,
@@ -466,8 +512,7 @@ def main():
 
         time.sleep(1)  # polite delay between PDFs
 
-    cur.close()
-    conn.close()
+    db.close()
 
     # Write CSV
     if rows:
