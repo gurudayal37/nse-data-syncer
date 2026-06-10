@@ -14,6 +14,8 @@ export const metadata = {
 const ALLOWED_KEYWORDS = [
   'data_centre', 'ai', 'semiconductor', 'aerospace',
   'defence', 'cloud', 'ev', 'renewable', 'export', 'capex',
+  'order_book', 'precision_engineering', 'best', 'top', 'leader',
+  'sentiment',
 ] as const
 type Keyword = typeof ALLOWED_KEYWORDS[number]
 
@@ -28,6 +30,12 @@ const KEYWORD_LABELS: Record<Keyword, string> = {
   renewable:     'Renewable',
   export:        'Export',
   capex:         'Capex',
+  order_book:    'Order Book',
+  precision_engineering: 'Precision Engineering',
+  best:          'Best',
+  top:           'Top',
+  leader:        'Leader',
+  sentiment:     'Sentiment',
 }
 
 type SortField = 'mentions' | 'change_1w' | 'change_1m' | 'change_3m' | 'change_6m'
@@ -37,6 +45,8 @@ interface Row {
   symbol:           string
   company_name:     string
   mentions:         number
+  positive_hits:    number | null
+  negative_hits:    number | null
   change_1w:        number | null
   change_1m:        number | null
   change_3m:        number | null
@@ -46,11 +56,36 @@ interface Row {
 }
 
 async function fetchRows(keyword: Keyword, sort: SortField, order: SortOrder): Promise<Row[]> {
+  if (keyword === 'sentiment') {
+    return prisma.$queryRawUnsafe<Row[]>(`
+      SELECT
+        pka.symbol,
+        pka.company_name,
+        pka.sentiment_score AS mentions,
+        pka.positive_hits,
+        pka.negative_hits,
+        sp.change_1w,
+        sp.change_1m,
+        sp.change_3m,
+        sp.change_6m,
+        s.market_cap,
+        pka.presentation_url
+      FROM presentation_keyword_analysis pka
+      JOIN stocks s ON s.nse_symbol = pka.symbol
+      LEFT JOIN stock_performance sp ON sp.stock_id = s.id
+      WHERE pka.has_presentation = TRUE
+      ORDER BY ${sort === 'mentions' ? 'mentions' : `sp.${sort}`} ${order} NULLS LAST,
+               pka.sentiment_score DESC
+    `)
+  }
+
   return prisma.$queryRawUnsafe<Row[]>(`
     SELECT
       pka.symbol,
       pka.company_name,
       pka."${keyword}"   AS mentions,
+      NULL::int AS positive_hits,
+      NULL::int AS negative_hits,
       sp.change_1w,
       sp.change_1m,
       sp.change_3m,
@@ -70,8 +105,7 @@ interface PageProps {
   searchParams: Promise<{ keyword?: string; sort?: string; order?: string }>
 }
 
-const SORT_COLS: { field: SortField; label: string }[] = [
-  { field: 'mentions',   label: 'Mentions' },
+const SORT_COLS_BASE: { field: SortField; label: string }[] = [
   { field: 'change_1w',  label: '1W'       },
   { field: 'change_1m',  label: '1M'       },
   { field: 'change_3m',  label: '3M'       },
@@ -87,6 +121,11 @@ export default async function AnalysePage({ searchParams }: PageProps) {
   const order   = params.order === 'asc' ? 'asc' : 'desc'
 
   const rows = await fetchRows(keyword, sort, order)
+  const isSentiment = keyword === 'sentiment'
+  const SORT_COLS = [
+    { field: 'mentions' as SortField, label: isSentiment ? 'Sentiment' : 'Mentions' },
+    ...SORT_COLS_BASE,
+  ]
 
   const SortIcon = ({ col }: { col: SortField }) => {
     if (sort !== col) return <span className="ml-1 text-slate-400">↕</span>
@@ -118,7 +157,9 @@ export default async function AnalysePage({ searchParams }: PageProps) {
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Keyword Analysis</h1>
             <p className="text-slate-500 text-sm mt-1">
-              {rows.length} companies mentioning <span className="font-semibold text-slate-700">{KEYWORD_LABELS[keyword]}</span> in Q4 FY26 investor presentations
+              {isSentiment
+                ? <>{rows.length} companies ranked by <span className="font-semibold text-slate-700">management commentary sentiment</span> (positive − negative phrase density per 1000 words) in Q4 FY26 investor presentations</>
+                : <>{rows.length} companies mentioning <span className="font-semibold text-slate-700">{KEYWORD_LABELS[keyword]}</span> in Q4 FY26 investor presentations</>}
             </p>
           </div>
         </header>
@@ -167,8 +208,19 @@ export default async function AnalysePage({ searchParams }: PageProps) {
                         : '—'}
                     </td>
 
-                    <td className="px-4 py-3 text-right font-bold text-slate-800">
-                      {Number(row.mentions)}
+                    <td className="px-4 py-3 text-right font-bold">
+                      {isSentiment ? (
+                        <>
+                          <span className={Number(row.mentions) >= 0 ? 'text-emerald-600' : 'text-red-500'}>
+                            {Number(row.mentions) >= 0 ? '+' : ''}{Number(row.mentions).toFixed(2)}
+                          </span>
+                          <span className="block text-[11px] font-normal text-slate-400">
+                            +{row.positive_hits ?? 0} / -{row.negative_hits ?? 0}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-slate-800">{Number(row.mentions)}</span>
+                      )}
                     </td>
 
                     {(['change_1w','change_1m','change_3m','change_6m'] as const).map(f => (

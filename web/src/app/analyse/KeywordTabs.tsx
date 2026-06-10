@@ -3,16 +3,22 @@
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 
 const KEYWORDS = [
-  { key: 'data_centre',   label: 'Data Centre' },
-  { key: 'ai',            label: 'AI' },
-  { key: 'semiconductor', label: 'Semiconductor' },
-  { key: 'defence',       label: 'Defence' },
-  { key: 'aerospace',     label: 'Aerospace' },
-  { key: 'cloud',         label: 'Cloud' },
-  { key: 'ev',            label: 'EV' },
-  { key: 'renewable',     label: 'Renewable' },
-  { key: 'export',        label: 'Export' },
-  { key: 'capex',         label: 'Capex' },
+  { key: 'data_centre',    label: 'Data Centre' },
+  { key: 'ai',             label: 'AI' },
+  { key: 'semiconductor',  label: 'Semiconductor' },
+  { key: 'defence',        label: 'Defence' },
+  { key: 'aerospace',      label: 'Aerospace' },
+  { key: 'cloud',          label: 'Cloud' },
+  { key: 'ev',             label: 'EV' },
+  { key: 'renewable',      label: 'Renewable' },
+  { key: 'export',         label: 'Export' },
+  { key: 'capex',          label: 'Capex' },
+  { key: 'order_book',     label: 'Order Book' },
+  { key: 'precision_engineering', label: 'Precision Engineering' },
+  { key: 'best',           label: 'Best' },
+  { key: 'top',            label: 'Top' },
+  { key: 'leader',         label: 'Leader' },
+  { key: 'sentiment',      label: 'Sentiment' },
 ]
 
 export default function KeywordTabs({ active }: { active: string }) {
