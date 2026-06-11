@@ -2,7 +2,7 @@ name: Optimized Daily Sync
 
 on:
   schedule:
-    - cron: '0 10 * * 1-5' # Runs at 3:30 PM IST (10:00 AM UTC) Mon-Fri
+    - cron: '13 10 * * 1-5' # Runs ~3:43 PM IST (10:13 AM UTC) Mon-Fri, after market close. Off-peak minute to avoid GitHub Actions queueing delays at :00/:30.
   workflow_dispatch:  # Manual trigger for now
 
 env:
