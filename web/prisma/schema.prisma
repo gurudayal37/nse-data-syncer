@@ -331,6 +331,23 @@ model momentum_history {
   @@unique([stock_id, date], map: "idx_momentum_history_stock_date")
 }
 
+model market_breadth_history {
+  date             DateTime @id @db.Date
+  total            Int?
+  advances         Int?
+  declines         Int?
+  unchanged        Int?
+  near_52w_high    Int?
+  near_52w_low     Int?
+  pct_above_ema20  Float?
+  pct_above_ema50  Float?
+  pct_above_ema200 Float?
+  new_highs        Int?
+  new_lows         Int?
+  net_highs_lows   Int?
+  created_at       DateTime? @default(now()) @db.Timestamptz(6)
+}
+
 model etfs {
   id               Int                @id @default(autoincrement())
   symbol           String             @unique @db.VarChar(50)
