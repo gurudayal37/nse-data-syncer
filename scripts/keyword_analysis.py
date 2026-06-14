@@ -76,6 +76,7 @@ THEME_KEYWORDS = {
     'top':            [r'\btop\b'],
     'leader':         [r'\bleader[s]?\b', r'\bleading\b', r'\bleadership\b'],
     'order_book':     [r'order\s*book', r'order\s*inflow', r'\bbacklog\b'],
+    'highest':        [r'\bhighest\b'],
 }
 
 # ── Sentiment phrase library ───────────────────────────────────────────────
@@ -235,11 +236,19 @@ def find_investor_presentation(symbol: str, result_date: date, season_end: date 
             for ann in anns:
                 if ann.get('symbol', '').upper() != symbol.upper():
                     continue
-                combined = (ann.get('desc', '') + ' ' + ann.get('attchmntText', '')).lower()
-                if 'investor presentation' in combined:
-                    url = ann.get('attchmntFile', '')
-                    if url:
-                        return url
+                url = ann.get('attchmntFile', '')
+                combined = (ann.get('desc', '') + ' ' + ann.get('attchmntText', '') + ' ' + url).lower()
+                # NSE filings use varied labels for investor decks: "Investor
+                # Presentation", "Investor Update(s)", "Investor/Analyst Meet", etc.
+                if url and (
+                    'investor presentation' in combined
+                    or 'investor update' in combined
+                    or 'investor/analyst' in combined
+                    or 'analyst meet' in combined
+                    or 'investorpresentation' in combined
+                    or 'investorupdate' in combined
+                ):
+                    return url
         d += timedelta(days=1)
     return None
 
@@ -359,7 +368,7 @@ CREATE INDEX IF NOT EXISTS ix_pka_symbol ON presentation_keyword_analysis (symbo
 # ALTER statements to add new columns to a pre-existing table from the prior version.
 ALTER_TABLE_SQL = [
     f'ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS {c} INT DEFAULT 0'
-    for c in ('precision_engineering', 'best', 'top', 'leader', 'order_book',
+    for c in ('precision_engineering', 'best', 'top', 'leader', 'order_book', 'highest',
               'word_count', 'positive_hits', 'negative_hits')
 ] + [
     "ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS positive_density NUMERIC(8,2) DEFAULT 0",
@@ -375,6 +384,7 @@ def main():
     parser.add_argument('--symbol', help='Run for a single symbol only (for testing)')
     parser.add_argument('--force', action='store_true', help='Re-process even if already analysed')
     parser.add_argument('--resume-after', help='Skip companies alphabetically <= this symbol (for resuming a --force run)')
+    parser.add_argument('--missing-only', action='store_true', help='Only re-search companies currently marked has_presentation=FALSE')
     args = parser.parse_args()
 
     season_start = date.fromisoformat(args.season_start)
@@ -409,6 +419,12 @@ def main():
 
     if args.resume_after:
         companies = [(s, n, d) for s, n, d in companies if s.upper() > args.resume_after.upper()]
+
+    if args.missing_only:
+        db.execute("SELECT symbol FROM presentation_keyword_analysis WHERE has_presentation = TRUE")
+        have = {r[0].upper() for r in db.fetchall()}
+        companies = [(s, n, d) for s, n, d in companies if s.upper() not in have]
+        args.force = True  # overwrite the existing has_presentation=FALSE row
 
     print(f'Companies to analyse: {len(companies)}')
     print(f'Output CSV: {out_path}\n')

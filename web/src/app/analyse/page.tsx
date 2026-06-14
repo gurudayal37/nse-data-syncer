@@ -14,7 +14,7 @@ export const metadata = {
 const ALLOWED_KEYWORDS = [
   'data_centre', 'ai', 'semiconductor', 'aerospace',
   'defence', 'cloud', 'ev', 'renewable', 'export', 'capex',
-  'order_book', 'precision_engineering', 'best', 'top', 'leader',
+  'order_book', 'precision_engineering', 'best', 'top', 'leader', 'highest',
   'sentiment',
 ] as const
 type Keyword = typeof ALLOWED_KEYWORDS[number]
@@ -35,6 +35,7 @@ const KEYWORD_LABELS: Record<Keyword, string> = {
   best:          'Best',
   top:           'Top',
   leader:        'Leader',
+  highest:       'Highest',
   sentiment:     'Sentiment',
 }
 

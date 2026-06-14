@@ -18,6 +18,7 @@ const KEYWORDS = [
   { key: 'best',           label: 'Best' },
   { key: 'top',            label: 'Top' },
   { key: 'leader',         label: 'Leader' },
+  { key: 'highest',        label: 'Highest' },
   { key: 'sentiment',      label: 'Sentiment' },
 ]
 
