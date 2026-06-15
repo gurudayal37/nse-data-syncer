@@ -146,14 +146,10 @@ def calculate_stage2_candidates():
             except KeyError:
                 continue
 
-            # Need at least 221 rows: 200 SMA + 21 days for trend check
-            if len(df) < 221:
-                continue
-
             df.set_index('date', inplace=True)
             df = df.sort_index()
 
-            # --- Moving Averages ---
+            # --- Moving Averages (NaN if insufficient history for the window) ---
             sma_50  = df['close'].rolling(window=50).mean()
             sma_150 = df['close'].rolling(window=150).mean()
             sma_200 = df['close'].rolling(window=200).mean()
@@ -164,31 +160,36 @@ def calculate_stage2_candidates():
             current_sma_200  = sma_200.iloc[-1]
 
             # 200 SMA from 21 trading days ago (1 calendar month proxy)
-            sma_200_1m_ago = sma_200.iloc[-22]  # -1 is today, -22 is ~21 days back
+            sma_200_1m_ago = sma_200.iloc[-22] if len(sma_200) >= 22 else float('nan')
 
-            # Guard against NaN in SMAs (insufficient data for a window)
-            if any(pd.isna(v) for v in [current_sma_50, current_sma_150, current_sma_200, sma_200_1m_ago]):
-                continue
-
-            # --- 52-Week High / Low (last 252 trading days) ---
+            # --- 52-Week High / Low (last 252 trading days, or however many we have) ---
             last_252 = df.tail(252)
             high_52w = last_252['high'].max()
             low_52w  = last_252['low'].min()
 
+            # Criteria where the required moving averages aren't available yet (not
+            # enough trading history) are treated as satisfied rather than failing
+            # the stock outright — this lets recently-listed stocks qualify based on
+            # whatever criteria CAN be evaluated.
+
             # --- Criterion 1: Price > 150 DMA and > 200 DMA ---
-            cond1 = (current_close > current_sma_150) and (current_close > current_sma_200)
+            cond1 = (pd.isna(current_sma_150) or pd.isna(current_sma_200)) \
+                or (current_close > current_sma_150 and current_close > current_sma_200)
 
             # --- Criterion 2: 150 DMA > 200 DMA ---
-            cond2 = current_sma_150 > current_sma_200
+            cond2 = (pd.isna(current_sma_150) or pd.isna(current_sma_200)) \
+                or (current_sma_150 > current_sma_200)
 
             # --- Criterion 3: 200 DMA trending up for at least 1 month ---
-            cond3 = current_sma_200 > sma_200_1m_ago
+            cond3 = (pd.isna(current_sma_200) or pd.isna(sma_200_1m_ago)) \
+                or (current_sma_200 > sma_200_1m_ago)
 
             # --- Criterion 4: 50 DMA > 150 DMA and > 200 DMA ---
-            cond4 = (current_sma_50 > current_sma_150) and (current_sma_50 > current_sma_200)
+            cond4 = (pd.isna(current_sma_50) or pd.isna(current_sma_150) or pd.isna(current_sma_200)) \
+                or (current_sma_50 > current_sma_150 and current_sma_50 > current_sma_200)
 
             # --- Criterion 5: Price > 50 DMA ---
-            cond5 = current_close > current_sma_50
+            cond5 = pd.isna(current_sma_50) or (current_close > current_sma_50)
 
             # --- Criterion 6: Price >= 30% above 52-week low ---
             cond6 = current_close >= (1.30 * low_52w)
@@ -197,8 +198,7 @@ def calculate_stage2_candidates():
             cond7 = current_close >= (0.75 * high_52w)
 
             # --- Criterion 8: RS Rank >= 70 ---
-            rs_rank = rs_ranks.get(stock_id, 0)
-            cond8 = rs_rank >= 70
+            cond8 = (stock_id not in rs_ranks) or (rs_ranks[stock_id] >= 70)
 
             if not (cond1 and cond2 and cond3 and cond4 and cond5 and cond6 and cond7 and cond8):
                 continue
