@@ -155,11 +155,11 @@ export default async function VolumeShockersPage(props: PageProps) {
                   <th className="px-4 py-3">Symbol</th>
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3 text-right">Price</th>
+                  <th className="px-4 py-3 text-right">Mkt Cap</th>
                   <th className="px-4 py-3 text-right">Day Change</th>
                   <th className="px-4 py-3 text-right">Volume</th>
                   <th className="px-4 py-3 text-right whitespace-nowrap">50D Avg Volume</th>
                   <th className="px-4 py-3 text-right whitespace-nowrap">% Above Avg</th>
-                  <th className="px-4 py-3 text-right">Mkt Cap</th>
                   <th className="px-4 py-3 text-center">Stage 2</th>
                 </tr>
               </thead>
@@ -184,6 +184,11 @@ export default async function VolumeShockersPage(props: PageProps) {
                       <td className="px-4 py-3 text-right font-semibold text-slate-800">
                         ₹{row.close_price.toFixed(2)}
                       </td>
+                      <td className="px-4 py-3 text-right text-slate-500">
+                        {stock!.market_cap
+                          ? `₹${Math.round(Number(stock!.market_cap) / 10_000_000).toLocaleString('en-IN')} Cr`
+                          : '—'}
+                      </td>
                       <td className="px-4 py-3 text-right">
                         <PercentageChange value={dayChange} />
                       </td>
@@ -195,11 +200,6 @@ export default async function VolumeShockersPage(props: PageProps) {
                       </td>
                       <td className="px-4 py-3 text-right">
                         <span className="font-semibold text-amber-600">+{pctAboveAvg.toFixed(0)}%</span>
-                      </td>
-                      <td className="px-4 py-3 text-right text-slate-500">
-                        {stock!.market_cap
-                          ? `₹${Math.round(Number(stock!.market_cap) / 10_000_000).toLocaleString('en-IN')} Cr`
-                          : '—'}
                       </td>
                       <td className="px-4 py-3 text-center">
                         {stock!.stock_performance?.is_stage2 ? (
