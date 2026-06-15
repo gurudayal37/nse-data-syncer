@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma'
 import Link from 'next/link'
+import { TrendingUp } from 'lucide-react'
 import PercentageChange from '@/components/PercentageChange'
 import Search from '@/components/Search'
 
@@ -92,7 +93,10 @@ export default async function VolumeShockersPage(props: PageProps) {
   const stocks = stockIds.length
     ? await prisma.stocks.findMany({
         where: { id: { in: stockIds } },
-        select: { id: true, nse_symbol: true, name: true, market_cap: true },
+        select: {
+          id: true, nse_symbol: true, name: true, market_cap: true,
+          stock_performance: { select: { is_stage2: true } },
+        },
       })
     : []
   const stockMap = new Map(stocks.map((s) => [s.id, s]))
@@ -109,6 +113,14 @@ export default async function VolumeShockersPage(props: PageProps) {
         c.stock!.name?.toLowerCase().includes(q)
     )
   }
+
+  // Stage 2 stocks first, then by % above average volume (already descending)
+  combined = [...combined].sort((a, b) => {
+    const aStage2 = a.stock!.stock_performance?.is_stage2 ? 1 : 0
+    const bStage2 = b.stock!.stock_performance?.is_stage2 ? 1 : 0
+    if (aStage2 !== bStage2) return bStage2 - aStage2
+    return (Number(b.row.volume) / b.row.avg_vol_50) - (Number(a.row.volume) / a.row.avg_vol_50)
+  })
 
   return (
     <div className="min-h-screen bg-slate-100">
@@ -138,6 +150,7 @@ export default async function VolumeShockersPage(props: PageProps) {
                   <th className="px-4 py-3 text-right whitespace-nowrap">50D Avg Volume</th>
                   <th className="px-4 py-3 text-right whitespace-nowrap">% Above Avg</th>
                   <th className="px-4 py-3 text-right">Mkt Cap</th>
+                  <th className="px-4 py-3 text-center">Stage 2</th>
                   <th className="px-4 py-3 text-right">Date</th>
                 </tr>
               </thead>
@@ -179,6 +192,15 @@ export default async function VolumeShockersPage(props: PageProps) {
                           ? `₹${Math.round(Number(stock!.market_cap) / 10_000_000).toLocaleString('en-IN')} Cr`
                           : '—'}
                       </td>
+                      <td className="px-4 py-3 text-center">
+                        {stock!.stock_performance?.is_stage2 ? (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100">
+                            <TrendingUp className="w-3 h-3" /> Stage 2
+                          </span>
+                        ) : (
+                          <span className="text-slate-300">—</span>
+                        )}
+                      </td>
                       <td className="px-4 py-3 text-right text-slate-400 whitespace-nowrap">
                         {new Date(row.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}
                       </td>
@@ -187,7 +209,7 @@ export default async function VolumeShockersPage(props: PageProps) {
                 })}
                 {combined.length === 0 && (
                   <tr>
-                    <td colSpan={9} className="px-4 py-8 text-center text-slate-400">
+                    <td colSpan={10} className="px-4 py-8 text-center text-slate-400">
                       No stocks currently trading 50%+ above their 50-day average volume.
                     </td>
                   </tr>
