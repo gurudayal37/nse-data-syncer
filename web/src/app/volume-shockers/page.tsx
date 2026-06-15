@@ -29,6 +29,7 @@ async function fetchVolumeShockers(minMarketCap: number): Promise<VolumeShockerR
       WHERE  s.is_active = true
         AND  s.market_cap >= ${minMarketCap}
         AND  dp.volume IS NOT NULL
+        AND  dp.date >= CURRENT_DATE - INTERVAL '90 days'
     ),
     latest AS (
       SELECT stock_id, date, volume, close_price FROM ranked WHERE rn = 1
@@ -122,6 +123,10 @@ export default async function VolumeShockersPage(props: PageProps) {
     return (Number(b.row.volume) / b.row.avg_vol_50) - (Number(a.row.volume) / a.row.avg_vol_50)
   })
 
+  const lastUpdated = combined.length
+    ? new Date(Math.max(...combined.map((c) => new Date(c.row.date).getTime())))
+    : null
+
   return (
     <div className="min-h-screen bg-slate-100">
       <div className="px-6 py-6">
@@ -130,6 +135,11 @@ export default async function VolumeShockersPage(props: PageProps) {
             <h1 className="text-2xl font-bold text-slate-900">Volume Shockers</h1>
             <p className="text-slate-500 text-sm mt-1">
               {combined.length} NSE stocks trading at 50%+ above their 50-day average volume
+              {lastUpdated && (
+                <span className="text-slate-400">
+                  {' '}· Last updated {lastUpdated.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                </span>
+              )}
             </p>
           </div>
           <div className="w-72">
@@ -151,7 +161,6 @@ export default async function VolumeShockersPage(props: PageProps) {
                   <th className="px-4 py-3 text-right whitespace-nowrap">% Above Avg</th>
                   <th className="px-4 py-3 text-right">Mkt Cap</th>
                   <th className="px-4 py-3 text-center">Stage 2</th>
-                  <th className="px-4 py-3 text-right">Date</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -201,15 +210,12 @@ export default async function VolumeShockersPage(props: PageProps) {
                           <span className="text-slate-300">—</span>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-right text-slate-400 whitespace-nowrap">
-                        {new Date(row.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}
-                      </td>
                     </tr>
                   )
                 })}
                 {combined.length === 0 && (
                   <tr>
-                    <td colSpan={10} className="px-4 py-8 text-center text-slate-400">
+                    <td colSpan={9} className="px-4 py-8 text-center text-slate-400">
                       No stocks currently trading 50%+ above their 50-day average volume.
                     </td>
                   </tr>
