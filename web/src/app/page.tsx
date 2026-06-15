@@ -82,6 +82,7 @@ export default function HomePage() {
     { title: 'Keyword Analysis', desc: 'AI, Data Centre & more in Q4 FY26', href: '/analyse', icon: Search, badge: 'New', color: 'rose' },
     { title: 'VCP Screener', desc: 'Volatility Contraction Pattern', href: '/vcp', icon: Crosshair, badge: 'New', color: 'orange' },
     { title: 'Market Breadth', desc: 'Advance/decline & 52W highs/lows', href: '/market-breadth', icon: GitCompare, badge: 'New', color: 'sky' },
+    { title: 'Volume Shockers', desc: 'Stocks with 50%+ volume spike', href: '/volume-shockers', icon: Zap, badge: 'New', color: 'amber' },
   ]
 
   const iconBgMap: Record<string, string> = {
