@@ -173,7 +173,8 @@ class DB:
         self.cur = self.conn.cursor()
 
     def execute(self, sql: str, params=None):
-        for attempt in range(2):
+        attempts = 5
+        for attempt in range(attempts):
             try:
                 self.cur.execute(sql, params)
                 return
@@ -182,9 +183,13 @@ class DB:
                     self.conn.close()
                 except Exception:
                     pass
-                self._connect()
-                if attempt == 1:
+                if attempt == attempts - 1:
                     raise
+                time.sleep(5)
+                try:
+                    self._connect()
+                except psycopg2.OperationalError:
+                    pass  # still down; will retry connect on next loop iteration
 
     def commit(self):
         try:
