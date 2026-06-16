@@ -51,21 +51,21 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": NaN,
-      "total_fees_paid": NaN,
+      "end_value": null,
+      "total_fees_paid": null,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": NaN,
-      "benchmark_return": 10.42,
-      "expectancy": NaN,
-      "net_return_after_fees": NaN
+      "total_return": null,
+      "benchmark_return": 10.13,
+      "expectancy": null,
+      "net_return_after_fees": null
     },
     "risk_metrics": {
-      "max_drawdown": NaN,
+      "max_drawdown": null,
       "max_drawdown_duration": 0,
       "sharpe_ratio": 0,
-      "calmar_ratio": NaN,
+      "calmar_ratio": null,
       "omega_ratio": 6.96,
       "sortino_ratio": 0
     },
@@ -75,8 +75,8 @@
     "trade_statistics": {
       "total_trades": 6,
       "win_rate": 66.67,
-      "best_trade": NaN,
-      "worst_trade": NaN,
+      "best_trade": null,
+      "worst_trade": null,
       "avg_winning_trade": 13.0,
       "avg_losing_trade": -7.47,
       "profit_factor": 6.96,
@@ -18620,7 +18620,7 @@
     {
       "month": "2026-06",
       "portfolio_return": 3.94,
-      "benchmark_return": -0.28,
+      "benchmark_return": -0.55,
       "holdings": [
         {
           "symbol": "SNDK",
@@ -19104,7 +19104,7 @@
     },
     {
       "month": "2026-01",
-      "portfolio_return": NaN,
+      "portfolio_return": null,
       "benchmark_return": 1.37,
       "holdings": [
         {
@@ -19175,7 +19175,7 @@
         },
         {
           "symbol": "GOOGL",
-          "return": NaN,
+          "return": null,
           "score": 2.61,
           "stop_triggered": false
         },

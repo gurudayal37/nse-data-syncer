@@ -250,8 +250,16 @@ def run_backtest():
             "backtest_results": sorted(bt, key=lambda x: x['month'], reverse=True),
             "current_performance": sorted(cur, key=lambda x: x['month'], reverse=True),
         }
+        def _sanitize(obj):
+            if isinstance(obj, float) and (obj != obj or obj == float('inf') or obj == float('-inf')):
+                return None
+            if isinstance(obj, dict):
+                return {k: _sanitize(v) for k, v in obj.items()}
+            if isinstance(obj, list):
+                return [_sanitize(v) for v in obj]
+            return obj
         with open(OUTPUT_PATH, 'w') as f:
-            json.dump(output, f, indent=2)
+            json.dump(_sanitize(output), f, indent=2)
         print(f"Saved to {OUTPUT_PATH} — {len(bt)} backtest months, {len(cur)} current months.")
     finally:
         session.close()
