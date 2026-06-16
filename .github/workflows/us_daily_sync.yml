@@ -1,0 +1,119 @@
+name: US Market Daily Sync
+
+on:
+  schedule:
+    - cron: '30 21 * * 1-5'  # 9:30 PM UTC = ~5 PM EST / 6 PM EDT, after US market close
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  # 1. Sync OHLCV data from yfinance into us_daily_prices table
+  sync-us-stocks:
+    name: Sync US Stock Prices
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Sync US OHLCV Data (reads latest Russell-1000-*.csv)
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python3 scripts/sync_us_stocks.py
+
+  # 2. Run backtests sequentially (each caches existing months, only recomputes current)
+  update-us-momentum:
+    name: US Momentum (3M+6M+1Y)
+    needs: sync-us-stocks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Run US Momentum Backtest
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python3 scripts/backtest_us_momentum.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update US momentum strategy results [skip ci]"
+          file_pattern: "web/src/data/backtest_results_us_momentum.json"
+
+  update-us-momentum-10pct-stop:
+    name: US Momentum + 10% Stop
+    needs: update-us-momentum
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Run US Momentum 10% Stop Backtest
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python3 scripts/backtest_us_momentum_10pct_stop.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update US momentum 10pct stop strategy results [skip ci]"
+          file_pattern: "web/src/data/backtest_results_us_momentum_10pct_stop.json"
+
+  update-us-simple-momentum:
+    name: US Simple Momentum (6M+1Y)
+    needs: update-us-momentum-10pct-stop
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Run US Simple Momentum Backtest
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python3 scripts/backtest_us_simple_momentum.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update US simple momentum strategy results [skip ci]"
+          file_pattern: "web/src/data/backtest_results_us_simple_momentum.json"
+
+  update-us-simple-momentum-10pct-stop:
+    name: US Simple Momentum + 10% Stop
+    needs: update-us-simple-momentum
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Run US Simple Momentum 10% Stop Backtest
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python3 scripts/backtest_us_simple_momentum_10pct_stop.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update US simple momentum 10pct stop strategy results [skip ci]"
+          file_pattern: "web/src/data/backtest_results_us_simple_momentum_10pct_stop.json"

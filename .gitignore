@@ -56,3 +56,11 @@ logs/
 # Data files (if sensitive)
 # Uncomment if you don't want to track CSV files
 # data/*.csv
+data/*.xls
+data/*.xlsx
+
+# Next.js build output
+.next/
+
+# Generated analysis output
+results/

@@ -9,6 +9,10 @@ import momentum10PctStopData from '@/data/backtest_results_10pct_stop.json'
 import simpleMomentum10PctStopData from '@/data/backtest_results_simple_10pct_stop.json'
 import simpleAllNifty10PctStopData from '@/data/backtest_results_simple_all_nifty_10pct_stop.json'
 import longShortData from '@/data/backtest_results_long_short.json'
+import usMomentumData from '@/data/backtest_results_us_momentum.json'
+import usMomentum10PctStopData from '@/data/backtest_results_us_momentum_10pct_stop.json'
+import usSimpleMomentumData from '@/data/backtest_results_us_simple_momentum.json'
+import usSimpleMomentum10PctStopData from '@/data/backtest_results_us_simple_momentum_10pct_stop.json'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const g = (obj: any, path: string, fallback: number | string = 0) => {
@@ -90,6 +94,31 @@ const strategies = [
     href: '/ath', dot: 'bg-rose-400', rebalancing: 'Daily/Weekly',
     historical: null, current: null,
   },
+  // ── US Strategies ──────────────────────────────────────────────────────
+  {
+    title: 'US Momentum', subtitle: '3M + 6M + 1Y, Russell 1000 Universe',
+    href: '/us-momentum-strategy', dot: 'bg-blue-500', rebalancing: 'Monthly',
+    historical: g(usMomentumData, 'backtest_metrics') ? { period: g(usMomentumData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(usMomentumData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usMomentumData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(usMomentumData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(usMomentumData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(usMomentumData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(usMomentumData, 'current_metrics') ? { period: g(usMomentumData, 'current_metrics.time_metrics.period') as string, totalReturn: g(usMomentumData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usMomentumData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(usMomentumData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
+  },
+  {
+    title: 'US Momentum + 10% Stop', subtitle: '3M + 6M + 1Y, -10% Monthly Stop',
+    href: '/us-momentum-10pct-stop-strategy', dot: 'bg-blue-700', rebalancing: 'Monthly',
+    historical: g(usMomentum10PctStopData, 'backtest_metrics') ? { period: g(usMomentum10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(usMomentum10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usMomentum10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(usMomentum10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(usMomentum10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(usMomentum10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(usMomentum10PctStopData, 'current_metrics') ? { period: g(usMomentum10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(usMomentum10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usMomentum10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(usMomentum10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
+  },
+  {
+    title: 'US Simple Momentum', subtitle: '6M + 1Y, Russell 1000 Universe',
+    href: '/us-simple-momentum-strategy', dot: 'bg-indigo-500', rebalancing: 'Monthly',
+    historical: g(usSimpleMomentumData, 'backtest_metrics') ? { period: g(usSimpleMomentumData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(usSimpleMomentumData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usSimpleMomentumData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(usSimpleMomentumData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(usSimpleMomentumData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(usSimpleMomentumData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(usSimpleMomentumData, 'current_metrics') ? { period: g(usSimpleMomentumData, 'current_metrics.time_metrics.period') as string, totalReturn: g(usSimpleMomentumData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usSimpleMomentumData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(usSimpleMomentumData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
+  },
+  {
+    title: 'US Simple Momentum + 10% Stop', subtitle: '6M + 1Y, -10% Monthly Stop',
+    href: '/us-simple-momentum-10pct-stop-strategy', dot: 'bg-indigo-700', rebalancing: 'Monthly',
+    historical: g(usSimpleMomentum10PctStopData, 'backtest_metrics') ? { period: g(usSimpleMomentum10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(usSimpleMomentum10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usSimpleMomentum10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(usSimpleMomentum10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(usSimpleMomentum10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(usSimpleMomentum10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(usSimpleMomentum10PctStopData, 'current_metrics') ? { period: g(usSimpleMomentum10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(usSimpleMomentum10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usSimpleMomentum10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(usSimpleMomentum10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
+  },
 ]
 
 export default function StrategiesPage() {
@@ -104,7 +133,7 @@ export default function StrategiesPage() {
 
         <div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Backtested Strategies</h1>
-          <p className="text-sm text-slate-500 mt-1">All strategies backtested from 2017 on NSE-listed equities · returns net after fees · benchmark = Nifty TotalMarket</p>
+          <p className="text-sm text-slate-500 mt-1">Indian strategies: backtested from 2017 on NSE equities · US strategies: backtested from 2010 on Russell 1000 · Returns net after fees</p>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -121,13 +150,13 @@ export default function StrategiesPage() {
                   <th className="px-3 py-3 text-center whitespace-nowrap">Freq</th>
                   <th className="px-4 py-3 text-center whitespace-nowrap border-l border-slate-100">Period</th>
                   <th className="px-4 py-3 text-center whitespace-nowrap">Net Return</th>
-                  <th className="px-4 py-3 text-center whitespace-nowrap">vs Nifty</th>
+                  <th className="px-4 py-3 text-center whitespace-nowrap">vs Bench</th>
                   <th className="px-4 py-3 text-center whitespace-nowrap">Sharpe</th>
                   <th className="px-4 py-3 text-center whitespace-nowrap">Max DD</th>
                   <th className="px-4 py-3 text-center whitespace-nowrap">Win %</th>
                   <th className="px-4 py-3 text-center whitespace-nowrap border-l border-slate-100">Period</th>
                   <th className="px-4 py-3 text-center whitespace-nowrap">Net Return</th>
-                  <th className="px-4 py-3 text-center whitespace-nowrap">vs Nifty</th>
+                  <th className="px-4 py-3 text-center whitespace-nowrap">vs Bench</th>
                   <th className="px-4 py-3 text-center whitespace-nowrap">Max DD</th>
                 </tr>
               </thead>
@@ -174,9 +203,9 @@ export default function StrategiesPage() {
             </table>
           </div>
           <div className="flex flex-wrap items-center gap-5 px-5 py-2.5 bg-slate-50 border-t border-slate-100 text-[11px] text-slate-400">
-            <span className="flex items-center gap-1.5"><span className="w-2.5 h-0.5 bg-sky-300 rounded inline-block" />Historical = backtest from 2017, net after fees</span>
-            <span className="flex items-center gap-1.5"><span className="w-2.5 h-0.5 bg-violet-300 rounded inline-block" />Current = Dec 2025 to present</span>
-            <span className="flex items-center gap-1 ml-auto"><Shield className="w-3 h-3" />vs Nifty shows alpha over Nifty TotalMarket index</span>
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-0.5 bg-sky-300 rounded inline-block" />Historical = backtest (2017+ Indian · 2010+ US), net after fees</span>
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-0.5 bg-violet-300 rounded inline-block" />Current = live period from late 2025 / early 2026</span>
+            <span className="flex items-center gap-1 ml-auto"><Shield className="w-3 h-3" />vs Bench = alpha vs benchmark (Nifty for Indian, S&amp;P 500 for US)</span>
           </div>
         </div>
       </div>
