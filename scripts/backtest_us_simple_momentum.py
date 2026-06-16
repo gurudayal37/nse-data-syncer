@@ -1,6 +1,6 @@
 """US Simple Momentum Strategy backtest — 6M + 1Y volatility-adjusted scoring,
 top 15 stocks, monthly rebalancing, no stop-loss.
-Benchmark: S&P 500 (^GSPC). Backtest: 2010–2025. Current: 2026+.
+Benchmark: S&P 500 (^GSPC). Backtest: 2018–2025. Current: 2026+.
 """
 import sys, os, json
 import numpy as np
@@ -18,7 +18,7 @@ from app.database import DatabaseManager
 
 OUTPUT_PATH   = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_us_simple_momentum.json')
 N_STOCKS      = 15
-BACKTEST_FROM = datetime(2009, 12, 1)   # warmup so Jan-2010 has 1Y lookback
+BACKTEST_FROM = datetime(2016, 12, 1)   # warmup so Jan-2018 has 1Y lookback
 BACKTEST_CUTOFF = "2025-12"
 BENCHMARK_TICKER = "^GSPC"
 
@@ -89,7 +89,10 @@ def process_period(rebalance_date, next_date, master_df, stock_map, benchmark_df
             continue
         start_p = rows.iloc[0]['open_price'] or rows.iloc[0]['close_price']
         end_p   = rows.iloc[-1]['close_price']
-        r = (end_p - start_p) / start_p if start_p else 0.0
+        if not start_p or pd.isna(start_p) or pd.isna(end_p):
+            r = 0.0
+        else:
+            r = (end_p - start_p) / start_p
         rets.append(r)
         holdings.append({'symbol': stock_map.get(sid,'?'), 'return': round(r*100,2), 'score': round(score_map.get(sid,0),2)})
 
@@ -181,7 +184,7 @@ def run_backtest():
     try:
         # Benchmark
         print("Fetching S&P 500 benchmark...")
-        bm_raw = yf.download(BENCHMARK_TICKER, start='2009-01-01', progress=False, auto_adjust=True)
+        bm_raw = yf.download(BENCHMARK_TICKER, start='2016-01-01', progress=False, auto_adjust=True)
         if isinstance(bm_raw.columns, pd.MultiIndex):
             bm_raw.columns = bm_raw.columns.get_level_values(0)
         bm_raw = bm_raw.reset_index()
@@ -223,7 +226,7 @@ def run_backtest():
         for i, rd in enumerate(dates[:-1]):
             nd = dates[i+1]
             label = nd.strftime('%Y-%m')
-            if label in existing:
+            if label in existing and existing[label].get('portfolio_return') is not None:
                 all_results.append(existing[label])
                 continue
             res = process_period(rd, nd, master_df, stock_map, benchmark_df)
@@ -241,7 +244,7 @@ def run_backtest():
                 all_results.append(res)
 
         all_results.sort(key=lambda x: x['month'])
-        bt = [r for r in all_results if r['month'] >= '2010-01' and r['month'] <= BACKTEST_CUTOFF]
+        bt = [r for r in all_results if r['month'] >= '2018-01' and r['month'] <= BACKTEST_CUTOFF]
         cur = [r for r in all_results if r['month'] >= '2026-01']
 
         output = {
