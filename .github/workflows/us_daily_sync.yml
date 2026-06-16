@@ -25,10 +25,27 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: python3 scripts/sync_us_stocks.py
 
-  # 2. Run backtests sequentially (each caches existing months, only recomputes current)
+  # 2. Sync US index prices and performance metrics
+  sync-us-indices:
+    name: Sync US Market Indices
+    needs: sync-us-stocks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Sync US Index Prices
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python3 scripts/sync_us_indices.py
+
+  # 3. Run backtests sequentially (each caches existing months, only recomputes current)
   update-us-momentum:
     name: US Momentum (3M+6M+1Y)
-    needs: sync-us-stocks
+    needs: sync-us-indices
     runs-on: ubuntu-latest
     permissions:
       contents: write
