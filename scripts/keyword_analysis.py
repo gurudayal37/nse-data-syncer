@@ -178,7 +178,7 @@ class DB:
             try:
                 self.cur.execute(sql, params)
                 return
-            except psycopg2.OperationalError:
+            except (psycopg2.OperationalError, psycopg2.InterfaceError):
                 try:
                     self.conn.close()
                 except Exception:
