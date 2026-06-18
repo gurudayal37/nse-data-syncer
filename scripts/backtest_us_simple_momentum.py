@@ -61,7 +61,7 @@ def score_stocks(target_date, df_window):
     return df.sort_values('weighted_z', ascending=False)
 
 
-def process_period(rebalance_date, next_date, master_df, stock_map, benchmark_df, label=None):
+def process_period(rebalance_date, next_date, master_df, stock_map, benchmark_df, label=None, use_close_to_close=False):
     start_w = rebalance_date - timedelta(days=400)
     slice_w = master_df.loc[start_w:rebalance_date] if not master_df.empty else pd.DataFrame()
     if slice_w.empty:
@@ -87,7 +87,13 @@ def process_period(rebalance_date, next_date, master_df, stock_map, benchmark_df
         if rows.empty:
             holdings.append({'symbol': stock_map.get(sid,'?'), 'return': 0.0, 'score': round(score_map.get(sid,0),2)})
             continue
-        start_p = rows.iloc[0]['open_price'] or rows.iloc[0]['close_price']
+        if use_close_to_close:
+            try:
+                start_p = df_window.xs(sid, level='stock_id').sort_index().iloc[-1]['close_price']
+            except (KeyError, IndexError):
+                start_p = rows.iloc[0]['open_price'] or rows.iloc[0]['close_price']
+        else:
+            start_p = rows.iloc[0]['open_price'] or rows.iloc[0]['close_price']
         end_p   = rows.iloc[-1]['close_price']
         if not start_p or pd.isna(start_p) or pd.isna(end_p):
             r = 0.0
@@ -239,7 +245,7 @@ def run_backtest():
         if today > last_rd:
             cur_label = today.strftime('%Y-%m')
             all_results = [r for r in all_results if r['month'] != cur_label]
-            res = process_period(last_rd, today, master_df, stock_map, benchmark_df, label=cur_label)
+            res = process_period(last_rd, today, master_df, stock_map, benchmark_df, label=cur_label, use_close_to_close=True)
             if res:
                 all_results.append(res)
 
