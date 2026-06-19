@@ -51,22 +51,22 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 147185.26,
-      "total_fees_paid": 1927.0,
+      "end_value": 146789.64,
+      "total_fees_paid": 1925.9,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 47.19,
-      "benchmark_return": -7.51,
-      "expectancy": 7.14,
-      "net_return_after_fees": 45.26
+      "total_return": 46.79,
+      "benchmark_return": -8.1,
+      "expectancy": 7.09,
+      "net_return_after_fees": 44.86
     },
     "risk_metrics": {
       "max_drawdown": -7.35,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.42,
-      "calmar_ratio": 15.87,
-      "omega_ratio": 6.83,
+      "sharpe_ratio": 2.41,
+      "calmar_ratio": 15.71,
+      "omega_ratio": 6.79,
       "sortino_ratio": 0
     },
     "exposure_metrics": {
@@ -79,11 +79,11 @@
       "win_rate": 83.33,
       "best_trade": 24.4,
       "worst_trade": -7.35,
-      "avg_winning_trade": 10.03,
+      "avg_winning_trade": 9.97,
       "avg_losing_trade": -7.35,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 6.83,
+      "profit_factor": 6.79,
       "total_stock_transactions": 100
     }
   },
@@ -9404,97 +9404,97 @@
   "current_performance": [
     {
       "month": "2026-06",
-      "portfolio_return": 11.61,
-      "benchmark_return": 2.63,
+      "portfolio_return": 11.31,
+      "benchmark_return": 1.98,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": 20.71,
-          "score": 8.24,
+          "return": 22.05,
+          "score": 8.19,
           "stop_triggered": false
         },
         {
           "symbol": "MTARTECH",
           "return": -10.0,
-          "score": 5.47,
+          "score": 5.43,
           "stop_triggered": true
         },
         {
           "symbol": "HFCL",
-          "return": 10.94,
-          "score": 4.49,
+          "return": 16.49,
+          "score": 4.48,
           "stop_triggered": false
         },
         {
           "symbol": "CUPID",
-          "return": 31.09,
-          "score": 4.16,
+          "return": 37.08,
+          "score": 4.11,
           "stop_triggered": false
         },
         {
           "symbol": "DEEDEV",
-          "return": 20.32,
-          "score": 3.93,
+          "return": 18.48,
+          "score": 3.92,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "SBC",
+          "return": 10.86,
+          "score": 3.42,
           "stop_triggered": false
         },
         {
           "symbol": "BLISSGVS",
-          "return": 13.56,
-          "score": 3.34,
+          "return": 14.34,
+          "score": 3.32,
           "stop_triggered": false
         },
         {
           "symbol": "BBOX",
-          "return": 0.47,
-          "score": 3.33,
+          "return": -1.36,
+          "score": 3.31,
           "stop_triggered": false
         },
         {
           "symbol": "VENUSREM",
           "return": 35.86,
-          "score": 3.04,
+          "score": 3.01,
           "stop_triggered": false
         },
         {
           "symbol": "WHEELS",
-          "return": -3.08,
-          "score": 2.96,
+          "return": -1.42,
+          "score": 2.95,
           "stop_triggered": false
         },
         {
           "symbol": "BAJAJCON",
-          "return": 12.25,
-          "score": 2.82,
+          "return": 13.11,
+          "score": 2.79,
           "stop_triggered": false
         },
         {
           "symbol": "AEROFLEX",
-          "return": 21.82,
-          "score": 2.74,
+          "return": 26.37,
+          "score": 2.73,
           "stop_triggered": false
         },
         {
           "symbol": "WELCORP",
-          "return": 1.49,
+          "return": 3.38,
           "score": 2.47,
           "stop_triggered": false
         },
         {
           "symbol": "TDPOWERSYS",
           "return": -10.0,
-          "score": 2.42,
+          "score": 2.4,
           "stop_triggered": true
         },
         {
           "symbol": "THERMAX",
-          "return": -5.75,
-          "score": 2.4,
-          "stop_triggered": false
-        },
-        {
-          "symbol": "RPTECH",
-          "return": 34.41,
-          "score": 2.4,
+          "return": -5.63,
+          "score": 2.39,
           "stop_triggered": false
         }
       ]
