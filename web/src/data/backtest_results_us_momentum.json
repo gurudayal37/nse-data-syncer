@@ -57,7 +57,7 @@
     },
     "return_metrics": {
       "total_return": 74.1,
-      "benchmark_return": 9.57,
+      "benchmark_return": 8.4,
       "expectancy": 10.05,
       "net_return_after_fees": 72.22
     },
@@ -7965,7 +7965,7 @@
     {
       "month": "2026-06",
       "portfolio_return": 7.2,
-      "benchmark_return": -1.05,
+      "benchmark_return": -2.11,
       "holdings": [
         {
           "symbol": "SNDK",
