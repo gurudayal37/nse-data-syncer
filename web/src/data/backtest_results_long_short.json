@@ -47,15 +47,15 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 95557.62,
-      "total_fees_paid": 1481.15,
+      "end_value": 95567.3,
+      "total_fees_paid": 1481.17,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -4.44,
-      "benchmark_return": -8.1,
+      "total_return": -4.43,
+      "benchmark_return": -7.76,
       "expectancy": -0.66,
-      "net_return_after_fees": -5.92
+      "net_return_after_fees": -5.91
     },
     "risk_metrics": {
       "max_drawdown": -11.36,
@@ -2652,106 +2652,106 @@
   "current_performance": [
     {
       "month": "2026-06",
-      "portfolio_return": -1.36,
-      "benchmark_return": 1.98,
-      "long_return": -4.04,
-      "short_return": 1.31,
+      "portfolio_return": -1.35,
+      "benchmark_return": 2.36,
+      "long_return": -3.4,
+      "short_return": 0.7,
       "holdings": [
         {
           "symbol": "LAURUSLABS",
-          "return": 2.95,
-          "raw_return": 2.95,
+          "return": 4.63,
+          "raw_return": 4.63,
           "score": 2.67,
           "side": "long"
         },
         {
           "symbol": "NATIONALUM",
-          "return": -11.62,
-          "raw_return": -11.62,
+          "return": -11.16,
+          "raw_return": -11.16,
           "score": 2.39,
           "side": "long"
         },
         {
           "symbol": "BHEL",
-          "return": -0.64,
-          "raw_return": -0.64,
+          "return": -1.32,
+          "raw_return": -1.32,
           "score": 2.3,
           "side": "long"
         },
         {
           "symbol": "HINDALCO",
-          "return": -10.62,
-          "raw_return": -10.62,
+          "return": -10.25,
+          "raw_return": -10.25,
           "score": 2.16,
           "side": "long"
         },
         {
           "symbol": "ADANIENSOL",
-          "return": -0.95,
-          "raw_return": -0.95,
+          "return": 1.16,
+          "raw_return": 1.16,
           "score": 2.15,
           "side": "long"
         },
         {
           "symbol": "CUMMINSIND",
-          "return": -1.91,
-          "raw_return": -1.91,
-          "score": 2.14,
+          "return": -3.6,
+          "raw_return": -3.6,
+          "score": 2.13,
           "side": "long"
         },
         {
           "symbol": "MCX",
-          "return": -5.5,
-          "raw_return": -5.5,
+          "return": -3.26,
+          "raw_return": -3.26,
           "score": 2.09,
           "side": "long"
         },
         {
           "symbol": "HCLTECH",
-          "return": 4.91,
-          "raw_return": -4.91,
+          "return": 5.01,
+          "raw_return": -5.01,
           "score": -1.45,
           "side": "short"
         },
         {
           "symbol": "ICICIPRULI",
-          "return": 1.31,
-          "raw_return": -1.31,
+          "return": 0.13,
+          "raw_return": -0.13,
           "score": -1.47,
           "side": "short"
         },
         {
           "symbol": "HDFCLIFE",
-          "return": 0.49,
-          "raw_return": -0.49,
+          "return": -0.4,
+          "raw_return": 0.4,
           "score": -1.56,
           "side": "short"
         },
         {
           "symbol": "SBICARD",
-          "return": 1.26,
-          "raw_return": -1.26,
+          "return": -0.48,
+          "raw_return": 0.48,
           "score": -1.6,
           "side": "short"
         },
         {
           "symbol": "TCS",
-          "return": 6.96,
-          "raw_return": -6.96,
+          "return": 6.84,
+          "raw_return": -6.84,
           "score": -1.73,
           "side": "short"
         },
         {
           "symbol": "HDFCBANK",
-          "return": -4.11,
-          "raw_return": 4.11,
+          "return": -4.99,
+          "raw_return": 4.99,
           "score": -1.76,
           "side": "short"
         },
         {
           "symbol": "ITC",
-          "return": -1.63,
-          "raw_return": 1.63,
+          "return": -1.2,
+          "raw_return": 1.2,
           "score": -1.81,
           "side": "short"
         }
