@@ -51,22 +51,22 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 178698.36,
-      "total_fees_paid": 1549.87,
+      "end_value": 182952.27,
+      "total_fees_paid": 1557.55,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 78.7,
-      "benchmark_return": 9.57,
-      "expectancy": 10.63,
-      "net_return_after_fees": 77.15
+      "total_return": 82.95,
+      "benchmark_return": 9.16,
+      "expectancy": 11.04,
+      "net_return_after_fees": 81.39
     },
     "risk_metrics": {
       "max_drawdown": -7.08,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 3.67,
-      "calmar_ratio": 30.98,
-      "omega_ratio": 10.01,
+      "sharpe_ratio": 3.89,
+      "calmar_ratio": 33.15,
+      "omega_ratio": 10.36,
       "sortino_ratio": 0
     },
     "exposure_metrics": {
@@ -77,9 +77,9 @@
       "win_rate": 83.33,
       "best_trade": 25.33,
       "worst_trade": -7.08,
-      "avg_winning_trade": 14.17,
+      "avg_winning_trade": 14.67,
       "avg_losing_trade": -7.08,
-      "profit_factor": 10.01,
+      "profit_factor": 10.36,
       "total_stock_transactions": 65,
       "total_closed_trades": 5,
       "total_open_trades": 1,
@@ -9404,12 +9404,12 @@
   "current_performance": [
     {
       "month": "2026-06",
-      "portfolio_return": 4.6,
-      "benchmark_return": -1.05,
+      "portfolio_return": 7.09,
+      "benchmark_return": -1.42,
       "holdings": [
         {
           "symbol": "SNDK",
-          "return": 28.9,
+          "return": 34.14,
           "score": 14.64,
           "stop_triggered": false
         },
@@ -9421,13 +9421,13 @@
         },
         {
           "symbol": "WDC",
-          "return": 40.51,
+          "return": 37.95,
           "score": 5.54,
           "stop_triggered": false
         },
         {
           "symbol": "LITE",
-          "return": -0.58,
+          "return": 4.56,
           "score": 3.97,
           "stop_triggered": false
         },
@@ -9451,7 +9451,7 @@
         },
         {
           "symbol": "FLEX",
-          "return": -2.1,
+          "return": 3.34,
           "score": 2.52,
           "stop_triggered": false
         },
@@ -9463,13 +9463,13 @@
         },
         {
           "symbol": "MKSI",
-          "return": 25.42,
+          "return": 29.8,
           "score": 2.42,
           "stop_triggered": false
         },
         {
           "symbol": "LRCX",
-          "return": 22.27,
+          "return": 28.71,
           "score": 2.36,
           "stop_triggered": false
         },
@@ -9481,13 +9481,13 @@
         },
         {
           "symbol": "GLW",
-          "return": 7.6,
+          "return": 15.83,
           "score": 2.31,
           "stop_triggered": false
         },
         {
           "symbol": "TER",
-          "return": 16.99,
+          "return": 22.09,
           "score": 2.22,
           "stop_triggered": false
         },
