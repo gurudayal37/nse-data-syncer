@@ -1,9 +1,10 @@
 name: Optimized Daily Sync
 
 on:
-  schedule:
-    - cron: '13 10 * * 1-5' # Runs ~3:43 PM IST (10:13 AM UTC) Mon-Fri, after market close. Off-peak minute to avoid GitHub Actions queueing delays at :00/:30.
-  workflow_dispatch:  # Manual trigger for now
+  # No native schedule trigger: GitHub's cron queue was delaying runs by 2-5+ hours.
+  # Triggered instead by an external cron-job.org job hitting /api/cron/trigger-sync
+  # at 3:40 PM IST, which calls this workflow's dispatch API directly.
+  workflow_dispatch:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
