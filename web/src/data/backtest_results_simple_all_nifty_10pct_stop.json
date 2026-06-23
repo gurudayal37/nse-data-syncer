@@ -47,36 +47,36 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 136499.4,
-      "total_fees_paid": 1706.56,
+      "end_value": 134087.75,
+      "total_fees_paid": 1664.08,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 36.5,
-      "benchmark_return": -7.76,
-      "expectancy": 5.82,
-      "net_return_after_fees": 34.79
+      "total_return": 34.09,
+      "benchmark_return": -8.83,
+      "expectancy": 5.5,
+      "net_return_after_fees": 32.42
     },
     "risk_metrics": {
       "max_drawdown": -7.84,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 1.96,
-      "calmar_ratio": 11.01,
-      "omega_ratio": 3.64,
-      "sortino_ratio": 16.47
+      "sharpe_ratio": 1.87,
+      "calmar_ratio": 10.18,
+      "omega_ratio": 3.49,
+      "sortino_ratio": 15.55
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
       "total_trades": 6,
-      "total_stock_transactions": 94,
+      "total_stock_transactions": 92,
       "win_rate": 66.67,
       "best_trade": 21.85,
       "worst_trade": -7.84,
-      "avg_winning_trade": 12.04,
+      "avg_winning_trade": 11.56,
       "avg_losing_trade": -6.62,
-      "profit_factor": 3.64
+      "profit_factor": 3.49
     }
   },
   "backtest_results": [
@@ -9396,98 +9396,98 @@
   "current_performance": [
     {
       "month": "2026-06",
-      "portfolio_return": 10.37,
-      "benchmark_return": 2.36,
+      "portfolio_return": 8.42,
+      "benchmark_return": 1.17,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": 16.38,
-          "score": 9.06,
+          "return": 13.27,
+          "score": 9.14,
           "stop_triggered": false
         },
         {
           "symbol": "MTARTECH",
           "return": -10.0,
-          "score": 6.25,
+          "score": 6.31,
           "stop_triggered": true
         },
         {
           "symbol": "CUPID",
-          "return": 39.31,
-          "score": 5.48,
-          "stop_triggered": false
-        },
-        {
-          "symbol": "SBC",
-          "return": 12.13,
-          "score": 4.46,
+          "return": 41.01,
+          "score": 5.56,
           "stop_triggered": false
         },
         {
           "symbol": "BLISSGVS",
-          "return": 11.27,
-          "score": 3.74,
+          "return": 10.52,
+          "score": 3.77,
           "stop_triggered": false
         },
         {
           "symbol": "HFCL",
-          "return": 16.41,
-          "score": 3.64,
+          "return": 12.42,
+          "score": 3.66,
           "stop_triggered": false
         },
         {
           "symbol": "BAJAJCON",
-          "return": 12.1,
-          "score": 3.52,
+          "return": 5.2,
+          "score": 3.56,
           "stop_triggered": false
         },
         {
           "symbol": "VENUSREM",
-          "return": 32.17,
-          "score": 3.43,
+          "return": 38.13,
+          "score": 3.47,
           "stop_triggered": false
         },
         {
           "symbol": "DEEDEV",
-          "return": 14.11,
-          "score": 3.35,
+          "return": 17.51,
+          "score": 3.37,
           "stop_triggered": false
         },
         {
           "symbol": "BBOX",
-          "return": -5.32,
-          "score": 2.97,
+          "return": -2.89,
+          "score": 3.0,
           "stop_triggered": false
         },
         {
           "symbol": "AEROFLEX",
-          "return": 26.97,
-          "score": 2.87,
+          "return": 25.25,
+          "score": 2.9,
           "stop_triggered": false
         },
         {
           "symbol": "WHEELS",
-          "return": 3.25,
-          "score": 2.77,
+          "return": 0.97,
+          "score": 2.8,
           "stop_triggered": false
-        },
-        {
-          "symbol": "SEAMECLTD",
-          "return": -10.0,
-          "score": 2.73,
-          "stop_triggered": true
         },
         {
           "symbol": "TDPOWERSYS",
           "return": -10.0,
-          "score": 2.73,
+          "score": 2.76,
+          "stop_triggered": true
+        },
+        {
+          "symbol": "SEAMECLTD",
+          "return": -10.0,
+          "score": 2.76,
           "stop_triggered": true
         },
         {
           "symbol": "GVT&D",
-          "return": 6.72,
-          "score": 2.72,
+          "return": 4.96,
+          "score": 2.75,
           "stop_triggered": false
+        },
+        {
+          "symbol": "NATIONALUM",
+          "return": -10.0,
+          "score": 2.74,
+          "stop_triggered": true
         }
       ]
     },
