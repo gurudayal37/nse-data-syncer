@@ -42,36 +42,36 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2026-01-02",
-      "end": "2026-06-26",
-      "period": "26 weeks (0.5 years)"
+      "end": "2026-07-03",
+      "period": "27 weeks (0.5 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
       "end_value": 124241.65,
-      "total_fees_paid": 3588.94,
+      "total_fees_paid": 3684.18,
       "open_trade_pnl": 0
     },
     "return_metrics": {
       "total_return": 24.24,
       "benchmark_return": -6.92,
-      "expectancy": 0.89,
-      "net_return_after_fees": 20.65
+      "expectancy": 0.86,
+      "net_return_after_fees": 20.56
     },
     "risk_metrics": {
       "max_drawdown": -9.5,
       "max_drawdown_duration": 11,
-      "sharpe_ratio": 1.95,
-      "calmar_ratio": 5.72,
+      "sharpe_ratio": 1.91,
+      "calmar_ratio": 5.46,
       "omega_ratio": 2.13,
-      "sortino_ratio": 3.15
+      "sortino_ratio": 3.03
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 26,
-      "total_stock_transactions": 206,
-      "win_rate": 57.69,
+      "total_trades": 27,
+      "total_stock_transactions": 210,
+      "win_rate": 55.56,
       "best_trade": 8.43,
       "worst_trade": -6.92,
       "avg_winning_trade": 2.92,
@@ -34194,6 +34194,88 @@
     }
   ],
   "current_performance": [
+    {
+      "week": "2026-07-03",
+      "portfolio_return": 0,
+      "benchmark_return": 0.0,
+      "holdings": [
+        {
+          "symbol": "STLTECH",
+          "return": 0.0,
+          "score": 7.44
+        },
+        {
+          "symbol": "CUPID",
+          "return": 0.0,
+          "score": 6.29
+        },
+        {
+          "symbol": "HFCL",
+          "return": 0.0,
+          "score": 5.21
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": 0.0,
+          "score": 4.62
+        },
+        {
+          "symbol": "VENUSREM",
+          "return": 0.0,
+          "score": 4.26
+        },
+        {
+          "symbol": "RPTECH",
+          "return": 0.0,
+          "score": 4.04
+        },
+        {
+          "symbol": "BLISSGVS",
+          "return": 0.0,
+          "score": 3.56
+        },
+        {
+          "symbol": "DEEDEV",
+          "return": 0.0,
+          "score": 3.42
+        },
+        {
+          "symbol": "SYRMA",
+          "return": 0.0,
+          "score": 2.8
+        },
+        {
+          "symbol": "KIRLOSENG",
+          "return": 0.0,
+          "score": 2.75
+        },
+        {
+          "symbol": "BAJAJCON",
+          "return": 0.0,
+          "score": 2.68
+        },
+        {
+          "symbol": "ACUTAAS",
+          "return": 0.0,
+          "score": 2.46
+        },
+        {
+          "symbol": "WELCORP",
+          "return": 0.0,
+          "score": 2.45
+        },
+        {
+          "symbol": "WHEELS",
+          "return": 0.0,
+          "score": 2.43
+        },
+        {
+          "symbol": "AEROFLEX",
+          "return": 0.0,
+          "score": 2.31
+        }
+      ]
+    },
     {
       "week": "2026-06-26",
       "portfolio_return": -1.08,
