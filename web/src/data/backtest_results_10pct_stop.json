@@ -9410,13 +9410,13 @@
         {
           "symbol": "STLTECH",
           "return": 14.4,
-          "score": 8.24,
+          "score": 8.25,
           "stop_triggered": false
         },
         {
           "symbol": "MTARTECH",
           "return": -10.0,
-          "score": 5.47,
+          "score": 5.48,
           "stop_triggered": true
         },
         {
@@ -9458,7 +9458,7 @@
         {
           "symbol": "WHEELS",
           "return": 6.26,
-          "score": 2.96,
+          "score": 2.97,
           "stop_triggered": false
         },
         {
@@ -9470,7 +9470,7 @@
         {
           "symbol": "AEROFLEX",
           "return": 16.26,
-          "score": 2.74,
+          "score": 2.75,
           "stop_triggered": false
         },
         {
