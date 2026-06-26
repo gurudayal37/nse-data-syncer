@@ -7970,7 +7970,7 @@
         {
           "symbol": "STLTECH",
           "return": 14.4,
-          "score": 9.13
+          "score": 9.14
         },
         {
           "symbol": "MTARTECH",
@@ -7980,7 +7980,7 @@
         {
           "symbol": "CUPID",
           "return": 41.49,
-          "score": 5.55
+          "score": 5.56
         },
         {
           "symbol": "BLISSGVS",
@@ -8010,7 +8010,7 @@
         {
           "symbol": "BBOX",
           "return": -7.64,
-          "score": 2.99
+          "score": 3.0
         },
         {
           "symbol": "AEROFLEX",
@@ -8040,7 +8040,7 @@
         {
           "symbol": "NATIONALUM",
           "return": -21.75,
-          "score": 2.73
+          "score": 2.74
         }
       ]
     },
