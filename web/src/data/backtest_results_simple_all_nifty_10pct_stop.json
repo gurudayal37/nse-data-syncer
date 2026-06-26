@@ -9402,7 +9402,7 @@
         {
           "symbol": "STLTECH",
           "return": 14.4,
-          "score": 9.13,
+          "score": 9.14,
           "stop_triggered": false
         },
         {
@@ -9414,7 +9414,7 @@
         {
           "symbol": "CUPID",
           "return": 41.49,
-          "score": 5.55,
+          "score": 5.56,
           "stop_triggered": false
         },
         {
@@ -9450,7 +9450,7 @@
         {
           "symbol": "BBOX",
           "return": -7.64,
-          "score": 2.99,
+          "score": 3.0,
           "stop_triggered": false
         },
         {
@@ -9486,7 +9486,7 @@
         {
           "symbol": "NATIONALUM",
           "return": -10.0,
-          "score": 2.73,
+          "score": 2.74,
           "stop_triggered": true
         }
       ]
