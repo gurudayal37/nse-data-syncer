@@ -63,6 +63,12 @@ async function fetchVolumeShockers(minMarketCap: number): Promise<VolumeShockerR
   }))
 }
 
+function getDayChange(row: VolumeShockerRow): number | null {
+  return row.prev_close != null && row.prev_close !== 0
+    ? ((row.close_price - row.prev_close) / row.prev_close) * 100
+    : null
+}
+
 export default async function VolumeShockersPage(props: PageProps) {
   const searchParams = await props.searchParams
   const query = searchParams.query || ''
@@ -128,11 +134,21 @@ export default async function VolumeShockersPage(props: PageProps) {
     ? new Date(Math.max(...combined.map((c) => new Date(c.row.date).getTime())))
     : null
 
-  // Stage 2 + Volume Shocker symbols, for the TradingView watchlist copy button
+  // TradingView watchlist: all Stage 2 volume shockers, plus the top 15 non-Stage 2
+  // volume shockers (by % above avg volume — combined's existing sort order) that are
+  // up on the day.
   const stage2Symbols = combined
     .filter((c) => c.stock!.stock_performance?.is_stage2)
     .map((c) => c.stock!.nse_symbol)
     .filter(Boolean) as string[]
+
+  const topNonStage2Symbols = combined
+    .filter((c) => !c.stock!.stock_performance?.is_stage2 && (getDayChange(c.row) ?? 0) > 0)
+    .slice(0, 15)
+    .map((c) => c.stock!.nse_symbol)
+    .filter(Boolean) as string[]
+
+  const watchlistSymbols = [...stage2Symbols, ...topNonStage2Symbols]
 
   return (
     <div className="min-h-screen bg-slate-100">
@@ -150,7 +166,7 @@ export default async function VolumeShockersPage(props: PageProps) {
             </p>
           </div>
           <div className="flex items-end gap-3">
-            <CopyWatchlist symbols={stage2Symbols} />
+            <CopyWatchlist symbols={watchlistSymbols} />
             <div className="w-72">
               <Search placeholder="Search stocks…" />
             </div>
@@ -176,10 +192,7 @@ export default async function VolumeShockersPage(props: PageProps) {
               <tbody className="divide-y divide-slate-100">
                 {combined.map(({ row, stock }) => {
                   const pctAboveAvg = ((Number(row.volume) - row.avg_vol_50) / row.avg_vol_50) * 100
-                  const dayChange =
-                    row.prev_close != null && row.prev_close !== 0
-                      ? ((row.close_price - row.prev_close) / row.prev_close) * 100
-                      : null
+                  const dayChange = getDayChange(row)
 
                   return (
                     <tr key={row.stock_id} className="hover:bg-slate-50 transition-colors">
