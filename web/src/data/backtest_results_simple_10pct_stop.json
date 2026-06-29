@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 121916.55,
-      "total_fees_paid": 1473.39,
+      "end_value": 122666.21,
+      "total_fees_paid": 1475.1,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 21.92,
-      "benchmark_return": -7.94,
-      "expectancy": 3.68,
-      "net_return_after_fees": 20.44
+      "total_return": 22.67,
+      "benchmark_return": -8.36,
+      "expectancy": 3.79,
+      "net_return_after_fees": 21.19
     },
     "risk_metrics": {
       "max_drawdown": -8.94,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 1.55,
-      "calmar_ratio": 5.44,
-      "omega_ratio": 3.3,
-      "sortino_ratio": 3.08
+      "sharpe_ratio": 1.6,
+      "calmar_ratio": 5.65,
+      "omega_ratio": 3.37,
+      "sortino_ratio": 3.16
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -79,11 +79,11 @@
       "win_rate": 66.67,
       "best_trade": 16.42,
       "worst_trade": -8.94,
-      "avg_winning_trade": 7.92,
+      "avg_winning_trade": 8.08,
       "avg_losing_trade": -4.8,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 3.3,
+      "profit_factor": 3.37,
       "total_stock_transactions": 82
     }
   },
@@ -9404,12 +9404,12 @@
   "current_performance": [
     {
       "month": "2026-06",
-      "portfolio_return": 0.83,
-      "benchmark_return": 2.16,
+      "portfolio_return": 1.45,
+      "benchmark_return": 1.69,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": 14.4,
+          "return": 16.49,
           "score": 9.44,
           "stop_triggered": false
         },
@@ -9421,7 +9421,7 @@
         },
         {
           "symbol": "HFCL",
-          "return": 19.48,
+          "return": 17.22,
           "score": 3.8,
           "stop_triggered": false
         },
@@ -9433,7 +9433,7 @@
         },
         {
           "symbol": "GVT&D",
-          "return": -2.05,
+          "return": -3.73,
           "score": 2.89,
           "stop_triggered": false
         },
@@ -9445,31 +9445,31 @@
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 6.46,
+          "return": 10.15,
           "score": 2.83,
           "stop_triggered": false
         },
         {
           "symbol": "KIRLOSENG",
-          "return": 28.85,
+          "return": 26.61,
           "score": 2.76,
           "stop_triggered": false
         },
         {
           "symbol": "ATHERENERG",
-          "return": 3.59,
+          "return": 12.41,
           "score": 2.68,
           "stop_triggered": false
         },
         {
           "symbol": "SANSERA",
-          "return": 9.97,
+          "return": 9.74,
           "score": 2.62,
           "stop_triggered": false
         },
         {
           "symbol": "MCX",
-          "return": -4.16,
+          "return": -1.35,
           "score": 2.51,
           "stop_triggered": false
         },
@@ -9487,7 +9487,7 @@
         },
         {
           "symbol": "CUMMINSIND",
-          "return": -4.06,
+          "return": -5.77,
           "score": 2.29,
           "stop_triggered": false
         },
