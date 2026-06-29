@@ -23,6 +23,16 @@ RESULT_KEYWORDS = [
     'audited result', 'half yearly result', 'annual result',
 ]
 
+# Most genuine results outcomes use NSE's generic boilerplate ("X Limited has
+# informed the Exchange regarding Outcome of [the] Board Meeting held on
+# <date>.") because the actual financial figures live in the XBRL/PDF, not
+# this text field. Only treat a board-meeting filing as NOT a result if it
+# names something else specific instead of (or in addition to) that phrase.
+GENERIC_OUTCOME_RE = re.compile(
+    r'^.*\boutcome of (the )?board meeting\b(\s+held on [^.]+)?\.?\s*$',
+    re.IGNORECASE,
+)
+
 EXCLUDE_CATEGORIES = [
     'copy of newspaper publication',
     'clarification - financial results',
@@ -65,9 +75,16 @@ def is_result(ann: dict) -> bool:
     cat = ann.get('desc', '').lower()
     if any(excl in cat for excl in EXCLUDE_CATEGORIES):
         return False
-    if 'outcome of board meeting' in cat:
-        return True
     text = (ann.get('desc', '') + ' ' + ann.get('attchmntText', '')).lower()
+    if 'outcome of board meeting' in cat:
+        # Board meetings cover many agendas (auditor appointment, NCDs, etc.).
+        # Trust the generic NSE boilerplate (real results are usually filed
+        # this way, with figures in the XBRL/PDF, not this text field); only
+        # reject if it names something else specific instead.
+        attchmnt_text = (ann.get('attchmntText') or '').strip()
+        if 'result' in text:
+            return True
+        return attchmnt_text == '' or bool(GENERIC_OUTCOME_RE.match(attchmnt_text))
     return any(kw in text for kw in RESULT_KEYWORDS)
 
 
