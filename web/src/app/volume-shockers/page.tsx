@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { TrendingUp } from 'lucide-react'
 import PercentageChange from '@/components/PercentageChange'
 import Search from '@/components/Search'
+import CopyWatchlist from '@/components/CopyWatchlist'
 
 export const dynamic = 'force-dynamic'
 
@@ -127,6 +128,12 @@ export default async function VolumeShockersPage(props: PageProps) {
     ? new Date(Math.max(...combined.map((c) => new Date(c.row.date).getTime())))
     : null
 
+  // Stage 2 + Volume Shocker symbols, for the TradingView watchlist copy button
+  const stage2Symbols = combined
+    .filter((c) => c.stock!.stock_performance?.is_stage2)
+    .map((c) => c.stock!.nse_symbol)
+    .filter(Boolean) as string[]
+
   return (
     <div className="min-h-screen bg-slate-100">
       <div className="px-6 py-6">
@@ -142,8 +149,11 @@ export default async function VolumeShockersPage(props: PageProps) {
               )}
             </p>
           </div>
-          <div className="w-72">
-            <Search placeholder="Search stocks…" />
+          <div className="flex items-end gap-3">
+            <CopyWatchlist symbols={stage2Symbols} />
+            <div className="w-72">
+              <Search placeholder="Search stocks…" />
+            </div>
           </div>
         </header>
 
