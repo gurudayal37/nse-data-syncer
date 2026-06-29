@@ -51,22 +51,22 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 149585.38,
-      "total_fees_paid": 1933.66,
+      "end_value": 151748.13,
+      "total_fees_paid": 1939.67,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 49.59,
-      "benchmark_return": -7.94,
-      "expectancy": 7.44,
-      "net_return_after_fees": 47.65
+      "total_return": 51.75,
+      "benchmark_return": -8.36,
+      "expectancy": 7.71,
+      "net_return_after_fees": 49.81
     },
     "risk_metrics": {
       "max_drawdown": -7.35,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.48,
-      "calmar_ratio": 16.84,
-      "omega_ratio": 7.07,
+      "sharpe_ratio": 2.53,
+      "calmar_ratio": 17.72,
+      "omega_ratio": 7.3,
       "sortino_ratio": 0
     },
     "exposure_metrics": {
@@ -79,11 +79,11 @@
       "win_rate": 83.33,
       "best_trade": 24.4,
       "worst_trade": -7.35,
-      "avg_winning_trade": 10.4,
+      "avg_winning_trade": 10.73,
       "avg_losing_trade": -7.35,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 7.07,
+      "profit_factor": 7.3,
       "total_stock_transactions": 100
     }
   },
@@ -9404,96 +9404,96 @@
   "current_performance": [
     {
       "month": "2026-06",
-      "portfolio_return": 13.43,
-      "benchmark_return": 2.16,
+      "portfolio_return": 15.07,
+      "benchmark_return": 1.69,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": 14.4,
-          "score": 8.25,
+          "return": 16.49,
+          "score": 8.24,
           "stop_triggered": false
         },
         {
           "symbol": "MTARTECH",
           "return": -10.0,
-          "score": 5.48,
+          "score": 5.47,
           "stop_triggered": true
         },
         {
           "symbol": "HFCL",
-          "return": 19.48,
+          "return": 17.22,
           "score": 4.49,
           "stop_triggered": false
         },
         {
           "symbol": "CUPID",
-          "return": 41.49,
+          "return": 45.98,
           "score": 4.16,
           "stop_triggered": false
         },
         {
           "symbol": "DEEDEV",
-          "return": 12.45,
+          "return": 12.39,
           "score": 3.93,
           "stop_triggered": false
         },
         {
           "symbol": "BLISSGVS",
-          "return": 15.67,
+          "return": 24.59,
           "score": 3.34,
           "stop_triggered": false
         },
         {
           "symbol": "BBOX",
-          "return": -7.64,
+          "return": -10.0,
           "score": 3.33,
-          "stop_triggered": false
+          "stop_triggered": true
         },
         {
           "symbol": "VENUSREM",
-          "return": 52.1,
+          "return": 50.78,
           "score": 3.04,
           "stop_triggered": false
         },
         {
           "symbol": "WHEELS",
-          "return": 6.26,
-          "score": 2.97,
+          "return": 12.45,
+          "score": 2.96,
           "stop_triggered": false
         },
         {
           "symbol": "BAJAJCON",
-          "return": 4.64,
+          "return": 8.02,
           "score": 2.82,
           "stop_triggered": false
         },
         {
           "symbol": "AEROFLEX",
-          "return": 16.26,
-          "score": 2.75,
+          "return": 16.84,
+          "score": 2.74,
           "stop_triggered": false
         },
         {
           "symbol": "WELCORP",
-          "return": 5.68,
+          "return": 9.72,
           "score": 2.48,
           "stop_triggered": false
         },
         {
           "symbol": "TDPOWERSYS",
           "return": -10.0,
-          "score": 2.43,
+          "score": 2.42,
           "stop_triggered": true
         },
         {
           "symbol": "THERMAX",
-          "return": -3.09,
+          "return": 2.86,
           "score": 2.4,
           "stop_triggered": false
         },
         {
           "symbol": "RPTECH",
-          "return": 43.79,
+          "return": 38.68,
           "score": 2.4,
           "stop_triggered": false
         }
