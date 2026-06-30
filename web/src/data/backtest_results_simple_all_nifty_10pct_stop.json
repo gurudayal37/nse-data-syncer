@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 136128.37,
-      "total_fees_paid": 1669.3,
+      "end_value": 135510.0,
+      "total_fees_paid": 1667.72,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 36.13,
-      "benchmark_return": -8.36,
-      "expectancy": 5.77,
-      "net_return_after_fees": 34.46
+      "total_return": 35.51,
+      "benchmark_return": -8.67,
+      "expectancy": 5.69,
+      "net_return_after_fees": 33.84
     },
     "risk_metrics": {
       "max_drawdown": -7.84,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 1.95,
-      "calmar_ratio": 10.88,
-      "omega_ratio": 3.62,
-      "sortino_ratio": 16.33
+      "sharpe_ratio": 1.93,
+      "calmar_ratio": 10.67,
+      "omega_ratio": 3.58,
+      "sortino_ratio": 16.09
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 66.67,
       "best_trade": 21.85,
       "worst_trade": -7.84,
-      "avg_winning_trade": 11.97,
+      "avg_winning_trade": 11.84,
       "avg_losing_trade": -6.62,
-      "profit_factor": 3.62
+      "profit_factor": 3.58
     }
   },
   "backtest_results": [
@@ -9396,73 +9396,73 @@
   "current_performance": [
     {
       "month": "2026-06",
-      "portfolio_return": 10.07,
-      "benchmark_return": 1.69,
+      "portfolio_return": 9.57,
+      "benchmark_return": 1.35,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": 16.49,
-          "score": 9.12,
+          "return": 14.39,
+          "score": 9.15,
           "stop_triggered": false
         },
         {
           "symbol": "MTARTECH",
           "return": -10.0,
-          "score": 6.29,
+          "score": 6.31,
           "stop_triggered": true
         },
         {
           "symbol": "CUPID",
-          "return": 45.98,
-          "score": 5.55,
+          "return": 47.16,
+          "score": 5.56,
           "stop_triggered": false
         },
         {
           "symbol": "BLISSGVS",
-          "return": 24.59,
-          "score": 3.76,
+          "return": 26.88,
+          "score": 3.77,
           "stop_triggered": false
         },
         {
           "symbol": "HFCL",
-          "return": 17.22,
-          "score": 3.65,
+          "return": 18.29,
+          "score": 3.66,
           "stop_triggered": false
         },
         {
           "symbol": "BAJAJCON",
-          "return": 8.02,
-          "score": 3.55,
+          "return": 8.36,
+          "score": 3.56,
           "stop_triggered": false
         },
         {
           "symbol": "VENUSREM",
-          "return": 50.78,
-          "score": 3.46,
+          "return": 43.24,
+          "score": 3.47,
           "stop_triggered": false
         },
         {
           "symbol": "DEEDEV",
-          "return": 12.39,
-          "score": 3.36,
+          "return": 8.43,
+          "score": 3.37,
           "stop_triggered": false
         },
         {
           "symbol": "BBOX",
           "return": -10.0,
-          "score": 2.99,
+          "score": 3.0,
           "stop_triggered": true
         },
         {
           "symbol": "AEROFLEX",
-          "return": 16.84,
-          "score": 2.89,
+          "return": 17.49,
+          "score": 2.9,
           "stop_triggered": false
         },
         {
           "symbol": "WHEELS",
-          "return": 12.45,
-          "score": 2.79,
+          "return": 13.34,
+          "score": 2.8,
           "stop_triggered": false
         },
         {
@@ -9474,19 +9474,19 @@
         {
           "symbol": "SEAMECLTD",
           "return": -10.0,
-          "score": 2.75,
+          "score": 2.76,
           "stop_triggered": true
         },
         {
           "symbol": "GVT&D",
-          "return": -3.73,
+          "return": -3.97,
           "score": 2.75,
           "stop_triggered": false
         },
         {
           "symbol": "NATIONALUM",
           "return": -10.0,
-          "score": 2.73,
+          "score": 2.74,
           "stop_triggered": true
         }
       ]
