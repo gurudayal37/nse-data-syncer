@@ -83,6 +83,7 @@ export default function HomePage() {
     { title: 'VCP Screener', desc: 'Volatility Contraction Pattern', href: '/vcp', icon: Crosshair, badge: 'New', color: 'orange' },
     { title: 'Market Breadth', desc: 'Advance/decline & 52W highs/lows', href: '/market-breadth', icon: GitCompare, badge: 'New', color: 'sky' },
     { title: 'Volume Shockers', desc: 'Stocks with 50%+ volume spike', href: '/volume-shockers', icon: Zap, badge: 'New', color: 'amber' },
+    { title: 'Tight Flag', desc: 'Tight consolidation near 52W high', href: '/tight-flag', icon: Activity, badge: 'New', color: 'indigo' },
   ]
 
   const iconBgMap: Record<string, string> = {
