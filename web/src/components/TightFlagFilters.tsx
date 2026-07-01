@@ -5,14 +5,16 @@ import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 const DAYS_OPTIONS = [5, 7, 10, 15, 20]
 const RANGE_OPTIONS = [5, 7, 8, 10]
 const FROM52H_OPTIONS = [10, 12, 15, 20]
+const TREND_OPTIONS = [5, 8, 10, 15, 20]
 
 interface Props {
     days: number
     range: number
     from52h: number
+    trend: number
 }
 
-export default function TightFlagFilters({ days, range, from52h }: Props) {
+export default function TightFlagFilters({ days, range, from52h, trend }: Props) {
     const searchParams = useSearchParams()
     const pathname = usePathname()
     const { replace } = useRouter()
@@ -55,6 +57,16 @@ export default function TightFlagFilters({ days, range, from52h }: Props) {
                 <select value={from52h} onChange={(e) => update('from52h', e.target.value)} className={selectCls}>
                     {FROM52H_OPTIONS.map((f) => (
                         <option key={f} value={f}>within {f}%</option>
+                    ))}
+                </select>
+            </div>
+            <div className="flex items-center gap-2">
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide whitespace-nowrap">
+                    Min 1M Return
+                </span>
+                <select value={trend} onChange={(e) => update('trend', e.target.value)} className={selectCls}>
+                    {TREND_OPTIONS.map((t) => (
+                        <option key={t} value={t}>≥ {t}%</option>
                     ))}
                 </select>
             </div>

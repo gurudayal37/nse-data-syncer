@@ -14,6 +14,7 @@ interface PageProps {
         days?: string
         range?: string
         from52h?: string
+        trend?: string
     }>
 }
 
@@ -28,13 +29,15 @@ interface TightFlagRow {
     range_pct: number
     window_bars: number
     high_52_week: number
+    change_1m: number | null
 }
 
 async function fetchTightFlags(
     minMarketCap: number,
     days: number,
     maxRangePct: number,
-    maxFrom52hPct: number
+    maxFrom52hPct: number,
+    minTrend1m: number
 ): Promise<TightFlagRow[]> {
     const minPriceRatio = (100 - maxFrom52hPct) / 100
 
@@ -42,7 +45,7 @@ async function fetchTightFlags(
         WITH recent AS (
             SELECT dp.stock_id,
                    ROW_NUMBER() OVER (PARTITION BY dp.stock_id ORDER BY dp.date DESC) AS rn,
-                   dp.date, dp.high_price, dp.low_price, dp.close_price, dp.volume
+                   dp.date, dp.close_price, dp.volume
             FROM   daily_prices dp
             JOIN   stocks s ON s.id = dp.stock_id
             WHERE  s.is_active = true
@@ -52,13 +55,13 @@ async function fetchTightFlags(
         window_stats AS (
             SELECT
                 stock_id,
-                MAX(close_price) FILTER (WHERE rn = 1)        AS latest_close,
-                MAX(date)        FILTER (WHERE rn = 1)        AS latest_date,
-                MAX(volume)      FILTER (WHERE rn = 1)        AS latest_volume,
-                MAX(close_price) FILTER (WHERE rn = 2)        AS prev_close,
-                MAX(high_price)  FILTER (WHERE rn <= ${days}) AS range_high,
-                MIN(low_price)   FILTER (WHERE rn <= ${days}) AS range_low,
-                COUNT(*)         FILTER (WHERE rn <= ${days}) AS window_bars
+                MAX(close_price) FILTER (WHERE rn = 1)         AS latest_close,
+                MAX(date)        FILTER (WHERE rn = 1)         AS latest_date,
+                MAX(volume)      FILTER (WHERE rn = 1)         AS latest_volume,
+                MAX(close_price) FILTER (WHERE rn = 2)         AS prev_close,
+                MAX(close_price) FILTER (WHERE rn <= ${days})  AS range_high,
+                MIN(close_price) FILTER (WHERE rn <= ${days})  AS range_low,
+                COUNT(*)         FILTER (WHERE rn <= ${days})  AS window_bars
             FROM recent
             GROUP BY stock_id
             HAVING COUNT(*) FILTER (WHERE rn <= ${days}) >= 5
@@ -74,14 +77,17 @@ async function fetchTightFlags(
                 ws.range_low,
                 ws.window_bars,
                 (ws.range_high - ws.range_low) / ws.range_low * 100 AS range_pct,
-                s.high_52_week
+                s.high_52_week,
+                sp.change_1m
             FROM   window_stats ws
             JOIN   stocks s ON s.id = ws.stock_id
+            JOIN   stock_performance sp ON sp.stock_id = ws.stock_id
             WHERE  ws.range_low > 0
               AND  (ws.range_high - ws.range_low) / ws.range_low * 100 <= ${maxRangePct}
               AND  s.high_52_week IS NOT NULL
               AND  s.high_52_week > 0
               AND  ws.latest_close >= s.high_52_week * ${minPriceRatio}
+              AND  sp.change_1m >= ${minTrend1m}
         )
         SELECT * FROM results ORDER BY range_pct ASC
     `
@@ -97,6 +103,7 @@ async function fetchTightFlags(
         range_pct: Number(r.range_pct),
         window_bars: Number(r.window_bars),
         high_52_week: Number(r.high_52_week),
+        change_1m: r.change_1m != null ? Number(r.change_1m) : null,
     }))
 }
 
@@ -106,13 +113,14 @@ export default async function TightFlagPage(props: PageProps) {
     const days = Math.min(20, Math.max(5, Number(searchParams.days) || 10))
     const maxRangePct = Math.min(10, Math.max(5, Number(searchParams.range) || 8))
     const maxFrom52hPct = Math.min(20, Math.max(10, Number(searchParams.from52h) || 15))
+    const minTrend1m = Math.min(20, Math.max(5, Number(searchParams.trend) || 10))
     const minMarketCap = Number(process.env.MIN_MARKET_CAP_CR || 2000) * 10_000_000
 
     let rows: TightFlagRow[] = []
     let error: string | null = null
 
     try {
-        rows = await fetchTightFlags(minMarketCap, days, maxRangePct, maxFrom52hPct)
+        rows = await fetchTightFlags(minMarketCap, days, maxRangePct, maxFrom52hPct, minTrend1m)
     } catch (e) {
         error = e instanceof Error ? e.message : 'Failed to fetch tight flag stocks'
         if (process.env.NODE_ENV === 'development') console.error(e)
@@ -171,7 +179,7 @@ export default async function TightFlagPage(props: PageProps) {
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900">Tight Flag Stocks</h1>
                         <p className="text-slate-500 text-sm mt-1">
-                            {combined.length} NSE stocks consolidating in a ≤{maxRangePct}% range over {days} days, within {maxFrom52hPct}% of their 52-week high
+                            {combined.length} NSE stocks consolidating in a ≤{maxRangePct}% close-to-close range over {days} days, within {maxFrom52hPct}% of 52W high, up ≥{minTrend1m}% last month
                         </p>
                     </div>
                     <div className="flex items-end gap-3 shrink-0">
@@ -184,7 +192,7 @@ export default async function TightFlagPage(props: PageProps) {
 
                 {/* Filter bar */}
                 <div className="mb-5 bg-white border border-slate-200 rounded-xl px-4 py-3 shadow-sm">
-                    <TightFlagFilters days={days} range={maxRangePct} from52h={maxFrom52hPct} />
+                    <TightFlagFilters days={days} range={maxRangePct} from52h={maxFrom52hPct} trend={minTrend1m} />
                 </div>
 
                 <div className="bg-white shadow-sm rounded-xl border border-slate-200 overflow-hidden">
@@ -200,6 +208,7 @@ export default async function TightFlagPage(props: PageProps) {
                                     <th className="px-4 py-3 text-right whitespace-nowrap">Range %</th>
                                     <th className="px-4 py-3 text-right whitespace-nowrap">Days</th>
                                     <th className="px-4 py-3 text-right whitespace-nowrap">From 52W High</th>
+                                    <th className="px-4 py-3 text-right whitespace-nowrap">1M %</th>
                                     <th className="px-4 py-3 text-center">Stage 2</th>
                                 </tr>
                             </thead>
@@ -250,6 +259,9 @@ export default async function TightFlagPage(props: PageProps) {
                                                     </span>
                                                 ) : '—'}
                                             </td>
+                                            <td className="px-4 py-3 text-right">
+                                                <PercentageChange value={row.change_1m} />
+                                            </td>
                                             <td className="px-4 py-3 text-center">
                                                 {stock!.stock_performance?.is_stage2 ? (
                                                     <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100">
@@ -264,7 +276,7 @@ export default async function TightFlagPage(props: PageProps) {
                                 })}
                                 {combined.length === 0 && (
                                     <tr>
-                                        <td colSpan={9} className="px-4 py-8 text-center text-slate-400">
+                                        <td colSpan={10} className="px-4 py-8 text-center text-slate-400">
                                             No stocks match the current filter settings. Try relaxing the range or 52-week high threshold.
                                         </td>
                                     </tr>
