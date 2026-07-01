@@ -46,45 +46,45 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2026-01",
-      "end": "2026-06",
-      "period": "6 months (0.5 years)"
+      "end": "2026-07",
+      "period": "7 months (0.6 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 151576.69,
-      "total_fees_paid": 1939.19,
+      "end_value": 150000.29,
+      "total_fees_paid": 2180.85,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 51.58,
-      "benchmark_return": -8.67,
-      "expectancy": 7.69,
-      "net_return_after_fees": 49.64
+      "total_return": 50.0,
+      "benchmark_return": -8.13,
+      "expectancy": 6.44,
+      "net_return_after_fees": 47.82
     },
     "risk_metrics": {
       "max_drawdown": -7.35,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.53,
-      "calmar_ratio": 17.65,
-      "omega_ratio": 7.28,
-      "sortino_ratio": 0
+      "sharpe_ratio": 2.18,
+      "calmar_ratio": 13.66,
+      "omega_ratio": 6.38,
+      "sortino_ratio": 7.08
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 6,
-      "total_closed_trades": 5,
+      "total_trades": 7,
+      "total_closed_trades": 6,
       "total_open_trades": 1,
-      "win_rate": 83.33,
+      "win_rate": 71.43,
       "best_trade": 24.4,
       "worst_trade": -7.35,
       "avg_winning_trade": 10.7,
-      "avg_losing_trade": -7.35,
+      "avg_losing_trade": -4.2,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 7.28,
-      "total_stock_transactions": 100
+      "profit_factor": 6.38,
+      "total_stock_transactions": 108
     }
   },
   "backtest_results": [
@@ -9402,6 +9402,103 @@
     }
   ],
   "current_performance": [
+    {
+      "month": "2026-07",
+      "portfolio_return": -1.04,
+      "benchmark_return": 0.59,
+      "holdings": [
+        {
+          "symbol": "STLTECH",
+          "return": -3.68,
+          "score": 7.16,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "CUPID",
+          "return": 1.82,
+          "score": 6.33,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "HFCL",
+          "return": -0.36,
+          "score": 4.95,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": 2.22,
+          "score": 4.06,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "RPTECH",
+          "return": 1.84,
+          "score": 3.83,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "BLISSGVS",
+          "return": -2.97,
+          "score": 3.7,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "VENUSREM",
+          "return": -4.45,
+          "score": 3.56,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "DEEDEV",
+          "return": 5.0,
+          "score": 3.12,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "WHEELS",
+          "return": -9.66,
+          "score": 2.67,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "BAJAJCON",
+          "return": 2.6,
+          "score": 2.6,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "WELCORP",
+          "return": -2.91,
+          "score": 2.59,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "ACUTAAS",
+          "return": 1.17,
+          "score": 2.57,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "THANGAMAYL",
+          "return": -7.08,
+          "score": 2.5,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "KIRLOSENG",
+          "return": -0.97,
+          "score": 2.39,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "SYRMA",
+          "return": 1.81,
+          "score": 2.38,
+          "stop_triggered": false
+        }
+      ]
+    },
     {
       "month": "2026-06",
       "portfolio_return": 14.94,
