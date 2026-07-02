@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 96408.06,
-      "total_fees_paid": 1723.62,
+      "end_value": 95533.19,
+      "total_fees_paid": 1721.43,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": -3.59,
-      "benchmark_return": -8.13,
-      "expectancy": -0.44,
-      "net_return_after_fees": -5.32
+      "total_return": -4.47,
+      "benchmark_return": -7.48,
+      "expectancy": -0.57,
+      "net_return_after_fees": -6.19
     },
     "risk_metrics": {
       "max_drawdown": -11.36,
       "max_drawdown_duration": 5,
-      "sharpe_ratio": -0.39,
-      "calmar_ratio": -0.54,
-      "omega_ratio": 0.75,
-      "sortino_ratio": -0.63
+      "sharpe_ratio": -0.51,
+      "calmar_ratio": -0.66,
+      "omega_ratio": 0.69,
+      "sortino_ratio": -0.76
     },
     "exposure_metrics": {
       "max_gross_exposure": 200
@@ -71,12 +71,12 @@
     "trade_statistics": {
       "total_trades": 7,
       "total_stock_transactions": 98,
-      "win_rate": 57.14,
+      "win_rate": 42.86,
       "best_trade": 4.7,
       "worst_trade": -6.41,
-      "avg_winning_trade": 2.34,
-      "avg_losing_trade": -4.15,
-      "profit_factor": 0.75
+      "avg_winning_trade": 3.03,
+      "avg_losing_trade": -3.27,
+      "profit_factor": 0.69
     }
   },
   "backtest_results": [
@@ -2652,106 +2652,106 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": 0.28,
-      "benchmark_return": 0.59,
-      "long_return": -0.07,
-      "short_return": 0.64,
+      "portfolio_return": -0.63,
+      "benchmark_return": 1.3,
+      "long_return": 0.7,
+      "short_return": -1.96,
       "holdings": [
         {
           "symbol": "LAURUSLABS",
-          "return": -2.08,
-          "raw_return": -2.08,
+          "return": 0.2,
+          "raw_return": 0.2,
           "score": 2.9,
           "side": "long"
         },
         {
           "symbol": "BHEL",
-          "return": -0.52,
-          "raw_return": -0.52,
+          "return": -3.4,
+          "raw_return": -3.4,
           "score": 2.01,
           "side": "long"
         },
         {
           "symbol": "ADANIENSOL",
-          "return": 2.01,
-          "raw_return": 2.01,
+          "return": 4.39,
+          "raw_return": 4.39,
           "score": 1.91,
           "side": "long"
         },
         {
           "symbol": "BHARATFORG",
-          "return": -1.96,
-          "raw_return": -1.96,
+          "return": -0.1,
+          "raw_return": -0.1,
           "score": 1.86,
           "side": "long"
         },
         {
           "symbol": "ADANIGREEN",
-          "return": 2.87,
-          "raw_return": 2.87,
+          "return": 4.22,
+          "raw_return": 4.22,
           "score": 1.81,
           "side": "long"
         },
         {
           "symbol": "OFSS",
-          "return": 1.86,
-          "raw_return": 1.86,
+          "return": 3.01,
+          "raw_return": 3.01,
           "score": 1.78,
           "side": "long"
         },
         {
           "symbol": "POLYCAB",
-          "return": -2.67,
-          "raw_return": -2.67,
+          "return": -3.45,
+          "raw_return": -3.45,
           "score": 1.74,
           "side": "long"
         },
         {
           "symbol": "SWIGGY",
-          "return": -2.91,
-          "raw_return": 2.91,
+          "return": -3.75,
+          "raw_return": 3.75,
           "score": -1.52,
           "side": "short"
         },
         {
           "symbol": "ITC",
-          "return": -0.85,
-          "raw_return": 0.85,
+          "return": -0.71,
+          "raw_return": 0.71,
           "score": -1.68,
           "side": "short"
         },
         {
           "symbol": "SBICARD",
-          "return": -0.5,
-          "raw_return": 0.5,
+          "return": -1.91,
+          "raw_return": 1.91,
           "score": -1.72,
           "side": "short"
         },
         {
           "symbol": "WIPRO",
-          "return": 0.51,
-          "raw_return": -0.51,
+          "return": -1.75,
+          "raw_return": 1.75,
           "score": -1.79,
           "side": "short"
         },
         {
           "symbol": "INFY",
-          "return": 2.06,
-          "raw_return": -2.06,
+          "return": -3.47,
+          "raw_return": 3.47,
           "score": -1.98,
           "side": "short"
         },
         {
           "symbol": "HCLTECH",
-          "return": 3.35,
-          "raw_return": -3.35,
+          "return": -0.76,
+          "raw_return": 0.76,
           "score": -2.02,
           "side": "short"
         },
         {
           "symbol": "TCS",
-          "return": 2.81,
-          "raw_return": -2.81,
+          "return": -1.38,
+          "raw_return": 1.38,
           "score": -2.05,
           "side": "short"
         }
