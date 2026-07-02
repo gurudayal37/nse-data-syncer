@@ -47,36 +47,36 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 125315.42,
-      "total_fees_paid": 3515.45,
+      "end_value": 124753.74,
+      "total_fees_paid": 3549.55,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 25.32,
-      "benchmark_return": -7.03,
-      "expectancy": 0.89,
-      "net_return_after_fees": 21.8
+      "total_return": 24.75,
+      "benchmark_return": -6.37,
+      "expectancy": 0.87,
+      "net_return_after_fees": 21.2
     },
     "risk_metrics": {
       "max_drawdown": -10.79,
       "max_drawdown_duration": 14,
-      "sharpe_ratio": 2.0,
-      "calmar_ratio": 5.05,
-      "omega_ratio": 2.08,
-      "sortino_ratio": 3.14
+      "sharpe_ratio": 1.96,
+      "calmar_ratio": 4.92,
+      "omega_ratio": 2.06,
+      "sortino_ratio": 3.07
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
       "total_trades": 27,
-      "total_stock_transactions": 202,
-      "win_rate": 62.96,
+      "total_stock_transactions": 204,
+      "win_rate": 59.26,
       "best_trade": 7.59,
       "worst_trade": -6.89,
-      "avg_winning_trade": 2.72,
-      "avg_losing_trade": -2.22,
-      "profit_factor": 2.08
+      "avg_winning_trade": 2.87,
+      "avg_losing_trade": -2.02,
+      "profit_factor": 2.06
     }
   },
   "backtest_results": [
@@ -34196,83 +34196,83 @@
   "current_performance": [
     {
       "week": "2026-07-03",
-      "portfolio_return": 0.4,
-      "benchmark_return": -0.21,
+      "portfolio_return": -0.05,
+      "benchmark_return": 0.5,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": -3.68,
-          "score": 8.53
+          "return": -8.27,
+          "score": 8.48
         },
         {
           "symbol": "CUPID",
-          "return": 5.9,
-          "score": 7.96
+          "return": 5.17,
+          "score": 7.86
         },
         {
           "symbol": "MTARTECH",
-          "return": -2.34,
-          "score": 5.54
+          "return": -7.22,
+          "score": 5.49
         },
         {
           "symbol": "VENUSREM",
-          "return": -10.02,
-          "score": 4.82
+          "return": -9.9,
+          "score": 4.78
         },
         {
           "symbol": "HFCL",
-          "return": -1.35,
-          "score": 4.54
+          "return": -4.84,
+          "score": 4.52
+        },
+        {
+          "symbol": "SBC",
+          "return": 1.25,
+          "score": 3.93
         },
         {
           "symbol": "BLISSGVS",
-          "return": 6.42,
-          "score": 3.92
+          "return": 7.15,
+          "score": 3.89
         },
         {
           "symbol": "RPTECH",
-          "return": 0.9,
-          "score": 3.73
+          "return": 2.09,
+          "score": 3.71
         },
         {
           "symbol": "BAJAJCON",
-          "return": 6.24,
-          "score": 3.51
+          "return": 5.79,
+          "score": 3.48
         },
         {
           "symbol": "ACUTAAS",
-          "return": 8.11,
-          "score": 3.4
+          "return": 11.87,
+          "score": 3.37
         },
         {
           "symbol": "DEEDEV",
-          "return": 1.24,
-          "score": 3.25
+          "return": 6.29,
+          "score": 3.24
         },
         {
           "symbol": "KIRLOSENG",
-          "return": -5.76,
-          "score": 3.09
+          "return": -6.56,
+          "score": 3.06
         },
         {
           "symbol": "SYRMA",
-          "return": -1.31,
-          "score": 2.95
+          "return": -2.93,
+          "score": 2.92
         },
         {
           "symbol": "WHEELS",
-          "return": -3.64,
-          "score": 2.77
+          "return": -3.0,
+          "score": 2.75
         },
         {
           "symbol": "SANSERA",
-          "return": 0.6,
-          "score": 2.64
-        },
-        {
-          "symbol": "AEROFLEX",
-          "return": 4.68,
-          "score": 2.43
+          "return": 2.34,
+          "score": 2.62
         }
       ]
     },
