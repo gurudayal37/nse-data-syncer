@@ -366,6 +366,7 @@ def run_backtest():
                                 'symbol': stock_map.get(stock_id, 'Unknown'),
                                 'return': 0.0,
                                 'score': round(score_map.get(stock_id, 0), 2),
+                                'entry_price': None,
                                 'stop_triggered': False
                             })
                             continue
@@ -395,6 +396,7 @@ def run_backtest():
                         'symbol': stock_map.get(stock_id, 'Unknown'),
                         'return': round(ret * 100, 2),
                         'score': round(score_map.get(stock_id, 0), 2),
+                        'entry_price': round(float(start_price), 2) if start_price and not pd.isna(start_price) else None,
                         'stop_triggered': stop_triggered
                     })
 
@@ -403,6 +405,7 @@ def run_backtest():
                         'symbol': stock_map.get(stock_id, 'Unknown'),
                         'return': 0.0,
                         'score': round(score_map.get(stock_id, 0), 2),
+                        'entry_price': None,
                         'stop_triggered': False
                     })
                     continue
@@ -415,6 +418,7 @@ def run_backtest():
                         'symbol': stock_map.get(stock_id, 'Unknown'),
                         'return': 0.0,
                         'score': round(score_map.get(stock_id, 0), 2),
+                        'entry_price': None,
                         'stop_triggered': False
                     })
         else:

@@ -106,6 +106,12 @@ export default function PerformanceTable({
                                                                     {holding.return === null ? 'N/A' : `${holding.return > 0 ? '+' : ''}${holding.return}%`}
                                                                 </span>
                                                             </div>
+                                                            {holding.entry_price != null && (
+                                                                <div className="flex justify-between mt-1 text-xs">
+                                                                    <span className="text-gray-500">Entry ₹{holding.entry_price.toFixed(2)}</span>
+                                                                    <span className="text-red-500">SL ₹{(holding.entry_price * 0.9).toFixed(2)}</span>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     ))}
                                                 </div>
