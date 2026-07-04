@@ -11,7 +11,8 @@ env:
 jobs:
   sync-index-data:
     runs-on: ubuntu-latest
-    
+    environment: dhan-sync
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,11 +27,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
-      - name: Sync Index Data
+      - name: Sync Index Data (Dhan)
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DHAN_CLIENT_ID: ${{ secrets.DHAN_CLIENT_ID }}
+          DHAN_PIN: ${{ secrets.DHAN_PIN }}
+          DHAN_TOTP_SECRET: ${{ secrets.DHAN_TOTP_SECRET }}
         run: |
-          python scripts/sync_index_daily.py
+          python scripts/sync_dhan_indices.py
       
       - name: Log completion
         run: echo "Index data sync completed at $(date)"

@@ -8,6 +8,11 @@ import type { MarketIndex } from '@/types/index'
 
 export const dynamic = 'force-dynamic'
 
+// Matches US_INDICES in scripts/sync_us_indices.py. Yahoo's `^` ticker prefix
+// denotes an index, not a country - ^NSEI/^CRSLDX are NSE indices, so a
+// blanket `symbol.startsWith('^')` check would mislabel them as USD.
+const US_SYMBOLS = new Set(['^GSPC', '^IXIC', '^DJI', '^RUT', '^RUI', '^VIX'])
+
 interface IndexPageProps {
     searchParams: Promise<{ page?: string; sort?: string; order?: string; query?: string }>
 }
@@ -21,7 +26,6 @@ export default async function IndexPage(props: IndexPageProps) {
     const skip = (page - 1) * PAGE_SIZE
 
     let indices: MarketIndex[] = []
-    let usIndices: MarketIndex[] = []
     let totalCount = 0
     let error: string | null = null
 
@@ -41,44 +45,20 @@ export default async function IndexPage(props: IndexPageProps) {
     }
 
     try {
-        // Fetch US indices (symbols starting with ^) — shown separately, not paginated
-        usIndices = await prisma.indices.findMany({
-            where: { symbol: { startsWith: '^' } },
-            include: {
-                index_daily_prices: {
-                    orderBy: { date: 'desc' },
-                    take: 1,
-                    select: { close_price: true, date: true }
-                },
-                index_performance: true
-            },
-            orderBy: { symbol: 'asc' },
-        }) as MarketIndex[]
-
-        // Get total count for NSE indices only (not US)
-        totalCount = await prisma.indices.count({
-            where: {
-                NOT: { symbol: { startsWith: '^' } },
-                OR: query
-                    ? [
-                        { symbol: { contains: query, mode: 'insensitive' } },
-                        { name: { contains: query, mode: 'insensitive' } },
-                    ]
-                    : undefined,
+        const where = query
+            ? {
+                OR: [
+                    { symbol: { contains: query, mode: 'insensitive' as const } },
+                    { name: { contains: query, mode: 'insensitive' as const } },
+                ],
             }
-        })
+            : {}
 
-        // Fetch NSE Indices with pagination and sorting
+        totalCount = await prisma.indices.count({ where })
+
+        // Fetch all Indices (NSE + US) with pagination and sorting
         indices = await prisma.indices.findMany({
-            where: {
-                NOT: { symbol: { startsWith: '^' } },
-                OR: query
-                    ? [
-                        { symbol: { contains: query, mode: 'insensitive' } },
-                        { name: { contains: query, mode: 'insensitive' } },
-                    ]
-                    : undefined,
-            },
+            where,
             take: PAGE_SIZE,
             skip: skip,
             include: {
@@ -142,7 +122,7 @@ export default async function IndexPage(props: IndexPageProps) {
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900">Indices Dashboard</h1>
                         <p className="text-gray-500 mt-2">
-                            Showing {totalCount > 0 ? skip + 1 : 0}-{Math.min(skip + PAGE_SIZE, totalCount)} of {totalCount} NSE Indices · {usIndices.length} US Indices
+                            Showing {totalCount > 0 ? skip + 1 : 0}-{Math.min(skip + PAGE_SIZE, totalCount)} of {totalCount} Indices
                         </p>
                     </div>
                     <div className="flex flex-col items-end gap-4">
@@ -153,38 +133,6 @@ export default async function IndexPage(props: IndexPageProps) {
                     </div>
                 </header>
 
-                {/* US Indices strip */}
-                {usIndices.length > 0 && (
-                    <div className="mb-6">
-                        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">US Markets</h2>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-                            {usIndices.map((idx) => {
-                                const perf = idx.index_performance
-                                const latest = idx.index_daily_prices?.[0]
-                                const change1w = perf?.change_1w as number | null | undefined
-                                const change1m = perf?.change_1m as number | null | undefined
-                                const change1y = perf?.change_1y as number | null | undefined
-                                const isVix = idx.symbol === '^VIX'
-                                return (
-                                    <Link key={idx.symbol} href={`/indices/${encodeURIComponent(idx.symbol || '')}`}
-                                        className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md hover:border-blue-300 transition-all">
-                                        <div className="text-xs text-gray-500 mb-0.5 truncate">{idx.name}</div>
-                                        <div className="text-base font-bold text-gray-900 mb-1">
-                                            {latest?.close_price ? `$${latest.close_price.toLocaleString('en-US', { maximumFractionDigits: 2 })}` : '—'}
-                                        </div>
-                                        <div className="flex flex-col gap-0.5 text-xs">
-                                            <span className="flex justify-between"><span className="text-gray-400">1W</span><PercentageChange value={change1w} /></span>
-                                            <span className="flex justify-between"><span className="text-gray-400">1M</span><PercentageChange value={change1m} /></span>
-                                            {!isVix && <span className="flex justify-between"><span className="text-gray-400">1Y</span><PercentageChange value={change1y} /></span>}
-                                        </div>
-                                    </Link>
-                                )
-                            })}
-                        </div>
-                    </div>
-                )}
-
-                <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">NSE Indices</h2>
                 <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left text-sm text-gray-600">
@@ -207,6 +155,8 @@ export default async function IndexPage(props: IndexPageProps) {
                                 {indices.map((indexObj) => {
                                     const latest = indexObj.index_daily_prices?.[0]
                                     const perf = indexObj.index_performance
+                                    const isUS = indexObj.symbol ? US_SYMBOLS.has(indexObj.symbol) : false
+                                    const currencySymbol = isUS ? '$' : '₹'
 
                                     return (
                                         <tr key={indexObj.id} className="hover:bg-gray-50 transition-colors">
@@ -219,7 +169,7 @@ export default async function IndexPage(props: IndexPageProps) {
                                                 {indexObj.name || '-'}
                                             </td>
                                             <td className="px-6 py-4 text-right font-medium text-gray-900">
-                                                {latest && latest.close_price ? `₹${latest.close_price.toFixed(2)}` : '-'}
+                                                {latest && latest.close_price ? `${currencySymbol}${latest.close_price.toLocaleString('en-US', { maximumFractionDigits: 2 })}` : '-'}
                                             </td>
                                             {PERFORMANCE_PERIODS.map((period) => {
                                                 const value = perf?.[period.key as keyof typeof perf] as number | null | undefined
