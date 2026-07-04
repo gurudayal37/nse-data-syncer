@@ -7,6 +7,8 @@ const KEYWORDS = [
   { key: 'ai',             label: 'AI' },
   { key: 'semiconductor',  label: 'Semiconductor' },
   { key: 'defence',        label: 'Defence' },
+  { key: 'drone',          label: 'Drone' },
+  { key: 'anti_drone',     label: 'Anti Drone' },
   { key: 'aerospace',      label: 'Aerospace' },
   { key: 'cloud',          label: 'Cloud' },
   { key: 'ev',             label: 'EV' },
