@@ -66,6 +66,8 @@ THEME_KEYWORDS = {
     'semiconductor':  [r'semiconductor'],
     'aerospace':      [r'aerospace'],
     'defence':        [r'defenc(?:e|es)', r'defens(?:e|es)', r'defense', r'\bdrdo\b'],
+    'drone':          [r'\bdrones?\b', r'\buavs?\b'],
+    'anti_drone':     [r'\banti[\s-]?drones?\b'],
     'cloud':          [r'\bcloud\b'],
     'ev':             [r'\bev\b', r'electric\s+vehicle'],
     'renewable':      [r'renewable', r'solar', r'wind\s+energy'],
@@ -225,14 +227,17 @@ def fetch_nse_day(date_str: str) -> list[dict]:
         return []
 
 
-def find_investor_presentation(symbol: str, result_date: date, season_end: date | None = None) -> str | None:
+def find_investor_presentations(symbol: str, result_date: date, season_end: date | None = None) -> list[str]:
     """
-    Search NSE filings for an 'Investor Presentation' filing by this company.
-    Searches result_date up to 30 days ahead (companies often file presentations
-    weeks after results — e.g. STLTECH filed 20 days later).
+    Collect ALL investor-presentation NSE filings within 60 days of result_date.
+    Returns every candidate URL so the caller can score each and pick the best.
+    60-day window catches late addendums (e.g. SETL's AI-datacenter briefing
+    filed 46 days after results).
     """
-    end = min(season_end or date.today(), result_date + timedelta(days=30))
+    end = min(season_end or date.today(), result_date + timedelta(days=60))
     d = result_date
+    seen: set[str] = set()
+    urls: list[str] = []
     while d <= end:
         if d.weekday() != 6:  # skip Sundays only
             nse_date = d.strftime('%d-%m-%Y')
@@ -242,20 +247,26 @@ def find_investor_presentation(symbol: str, result_date: date, season_end: date 
                 if ann.get('symbol', '').upper() != symbol.upper():
                     continue
                 url = ann.get('attchmntFile', '')
+                if not url or url in seen:
+                    continue
                 combined = (ann.get('desc', '') + ' ' + ann.get('attchmntText', '') + ' ' + url).lower()
-                # NSE filings use varied labels for investor decks: "Investor
-                # Presentation", "Investor Update(s)", "Investor/Analyst Meet", etc.
-                if url and (
+                # NSE filings use varied labels: "Investor Presentation",
+                # "Investor Update", "Investor/Analyst Meet", and addendums to
+                # earlier presentations (e.g. SETL's AI-datacenter addendum).
+                if (
                     'investor presentation' in combined
+                    or 'investors presentation' in combined
                     or 'investor update' in combined
                     or 'investor/analyst' in combined
                     or 'analyst meet' in combined
                     or 'investorpresentation' in combined
                     or 'investorupdate' in combined
+                    or ('addendum' in combined and 'presentation' in combined)
                 ):
-                    return url
+                    seen.add(url)
+                    urls.append(url)
         d += timedelta(days=1)
-    return None
+    return urls
 
 
 def download_pdf(url: str) -> bytes | None:
@@ -374,7 +385,7 @@ CREATE INDEX IF NOT EXISTS ix_pka_symbol ON presentation_keyword_analysis (symbo
 ALTER_TABLE_SQL = [
     f'ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS {c} INT DEFAULT 0'
     for c in ('precision_engineering', 'best', 'top', 'leader', 'order_book', 'highest',
-              'word_count', 'positive_hits', 'negative_hits')
+              'word_count', 'positive_hits', 'negative_hits', 'drone', 'anti_drone')
 ] + [
     "ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS positive_density NUMERIC(8,2) DEFAULT 0",
     "ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS negative_density NUMERIC(8,2) DEFAULT 0",
@@ -464,10 +475,10 @@ def main():
                 print('already done, skipping')
                 continue
 
-        # Find investor presentation URL from NSE
-        pres_url = find_investor_presentation(symbol, result_date)
+        # Find all candidate investor presentation URLs from NSE (up to 60 days)
+        pres_urls = find_investor_presentations(symbol, result_date)
 
-        if not pres_url:
+        if not pres_urls:
             print('no presentation found')
             db.execute("""
                 INSERT INTO presentation_keyword_analysis
@@ -486,10 +497,32 @@ def main():
             })
             continue
 
-        print('found PDF', end=' … ', flush=True)
+        if len(pres_urls) > 1:
+            print(f'{len(pres_urls)} candidate PDFs', end=' … ', flush=True)
+        else:
+            print('found PDF', end=' … ', flush=True)
 
-        pdf_bytes = download_pdf(pres_url)
-        if not pdf_bytes:
+        # Download + score each candidate; keep the one with the highest total
+        # theme keyword count (catches late addendums that outscore the original).
+        best_url = None
+        best_pdf_bytes = None
+        best_text = ''
+        best_score = -1
+
+        for url in pres_urls:
+            pdf_bytes = download_pdf(url)
+            if not pdf_bytes:
+                continue
+            text = extract_text(pdf_bytes)
+            score = sum(count_theme_keywords(text).values())
+            if score > best_score:
+                best_score = score
+                best_url = url
+                best_pdf_bytes = pdf_bytes
+                best_text = text
+
+        if not best_url:
+            # All downloads failed; record the first URL so it can be retried
             print('download failed')
             db.execute("""
                 INSERT INTO presentation_keyword_analysis
@@ -497,11 +530,13 @@ def main():
                 VALUES (%s, %s, %s, %s, TRUE)
                 ON CONFLICT (symbol, result_date) DO UPDATE
                   SET presentation_url = EXCLUDED.presentation_url
-            """, (symbol, company_name, result_date, pres_url))
+            """, (symbol, company_name, result_date, pres_urls[0]))
             db.commit()
             continue
 
-        text = extract_text(pdf_bytes)
+        pres_url = best_url
+        pdf_bytes = best_pdf_bytes
+        text = best_text
         theme_counts = count_theme_keywords(text)
         sentiment = analyse_sentiment(text)
 
