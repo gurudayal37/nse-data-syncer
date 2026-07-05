@@ -9,6 +9,8 @@ import momentum10PctStopData from '@/data/backtest_results_10pct_stop.json'
 import simpleMomentum10PctStopData from '@/data/backtest_results_simple_10pct_stop.json'
 import simpleAllNifty10PctStopData from '@/data/backtest_results_simple_all_nifty_10pct_stop.json'
 import longShortData from '@/data/backtest_results_long_short.json'
+import quickMomentumData from '@/data/backtest_results_quick_momentum.json'
+import quickMomentum10PctStopData from '@/data/backtest_results_quick_momentum_10pct_stop.json'
 import usMomentumData from '@/data/backtest_results_us_momentum.json'
 import usMomentum10PctStopData from '@/data/backtest_results_us_momentum_10pct_stop.json'
 import usSimpleMomentumData from '@/data/backtest_results_us_simple_momentum.json'
@@ -70,6 +72,18 @@ const strategies = [
     href: '/simple-momentum-all-nifty-10pct-stop', dot: 'bg-fuchsia-400', rebalancing: 'Monthly',
     historical: g(simpleAllNifty10PctStopData, 'backtest_metrics') ? { period: g(simpleAllNifty10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(simpleAllNifty10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleAllNifty10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(simpleAllNifty10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(simpleAllNifty10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(simpleAllNifty10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
     current: g(simpleAllNifty10PctStopData, 'current_metrics') ? { period: g(simpleAllNifty10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(simpleAllNifty10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleAllNifty10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(simpleAllNifty10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
+  },
+  {
+    title: 'Quick Momentum', subtitle: '1M + 3M + 6M, Equal Weight',
+    href: '/quick-momentum-strategy', dot: 'bg-teal-400', rebalancing: 'Monthly',
+    historical: g(quickMomentumData, 'backtest_metrics') ? { period: g(quickMomentumData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(quickMomentumData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(quickMomentumData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(quickMomentumData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(quickMomentumData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(quickMomentumData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(quickMomentumData, 'current_metrics') ? { period: g(quickMomentumData, 'current_metrics.time_metrics.period') as string, totalReturn: g(quickMomentumData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(quickMomentumData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(quickMomentumData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
+  },
+  {
+    title: 'Quick Momentum + 10% Stop', subtitle: '1M + 3M + 6M, -10% Monthly Stop Loss',
+    href: '/quick-momentum-10pct-stop-strategy', dot: 'bg-teal-600', rebalancing: 'Monthly',
+    historical: g(quickMomentum10PctStopData, 'backtest_metrics') ? { period: g(quickMomentum10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(quickMomentum10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(quickMomentum10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(quickMomentum10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(quickMomentum10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(quickMomentum10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(quickMomentum10PctStopData, 'current_metrics') ? { period: g(quickMomentum10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(quickMomentum10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(quickMomentum10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(quickMomentum10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
   },
   {
     title: 'Weekly Momentum', subtitle: 'Full Momentum, Weekly Rebalancing',
