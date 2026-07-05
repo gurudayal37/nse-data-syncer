@@ -22,10 +22,16 @@ from sqlalchemy import text
 from dotenv import load_dotenv
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Load only DATABASE_URL from web/.env — do NOT use MIN_MARKET_CAP_CR from there.
+# That env var controls the Vercel display filter (1500 Cr) which differs from
+# the backtest universe threshold (2000 Cr). Picks must match the backtest exactly.
 load_dotenv(os.path.join(base_dir, 'web', '.env'))
 
 sys.path.append(base_dir)
 from app.database import DatabaseManager
+
+# Must match the backtest scripts — do not read from env.
+HIGH_CAP_THRESHOLD_CR = 2000
 
 
 def zscore_col(series: pd.Series) -> pd.Series:
@@ -67,7 +73,7 @@ def main():
     db = DatabaseManager()
     session = db.Session()
 
-    min_mcap_cr = float(os.getenv('MIN_MARKET_CAP_CR', 2000))
+    min_mcap_cr = HIGH_CAP_THRESHOLD_CR
     min_mcap    = min_mcap_cr * 1e7
 
     print(f"Fetching High Cap stocks (market_cap >= {min_mcap_cr} Cr)...")
