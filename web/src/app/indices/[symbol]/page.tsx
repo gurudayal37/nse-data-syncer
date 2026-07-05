@@ -179,7 +179,7 @@ export default async function IndexDetailPage(props: IndexDetailProps) {
                     </p>
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
-                            <thead className="bg-gray-50 border-b border-gray-200">
+                            <thead className="bg-gray-50 text-gray-900 font-medium border-b border-gray-200">
                                 <tr>
                                     <th className="px-4 py-3 font-medium text-gray-700">Symbol</th>
                                     <th className="px-4 py-3 font-medium text-gray-700">Name</th>
