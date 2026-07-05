@@ -89,8 +89,32 @@ jobs:
         run: |
           python -m app.momentum
 
-  update-adr:
+  generate-strategy-picks:
     needs: calculate-momentum
+    runs-on: ubuntu-latest
+    name: Generate Next-Month Strategy Picks
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Generate Strategy Picks
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scripts/generate_strategy_picks.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update strategy picks [skip ci]"
+          file_pattern: "web/src/data/strategy_picks.json"
+
+  update-adr:
+    needs: generate-strategy-picks
     runs-on: ubuntu-latest
     name: Calculate ADR%
     steps:

@@ -2,8 +2,9 @@
 
 import React, { useMemo } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, TrendingDown, AlertTriangle } from 'lucide-react'
+import { ArrowLeft, TrendingDown, AlertTriangle, ListChecks } from 'lucide-react'
 import backtestData from '@/data/backtest_results_10pct_stop.json'
+import picksData from '@/data/strategy_picks.json'
 
 import MetricsGrid from '@/components/strategy/MetricsGrid'
 import DetailedMetrics from '@/components/strategy/DetailedMetrics'
@@ -64,6 +65,71 @@ export default function Momentum10PctStopStrategyPage() {
                         </p>
                     </div>
                 </div>
+
+                {/* ── Next-Month Picks ──────────────────────────────────────── */}
+                {(() => {
+                    const picks = (picksData as any)?.picks?.momentum
+                    if (!picks?.stocks?.length) return null
+                    const asOf = (picksData as any).as_of_date
+                    const generatedAt = (picksData as any).generated_at
+                    return (
+                        <div className="bg-white border border-emerald-200 rounded-xl shadow-sm mb-8 overflow-hidden">
+                            <div className="flex items-center justify-between px-5 py-3.5 bg-emerald-50 border-b border-emerald-100">
+                                <div className="flex items-center gap-2.5">
+                                    <ListChecks className="w-4.5 h-4.5 text-emerald-600" />
+                                    <span className="font-semibold text-emerald-900 text-sm">Current Month Selection</span>
+                                    <span className="text-xs text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full font-medium">
+                                        Scores as of {asOf}
+                                    </span>
+                                </div>
+                                <span className="text-[11px] text-emerald-500 font-mono">Updated {generatedAt?.slice(0, 10)}</span>
+                            </div>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="bg-gray-50 text-[11px] font-semibold uppercase tracking-wider text-gray-500 border-b border-gray-100">
+                                            <th className="px-4 py-2.5 text-center w-10">#</th>
+                                            <th className="px-4 py-2.5 text-left">Symbol</th>
+                                            <th className="px-4 py-2.5 text-left">Name</th>
+                                            <th className="px-4 py-2.5 text-right">Mkt Cap (Cr)</th>
+                                            <th className="px-4 py-2.5 text-right">3M Ret</th>
+                                            <th className="px-4 py-2.5 text-right">6M Ret</th>
+                                            <th className="px-4 py-2.5 text-right">1Y Ret</th>
+                                            <th className="px-4 py-2.5 text-right">Score (z)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-50">
+                                        {picks.stocks.map((s: any) => (
+                                            <tr key={s.symbol} className="hover:bg-gray-50 transition-colors">
+                                                <td className="px-4 py-2.5 text-center text-gray-400 text-xs font-mono">{s.rank}</td>
+                                                <td className="px-4 py-2.5 font-bold text-gray-900 font-mono text-xs">{s.symbol}</td>
+                                                <td className="px-4 py-2.5 text-gray-600 text-xs">{s.name}</td>
+                                                <td className="px-4 py-2.5 text-right text-gray-600 text-xs font-mono">
+                                                    {s.market_cap_cr != null ? `₹${s.market_cap_cr.toLocaleString('en-IN')}` : '—'}
+                                                </td>
+                                                <td className={`px-4 py-2.5 text-right text-xs font-mono font-semibold ${s.mr_3m >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+                                                    {s.mr_3m != null ? `${(s.mr_3m * 100).toFixed(1)}%` : '—'}
+                                                </td>
+                                                <td className={`px-4 py-2.5 text-right text-xs font-mono font-semibold ${s.mr_6m >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+                                                    {s.mr_6m != null ? `${(s.mr_6m * 100).toFixed(1)}%` : '—'}
+                                                </td>
+                                                <td className={`px-4 py-2.5 text-right text-xs font-mono font-semibold ${s.mr_1y >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+                                                    {s.mr_1y != null ? `${(s.mr_1y * 100).toFixed(1)}%` : '—'}
+                                                </td>
+                                                <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-700">
+                                                    {s.weighted_z != null ? (s.weighted_z > 0 ? '+' : '') + s.weighted_z.toFixed(3) : '—'}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="px-5 py-2.5 bg-gray-50 border-t border-gray-100 text-[11px] text-gray-400">
+                                Z-scores computed within High Cap universe ({(picksData as any).universe_size} stocks). Matches backtest selection logic exactly. Buy at market open on the first trading day of the month.
+                            </div>
+                        </div>
+                    )
+                })()}
 
                 {/* Survivorship Bias Warning */}
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
