@@ -1,14 +1,14 @@
 """
-Daily Swing Score: an equal-weighted composite of 4 components (each
-normalized to 0-100), for the "Strong Stock + Strong Sector + High RS +
-High ADR" swing/positional setup (see scripts/backtest_swing_setup.py for
-the historical validation of this idea).
+Daily Swing Score for the "Strong Stock + Strong Sector + High RS + High
+ADR" swing/positional setup (see scripts/backtest_swing_setup.py for the
+historical validation of this idea).
 
   strong_stock_score - Stage 2 trend template: (criteria passed / 7) * 100.
                         Only the 7 pure trend-template criteria (price vs
                         50/150/200 SMA, SMA ordering, 200-SMA rising, 52w
                         hi/lo bands) - RS is excluded here since it's
-                        already its own component below.
+                        already its own component below. Used as a GATE,
+                        not blended into the score (see below).
   rs_score           - stage2_rs_rank, as computed by calculate_stage2.py
                         (63-day return percentile across the universe).
                         Read directly, not recomputed.
@@ -18,7 +18,16 @@ the historical validation of this idea).
   adr_score          - percentile rank of adr_pct (from calculate_adr.py)
                         across the universe.
 
-  swing_score = mean(strong_stock_score, rs_score, sector_score, adr_score)
+Strong Stock and RS turned out to be correlated ~0.66 in practice (both
+are largely measuring "is this stock trending up", just from different
+angles), and averaging all 4 let stocks with zero real trend structure
+(strong_stock_score = 0, i.e. failing every Stage 2 criterion) still post
+a decent swing_score by having high RS/Sector/ADR. So strong_stock_score
+is now a GATE (>= 50, i.e. at least 4/7 criteria) rather than a blended
+component - stocks that don't clear it get no swing_score at all:
+
+  swing_score = mean(rs_score, sector_score, adr_score)  if strong_stock_score >= 50
+              = None                                      otherwise
 
 Must run AFTER calculate_stage2.py (needs stage2_rs_rank) and
 calculate_adr.py (needs adr_pct) for the same day's values to be fresh.
@@ -44,6 +53,7 @@ from app.sector_mapping import SECTOR_INDEX_MAP, load_sector_mapped_universe
 
 MIN_MARKET_CAP_CR = float(os.getenv('MIN_MARKET_CAP_CR', 2000))
 TREND_TEMPLATE_CRITERIA = 7
+STRONG_STOCK_GATE = 50  # at least 4/7 Stage 2 criteria to get a swing_score at all
 
 
 def compute_strong_stock_scores(session, stock_ids):
@@ -165,8 +175,13 @@ def calculate_swing_score():
             rs_score = rs_score_map.get(stock_id)
             adr_score = adr_score_map.get(stock_id)
 
-            components = [strong_stock_score, rs_score, sector_score, adr_score]
-            swing_score = round(sum(components) / 4, 2) if all(c is not None for c in components) else None
+            passes_gate = strong_stock_score is not None and strong_stock_score >= STRONG_STOCK_GATE
+            components = [rs_score, sector_score, adr_score]
+            swing_score = (
+                round(sum(components) / 3, 2)
+                if passes_gate and all(c is not None for c in components)
+                else None
+            )
 
             updates.append({
                 'id': perf_id,

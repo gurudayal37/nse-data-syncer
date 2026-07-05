@@ -24,6 +24,7 @@ SECTOR_INDEX_MAP = {
     # Pharma / Healthcare
     'Pharmaceuticals': 'CNXPHARMA',
     'Hospital': 'NIFTY_HEALTHCARE', 'Healthcare Research- Analytics & Technology': 'NIFTY_HEALTHCARE',
+    'Healthcare Research, Analytics & Technology': 'NIFTY_HEALTHCARE',
     'Healthcare Service Provider': 'NIFTY_HEALTHCARE', 'Biotechnology': 'NIFTY_HEALTHCARE',
     'Pharmacy Retail': 'NIFTY_HEALTHCARE', 'Medical Equipment & Supplies': 'NIFTY_HEALTHCARE',
     # Metal
@@ -31,8 +32,9 @@ SECTOR_INDEX_MAP = {
     'Aluminium': 'CNXMETAL', 'Copper': 'CNXMETAL', 'Diversified Metals': 'CNXMETAL',
     'Ferro & Silica Manganese': 'CNXMETAL', 'Trading - Metals': 'CNXMETAL', 'Trading - Minerals': 'CNXMETAL',
     'Sponge Iron': 'CNXMETAL', 'Zinc': 'CNXMETAL', 'Aluminium- Copper & Zinc Products': 'CNXMETAL',
+    'Aluminium, Copper & Zinc Products': 'CNXMETAL',  # Screener uses ", " where BSE's CSV used "- "
     # Realty / Infra
-    'Residential- Commercial Projects': 'CNXREALTY',
+    'Residential- Commercial Projects': 'CNXREALTY', 'Residential, Commercial Projects': 'CNXREALTY',
     'Civil Construction': 'CNXINFRA', 'Cement & Cement Products': 'CNXINFRA', 'Railway Wagons': 'CNXINFRA',
     'Dredging': 'CNXINFRA', 'Road Assets–Toll- Annuity- Hybrid-Annuity': 'CNXINFRA',
     'Other Construction Materials': 'CNXINFRA',
@@ -45,6 +47,7 @@ SECTOR_INDEX_MAP = {
     'Private Sector Bank': 'NIFTYPVTBANK', 'Public Sector Bank': 'CNXPSUBANK',
     'Stockbroking & Allied': 'NIFTY_CAPITAL_MKT', 'Asset Management Company': 'NIFTY_CAPITAL_MKT',
     'Depositories- Clearing Houses and Other Intermediaries': 'NIFTY_CAPITAL_MKT',
+    'Depositories, Clearing Houses and Other Intermediaries': 'NIFTY_CAPITAL_MKT',
     'Exchange and Data Platform': 'NIFTY_CAPITAL_MKT', 'Financial Data & Stock Exchanges': 'NIFTY_CAPITAL_MKT',
     # FMCG
     'Packaged Foods': 'CNXFMCG', 'Breweries & Distilleries': 'CNXFMCG', 'Personal Care': 'CNXFMCG',
@@ -59,14 +62,17 @@ SECTOR_INDEX_MAP = {
     'Petrochemicals': 'NIFTY_OIL_AND_GAS', 'Gas Transmission/Marketing': 'NIFTY_OIL_AND_GAS',
     'Trading - Gas': 'NIFTY_OIL_AND_GAS', 'Oil Storage & Transportation': 'NIFTY_OIL_AND_GAS',
     # Consumer Durables
-    'Household Appliances': 'CNXCONSRDURBL', 'Gems- Jewellery And Watches': 'CNXCONSRDURBL',
+    'Household Appliances': 'CNXCONSRDURBL',
+    'Gems- Jewellery And Watches': 'CNXCONSRDURBL', 'Gems, Jewellery And Watches': 'CNXCONSRDURBL',
     'Consumer Electronics': 'CNXCONSRDURBL', 'Ceramics': 'CNXCONSRDURBL', 'Sanitary Ware': 'CNXCONSRDURBL',
-    'Furniture- Home Furnishing': 'CNXCONSRDURBL', 'Plastic Products - Consumer': 'CNXCONSRDURBL',
+    'Furniture- Home Furnishing': 'CNXCONSRDURBL', 'Furniture, Home Furnishing': 'CNXCONSRDURBL',
+    'Plastic Products - Consumer': 'CNXCONSRDURBL',
     'Houseware': 'CNXCONSRDURBL', 'Glass - Consumer': 'CNXCONSRDURBL',
     # Media
     'Media & Entertainment': 'CNXMEDIA', 'TV Broadcasting & Software Production': 'CNXMEDIA',
     'Printing & Publication': 'CNXMEDIA', 'Digital Entertainment': 'NIFTY_IND_DIGITAL',
-    'Film Production- Distribution & Exhibition': 'CNXMEDIA', 'Print Media': 'CNXMEDIA',
+    'Film Production- Distribution & Exhibition': 'CNXMEDIA',
+    'Film Production, Distribution & Exhibition': 'CNXMEDIA', 'Print Media': 'CNXMEDIA',
     # Services / Consumption / Tourism
     'Diversified Commercial Services': 'CNXSERVICE', 'Logistics Solution Provider': 'CNXSERVICE',
     'Shipping': 'CNXSERVICE', 'Port & Port services': 'CNXSERVICE', 'Transport Related Services': 'CNXSERVICE',

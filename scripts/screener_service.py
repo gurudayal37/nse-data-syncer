@@ -47,6 +47,9 @@ class ScreenerService:
     def __enter__(self):
         service = Service(ChromeDriverManager().install())
         self.driver = webdriver.Chrome(service=service, options=self.chrome_options)
+        # Without this, a single slow/hung page can block driver.get() forever,
+        # stalling an entire batch run (Selenium has no default timeout).
+        self.driver.set_page_load_timeout(20)
         return self
         
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -620,127 +623,45 @@ class ScreenerService:
             logger.error(f"Error extracting concall transcripts: {str(e)}")
             return []
     
+    # Screener's own classification-level names, in order, mapped to our
+    # 4-level schema (matches how the BSE CSV's Sector Name / Industry New
+    # Name / Igroup Name / ISubgroup Name already line up - see
+    # scripts/update_sectors_from_bse.py).
+    _SECTOR_LEVEL_TO_FIELD = {
+        'Broad Sector': 'sector',
+        'Sector': 'subsector1',
+        'Broad Industry': 'subsector2',
+        'Industry': 'subsector3',
+    }
+
     def _extract_sector_info(self) -> Dict[str, str]:
-        """Extract sector and subsector information from peer comparison section"""
+        """Extract the 4-level sector/industry classification from the
+        "Peer comparison" breadcrumb. Each level is an <a> tag whose `title`
+        attribute names the level ("Broad Sector", "Sector", "Broad
+        Industry", "Industry") - generic across every company's page,
+        unlike the old keyword-matching approach this replaced."""
+        sector_info = {'sector': '', 'subsector1': '', 'subsector2': '', 'subsector3': ''}
         try:
-            sector_info = {}
-            
-            # First, try to find sector information in the main company info section
-            logger.debug("Searching for sector information in main company info...")
-            
-            # Look for sector info in various locations on the page
-            sector_selectors = [
-                "//div[contains(@class, 'company-info')]//div[contains(text(), 'Sector')]",
-                "//div[contains(@class, 'company-info')]//div[contains(text(), 'Industry')]",
-                "//div[contains(@class, 'company-info')]//div[contains(text(), 'Energy')]",
-                "//div[contains(@class, 'company-info')]//div[contains(text(), 'Oil')]",
-                "//div[contains(@class, 'company-info')]//div[contains(text(), 'Petroleum')]",
-                "//div[contains(@class, 'company-info')]//div[contains(text(), 'Refineries')]"
-            ]
-            
-            for selector in sector_selectors:
+            for level_title, field in self._SECTOR_LEVEL_TO_FIELD.items():
                 try:
-                    element = self.driver.find_element(By.XPATH, selector)
+                    element = self.driver.find_element(
+                        By.XPATH, f"//a[@title='{level_title}']"
+                    )
                     text = element.text.strip()
-                    logger.debug(f"Found potential sector element: {text}")
-                    
-                    # Extract sector information from text
-                    if "Energy" in text:
-                        sector_info['sector'] = "Energy"
-                    if "Oil, Gas & Consumable Fuels" in text:
-                        sector_info['subsector1'] = "Oil, Gas & Consumable Fuels"
-                    if "Petroleum Products" in text:
-                        sector_info['subsector2'] = "Petroleum Products"
-                    if "Refineries & Marketing" in text:
-                        sector_info['subsector3'] = "Refineries & Marketing"
-                        
-                except:
+                    if text:
+                        sector_info[field] = text
+                except NoSuchElementException:
                     continue
-            
-            # If we didn't find sector info in main company info, try peer comparison section
-            if not any(sector_info.values()):
-                logger.debug("Searching for sector information in peer comparison section...")
-                
-                # Look for peer comparison section
-                peer_selectors = [
-                    "//div[contains(@class, 'peer-comparison')]",
-                    "//div[contains(text(), 'Peer comparison')]",
-                    "//div[contains(text(), 'Energy')]",
-                    "//div[contains(text(), 'Oil, Gas & Consumable Fuels')]"
-                ]
-                
-                for selector in peer_selectors:
-                    try:
-                        elements = self.driver.find_elements(By.XPATH, selector)
-                        for element in elements:
-                            text = element.text.strip()
-                            logger.debug(f"Found peer comparison element: {text[:100]}...")
-                            
-                            # Look for sector information in this text
-                            if "Energy" in text:
-                                sector_info['sector'] = "Energy"
-                            if "Oil, Gas & Consumable Fuels" in text:
-                                sector_info['subsector1'] = "Oil, Gas & Consumable Fuels"
-                            if "Petroleum Products" in text:
-                                sector_info['subsector2'] = "Petroleum Products"
-                            if "Refineries & Marketing" in text:
-                                sector_info['subsector3'] = "Refineries & Marketing"
-                                
-                    except:
-                        continue
-            
-            # If still no sector info found, try searching the entire page
-            if not any(sector_info.values()):
-                logger.debug("Searching entire page for sector information...")
-                
-                # Get page source and search for sector keywords
-                page_source = self.driver.page_source
-                visible_text = self.driver.find_element(By.TAG_NAME, "body").text
-                
-                # Search for sector patterns
-                sector_patterns = [
-                    (r"Energy", "sector"),
-                    (r"Oil, Gas & Consumable Fuels", "subsector1"),
-                    (r"Petroleum Products", "subsector2"),
-                    (r"Refineries & Marketing", "subsector3")
-                ]
-                
-                for pattern, field in sector_patterns:
-                    import re
-                    matches = re.findall(pattern, page_source, re.IGNORECASE)
-                    if matches:
-                        sector_info[field] = matches[0]
-                        logger.debug(f"Found {field}: {matches[0]} in page source")
-                
-                # Also search visible text
-                for pattern, field in sector_patterns:
-                    import re
-                    matches = re.findall(pattern, visible_text, re.IGNORECASE)
-                    if matches and field not in sector_info:
-                        sector_info[field] = matches[0]
-                        logger.debug(f"Found {field}: {matches[0]} in visible text")
-            
-            # Set defaults if not found
-            if 'sector' not in sector_info:
-                sector_info['sector'] = ''
-            if 'subsector1' not in sector_info:
-                sector_info['subsector1'] = ''
-            if 'subsector2' not in sector_info:
-                sector_info['subsector2'] = ''
-            if 'subsector3' not in sector_info:
-                sector_info['subsector3'] = ''
-            
-            logger.info(f"Extracted sector info: {sector_info}")
+
+            if any(sector_info.values()):
+                logger.info(f"Extracted sector info: {sector_info}")
+            else:
+                logger.warning("No sector classification breadcrumb found on page")
             return sector_info
-            
+
         except Exception as e:
             logger.error(f"Error extracting sector info: {str(e)}")
-            return {
-                'sector': '',
-                'subsector1': '',
-                'subsector2': '',
-                'subsector3': ''
-            }
+            return sector_info
     
     def _extract_number(self, text: str) -> Optional[float]:
         """Extract number from text"""
