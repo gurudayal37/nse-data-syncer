@@ -18,47 +18,71 @@ jobs:
       fail-fast: false
       matrix:
         shard: [0, 1, 2, 3, 4] # 5 Parallel Jobs
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      
+
       - name: Run Sync Shard
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           python -m app.main --shard-index ${{ matrix.shard }} --total-shards 5 --skip-momentum
 
+  # 4. Sync Remaining Stocks
+  sync-remaining:
+    needs: sync-shards
+    name: Sync Remaining Shard ${{ matrix.shard }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4] # 5 Parallel Jobs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Sync Remaining
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python -m app.main --source remaining --shard-index ${{ matrix.shard }} --total-shards 5 --skip-momentum
+
   # 2. Momentum Calculation (Runs after ALL shards finish)
   calculate-momentum:
     needs: sync-remaining
     runs-on: ubuntu-latest
     name: Calculate Momentum
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-            
+
       - name: Run Momentum Calculation
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -82,32 +106,9 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: python3 scripts/calculate_adr.py
 
-  # 3. strategies (Runs AFTER Calculate Momentum)
-  update-ath-strategy:
-    needs: update-adr
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Run ATH Strategy Backtest
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python scripts/backtest_ath_strategy.py
-      - run: git pull origin main
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Auto-update ATH strategy results [skip ci]"
-          file_pattern: "web/src/data/backtest_results_ath.json"
-
+  # 3. Active strategies (paused strategies removed from CI — data is frozen)
   update-momentum-strategy:
-    needs: update-ath-strategy
+    needs: update-adr
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -129,31 +130,8 @@ jobs:
           commit_message: "Auto-update momentum strategy results [skip ci]"
           file_pattern: "web/src/data/backtest_results.json"
 
-  update-momentum-weekly:
-    needs: update-momentum-strategy
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Run Weekly Momentum Strategy
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python scripts/backtest_momentum_weekly.py
-      - run: git pull origin main
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Update Weekly Momentum Strategy Backtest Results"
-          file_pattern: "web/src/data/backtest_results_weekly.json"
-
   update-simple-momentum:
-    needs: update-momentum-weekly
+    needs: update-momentum-strategy
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -198,57 +176,8 @@ jobs:
           commit_message: "Auto-update simple momentum (all nifty) strategy results [skip ci]"
           file_pattern: "web/src/data/backtest_results_simple_all_nifty.json"
 
-  update-simple-weekly:
-    needs: update-simple-momentum-all-nifty
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Run Simple Momentum Weekly Strategy
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python scripts/backtest_simple_momentum_weekly.py
-      - run: git pull origin main
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Auto-update simple momentum weekly strategy results [skip ci]"
-          file_pattern: "web/src/data/backtest_results_simple_weekly.json"
-
-  # 4. Sync Remaining Stocks (Runs AFTER Calculation too? Or in parallel with shards?)
-  # User asked to "include" it. Usually this is sync. But 'calculate-momentum' might need these prices.
-  # So safest is: Run PARALLEL to shards, and momentum DEPENDS on it.
-  sync-remaining:
-    needs: sync-shards
-    name: Sync Remaining Shard ${{ matrix.shard }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        shard: [0, 1, 2, 3, 4] # 5 Parallel Jobs
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      
-      - name: Run Sync Remaining
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python -m app.main --source remaining --shard-index ${{ matrix.shard }} --total-shards 5 --skip-momentum
-
   update-momentum-10pct-stop:
-    needs: update-simple-weekly
+    needs: update-simple-momentum-all-nifty
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -316,34 +245,11 @@ jobs:
           commit_message: "Auto-update simple momentum all nifty 10pct stop strategy results [skip ci]"
           file_pattern: "web/src/data/backtest_results_simple_all_nifty_10pct_stop.json"
 
-  update-long-short-strategy:
+  update-vcp-strategy:
     needs: update-simple-momentum-all-nifty-10pct-stop
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Run Long-Short Futures Strategy
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python scripts/backtest_long_short.py
-      - run: git pull origin main
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Auto-update long-short strategy results [skip ci]"
-          file_pattern: "web/src/data/backtest_results_long_short.json"
-
-  update-vcp-strategy:
-    needs: update-long-short-strategy
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write # In case we need to commit logs or artifacts later, generally good practice if we expand
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -405,26 +311,3 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: python3 scripts/calculate_market_breadth.py
-
-  update-swing-setup-backtest:
-    needs: update-market-breadth
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Run Swing Setup Backtest (Strong Stock + Strong Sector + High RS + High ADR)
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python scripts/backtest_swing_setup.py
-      - run: git pull origin main
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Auto-update swing setup strategy results [skip ci]"
-          file_pattern: "web/src/data/backtest_results_swing_setup.json"

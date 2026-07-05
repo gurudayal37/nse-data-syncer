@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Shield, ArrowLeft } from 'lucide-react'
+import { Shield, ArrowLeft, PauseCircle } from 'lucide-react'
 import momentumData from '@/data/backtest_results.json'
 import simpleMomentumData from '@/data/backtest_results_simple.json'
 import simpleAllNiftyData from '@/data/backtest_results_simple_all_nifty.json'
@@ -37,6 +37,7 @@ const FreqBadge = ({ label }: { label: string }) => (
 )
 
 const strategies = [
+  // ── Active strategies (updated daily) ──────────────────────────────────
   {
     title: 'Momentum Strategy', subtitle: '3M + 6M + 1Y, Equal Weight',
     href: '/momentum-strategy', dot: 'bg-sky-400', rebalancing: 'Monthly',
@@ -73,14 +74,42 @@ const strategies = [
     historical: g(simpleAllNifty10PctStopData, 'backtest_metrics') ? { period: g(simpleAllNifty10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(simpleAllNifty10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleAllNifty10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(simpleAllNifty10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(simpleAllNifty10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(simpleAllNifty10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
     current: g(simpleAllNifty10PctStopData, 'current_metrics') ? { period: g(simpleAllNifty10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(simpleAllNifty10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(simpleAllNifty10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(simpleAllNifty10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
   },
+  // ── US Strategies ──────────────────────────────────────────────────────
   {
-    title: 'Quick Momentum', subtitle: '1M + 3M + 6M, Equal Weight',
+    title: 'US Momentum', subtitle: '3M + 6M + 1Y, Russell 1000 Universe',
+    href: '/us-momentum-strategy', dot: 'bg-blue-500', rebalancing: 'Monthly',
+    historical: g(usMomentumData, 'backtest_metrics') ? { period: g(usMomentumData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(usMomentumData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usMomentumData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(usMomentumData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(usMomentumData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(usMomentumData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(usMomentumData, 'current_metrics') ? { period: g(usMomentumData, 'current_metrics.time_metrics.period') as string, totalReturn: g(usMomentumData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usMomentumData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(usMomentumData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
+  },
+  {
+    title: 'US Momentum + 10% Stop', subtitle: '3M + 6M + 1Y, -10% Monthly Stop',
+    href: '/us-momentum-10pct-stop-strategy', dot: 'bg-blue-700', rebalancing: 'Monthly',
+    historical: g(usMomentum10PctStopData, 'backtest_metrics') ? { period: g(usMomentum10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(usMomentum10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usMomentum10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(usMomentum10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(usMomentum10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(usMomentum10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(usMomentum10PctStopData, 'current_metrics') ? { period: g(usMomentum10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(usMomentum10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usMomentum10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(usMomentum10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
+  },
+  {
+    title: 'US Simple Momentum', subtitle: '6M + 1Y, Russell 1000 Universe',
+    href: '/us-simple-momentum-strategy', dot: 'bg-indigo-500', rebalancing: 'Monthly',
+    historical: g(usSimpleMomentumData, 'backtest_metrics') ? { period: g(usSimpleMomentumData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(usSimpleMomentumData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usSimpleMomentumData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(usSimpleMomentumData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(usSimpleMomentumData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(usSimpleMomentumData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(usSimpleMomentumData, 'current_metrics') ? { period: g(usSimpleMomentumData, 'current_metrics.time_metrics.period') as string, totalReturn: g(usSimpleMomentumData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usSimpleMomentumData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(usSimpleMomentumData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
+  },
+  {
+    title: 'US Simple Momentum + 10% Stop', subtitle: '6M + 1Y, -10% Monthly Stop',
+    href: '/us-simple-momentum-10pct-stop-strategy', dot: 'bg-indigo-700', rebalancing: 'Monthly',
+    historical: g(usSimpleMomentum10PctStopData, 'backtest_metrics') ? { period: g(usSimpleMomentum10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(usSimpleMomentum10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usSimpleMomentum10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(usSimpleMomentum10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(usSimpleMomentum10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(usSimpleMomentum10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
+    current: g(usSimpleMomentum10PctStopData, 'current_metrics') ? { period: g(usSimpleMomentum10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(usSimpleMomentum10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usSimpleMomentum10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(usSimpleMomentum10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
+  },
+]
+
+const pausedStrategies = [
+  {
+    title: 'Quick Momentum', subtitle: '1M + 3M + 6M + 1Y, Equal Weight',
     href: '/quick-momentum-strategy', dot: 'bg-teal-400', rebalancing: 'Monthly',
     historical: g(quickMomentumData, 'backtest_metrics') ? { period: g(quickMomentumData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(quickMomentumData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(quickMomentumData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(quickMomentumData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(quickMomentumData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(quickMomentumData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
     current: g(quickMomentumData, 'current_metrics') ? { period: g(quickMomentumData, 'current_metrics.time_metrics.period') as string, totalReturn: g(quickMomentumData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(quickMomentumData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(quickMomentumData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
   },
   {
-    title: 'Quick Momentum + 10% Stop', subtitle: '1M + 3M + 6M, -10% Monthly Stop Loss',
+    title: 'Quick Momentum + 10% Stop', subtitle: '1M + 3M + 6M + 1Y, -10% Monthly Stop Loss',
     href: '/quick-momentum-10pct-stop-strategy', dot: 'bg-teal-600', rebalancing: 'Monthly',
     historical: g(quickMomentum10PctStopData, 'backtest_metrics') ? { period: g(quickMomentum10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(quickMomentum10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(quickMomentum10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(quickMomentum10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(quickMomentum10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(quickMomentum10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
     current: g(quickMomentum10PctStopData, 'current_metrics') ? { period: g(quickMomentum10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(quickMomentum10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(quickMomentum10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(quickMomentum10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
@@ -112,31 +141,6 @@ const strategies = [
     title: 'Swing Setup', subtitle: 'Strong Stock + Strong Sector + High RS + High ADR',
     href: '/swing-setup', dot: 'bg-orange-400', rebalancing: 'Signal-based',
     historical: null, current: null,
-  },
-  // ── US Strategies ──────────────────────────────────────────────────────
-  {
-    title: 'US Momentum', subtitle: '3M + 6M + 1Y, Russell 1000 Universe',
-    href: '/us-momentum-strategy', dot: 'bg-blue-500', rebalancing: 'Monthly',
-    historical: g(usMomentumData, 'backtest_metrics') ? { period: g(usMomentumData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(usMomentumData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usMomentumData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(usMomentumData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(usMomentumData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(usMomentumData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
-    current: g(usMomentumData, 'current_metrics') ? { period: g(usMomentumData, 'current_metrics.time_metrics.period') as string, totalReturn: g(usMomentumData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usMomentumData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(usMomentumData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
-  },
-  {
-    title: 'US Momentum + 10% Stop', subtitle: '3M + 6M + 1Y, -10% Monthly Stop',
-    href: '/us-momentum-10pct-stop-strategy', dot: 'bg-blue-700', rebalancing: 'Monthly',
-    historical: g(usMomentum10PctStopData, 'backtest_metrics') ? { period: g(usMomentum10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(usMomentum10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usMomentum10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(usMomentum10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(usMomentum10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(usMomentum10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
-    current: g(usMomentum10PctStopData, 'current_metrics') ? { period: g(usMomentum10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(usMomentum10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usMomentum10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(usMomentum10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
-  },
-  {
-    title: 'US Simple Momentum', subtitle: '6M + 1Y, Russell 1000 Universe',
-    href: '/us-simple-momentum-strategy', dot: 'bg-indigo-500', rebalancing: 'Monthly',
-    historical: g(usSimpleMomentumData, 'backtest_metrics') ? { period: g(usSimpleMomentumData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(usSimpleMomentumData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usSimpleMomentumData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(usSimpleMomentumData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(usSimpleMomentumData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(usSimpleMomentumData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
-    current: g(usSimpleMomentumData, 'current_metrics') ? { period: g(usSimpleMomentumData, 'current_metrics.time_metrics.period') as string, totalReturn: g(usSimpleMomentumData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usSimpleMomentumData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(usSimpleMomentumData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
-  },
-  {
-    title: 'US Simple Momentum + 10% Stop', subtitle: '6M + 1Y, -10% Monthly Stop',
-    href: '/us-simple-momentum-10pct-stop-strategy', dot: 'bg-indigo-700', rebalancing: 'Monthly',
-    historical: g(usSimpleMomentum10PctStopData, 'backtest_metrics') ? { period: g(usSimpleMomentum10PctStopData, 'backtest_metrics.time_metrics.period') as string, totalReturn: g(usSimpleMomentum10PctStopData, 'backtest_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usSimpleMomentum10PctStopData, 'backtest_metrics.return_metrics.benchmark_return') as number, sharpe: g(usSimpleMomentum10PctStopData, 'backtest_metrics.risk_metrics.sharpe_ratio') as number, drawdown: g(usSimpleMomentum10PctStopData, 'backtest_metrics.risk_metrics.max_drawdown') as number, winRate: g(usSimpleMomentum10PctStopData, 'backtest_metrics.trade_statistics.win_rate') as number } : null,
-    current: g(usSimpleMomentum10PctStopData, 'current_metrics') ? { period: g(usSimpleMomentum10PctStopData, 'current_metrics.time_metrics.period') as string, totalReturn: g(usSimpleMomentum10PctStopData, 'current_metrics.return_metrics.net_return_after_fees') as number, benchmark: g(usSimpleMomentum10PctStopData, 'current_metrics.return_metrics.benchmark_return') as number, drawdown: g(usSimpleMomentum10PctStopData, 'current_metrics.risk_metrics.max_drawdown') as number } : null,
   },
 ]
 
@@ -180,44 +184,89 @@ export default function StrategiesPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {strategies.map((s) => {
-                  return (
-                    <tr key={s.href} className="group hover:bg-slate-50 transition-colors">
-                      <td className="px-5 py-4">
-                        <div className="flex items-center gap-3">
-                          <span className={`w-2 h-2 rounded-full shrink-0 ${s.dot}`} />
-                          <div>
-                            <Link href={s.href} target="_blank" rel="noopener noreferrer" className="font-bold text-slate-900 text-sm hover:text-sky-600 transition-colors">{s.title}</Link>
-                            <div className="text-[11px] text-slate-500 mt-0.5">{s.subtitle}</div>
-                          </div>
+                {strategies.map((s) => (
+                  <tr key={s.href} className="group hover:bg-slate-50 transition-colors">
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-3">
+                        <span className={`w-2 h-2 rounded-full shrink-0 ${s.dot}`} />
+                        <div>
+                          <Link href={s.href} target="_blank" rel="noopener noreferrer" className="font-bold text-slate-900 text-sm hover:text-sky-600 transition-colors">{s.title}</Link>
+                          <div className="text-[11px] text-slate-500 mt-0.5">{s.subtitle}</div>
                         </div>
-                      </td>
-                      <td className="px-3 py-4 text-center"><FreqBadge label={s.rebalancing} /></td>
-                      {s.historical ? (
-                        <>
-                          <td className="px-4 py-4 text-center text-slate-500 text-xs font-medium whitespace-nowrap border-l border-slate-100">{s.historical.period}</td>
-                          <td className="px-4 py-4 text-center"><span className={`text-sm ${retClass(s.historical.totalReturn)}`}>{fmtPct(s.historical.totalReturn)}</span></td>
-                          <td className="px-4 py-4 text-center"><DiffBadge ret={s.historical.totalReturn} bench={s.historical.benchmark} /></td>
-                          <td className="px-4 py-4 text-center"><span className={`text-sm font-medium ${s.historical.sharpe >= 1 ? 'text-emerald-600' : 'text-amber-500'}`}>{fmtNum(s.historical.sharpe)}</span></td>
-                          <td className="px-4 py-4 text-center text-red-500 text-sm font-semibold">{fmtPct(s.historical.drawdown)}</td>
-                          <td className="px-4 py-4 text-center text-slate-700 text-sm font-medium">{fmtNum(s.historical.winRate, 1)}%</td>
-                        </>
-                      ) : (
-                        <td className="px-4 py-4 text-center text-slate-300 text-xs border-l border-slate-100" colSpan={6}>In progress</td>
-                      )}
-                      {s.current ? (
-                        <>
-                          <td className="px-4 py-4 text-center text-slate-500 text-xs font-medium whitespace-nowrap border-l border-slate-100">{s.current.period}</td>
-                          <td className="px-4 py-4 text-center"><span className={`text-sm ${retClass(s.current.totalReturn)}`}>{fmtPct(s.current.totalReturn)}</span></td>
-                          <td className="px-4 py-4 text-center"><DiffBadge ret={s.current.totalReturn} bench={s.current.benchmark} /></td>
-                          <td className="px-4 py-4 text-center text-red-500 text-sm font-semibold">{fmtPct(s.current.drawdown)}</td>
-                        </>
-                      ) : (
-                        <td className="px-4 py-4 text-center text-slate-300 text-xs border-l border-slate-100" colSpan={4}>—</td>
-                      )}
-                    </tr>
-                  )
-                })}
+                      </div>
+                    </td>
+                    <td className="px-3 py-4 text-center"><FreqBadge label={s.rebalancing} /></td>
+                    {s.historical ? (
+                      <>
+                        <td className="px-4 py-4 text-center text-slate-500 text-xs font-medium whitespace-nowrap border-l border-slate-100">{s.historical.period}</td>
+                        <td className="px-4 py-4 text-center"><span className={`text-sm ${retClass(s.historical.totalReturn)}`}>{fmtPct(s.historical.totalReturn)}</span></td>
+                        <td className="px-4 py-4 text-center"><DiffBadge ret={s.historical.totalReturn} bench={s.historical.benchmark} /></td>
+                        <td className="px-4 py-4 text-center"><span className={`text-sm font-medium ${s.historical.sharpe >= 1 ? 'text-emerald-600' : 'text-amber-500'}`}>{fmtNum(s.historical.sharpe)}</span></td>
+                        <td className="px-4 py-4 text-center text-red-500 text-sm font-semibold">{fmtPct(s.historical.drawdown)}</td>
+                        <td className="px-4 py-4 text-center text-slate-700 text-sm font-medium">{fmtNum(s.historical.winRate, 1)}%</td>
+                      </>
+                    ) : (
+                      <td className="px-4 py-4 text-center text-slate-300 text-xs border-l border-slate-100" colSpan={6}>In progress</td>
+                    )}
+                    {s.current ? (
+                      <>
+                        <td className="px-4 py-4 text-center text-slate-500 text-xs font-medium whitespace-nowrap border-l border-slate-100">{s.current.period}</td>
+                        <td className="px-4 py-4 text-center"><span className={`text-sm ${retClass(s.current.totalReturn)}`}>{fmtPct(s.current.totalReturn)}</span></td>
+                        <td className="px-4 py-4 text-center"><DiffBadge ret={s.current.totalReturn} bench={s.current.benchmark} /></td>
+                        <td className="px-4 py-4 text-center text-red-500 text-sm font-semibold">{fmtPct(s.current.drawdown)}</td>
+                      </>
+                    ) : (
+                      <td className="px-4 py-4 text-center text-slate-300 text-xs border-l border-slate-100" colSpan={4}>—</td>
+                    )}
+                  </tr>
+                ))}
+
+                {/* Paused strategies separator */}
+                <tr>
+                  <td colSpan={12} className="px-5 py-2 bg-slate-50 border-t border-slate-200">
+                    <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                      <PauseCircle className="w-3.5 h-3.5" />
+                      Paused — data frozen, no longer updated
+                    </div>
+                  </td>
+                </tr>
+
+                {pausedStrategies.map((s) => (
+                  <tr key={s.href} className="group hover:bg-slate-50 transition-colors opacity-60">
+                    <td className="px-5 py-3.5">
+                      <div className="flex items-center gap-3">
+                        <span className={`w-2 h-2 rounded-full shrink-0 ${s.dot} opacity-50`} />
+                        <div>
+                          <Link href={s.href} target="_blank" rel="noopener noreferrer" className="font-bold text-slate-500 text-sm hover:text-sky-600 transition-colors">{s.title}</Link>
+                          <div className="text-[11px] text-slate-400 mt-0.5">{s.subtitle}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-3 py-3.5 text-center"><FreqBadge label={s.rebalancing} /></td>
+                    {s.historical ? (
+                      <>
+                        <td className="px-4 py-3.5 text-center text-slate-400 text-xs font-medium whitespace-nowrap border-l border-slate-100">{s.historical.period}</td>
+                        <td className="px-4 py-3.5 text-center"><span className={`text-sm ${retClass(s.historical.totalReturn)}`}>{fmtPct(s.historical.totalReturn)}</span></td>
+                        <td className="px-4 py-3.5 text-center"><DiffBadge ret={s.historical.totalReturn} bench={s.historical.benchmark} /></td>
+                        <td className="px-4 py-3.5 text-center"><span className={`text-sm font-medium ${s.historical.sharpe >= 1 ? 'text-emerald-600' : 'text-amber-500'}`}>{fmtNum(s.historical.sharpe)}</span></td>
+                        <td className="px-4 py-3.5 text-center text-red-500 text-sm font-semibold">{fmtPct(s.historical.drawdown)}</td>
+                        <td className="px-4 py-3.5 text-center text-slate-700 text-sm font-medium">{fmtNum(s.historical.winRate, 1)}%</td>
+                      </>
+                    ) : (
+                      <td className="px-4 py-3.5 text-center text-slate-300 text-xs border-l border-slate-100" colSpan={6}>In progress</td>
+                    )}
+                    {s.current ? (
+                      <>
+                        <td className="px-4 py-3.5 text-center text-slate-400 text-xs font-medium whitespace-nowrap border-l border-slate-100">{s.current.period}</td>
+                        <td className="px-4 py-3.5 text-center"><span className={`text-sm ${retClass(s.current.totalReturn)}`}>{fmtPct(s.current.totalReturn)}</span></td>
+                        <td className="px-4 py-3.5 text-center"><DiffBadge ret={s.current.totalReturn} bench={s.current.benchmark} /></td>
+                        <td className="px-4 py-3.5 text-center text-red-500 text-sm font-semibold">{fmtPct(s.current.drawdown)}</td>
+                      </>
+                    ) : (
+                      <td className="px-4 py-3.5 text-center text-slate-300 text-xs border-l border-slate-100" colSpan={4}>—</td>
+                    )}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
