@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-05 13:31:53",
+  "last_updated": "2026-07-05 15:14:27",
   "config": {
     "min_market_cap_cr": 2000.0,
     "rs_threshold": 90,
@@ -40,26 +40,26 @@
       }
     },
     "stage2_plus_rs": {
-      "trade_count": 7928,
+      "trade_count": 7929,
       "10d": {
-        "n": 7897,
+        "n": 7898,
         "win_rate": 50.3,
         "avg_return_pct": 1.27,
         "median_return_pct": 0.08,
         "benchmark_avg_return_pct": 0.47
       },
       "20d": {
-        "n": 7867,
+        "n": 7868,
         "win_rate": 53.01,
         "avg_return_pct": 2.56,
         "median_return_pct": 0.79,
         "benchmark_avg_return_pct": 0.89
       },
       "60d": {
-        "n": 7707,
+        "n": 7708,
         "win_rate": 55.22,
         "avg_return_pct": 7.6,
-        "median_return_pct": 2.88,
+        "median_return_pct": 2.87,
         "benchmark_avg_return_pct": 2.7
       }
     },
@@ -2036,7 +2036,7 @@
         "adr_pct": 5.0,
         "sector_return_pct": 8.94,
         "fwd_return_10d_pct": -1.73,
-        "fwd_return_20d_pct": 3.18,
+        "fwd_return_20d_pct": 3.63,
         "fwd_return_60d_pct": 14.28
       },
       {

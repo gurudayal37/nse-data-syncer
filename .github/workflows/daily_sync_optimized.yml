@@ -373,8 +373,25 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: python3 scripts/calculate_stage2.py
 
-  update-market-breadth:
+  update-swing-score:
     needs: update-stage2-strategy
+    runs-on: ubuntu-latest
+    name: Calculate Swing Score
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Swing Score Calculation
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python3 scripts/calculate_swing_score.py
+
+  update-market-breadth:
+    needs: update-swing-score
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

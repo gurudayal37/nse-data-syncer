@@ -294,6 +294,11 @@ model stock_performance {
   stage2_rs_rank           Float?
   stage2_pct_from_52w_high Float?
   stage2_pct_above_52w_low Float?
+  adr_pct                  Float?
+  strong_stock_score       Float?
+  sector_score             Float?
+  adr_score                Float?
+  swing_score              Float?
   stocks                   stocks    @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([change_1w])

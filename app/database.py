@@ -836,6 +836,12 @@ class StockPerformance(Base):
     # Average Daily Range % (20-day mean of high/low - 1)
     adr_pct = Column(Float)
 
+    # Swing Score: equal-weighted composite of 4 components (each 0-100)
+    strong_stock_score = Column(Float)  # Stage 2 trend template: criteria passed / 7
+    sector_score = Column(Float)        # percentile rank of mapped sector's 1M return
+    adr_score = Column(Float)           # percentile rank of adr_pct across universe
+    swing_score = Column(Float)         # avg(strong_stock_score, stage2_rs_rank, sector_score, adr_score)
+
 class MomentumHistory(Base):
     __tablename__ = 'momentum_history'
     id = Column(Integer, primary_key=True, autoincrement=True)
