@@ -4,6 +4,9 @@ import { ArrowLeft, ArrowUpDown, Zap } from 'lucide-react'
 import prisma from '@/lib/prisma'
 import PercentageChange from '@/components/PercentageChange'
 import Search from '@/components/Search'
+import CopyWatchlist from '@/components/CopyWatchlist'
+
+const TOP_N = 25
 
 export const dynamic = 'force-dynamic'
 
@@ -88,7 +91,7 @@ export default async function SwingStockPage(props: PageProps) {
         ]
     }
 
-    const [stocks, totalCount] = await Promise.all([
+    const [stocks, totalCount, topStocks] = await Promise.all([
         prisma.stocks.findMany({
             where: whereClause,
             include: { stock_performance: true },
@@ -97,7 +100,16 @@ export default async function SwingStockPage(props: PageProps) {
             skip,
         }),
         prisma.stocks.count({ where: whereClause }),
+        // Top N by swing_score, independent of the table's own sort/search/page -
+        // this is what the TradingView watchlist copy button always exports.
+        prisma.stocks.findMany({
+            where: { is_active: true, stock_performance: { swing_score: { not: null } } },
+            select: { nse_symbol: true },
+            orderBy: [{ stock_performance: { swing_score: { sort: 'desc', nulls: 'last' } } }, { nse_symbol: 'asc' }],
+            take: TOP_N,
+        }),
     ])
+    const topSymbols = topStocks.map((s) => s.nse_symbol).filter((s): s is string => !!s)
 
     const totalPages = Math.ceil(totalCount / limit)
 
@@ -154,6 +166,7 @@ export default async function SwingStockPage(props: PageProps) {
                         <div className="w-full sm:w-64">
                             <Search placeholder="Search stocks..." />
                         </div>
+                        <CopyWatchlist symbols={topSymbols} />
                         <div className="text-sm text-gray-500 bg-white border border-gray-200 rounded-lg px-4 py-2 shadow-sm whitespace-nowrap">
                             <span className="font-semibold text-gray-900">{totalCount}</span> Scored
                         </div>
