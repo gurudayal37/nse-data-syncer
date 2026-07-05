@@ -94,6 +94,11 @@ const strategies = [
     href: '/ath', dot: 'bg-rose-400', rebalancing: 'Daily/Weekly',
     historical: null, current: null,
   },
+  {
+    title: 'Swing Setup', subtitle: 'Strong Stock + Strong Sector + High RS + High ADR',
+    href: '/swing-setup', dot: 'bg-orange-400', rebalancing: 'Signal-based',
+    historical: null, current: null,
+  },
   // ── US Strategies ──────────────────────────────────────────────────────
   {
     title: 'US Momentum', subtitle: '3M + 6M + 1Y, Russell 1000 Universe',

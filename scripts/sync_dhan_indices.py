@@ -10,7 +10,9 @@ Requires DHAN_CLIENT_ID, DHAN_PIN and DHAN_TOTP_SECRET in web/.env. A fresh
 24h access token is minted via Dhan's TOTP login flow at the start of every
 run, so this needs no manual token refresh (unlike the web-UI-generated
 token, which expires after 24h and requires a browser login to renew).
-Same upsert pattern as sync_us_indices.py, safe to re-run daily.
+Same upsert pattern as sync_us_indices.py, safe to re-run daily. New indices
+get a full history backfill; indices that already have data only re-fetch
+the last INCREMENTAL_WINDOW_DAYS to keep daily runs cheap.
 """
 import sys, os, time
 import pandas as pd
@@ -95,6 +97,10 @@ DHAN_INDICES = [
 US_ONLY_SYMBOLS = {'^GSPC', '^IXIC', '^DJI', '^RUT', '^RUI', '^VIX'}
 
 HISTORY_START = '2011-01-01'
+# Daily runs only need to re-fetch a recent window, not the full history -
+# anchored to the last synced date (not "today") so any gap in cron runs,
+# however long, still gets fully backfilled with no missing days.
+INCREMENTAL_WINDOW_DAYS = 90
 
 
 def generate_access_token() -> str:
@@ -184,8 +190,18 @@ def upsert_index(session, symbol, name) -> int:
 
 
 def sync_prices(session, index_id: int, security_id: int, access_token: str) -> int:
+    last_date = session.execute(
+        text("SELECT MAX(date) FROM index_daily_prices WHERE index_id = :id"),
+        {'id': index_id}
+    ).scalar()
+
+    if last_date:
+        from_date = (last_date - timedelta(days=INCREMENTAL_WINDOW_DAYS)).strftime('%Y-%m-%d')
+    else:
+        from_date = HISTORY_START  # brand-new index - full backfill
+
     to_date = datetime.now().strftime('%Y-%m-%d')
-    df = fetch_dhan_history(security_id, HISTORY_START, to_date, access_token)
+    df = fetch_dhan_history(security_id, from_date, to_date, access_token)
     if df.empty:
         print(f"    No data from Dhan for security_id {security_id}")
         return 0

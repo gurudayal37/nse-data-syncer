@@ -833,6 +833,9 @@ class StockPerformance(Base):
     stage2_pct_from_52w_high = Column(Float)
     stage2_pct_above_52w_low = Column(Float)
 
+    # Average Daily Range % (20-day mean of high/low - 1)
+    adr_pct = Column(Float)
+
 class MomentumHistory(Base):
     __tablename__ = 'momentum_history'
     id = Column(Integer, primary_key=True, autoincrement=True)
