@@ -1,8 +1,21 @@
+import Link from 'next/link'
 import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import PercentageChange from '@/components/PercentageChange'
 import StockChart from '@/components/StockChart'
 import { PERFORMANCE_PERIODS } from '@/lib/constants'
+import sectorIndexMap from '@/data/sector_index_map.json'
+
+// industry -> sector index symbol (from app/sector_mapping.py, see
+// scripts/export_sector_mapping.py). Build the reverse lookup once at
+// module load: symbol -> industries mapped to it.
+const INDUSTRIES_BY_SYMBOL = Object.entries(sectorIndexMap as Record<string, string>).reduce(
+    (acc, [industry, symbol]) => {
+        (acc[symbol] ??= []).push(industry)
+        return acc
+    },
+    {} as Record<string, string[]>
+)
 
 export const dynamic = 'force-dynamic'
 
@@ -28,6 +41,18 @@ export default async function IndexDetailPage(props: IndexDetailProps) {
     if (!marketIndex) {
         notFound()
     }
+
+    // Stocks mapped to this sector via their `industry` classification (a
+    // proxy for sector membership, not official index constituents - see
+    // app/sector_mapping.py for how/why).
+    const mappedIndustries = INDUSTRIES_BY_SYMBOL[symbol] ?? []
+    const sectorStocks = mappedIndustries.length > 0
+        ? await prisma.stocks.findMany({
+            where: { is_active: true, industry: { in: mappedIndustries } },
+            include: { stock_performance: true },
+            orderBy: { market_cap: 'desc' },
+        })
+        : []
 
     const prices = marketIndex.index_daily_prices
     const latestPrice = prices[prices.length - 1]
@@ -85,6 +110,62 @@ export default async function IndexDetailPage(props: IndexDetailProps) {
                                 </div>
                             )
                         })}
+                    </div>
+                </div>
+
+                {/* Stocks mapped to this sector */}
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <h2 className="text-xl font-bold text-gray-900 mb-1">Stocks in this Sector</h2>
+                    <p className="text-sm text-gray-500 mb-4">
+                        Stocks whose industry classification maps to {symbol} ({sectorStocks.length} stocks) —
+                        an industry-based proxy, not official index constituents.
+                    </p>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left">
+                            <thead className="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th className="px-4 py-3 font-medium text-gray-700">Symbol</th>
+                                    <th className="px-4 py-3 font-medium text-gray-700">Name</th>
+                                    <th className="px-4 py-3 text-right font-medium text-gray-700">Market Cap</th>
+                                    {PERFORMANCE_PERIODS.slice(0, 5).map((period) => (
+                                        <th key={period.key} className="px-4 py-3 text-right font-medium text-gray-700">{period.label}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-100">
+                                {sectorStocks.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={8} className="px-4 py-8 text-center text-gray-400">
+                                            No stocks mapped to this sector yet.
+                                        </td>
+                                    </tr>
+                                ) : sectorStocks.map((stock) => {
+                                    const stockPerf = stock.stock_performance
+                                    return (
+                                        <tr key={stock.id} className="hover:bg-gray-50">
+                                            <td className="px-4 py-3 font-medium text-gray-900">
+                                                <Link href={`/stock/${stock.nse_symbol}`} className="hover:underline text-blue-600">
+                                                    {stock.nse_symbol}
+                                                </Link>
+                                            </td>
+                                            <td className="px-4 py-3 text-gray-600 max-w-[220px] truncate" title={stock.name ?? undefined}>
+                                                {stock.name}
+                                            </td>
+                                            <td className="px-4 py-3 text-right text-gray-600">
+                                                {stock.market_cap
+                                                    ? `₹${(Number(stock.market_cap) / 10_000_000).toLocaleString('en-IN', { maximumFractionDigits: 0 })} Cr`
+                                                    : '-'}
+                                            </td>
+                                            {PERFORMANCE_PERIODS.slice(0, 5).map((period) => (
+                                                <td key={period.key} className="px-4 py-3 text-right">
+                                                    <PercentageChange value={stockPerf?.[period.key as keyof typeof stockPerf] as number | null | undefined} />
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
