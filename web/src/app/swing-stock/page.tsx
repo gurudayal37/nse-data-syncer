@@ -146,7 +146,7 @@ export default async function SwingStockPage(props: PageProps) {
                                 <h1 className="text-3xl font-bold text-gray-900">Swing Score</h1>
                             </div>
                             <p className="text-gray-500 mt-1 ml-[52px]">
-                                Strong Stock + High RS + Strong Sector + High ADR, equal-weighted composite
+                                Strong Stock gate, then High RS + Strong Sector + High ADR averaged equally
                             </p>
                         </div>
                     </div>
@@ -163,13 +163,23 @@ export default async function SwingStockPage(props: PageProps) {
                 {/* Score components summary */}
                 <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl p-5 mb-6">
                     <h2 className="text-sm font-bold text-orange-800 mb-3 uppercase tracking-wide">
-                        4 Components, Equal Weight (25% each)
+                        Gate + 3 Equal-Weighted Components (33% each)
                     </h2>
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-orange-700">
-                        <div><span className="font-bold">Strong Stock</span> — Stage 2 trend template criteria passed (0-7), scaled to 0-100</div>
-                        <div><span className="font-bold">High RS</span> — 63-day return percentile rank vs. universe</div>
-                        <div><span className="font-bold">Strong Sector</span> — mapped sector index&apos;s 1-month return, percentile ranked vs. other sectors</div>
-                        <div><span className="font-bold">High ADR</span> — 20-day average daily range %, percentile ranked vs. universe</div>
+                    <div className="flex flex-col gap-2 text-xs text-orange-700">
+                        <div>
+                            <span className="font-bold">Strong Stock (gate, not scored)</span> — Stage 2 trend template criteria
+                            passed (0-7), scaled to 0-100. Must be ≥ 50 (at least 4/7) just to get a Swing Score at all —
+                            stocks that fail this don&apos;t appear below, regardless of their other 3 numbers.
+                        </div>
+                        <div>
+                            <span className="font-bold">High RS</span> — 63-day return percentile rank vs. universe.
+                        </div>
+                        <div>
+                            <span className="font-bold">Strong Sector</span> — mapped sector index&apos;s 1-month return, percentile ranked vs. other sectors.
+                        </div>
+                        <div>
+                            <span className="font-bold">High ADR</span> — 20-day average daily range %, percentile ranked vs. universe.
+                        </div>
                     </div>
                     <p className="text-xs text-orange-600 mt-3">
                         Universe: active stocks, market cap ≥ 2000 Cr, with an industry mapped to an NSE sector index.
