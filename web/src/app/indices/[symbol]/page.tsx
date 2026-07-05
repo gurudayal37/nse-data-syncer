@@ -1,9 +1,12 @@
 import Link from 'next/link'
 import prisma from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 import { notFound } from 'next/navigation'
 import PercentageChange from '@/components/PercentageChange'
 import StockChart from '@/components/StockChart'
-import { PERFORMANCE_PERIODS } from '@/lib/constants'
+import Pagination from '@/components/Pagination'
+import Search from '@/components/Search'
+import { PAGE_SIZE, SORTABLE_COLUMNS, PERFORMANCE_PERIODS, type SortableColumn } from '@/lib/constants'
 import sectorIndexMap from '@/data/sector_index_map.json'
 
 // industry -> sector index symbol (from app/sector_mapping.py, see
@@ -21,11 +24,20 @@ export const dynamic = 'force-dynamic'
 
 interface IndexDetailProps {
     params: Promise<{ symbol: string }>
+    searchParams: Promise<{ page?: string; sort?: string; order?: string; query?: string }>
 }
 
 export default async function IndexDetailPage(props: IndexDetailProps) {
     const params = await props.params
     const symbol = decodeURIComponent(params.symbol)
+
+    const searchParams = await props.searchParams
+    const page = Number(searchParams.page) || 1
+    // Default: most recent 1-week gainers on top.
+    const sort = (searchParams.sort || 'change_1w') as SortableColumn
+    const order = searchParams.order || 'desc'
+    const query = searchParams.query || ''
+    const skip = (page - 1) * PAGE_SIZE
 
     // Fetch Index data
     const marketIndex = await prisma.indices.findUnique({
@@ -46,24 +58,64 @@ export default async function IndexDetailPage(props: IndexDetailProps) {
     // proxy for sector membership, not official index constituents - see
     // app/sector_mapping.py for how/why).
     const mappedIndustries = INDUSTRIES_BY_SYMBOL[symbol] ?? []
-    const sectorStocks = mappedIndustries.length > 0
-        ? await prisma.stocks.findMany({
-            where: { is_active: true, industry: { in: mappedIndustries } },
-            include: { stock_performance: true },
-            orderBy: { market_cap: 'desc' },
-        })
-        : []
+
+    const where: Prisma.stocksWhereInput = {
+        is_active: true,
+        industry: { in: mappedIndustries },
+        ...(query ? {
+            OR: [
+                { nse_symbol: { contains: query, mode: 'insensitive' } },
+                { name: { contains: query, mode: 'insensitive' } },
+            ],
+        } : {}),
+    }
+
+    const orderBy: Prisma.stocksOrderByWithRelationInput[] = SORTABLE_COLUMNS.includes(sort)
+        ? [{ stock_performance: { [sort]: { sort: order, nulls: 'last' } } }, { nse_symbol: 'asc' }]
+        : [{ nse_symbol: 'asc' }]
+
+    const [totalCount, sectorStocks] = mappedIndustries.length > 0
+        ? await Promise.all([
+            prisma.stocks.count({ where }),
+            prisma.stocks.findMany({
+                where,
+                take: PAGE_SIZE,
+                skip,
+                include: { stock_performance: true },
+                orderBy,
+            }),
+        ])
+        : [0, []]
+
+    const totalPages = Math.ceil(totalCount / PAGE_SIZE)
 
     const prices = marketIndex.index_daily_prices
     const latestPrice = prices[prices.length - 1]
-    
+
     const chartData = prices.map(p => ({
         date: p.date.toISOString(),
         close: p.close_price || 0,
         volume: Number(p.volume || 0)
     }))
-    
+
     const perf = marketIndex.index_performance
+
+    const SortIcon = ({ column }: { column: string }) => {
+        if (sort !== column) return <span className="ml-1 text-gray-400">↕</span>
+        return order === 'asc' ? <span className="ml-1 text-blue-600">↑</span> : <span className="ml-1 text-blue-600">↓</span>
+    }
+
+    const SortHeader = ({ column, label, align = 'left' }: { column: string; label: string; align?: string }) => {
+        const newOrder = sort === column && order === 'desc' ? 'asc' : 'desc'
+        const qp = query ? `&query=${encodeURIComponent(query)}` : ''
+        return (
+            <th className={`px-4 py-3 ${align === 'right' ? 'text-right' : ''}`}>
+                <Link href={`/indices/${encodeURIComponent(symbol)}?page=${page}&sort=${column}&order=${newOrder}${qp}`} className="inline-flex items-center hover:text-blue-600 whitespace-nowrap">
+                    {label}<SortIcon column={column} />
+                </Link>
+            </th>
+        )
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 p-8">
@@ -114,10 +166,15 @@ export default async function IndexDetailPage(props: IndexDetailProps) {
                 </div>
 
                 {/* Stocks mapped to this sector */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-1">Stocks in this Sector</h2>
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-1">
+                        <h2 className="text-xl font-bold text-gray-900">Stocks in this Sector</h2>
+                        <div className="w-full sm:w-64">
+                            <Search placeholder="Search stocks..." />
+                        </div>
+                    </div>
                     <p className="text-sm text-gray-500 mb-4">
-                        Stocks whose industry classification maps to {symbol} ({sectorStocks.length} stocks) —
+                        Stocks whose industry classification maps to {symbol} ({totalCount} stocks) —
                         an industry-based proxy, not official index constituents.
                     </p>
                     <div className="overflow-x-auto">
@@ -127,15 +184,15 @@ export default async function IndexDetailPage(props: IndexDetailProps) {
                                     <th className="px-4 py-3 font-medium text-gray-700">Symbol</th>
                                     <th className="px-4 py-3 font-medium text-gray-700">Name</th>
                                     <th className="px-4 py-3 text-right font-medium text-gray-700">Market Cap</th>
-                                    {PERFORMANCE_PERIODS.slice(0, 5).map((period) => (
-                                        <th key={period.key} className="px-4 py-3 text-right font-medium text-gray-700">{period.label}</th>
+                                    {PERFORMANCE_PERIODS.map((period) => (
+                                        <SortHeader key={period.key} column={period.key} label={period.label} align="right" />
                                     ))}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {sectorStocks.length === 0 ? (
                                     <tr>
-                                        <td colSpan={8} className="px-4 py-8 text-center text-gray-400">
+                                        <td colSpan={3 + PERFORMANCE_PERIODS.length} className="px-4 py-8 text-center text-gray-400">
                                             No stocks mapped to this sector yet.
                                         </td>
                                     </tr>
@@ -156,7 +213,7 @@ export default async function IndexDetailPage(props: IndexDetailProps) {
                                                     ? `₹${(Number(stock.market_cap) / 10_000_000).toLocaleString('en-IN', { maximumFractionDigits: 0 })} Cr`
                                                     : '-'}
                                             </td>
-                                            {PERFORMANCE_PERIODS.slice(0, 5).map((period) => (
+                                            {PERFORMANCE_PERIODS.map((period) => (
                                                 <td key={period.key} className="px-4 py-3 text-right">
                                                     <PercentageChange value={stockPerf?.[period.key as keyof typeof stockPerf] as number | null | undefined} />
                                                 </td>
@@ -167,96 +224,15 @@ export default async function IndexDetailPage(props: IndexDetailProps) {
                             </tbody>
                         </table>
                     </div>
-                </div>
 
-                {/* Index Info & Latest OHLC */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Index Information</h2>
-                        <div className="space-y-3">
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Symbol</span>
-                                <span className="font-medium text-gray-900">{symbol}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Name</span>
-                                <span className="font-medium text-gray-900">{marketIndex.name || '-'}</span>
-                            </div>
-                            {perf?.daily_volume && perf.daily_volume > BigInt(0) && (
-                                <div className="flex justify-between">
-                                    <span className="text-gray-600">Daily Volume</span>
-                                    <span className="font-medium text-gray-900">{perf.daily_volume.toLocaleString()}</span>
-                                </div>
-                            )}
+                    {totalPages > 1 && (
+                        <div className="mt-4 flex justify-between items-center">
+                            <p className="text-sm text-gray-500">
+                                Showing {totalCount > 0 ? skip + 1 : 0}-{Math.min(skip + PAGE_SIZE, totalCount)} of {totalCount}
+                            </p>
+                            <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath={`/indices/${encodeURIComponent(symbol)}`} query={query} />
                         </div>
-                    </div>
-
-                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Latest OHLC</h2>
-                        {latestPrice ? (
-                            <div className="space-y-3">
-                                <div className="flex justify-between">
-                                    <span className="text-gray-600">Open</span>
-                                    <span className="font-medium text-gray-900">₹{latestPrice.open_price?.toFixed(2) || '-'}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-gray-600">High</span>
-                                    <span className="font-medium text-green-600">₹{latestPrice.high_price?.toFixed(2) || '-'}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-gray-600">Low</span>
-                                    <span className="font-medium text-red-600">₹{latestPrice.low_price?.toFixed(2) || '-'}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-gray-600">Close</span>
-                                    <span className="font-medium text-gray-900">₹{latestPrice.close_price?.toFixed(2) || '-'}</span>
-                                </div>
-                                {latestPrice.volume && latestPrice.volume > BigInt(0) && (
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-600">Volume</span>
-                                        <span className="font-medium text-gray-900">{latestPrice.volume.toLocaleString()}</span>
-                                    </div>
-                                )}
-                            </div>
-                        ) : (
-                            <p className="text-gray-500">No data available for the latest session.</p>
-                        )}
-                    </div>
-                </div>
-
-                {/* History Table */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Price History</h2>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                            <thead className="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th className="px-4 py-3 text-left font-medium text-gray-700">Date</th>
-                                    <th className="px-4 py-3 text-right font-medium text-gray-700">Open</th>
-                                    <th className="px-4 py-3 text-right font-medium text-gray-700">High</th>
-                                    <th className="px-4 py-3 text-right font-medium text-gray-700">Low</th>
-                                    <th className="px-4 py-3 text-right font-medium text-gray-700">Close</th>
-                                    <th className="px-4 py-3 text-right font-medium text-gray-700">Volume</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-100">
-                                {[...prices].reverse().slice(0, 30).map((price, idx) => (
-                                    <tr key={`${price.date}-${idx}`} className="hover:bg-gray-50">
-                                        <td className="px-4 py-3 text-gray-900">
-                                            {new Date(price.date).toLocaleDateString()}
-                                        </td>
-                                        <td className="px-4 py-3 text-right text-gray-900">₹{price.open_price?.toFixed(2) || '-'}</td>
-                                        <td className="px-4 py-3 text-right text-green-600">₹{price.high_price?.toFixed(2) || '-'}</td>
-                                        <td className="px-4 py-3 text-right text-red-600">₹{price.low_price?.toFixed(2) || '-'}</td>
-                                        <td className="px-4 py-3 text-right font-medium text-gray-900">₹{price.close_price?.toFixed(2) || '-'}</td>
-                                        <td className="px-4 py-3 text-right text-gray-600">
-                                            {price.volume && price.volume > BigInt(0) ? price.volume.toLocaleString() : '-'}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>
