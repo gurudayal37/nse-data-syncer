@@ -60,8 +60,9 @@ def calculate_quick_momentum_for_date(session, target_date, stocks_df, valid_sto
             r1m = get_ret(21)
             r3m = get_ret(63)
             r6m = get_ret(126)
+            r1y = get_ret(252)
 
-            if None in [r1m, r3m, r6m]:
+            if None in [r1m, r3m, r6m, r1y]:
                 continue
 
             scores.append({
@@ -69,6 +70,7 @@ def calculate_quick_momentum_for_date(session, target_date, stocks_df, valid_sto
                 'mr_1m': r1m / volatility,
                 'mr_3m': r3m / volatility,
                 'mr_6m': r6m / volatility,
+                'mr_1y': r1y / volatility,
             })
 
         except KeyError:
@@ -79,13 +81,13 @@ def calculate_quick_momentum_for_date(session, target_date, stocks_df, valid_sto
 
     df_scores = pd.DataFrame(scores)
 
-    for period in ['1m', '3m', '6m']:
+    for period in ['1m', '3m', '6m', '1y']:
         col = f'mr_{period}'
         mean = df_scores[col].mean()
         std = df_scores[col].std()
         df_scores[f'z_{period}'] = (df_scores[col] - mean) / std if std > 0 else 0
 
-    df_scores['weighted_z'] = (df_scores['z_1m'] + df_scores['z_3m'] + df_scores['z_6m']) / 3
+    df_scores['weighted_z'] = (df_scores['z_1m'] + df_scores['z_3m'] + df_scores['z_6m'] + df_scores['z_1y']) / 4
     return df_scores.sort_values('weighted_z', ascending=False)
 
 

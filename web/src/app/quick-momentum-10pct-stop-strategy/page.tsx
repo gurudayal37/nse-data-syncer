@@ -60,7 +60,7 @@ export default function QuickMomentum10PctStopStrategyPage() {
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900">Quick Momentum + 10% Stop</h1>
                         <p className="text-gray-500 mt-1">
-                            Top 15 High Cap (&gt; 2000 Cr) by Quick Momentum Score (1M, 3M &amp; 6M) • Monthly Rebalancing • −10% stop per stock per month
+                            Top 15 High Cap (&gt; 2000 Cr) by Quick Momentum Score (1M, 3M, 6M &amp; 1Y) • Monthly Rebalancing • −10% stop per stock per month
                         </p>
                     </div>
                 </div>
@@ -96,8 +96,8 @@ export default function QuickMomentum10PctStopStrategyPage() {
                         <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
                             <h3 className="font-semibold text-purple-900 mb-2">2. Quick Momentum Score</h3>
                             <p className="text-purple-800">
-                                Volatility-adjusted returns over <strong>1M, 3M, and 6M</strong> (equal weight). Captures shorter-term
-                                momentum trends compared to the classic 1Y lookback.
+                                Volatility-adjusted returns over <strong>1M, 3M, 6M, and 1Y</strong> (equal weight). Blends short-term
+                                momentum signals with the classic 1Y anchor.
                             </p>
                         </div>
                         <div className="bg-green-50 p-4 rounded-lg border border-green-100">
@@ -205,8 +205,7 @@ export default function QuickMomentum10PctStopStrategyPage() {
                                     the model records only −10%. Real execution would record the actual gap loss.
                                 </li>
                                 <li>
-                                    <strong>Shorter lookback amplifies noise:</strong> 1M momentum is more volatile than 1Y,
-                                    so this strategy may pick up mean-reverting moves as well as true trends.
+                                    <strong>Short-term lookback amplifies noise:</strong> The 1M component is more prone to mean-reversal than the 6M/1Y components. Equal weighting all four periods mitigates but doesn't eliminate this.
                                 </li>
                                 <li>
                                     <strong>2020–2021 outlier years:</strong> The COVID recovery + pharma/telecom rally was a

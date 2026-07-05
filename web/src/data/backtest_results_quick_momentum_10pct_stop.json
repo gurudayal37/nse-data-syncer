@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 131515.13,
-      "total_fees_paid": 2964.05,
+      "end_value": 130485.3,
+      "total_fees_paid": 2882.42,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 31.52,
+      "total_return": 30.49,
       "benchmark_return": -7.11,
-      "expectancy": 4.16,
-      "net_return_after_fees": 28.55
+      "expectancy": 4.05,
+      "net_return_after_fees": 27.6
     },
     "risk_metrics": {
       "max_drawdown": -6.32,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.46,
-      "calmar_ratio": 9.48,
-      "omega_ratio": 5.34,
-      "sortino_ratio": 4.86
+      "sharpe_ratio": 2.35,
+      "calmar_ratio": 9.15,
+      "omega_ratio": 4.78,
+      "sortino_ratio": 5.44
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -80,11 +80,11 @@
       "best_trade": 12.71,
       "worst_trade": -6.32,
       "avg_winning_trade": 7.16,
-      "avg_losing_trade": -3.36,
+      "avg_losing_trade": -3.75,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 5.34,
-      "total_stock_transactions": 152
+      "profit_factor": 4.78,
+      "total_stock_transactions": 148
     }
   },
   "backtest_results": [
@@ -10844,113 +10844,113 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -0.39,
+      "portfolio_return": -1.17,
       "benchmark_return": 1.7,
       "holdings": [
         {
           "symbol": "STLTECH",
           "return": -5.95,
-          "score": 5.17,
+          "score": 5.46,
           "entry_price": 613.3,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "CUPID",
+          "return": 4.69,
+          "score": 5.35,
+          "entry_price": 189.93,
           "stop_triggered": false
         },
         {
           "symbol": "HFCL",
           "return": 0.77,
-          "score": 4.4,
+          "score": 3.96,
           "entry_price": 212.85,
           "stop_triggered": false
         },
         {
           "symbol": "RPTECH",
           "return": -2.04,
-          "score": 3.84,
+          "score": 3.74,
           "entry_price": 773.75,
-          "stop_triggered": false
-        },
-        {
-          "symbol": "AEGISLOG",
-          "return": 12.9,
-          "score": 3.09,
-          "entry_price": 1173.95,
-          "stop_triggered": false
-        },
-        {
-          "symbol": "BLISSGVS",
-          "return": -6.24,
-          "score": 2.88,
-          "entry_price": 539.6,
-          "stop_triggered": false
-        },
-        {
-          "symbol": "PARAS",
-          "return": 0.38,
-          "score": 2.7,
-          "entry_price": 1289.05,
           "stop_triggered": false
         },
         {
           "symbol": "VENUSREM",
           "return": -6.14,
-          "score": 2.66,
+          "score": 3.3,
           "entry_price": 1833.5,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "BLISSGVS",
+          "return": -6.24,
+          "score": 3.06,
+          "entry_price": 539.6,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "MTARTECH",
+          "return": -7.7,
+          "score": 2.88,
+          "entry_price": 7620.5,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "THANGAMAYL",
+          "return": -3.73,
+          "score": 2.65,
+          "entry_price": 6398.2,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "AEGISLOG",
+          "return": 12.9,
+          "score": 2.56,
+          "entry_price": 1173.95,
           "stop_triggered": false
         },
         {
           "symbol": "DEEDEV",
           "return": 9.47,
-          "score": 2.61,
+          "score": 2.37,
           "entry_price": 643.4,
           "stop_triggered": false
         },
         {
           "symbol": "RAMCOSYS",
           "return": -4.36,
-          "score": 2.59,
+          "score": 2.31,
           "entry_price": 836.05,
           "stop_triggered": false
         },
         {
-          "symbol": "CUPID",
-          "return": 4.69,
-          "score": 2.55,
-          "entry_price": 189.93,
+          "symbol": "SYRMA",
+          "return": -1.45,
+          "score": 2.29,
+          "entry_price": 1396.3,
           "stop_triggered": false
         },
         {
-          "symbol": "MSTCLTD",
-          "return": 0.89,
-          "score": 2.5,
-          "entry_price": 709.4,
+          "symbol": "PARAS",
+          "return": 0.38,
+          "score": 2.25,
+          "entry_price": 1289.05,
           "stop_triggered": false
         },
         {
-          "symbol": "JNKINDIA",
-          "return": -4.14,
-          "score": 2.46,
-          "entry_price": 504.65,
+          "symbol": "SBC",
+          "return": 1.84,
+          "score": 2.24,
+          "entry_price": 41.38,
           "stop_triggered": false
         },
         {
-          "symbol": "KIRLPNU",
-          "return": -6.51,
-          "score": 2.44,
-          "entry_price": 1953.0,
-          "stop_triggered": false
-        },
-        {
-          "symbol": "ASTRAMICRO",
-          "return": 4.93,
-          "score": 2.37,
-          "entry_price": 1761.6,
-          "stop_triggered": false
-        },
-        {
-          "symbol": "INOXINDIA",
-          "return": -4.46,
-          "score": 2.32,
-          "entry_price": 1958.4,
-          "stop_triggered": false
+          "symbol": "WHEELS",
+          "return": -10.0,
+          "score": 2.19,
+          "entry_price": 1786.0,
+          "stop_triggered": true
         }
       ]
     },
