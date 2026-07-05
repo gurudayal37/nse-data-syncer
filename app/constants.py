@@ -10,5 +10,5 @@ VALIDATION_RECORDS_COUNT = 60  # Number of records to check for validation
 # File paths
 CSV_FILENAME = "ind_niftytotalmarket_list.csv"
 EQUITY_LIST_FILENAME = "EQUITY_LIST_6_1_2026.csv"
-FULL_EQUITY_LIST_FILENAME = "EQUITY_LIST_28-05-2026.csv"
+FULL_EQUITY_LIST_FILENAME = "EQUITY_LIST_5-06-2026.csv"
 
