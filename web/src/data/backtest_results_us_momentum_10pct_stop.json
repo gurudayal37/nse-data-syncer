@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 149100.84,
-      "total_fees_paid": 2188.39,
+      "end_value": 149264.46,
+      "total_fees_paid": 2188.76,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 49.1,
-      "benchmark_return": 10.12,
-      "expectancy": 6.39,
-      "net_return_after_fees": 46.91
+      "total_return": 49.26,
+      "benchmark_return": 9.63,
+      "expectancy": 6.41,
+      "net_return_after_fees": 47.08
     },
     "risk_metrics": {
-      "max_drawdown": -8.87,
+      "max_drawdown": -8.77,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.14,
-      "calmar_ratio": 11.09,
-      "omega_ratio": 3.74,
-      "sortino_ratio": 31.63
+      "sharpe_ratio": 2.15,
+      "calmar_ratio": 11.25,
+      "omega_ratio": 3.76,
+      "sortino_ratio": 34.14
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -76,10 +76,10 @@
       "total_trades": 7,
       "win_rate": 71.43,
       "best_trade": 18.68,
-      "worst_trade": -8.87,
+      "worst_trade": -8.77,
       "avg_winning_trade": 12.22,
-      "avg_losing_trade": -8.17,
-      "profit_factor": 3.74,
+      "avg_losing_trade": -8.12,
+      "profit_factor": 3.76,
       "total_stock_transactions": 95,
       "total_closed_trades": 6,
       "total_open_trades": 1,
@@ -9404,8 +9404,8 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -8.87,
-      "benchmark_return": 0.51,
+      "portfolio_return": -8.77,
+      "benchmark_return": 0.06,
       "holdings": [
         {
           "symbol": "SNDK",
@@ -9445,7 +9445,7 @@
         },
         {
           "symbol": "DELL",
-          "return": -4.56,
+          "return": -3.29,
           "score": 3.03,
           "stop_triggered": false
         },
@@ -9493,7 +9493,7 @@
         },
         {
           "symbol": "RVMD",
-          "return": 1.45,
+          "return": 1.7,
           "score": 2.35,
           "stop_triggered": false
         }
