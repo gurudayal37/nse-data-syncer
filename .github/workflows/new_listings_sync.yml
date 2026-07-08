@@ -2,7 +2,7 @@ name: Daily New Listings Sync
 
 on:
   schedule:
-    - cron: '40 10 * * 1-5'  # Runs at 4:10 PM IST (10:40 AM UTC) Mon-Fri, offset from SME sync
+    - cron: '40 10 * * 1-5'  # Runs at 4:10 PM IST (10:40 AM UTC) Mon-Fri, 5 min after SME sync to avoid Dhan TOTP token collisions
   workflow_dispatch:  # Allows manual trigger
 
 env:
