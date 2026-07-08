@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 149651.67,
-      "total_fees_paid": 2179.96,
+      "end_value": 148348.11,
+      "total_fees_paid": 2176.61,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 49.65,
-      "benchmark_return": -6.63,
-      "expectancy": 6.41,
-      "net_return_after_fees": 47.47
+      "total_return": 48.35,
+      "benchmark_return": -8.6,
+      "expectancy": 6.29,
+      "net_return_after_fees": 46.17
     },
     "risk_metrics": {
       "max_drawdown": -7.35,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.17,
-      "calmar_ratio": 13.55,
-      "omega_ratio": 6.21,
-      "sortino_ratio": 7.31
+      "sharpe_ratio": 2.11,
+      "calmar_ratio": 13.15,
+      "omega_ratio": 5.64,
+      "sortino_ratio": 8.35
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -80,10 +80,10 @@
       "best_trade": 24.4,
       "worst_trade": -7.35,
       "avg_winning_trade": 10.7,
-      "avg_losing_trade": -4.31,
+      "avg_losing_trade": -4.74,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 6.21,
+      "profit_factor": 5.64,
       "total_stock_transactions": 108
     }
   },
@@ -9404,68 +9404,68 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -1.27,
-      "benchmark_return": 2.23,
+      "portfolio_return": -2.13,
+      "benchmark_return": 0.07,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": -9.36,
+          "return": -10.0,
           "score": 7.1,
           "entry_price": 613.3,
-          "stop_triggered": false
+          "stop_triggered": true
         },
         {
           "symbol": "CUPID",
-          "return": 16.42,
+          "return": 3.71,
           "score": 6.24,
           "entry_price": 189.93,
           "stop_triggered": false
         },
         {
           "symbol": "HFCL",
-          "return": 6.2,
-          "score": 4.91,
+          "return": 0.89,
+          "score": 4.92,
           "entry_price": 212.85,
           "stop_triggered": false
         },
         {
           "symbol": "MTARTECH",
-          "return": -8.06,
+          "return": -10.0,
           "score": 4.02,
           "entry_price": 7620.5,
-          "stop_triggered": false
+          "stop_triggered": true
         },
         {
           "symbol": "RPTECH",
-          "return": -2.74,
+          "return": -4.3,
           "score": 3.8,
           "entry_price": 773.75,
           "stop_triggered": false
         },
         {
           "symbol": "BLISSGVS",
-          "return": -5.15,
+          "return": -4.94,
           "score": 3.66,
           "entry_price": 539.6,
           "stop_triggered": false
         },
         {
           "symbol": "VENUSREM",
-          "return": -5.31,
+          "return": -7.41,
           "score": 3.52,
           "entry_price": 1833.5,
           "stop_triggered": false
         },
         {
           "symbol": "DEEDEV",
-          "return": 0.58,
-          "score": 3.09,
+          "return": 4.9,
+          "score": 3.1,
           "entry_price": 643.4,
           "stop_triggered": false
         },
         {
           "symbol": "SBC",
-          "return": 1.79,
+          "return": 1.64,
           "score": 2.87,
           "entry_price": 41.38,
           "stop_triggered": false
@@ -9479,35 +9479,35 @@
         },
         {
           "symbol": "BAJAJCON",
-          "return": 3.55,
-          "score": 2.57,
+          "return": 2.49,
+          "score": 2.58,
           "entry_price": 599.0,
           "stop_triggered": false
         },
         {
           "symbol": "WELCORP",
-          "return": 1.26,
+          "return": 0.48,
           "score": 2.57,
           "entry_price": 1521.9,
           "stop_triggered": false
         },
         {
           "symbol": "ACUTAAS",
-          "return": -3.83,
-          "score": 2.53,
+          "return": -2.03,
+          "score": 2.54,
           "entry_price": 3526.2,
           "stop_triggered": false
         },
         {
           "symbol": "THANGAMAYL",
-          "return": -0.39,
+          "return": 6.37,
           "score": 2.47,
           "entry_price": 6398.2,
           "stop_triggered": false
         },
         {
           "symbol": "KIRLOSENG",
-          "return": -3.98,
+          "return": -3.68,
           "score": 2.36,
           "entry_price": 2364.0,
           "stop_triggered": false
