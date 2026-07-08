@@ -5,7 +5,7 @@ import {
   TrendingUp, BarChart3, Zap, Database,
   ArrowRight, PieChart, Activity, Shield,
   AlertCircle, ChevronRight, TrendingDown, Calendar,
-  Search, Crosshair, GitCompare, Building2,
+  Search, Crosshair, GitCompare, Building2, Rocket,
 } from 'lucide-react'
 import GlobalSearch from '@/components/GlobalSearch'
 
@@ -77,6 +77,7 @@ export default function HomePage() {
     { title: 'All Stocks', desc: '750+ stocks with full metrics', href: '/stocks', icon: Database, badge: 'DB', color: 'slate' },
     { title: 'ETF Dashboard', desc: '300+ ETFs with OHLCV data', href: '/etf', icon: PieChart, badge: 'New', color: 'emerald' },
     { title: 'SME Stocks', desc: '550+ NSE SME board stocks', href: '/sme-stocks', icon: Building2, badge: 'New', color: 'orange' },
+    { title: 'IPO Tracker', desc: 'Stocks listed in the last year', href: '/ipo', icon: Rocket, badge: 'New', color: 'rose' },
     { title: 'Stage 2 Stocks', desc: 'Minervini Trend Template', href: '/stage-2', icon: Activity, badge: 'Live', color: 'teal' },
     { title: 'Market Indices', desc: 'Nifty 50, Midcap & more', href: '/indices', icon: BarChart3, badge: 'New', color: 'indigo' },
     { title: 'Earnings Calendar', desc: 'Upcoming result announcements', href: '/earnings-calendar/upcoming-results', icon: Calendar, badge: 'Live', color: 'amber' },

@@ -2,13 +2,14 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { TrendingUp, Database, PieChart, Calendar, BarChart3, Activity, Zap, Building2 } from 'lucide-react'
+import { TrendingUp, Database, PieChart, Calendar, BarChart3, Activity, Zap, Building2, Rocket } from 'lucide-react'
 import GlobalSearch from './GlobalSearch'
 
 const NAV_LINKS = [
   { label: 'Stocks',   href: '/stocks',                          icon: Database  },
   { label: 'ETF',      href: '/etf',                             icon: PieChart  },
   { label: 'SME',      href: '/sme-stocks',                      icon: Building2 },
+  { label: 'IPO',      href: '/ipo',                             icon: Rocket    },
   { label: 'Momentum', href: '/momentum',                        icon: TrendingUp },
   { label: 'Earnings', href: '/earnings-calendar/upcoming-results', icon: Calendar  },
   { label: 'Indices',  href: '/indices',                         icon: BarChart3 },
