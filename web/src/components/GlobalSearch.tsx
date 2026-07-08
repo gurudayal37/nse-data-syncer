@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useRef, KeyboardEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, TrendingUp, BarChart2 } from 'lucide-react'
+import { Search, TrendingUp, BarChart2, Building2 } from 'lucide-react'
 
 interface Result {
   symbol: string
   name: string
-  type: 'stock' | 'etf'
+  type: 'stock' | 'etf' | 'sme'
 }
 
 export default function GlobalSearch({ compact = false }: { compact?: boolean }) {
@@ -51,7 +51,8 @@ export default function GlobalSearch({ compact = false }: { compact?: boolean })
   const navigate = (r: Result) => {
     setOpen(false)
     setQuery('')
-    router.push(r.type === 'etf' ? `/etf/${r.symbol}` : `/stock/${r.symbol}`)
+    const href = r.type === 'etf' ? `/etf/${r.symbol}` : r.type === 'sme' ? `/sme-stocks/${r.symbol}` : `/stock/${r.symbol}`
+    router.push(href)
   }
 
   const onKey = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -74,7 +75,7 @@ export default function GlobalSearch({ compact = false }: { compact?: boolean })
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={onKey}
           onFocus={() => { if (results.length > 0) setOpen(true) }}
-          placeholder={compact ? 'Search stocks & ETFs…' : 'Search for a company, stock or ETF…'}
+          placeholder={compact ? 'Search stocks, ETFs & SME…' : 'Search for a company, stock, ETF or SME…'}
           className={`flex-1 text-slate-800 placeholder-slate-400 bg-transparent outline-none ${compact ? 'text-sm' : 'text-base'}`}
         />
         {loading && (
@@ -91,14 +92,14 @@ export default function GlobalSearch({ compact = false }: { compact?: boolean })
               onMouseEnter={() => setHighlighted(i)}
               className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${highlighted === i ? 'bg-blue-50' : 'hover:bg-slate-50'}`}
             >
-              <div className={`p-1.5 rounded-lg shrink-0 ${r.type === 'etf' ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600'}`}>
-                {r.type === 'etf' ? <BarChart2 className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />}
+              <div className={`p-1.5 rounded-lg shrink-0 ${r.type === 'etf' ? 'bg-emerald-100 text-emerald-600' : r.type === 'sme' ? 'bg-amber-100 text-amber-600' : 'bg-blue-100 text-blue-600'}`}>
+                {r.type === 'etf' ? <BarChart2 className="w-3.5 h-3.5" /> : r.type === 'sme' ? <Building2 className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />}
               </div>
               <div className="min-w-0 flex-1">
                 <span className="text-sm font-semibold text-slate-800">{r.symbol}</span>
                 <span className="text-xs text-slate-500 ml-2 truncate">{r.name}</span>
               </div>
-              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${r.type === 'etf' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-blue-50 text-blue-600 border border-blue-100'}`}>
+              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${r.type === 'etf' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : r.type === 'sme' ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-blue-50 text-blue-600 border border-blue-100'}`}>
                 {r.type.toUpperCase()}
               </span>
             </li>

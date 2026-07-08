@@ -892,6 +892,46 @@ class ETFPerformance(Base):
     daily_volume = Column(BigInteger)
     updated_at = Column(DateTime, default=datetime.now)
 
+# SME (NSE Small and Medium Enterprise board) Models - deliberately
+# separate from Stock/DailyPrice, do not mix universes.
+class SME(Base):
+    __tablename__ = 'sme_stocks'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    symbol = Column(String(50), unique=True, nullable=False)
+    name = Column(String(255))
+    isin = Column(String(20))
+    security_id = Column(Integer)  # Dhan's security_id, for re-sync lookups
+    series = Column(String(5))     # SM / ST / SZ
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime)
+
+class SMEDailyPrice(Base):
+    __tablename__ = 'sme_daily_prices'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    sme_stock_id = Column(Integer, nullable=False)
+    date = Column(DateTime, nullable=False)
+    open_price = Column(Float)
+    high_price = Column(Float)
+    low_price = Column(Float)
+    close_price = Column(Float)
+    volume = Column(BigInteger)
+    created_at = Column(DateTime, default=datetime.now)
+
+class SMEPerformance(Base):
+    __tablename__ = 'sme_performance'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    sme_stock_id = Column(Integer, nullable=False, unique=True)
+    change_1w = Column(Float)
+    change_1m = Column(Float)
+    change_3m = Column(Float)
+    change_6m = Column(Float)
+    change_1y = Column(Float)
+    change_3y = Column(Float)
+    change_5y = Column(Float)
+    daily_volume = Column(BigInteger)
+    updated_at = Column(DateTime, default=datetime.now)
+
 # Index Models
 class Index(Base):
     __tablename__ = 'indices'

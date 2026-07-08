@@ -410,6 +410,65 @@ model etf_performance {
   @@index([daily_volume])
 }
 
+model sme_stocks {
+  id               Int                @id @default(autoincrement())
+  symbol           String             @unique @db.VarChar(50)
+  name             String?            @db.VarChar(255)
+  isin             String?            @db.VarChar(20)
+  security_id      Int?
+  series           String?            @db.VarChar(5)
+  is_active        Boolean?           @default(true)
+  created_at       DateTime?          @default(now()) @db.Timestamp(6)
+  updated_at       DateTime?          @db.Timestamp(6)
+  sme_daily_prices sme_daily_prices[]
+  sme_performance  sme_performance?
+
+  @@index([id], map: "ix_sme_stocks_id")
+  @@index([symbol], map: "ix_sme_stocks_symbol")
+}
+
+model sme_daily_prices {
+  id           Int        @id @default(autoincrement())
+  sme_stock_id Int
+  date         DateTime   @db.Timestamp(6)
+  open_price   Float?
+  high_price   Float?
+  low_price    Float?
+  close_price  Float?
+  volume       BigInt?
+  created_at   DateTime?  @default(now()) @db.Timestamptz(6)
+  sme_stocks   sme_stocks @relation(fields: [sme_stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([sme_stock_id, date], map: "ix_sme_daily_prices_stock_date")
+  @@index([date], map: "ix_sme_daily_prices_date")
+  @@index([id], map: "ix_sme_daily_prices_id")
+  @@index([sme_stock_id, date(sort: Desc)], map: "ix_sme_daily_prices_stock_date_idx")
+}
+
+model sme_performance {
+  id           Int        @id @default(autoincrement())
+  sme_stock_id Int        @unique
+  change_1w    Float?
+  change_1m    Float?
+  change_3m    Float?
+  change_6m    Float?
+  change_1y    Float?
+  change_3y    Float?
+  change_5y    Float?
+  daily_volume BigInt?
+  updated_at   DateTime?  @default(now()) @db.Timestamp(6)
+  sme_stocks   sme_stocks @relation(fields: [sme_stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([change_1w])
+  @@index([change_1m])
+  @@index([change_3m])
+  @@index([change_6m])
+  @@index([change_1y])
+  @@index([change_3y])
+  @@index([change_5y])
+  @@index([daily_volume])
+}
+
 model index_daily_prices {
   id          Int       @id @default(autoincrement())
   index_id    Int
