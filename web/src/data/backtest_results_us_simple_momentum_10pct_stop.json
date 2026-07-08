@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 169993.33,
-      "total_fees_paid": 1751.36,
+      "end_value": 170366.0,
+      "total_fees_paid": 1751.99,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 69.99,
-      "benchmark_return": 9.63,
-      "expectancy": 8.5,
-      "net_return_after_fees": 68.24
+      "total_return": 70.37,
+      "benchmark_return": 9.32,
+      "expectancy": 8.53,
+      "net_return_after_fees": 68.61
     },
     "risk_metrics": {
-      "max_drawdown": -8.77,
+      "max_drawdown": -8.57,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.57,
-      "calmar_ratio": 16.91,
-      "omega_ratio": 4.75,
-      "sortino_ratio": 34.83
+      "sharpe_ratio": 2.59,
+      "calmar_ratio": 17.42,
+      "omega_ratio": 4.81,
+      "sortino_ratio": 39.64
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -76,10 +76,10 @@
       "total_trades": 7,
       "win_rate": 71.43,
       "best_trade": 25.33,
-      "worst_trade": -8.77,
+      "worst_trade": -8.57,
       "avg_winning_trade": 15.07,
-      "avg_losing_trade": -7.92,
-      "profit_factor": 4.75,
+      "avg_losing_trade": -7.83,
+      "profit_factor": 4.81,
       "total_stock_transactions": 71,
       "total_closed_trades": 6,
       "total_open_trades": 1,
@@ -9404,8 +9404,8 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -8.77,
-      "benchmark_return": 0.06,
+      "portfolio_return": -8.57,
+      "benchmark_return": -0.22,
       "holdings": [
         {
           "symbol": "SNDK",
@@ -9451,7 +9451,7 @@
         },
         {
           "symbol": "DELL",
-          "return": -3.29,
+          "return": 0.12,
           "score": 2.87,
           "stop_triggered": false
         },
@@ -9475,7 +9475,7 @@
         },
         {
           "symbol": "RVMD",
-          "return": 1.7,
+          "return": 1.33,
           "score": 2.56,
           "stop_triggered": false
         },
