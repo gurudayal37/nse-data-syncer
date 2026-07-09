@@ -13,18 +13,16 @@ from dotenv import load_dotenv
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(base_dir, 'web', '.env'))
 
-# Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database import DatabaseManager, MomentumHistory
 
-STOP_LOSS_PCT = -0.15  # GTT order placed at 15% below entry; gap-downs fill at open
+STOP_LOSS_PCT = -0.10  # Trigger when daily close drops >= 10% from entry; exit at next-day open
 
 def get_month_ends():
     """Get list of month-end dates from 2018-01 through today."""
     today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     dates = []
-    # Start at 2017-12-01 so the first period end is 2017-12-31 → label 2018-01
     current = datetime(2017, 12, 1) + relativedelta(months=1)
 
     while current <= today:
@@ -35,13 +33,8 @@ def get_month_ends():
     return dates
 
 def calculate_momentum_for_date(session, target_date, stocks_df, valid_stock_ids=None):
-    """
-    Calculate momentum scores for all stocks as of target_date.
-    stocks_df should contain all daily prices up to target_date.
-    """
+    """Calculate simple momentum scores (6M + 1Y only) for all stocks as of target_date."""
     scores = []
-
-    start_date = target_date - timedelta(days=365 + 30)
 
     unique_stocks = stocks_df.index.get_level_values('stock_id').unique()
 
@@ -69,22 +62,17 @@ def calculate_momentum_for_date(session, target_date, stocks_df, valid_stock_ids
                 past_price = df['close_price'].iloc[-(days + 1)]
                 return (current_price / past_price) - 1
 
-            r1m = get_ret(21)
-            r3m = get_ret(63)
             r6m = get_ret(126)
             r1y = get_ret(252)
 
-            if None in [r1m, r3m, r6m, r1y]:
+            if None in [r6m, r1y]:
                 continue
 
-            # Only use 3M, 6M, 1Y (exclude 1M) — same as original Momentum Strategy
-            mr_3m = r3m / volatility
             mr_6m = r6m / volatility
             mr_1y = r1y / volatility
 
             scores.append({
                 'stock_id': stock_id,
-                'mr_3m': mr_3m,
                 'mr_6m': mr_6m,
                 'mr_1y': mr_1y
             })
@@ -97,7 +85,7 @@ def calculate_momentum_for_date(session, target_date, stocks_df, valid_stock_ids
 
     df_scores = pd.DataFrame(scores)
 
-    for period in ['3m', '6m', '1y']:
+    for period in ['6m', '1y']:
         col = f'mr_{period}'
         mean = df_scores[col].mean()
         std = df_scores[col].std()
@@ -106,7 +94,7 @@ def calculate_momentum_for_date(session, target_date, stocks_df, valid_stock_ids
         else:
             df_scores[f'z_{period}'] = 0
 
-    df_scores['weighted_z'] = (df_scores['z_3m'] + df_scores['z_6m'] + df_scores['z_1y']) / 3
+    df_scores['weighted_z'] = (df_scores['z_6m'] + df_scores['z_1y']) / 2
     df_scores = df_scores.sort_values('weighted_z', ascending=False)
 
     return df_scores
@@ -174,9 +162,6 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     max_gross_exposure = 100
 
     total_trades = period_months
-    total_closed_trades = period_months - 1
-    total_open_trades = 1
-
     winning_trades = np.sum(portfolio_returns > 0)
     losing_trades = np.sum(portfolio_returns < 0)
     win_rate = (winning_trades / total_trades) * 100 if total_trades > 0 else 0
@@ -186,9 +171,6 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
 
     avg_winning_trade = np.mean(portfolio_returns[portfolio_returns > 0]) * 100 if winning_trades > 0 else 0
     avg_losing_trade = np.mean(portfolio_returns[portfolio_returns < 0]) * 100 if losing_trades > 0 else 0
-
-    avg_winning_trade_duration = 1
-    avg_losing_trade_duration = 1
 
     gross_profit = np.sum(portfolio_returns[portfolio_returns > 0])
     gross_loss = abs(np.sum(portfolio_returns[portfolio_returns < 0]))
@@ -225,22 +207,18 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
         },
         "trade_statistics": {
             "total_trades": total_trades,
-            "total_closed_trades": total_closed_trades,
-            "total_open_trades": total_open_trades,
+            "total_stock_transactions": 0,
             "win_rate": round(win_rate, 2),
             "best_trade": round(best_trade, 2),
             "worst_trade": round(worst_trade, 2),
             "avg_winning_trade": round(avg_winning_trade, 2),
             "avg_losing_trade": round(avg_losing_trade, 2),
-            "avg_winning_trade_duration": avg_winning_trade_duration,
-            "avg_losing_trade_duration": avg_losing_trade_duration,
-            "profit_factor": round(profit_factor, 2),
-            "total_stock_transactions": 0
+            "profit_factor": round(profit_factor, 2)
         }
     }
 
 def run_backtest():
-    print("Starting **Momentum + 10% Monthly Stop Loss** Backtest (3M+6M+1Y)...")
+    print("Starting Simple Momentum (High Cap) + 10% Stop Backtest (6M+1Y)...")
     db = DatabaseManager()
 
     from app.database import Base
@@ -248,7 +226,6 @@ def run_backtest():
 
     session = db.Session()
 
-    # 1. Fetch Benchmark (Nifty 50)
     print("Fetching Benchmark Data...")
     try:
         nifty = yf.download('^NSEI', start=(datetime.now() - relativedelta(years=10)).strftime('%Y-%m-%d'), progress=False)
@@ -277,7 +254,6 @@ def run_backtest():
         print(f"Error fetching benchmark: {e}")
         nifty = pd.DataFrame(columns=['close'])
 
-    # Load ALL daily prices into memory once
     print("Loading ALL price data into memory (this may take a moment)...")
     all_prices_query = text("SELECT stock_id, date, close_price, open_price, low_price FROM daily_prices ORDER BY date ASC")
     all_prices_result = session.execute(all_prices_query).fetchall()
@@ -300,7 +276,8 @@ def run_backtest():
 
     valid_stocks_query = text(f"SELECT id FROM stocks WHERE is_active = true AND market_cap >= {min_mcap}")
     valid_stock_ids = [r[0] for r in session.execute(valid_stocks_query).fetchall()]
-    print(f"Applying Global Market Cap Filter (> {min_mcap_cr} Cr). Eligible Stocks: {len(valid_stock_ids)}")
+
+    print(f"Applying Filter: Market Cap > {min_mcap_cr} Cr. Eligible Stocks: {len(valid_stock_ids)}")
 
     def process_period(rebalance_date, next_rebalance_date, label_date=None, valid_stock_ids=None, use_close_to_close=False):
         print(f"Processing {rebalance_date.date()} -> {next_rebalance_date.date()}")
@@ -325,7 +302,6 @@ def run_backtest():
 
         top_stocks = top_stocks_df.head(15)
         selected_stock_ids = top_stocks['stock_id'].tolist()
-
         score_map = top_stocks.set_index('stock_id')['weighted_z'].to_dict()
 
         portfolio_returns = []
@@ -342,7 +318,6 @@ def run_backtest():
                 try:
                     stock_data_next = df_next[df_next['stock_id'] == stock_id].sort_values('date')
 
-                    # Determine Start Price
                     if use_close_to_close:
                         try:
                             prev_close_row = df_window.xs(stock_id, level='stock_id').iloc[-1]
@@ -358,29 +333,29 @@ def run_backtest():
                                 'symbol': stock_map.get(stock_id, 'Unknown'),
                                 'return': 0.0,
                                 'score': round(score_map.get(stock_id, 0), 2),
-                                'entry_price': None
+                                'entry_price': None,
+                                'stop_triggered': False
                             })
                             continue
 
                         start_price = stock_data_next.iloc[0]['open_price']
 
-                    # GTT stop-loss: mirrors a real GTT sell order at entry * (1 + STOP_LOSS_PCT).
-                    # Gap-down open below the stop price → fills at open (actual loss, may exceed -10%).
-                    # Intraday low touches stop but open is above → fills at exactly -10%.
+                    # Close-price stop: triggers when daily close drops >= 10% from entry.
+                    # Sells at next day's open (realistic next-morning execution).
+                    # If trigger falls on the last day of the period, exits at that close.
                     stop_triggered = False
                     stop_ret = STOP_LOSS_PCT
                     if not stock_data_next.empty:
-                        stop_price = start_price * (1 + STOP_LOSS_PCT)
-                        for _, daily_row in stock_data_next.iterrows():
-                            open_p = daily_row['open_price']
-                            low_p  = daily_row['low_price']
-                            if pd.notna(open_p) and open_p <= stop_price:
+                        rows = list(stock_data_next.iterrows())
+                        for idx, (_, daily_row) in enumerate(rows):
+                            close_p = daily_row['close_price']
+                            if pd.notna(close_p) and (close_p - start_price) / start_price <= STOP_LOSS_PCT:
                                 stop_triggered = True
-                                stop_ret = (open_p - start_price) / start_price
-                                break
-                            elif pd.notna(low_p) and low_p <= stop_price:
-                                stop_triggered = True
-                                stop_ret = STOP_LOSS_PCT
+                                if idx + 1 < len(rows):
+                                    next_open = rows[idx + 1][1]['open_price']
+                                    stop_ret = (next_open - start_price) / start_price if pd.notna(next_open) else (close_p - start_price) / start_price
+                                else:
+                                    stop_ret = (close_p - start_price) / start_price
                                 break
 
                     if stop_triggered:
@@ -424,7 +399,6 @@ def run_backtest():
         else:
             port_ret = sum(portfolio_returns) / len(portfolio_returns)
 
-        # Benchmark Return
         if not nifty.empty:
             n_prev = nifty[nifty['date'] <= rebalance_date]
             n_curr = nifty[nifty['date'] <= next_rebalance_date]
@@ -449,8 +423,7 @@ def run_backtest():
             'holdings': stock_returns_detail
         }
 
-    # Load Existing Data (cache for already-computed months)
-    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_10pct_stop.json')
+    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_simple_all_nifty_close_stop.json')
 
     existing_results_map = {}
 
@@ -471,7 +444,6 @@ def run_backtest():
         except Exception as e:
             print(f"Could not load existing results: {e}")
 
-    # Processing Loop
     for i, rebalance_date in enumerate(dates[:-1]):
         next_rebalance_date = dates[i+1]
         month_label = next_rebalance_date.strftime('%Y-%m')
@@ -485,7 +457,6 @@ def run_backtest():
         if res:
             all_results.append(res)
 
-    # Current Month (Live)
     last_rebalance_date = dates[-1]
     today = datetime.now()
 
@@ -515,8 +486,7 @@ def run_backtest():
             if previous_holdings:
                 stocks_to_sell = previous_holdings - current_holdings
                 stocks_to_buy = current_holdings - previous_holdings
-                transactions_this_month = len(stocks_to_sell) + len(stocks_to_buy)
-                total_transactions += transactions_this_month
+                total_transactions += len(stocks_to_sell) + len(stocks_to_buy)
             else:
                 total_transactions += len(current_holdings)
             previous_holdings = current_holdings
@@ -564,6 +534,7 @@ def run_backtest():
         "current_performance": sorted(current_results, key=lambda x: x['month'], reverse=True)
     }
 
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w') as f:
         json.dump(output_data, f, indent=2)
 

@@ -2,8 +2,9 @@
 
 import React, { useMemo } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, TrendingDown, AlertTriangle } from 'lucide-react'
+import { ArrowLeft, TrendingDown, AlertTriangle, BellRing, CheckCircle2 } from 'lucide-react'
 import backtestData from '@/data/backtest_results_simple_all_nifty_10pct_stop.json'
+import stopAlerts from '@/data/stop_alerts.json'
 
 import MetricsGrid from '@/components/strategy/MetricsGrid'
 import DetailedMetrics from '@/components/strategy/DetailedMetrics'
@@ -64,6 +65,60 @@ export default function SimpleMomentumAllNifty10PctStopPage() {
                         </p>
                     </div>
                 </div>
+
+                {/* ── Stop-Loss Alerts ─────────────────────────────────────── */}
+                {(() => {
+                    const alerts = (stopAlerts as any)?.alerts?.simple_momentum_high_cap ?? []
+                    const hits = alerts.filter((a: any) => a.stop_hit)
+                    const latestDate = (stopAlerts as any)?.latest_date?.slice(0, 10)
+                    const nextDay = (stopAlerts as any)?.next_trading_day
+                    if (alerts.length === 0) return null
+                    return hits.length > 0 ? (
+                        <div className="bg-red-50 border border-red-200 rounded-xl shadow-sm mb-6 overflow-hidden">
+                            <div className="flex items-center gap-2.5 px-5 py-3.5 bg-red-100 border-b border-red-200">
+                                <BellRing className="w-4 h-4 text-red-600 shrink-0" />
+                                <span className="font-semibold text-red-900 text-sm">Stop-Loss Alert — Exit at next market open</span>
+                                <span className="ml-auto text-[11px] text-red-500 font-mono">as of {latestDate}</span>
+                            </div>
+                            <div className="px-5 py-3 text-xs text-red-700">
+                                The following stock{hits.length > 1 ? 's have' : ' has'} closed below the −10% stop from entry.
+                                Place a <strong>market sell order</strong> before <strong>{nextDay}</strong> market open.
+                            </div>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm border-t border-red-100">
+                                    <thead>
+                                        <tr className="bg-red-50 text-[11px] font-semibold uppercase tracking-wider text-red-400 border-b border-red-100">
+                                            <th className="px-4 py-2 text-left">Symbol</th>
+                                            <th className="px-4 py-2 text-left">Name</th>
+                                            <th className="px-4 py-2 text-right">Entry ({(stopAlerts as any).entry_date?.slice(0, 10)})</th>
+                                            <th className="px-4 py-2 text-right">Close ({latestDate})</th>
+                                            <th className="px-4 py-2 text-right">Return</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-red-50">
+                                        {hits.map((a: any) => (
+                                            <tr key={a.symbol} className="bg-white">
+                                                <td className="px-4 py-2.5 font-bold text-red-700 font-mono text-xs">{a.symbol}</td>
+                                                <td className="px-4 py-2.5 text-gray-600 text-xs">{a.name}</td>
+                                                <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-600">₹{a.entry_price.toLocaleString('en-IN')}</td>
+                                                <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-600">₹{a.current_close.toLocaleString('en-IN')}</td>
+                                                <td className="px-4 py-2.5 text-right text-xs font-mono font-bold text-red-600">{a.return_pct.toFixed(2)}%</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="px-5 py-2.5 bg-red-50 border-t border-red-100 text-[11px] text-red-400">
+                                Rule: sell next morning at market open when daily close ≤ entry × 0.90. GTT at −15% remains active as catastrophic protection.
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-2.5 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg mb-6 text-sm text-emerald-700">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                            <span>All {alerts.length} positions are within stop-loss limits as of {latestDate}.</span>
+                        </div>
+                    )
+                })()}
 
                 {/* Survivorship Bias Warning */}
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">

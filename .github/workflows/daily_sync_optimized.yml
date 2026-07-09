@@ -113,8 +113,32 @@ jobs:
           commit_message: "Auto-update strategy picks [skip ci]"
           file_pattern: "web/src/data/strategy_picks.json"
 
-  update-adr:
+  check-stop-losses:
     needs: generate-strategy-picks
+    runs-on: ubuntu-latest
+    name: Check Stop-Loss Alerts
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Check Stop Losses
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scripts/check_stop_losses.py
+      - run: git pull origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update stop-loss alerts [skip ci]"
+          file_pattern: "web/src/data/stop_alerts.json"
+
+  update-adr:
+    needs: check-stop-losses
     runs-on: ubuntu-latest
     name: Calculate ADR%
     steps:

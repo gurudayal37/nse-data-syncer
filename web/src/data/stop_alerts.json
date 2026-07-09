@@ -1,0 +1,345 @@
+{
+  "generated_at": "2026-07-09T19:50:07",
+  "current_month": "2026-07",
+  "entry_date": "2026-07-01 00:00:00",
+  "latest_date": "2026-07-09 00:00:00",
+  "next_trading_day": "2026-07-10",
+  "stop_loss_pct": -10.0,
+  "total_stop_hits": 2,
+  "alerts": {
+    "momentum": [
+      {
+        "rank": 4,
+        "symbol": "MTARTECH",
+        "name": "MTAR Technologies Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 7769.0,
+        "current_close": 6938.5,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -10.69,
+        "stop_hit": true
+      },
+      {
+        "rank": 1,
+        "symbol": "STLTECH",
+        "name": "Sterlite Technologies Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 610.0,
+        "current_close": 554.35,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -9.12,
+        "stop_hit": false
+      },
+      {
+        "rank": 5,
+        "symbol": "BLISSGVS",
+        "name": "Bliss GVS Pharma Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 538.95,
+        "current_close": 524.15,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -2.75,
+        "stop_hit": false
+      },
+      {
+        "rank": 10,
+        "symbol": "ACUTAAS",
+        "name": "Acutaas Chemicals Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 3545.0,
+        "current_close": 3458.8,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -2.43,
+        "stop_hit": false
+      },
+      {
+        "rank": 9,
+        "symbol": "VENUSREM",
+        "name": "Venus Remedies Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 1741.9,
+        "current_close": 1702.5,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -2.26,
+        "stop_hit": false
+      },
+      {
+        "rank": 6,
+        "symbol": "RPTECH",
+        "name": "Rashi Peripherals Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 780.0,
+        "current_close": 779.25,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -0.1,
+        "stop_hit": false
+      },
+      {
+        "rank": 3,
+        "symbol": "HFCL",
+        "name": "HFCL Limited",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 214.0,
+        "current_close": 214.68,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 0.32,
+        "stop_hit": false
+      },
+      {
+        "rank": 11,
+        "symbol": "THANGAMAYL",
+        "name": "Thangamayil Jewellery Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 6443.0,
+        "current_close": 6598.5,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 2.41,
+        "stop_hit": false
+      },
+      {
+        "rank": 8,
+        "symbol": "SBC",
+        "name": "SBC Exports Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 41.0,
+        "current_close": 42.11,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 2.71,
+        "stop_hit": false
+      },
+      {
+        "rank": 14,
+        "symbol": "WELCORP",
+        "name": "Welspun Corp Limited",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 1530.1,
+        "current_close": 1601.9,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 4.69,
+        "stop_hit": false
+      },
+      {
+        "rank": 15,
+        "symbol": "SENORES",
+        "name": "Senores Pharmaceuticals Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 1343.4,
+        "current_close": 1419.7,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 5.68,
+        "stop_hit": false
+      },
+      {
+        "rank": 7,
+        "symbol": "DEEDEV",
+        "name": "Dee Development Engineers Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 640.0,
+        "current_close": 677.5,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 5.86,
+        "stop_hit": false
+      },
+      {
+        "rank": 12,
+        "symbol": "BAJAJCON",
+        "name": "Bajaj Consumer Care Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 598.05,
+        "current_close": 643.55,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 7.61,
+        "stop_hit": false
+      },
+      {
+        "rank": 2,
+        "symbol": "CUPID",
+        "name": "Cupid Ltd-$",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 192.33,
+        "current_close": 210.01,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 9.19,
+        "stop_hit": false
+      },
+      {
+        "rank": 13,
+        "symbol": "PAISALO",
+        "name": "Paisalo Digital Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 60.1,
+        "current_close": 72.4,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 20.47,
+        "stop_hit": false
+      }
+    ],
+    "simple_momentum_high_cap": [
+      {
+        "rank": 4,
+        "symbol": "MTARTECH",
+        "name": "MTAR Technologies Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 7769.0,
+        "current_close": 6938.5,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -10.69,
+        "stop_hit": true
+      },
+      {
+        "rank": 2,
+        "symbol": "STLTECH",
+        "name": "Sterlite Technologies Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 610.0,
+        "current_close": 554.35,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -9.12,
+        "stop_hit": false
+      },
+      {
+        "rank": 6,
+        "symbol": "BLISSGVS",
+        "name": "Bliss GVS Pharma Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 538.95,
+        "current_close": 524.15,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -2.75,
+        "stop_hit": false
+      },
+      {
+        "rank": 8,
+        "symbol": "ACUTAAS",
+        "name": "Acutaas Chemicals Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 3545.0,
+        "current_close": 3458.8,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -2.43,
+        "stop_hit": false
+      },
+      {
+        "rank": 7,
+        "symbol": "VENUSREM",
+        "name": "Venus Remedies Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 1741.9,
+        "current_close": 1702.5,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -2.26,
+        "stop_hit": false
+      },
+      {
+        "rank": 14,
+        "symbol": "SANSERA",
+        "name": "Sansera Engineering Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 3204.9,
+        "current_close": 3142.0,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -1.96,
+        "stop_hit": false
+      },
+      {
+        "rank": 12,
+        "symbol": "RPTECH",
+        "name": "Rashi Peripherals Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 780.0,
+        "current_close": 779.25,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": -0.1,
+        "stop_hit": false
+      },
+      {
+        "rank": 3,
+        "symbol": "HFCL",
+        "name": "HFCL Limited",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 214.0,
+        "current_close": 214.68,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 0.32,
+        "stop_hit": false
+      },
+      {
+        "rank": 15,
+        "symbol": "KIRLOSENG",
+        "name": "Kirloskar Oil Engines Limited",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 2375.8,
+        "current_close": 2424.8,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 2.06,
+        "stop_hit": false
+      },
+      {
+        "rank": 11,
+        "symbol": "THANGAMAYL",
+        "name": "Thangamayil Jewellery Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 6443.0,
+        "current_close": 6598.5,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 2.41,
+        "stop_hit": false
+      },
+      {
+        "rank": 5,
+        "symbol": "SBC",
+        "name": "SBC Exports Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 41.0,
+        "current_close": 42.11,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 2.71,
+        "stop_hit": false
+      },
+      {
+        "rank": 9,
+        "symbol": "DEEDEV",
+        "name": "Dee Development Engineers Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 640.0,
+        "current_close": 677.5,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 5.86,
+        "stop_hit": false
+      },
+      {
+        "rank": 13,
+        "symbol": "ATHERENERG",
+        "name": "Ather Energy Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 1141.0,
+        "current_close": 1218.4,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 6.78,
+        "stop_hit": false
+      },
+      {
+        "rank": 10,
+        "symbol": "BAJAJCON",
+        "name": "Bajaj Consumer Care Ltd",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 598.05,
+        "current_close": 643.55,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 7.61,
+        "stop_hit": false
+      },
+      {
+        "rank": 1,
+        "symbol": "CUPID",
+        "name": "Cupid Ltd-$",
+        "entry_date": "2026-07-01 00:00:00",
+        "entry_price": 192.33,
+        "current_close": 210.01,
+        "current_date": "2026-07-09 00:00:00",
+        "return_pct": 9.19,
+        "stop_hit": false
+      }
+    ]
+  }
+}

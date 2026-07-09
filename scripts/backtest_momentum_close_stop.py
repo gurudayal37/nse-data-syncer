@@ -18,7 +18,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database import DatabaseManager, MomentumHistory
 
-STOP_LOSS_PCT = -0.15  # GTT order placed at 15% below entry; gap-downs fill at open
+STOP_LOSS_PCT = -0.10  # Trigger when daily close drops >= 10% from entry; exit at next-day open
 
 def get_month_ends():
     """Get list of month-end dates from 2018-01 through today."""
@@ -240,7 +240,7 @@ def calculate_comprehensive_metrics(monthly_results, benchmark_results):
     }
 
 def run_backtest():
-    print("Starting **Momentum + 10% Monthly Stop Loss** Backtest (3M+6M+1Y)...")
+    print("Starting **Momentum + 10% Close-Price Stop (Next-Day Open Exit)** Backtest (3M+6M+1Y)...")
     db = DatabaseManager()
 
     from app.database import Base
@@ -364,23 +364,22 @@ def run_backtest():
 
                         start_price = stock_data_next.iloc[0]['open_price']
 
-                    # GTT stop-loss: mirrors a real GTT sell order at entry * (1 + STOP_LOSS_PCT).
-                    # Gap-down open below the stop price → fills at open (actual loss, may exceed -10%).
-                    # Intraday low touches stop but open is above → fills at exactly -10%.
+                    # Close-price stop: triggers when daily close drops >= 10% from entry.
+                    # Sells at next day's open (realistic next-morning execution).
+                    # If trigger falls on the last day of the period, exits at that close.
                     stop_triggered = False
                     stop_ret = STOP_LOSS_PCT
                     if not stock_data_next.empty:
-                        stop_price = start_price * (1 + STOP_LOSS_PCT)
-                        for _, daily_row in stock_data_next.iterrows():
-                            open_p = daily_row['open_price']
-                            low_p  = daily_row['low_price']
-                            if pd.notna(open_p) and open_p <= stop_price:
+                        rows = list(stock_data_next.iterrows())
+                        for idx, (_, daily_row) in enumerate(rows):
+                            close_p = daily_row['close_price']
+                            if pd.notna(close_p) and (close_p - start_price) / start_price <= STOP_LOSS_PCT:
                                 stop_triggered = True
-                                stop_ret = (open_p - start_price) / start_price
-                                break
-                            elif pd.notna(low_p) and low_p <= stop_price:
-                                stop_triggered = True
-                                stop_ret = STOP_LOSS_PCT
+                                if idx + 1 < len(rows):
+                                    next_open = rows[idx + 1][1]['open_price']
+                                    stop_ret = (next_open - start_price) / start_price if pd.notna(next_open) else (close_p - start_price) / start_price
+                                else:
+                                    stop_ret = (close_p - start_price) / start_price
                                 break
 
                     if stop_triggered:
@@ -450,7 +449,7 @@ def run_backtest():
         }
 
     # Load Existing Data (cache for already-computed months)
-    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_10pct_stop.json')
+    output_path = os.path.join(base_dir, 'web', 'src', 'data', 'backtest_results_momentum_close_stop.json')
 
     existing_results_map = {}
 

@@ -16,7 +16,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database import DatabaseManager, MomentumHistory
 
-STOP_LOSS_PCT = -0.10
+STOP_LOSS_PCT = -0.15  # GTT order placed at 15% below entry; gap-downs fill at open
 
 
 def get_month_ends():
@@ -205,10 +205,10 @@ def run_backtest():
 
     print("Loading ALL price data into memory...")
     all_prices_result = session.execute(text(
-        "SELECT stock_id, date, close_price, open_price FROM daily_prices ORDER BY date ASC"
+        "SELECT stock_id, date, close_price, open_price, low_price FROM daily_prices ORDER BY date ASC"
     )).fetchall()
 
-    master_df = pd.DataFrame(all_prices_result, columns=['stock_id', 'date', 'close_price', 'open_price'])
+    master_df = pd.DataFrame(all_prices_result, columns=['stock_id', 'date', 'close_price', 'open_price', 'low_price'])
     master_df['date'] = pd.to_datetime(master_df['date'])
     master_df.set_index('date', inplace=True)
     print(f"Loaded {len(master_df)} price records into memory.")
@@ -283,16 +283,27 @@ def run_backtest():
                             continue
                         start_price = stock_data_next.iloc[0]['open_price']
 
+                    # GTT stop-loss: mirrors a real GTT sell order at entry * (1 + STOP_LOSS_PCT).
+                    # Gap-down open below the stop price → fills at open (actual loss, may exceed -10%).
+                    # Intraday low touches stop but open is above → fills at exactly -10%.
                     stop_triggered = False
+                    stop_ret = STOP_LOSS_PCT
                     if not stock_data_next.empty:
+                        stop_price = start_price * (1 + STOP_LOSS_PCT)
                         for _, daily_row in stock_data_next.iterrows():
-                            intraperiod_ret = (daily_row['close_price'] - start_price) / start_price
-                            if intraperiod_ret <= STOP_LOSS_PCT:
+                            open_p = daily_row['open_price']
+                            low_p  = daily_row['low_price']
+                            if pd.notna(open_p) and open_p <= stop_price:
                                 stop_triggered = True
+                                stop_ret = (open_p - start_price) / start_price
+                                break
+                            elif pd.notna(low_p) and low_p <= stop_price:
+                                stop_triggered = True
+                                stop_ret = STOP_LOSS_PCT
                                 break
 
                     if stop_triggered:
-                        ret = STOP_LOSS_PCT
+                        ret = stop_ret
                     elif stock_data_next.empty:
                         ret = 0.0
                     else:
