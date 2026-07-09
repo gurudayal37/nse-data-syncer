@@ -4,10 +4,14 @@ Daily stop-loss monitor for active strategy holdings.
 Uses strategy_picks.json for current month's stocks and DB open price on the
 first trading day of the month as entry price — same as the backtest.
 
+Walks every trading day from entry to today (same loop as the backtest) so a
+close-stop that triggered on a prior day (e.g. Jul 8) is correctly detected
+even when this script runs the next day (Jul 9).
+
 Stop rules (checked in order each day):
-  1. GTT gap-down:  today's open  <= entry * 0.85 → exited at open that day
-  2. GTT intraday:  today's low   <= entry * 0.85 → exited at ~entry * 0.85
-  3. Close stop:    today's close <= entry * 0.90 → exit at next morning's open
+  1. GTT gap-down:  day's open <= entry * 0.85 → exited at open that day
+  2. GTT intraday:  day's low  <= entry * 0.85 → exited at ~entry * 0.85
+  3. Close stop:    day's close <= entry * 0.90 → exit at next morning's open
 """
 
 import json
@@ -32,6 +36,63 @@ def next_weekday(d: date) -> date:
     while candidate.weekday() >= 5:
         candidate += timedelta(days=1)
     return candidate
+
+
+def date_str(d) -> str:
+    return str(d)[:10]
+
+
+def find_stop_event(rows, entry_price):
+    """
+    Walk daily rows (sorted ascending by date) and return the first stop event.
+    Returns dict with stop_type, stop_date, exit_date, ret, exit_open — or None.
+    exit_open is the open price on exit_date (available when rows contain it).
+    """
+    gtt_price     = entry_price * (1 + GTT_STOP_PCT)
+    close_trigger = entry_price * (1 + CLOSE_STOP_PCT)
+
+    for i, row in enumerate(rows):
+        d, open_p, low_p, close_p = row
+
+        # GTT gap-down: open already below trigger
+        if open_p is not None and open_p <= gtt_price:
+            return {
+                'stop_type': 'gtt_gap_down',
+                'stop_date': date_str(d),
+                'exit_date': date_str(d),
+                'ret':       (open_p - entry_price) / entry_price,
+                'exit_open': open_p,
+            }
+        # GTT intraday: low touched trigger during the day
+        if low_p is not None and low_p <= gtt_price:
+            return {
+                'stop_type': 'gtt_intraday',
+                'stop_date': date_str(d),
+                'exit_date': date_str(d),
+                'ret':       GTT_STOP_PCT,
+                'exit_open': None,
+            }
+        # Close-price stop: exit next morning at open
+        if close_p is not None and close_p <= close_trigger:
+            exit_date = next_weekday(pd.Timestamp(d).date())
+            # If we have the next row (exit day) grab its open for actual return
+            exit_open = None
+            exit_ret  = (close_p - entry_price) / entry_price
+            if i + 1 < len(rows):
+                next_row = rows[i + 1]
+                if date_str(next_row[0]) == str(exit_date):
+                    exit_open = next_row[1]  # open of next day
+                    if exit_open is not None:
+                        exit_ret = (exit_open - entry_price) / entry_price
+            return {
+                'stop_type': 'close_stop',
+                'stop_date': date_str(d),
+                'exit_date': str(exit_date),
+                'ret':       exit_ret,
+                'exit_open': exit_open,
+            }
+
+    return None
 
 
 def main():
@@ -82,22 +143,41 @@ def main():
         if not ids:
             continue
 
-        # Entry prices = open on first trading day of month (same as backtest)
+        # Entry prices = open on first trading day of month
         entry_rows = session.execute(
             text("SELECT stock_id, open_price FROM daily_prices WHERE stock_id IN :ids AND date = :dt"),
             {'ids': tuple(ids), 'dt': entry_date}
         ).fetchall()
         entry_map = {r[0]: float(r[1]) for r in entry_rows}
 
-        # Latest OHLC for stop checks
-        price_rows = session.execute(
-            text("SELECT stock_id, open_price, low_price, close_price FROM daily_prices WHERE stock_id IN :ids AND date = :dt"),
-            {'ids': tuple(ids), 'dt': latest_date}
+        # All daily OHLC from entry_date to latest_date — one query per strategy batch
+        all_price_rows = session.execute(
+            text("""
+                SELECT stock_id, date, open_price, low_price, close_price
+                FROM daily_prices
+                WHERE stock_id IN :ids AND date >= :from_dt AND date <= :to_dt
+                ORDER BY stock_id, date ASC
+            """),
+            {'ids': tuple(ids), 'from_dt': entry_date, 'to_dt': latest_date}
         ).fetchall()
-        price_map = {r[0]: {'open': float(r[1]) if r[1] else None,
-                             'low':  float(r[2]) if r[2] else None,
-                             'close': float(r[3]) if r[3] else None}
-                     for r in price_rows}
+
+        # Group by stock_id
+        from collections import defaultdict
+        price_history = defaultdict(list)
+        for r in all_price_rows:
+            sid2, d, open_p, low_p, close_p = r
+            price_history[sid2].append((
+                d,
+                float(open_p)  if open_p  is not None else None,
+                float(low_p)   if low_p   is not None else None,
+                float(close_p) if close_p is not None else None,
+            ))
+
+        # Latest close for display
+        latest_close_map = {}
+        for sid2, rows in price_history.items():
+            if rows:
+                latest_close_map[sid2] = rows[-1][3]  # close of last row
 
         strategy_alerts = []
         for pick in stocks:
@@ -106,34 +186,29 @@ def main():
             if not sid:
                 continue
             entry_price = entry_map.get(sid)
-            prices = price_map.get(sid)
-            if not entry_price or not prices or prices['close'] is None:
+            rows = price_history.get(sid, [])
+            if not entry_price or not rows:
                 continue
 
-            open_p  = prices['open']
-            low_p   = prices['low']
-            close_p = prices['close']
+            event = find_stop_event(rows, entry_price)
+            current_close = latest_close_map.get(sid)
 
-            gtt_price     = entry_price * (1 + GTT_STOP_PCT)
-            close_trigger = entry_price * (1 + CLOSE_STOP_PCT)
-
-            stop_hit  = False
-            stop_type = None
-
-            if open_p is not None and open_p <= gtt_price:
+            if event:
                 stop_hit  = True
-                stop_type = 'gtt_gap_down'
-                ret = (open_p - entry_price) / entry_price
-            elif low_p is not None and low_p <= gtt_price:
-                stop_hit  = True
-                stop_type = 'gtt_intraday'
-                ret = GTT_STOP_PCT
-            elif close_p <= close_trigger:
-                stop_hit  = True
-                stop_type = 'close_stop'
-                ret = (close_p - entry_price) / entry_price
+                stop_type = event['stop_type']
+                stop_date = event['stop_date']
+                exit_date = event['exit_date']
+                ret       = event['ret']
+                # overdue: close_stop exit was due today or earlier (already have that day's data)
+                overdue   = (stop_type == 'close_stop' and
+                             exit_date <= date_str(latest_date))
             else:
-                ret = (close_p - entry_price) / entry_price
+                stop_hit  = False
+                stop_type = None
+                stop_date = None
+                exit_date = None
+                overdue   = False
+                ret = ((current_close - entry_price) / entry_price) if current_close else 0.0
 
             strategy_alerts.append({
                 'rank':          pick['rank'],
@@ -141,11 +216,14 @@ def main():
                 'name':          pick.get('name', sym),
                 'entry_date':    str(entry_date),
                 'entry_price':   round(entry_price, 2),
-                'current_close': round(close_p, 2),
+                'current_close': round(current_close, 2) if current_close else None,
                 'current_date':  str(latest_date),
                 'return_pct':    round(ret * 100, 2),
                 'stop_hit':      stop_hit,
                 'stop_type':     stop_type,
+                'stop_date':     stop_date,
+                'exit_date':     exit_date,
+                'overdue':       overdue,
             })
 
         strategy_alerts.sort(key=lambda x: x['return_pct'])
@@ -177,7 +255,8 @@ def main():
     for key, lst in alerts.items():
         for a in lst:
             if a['stop_hit']:
-                print(f"  {key}: {a['symbol']} → {a['stop_type']} ({a['return_pct']:.1f}%)")
+                overdue_tag = ' [OVERDUE]' if a.get('overdue') else ''
+                print(f"  {key}: {a['symbol']} → {a['stop_type']} on {a['stop_date']}, exit {a['exit_date']}{overdue_tag} ({a['return_pct']:.1f}%)")
 
 
 if __name__ == '__main__':

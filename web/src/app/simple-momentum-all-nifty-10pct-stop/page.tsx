@@ -74,8 +74,9 @@ export default function SimpleMomentumAllNifty10PctStopPage() {
                     const nextDay = (stopAlerts as any)?.next_trading_day
                     if (alerts.length === 0) return null
 
-                    const gttHits   = hits.filter((a: any) => a.stop_type === 'gtt_gap_down' || a.stop_type === 'gtt_intraday')
-                    const closeHits = hits.filter((a: any) => a.stop_type === 'close_stop')
+                    const gttHits     = hits.filter((a: any) => a.stop_type === 'gtt_gap_down' || a.stop_type === 'gtt_intraday')
+                    const overdueHits = hits.filter((a: any) => a.stop_type === 'close_stop' && a.overdue)
+                    const actionHits  = hits.filter((a: any) => a.stop_type === 'close_stop' && !a.overdue)
 
                     const stopTypeBadge = (t: string | null) => {
                         if (t === 'gtt_gap_down') return <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 border border-orange-200">GTT gap-down</span>
@@ -88,15 +89,58 @@ export default function SimpleMomentumAllNifty10PctStopPage() {
 
                     return hits.length > 0 ? (
                         <div className="mb-6 space-y-3">
-                            {closeHits.length > 0 && (
+                            {overdueHits.length > 0 && (
+                                <div className="bg-red-50 border-2 border-red-400 rounded-xl shadow-sm overflow-hidden">
+                                    <div className="flex items-center gap-2.5 px-5 py-3.5 bg-red-500 border-b border-red-400">
+                                        <BellRing className="w-4 h-4 text-white shrink-0" />
+                                        <span className="font-bold text-white text-sm">Missed Exit — Sell Immediately</span>
+                                        <span className="ml-auto text-[11px] text-red-100 font-mono">triggered {overdueHits[0]?.stop_date}</span>
+                                    </div>
+                                    <div className="px-5 py-3 text-xs text-red-800 bg-red-100">
+                                        Stop triggered on <strong>{overdueHits[0]?.stop_date}</strong>.
+                                        Exit at <strong>{overdueHits[0]?.exit_date}</strong> open was missed — sell at the earliest opportunity.
+                                    </div>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm border-t border-red-200">
+                                            <thead>
+                                                <tr className="bg-red-50 text-[11px] font-semibold uppercase tracking-wider text-red-400 border-b border-red-100">
+                                                    <th className="px-4 py-2 text-left">Symbol</th>
+                                                    <th className="px-4 py-2 text-left">Name</th>
+                                                    <th className="px-4 py-2 text-right">Entry ({entryDate})</th>
+                                                    <th className="px-4 py-2 text-right">Stop Date</th>
+                                                    <th className="px-4 py-2 text-right">Exit at Open</th>
+                                                    <th className="px-4 py-2 text-right">Return</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-red-50">
+                                                {overdueHits.map((a: any) => (
+                                                    <tr key={a.symbol} className="bg-white">
+                                                        <td className="px-4 py-2.5 font-bold text-red-700 font-mono text-xs">{a.symbol}</td>
+                                                        <td className="px-4 py-2.5 text-gray-600 text-xs">{a.name}</td>
+                                                        <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-600">₹{a.entry_price.toLocaleString('en-IN')}</td>
+                                                        <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-500">{a.stop_date}</td>
+                                                        <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-500">{a.exit_date}</td>
+                                                        <td className="px-4 py-2.5 text-right text-xs font-mono font-bold text-red-600">{a.return_pct.toFixed(2)}%</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div className="px-5 py-2.5 bg-red-50 border-t border-red-100 text-[11px] text-red-400">
+                                        Return shown is actual exit at {overdueHits[0]?.exit_date} open. Close ≤ entry × 0.90 on stop date.
+                                    </div>
+                                </div>
+                            )}
+
+                            {actionHits.length > 0 && (
                                 <div className="bg-red-50 border border-red-200 rounded-xl shadow-sm overflow-hidden">
                                     <div className="flex items-center gap-2.5 px-5 py-3.5 bg-red-100 border-b border-red-200">
                                         <BellRing className="w-4 h-4 text-red-600 shrink-0" />
-                                        <span className="font-semibold text-red-900 text-sm">Stop-Loss Alert — Action Required</span>
+                                        <span className="font-semibold text-red-900 text-sm">Stop-Loss Alert — Sell at Tomorrow's Open</span>
                                         <span className="ml-auto text-[11px] text-red-500 font-mono">as of {latestDate}</span>
                                     </div>
                                     <div className="px-5 py-3 text-xs text-red-700">
-                                        {closeHits.length} stock{closeHits.length > 1 ? 's have' : ' has'} closed below the −10% stop.
+                                        {actionHits.length} stock{actionHits.length > 1 ? 's have' : ' has'} closed below the −10% stop.
                                         Place a <strong>market sell order</strong> at <strong>{nextDay}</strong> open.
                                     </div>
                                     <div className="overflow-x-auto">
@@ -112,7 +156,7 @@ export default function SimpleMomentumAllNifty10PctStopPage() {
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-red-50">
-                                                {closeHits.map((a: any) => (
+                                                {actionHits.map((a: any) => (
                                                     <tr key={a.symbol} className="bg-white">
                                                         <td className="px-4 py-2.5 font-bold text-red-700 font-mono text-xs">{a.symbol}</td>
                                                         <td className="px-4 py-2.5 text-gray-600 text-xs">{a.name}</td>
@@ -139,7 +183,7 @@ export default function SimpleMomentumAllNifty10PctStopPage() {
                                         <span className="ml-auto text-[11px] text-orange-500 font-mono">as of {latestDate}</span>
                                     </div>
                                     <div className="px-5 py-3 text-xs text-orange-700">
-                                        {gttHits.length} stock{gttHits.length > 1 ? 's hit' : ' hit'} the −15% GTT stop today and were <strong>automatically sold</strong>. No manual action required.
+                                        {gttHits.length} stock{gttHits.length > 1 ? 's hit' : ' hit'} the −15% GTT stop and were <strong>automatically sold</strong>. No manual action required.
                                     </div>
                                     <div className="overflow-x-auto">
                                         <table className="w-full text-sm border-t border-orange-100">
@@ -148,7 +192,7 @@ export default function SimpleMomentumAllNifty10PctStopPage() {
                                                     <th className="px-4 py-2 text-left">Symbol</th>
                                                     <th className="px-4 py-2 text-left">Name</th>
                                                     <th className="px-4 py-2 text-right">Entry ({entryDate})</th>
-                                                    <th className="px-4 py-2 text-right">Close ({latestDate})</th>
+                                                    <th className="px-4 py-2 text-right">Exit Date</th>
                                                     <th className="px-4 py-2 text-right">Exit Return</th>
                                                     <th className="px-4 py-2 text-left">Trigger</th>
                                                 </tr>
@@ -159,7 +203,7 @@ export default function SimpleMomentumAllNifty10PctStopPage() {
                                                         <td className="px-4 py-2.5 font-bold text-orange-700 font-mono text-xs">{a.symbol}</td>
                                                         <td className="px-4 py-2.5 text-gray-600 text-xs">{a.name}</td>
                                                         <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-600">₹{a.entry_price.toLocaleString('en-IN')}</td>
-                                                        <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-600">₹{a.current_close.toLocaleString('en-IN')}</td>
+                                                        <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-500">{a.exit_date}</td>
                                                         <td className="px-4 py-2.5 text-right text-xs font-mono font-bold text-orange-600">{a.return_pct.toFixed(2)}%</td>
                                                         <td className="px-4 py-2.5">{stopTypeBadge(a.stop_type)}</td>
                                                     </tr>
