@@ -347,6 +347,9 @@ def run_backtest():
                     # 2. Close -10%: if GTT not hit but close <= -10% → sell next morning at open.
                     stop_triggered = False
                     stop_ret = CLOSE_STOP_PCT
+                    stop_type_str = None
+                    stop_date_val = None
+                    exit_date_val = None
                     if not stock_data_next.empty:
                         gtt_price   = start_price * (1 + GTT_STOP_PCT)
                         close_price_trigger = start_price * (1 + CLOSE_STOP_PCT)
@@ -355,18 +358,29 @@ def run_backtest():
                             open_p  = daily_row['open_price']
                             low_p   = daily_row['low_price']
                             close_p = daily_row['close_price']
+                            row_date = daily_row['date']
                             if pd.notna(open_p) and open_p <= gtt_price:
                                 stop_triggered = True
                                 stop_ret = (open_p - start_price) / start_price
+                                stop_type_str = 'gtt_gap_down'
+                                stop_date_val = str(row_date)[:10]
+                                exit_date_val = str(row_date)[:10]
                                 break
                             elif pd.notna(low_p) and low_p <= gtt_price:
                                 stop_triggered = True
                                 stop_ret = GTT_STOP_PCT
+                                stop_type_str = 'gtt_intraday'
+                                stop_date_val = str(row_date)[:10]
+                                exit_date_val = str(row_date)[:10]
                                 break
                             elif pd.notna(close_p) and close_p <= close_price_trigger:
                                 stop_triggered = True
+                                stop_type_str = 'close_stop'
+                                stop_date_val = str(row_date)[:10]
                                 if idx + 1 < len(rows):
-                                    next_open = rows[idx + 1][1]['open_price']
+                                    next_row = rows[idx + 1][1]
+                                    next_open = next_row['open_price']
+                                    exit_date_val = str(next_row['date'])[:10]
                                     stop_ret = (next_open - start_price) / start_price if pd.notna(next_open) else (close_p - start_price) / start_price
                                 else:
                                     stop_ret = (close_p - start_price) / start_price
@@ -386,7 +400,10 @@ def run_backtest():
                         'return': round(ret * 100, 2),
                         'score': round(score_map.get(stock_id, 0), 2),
                         'entry_price': round(float(start_price), 2) if start_price and not pd.isna(start_price) else None,
-                        'stop_triggered': stop_triggered
+                        'stop_triggered': stop_triggered,
+                        'stop_type': stop_type_str,
+                        'stop_date': stop_date_val,
+                        'exit_date': exit_date_val,
                     })
 
                 except (KeyError, IndexError):

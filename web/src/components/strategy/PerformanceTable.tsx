@@ -90,7 +90,7 @@ export default function PerformanceTable({
                                             <td colSpan={6} className="px-6 py-4 bg-gray-50">
                                                 <div className="grid grid-cols-3 gap-2">
                                                     {row.holdings.map((holding: any, j: number) => (
-                                                        <div key={j} className="bg-white px-3 py-2 rounded border border-gray-200">
+                                                        <div key={j} className={`px-3 py-2 rounded border ${holding.stop_triggered ? 'bg-red-50 border-red-200' : 'bg-white border-gray-200'}`}>
                                                             <div className="flex justify-between items-center">
                                                                 <div className="flex items-center gap-2">
                                                                     <span className="font-medium text-gray-700">{holding.symbol}</span>
@@ -109,7 +109,11 @@ export default function PerformanceTable({
                                                             {holding.entry_price != null && (
                                                                 <div className="flex justify-between mt-1 text-xs">
                                                                     <span className="text-gray-500">Entry ₹{holding.entry_price.toFixed(2)}</span>
-                                                                    <span className="text-red-500">SL ₹{(holding.entry_price * 0.9).toFixed(2)}</span>
+                                                                    {holding.stop_triggered && holding.exit_date ? (
+                                                                        <span className="text-red-500 font-medium">Exited {holding.exit_date}</span>
+                                                                    ) : (
+                                                                        <span className="text-red-400">SL ₹{(holding.entry_price * 0.9).toFixed(2)}</span>
+                                                                    )}
                                                                 </div>
                                                             )}
                                                         </div>
