@@ -73,44 +73,105 @@ export default function SimpleMomentumAllNifty10PctStopPage() {
                     const latestDate = (stopAlerts as any)?.latest_date?.slice(0, 10)
                     const nextDay = (stopAlerts as any)?.next_trading_day
                     if (alerts.length === 0) return null
+
+                    const gttHits   = hits.filter((a: any) => a.stop_type === 'gtt_gap_down' || a.stop_type === 'gtt_intraday')
+                    const closeHits = hits.filter((a: any) => a.stop_type === 'close_stop')
+
+                    const stopTypeBadge = (t: string | null) => {
+                        if (t === 'gtt_gap_down') return <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 border border-orange-200">GTT gap-down</span>
+                        if (t === 'gtt_intraday') return <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 border border-orange-200">GTT intraday</span>
+                        if (t === 'close_stop')   return <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-red-100 text-red-700 border border-red-200">close stop</span>
+                        return null
+                    }
+
+                    const entryDate = hits[0]?.entry_date?.slice(0, 10) ?? ''
+
                     return hits.length > 0 ? (
-                        <div className="bg-red-50 border border-red-200 rounded-xl shadow-sm mb-6 overflow-hidden">
-                            <div className="flex items-center gap-2.5 px-5 py-3.5 bg-red-100 border-b border-red-200">
-                                <BellRing className="w-4 h-4 text-red-600 shrink-0" />
-                                <span className="font-semibold text-red-900 text-sm">Stop-Loss Alert — Exit at next market open</span>
-                                <span className="ml-auto text-[11px] text-red-500 font-mono">as of {latestDate}</span>
-                            </div>
-                            <div className="px-5 py-3 text-xs text-red-700">
-                                The following stock{hits.length > 1 ? 's have' : ' has'} closed below the −10% stop from entry.
-                                Place a <strong>market sell order</strong> before <strong>{nextDay}</strong> market open.
-                            </div>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-sm border-t border-red-100">
-                                    <thead>
-                                        <tr className="bg-red-50 text-[11px] font-semibold uppercase tracking-wider text-red-400 border-b border-red-100">
-                                            <th className="px-4 py-2 text-left">Symbol</th>
-                                            <th className="px-4 py-2 text-left">Name</th>
-                                            <th className="px-4 py-2 text-right">Entry ({(stopAlerts as any).entry_date?.slice(0, 10)})</th>
-                                            <th className="px-4 py-2 text-right">Close ({latestDate})</th>
-                                            <th className="px-4 py-2 text-right">Return</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-red-50">
-                                        {hits.map((a: any) => (
-                                            <tr key={a.symbol} className="bg-white">
-                                                <td className="px-4 py-2.5 font-bold text-red-700 font-mono text-xs">{a.symbol}</td>
-                                                <td className="px-4 py-2.5 text-gray-600 text-xs">{a.name}</td>
-                                                <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-600">₹{a.entry_price.toLocaleString('en-IN')}</td>
-                                                <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-600">₹{a.current_close.toLocaleString('en-IN')}</td>
-                                                <td className="px-4 py-2.5 text-right text-xs font-mono font-bold text-red-600">{a.return_pct.toFixed(2)}%</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div className="px-5 py-2.5 bg-red-50 border-t border-red-100 text-[11px] text-red-400">
-                                Rule: sell next morning at market open when daily close ≤ entry × 0.90. GTT at −15% remains active as catastrophic protection.
-                            </div>
+                        <div className="mb-6 space-y-3">
+                            {closeHits.length > 0 && (
+                                <div className="bg-red-50 border border-red-200 rounded-xl shadow-sm overflow-hidden">
+                                    <div className="flex items-center gap-2.5 px-5 py-3.5 bg-red-100 border-b border-red-200">
+                                        <BellRing className="w-4 h-4 text-red-600 shrink-0" />
+                                        <span className="font-semibold text-red-900 text-sm">Stop-Loss Alert — Action Required</span>
+                                        <span className="ml-auto text-[11px] text-red-500 font-mono">as of {latestDate}</span>
+                                    </div>
+                                    <div className="px-5 py-3 text-xs text-red-700">
+                                        {closeHits.length} stock{closeHits.length > 1 ? 's have' : ' has'} closed below the −10% stop.
+                                        Place a <strong>market sell order</strong> at <strong>{nextDay}</strong> open.
+                                    </div>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm border-t border-red-100">
+                                            <thead>
+                                                <tr className="bg-red-50 text-[11px] font-semibold uppercase tracking-wider text-red-400 border-b border-red-100">
+                                                    <th className="px-4 py-2 text-left">Symbol</th>
+                                                    <th className="px-4 py-2 text-left">Name</th>
+                                                    <th className="px-4 py-2 text-right">Entry ({entryDate})</th>
+                                                    <th className="px-4 py-2 text-right">Close ({latestDate})</th>
+                                                    <th className="px-4 py-2 text-right">Return</th>
+                                                    <th className="px-4 py-2 text-left">Trigger</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-red-50">
+                                                {closeHits.map((a: any) => (
+                                                    <tr key={a.symbol} className="bg-white">
+                                                        <td className="px-4 py-2.5 font-bold text-red-700 font-mono text-xs">{a.symbol}</td>
+                                                        <td className="px-4 py-2.5 text-gray-600 text-xs">{a.name}</td>
+                                                        <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-600">₹{a.entry_price.toLocaleString('en-IN')}</td>
+                                                        <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-600">₹{a.current_close.toLocaleString('en-IN')}</td>
+                                                        <td className="px-4 py-2.5 text-right text-xs font-mono font-bold text-red-600">{a.return_pct.toFixed(2)}%</td>
+                                                        <td className="px-4 py-2.5">{stopTypeBadge(a.stop_type)}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div className="px-5 py-2.5 bg-red-50 border-t border-red-100 text-[11px] text-red-400">
+                                        Sell next morning at market open when daily close ≤ entry × 0.90.
+                                    </div>
+                                </div>
+                            )}
+
+                            {gttHits.length > 0 && (
+                                <div className="bg-orange-50 border border-orange-200 rounded-xl shadow-sm overflow-hidden">
+                                    <div className="flex items-center gap-2.5 px-5 py-3.5 bg-orange-100 border-b border-orange-200">
+                                        <AlertTriangle className="w-4 h-4 text-orange-600 shrink-0" />
+                                        <span className="font-semibold text-orange-900 text-sm">GTT Triggered — Already Exited</span>
+                                        <span className="ml-auto text-[11px] text-orange-500 font-mono">as of {latestDate}</span>
+                                    </div>
+                                    <div className="px-5 py-3 text-xs text-orange-700">
+                                        {gttHits.length} stock{gttHits.length > 1 ? 's hit' : ' hit'} the −15% GTT stop today and were <strong>automatically sold</strong>. No manual action required.
+                                    </div>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm border-t border-orange-100">
+                                            <thead>
+                                                <tr className="bg-orange-50 text-[11px] font-semibold uppercase tracking-wider text-orange-400 border-b border-orange-100">
+                                                    <th className="px-4 py-2 text-left">Symbol</th>
+                                                    <th className="px-4 py-2 text-left">Name</th>
+                                                    <th className="px-4 py-2 text-right">Entry ({entryDate})</th>
+                                                    <th className="px-4 py-2 text-right">Close ({latestDate})</th>
+                                                    <th className="px-4 py-2 text-right">Exit Return</th>
+                                                    <th className="px-4 py-2 text-left">Trigger</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-orange-50">
+                                                {gttHits.map((a: any) => (
+                                                    <tr key={a.symbol} className="bg-white">
+                                                        <td className="px-4 py-2.5 font-bold text-orange-700 font-mono text-xs">{a.symbol}</td>
+                                                        <td className="px-4 py-2.5 text-gray-600 text-xs">{a.name}</td>
+                                                        <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-600">₹{a.entry_price.toLocaleString('en-IN')}</td>
+                                                        <td className="px-4 py-2.5 text-right text-xs font-mono text-gray-600">₹{a.current_close.toLocaleString('en-IN')}</td>
+                                                        <td className="px-4 py-2.5 text-right text-xs font-mono font-bold text-orange-600">{a.return_pct.toFixed(2)}%</td>
+                                                        <td className="px-4 py-2.5">{stopTypeBadge(a.stop_type)}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div className="px-5 py-2.5 bg-orange-50 border-t border-orange-100 text-[11px] text-orange-400">
+                                        GTT order sold at open (gap-down) or at −15% trigger price (intraday).
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <div className="flex items-center gap-2.5 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg mb-6 text-sm text-emerald-700">
@@ -158,7 +219,8 @@ export default function SimpleMomentumAllNifty10PctStopPage() {
                         <div className="bg-red-50 p-4 rounded-lg border border-red-100">
                             <h3 className="font-semibold text-red-900 mb-2">4. Stop Loss</h3>
                             <p className="text-red-800">
-                                Exit if daily close falls <strong>≥10%</strong> from entry. Loss capped at <strong>−10%</strong> per stock per month.
+                                If daily <strong>close</strong> drops ≥10% from entry, sell at <strong>next morning's open</strong>.
+                                Actual exit return varies. GTT at −15% remains active as catastrophic gap-down protection.
                             </p>
                         </div>
                     </div>

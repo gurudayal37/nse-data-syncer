@@ -3,7 +3,33 @@
     "allow": [
       "Bash(npx tsc *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(python3 scripts/test_pead_local.py --date 11-05-2026 --no-telegram --limit 100)",
+      "Bash(python3 scripts/test_pead_local.py --date 11-05-2026 --phase1-only --no-telegram --limit 5)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 scripts/backtest_long_short.py)",
+      "Bash(mkdir -p \"/Users/gurudayal/Desktop/data-syncer/web/src/app/api/stock/[symbol]/meta\")",
+      "Bash(git -C /Users/gurudayal/Desktop/data-syncer status)",
+      "Bash(git -C /Users/gurudayal/Desktop/data-syncer diff)",
+      "Bash(git -C /Users/gurudayal/Desktop/data-syncer add app/constants.py data/EQUITY_LIST_28-05-2026.csv)",
+      "Bash(git -C /Users/gurudayal/Desktop/data-syncer commit -m ' *)",
+      "Bash(python3 -m migrations.add_swing_score_cols)",
+      "Bash(python3 scripts/calculate_swing_score.py)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/swing-stock)",
+      "Bash(curl -s \"http://localhost:3000/swing-stock?sort=swing_score&order=desc\" -o /tmp/swingstock.html)",
+      "Bash(python3 -c \"import yaml; d=yaml.safe_load\\(open\\('.github/workflows/daily_sync_optimized.yml'\\)\\); print\\('valid, jobs:', list\\(d['jobs'].keys\\(\\)\\)\\)\")",
+      "Bash(time python3 scripts/calculate_stage2.py)",
+      "Bash(time python3 scripts/calculate_swing_score.py)",
+      "Bash(time python3 scripts/backtest_swing_setup.py)",
+      "Bash(python3 scripts/export_sector_mapping.py)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:3000/indices/CNXIT\")",
+      "Bash(curl -s \"http://localhost:3000/indices/CNXIT\" -o /tmp/cnxit.html)",
+      "Bash(curl -s \"http://localhost:3000/indices/CNXIT\" -o /tmp/cnxit2.html)",
+      "Bash(curl -s \"http://localhost:3000/indices/CNXIT?sort=change_1y&order=desc\" -o /tmp/cnxit3.html)",
+      "Bash(curl -s \"http://localhost:3000/indices/CNXREALTY\" -o /tmp/realty.html)"
+    ],
+    "additionalDirectories": [
+      "/Users/gurudayal/Desktop/data-syncer/web/src/app/api/stock/[symbol]"
     ]
   }
 }

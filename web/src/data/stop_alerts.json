@@ -1,11 +1,12 @@
 {
-  "generated_at": "2026-07-09T20:00:20",
+  "generated_at": "2026-07-09T21:25:52",
   "current_month": "2026-07",
   "source": "manual",
   "latest_date": "2026-07-09 00:00:00",
   "next_trading_day": "2026-07-10",
-  "stop_loss_pct": -10.0,
-  "total_stop_hits": 1,
+  "close_stop_pct": -10.0,
+  "gtt_stop_pct": -15.0,
+  "total_stop_hits": 2,
   "alerts": {
     "momentum": [
       {
@@ -16,8 +17,9 @@
         "entry_price": 1786.0,
         "current_close": 1445.3,
         "current_date": "2026-07-09 00:00:00",
-        "return_pct": -19.08,
-        "stop_hit": true
+        "return_pct": -18.66,
+        "stop_hit": true,
+        "stop_type": "gtt_gap_down"
       },
       {
         "rank": 1,
@@ -27,8 +29,9 @@
         "entry_price": 613.3,
         "current_close": 554.35,
         "current_date": "2026-07-09 00:00:00",
-        "return_pct": -9.61,
-        "stop_hit": false
+        "return_pct": -18.19,
+        "stop_hit": true,
+        "stop_type": "gtt_gap_down"
       },
       {
         "rank": 2,
@@ -39,7 +42,8 @@
         "current_close": 6938.5,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": -8.95,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       },
       {
         "rank": 3,
@@ -50,7 +54,8 @@
         "current_close": 1702.5,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": -7.14,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       },
       {
         "rank": 12,
@@ -61,7 +66,8 @@
         "current_close": 524.15,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": -2.86,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       },
       {
         "rank": 5,
@@ -72,7 +78,8 @@
         "current_close": 3458.8,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": -1.91,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       },
       {
         "rank": 7,
@@ -83,7 +90,8 @@
         "current_close": 779.25,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": 0.71,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       },
       {
         "rank": 11,
@@ -94,7 +102,8 @@
         "current_close": 214.68,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": 0.86,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       },
       {
         "rank": 13,
@@ -105,7 +114,8 @@
         "current_close": 42.11,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": 1.76,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       },
       {
         "rank": 15,
@@ -116,7 +126,8 @@
         "current_close": 2424.8,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": 2.57,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       },
       {
         "rank": 10,
@@ -127,7 +138,8 @@
         "current_close": 6598.5,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": 3.13,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       },
       {
         "rank": 14,
@@ -138,7 +150,8 @@
         "current_close": 1601.9,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": 5.26,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       },
       {
         "rank": 8,
@@ -149,7 +162,8 @@
         "current_close": 677.5,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": 5.3,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       },
       {
         "rank": 9,
@@ -160,7 +174,8 @@
         "current_close": 643.55,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": 7.44,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       },
       {
         "rank": 6,
@@ -171,7 +186,8 @@
         "current_close": 210.01,
         "current_date": "2026-07-09 00:00:00",
         "return_pct": 10.57,
-        "stop_hit": false
+        "stop_hit": false,
+        "stop_type": null
       }
     ]
   }

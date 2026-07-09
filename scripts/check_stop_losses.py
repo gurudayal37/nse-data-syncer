@@ -6,7 +6,10 @@ Priority:
      use those symbols and actual entry prices (filled in from Dhan after buying).
   2. Otherwise fall back to strategy_picks.json picks + DB open on first trading day.
 
-Stop rule: daily close <= entry * 0.90 → exit at next morning's market open.
+Stop rules (checked in order each day):
+  1. GTT gap-down:  today's open  <= entry * 0.85 → exited at open that day
+  2. GTT intraday:  today's low   <= entry * 0.85 → exited at ~entry * 0.85
+  3. Close stop:    today's close <= entry * 0.90 → exit at next morning's open
 """
 
 import json
@@ -22,7 +25,8 @@ load_dotenv(os.path.join(base_dir, 'web', '.env'))
 sys.path.append(base_dir)
 from app.database import DatabaseManager
 
-STOP_LOSS_PCT = -0.10
+CLOSE_STOP_PCT = -0.10
+GTT_STOP_PCT   = -0.15
 
 
 def next_weekday(d: date) -> date:
@@ -74,12 +78,15 @@ def main():
         sym_to_id = {r[1]: r[0] for r in id_rows}
         ids = [sym_to_id[s] for s in symbols if s in sym_to_id]
 
-        # Current close prices
-        close_rows = session.execute(
-            text("SELECT stock_id, close_price FROM daily_prices WHERE stock_id IN :ids AND date = :dt"),
+        # Current OHLC prices for latest date
+        price_rows = session.execute(
+            text("SELECT stock_id, open_price, low_price, close_price FROM daily_prices WHERE stock_id IN :ids AND date = :dt"),
             {'ids': tuple(ids), 'dt': latest_date}
         ).fetchall()
-        close_map = {r[0]: float(r[1]) for r in close_rows}
+        price_map = {r[0]: {'open': float(r[1]) if r[1] else None,
+                             'low':  float(r[2]) if r[2] else None,
+                             'close': float(r[3]) if r[3] else None}
+                     for r in price_rows}
         id_to_sym = {v: k for k, v in sym_to_id.items()}
 
         strategy_alerts = []
@@ -87,21 +94,47 @@ def main():
             sym = pos['symbol']
             sid = sym_to_id.get(sym)
             entry_price = float(pos['entry_price'])
-            current_close = close_map.get(sid) if sid else None
-            if current_close is None:
-                print(f"  Warning: no close price for {sym}")
+            prices = price_map.get(sid) if sid else None
+            if prices is None or prices['close'] is None:
+                print(f"  Warning: no price data for {sym}")
                 continue
-            ret = (current_close - entry_price) / entry_price
+
+            open_p  = prices['open']
+            low_p   = prices['low']
+            close_p = prices['close']
+
+            gtt_price   = entry_price * (1 + GTT_STOP_PCT)
+            close_trigger = entry_price * (1 + CLOSE_STOP_PCT)
+
+            stop_hit  = False
+            stop_type = None
+
+            if open_p is not None and open_p <= gtt_price:
+                stop_hit  = True
+                stop_type = 'gtt_gap_down'
+                ret = (open_p - entry_price) / entry_price
+            elif low_p is not None and low_p <= gtt_price:
+                stop_hit  = True
+                stop_type = 'gtt_intraday'
+                ret = GTT_STOP_PCT
+            elif close_p <= close_trigger:
+                stop_hit  = True
+                stop_type = 'close_stop'
+                ret = (close_p - entry_price) / entry_price
+            else:
+                ret = (close_p - entry_price) / entry_price
+
             strategy_alerts.append({
                 'rank':          rank,
                 'symbol':        sym,
                 'name':          pos.get('name', sym),
                 'entry_date':    manual.get('entry_date', f'{current_month}-01'),
                 'entry_price':   entry_price,
-                'current_close': round(current_close, 2),
+                'current_close': round(close_p, 2),
                 'current_date':  str(latest_date),
                 'return_pct':    round(ret * 100, 2),
-                'stop_hit':      ret <= STOP_LOSS_PCT,
+                'stop_hit':      stop_hit,
+                'stop_type':     stop_type,
             })
 
         strategy_alerts.sort(key=lambda x: x['return_pct'])
@@ -154,11 +187,14 @@ def main():
             ).fetchall()
             entry_map = {r[0]: float(r[1]) for r in entry_rows}
 
-            close_rows = session.execute(
-                text("SELECT stock_id, close_price FROM daily_prices WHERE stock_id IN :ids AND date = :dt"),
+            price_rows = session.execute(
+                text("SELECT stock_id, open_price, low_price, close_price FROM daily_prices WHERE stock_id IN :ids AND date = :dt"),
                 {'ids': tuple(ids), 'dt': latest_date}
             ).fetchall()
-            close_map = {r[0]: float(r[1]) for r in close_rows}
+            price_map = {r[0]: {'open': float(r[1]) if r[1] else None,
+                                 'low':  float(r[2]) if r[2] else None,
+                                 'close': float(r[3]) if r[3] else None}
+                         for r in price_rows}
 
             strategy_alerts = []
             for pick in stocks:
@@ -167,20 +203,46 @@ def main():
                 if not sid:
                     continue
                 entry_price = entry_map.get(sid)
-                current_close = close_map.get(sid)
-                if not entry_price or not current_close:
+                prices = price_map.get(sid)
+                if not entry_price or not prices or prices['close'] is None:
                     continue
-                ret = (current_close - entry_price) / entry_price
+
+                open_p  = prices['open']
+                low_p   = prices['low']
+                close_p = prices['close']
+
+                gtt_price     = entry_price * (1 + GTT_STOP_PCT)
+                close_trigger = entry_price * (1 + CLOSE_STOP_PCT)
+
+                stop_hit  = False
+                stop_type = None
+
+                if open_p is not None and open_p <= gtt_price:
+                    stop_hit  = True
+                    stop_type = 'gtt_gap_down'
+                    ret = (open_p - entry_price) / entry_price
+                elif low_p is not None and low_p <= gtt_price:
+                    stop_hit  = True
+                    stop_type = 'gtt_intraday'
+                    ret = GTT_STOP_PCT
+                elif close_p <= close_trigger:
+                    stop_hit  = True
+                    stop_type = 'close_stop'
+                    ret = (close_p - entry_price) / entry_price
+                else:
+                    ret = (close_p - entry_price) / entry_price
+
                 strategy_alerts.append({
                     'rank':          pick['rank'],
                     'symbol':        sym,
                     'name':          pick.get('name', sym),
                     'entry_date':    str(entry_date),
                     'entry_price':   round(entry_price, 2),
-                    'current_close': round(current_close, 2),
+                    'current_close': round(close_p, 2),
                     'current_date':  str(latest_date),
                     'return_pct':    round(ret * 100, 2),
-                    'stop_hit':      ret <= STOP_LOSS_PCT,
+                    'stop_hit':      stop_hit,
+                    'stop_type':     stop_type,
                 })
 
             strategy_alerts.sort(key=lambda x: x['return_pct'])
@@ -199,7 +261,8 @@ def main():
         'source':          source,
         'latest_date':     str(latest_date),
         'next_trading_day': next_trading_day,
-        'stop_loss_pct':   STOP_LOSS_PCT * 100,
+        'close_stop_pct':  CLOSE_STOP_PCT * 100,
+        'gtt_stop_pct':    GTT_STOP_PCT * 100,
         'total_stop_hits': hits,
         'alerts':          alerts,
     }
@@ -211,8 +274,9 @@ def main():
     print(f"\nWrote {out_path}  (source={source})")
     print(f"Total stop hits: {hits}")
     for key, lst in alerts.items():
-        hit_syms = [a['symbol'] for a in lst if a['stop_hit']]
-        print(f"  {key}: {', '.join(hit_syms) if hit_syms else 'none hit'}")
+        for a in lst:
+            if a['stop_hit']:
+                print(f"  {key}: {a['symbol']} → {a['stop_type']} ({a['return_pct']:.1f}%)")
 
 
 if __name__ == '__main__':

@@ -20,7 +20,8 @@ from app.utils import get_nse_symbols
 from app.helpers import get_data_path
 from app.constants import CSV_FILENAME, FULL_EQUITY_LIST_FILENAME
 
-STOP_LOSS_PCT = -0.15  # GTT order placed at 15% below entry; gap-downs fill at open
+CLOSE_STOP_PCT = -0.10  # Close below -10% from entry → sell next morning at open
+GTT_STOP_PCT   = -0.15  # Hard GTT: if open or intraday low hits -15%, exit that day
 
 def get_month_ends():
     """Get list of month-end dates from 2018-01 through today."""
@@ -373,23 +374,35 @@ def run_backtest():
 
                         start_price = stock_data_next.iloc[0]['open_price']
 
-                    # GTT stop-loss: mirrors a real GTT sell order at entry * (1 + STOP_LOSS_PCT).
-                    # Gap-down open below the stop price → fills at open (actual loss, may exceed -10%).
-                    # Intraday low touches stop but open is above → fills at exactly -10%.
+                    # Combined stop logic (evaluated each day in order):
+                    # 1. GTT -15%: if open <= GTT level → gap-down, fill at open (actual loss).
+                    #              if intraday low <= GTT level → fill at exactly -15%.
+                    # 2. Close -10%: if GTT not hit but close <= -10% → sell next morning at open.
                     stop_triggered = False
-                    stop_ret = STOP_LOSS_PCT
+                    stop_ret = CLOSE_STOP_PCT
                     if not stock_data_next.empty:
-                        stop_price = start_price * (1 + STOP_LOSS_PCT)
-                        for _, daily_row in stock_data_next.iterrows():
-                            open_p = daily_row['open_price']
-                            low_p  = daily_row['low_price']
-                            if pd.notna(open_p) and open_p <= stop_price:
+                        gtt_price   = start_price * (1 + GTT_STOP_PCT)
+                        close_price_trigger = start_price * (1 + CLOSE_STOP_PCT)
+                        rows = list(stock_data_next.iterrows())
+                        for idx, (_, daily_row) in enumerate(rows):
+                            open_p  = daily_row['open_price']
+                            low_p   = daily_row['low_price']
+                            close_p = daily_row['close_price']
+                            if pd.notna(open_p) and open_p <= gtt_price:
                                 stop_triggered = True
                                 stop_ret = (open_p - start_price) / start_price
                                 break
-                            elif pd.notna(low_p) and low_p <= stop_price:
+                            elif pd.notna(low_p) and low_p <= gtt_price:
                                 stop_triggered = True
-                                stop_ret = STOP_LOSS_PCT
+                                stop_ret = GTT_STOP_PCT
+                                break
+                            elif pd.notna(close_p) and close_p <= close_price_trigger:
+                                stop_triggered = True
+                                if idx + 1 < len(rows):
+                                    next_open = rows[idx + 1][1]['open_price']
+                                    stop_ret = (next_open - start_price) / start_price if pd.notna(next_open) else (close_p - start_price) / start_price
+                                else:
+                                    stop_ret = (close_p - start_price) / start_price
                                 break
 
                     if stop_triggered:
