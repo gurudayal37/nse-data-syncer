@@ -107,10 +107,13 @@ export default function PerformanceTable({
                                                                 </span>
                                                             </div>
                                                             {holding.entry_price != null && (
-                                                                <div className="flex justify-between mt-1 text-xs">
+                                                                <div className="flex justify-between mt-1 text-xs gap-2">
                                                                     <span className="text-gray-500">Entry ₹{holding.entry_price.toFixed(2)}</span>
                                                                     {holding.stop_triggered && holding.exit_date ? (
-                                                                        <span className="text-red-500 font-medium">Exited {holding.exit_date}</span>
+                                                                        <>
+                                                                            <span className="text-red-400">Exit ₹{(holding.entry_price * (1 + holding.return / 100)).toFixed(2)}</span>
+                                                                            <span className="text-red-500 font-medium">Exited {holding.exit_date}</span>
+                                                                        </>
                                                                     ) : (
                                                                         <span className="text-red-400">SL ₹{(holding.entry_price * 0.9).toFixed(2)}</span>
                                                                     )}
