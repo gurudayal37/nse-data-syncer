@@ -1,0 +1,24 @@
+{
+  "2026-07": {
+    "strategy": "momentum",
+    "entry_date": "2026-07-01",
+    "note": "Actual Dhan entry prices. Update this file at the start of each month after buying.",
+    "positions": [
+      { "symbol": "STLTECH",    "name": "Sterlite Technologies Ltd",  "entry_price": 613.30  },
+      { "symbol": "MTARTECH",   "name": "MTAR Technologies Ltd",       "entry_price": 7620.50 },
+      { "symbol": "VENUSREM",   "name": "Venus Remedies Ltd",          "entry_price": 1833.50 },
+      { "symbol": "WHEELS",     "name": "Wheels India Ltd",            "entry_price": 1786.00 },
+      { "symbol": "ACUTAAS",    "name": "Acutaas Chemicals Ltd",       "entry_price": 3526.20 },
+      { "symbol": "CUPID",      "name": "Cupid Ltd",                   "entry_price": 189.93  },
+      { "symbol": "RPTECH",     "name": "RP Tech India Ltd",           "entry_price": 773.75  },
+      { "symbol": "DEEDEV",     "name": "Dee Development Engineers Ltd","entry_price": 643.40  },
+      { "symbol": "BAJAJCON",   "name": "Bajaj Consumer Care Ltd",     "entry_price": 599.00  },
+      { "symbol": "THANGAMAYL", "name": "Thangamayil Jewellery Ltd",   "entry_price": 6398.20 },
+      { "symbol": "HFCL",       "name": "HFCL Ltd",                    "entry_price": 212.85  },
+      { "symbol": "BLISSGVS",   "name": "Bliss GVS Pharma Ltd",        "entry_price": 539.60  },
+      { "symbol": "SBC",        "name": "SBC Exports Ltd",             "entry_price": 41.38   },
+      { "symbol": "WELCORP",    "name": "Welspun Corp Ltd",            "entry_price": 1521.90 },
+      { "symbol": "KIRLOSENG",  "name": "Kirloskar Electric Co Ltd",   "entry_price": 2364.00 }
+    ]
+  }
+}

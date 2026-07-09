@@ -1,17 +1,18 @@
 """
 Daily stop-loss monitor for active strategy holdings.
 
-Reads current picks from strategy_picks.json, finds entry prices (open on the
-first trading day of the current month), compares against today's close, and
-writes stop_alerts.json for the UI to display.
+Priority:
+  1. If web/src/data/monthly_positions.json has an entry for the current month,
+     use those symbols and actual entry prices (filled in from Dhan after buying).
+  2. Otherwise fall back to strategy_picks.json picks + DB open on first trading day.
 
-Stop rule: if daily close drops >= 10% from entry → exit at next morning's open.
+Stop rule: daily close <= entry * 0.90 → exit at next morning's market open.
 """
 
 import json
 import os
 import sys
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import pandas as pd
 from sqlalchemy import text
 from dotenv import load_dotenv
@@ -24,119 +25,178 @@ from app.database import DatabaseManager
 STOP_LOSS_PCT = -0.10
 
 
-def _next_trading_day_label(latest_date) -> str:
-    """Return a human-readable label for the next trading day after latest_date."""
-    from datetime import timedelta
-    d = pd.Timestamp(latest_date).date()
-    # Advance past weekends; exchange holidays can't be determined here so we just say "next trading day"
+def next_weekday(d: date) -> date:
     candidate = d + timedelta(days=1)
-    while candidate.weekday() >= 5:  # 5=Sat, 6=Sun
+    while candidate.weekday() >= 5:
         candidate += timedelta(days=1)
-    return candidate.isoformat()
+    return candidate
+
+
+def load_manual_positions(current_month: str):
+    """Return list of {symbol, name, entry_price} for current_month, or None."""
+    path = os.path.join(base_dir, 'web', 'src', 'data', 'monthly_positions.json')
+    if not os.path.exists(path):
+        return None
+    with open(path) as f:
+        data = json.load(f)
+    month_data = data.get(current_month)
+    if not month_data:
+        return None
+    return month_data
 
 
 def main():
-    picks_path = os.path.join(base_dir, 'web', 'src', 'data', 'strategy_picks.json')
-    if not os.path.exists(picks_path):
-        print("strategy_picks.json not found — run generate_strategy_picks.py first.")
-        return
+    today = date.today()
+    current_month = today.strftime('%Y-%m')
 
-    with open(picks_path) as f:
-        picks_data = json.load(f)
+    # --- Try manual positions first ---
+    manual = load_manual_positions(current_month)
 
     db = DatabaseManager()
     session = db.Session()
 
-    today = date.today()
-    month_start = today.replace(day=1)
-
-    # First trading day of current month
-    first_day_row = session.execute(text("""
-        SELECT MIN(date) FROM daily_prices
-        WHERE date >= :ms
-    """), {'ms': month_start.isoformat()}).scalar()
-
-    if not first_day_row:
-        print("No price data found for current month — skipping.")
-        session.close()
-        return
-
-    entry_date = first_day_row
-
     # Most recent trading day with data
     latest_date = session.execute(text("SELECT MAX(date) FROM daily_prices")).scalar()
-
-    print(f"Entry date : {entry_date}")
-    print(f"Latest date: {latest_date}")
+    print(f"Latest price date: {latest_date}")
 
     alerts = {}
 
-    for strategy_key, strategy in picks_data['picks'].items():
-        stocks = strategy['stocks']
-        symbols = [s['symbol'] for s in stocks]
-        if not symbols:
-            continue
+    if manual:
+        print(f"Using manual positions for {current_month} ({len(manual['positions'])} stocks)")
+        positions = manual['positions']
+        symbols = [p['symbol'] for p in positions]
 
-        # Fetch stock IDs
+        # Get stock IDs
         id_rows = session.execute(
-            text("SELECT id, nse_symbol FROM stocks WHERE nse_symbol IN :syms AND is_active = true"),
+            text("SELECT id, nse_symbol FROM stocks WHERE nse_symbol IN :syms"),
             {'syms': tuple(symbols)}
         ).fetchall()
         sym_to_id = {r[1]: r[0] for r in id_rows}
-        ids = list(sym_to_id.values())
-        if not ids:
-            continue
+        ids = [sym_to_id[s] for s in symbols if s in sym_to_id]
 
-        # Entry prices: open on first trading day of month
-        entry_rows = session.execute(
-            text("SELECT stock_id, open_price FROM daily_prices WHERE stock_id IN :ids AND date = :dt"),
-            {'ids': tuple(ids), 'dt': entry_date}
-        ).fetchall()
-        entry_map = {r[0]: r[1] for r in entry_rows}
-
-        # Current close prices: most recent day
+        # Current close prices
         close_rows = session.execute(
             text("SELECT stock_id, close_price FROM daily_prices WHERE stock_id IN :ids AND date = :dt"),
             {'ids': tuple(ids), 'dt': latest_date}
         ).fetchall()
-        close_map = {r[0]: r[1] for r in close_rows}
+        close_map = {r[0]: float(r[1]) for r in close_rows}
+        id_to_sym = {v: k for k, v in sym_to_id.items()}
 
         strategy_alerts = []
-        for pick in stocks:
-            sym = pick['symbol']
+        for rank, pos in enumerate(positions, 1):
+            sym = pos['symbol']
             sid = sym_to_id.get(sym)
-            if not sid:
+            entry_price = float(pos['entry_price'])
+            current_close = close_map.get(sid) if sid else None
+            if current_close is None:
+                print(f"  Warning: no close price for {sym}")
                 continue
-            entry_price = entry_map.get(sid)
-            current_close = close_map.get(sid)
-            if not entry_price or not current_close:
-                continue
-
-            ret = (float(current_close) - float(entry_price)) / float(entry_price)
+            ret = (current_close - entry_price) / entry_price
             strategy_alerts.append({
-                'rank':          pick['rank'],
+                'rank':          rank,
                 'symbol':        sym,
-                'name':          pick.get('name', sym),
-                'entry_date':    str(entry_date),
-                'entry_price':   round(float(entry_price), 2),
-                'current_close': round(float(current_close), 2),
+                'name':          pos.get('name', sym),
+                'entry_date':    manual.get('entry_date', f'{current_month}-01'),
+                'entry_price':   entry_price,
+                'current_close': round(current_close, 2),
                 'current_date':  str(latest_date),
                 'return_pct':    round(ret * 100, 2),
                 'stop_hit':      ret <= STOP_LOSS_PCT,
             })
 
         strategy_alerts.sort(key=lambda x: x['return_pct'])
-        alerts[strategy_key] = strategy_alerts
+        alerts['momentum'] = strategy_alerts
+        source = 'manual'
+
+    else:
+        # Fall back to strategy_picks.json + DB open prices
+        print(f"No manual positions for {current_month} — using strategy_picks.json")
+        picks_path = os.path.join(base_dir, 'web', 'src', 'data', 'strategy_picks.json')
+        if not os.path.exists(picks_path):
+            print("strategy_picks.json not found.")
+            session.close()
+            return
+
+        with open(picks_path) as f:
+            picks_data = json.load(f)
+
+        month_start = today.replace(day=1)
+        entry_date = session.execute(
+            text("SELECT MIN(date) FROM daily_prices WHERE date >= :ms"),
+            {'ms': month_start.isoformat()}
+        ).scalar()
+
+        if not entry_date:
+            print("No price data for current month.")
+            session.close()
+            return
+
+        print(f"Entry date (first trading day): {entry_date}")
+
+        for strategy_key, strategy in picks_data['picks'].items():
+            stocks = strategy['stocks']
+            symbols = [s['symbol'] for s in stocks]
+            if not symbols:
+                continue
+
+            id_rows = session.execute(
+                text("SELECT id, nse_symbol FROM stocks WHERE nse_symbol IN :syms AND is_active = true"),
+                {'syms': tuple(symbols)}
+            ).fetchall()
+            sym_to_id = {r[1]: r[0] for r in id_rows}
+            ids = list(sym_to_id.values())
+            if not ids:
+                continue
+
+            entry_rows = session.execute(
+                text("SELECT stock_id, open_price FROM daily_prices WHERE stock_id IN :ids AND date = :dt"),
+                {'ids': tuple(ids), 'dt': entry_date}
+            ).fetchall()
+            entry_map = {r[0]: float(r[1]) for r in entry_rows}
+
+            close_rows = session.execute(
+                text("SELECT stock_id, close_price FROM daily_prices WHERE stock_id IN :ids AND date = :dt"),
+                {'ids': tuple(ids), 'dt': latest_date}
+            ).fetchall()
+            close_map = {r[0]: float(r[1]) for r in close_rows}
+
+            strategy_alerts = []
+            for pick in stocks:
+                sym = pick['symbol']
+                sid = sym_to_id.get(sym)
+                if not sid:
+                    continue
+                entry_price = entry_map.get(sid)
+                current_close = close_map.get(sid)
+                if not entry_price or not current_close:
+                    continue
+                ret = (current_close - entry_price) / entry_price
+                strategy_alerts.append({
+                    'rank':          pick['rank'],
+                    'symbol':        sym,
+                    'name':          pick.get('name', sym),
+                    'entry_date':    str(entry_date),
+                    'entry_price':   round(entry_price, 2),
+                    'current_close': round(current_close, 2),
+                    'current_date':  str(latest_date),
+                    'return_pct':    round(ret * 100, 2),
+                    'stop_hit':      ret <= STOP_LOSS_PCT,
+                })
+
+            strategy_alerts.sort(key=lambda x: x['return_pct'])
+            alerts[strategy_key] = strategy_alerts
+
+        source = 'picks_json'
 
     session.close()
 
     hits = sum(sum(1 for a in v if a['stop_hit']) for v in alerts.values())
-    next_trading_day = _next_trading_day_label(latest_date)
+    next_trading_day = next_weekday(pd.Timestamp(latest_date).date()).isoformat()
 
     output = {
         'generated_at':    datetime.now().isoformat(timespec='seconds'),
-        'current_month':   today.strftime('%Y-%m'),
-        'entry_date':      str(entry_date),
+        'current_month':   current_month,
+        'source':          source,
         'latest_date':     str(latest_date),
         'next_trading_day': next_trading_day,
         'stop_loss_pct':   STOP_LOSS_PCT * 100,
@@ -148,11 +208,11 @@ def main():
     with open(out_path, 'w') as f:
         json.dump(output, f, indent=2)
 
-    print(f"\nWrote {out_path}")
+    print(f"\nWrote {out_path}  (source={source})")
     print(f"Total stop hits: {hits}")
     for key, lst in alerts.items():
         hit_syms = [a['symbol'] for a in lst if a['stop_hit']]
-        print(f"  {key}: {', '.join(hit_syms) if hit_syms else 'none'}")
+        print(f"  {key}: {', '.join(hit_syms) if hit_syms else 'none hit'}")
 
 
 if __name__ == '__main__':
