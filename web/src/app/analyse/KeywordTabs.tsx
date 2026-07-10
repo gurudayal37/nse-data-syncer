@@ -10,6 +10,7 @@ const KEYWORDS = [
   { key: 'drone',          label: 'Drone' },
   { key: 'anti_drone',     label: 'Anti Drone' },
   { key: 'cctv',          label: 'CCTV / Camera' },
+  { key: 'bess',          label: 'BESS' },
   { key: 'aerospace',      label: 'Aerospace' },
   { key: 'cloud',          label: 'Cloud' },
   { key: 'ev',             label: 'EV' },
