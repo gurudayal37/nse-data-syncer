@@ -8,7 +8,7 @@ interface PaginationProps {
   basePath?: string
 }
 
-export default function Pagination({ currentPage, totalPages, sort, order, basePath = '/', query }: PaginationProps & { query?: string }) {
+export default function Pagination({ currentPage, totalPages, sort, order, basePath = '/', query, extraParams = '' }: PaginationProps & { query?: string; extraParams?: string }) {
   if (totalPages <= 1) return null
 
   const queryParam = query ? `&query=${encodeURIComponent(query)}` : ''
@@ -17,7 +17,7 @@ export default function Pagination({ currentPage, totalPages, sort, order, baseP
     <div className="flex gap-2">
       {currentPage > 1 && (
         <Link
-          href={`${basePath}?page=${currentPage - 1}&sort=${sort}&order=${order}${queryParam}`}
+          href={`${basePath}?page=${currentPage - 1}&sort=${sort}&order=${order}${queryParam}${extraParams}`}
           className="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Previous
@@ -25,7 +25,7 @@ export default function Pagination({ currentPage, totalPages, sort, order, baseP
       )}
       {currentPage < totalPages && (
         <Link
-          href={`${basePath}?page=${currentPage + 1}&sort=${sort}&order=${order}${queryParam}`}
+          href={`${basePath}?page=${currentPage + 1}&sort=${sort}&order=${order}${queryParam}${extraParams}`}
           className="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Next

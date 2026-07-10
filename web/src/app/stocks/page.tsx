@@ -5,12 +5,31 @@ import { PAGE_SIZE, SORTABLE_COLUMNS, PERFORMANCE_PERIODS, type SortableColumn }
 import PercentageChange from '@/components/PercentageChange'
 import Pagination from '@/components/Pagination'
 import Search from '@/components/Search'
+import StocksFilters from '@/components/StocksFilters'
 import type { Stock } from '@/types/stock'
 
 export const dynamic = 'force-dynamic'
 
 interface DashboardProps {
-  searchParams: Promise<{ page?: string; sort?: string; order?: string; query?: string }>
+  searchParams: Promise<{ page?: string; sort?: string; order?: string; query?: string; cap?: string; board?: string }>
+}
+
+type Board = 'mainboard' | 'sme'
+
+interface UnifiedStockRow {
+  id: number
+  board: Board
+  symbol: string
+  name: string | null
+  price: number | null
+  marketCapCr: number | null
+  change_1w: number | null
+  change_1m: number | null
+  change_3m: number | null
+  change_6m: number | null
+  change_1y: number | null
+  change_3y: number | null
+  change_5y: number | null
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -41,8 +60,14 @@ interface PriceStats {
   low_date: Date | null
   ath: number | null
   ath_date: Date | null
+  latest_price: number | null
 }
 
+// Only ever called with a page-sized (<= PAGE_SIZE) id list - critical for
+// performance. Also carries "latest close price" so the board=all merge path
+// (which fetches its full matching set *without* the expensive
+// include:{daily_prices:{take:1}} relation, see Dashboard() below) can defer
+// per-row price lookups to just the visible page too, same as the 52W stats.
 async function fetchPriceStats(stockIds: number[]): Promise<Map<number, PriceStats>> {
   if (stockIds.length === 0) return new Map()
 
@@ -80,15 +105,24 @@ async function fetchPriceStats(stockIds: number[]): Promise<Map<number, PriceSta
       FROM   daily_prices
       WHERE  stock_id = ANY(${stockIds}::int[])
       ORDER  BY stock_id, close_price DESC, date DESC
+    ),
+    latest AS (
+      SELECT DISTINCT ON (stock_id)
+             stock_id, close_price AS latest_price
+      FROM   daily_prices
+      WHERE  stock_id = ANY(${stockIds}::int[])
+      ORDER  BY stock_id, date DESC
     )
     SELECT w.stock_id,
            w.high_52w, w.low_52w,
            hd.high_date, ld.low_date,
-           a.ath, a.ath_date
+           a.ath, a.ath_date,
+           l.latest_price
     FROM   w52 w
     LEFT   JOIN high_date hd ON hd.stock_id = w.stock_id
     LEFT   JOIN low_date  ld ON ld.stock_id = w.stock_id
     LEFT   JOIN ath        a ON a.stock_id  = w.stock_id
+    LEFT   JOIN latest     l ON l.stock_id  = w.stock_id
   `
 
   const map = new Map<number, PriceStats>()
@@ -99,9 +133,91 @@ async function fetchPriceStats(stockIds: number[]): Promise<Map<number, PriceSta
       high_52w: row.high_52w ? Number(row.high_52w) : null,
       low_52w:  row.low_52w  ? Number(row.low_52w)  : null,
       ath:      row.ath      ? Number(row.ath)       : null,
+      latest_price: row.latest_price ? Number(row.latest_price) : null,
     })
   }
   return map
+}
+
+interface SMEPriceStats {
+  sme_stock_id: number
+  high_52w: number | null
+  high_date: Date | null
+  latest_price: number | null
+}
+
+async function fetchSMEPriceStats(smeStockIds: number[]): Promise<Map<number, SMEPriceStats>> {
+  if (smeStockIds.length === 0) return new Map()
+
+  const rows = await prisma.$queryRaw<SMEPriceStats[]>`
+    WITH w52 AS (
+      SELECT sme_stock_id, MAX(high_price) AS high_52w
+      FROM   sme_daily_prices
+      WHERE  date >= CURRENT_DATE - INTERVAL '365 days'
+        AND  sme_stock_id = ANY(${smeStockIds}::int[])
+      GROUP  BY sme_stock_id
+    ),
+    high_date AS (
+      SELECT DISTINCT ON (dp.sme_stock_id)
+             dp.sme_stock_id, dp.date AS high_date
+      FROM   sme_daily_prices dp
+      JOIN   w52 ON dp.sme_stock_id = w52.sme_stock_id
+               AND dp.high_price = w52.high_52w
+      WHERE  dp.date >= CURRENT_DATE - INTERVAL '365 days'
+      ORDER  BY dp.sme_stock_id, dp.date DESC
+    ),
+    latest AS (
+      SELECT DISTINCT ON (sme_stock_id)
+             sme_stock_id, close_price AS latest_price
+      FROM   sme_daily_prices
+      WHERE  sme_stock_id = ANY(${smeStockIds}::int[])
+      ORDER  BY sme_stock_id, date DESC
+    )
+    SELECT w.sme_stock_id, w.high_52w, hd.high_date, l.latest_price
+    FROM   w52 w
+    LEFT   JOIN high_date hd ON hd.sme_stock_id = w.sme_stock_id
+    LEFT   JOIN latest     l ON l.sme_stock_id  = w.sme_stock_id
+  `
+
+  const map = new Map<number, SMEPriceStats>()
+  for (const row of rows) {
+    map.set(Number(row.sme_stock_id), {
+      ...row,
+      sme_stock_id: Number(row.sme_stock_id),
+      high_52w: row.high_52w ? Number(row.high_52w) : null,
+      latest_price: row.latest_price ? Number(row.latest_price) : null,
+    })
+  }
+  return map
+}
+
+const SORT_GETTERS: Record<string, (r: UnifiedStockRow) => number | null> = {
+  change_1w: (r) => r.change_1w,
+  change_1m: (r) => r.change_1m,
+  change_3m: (r) => r.change_3m,
+  change_6m: (r) => r.change_6m,
+  change_1y: (r) => r.change_1y,
+  change_3y: (r) => r.change_3y,
+  change_5y: (r) => r.change_5y,
+}
+
+function stockToRow(s: Stock): UnifiedStockRow {
+  const perf = s.stock_performance
+  return {
+    id: s.id,
+    board: 'mainboard',
+    symbol: s.nse_symbol ?? '',
+    name: s.name,
+    price: s.daily_prices[0]?.close_price ?? null,
+    marketCapCr: s.market_cap != null ? Number(s.market_cap) / 10_000_000 : null,
+    change_1w: perf?.change_1w ?? null,
+    change_1m: perf?.change_1m ?? null,
+    change_3m: perf?.change_3m ?? null,
+    change_6m: perf?.change_6m ?? null,
+    change_1y: perf?.change_1y ?? null,
+    change_3y: perf?.change_3y ?? null,
+    change_5y: perf?.change_5y ?? null,
+  }
 }
 
 // ── Page ───────────────────────────────────────────────────────────────────
@@ -114,15 +230,20 @@ export default async function Dashboard(props: DashboardProps) {
   const query = searchParams.query || ''
   const skip  = (page - 1) * PAGE_SIZE
 
-  const minMarketCap = Number(process.env.MIN_MARKET_CAP_CR || 2000) * 10_000_000
+  const minMarketCapCr = Number(process.env.MIN_MARKET_CAP_CR || 2000)
+  const minMarketCap = minMarketCapCr * 10_000_000
+  const capOn = (searchParams.cap ?? 'on') !== 'off'
+  const boardAll = (searchParams.board ?? 'mainboard') === 'all'
 
-  let stocks: Stock[] = []
+  let rows: UnifiedStockRow[] = []
   let totalCount = 0
   let error: string | null = null
+  let priceStats = new Map<number, PriceStats>()
+  let smePriceStats = new Map<number, SMEPriceStats>()
 
-  const where: Prisma.stocksWhereInput = {
+  const stocksWhere: Prisma.stocksWhereInput = {
     is_active: true,
-    market_cap: { gte: minMarketCap },
+    ...(capOn ? { market_cap: { gte: minMarketCap } } : {}),
     ...(query ? {
       OR: [
         { nse_symbol: { contains: query, mode: 'insensitive' } },
@@ -131,24 +252,130 @@ export default async function Dashboard(props: DashboardProps) {
     } : {}),
   }
 
-  const orderBy: Prisma.stocksOrderByWithRelationInput[] = SORTABLE_COLUMNS.includes(sort)
-    ? [{ stock_performance: { [sort]: { sort: order, nulls: 'last' } } }, { nse_symbol: 'asc' }]
-    : [{ nse_symbol: 'asc' }]
-
   try {
-    ;[totalCount, stocks] = await Promise.all([
-      prisma.stocks.count({ where }),
-      prisma.stocks.findMany({
-        where,
-        take: PAGE_SIZE,
-        skip,
-        include: {
-          daily_prices: { orderBy: { date: 'desc' }, take: 1, select: { close_price: true, date: true } },
-          stock_performance: true,
-        },
-        orderBy,
-      }) as Promise<Stock[]>,
-    ])
+    if (!boardAll) {
+      // ── Mainboard-only: unchanged DB-level sort/paginate, cap filter now conditional ──
+      const orderBy: Prisma.stocksOrderByWithRelationInput[] = SORTABLE_COLUMNS.includes(sort)
+        ? [{ stock_performance: { [sort]: { sort: order, nulls: 'last' } } }, { nse_symbol: 'asc' }]
+        : [{ nse_symbol: 'asc' }]
+
+      const [count, stocks] = await Promise.all([
+        prisma.stocks.count({ where: stocksWhere }),
+        prisma.stocks.findMany({
+          where: stocksWhere,
+          take: PAGE_SIZE,
+          skip,
+          include: {
+            daily_prices: { orderBy: { date: 'desc' }, take: 1, select: { close_price: true, date: true } },
+            stock_performance: true,
+          },
+          orderBy,
+        }) as Promise<Stock[]>,
+      ])
+      totalCount = count
+      rows = stocks.map(stockToRow)
+      priceStats = await fetchPriceStats(rows.map((r) => r.id))
+    } else {
+      // ── All boards: merge mainboard + SME, sort/paginate in JS ──
+      // SME has no market_cap data - if the cap filter is on, no SME row could ever
+      // pass it, so skip fetching SME entirely rather than fetching and discarding.
+      const smeWhere: Prisma.sme_stocksWhereInput = {
+        is_active: true,
+        ...(query ? {
+          OR: [
+            { symbol: { contains: query, mode: 'insensitive' } },
+            { name:   { contains: query, mode: 'insensitive' } },
+          ],
+        } : {}),
+      }
+
+      // Deliberately NOT including daily_prices/sme_daily_prices here: this
+      // fetch is unpaginated (up to ~2,400 mainboard rows), and Prisma can't
+      // push a per-parent take:1 on a one-to-many relation down into a single
+      // cheap SQL query at this scale - it was observed to take 100+ seconds.
+      // Only stock_performance/sme_performance (proper 1:1 relations, cheap
+      // regardless of row count) are needed here for sorting; latest price is
+      // patched in below via fetchPriceStats/fetchSMEPriceStats, same as the
+      // 52W-high stats, only for the page actually being displayed.
+      const [mainboardStocks, smeStocks] = await Promise.all([
+        prisma.stocks.findMany({
+          where: stocksWhere,
+          include: { stock_performance: true },
+        }),
+        capOn
+          ? Promise.resolve([])
+          : prisma.sme_stocks.findMany({
+              where: smeWhere,
+              include: { sme_performance: true },
+            }),
+      ])
+
+      const mainboardRows: UnifiedStockRow[] = mainboardStocks.map((s) => {
+        const perf = s.stock_performance
+        return {
+          id: s.id,
+          board: 'mainboard' as const,
+          symbol: s.nse_symbol ?? '',
+          name: s.name,
+          price: null,
+          marketCapCr: s.market_cap != null ? Number(s.market_cap) / 10_000_000 : null,
+          change_1w: perf?.change_1w ?? null,
+          change_1m: perf?.change_1m ?? null,
+          change_3m: perf?.change_3m ?? null,
+          change_6m: perf?.change_6m ?? null,
+          change_1y: perf?.change_1y ?? null,
+          change_3y: perf?.change_3y ?? null,
+          change_5y: perf?.change_5y ?? null,
+        }
+      })
+      const smeRows: UnifiedStockRow[] = smeStocks.map((s) => {
+        const perf = s.sme_performance
+        return {
+          id: s.id,
+          board: 'sme' as const,
+          symbol: s.symbol,
+          name: s.name,
+          price: null,
+          marketCapCr: null,
+          change_1w: perf?.change_1w ?? null,
+          change_1m: perf?.change_1m ?? null,
+          change_3m: perf?.change_3m ?? null,
+          change_6m: perf?.change_6m ?? null,
+          change_1y: perf?.change_1y ?? null,
+          change_3y: perf?.change_3y ?? null,
+          change_5y: perf?.change_5y ?? null,
+        }
+      })
+
+      const merged = [...mainboardRows, ...smeRows]
+      const getter = SORT_GETTERS[sort] ?? SORT_GETTERS.change_1w
+      merged.sort((a, b) => {
+        const av = getter(a)
+        const bv = getter(b)
+        if (av == null && bv == null) return 0
+        if (av == null) return 1
+        if (bv == null) return -1
+        return order === 'asc' ? av - bv : bv - av
+      })
+
+      totalCount = merged.length
+      rows = merged.slice(skip, skip + PAGE_SIZE)
+
+      const pageMainboardIds = rows.filter((r) => r.board === 'mainboard').map((r) => r.id)
+      const pageSmeIds = rows.filter((r) => r.board === 'sme').map((r) => r.id)
+      ;[priceStats, smePriceStats] = await Promise.all([
+        fetchPriceStats(pageMainboardIds),
+        fetchSMEPriceStats(pageSmeIds),
+      ])
+
+      // Patch in the latest price for just this page's rows (deferred above for performance)
+      rows = rows.map((row) => ({
+        ...row,
+        price: row.board === 'mainboard'
+          ? priceStats.get(row.id)?.latest_price ?? null
+          : smePriceStats.get(row.id)?.latest_price ?? null,
+      }))
+    }
   } catch (e) {
     error = e instanceof Error ? e.message : 'Failed to fetch stocks'
     if (process.env.NODE_ENV === 'development') console.error(e)
@@ -167,11 +394,8 @@ export default async function Dashboard(props: DashboardProps) {
     )
   }
 
-  const totalPages = Math.ceil(totalCount / PAGE_SIZE)
-
-  // Batch fetch 52W and ATH stats for this page's stocks
-  const stockIds = stocks.map((s) => s.id)
-  const priceStats = await fetchPriceStats(stockIds)
+  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
+  const filterQp = `&cap=${capOn ? 'on' : 'off'}&board=${boardAll ? 'all' : 'mainboard'}`
 
   // ── Sort header helpers ──────────────────────────────────────────────────
 
@@ -185,7 +409,7 @@ export default async function Dashboard(props: DashboardProps) {
     const qp = query ? `&query=${encodeURIComponent(query)}` : ''
     return (
       <th className={`px-4 py-3 ${align === 'right' ? 'text-right' : ''}`}>
-        <Link href={`/stocks?page=${page}&sort=${column}&order=${newOrder}${qp}`} className="inline-flex items-center hover:text-blue-600 whitespace-nowrap">
+        <Link href={`/stocks?page=${page}&sort=${column}&order=${newOrder}${qp}${filterQp}`} className="inline-flex items-center hover:text-blue-600 whitespace-nowrap">
           {label}<SortIcon column={column} />
         </Link>
       </th>
@@ -199,14 +423,15 @@ export default async function Dashboard(props: DashboardProps) {
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Stock Dashboard</h1>
             <p className="text-slate-500 text-sm mt-1">
-              {skip + 1}–{Math.min(skip + PAGE_SIZE, totalCount)} of {totalCount} NSE stocks
+              {totalCount === 0 ? '0' : `${skip + 1}–${Math.min(skip + PAGE_SIZE, totalCount)}`} of {totalCount} {boardAll ? 'stocks (Mainboard + SME)' : 'NSE stocks'}
             </p>
           </div>
           <div className="flex flex-col items-end gap-3">
             <div className="w-72">
               <Search placeholder="Search stocks…" />
             </div>
-            <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/stocks" query={query} />
+            <StocksFilters capOn={capOn} boardAll={boardAll} minMarketCapCr={minMarketCapCr} />
+            <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/stocks" query={query} extraParams={filterQp} />
           </div>
         </header>
 
@@ -217,6 +442,7 @@ export default async function Dashboard(props: DashboardProps) {
                 <tr>
                   <th className="px-4 py-3">Symbol</th>
                   <th className="px-4 py-3">Name</th>
+                  {boardAll && <th className="px-4 py-3">Board</th>}
                   <th className="px-4 py-3 text-right">Price</th>
                   <th className="px-4 py-3 text-right whitespace-nowrap">52W High</th>
                   <th className="px-4 py-3 text-right">Mkt Cap</th>
@@ -226,33 +452,42 @@ export default async function Dashboard(props: DashboardProps) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {stocks.map((stock) => {
-                  const latest = stock.daily_prices[0]
-                  const perf   = stock.stock_performance
-                  const ps     = priceStats.get(stock.id)
-                  const price  = latest?.close_price ?? null
+                {rows.map((row) => {
+                  const ps = row.board === 'mainboard' ? priceStats.get(row.id) : smePriceStats.get(row.id)
+                  const high52w = ps?.high_52w ?? null
+                  const highDate = ps?.high_date ?? null
 
-                  const pctFromW52H = pctFromHigh(price, ps?.high_52w ?? null)
-                  const w52HighDays = fmtDaysAgo(daysAgo(ps?.high_date ?? null))
+                  const pctFromW52H = pctFromHigh(row.price, high52w)
+                  const w52HighDays = fmtDaysAgo(daysAgo(highDate))
+                  const detailHref = row.board === 'sme' ? `/sme-stocks/${row.symbol}` : `/stock/${row.symbol}`
 
                   return (
-                    <tr key={stock.id} className="hover:bg-slate-50 transition-colors">
+                    <tr key={`${row.board}-${row.id}`} className="hover:bg-slate-50 transition-colors">
                       {/* Symbol */}
                       <td className="px-4 py-3 font-semibold">
-                        <Link href={`/stock/${stock.nse_symbol}`} className="text-blue-600 hover:underline">
-                          {stock.nse_symbol}
+                        <Link href={detailHref} className="text-blue-600 hover:underline">
+                          {row.symbol}
                         </Link>
                       </td>
 
                       {/* Name */}
-                      <td className="px-4 py-3 text-slate-500 truncate max-w-[180px]" title={stock.name || ''}>
-                        {stock.name || '—'}
+                      <td className="px-4 py-3 text-slate-500 truncate max-w-[180px]" title={row.name || ''}>
+                        {row.name || '—'}
                       </td>
+
+                      {/* Board */}
+                      {boardAll && (
+                        <td className="px-4 py-3">
+                          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${row.board === 'sme' ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-blue-50 text-blue-600 border border-blue-100'}`}>
+                            {row.board === 'sme' ? 'SME' : 'Mainboard'}
+                          </span>
+                        </td>
+                      )}
 
                       {/* Price + % from 52W high */}
                       <td className="px-4 py-3 text-right">
                         <span className="font-semibold text-slate-800">
-                          {price != null ? `₹${price.toFixed(2)}` : '—'}
+                          {row.price != null ? `₹${row.price.toFixed(2)}` : '—'}
                         </span>
                         {pctFromW52H != null && (
                           <span className={`block text-xs font-medium ${pctFromW52H >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
@@ -263,9 +498,9 @@ export default async function Dashboard(props: DashboardProps) {
 
                       {/* 52W High */}
                       <td className="px-4 py-3 text-right">
-                        {ps?.high_52w != null ? (
+                        {high52w != null ? (
                           <>
-                            <span className="font-medium text-slate-700">₹{ps.high_52w.toFixed(2)}</span>
+                            <span className="font-medium text-slate-700">₹{high52w.toFixed(2)}</span>
                             {w52HighDays && (
                               <span className="block text-xs text-slate-400">{w52HighDays}</span>
                             )}
@@ -275,14 +510,14 @@ export default async function Dashboard(props: DashboardProps) {
 
                       {/* Market Cap */}
                       <td className="px-4 py-3 text-right text-slate-500">
-                        {stock.market_cap
-                          ? `₹${Math.round(Number(stock.market_cap) / 10_000_000).toLocaleString('en-IN')} Cr`
+                        {row.marketCapCr != null
+                          ? `₹${Math.round(row.marketCapCr).toLocaleString('en-IN')} Cr`
                           : '—'}
                       </td>
 
                       {/* Performance periods */}
                       {PERFORMANCE_PERIODS.map((period) => {
-                        const value = perf?.[period.key as keyof typeof perf] as number | null | undefined
+                        const value = row[period.key as keyof UnifiedStockRow] as number | null
                         return (
                           <td key={period.key} className="px-4 py-3 text-right">
                             <PercentageChange value={value} />
@@ -292,6 +527,13 @@ export default async function Dashboard(props: DashboardProps) {
                     </tr>
                   )
                 })}
+                {rows.length === 0 && (
+                  <tr>
+                    <td colSpan={5 + (boardAll ? 1 : 0) + PERFORMANCE_PERIODS.length} className="px-4 py-12 text-center text-slate-400">
+                      No stocks match your filters.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
