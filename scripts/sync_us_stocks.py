@@ -86,6 +86,20 @@ def ensure_tables(session):
         CREATE INDEX IF NOT EXISTS ix_us_daily_prices_date
             ON us_daily_prices (date)
     """))
+    session.execute(text("""
+        CREATE TABLE IF NOT EXISTS us_performance (
+            id           SERIAL PRIMARY KEY,
+            us_stock_id  INTEGER UNIQUE NOT NULL REFERENCES us_stocks(id) ON DELETE CASCADE,
+            change_1w    DOUBLE PRECISION,
+            change_1m    DOUBLE PRECISION,
+            change_3m    DOUBLE PRECISION,
+            change_6m    DOUBLE PRECISION,
+            change_1y    DOUBLE PRECISION,
+            change_3y    DOUBLE PRECISION,
+            change_5y    DOUBLE PRECISION,
+            updated_at   TIMESTAMPTZ DEFAULT NOW()
+        )
+    """))
     session.commit()
     print("Tables ensured.")
 
@@ -233,6 +247,57 @@ def download_and_insert(session, batch_tickers: list[str], ticker_id_map: dict, 
     print(f"  Inserted/updated {len(records)} price records.")
 
 
+def compute_performance(session, us_stock_id: int):
+    rows = session.execute(text("""
+        SELECT date, close_price FROM us_daily_prices
+        WHERE us_stock_id = :id AND close_price IS NOT NULL
+        ORDER BY date DESC LIMIT 2000
+    """), {'id': us_stock_id}).fetchall()
+    if not rows:
+        return
+
+    df = pd.DataFrame(rows, columns=['date', 'close'])
+    df['date'] = pd.to_datetime(df['date'])
+    df = df.sort_values('date').reset_index(drop=True)
+
+    latest_price = df.iloc[-1]['close']
+    latest_date = df.iloc[-1]['date']
+
+    def pct(days):
+        cutoff = latest_date - timedelta(days=days)
+        ref = df[df['date'] <= cutoff]
+        if ref.empty:
+            return None
+        ref_price = ref.iloc[-1]['close']
+        return float(round((latest_price - ref_price) / ref_price * 100, 2)) if ref_price else None
+
+    session.execute(text("""
+        INSERT INTO us_performance
+            (us_stock_id, change_1w, change_1m, change_3m, change_6m, change_1y, change_3y, change_5y, updated_at)
+        VALUES
+            (:id, :w, :m1, :m3, :m6, :y1, :y3, :y5, NOW())
+        ON CONFLICT (us_stock_id) DO UPDATE SET
+            change_1w  = :w,
+            change_1m  = :m1,
+            change_3m  = :m3,
+            change_6m  = :m6,
+            change_1y  = :y1,
+            change_3y  = :y3,
+            change_5y  = :y5,
+            updated_at = NOW()
+    """), {
+        'id': us_stock_id,
+        'w': pct(7),
+        'm1': pct(30),
+        'm3': pct(90),
+        'm6': pct(180),
+        'y1': pct(365),
+        'y3': pct(365 * 3),
+        'y5': pct(365 * 5),
+    })
+    session.commit()
+
+
 def main():
     print("=== US Stocks Daily Sync ===")
     db = DatabaseManager()
@@ -255,6 +320,14 @@ def main():
         total = session.execute(text("SELECT COUNT(*) FROM us_daily_prices")).scalar()
         stocks = session.execute(text("SELECT COUNT(*) FROM us_stocks")).scalar()
         print(f"\nSync complete. {stocks} stocks, {total:,} total price records.")
+
+        # Compute performance metrics for all stocks
+        print("\nComputing performance metrics...")
+        for i, sid in enumerate(ticker_id_map.values(), start=1):
+            compute_performance(session, sid)
+            if i % 200 == 0:
+                print(f"  Processed {i}/{len(ticker_id_map)}...")
+        print(f"Performance metrics updated for {len(ticker_id_map)} stocks.")
 
     except Exception as e:
         session.rollback()

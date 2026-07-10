@@ -469,6 +469,58 @@ model sme_performance {
   @@index([daily_volume])
 }
 
+model us_stocks {
+  id               Int                @id @default(autoincrement())
+  ticker           String             @unique @db.VarChar(20)
+  name             String?            @db.VarChar(255)
+  sector           String?            @db.VarChar(100)
+  is_active        Boolean?           @default(true)
+  created_at       DateTime?          @default(now()) @db.Timestamptz(6)
+  us_daily_prices  us_daily_prices[]
+  us_performance   us_performance?
+
+  @@index([id], map: "ix_us_stocks_id")
+  @@index([ticker], map: "ix_us_stocks_ticker")
+}
+
+model us_daily_prices {
+  id          Int       @id @default(autoincrement())
+  us_stock_id Int
+  date        DateTime  @db.Date
+  open_price  Float?
+  high_price  Float?
+  low_price   Float?
+  close_price Float?
+  volume      BigInt?
+  us_stocks   us_stocks @relation(fields: [us_stock_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([us_stock_id, date], map: "ix_us_daily_prices_stock_date")
+  @@index([date], map: "ix_us_daily_prices_date")
+  @@index([us_stock_id, date(sort: Desc)], map: "ix_us_daily_prices_stock_date_idx")
+}
+
+model us_performance {
+  id           Int       @id @default(autoincrement())
+  us_stock_id  Int       @unique
+  change_1w    Float?
+  change_1m    Float?
+  change_3m    Float?
+  change_6m    Float?
+  change_1y    Float?
+  change_3y    Float?
+  change_5y    Float?
+  updated_at   DateTime? @default(now()) @db.Timestamptz(6)
+  us_stocks    us_stocks @relation(fields: [us_stock_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([change_1w])
+  @@index([change_1m])
+  @@index([change_3m])
+  @@index([change_6m])
+  @@index([change_1y])
+  @@index([change_3y])
+  @@index([change_5y])
+}
+
 model index_daily_prices {
   id          Int       @id @default(autoincrement())
   index_id    Int
