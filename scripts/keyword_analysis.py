@@ -68,6 +68,7 @@ THEME_KEYWORDS = {
     'defence':        [r'defenc(?:e|es)', r'defens(?:e|es)', r'defense', r'\bdrdo\b'],
     'drone':          [r'\bdrones?\b', r'\buavs?\b'],
     'anti_drone':     [r'\banti[\s-]?drones?\b'],
+    'cctv':           [r'\bcctv\b', r'\bcameras?\b'],
     'cloud':          [r'\bcloud\b'],
     'ev':             [r'\bev\b', r'electric\s+vehicle'],
     'renewable':      [r'renewable', r'solar', r'wind\s+energy'],
@@ -385,7 +386,7 @@ CREATE INDEX IF NOT EXISTS ix_pka_symbol ON presentation_keyword_analysis (symbo
 ALTER_TABLE_SQL = [
     f'ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS {c} INT DEFAULT 0'
     for c in ('precision_engineering', 'best', 'top', 'leader', 'order_book', 'highest',
-              'word_count', 'positive_hits', 'negative_hits', 'drone', 'anti_drone')
+              'word_count', 'positive_hits', 'negative_hits', 'drone', 'anti_drone', 'cctv')
 ] + [
     "ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS positive_density NUMERIC(8,2) DEFAULT 0",
     "ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS negative_density NUMERIC(8,2) DEFAULT 0",

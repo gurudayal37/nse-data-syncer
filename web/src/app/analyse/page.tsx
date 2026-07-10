@@ -13,7 +13,7 @@ export const metadata = {
 
 const ALLOWED_KEYWORDS = [
   'data_centre', 'ai', 'semiconductor', 'aerospace',
-  'defence', 'drone', 'anti_drone', 'cloud', 'ev', 'renewable', 'export', 'capex',
+  'defence', 'drone', 'anti_drone', 'cctv', 'cloud', 'ev', 'renewable', 'export', 'capex',
   'order_book', 'precision_engineering', 'best', 'top', 'leader', 'highest',
   'sentiment',
 ] as const
@@ -27,6 +27,7 @@ const KEYWORD_LABELS: Record<Keyword, string> = {
   defence:       'Defence',
   drone:         'Drone',
   anti_drone:    'Anti Drone',
+  cctv:          'CCTV / Camera',
   cloud:         'Cloud',
   ev:            'EV',
   renewable:     'Renewable',
