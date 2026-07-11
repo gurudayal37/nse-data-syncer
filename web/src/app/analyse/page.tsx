@@ -3,12 +3,13 @@ import { Suspense } from 'react'
 import prisma from '@/lib/prisma'
 import PercentageChange from '@/components/PercentageChange'
 import KeywordTabs from './KeywordTabs'
+import SeasonTabs from './SeasonTabs'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'Keyword Analysis',
-  description: 'Companies mentioning key themes in Q4 FY26 investor presentations',
+  description: 'Companies mentioning key themes in investor presentations by quarter',
 }
 
 const ALLOWED_KEYWORDS = [
@@ -60,7 +61,61 @@ interface Row {
   presentation_url: string | null
 }
 
-async function fetchRows(keyword: Keyword, sort: SortField, order: SortOrder): Promise<Row[]> {
+// ── Season helpers ──────────────────────────────────────────────────────────
+
+// Derive a season key from a result_date's year and month.
+// result_date is the ANNOUNCEMENT date (board meeting), not the quarter period.
+// Apr–Jun Y  → Q4 of FY ending in Y   e.g. Apr–Jun 2026 → "Q4FY26"
+// Jul–Sep Y  → Q1 of FY starting in Y e.g. Jul–Sep 2026 → "Q1FY27"
+// Oct–Dec Y  → Q2 of FY starting in Y e.g. Oct–Dec 2026 → "Q2FY27"
+// Jan–Mar Y  → Q3 of FY ending in Y   e.g. Jan–Mar 2027 → "Q3FY27"
+async function fetchSeasons(): Promise<{ key: string; label: string }[]> {
+  const rows = await prisma.$queryRaw<{ season_key: string; season_start: Date }[]>`
+    SELECT DISTINCT
+      CASE
+        WHEN EXTRACT(MONTH FROM result_date) BETWEEN 4 AND 6
+          THEN 'Q4FY' || RIGHT(EXTRACT(YEAR FROM result_date)::TEXT, 2)
+        WHEN EXTRACT(MONTH FROM result_date) BETWEEN 7 AND 9
+          THEN 'Q1FY' || RIGHT((EXTRACT(YEAR FROM result_date) + 1)::TEXT, 2)
+        WHEN EXTRACT(MONTH FROM result_date) BETWEEN 10 AND 12
+          THEN 'Q2FY' || RIGHT((EXTRACT(YEAR FROM result_date) + 1)::TEXT, 2)
+        ELSE
+          'Q3FY' || RIGHT(EXTRACT(YEAR FROM result_date)::TEXT, 2)
+      END AS season_key,
+      MIN(result_date) AS season_start
+    FROM presentation_keyword_analysis
+    GROUP BY season_key
+    ORDER BY season_start
+  `
+  return rows.map(r => ({
+    key:   r.season_key,
+    label: r.season_key.slice(0, 2) + ' FY' + r.season_key.slice(4), // "Q4FY26" → "Q4 FY26"
+  }))
+}
+
+// Convert a season key to the result_date range used in WHERE clauses.
+function seasonToDateRange(key: string): { start: string; end: string } {
+  const q  = key.slice(0, 2)                       // "Q4"
+  const fy = parseInt('20' + key.slice(4), 10)     // "Q4FY26" → 2026
+  switch (q) {
+    case 'Q4': return { start: `${fy}-04-01`,   end: `${fy}-06-30`   }
+    case 'Q1': return { start: `${fy-1}-07-01`, end: `${fy-1}-09-30` }
+    case 'Q2': return { start: `${fy-1}-10-01`, end: `${fy-1}-12-31` }
+    case 'Q3': return { start: `${fy}-01-01`,   end: `${fy}-03-31`   }
+    default:   return { start: '2026-04-01',     end: '2026-06-30'    }
+  }
+}
+
+// ── Data fetching ────────────────────────────────────────────────────────────
+
+async function fetchRows(
+  keyword: Keyword,
+  sort: SortField,
+  order: SortOrder,
+  dateRange: { start: string; end: string },
+): Promise<Row[]> {
+  const { start, end } = dateRange
+
   if (keyword === 'sentiment') {
     return prisma.$queryRawUnsafe<Row[]>(`
       SELECT
@@ -79,6 +134,8 @@ async function fetchRows(keyword: Keyword, sort: SortField, order: SortOrder): P
       JOIN stocks s ON s.nse_symbol = pka.symbol
       LEFT JOIN stock_performance sp ON sp.stock_id = s.id
       WHERE pka.has_presentation = TRUE
+        AND pka.result_date >= '${start}'::date
+        AND pka.result_date <= '${end}'::date
       ORDER BY ${sort === 'mentions' ? 'mentions' : `sp.${sort}`} ${order} NULLS LAST,
                pka.sentiment_score DESC
     `)
@@ -88,7 +145,7 @@ async function fetchRows(keyword: Keyword, sort: SortField, order: SortOrder): P
     SELECT
       pka.symbol,
       pka.company_name,
-      pka."${keyword}"   AS mentions,
+      pka."${keyword}" AS mentions,
       NULL::int AS positive_hits,
       NULL::int AS negative_hits,
       sp.change_1w,
@@ -101,20 +158,24 @@ async function fetchRows(keyword: Keyword, sort: SortField, order: SortOrder): P
     JOIN stocks s ON s.nse_symbol = pka.symbol
     LEFT JOIN stock_performance sp ON sp.stock_id = s.id
     WHERE pka."${keyword}" > 0
+      AND pka.result_date >= '${start}'::date
+      AND pka.result_date <= '${end}'::date
     ORDER BY ${sort === 'mentions' ? 'mentions' : `sp.${sort}`} ${order} NULLS LAST,
              pka."${keyword}" DESC
   `)
 }
 
+// ── Page ─────────────────────────────────────────────────────────────────────
+
 interface PageProps {
-  searchParams: Promise<{ keyword?: string; sort?: string; order?: string }>
+  searchParams: Promise<{ keyword?: string; sort?: string; order?: string; season?: string }>
 }
 
 const SORT_COLS_BASE: { field: SortField; label: string }[] = [
-  { field: 'change_1w',  label: '1W'       },
-  { field: 'change_1m',  label: '1M'       },
-  { field: 'change_3m',  label: '3M'       },
-  { field: 'change_6m',  label: '6M'       },
+  { field: 'change_1w', label: '1W' },
+  { field: 'change_1m', label: '1M' },
+  { field: 'change_3m', label: '3M' },
+  { field: 'change_6m', label: '6M' },
 ]
 
 export default async function AnalysePage({ searchParams }: PageProps) {
@@ -125,8 +186,19 @@ export default async function AnalysePage({ searchParams }: PageProps) {
     ? params.sort : 'mentions') as SortField
   const order   = params.order === 'asc' ? 'asc' : 'desc'
 
-  const rows = await fetchRows(keyword, sort, order)
+  // Discover available seasons and resolve the active one
+  const seasons = await fetchSeasons()
+  const seasonKeys = seasons.map(s => s.key)
+  const season = (seasonKeys.includes(params.season ?? '')
+    ? params.season
+    : seasonKeys[seasonKeys.length - 1] ?? 'Q4FY26') as string
+
+  const dateRange   = seasonToDateRange(season)
+  const seasonLabel = seasons.find(s => s.key === season)?.label ?? season
+
+  const rows = await fetchRows(keyword, sort, order, dateRange)
   const isSentiment = keyword === 'sentiment'
+
   const SORT_COLS = [
     { field: 'mentions' as SortField, label: isSentiment ? 'Sentiment' : 'Mentions' },
     ...SORT_COLS_BASE,
@@ -144,7 +216,7 @@ export default async function AnalysePage({ searchParams }: PageProps) {
     return (
       <th className="px-4 py-3 text-right">
         <Link
-          href={`/analyse?keyword=${keyword}&sort=${col}&order=${nextOrder}`}
+          href={`/analyse?season=${season}&keyword=${keyword}&sort=${col}&order=${nextOrder}`}
           className="inline-flex items-center justify-end hover:text-blue-600 whitespace-nowrap"
         >
           {label}<SortIcon col={col} />
@@ -163,11 +235,20 @@ export default async function AnalysePage({ searchParams }: PageProps) {
             <h1 className="text-2xl font-bold text-slate-900">Keyword Analysis</h1>
             <p className="text-slate-500 text-sm mt-1">
               {isSentiment
-                ? <>{rows.length} companies ranked by <span className="font-semibold text-slate-700">management commentary sentiment</span> (positive − negative phrase density per 1000 words) in Q4 FY26 investor presentations</>
-                : <>{rows.length} companies mentioning <span className="font-semibold text-slate-700">{KEYWORD_LABELS[keyword]}</span> in Q4 FY26 investor presentations</>}
+                ? <>{rows.length} companies ranked by <span className="font-semibold text-slate-700">management commentary sentiment</span> in <span className="font-semibold text-slate-700">{seasonLabel}</span> investor presentations</>
+                : <>{rows.length} companies mentioning <span className="font-semibold text-slate-700">{KEYWORD_LABELS[keyword]}</span> in <span className="font-semibold text-slate-700">{seasonLabel}</span> investor presentations</>}
             </p>
           </div>
         </header>
+
+        {/* Season tabs */}
+        {seasons.length > 1 && (
+          <div className="bg-white shadow-sm rounded-xl border border-slate-200 px-5 py-3 mb-3">
+            <Suspense>
+              <SeasonTabs seasons={seasons} active={season} />
+            </Suspense>
+          </div>
+        )}
 
         {/* Keyword tabs */}
         <div className="bg-white shadow-sm rounded-xl border border-slate-200 px-5 py-4 mb-5">
