@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 173887.73,
-      "total_fees_paid": 1856.99,
+      "end_value": 173142.39,
+      "total_fees_paid": 1855.65,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 73.89,
-      "benchmark_return": 10.67,
-      "expectancy": 8.8,
-      "net_return_after_fees": 72.03
+      "total_return": 73.14,
+      "benchmark_return": 9.79,
+      "expectancy": 8.74,
+      "net_return_after_fees": 71.29
     },
     "risk_metrics": {
       "max_drawdown": -7.08,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.77,
-      "calmar_ratio": 22.34,
-      "omega_ratio": 5.47,
-      "sortino_ratio": 152.35
+      "sharpe_ratio": 2.73,
+      "calmar_ratio": 22.07,
+      "omega_ratio": 5.32,
+      "sortino_ratio": 0
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -78,8 +78,8 @@
       "best_trade": 25.33,
       "worst_trade": -7.08,
       "avg_winning_trade": 15.07,
-      "avg_losing_trade": -6.88,
-      "profit_factor": 5.47,
+      "avg_losing_trade": -7.08,
+      "profit_factor": 5.32,
       "total_stock_transactions": 75,
       "total_closed_trades": 6,
       "total_open_trades": 1,
@@ -9404,8 +9404,8 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -6.68,
-      "benchmark_return": 1.01,
+      "portfolio_return": -7.08,
+      "benchmark_return": 0.21,
       "holdings": [
         {
           "symbol": "SNDK",
@@ -9451,7 +9451,7 @@
         },
         {
           "symbol": "BAND",
-          "return": 19.24,
+          "return": 16.6,
           "score": 3.09,
           "stop_triggered": false
         },
@@ -9463,7 +9463,7 @@
         },
         {
           "symbol": "DELL",
-          "return": 0.81,
+          "return": -1.01,
           "score": 2.86,
           "stop_triggered": false
         },
@@ -9487,7 +9487,7 @@
         },
         {
           "symbol": "RVMD",
-          "return": -0.21,
+          "return": -1.78,
           "score": 2.59,
           "stop_triggered": false
         },
