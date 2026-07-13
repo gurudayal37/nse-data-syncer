@@ -100,13 +100,15 @@ def is_result(row: dict) -> bool:
     return any(kw in text for kw in RESULT_KEYWORDS)
 
 
-def fetch_nse_meetings(from_date: date, to_date: date) -> list[dict]:
+def fetch_nse_meetings(from_date: date, to_date: date, index: str = 'equities') -> list[dict]:
     """
     Call NSE board meetings API directly — no homepage session needed.
     Works locally and may work from GitHub Actions depending on IP.
+    `index` is 'equities' for the main board or 'sme' for the SME board —
+    NSE serves these as separate feeds.
     """
     params = {
-        'index': 'equities',
+        'index': index,
         'from_date': fmt_nse(from_date),
         'to_date': fmt_nse(to_date),
     }
@@ -117,7 +119,7 @@ def fetch_nse_meetings(from_date: date, to_date: date) -> list[dict]:
         'Referer': 'https://www.nseindia.com/companies-listing/corporate-filings-board-meetings',
     }
     resp = requests.get(NSE_API, params=params, headers=headers, timeout=30)
-    log.info(f'NSE API HTTP {resp.status_code}')
+    log.info(f'NSE API ({index}) HTTP {resp.status_code}')
     resp.raise_for_status()
     data = resp.json()
     return data if isinstance(data, list) else []
@@ -134,11 +136,14 @@ def main():
     to_date = today + timedelta(days=90)
     log.info(f'Fetching NSE board meetings {fmt_nse(today)} → {fmt_nse(to_date)}')
 
-    try:
-        raw = fetch_nse_meetings(today, to_date)
-    except Exception as e:
-        log.error(f'NSE API failed: {e}')
-        sys.exit(1)
+    raw = []
+    for index in ('equities', 'sme'):
+        try:
+            raw.extend(fetch_nse_meetings(today, to_date, index=index))
+        except Exception as e:
+            log.error(f'NSE API ({index}) failed: {e}')
+            if index == 'equities':
+                sys.exit(1)
 
     log.info(f'NSE returned {len(raw)} total meetings')
     result_rows = [r for r in raw if is_result(r)]
