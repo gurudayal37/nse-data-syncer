@@ -51,15 +51,15 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 121250.27,
-      "total_fees_paid": 1800.7,
+      "end_value": 121238.0,
+      "total_fees_paid": 1800.67,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 21.25,
-      "benchmark_return": -7.34,
+      "total_return": 21.24,
+      "benchmark_return": -7.95,
       "expectancy": 3.27,
-      "net_return_after_fees": 19.45
+      "net_return_after_fees": 19.44
     },
     "risk_metrics": {
       "max_drawdown": -10.93,
@@ -7964,82 +7964,82 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -1.19,
-      "benchmark_return": 1.45,
+      "portfolio_return": -1.2,
+      "benchmark_return": 0.78,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": -15.51,
-          "score": 8.01
+          "return": -12.95,
+          "score": 8.02
         },
         {
           "symbol": "CUPID",
-          "return": 8.9,
+          "return": 14.13,
           "score": 7.94
         },
         {
           "symbol": "MTARTECH",
-          "return": -11.48,
-          "score": 4.93
+          "return": -15.9,
+          "score": 4.94
         },
         {
           "symbol": "HFCL",
-          "return": 0.84,
+          "return": -0.03,
           "score": 4.27
         },
         {
           "symbol": "VENUSREM",
-          "return": -1.53,
-          "score": 4.05
+          "return": 3.39,
+          "score": 4.06
         },
         {
           "symbol": "BLISSGVS",
-          "return": -2.87,
+          "return": -3.43,
           "score": 3.85
         },
         {
           "symbol": "SBC",
-          "return": 1.91,
+          "return": 2.2,
           "score": 3.81
         },
         {
           "symbol": "RPTECH",
-          "return": 0.59,
-          "score": 3.66
+          "return": 0.51,
+          "score": 3.67
         },
         {
           "symbol": "ACUTAAS",
-          "return": -0.88,
+          "return": -1.89,
           "score": 3.46
         },
         {
           "symbol": "BAJAJCON",
-          "return": 10.26,
+          "return": -1.42,
           "score": 3.25
         },
         {
           "symbol": "WHEELS",
-          "return": -16.6,
-          "score": 2.97
+          "return": -17.72,
+          "score": 2.98
         },
         {
           "symbol": "DEEDEV",
-          "return": 4.55,
-          "score": 2.96
+          "return": 7.49,
+          "score": 2.97
         },
         {
           "symbol": "THANGAMAYL",
-          "return": -2.58,
-          "score": 2.79
+          "return": 0.95,
+          "score": 2.8
         },
         {
           "symbol": "ATHERENERG",
-          "return": 3.86,
+          "return": 5.37,
           "score": 2.74
         },
         {
           "symbol": "SANSERA",
-          "return": 2.66,
+          "return": 1.33,
           "score": 2.67
         }
       ]
