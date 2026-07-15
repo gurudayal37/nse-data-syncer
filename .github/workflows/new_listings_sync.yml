@@ -2,7 +2,7 @@ name: Daily New Listings Sync
 
 on:
   schedule:
-    - cron: '40 10 * * 1-5'  # Runs at 4:10 PM IST (10:40 AM UTC) Mon-Fri, 5 min after SME sync to avoid Dhan TOTP token collisions
+    - cron: '35 12 * * 1-5'  # Runs at 6:05 PM IST (12:35 PM UTC) Mon-Fri, 2h after SME sync - a 5min gap wasn't enough buffer against GitHub's cron queue drift (observed both jobs starting 72s apart despite the 5min schedule gap, causing a Dhan TOTP collision)
   workflow_dispatch:  # Allows manual trigger
 
 env:
