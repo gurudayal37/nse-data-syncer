@@ -1,10 +1,13 @@
-"""Sync NSE sectoral / thematic indices into the indices / index_daily_prices /
-index_performance tables using Dhan's historical daily-candle API.
+"""Sync NSE + BSE sectoral / thematic / benchmark indices into the indices /
+index_daily_prices / index_performance tables using Dhan's historical
+daily-candle API.
 
 Covers the indices Yahoo Finance doesn't carry history for (all the newer
 NIFTY_* thematic indices, Nifty Private Bank) plus the two broad indices
 (Largemid 250, Smallcap 250) that were previously synced from yfinance but
-only had a single day of history there.
+only had a single day of history there. Also covers all 8 indices with
+monthly options trading (5 NSE + 3 BSE) - see the "Monthly options
+underlyings" section below.
 
 Requires DHAN_CLIENT_ID, DHAN_PIN and DHAN_TOTP_SECRET in web/.env. A fresh
 24h access token is minted via Dhan's TOTP login flow at the start of every
@@ -35,7 +38,9 @@ DHAN_TOKEN_URL = 'https://auth.dhan.co/app/generateAccessToken'
 DHAN_HISTORICAL_URL = 'https://api.dhan.co/v2/charts/historical'
 
 # security_id -> (our symbol, display name)
-# security_id comes from Dhan's instrument master (SEGMENT=I, EXCH_ID=NSE):
+# security_id comes from Dhan's instrument master (INSTRUMENT=INDEX,
+# EXCH_ID=NSE or BSE - Dhan carries both exchanges' indices under the same
+# "IDX_I" exchangeSegment, fetched identically regardless of EXCH_ID):
 # https://images.dhan.co/api-data/api-scrip-master-detailed.csv
 DHAN_INDICES = [
     # -- Sectoral / thematic (matches the TradingView sector watchlist) --
@@ -89,11 +94,20 @@ DHAN_INDICES = [
     (13,  '^NSEI',                'Nifty 50'),
     (1,   'NIFTYMIDCAP150.NS',    'Nifty Midcap 150'),
     (19,  '^CRSLDX',              'Nifty 500'),
+
+    # -- Monthly options underlyings not yet covered above (5 NSE + 3 BSE,
+    # last-Tuesday NSE / last-Thursday BSE monthly expiry) --
+    (442, 'MIDCPNIFTY',           'Nifty Midcap Select'),
+    (38,  'NIFTYNXT50',           'Nifty Next 50'),
+    (51,  'SENSEX',               'BSE Sensex'),
+    (69,  'BANKEX',               'BSE Bankex'),
+    (83,  'SNSX50',               'BSE Sensex 50'),
 ]
 
 # Symbols handled by the separate "US Market Daily Sync" workflow
-# (scripts/sync_us_indices.py) - Dhan's IDX_I segment only covers NSE, so these
-# stay on yfinance and must not be touched by this script.
+# (scripts/sync_us_indices.py) - Dhan doesn't carry US indices at all (its
+# IDX_I segment only covers NSE + BSE), so these stay on yfinance and must
+# not be touched by this script.
 US_ONLY_SYMBOLS = {'^GSPC', '^IXIC', '^DJI', '^RUT', '^RUI', '^VIX'}
 
 HISTORY_START = '2011-01-01'
@@ -302,7 +316,7 @@ def main():
         print("DHAN_CLIENT_ID / DHAN_PIN / DHAN_TOTP_SECRET not set in web/.env")
         sys.exit(1)
 
-    print("=== Syncing NSE Sectoral Indices from Dhan ===")
+    print("=== Syncing NSE + BSE Indices from Dhan ===")
     access_token = generate_access_token()
     print("Generated fresh Dhan access token via TOTP")
 
