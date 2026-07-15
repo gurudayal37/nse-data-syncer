@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Calendar, Clock, FileText } from 'lucide-rea
 import prisma from '@/lib/prisma'
 import AnalyseButton, { AnalysisDisplay } from './AnalyseButton'
 import TradingViewWatchlist from './TradingViewWatchlist'
+import AutoRefresh from './AutoRefresh'
 
 export const dynamic = 'force-dynamic'
 
@@ -269,6 +270,7 @@ export default async function TimelinePage({
           </div>
 
           <div className="ml-auto flex items-center gap-2 text-xs">
+            <AutoRefresh isToday={isToday} />
             <span className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 border border-green-200 rounded-full px-2.5 py-1 font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
               {announced.length} announced
