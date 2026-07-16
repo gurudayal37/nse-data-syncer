@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-15T11:04:44",
-  "as_of_date": "2026-07-15",
+  "generated_at": "2026-07-16T11:05:27",
+  "as_of_date": "2026-07-16",
   "universe": "High Cap (market_cap >= 2000 Cr)",
-  "universe_size": 1057,
+  "universe_size": 1054,
   "picks": {
     "momentum": {
       "description": "Top 15 by 3M + 6M + 1Y momentum (equal weight)",
@@ -15,151 +15,151 @@
           "rank": 1,
           "symbol": "CUPID",
           "name": "Cupid Ltd-$",
-          "market_cap_cr": 29537,
-          "weighted_z": 6.8387,
-          "mr_3m": 2.3854,
-          "mr_6m": 2.6555,
-          "mr_1y": 15.8764
+          "market_cap_cr": 28639,
+          "weighted_z": 6.7847,
+          "mr_3m": 2.2144,
+          "mr_6m": 2.8849,
+          "mr_1y": 15.3059
         },
         {
           "rank": 2,
           "symbol": "STLTECH",
           "name": "Sterlite Technologies Ltd",
-          "market_cap_cr": 27754,
-          "weighted_z": 5.7426,
-          "mr_3m": 2.0101,
-          "mr_6m": 7.2884,
-          "mr_1y": 6.098
+          "market_cap_cr": 27821,
+          "weighted_z": 5.7183,
+          "mr_3m": 1.8463,
+          "mr_6m": 7.5639,
+          "mr_1y": 5.8796
         },
         {
           "rank": 3,
           "symbol": "HFCL",
           "name": "HFCL Limited",
-          "market_cap_cr": 34137,
-          "weighted_z": 4.838,
-          "mr_3m": 3.4527,
-          "mr_6m": 4.7747,
-          "mr_1y": 3.6917
+          "market_cap_cr": 34336,
+          "weighted_z": 4.9966,
+          "mr_3m": 3.3517,
+          "mr_6m": 5.098,
+          "mr_1y": 3.8041
         },
         {
           "rank": 4,
           "symbol": "VENUSREM",
           "name": "Venus Remedies Ltd",
-          "market_cap_cr": 2468,
-          "weighted_z": 3.5055,
-          "mr_3m": 1.4886,
-          "mr_6m": 2.8461,
-          "mr_1y": 6.0116
+          "market_cap_cr": 2393,
+          "weighted_z": 3.3071,
+          "mr_3m": 1.298,
+          "mr_6m": 2.9425,
+          "mr_1y": 5.4131
         },
         {
           "rank": 5,
           "symbol": "DEEDEV",
           "name": "Dee Development Engineers Ltd",
-          "market_cap_cr": 4982,
-          "weighted_z": 3.4143,
-          "mr_3m": 1.7863,
-          "mr_6m": 4.539,
-          "mr_1y": 2.6002
+          "market_cap_cr": 4873,
+          "weighted_z": 3.0307,
+          "mr_3m": 1.5516,
+          "mr_6m": 3.9337,
+          "mr_1y": 2.5586
         },
         {
           "rank": 6,
-          "symbol": "RPTECH",
-          "name": "Rashi Peripherals Ltd",
-          "market_cap_cr": 5112,
-          "weighted_z": 3.1842,
-          "mr_3m": 2.1186,
-          "mr_6m": 2.5064,
-          "mr_1y": 4.1023
+          "symbol": "BLISSGVS",
+          "name": "Bliss GVS Pharma Ltd",
+          "market_cap_cr": 5365,
+          "weighted_z": 3.0145,
+          "mr_3m": 1.6101,
+          "mr_6m": 2.9666,
+          "mr_1y": 3.7465
         },
         {
           "rank": 7,
-          "symbol": "MTARTECH",
-          "name": "MTAR Technologies Ltd",
-          "market_cap_cr": 20604,
-          "weighted_z": 3.0374,
-          "mr_3m": 0.8949,
-          "mr_6m": 2.7764,
-          "mr_1y": 5.7362
+          "symbol": "RPTECH",
+          "name": "Rashi Peripherals Ltd",
+          "market_cap_cr": 5012,
+          "weighted_z": 3.0007,
+          "mr_3m": 1.8544,
+          "mr_6m": 2.5473,
+          "mr_1y": 3.7843
         },
         {
           "rank": 8,
           "symbol": "SBC",
           "name": "SBC Exports Ltd",
-          "market_cap_cr": 2008,
-          "weighted_z": 2.9676,
-          "mr_3m": 1.0487,
-          "mr_6m": 1.769,
-          "mr_1y": 6.6551
+          "market_cap_cr": 2011,
+          "weighted_z": 2.9668,
+          "mr_3m": 1.0848,
+          "mr_6m": 1.8389,
+          "mr_1y": 6.2656
         },
         {
           "rank": 9,
-          "symbol": "BLISSGVS",
-          "name": "Bliss GVS Pharma Ltd",
-          "market_cap_cr": 5466,
-          "weighted_z": 2.9469,
-          "mr_3m": 1.6249,
-          "mr_6m": 2.9383,
-          "mr_1y": 3.6767
+          "symbol": "ACUTAAS",
+          "name": "Acutaas Chemicals Ltd",
+          "market_cap_cr": 29341,
+          "weighted_z": 2.8881,
+          "mr_3m": 1.3063,
+          "mr_6m": 2.4635,
+          "mr_1y": 4.6605
         },
         {
           "rank": 10,
           "symbol": "WELCORP",
           "name": "Welspun Corp Limited",
-          "market_cap_cr": 44305,
-          "weighted_z": 2.8647,
-          "mr_3m": 1.9048,
-          "mr_6m": 3.1939,
-          "mr_1y": 2.4402
+          "market_cap_cr": 44408,
+          "weighted_z": 2.8377,
+          "mr_3m": 1.7065,
+          "mr_6m": 3.4111,
+          "mr_1y": 2.3241
         },
         {
           "rank": 11,
-          "symbol": "ACUTAAS",
-          "name": "Acutaas Chemicals Ltd",
-          "market_cap_cr": 29039,
-          "weighted_z": 2.7172,
-          "mr_3m": 1.1135,
-          "mr_6m": 2.3378,
-          "mr_1y": 4.8277
+          "symbol": "MTARTECH",
+          "name": "MTAR Technologies Ltd",
+          "market_cap_cr": 19575,
+          "weighted_z": 2.6457,
+          "mr_3m": 0.4902,
+          "mr_6m": 2.6006,
+          "mr_1y": 5.3434
         },
         {
           "rank": 12,
-          "symbol": "PAISALO",
-          "name": "Paisalo Digital Ltd",
-          "market_cap_cr": 6551,
-          "weighted_z": 2.6184,
-          "mr_3m": 1.8802,
-          "mr_6m": 2.3297,
-          "mr_1y": 2.9128
+          "symbol": "ATHERENERG",
+          "name": "Ather Energy Ltd",
+          "market_cap_cr": 48569,
+          "weighted_z": 2.64,
+          "mr_3m": 0.9254,
+          "mr_6m": 1.7983,
+          "mr_1y": 5.5528
         },
         {
           "rank": 13,
-          "symbol": "SENORES",
-          "name": "Senores Pharmaceuticals Ltd",
-          "market_cap_cr": 6820,
-          "weighted_z": 2.6151,
-          "mr_3m": 1.8312,
-          "mr_6m": 1.9118,
-          "mr_1y": 3.6158
+          "symbol": "INDSWFTLAB",
+          "name": "Ind-Swift Laboratories Ltd",
+          "market_cap_cr": 2031,
+          "weighted_z": 2.6043,
+          "mr_3m": 1.299,
+          "mr_6m": 3.3079,
+          "mr_1y": 2.5287
         },
         {
           "rank": 14,
-          "symbol": "ATHERENERG",
-          "name": "Ather Energy Ltd",
-          "market_cap_cr": 49692,
-          "weighted_z": 2.574,
-          "mr_3m": 0.872,
-          "mr_6m": 1.7771,
-          "mr_1y": 5.6579
+          "symbol": "PAISALO",
+          "name": "Paisalo Digital Ltd",
+          "market_cap_cr": 6710,
+          "weighted_z": 2.6002,
+          "mr_3m": 1.5815,
+          "mr_6m": 2.5051,
+          "mr_1y": 3.0613
         },
         {
           "rank": 15,
-          "symbol": "AEGISLOG",
-          "name": "AEGIS LOGISTICS LIMITED",
-          "market_cap_cr": 46371,
-          "weighted_z": 2.5233,
-          "mr_3m": 2.6303,
-          "mr_6m": 1.7656,
-          "mr_1y": 1.8605
+          "symbol": "SATIN",
+          "name": "Satin Creditcare Network Ltd",
+          "market_cap_cr": 2927,
+          "weighted_z": 2.5764,
+          "mr_3m": 2.0956,
+          "mr_6m": 2.4679,
+          "mr_1y": 1.967
         }
       ]
     },
@@ -174,151 +174,151 @@
           "rank": 1,
           "symbol": "CUPID",
           "name": "Cupid Ltd-$",
-          "market_cap_cr": 29537,
-          "weighted_z": 8.4584,
-          "mr_3m": 2.3854,
-          "mr_6m": 2.6555,
-          "mr_1y": 15.8764
+          "market_cap_cr": 28639,
+          "weighted_z": 8.4201,
+          "mr_3m": 2.2144,
+          "mr_6m": 2.8849,
+          "mr_1y": 15.3059
         },
         {
           "rank": 2,
           "symbol": "STLTECH",
           "name": "Sterlite Technologies Ltd",
-          "market_cap_cr": 27754,
-          "weighted_z": 7.1537,
-          "mr_3m": 2.0101,
-          "mr_6m": 7.2884,
-          "mr_1y": 6.098
+          "market_cap_cr": 27821,
+          "weighted_z": 7.1605,
+          "mr_3m": 1.8463,
+          "mr_6m": 7.5639,
+          "mr_1y": 5.8796
         },
         {
           "rank": 3,
           "symbol": "HFCL",
           "name": "HFCL Limited",
-          "market_cap_cr": 34137,
-          "weighted_z": 4.4917,
-          "mr_3m": 3.4527,
-          "mr_6m": 4.7747,
-          "mr_1y": 3.6917
+          "market_cap_cr": 34336,
+          "weighted_z": 4.6874,
+          "mr_3m": 3.3517,
+          "mr_6m": 5.098,
+          "mr_1y": 3.8041
         },
         {
           "rank": 4,
           "symbol": "VENUSREM",
           "name": "Venus Remedies Ltd",
-          "market_cap_cr": 2468,
-          "weighted_z": 4.2699,
-          "mr_3m": 1.4886,
-          "mr_6m": 2.8461,
-          "mr_1y": 6.0116
+          "market_cap_cr": 2393,
+          "weighted_z": 4.0502,
+          "mr_3m": 1.298,
+          "mr_6m": 2.9425,
+          "mr_1y": 5.4131
         },
         {
           "rank": 5,
           "symbol": "MTARTECH",
           "name": "MTAR Technologies Ltd",
-          "market_cap_cr": 20604,
-          "weighted_z": 4.1049,
-          "mr_3m": 0.8949,
-          "mr_6m": 2.7764,
-          "mr_1y": 5.7362
+          "market_cap_cr": 19575,
+          "weighted_z": 3.8045,
+          "mr_3m": 0.4902,
+          "mr_6m": 2.6006,
+          "mr_1y": 5.3434
         },
         {
           "rank": 6,
-          "symbol": "DEEDEV",
-          "name": "Dee Development Engineers Ltd",
-          "market_cap_cr": 4982,
-          "weighted_z": 3.8638,
-          "mr_3m": 1.7863,
-          "mr_6m": 4.539,
-          "mr_1y": 2.6002
+          "symbol": "SBC",
+          "name": "SBC Exports Ltd",
+          "market_cap_cr": 2011,
+          "weighted_z": 3.7369,
+          "mr_3m": 1.0848,
+          "mr_6m": 1.8389,
+          "mr_1y": 6.2656
         },
         {
           "rank": 7,
-          "symbol": "SBC",
-          "name": "SBC Exports Ltd",
-          "market_cap_cr": 2008,
-          "weighted_z": 3.861,
-          "mr_3m": 1.0487,
-          "mr_6m": 1.769,
-          "mr_1y": 6.6551
+          "symbol": "ACUTAAS",
+          "name": "Acutaas Chemicals Ltd",
+          "market_cap_cr": 29341,
+          "weighted_z": 3.4142,
+          "mr_3m": 1.3063,
+          "mr_6m": 2.4635,
+          "mr_1y": 4.6605
         },
         {
           "rank": 8,
-          "symbol": "ATHERENERG",
-          "name": "Ather Energy Ltd",
-          "market_cap_cr": 49692,
-          "weighted_z": 3.4305,
-          "mr_3m": 0.872,
-          "mr_6m": 1.7771,
-          "mr_1y": 5.6579
+          "symbol": "DEEDEV",
+          "name": "Dee Development Engineers Ltd",
+          "market_cap_cr": 4873,
+          "weighted_z": 3.4015,
+          "mr_3m": 1.5516,
+          "mr_6m": 3.9337,
+          "mr_1y": 2.5586
         },
         {
           "rank": 9,
-          "symbol": "ACUTAAS",
-          "name": "Acutaas Chemicals Ltd",
-          "market_cap_cr": 29039,
-          "weighted_z": 3.4269,
-          "mr_3m": 1.1135,
-          "mr_6m": 2.3378,
-          "mr_1y": 4.8277
+          "symbol": "ATHERENERG",
+          "name": "Ather Energy Ltd",
+          "market_cap_cr": 48569,
+          "weighted_z": 3.3939,
+          "mr_3m": 0.9254,
+          "mr_6m": 1.7983,
+          "mr_1y": 5.5528
         },
         {
           "rank": 10,
           "symbol": "BLISSGVS",
           "name": "Bliss GVS Pharma Ltd",
-          "market_cap_cr": 5466,
-          "weighted_z": 3.3087,
-          "mr_3m": 1.6249,
-          "mr_6m": 2.9383,
-          "mr_1y": 3.6767
+          "market_cap_cr": 5365,
+          "weighted_z": 3.3231,
+          "mr_3m": 1.6101,
+          "mr_6m": 2.9666,
+          "mr_1y": 3.7465
         },
         {
           "rank": 11,
           "symbol": "RPTECH",
           "name": "Rashi Peripherals Ltd",
-          "market_cap_cr": 5112,
-          "weighted_z": 3.218,
-          "mr_3m": 2.1186,
-          "mr_6m": 2.5064,
-          "mr_1y": 4.1023
+          "market_cap_cr": 5012,
+          "weighted_z": 3.0766,
+          "mr_3m": 1.8544,
+          "mr_6m": 2.5473,
+          "mr_1y": 3.7843
         },
         {
           "rank": 12,
-          "symbol": "SAKAR",
-          "name": "Sakar Healthcare Limited",
-          "market_cap_cr": 2013,
-          "weighted_z": 3.0037,
-          "mr_3m": 0.9764,
-          "mr_6m": 2.7488,
-          "mr_1y": 3.2567
+          "symbol": "INDSWFTLAB",
+          "name": "Ind-Swift Laboratories Ltd",
+          "market_cap_cr": 2031,
+          "weighted_z": 2.9951,
+          "mr_3m": 1.299,
+          "mr_6m": 3.3079,
+          "mr_1y": 2.5287
         },
         {
           "rank": 13,
           "symbol": "WELCORP",
           "name": "Welspun Corp Limited",
-          "market_cap_cr": 44305,
-          "weighted_z": 2.9322,
-          "mr_3m": 1.9048,
-          "mr_6m": 3.1939,
-          "mr_1y": 2.4402
+          "market_cap_cr": 44408,
+          "weighted_z": 2.9688,
+          "mr_3m": 1.7065,
+          "mr_6m": 3.4111,
+          "mr_1y": 2.3241
         },
         {
           "rank": 14,
           "symbol": "KIRLOSENG",
           "name": "Kirloskar Oil Engines Limited",
-          "market_cap_cr": 35128,
-          "weighted_z": 2.7713,
-          "mr_3m": 1.4012,
-          "mr_6m": 2.1866,
-          "mr_1y": 3.5489
+          "market_cap_cr": 34865,
+          "weighted_z": 2.8595,
+          "mr_3m": 1.122,
+          "mr_6m": 2.306,
+          "mr_1y": 3.6371
         },
         {
           "rank": 15,
-          "symbol": "SENORES",
-          "name": "Senores Pharmaceuticals Ltd",
-          "market_cap_cr": 6820,
-          "weighted_z": 2.6244,
-          "mr_3m": 1.8312,
-          "mr_6m": 1.9118,
-          "mr_1y": 3.6158
+          "symbol": "PAISALO",
+          "name": "Paisalo Digital Ltd",
+          "market_cap_cr": 6710,
+          "weighted_z": 2.7281,
+          "mr_3m": 1.5815,
+          "mr_6m": 2.5051,
+          "mr_1y": 3.0613
         }
       ]
     }
