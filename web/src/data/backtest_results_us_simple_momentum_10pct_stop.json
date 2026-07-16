@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 172210.71,
-      "total_fees_paid": 1853.99,
+      "end_value": 170831.84,
+      "total_fees_paid": 1851.53,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 72.21,
-      "benchmark_return": 10.62,
-      "expectancy": 8.67,
-      "net_return_after_fees": 70.36
+      "total_return": 70.83,
+      "benchmark_return": 10.06,
+      "expectancy": 8.56,
+      "net_return_after_fees": 68.98
     },
     "risk_metrics": {
-      "max_drawdown": -7.58,
+      "max_drawdown": -8.32,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.68,
-      "calmar_ratio": 20.3,
-      "omega_ratio": 5.14,
-      "sortino_ratio": 120.1
+      "sharpe_ratio": 2.61,
+      "calmar_ratio": 18.08,
+      "omega_ratio": 4.89,
+      "sortino_ratio": 47.83
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -76,10 +76,10 @@
       "total_trades": 7,
       "win_rate": 71.43,
       "best_trade": 25.33,
-      "worst_trade": -7.58,
+      "worst_trade": -8.32,
       "avg_winning_trade": 15.07,
-      "avg_losing_trade": -7.33,
-      "profit_factor": 5.14,
+      "avg_losing_trade": -7.7,
+      "profit_factor": 4.89,
       "total_stock_transactions": 75,
       "total_closed_trades": 6,
       "total_open_trades": 1,
@@ -9404,8 +9404,8 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -7.58,
-      "benchmark_return": 0.97,
+      "portfolio_return": -8.32,
+      "benchmark_return": 0.46,
       "holdings": [
         {
           "symbol": "SNDK",
@@ -9451,7 +9451,7 @@
         },
         {
           "symbol": "BAND",
-          "return": 12.12,
+          "return": 8.82,
           "score": 3.09,
           "stop_triggered": false
         },
@@ -9463,7 +9463,7 @@
         },
         {
           "symbol": "DELL",
-          "return": -4.35,
+          "return": -9.29,
           "score": 2.86,
           "stop_triggered": false
         },
@@ -9487,7 +9487,7 @@
         },
         {
           "symbol": "RVMD",
-          "return": -1.52,
+          "return": -4.33,
           "score": 2.59,
           "stop_triggered": false
         },
