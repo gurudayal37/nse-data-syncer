@@ -99,13 +99,26 @@ def main():
     today = date.today()
     current_month = today.strftime('%Y-%m')
 
-    picks_path = os.path.join(base_dir, 'web', 'src', 'data', 'strategy_picks.json')
-    if not os.path.exists(picks_path):
-        print("strategy_picks.json not found.")
-        return
+    # Prefer monthly snapshot (frozen on first run of the month) so stocks that
+    # drop out of the daily top-15 mid-month are still monitored for stops.
+    snapshot_path = os.path.join(base_dir, 'web', 'src', 'data', 'monthly_picks_snapshot.json')
+    picks_path    = os.path.join(base_dir, 'web', 'src', 'data', 'strategy_picks.json')
 
-    with open(picks_path) as f:
-        picks_data = json.load(f)
+    picks_data = None
+    if os.path.exists(snapshot_path):
+        with open(snapshot_path) as f:
+            snapshot = json.load(f)
+        if current_month in snapshot:
+            picks_data = {'picks': snapshot[current_month]['picks']}
+            print(f"Using monthly snapshot for {current_month}")
+
+    if picks_data is None:
+        if not os.path.exists(picks_path):
+            print("strategy_picks.json not found.")
+            return
+        with open(picks_path) as f:
+            picks_data = json.load(f)
+        print(f"No snapshot for {current_month} — using strategy_picks.json")
 
     db = DatabaseManager()
     session = db.Session()

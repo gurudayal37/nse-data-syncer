@@ -1,0 +1,166 @@
+{
+  "2026-07": {
+    "created_at": "2026-07-01T00:00:00",
+    "as_of_date": "2026-06-30",
+    "picks": {
+      "momentum": {
+        "stocks": [
+          {
+            "rank": 1,
+            "symbol": "STLTECH",
+            "name": "STLTECH"
+          },
+          {
+            "rank": 2,
+            "symbol": "CUPID",
+            "name": "CUPID"
+          },
+          {
+            "rank": 3,
+            "symbol": "HFCL",
+            "name": "HFCL"
+          },
+          {
+            "rank": 4,
+            "symbol": "MTARTECH",
+            "name": "MTARTECH"
+          },
+          {
+            "rank": 5,
+            "symbol": "RPTECH",
+            "name": "RPTECH"
+          },
+          {
+            "rank": 6,
+            "symbol": "BLISSGVS",
+            "name": "BLISSGVS"
+          },
+          {
+            "rank": 7,
+            "symbol": "VENUSREM",
+            "name": "VENUSREM"
+          },
+          {
+            "rank": 8,
+            "symbol": "DEEDEV",
+            "name": "DEEDEV"
+          },
+          {
+            "rank": 9,
+            "symbol": "SBC",
+            "name": "SBC"
+          },
+          {
+            "rank": 10,
+            "symbol": "WHEELS",
+            "name": "WHEELS"
+          },
+          {
+            "rank": 11,
+            "symbol": "BAJAJCON",
+            "name": "BAJAJCON"
+          },
+          {
+            "rank": 12,
+            "symbol": "WELCORP",
+            "name": "WELCORP"
+          },
+          {
+            "rank": 13,
+            "symbol": "ACUTAAS",
+            "name": "ACUTAAS"
+          },
+          {
+            "rank": 14,
+            "symbol": "THANGAMAYL",
+            "name": "THANGAMAYL"
+          },
+          {
+            "rank": 15,
+            "symbol": "KIRLOSENG",
+            "name": "KIRLOSENG"
+          }
+        ]
+      },
+      "simple_momentum_high_cap": {
+        "stocks": [
+          {
+            "rank": 1,
+            "symbol": "STLTECH",
+            "name": "STLTECH"
+          },
+          {
+            "rank": 2,
+            "symbol": "MTARTECH",
+            "name": "MTARTECH"
+          },
+          {
+            "rank": 3,
+            "symbol": "HFCL",
+            "name": "HFCL"
+          },
+          {
+            "rank": 4,
+            "symbol": "ACUTAAS",
+            "name": "ACUTAAS"
+          },
+          {
+            "rank": 5,
+            "symbol": "THANGAMAYL",
+            "name": "THANGAMAYL"
+          },
+          {
+            "rank": 6,
+            "symbol": "ATHERENERG",
+            "name": "ATHERENERG"
+          },
+          {
+            "rank": 7,
+            "symbol": "KIRLOSENG",
+            "name": "KIRLOSENG"
+          },
+          {
+            "rank": 8,
+            "symbol": "SANSERA",
+            "name": "SANSERA"
+          },
+          {
+            "rank": 9,
+            "symbol": "SYRMA",
+            "name": "SYRMA"
+          },
+          {
+            "rank": 10,
+            "symbol": "LAURUSLABS",
+            "name": "LAURUSLABS"
+          },
+          {
+            "rank": 11,
+            "symbol": "WELCORP",
+            "name": "WELCORP"
+          },
+          {
+            "rank": 12,
+            "symbol": "TDPOWERSYS",
+            "name": "TDPOWERSYS"
+          },
+          {
+            "rank": 13,
+            "symbol": "AVALON",
+            "name": "AVALON"
+          },
+          {
+            "rank": 14,
+            "symbol": "ANANDRATHI",
+            "name": "ANANDRATHI"
+          },
+          {
+            "rank": 15,
+            "symbol": "ARVIND",
+            "name": "ARVIND"
+          }
+        ]
+      }
+    }
+  }
+}

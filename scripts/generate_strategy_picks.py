@@ -154,6 +154,29 @@ def main():
         json.dump(output, f, indent=2)
 
     print(f"\nPicks written to {out_path}")
+
+    # ── Monthly snapshot (frozen on first run of each month) ─────────────────
+    # check_stop_losses.py reads this to monitor the stocks actually bought,
+    # even if those stocks later fall out of the daily top-15.
+    snapshot_path = os.path.join(base_dir, 'web', 'src', 'data', 'monthly_picks_snapshot.json')
+    current_month = datetime.now().strftime('%Y-%m')
+
+    snapshot = {}
+    if os.path.exists(snapshot_path):
+        with open(snapshot_path) as f:
+            snapshot = json.load(f)
+
+    if current_month not in snapshot:
+        snapshot[current_month] = {
+            'created_at': datetime.now().isoformat(timespec='seconds'),
+            'as_of_date': as_of,
+            'picks': output['picks'],
+        }
+        with open(snapshot_path, 'w') as f:
+            json.dump(snapshot, f, indent=2)
+        print(f"  Monthly snapshot created for {current_month}")
+    else:
+        print(f"  Monthly snapshot for {current_month} already exists — skipped")
     print(f"  As-of date : {as_of}")
     print(f"  Universe   : {len(df)} stocks")
     print(f"\nMomentum (3M+6M+1Y) — Top 15:")
