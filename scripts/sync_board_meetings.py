@@ -100,13 +100,43 @@ def is_result(row: dict) -> bool:
     return any(kw in text for kw in RESULT_KEYWORDS)
 
 
-def fetch_nse_meetings(from_date: date, to_date: date, index: str = 'equities') -> list[dict]:
+def make_nse_session() -> requests.Session:
     """
-    Call NSE board meetings API directly — no homepage session needed.
-    Works locally and may work from GitHub Actions depending on IP.
-    `index` is 'equities' for the main board or 'sme' for the SME board —
-    NSE serves these as separate feeds.
+    Establish a session with NSE by hitting the homepage first.
+    NSE sets cookies on the homepage that the API endpoints require.
     """
+    import time
+    session = requests.Session()
+    headers = {
+        'User-Agent': UA,
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+    }
+    for attempt in range(3):
+        try:
+            session.get('https://www.nseindia.com', headers=headers, timeout=30)
+            log.info('NSE homepage session established')
+            return session
+        except Exception as e:
+            log.warning(f'Homepage session attempt {attempt+1} failed: {e}')
+            if attempt < 2:
+                time.sleep(5 * (attempt + 1))
+    log.warning('Could not establish NSE session — proceeding without cookies')
+    return session
+
+
+def fetch_nse_meetings(
+    from_date: date,
+    to_date: date,
+    index: str = 'equities',
+    session: requests.Session | None = None,
+) -> list[dict]:
+    """
+    Call NSE board meetings API.
+    `index` is 'equities' for the main board or 'sme' for the SME board.
+    Retries up to 3 times with increasing timeout to handle transient blocks.
+    """
+    import time
     params = {
         'index': index,
         'from_date': fmt_nse(from_date),
@@ -118,11 +148,22 @@ def fetch_nse_meetings(from_date: date, to_date: date, index: str = 'equities') 
         'Accept-Language': 'en-US,en;q=0.5',
         'Referer': 'https://www.nseindia.com/companies-listing/corporate-filings-board-meetings',
     }
-    resp = requests.get(NSE_API, params=params, headers=headers, timeout=30)
-    log.info(f'NSE API ({index}) HTTP {resp.status_code}')
-    resp.raise_for_status()
-    data = resp.json()
-    return data if isinstance(data, list) else []
+    getter = session or requests
+    timeouts = [30, 45, 60]
+    last_exc: Exception | None = None
+    for attempt, timeout in enumerate(timeouts, 1):
+        try:
+            resp = getter.get(NSE_API, params=params, headers=headers, timeout=timeout)
+            log.info(f'NSE API ({index}) HTTP {resp.status_code} (attempt {attempt})')
+            resp.raise_for_status()
+            data = resp.json()
+            return data if isinstance(data, list) else []
+        except Exception as e:
+            last_exc = e
+            log.warning(f'NSE API ({index}) attempt {attempt} failed: {e}')
+            if attempt < len(timeouts):
+                time.sleep(10 * attempt)
+    raise last_exc  # type: ignore
 
 
 def main():
@@ -136,14 +177,22 @@ def main():
     to_date = today + timedelta(days=90)
     log.info(f'Fetching NSE board meetings {fmt_nse(today)} → {fmt_nse(to_date)}')
 
+    session = make_nse_session()
+
     raw = []
+    equities_ok = False
     for index in ('equities', 'sme'):
         try:
-            raw.extend(fetch_nse_meetings(today, to_date, index=index))
-        except Exception as e:
-            log.error(f'NSE API ({index}) failed: {e}')
+            rows = fetch_nse_meetings(today, to_date, index=index, session=session)
+            raw.extend(rows)
             if index == 'equities':
-                sys.exit(1)
+                equities_ok = True
+        except Exception as e:
+            log.error(f'NSE API ({index}) failed after all retries: {e}')
+
+    if not equities_ok:
+        log.error('Could not fetch equities board meetings — DB not updated')
+        sys.exit(1)
 
     log.info(f'NSE returned {len(raw)} total meetings')
     result_rows = [r for r in raw if is_result(r)]

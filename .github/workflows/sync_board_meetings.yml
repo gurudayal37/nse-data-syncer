@@ -30,4 +30,5 @@ jobs:
       - name: Sync board meetings
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        timeout-minutes: 10
         run: python scripts/sync_board_meetings.py
