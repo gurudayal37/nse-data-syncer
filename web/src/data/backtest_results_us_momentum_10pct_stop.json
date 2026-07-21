@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 149378.99,
-      "total_fees_paid": 2189.02,
+      "end_value": 149558.96,
+      "total_fees_paid": 2189.42,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 49.38,
-      "benchmark_return": 10.06,
-      "expectancy": 6.42,
-      "net_return_after_fees": 47.19
+      "total_return": 49.56,
+      "benchmark_return": 9.7,
+      "expectancy": 6.43,
+      "net_return_after_fees": 47.37
     },
     "risk_metrics": {
-      "max_drawdown": -8.7,
+      "max_drawdown": -8.59,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.16,
-      "calmar_ratio": 11.38,
-      "omega_ratio": 3.78,
-      "sortino_ratio": 36.14
+      "sharpe_ratio": 2.17,
+      "calmar_ratio": 11.57,
+      "omega_ratio": 3.8,
+      "sortino_ratio": 39.78
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -76,10 +76,10 @@
       "total_trades": 7,
       "win_rate": 71.43,
       "best_trade": 18.68,
-      "worst_trade": -8.7,
+      "worst_trade": -8.59,
       "avg_winning_trade": 12.22,
-      "avg_losing_trade": -8.09,
-      "profit_factor": 3.78,
+      "avg_losing_trade": -8.03,
+      "profit_factor": 3.8,
       "total_stock_transactions": 95,
       "total_closed_trades": 6,
       "total_open_trades": 1,
@@ -9404,8 +9404,8 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -8.7,
-      "benchmark_return": 0.46,
+      "portfolio_return": -8.59,
+      "benchmark_return": 0.13,
       "holdings": [
         {
           "symbol": "SNDK",
@@ -9439,7 +9439,7 @@
         },
         {
           "symbol": "BAND",
-          "return": 8.82,
+          "return": 11.15,
           "score": 3.59,
           "stop_triggered": false
         },
@@ -9457,9 +9457,9 @@
         },
         {
           "symbol": "DELL",
-          "return": -9.29,
+          "return": -10.0,
           "score": 3.0,
-          "stop_triggered": false
+          "stop_triggered": true
         },
         {
           "symbol": "AMAT",
