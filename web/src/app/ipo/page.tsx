@@ -4,6 +4,7 @@ import { PAGE_SIZE, PERFORMANCE_PERIODS } from '@/lib/constants'
 import PercentageChange from '@/components/PercentageChange'
 import Pagination from '@/components/Pagination'
 import Search from '@/components/Search'
+import CopyWatchlist from '@/components/CopyWatchlist'
 
 export const dynamic = 'force-dynamic'
 
@@ -225,6 +226,7 @@ export default async function IPOPage(props: IPOPageProps) {
   const totalCount = rows.length
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
   const pageRows = rows.slice(skip, skip + PAGE_SIZE)
+  const symbolsList = rows.map((r) => r.symbol).filter(Boolean)
 
   // ── Sort header helpers ──────────────────────────────────────────────────
 
@@ -256,8 +258,11 @@ export default async function IPOPage(props: IPOPageProps) {
             </p>
           </div>
           <div className="flex flex-col items-end gap-3">
-            <div className="w-72">
-              <Search placeholder="Search IPOs…" />
+            <div className="flex items-center gap-3">
+              <CopyWatchlist symbols={symbolsList} />
+              <div className="w-72">
+                <Search placeholder="Search IPOs…" />
+              </div>
             </div>
             <Pagination currentPage={page} totalPages={totalPages} sort={sort} order={order} basePath="/ipo" query={query} />
           </div>
