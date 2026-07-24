@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 135768.39,
-      "total_fees_paid": 1935.74,
+      "end_value": 135244.51,
+      "total_fees_paid": 1934.49,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 35.77,
-      "benchmark_return": -8.65,
-      "expectancy": 4.95,
-      "net_return_after_fees": 33.83
+      "total_return": 35.24,
+      "benchmark_return": -9.04,
+      "expectancy": 4.9,
+      "net_return_after_fees": 33.31
     },
     "risk_metrics": {
       "max_drawdown": -8.4,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.66,
-      "calmar_ratio": 8.2,
-      "omega_ratio": 3.75,
-      "sortino_ratio": 6.51
+      "sharpe_ratio": 1.64,
+      "calmar_ratio": 8.07,
+      "omega_ratio": 3.65,
+      "sortino_ratio": 6.43
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -80,10 +80,10 @@
       "best_trade": 24.57,
       "worst_trade": -7.47,
       "avg_winning_trade": 11.82,
-      "avg_losing_trade": -4.2,
+      "avg_losing_trade": -4.32,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 3.75,
+      "profit_factor": 3.65,
       "total_stock_transactions": 100
     }
   },
@@ -15164,8 +15164,8 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -4.11,
-      "benchmark_return": 0.02,
+      "portfolio_return": -4.48,
+      "benchmark_return": -0.41,
       "holdings": [
         {
           "symbol": "STLTECH",
@@ -15179,8 +15179,8 @@
         },
         {
           "symbol": "CUPID",
-          "return": 9.79,
-          "score": 6.26,
+          "return": 12.37,
+          "score": 6.25,
           "entry_price": 189.93,
           "stop_triggered": false,
           "stop_type": null,
@@ -15189,7 +15189,7 @@
         },
         {
           "symbol": "HFCL",
-          "return": -2.74,
+          "return": -7.52,
           "score": 4.93,
           "entry_price": 212.85,
           "stop_triggered": false,
@@ -15209,7 +15209,7 @@
         },
         {
           "symbol": "RPTECH",
-          "return": -1.58,
+          "return": 0.79,
           "score": 3.81,
           "entry_price": 773.75,
           "stop_triggered": false,
@@ -15229,17 +15229,17 @@
         },
         {
           "symbol": "VENUSREM",
-          "return": -9.7,
+          "return": -10.06,
           "score": 3.53,
           "entry_price": 1833.5,
-          "stop_triggered": false,
-          "stop_type": null,
-          "stop_date": null,
+          "stop_triggered": true,
+          "stop_type": "close_stop",
+          "stop_date": "2026-07-24",
           "exit_date": null
         },
         {
           "symbol": "DEEDEV",
-          "return": 0.69,
+          "return": 1.56,
           "score": 3.11,
           "entry_price": 643.4,
           "stop_triggered": false,
@@ -15249,7 +15249,7 @@
         },
         {
           "symbol": "SBC",
-          "return": 1.86,
+          "return": 1.67,
           "score": 2.88,
           "entry_price": 41.38,
           "stop_triggered": false,
@@ -15279,7 +15279,7 @@
         },
         {
           "symbol": "WELCORP",
-          "return": 5.97,
+          "return": 4.93,
           "score": 2.58,
           "entry_price": 1521.9,
           "stop_triggered": false,
@@ -15289,7 +15289,7 @@
         },
         {
           "symbol": "ACUTAAS",
-          "return": -1.9,
+          "return": -7.56,
           "score": 2.54,
           "entry_price": 3526.2,
           "stop_triggered": false,
@@ -15299,7 +15299,7 @@
         },
         {
           "symbol": "THANGAMAYL",
-          "return": 7.39,
+          "return": 7.94,
           "score": 2.48,
           "entry_price": 6398.2,
           "stop_triggered": false,
@@ -15309,7 +15309,7 @@
         },
         {
           "symbol": "KIRLOSENG",
-          "return": -7.83,
+          "return": -7.68,
           "score": 2.37,
           "entry_price": 2364.0,
           "stop_triggered": false,
