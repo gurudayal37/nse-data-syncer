@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 124082.91,
-      "total_fees_paid": 1748.69,
+      "end_value": 123491.67,
+      "total_fees_paid": 1747.31,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 24.08,
-      "benchmark_return": -8.65,
-      "expectancy": 3.63,
-      "net_return_after_fees": 22.33
+      "total_return": 23.49,
+      "benchmark_return": -9.04,
+      "expectancy": 3.57,
+      "net_return_after_fees": 21.74
     },
     "risk_metrics": {
       "max_drawdown": -9.91,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.22,
-      "calmar_ratio": 4.52,
-      "omega_ratio": 2.38,
-      "sortino_ratio": 4.51
+      "sharpe_ratio": 1.19,
+      "calmar_ratio": 4.4,
+      "omega_ratio": 2.32,
+      "sortino_ratio": 4.49
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -75,8 +75,8 @@
       "best_trade": 21.8,
       "worst_trade": -8.84,
       "avg_winning_trade": 14.63,
-      "avg_losing_trade": -4.61,
-      "profit_factor": 2.38
+      "avg_losing_trade": -4.72,
+      "profit_factor": 2.32
     }
   },
   "backtest_results": [
@@ -15156,8 +15156,8 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -3.46,
-      "benchmark_return": 0.02,
+      "portfolio_return": -3.92,
+      "benchmark_return": -0.41,
       "holdings": [
         {
           "symbol": "STLTECH",
@@ -15171,7 +15171,7 @@
         },
         {
           "symbol": "CUPID",
-          "return": 9.79,
+          "return": 12.37,
           "score": 7.95,
           "entry_price": 189.93,
           "stop_triggered": false,
@@ -15182,7 +15182,7 @@
         {
           "symbol": "MTARTECH",
           "return": -10.11,
-          "score": 4.95,
+          "score": 4.94,
           "entry_price": 7620.5,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15191,7 +15191,7 @@
         },
         {
           "symbol": "HFCL",
-          "return": -2.74,
+          "return": -7.52,
           "score": 4.28,
           "entry_price": 212.85,
           "stop_triggered": false,
@@ -15201,12 +15201,12 @@
         },
         {
           "symbol": "VENUSREM",
-          "return": -9.7,
+          "return": -10.06,
           "score": 4.06,
           "entry_price": 1833.5,
-          "stop_triggered": false,
-          "stop_type": null,
-          "stop_date": null,
+          "stop_triggered": true,
+          "stop_type": "close_stop",
+          "stop_date": "2026-07-24",
           "exit_date": null
         },
         {
@@ -15221,7 +15221,7 @@
         },
         {
           "symbol": "SBC",
-          "return": 1.86,
+          "return": 1.67,
           "score": 3.81,
           "entry_price": 41.38,
           "stop_triggered": false,
@@ -15231,7 +15231,7 @@
         },
         {
           "symbol": "RPTECH",
-          "return": -1.58,
+          "return": 0.79,
           "score": 3.67,
           "entry_price": 773.75,
           "stop_triggered": false,
@@ -15241,7 +15241,7 @@
         },
         {
           "symbol": "ACUTAAS",
-          "return": -1.9,
+          "return": -7.56,
           "score": 3.47,
           "entry_price": 3526.2,
           "stop_triggered": false,
@@ -15252,7 +15252,7 @@
         {
           "symbol": "BAJAJCON",
           "return": -12.2,
-          "score": 3.26,
+          "score": 3.25,
           "entry_price": 599.0,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15271,7 +15271,7 @@
         },
         {
           "symbol": "DEEDEV",
-          "return": 0.69,
+          "return": 1.56,
           "score": 2.97,
           "entry_price": 643.4,
           "stop_triggered": false,
@@ -15281,7 +15281,7 @@
         },
         {
           "symbol": "THANGAMAYL",
-          "return": 7.39,
+          "return": 7.94,
           "score": 2.8,
           "entry_price": 6398.2,
           "stop_triggered": false,
@@ -15291,7 +15291,7 @@
         },
         {
           "symbol": "ATHERENERG",
-          "return": 8.12,
+          "return": 5.98,
           "score": 2.75,
           "entry_price": 1140.55,
           "stop_triggered": false,
@@ -15301,8 +15301,8 @@
         },
         {
           "symbol": "SANSERA",
-          "return": -0.23,
-          "score": 2.68,
+          "return": -0.36,
+          "score": 2.67,
           "entry_price": 3196.2,
           "stop_triggered": false,
           "stop_type": null,
