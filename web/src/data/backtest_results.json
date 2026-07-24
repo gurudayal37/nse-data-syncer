@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 136899.49,
-      "total_fees_paid": 2071.1,
+      "end_value": 136453.66,
+      "total_fees_paid": 2069.96,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 36.9,
-      "benchmark_return": -8.65,
-      "expectancy": 5.19,
-      "net_return_after_fees": 34.83
+      "total_return": 36.45,
+      "benchmark_return": -9.04,
+      "expectancy": 5.14,
+      "net_return_after_fees": 34.38
     },
     "risk_metrics": {
       "max_drawdown": -9.76,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 1.59,
-      "calmar_ratio": 7.31,
-      "omega_ratio": 3.27,
-      "sortino_ratio": 5.23
+      "sharpe_ratio": 1.57,
+      "calmar_ratio": 7.21,
+      "omega_ratio": 3.21,
+      "sortino_ratio": 5.2
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -80,10 +80,10 @@
       "best_trade": 24.4,
       "worst_trade": -9.76,
       "avg_winning_trade": 13.07,
-      "avg_losing_trade": -5.32,
+      "avg_losing_trade": -5.42,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 3.27,
+      "profit_factor": 3.21,
       "total_stock_transactions": 108
     }
   },
@@ -7964,82 +7964,82 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -4.81,
-      "benchmark_return": 0.02,
+      "portfolio_return": -5.12,
+      "benchmark_return": -0.41,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": -10.51,
+          "return": -8.01,
           "score": 7.12
         },
         {
           "symbol": "CUPID",
-          "return": 9.79,
-          "score": 6.26
+          "return": 12.37,
+          "score": 6.25
         },
         {
           "symbol": "HFCL",
-          "return": -2.74,
+          "return": -7.52,
           "score": 4.93
         },
         {
           "symbol": "MTARTECH",
-          "return": -22.91,
+          "return": -23.82,
           "score": 4.03
         },
         {
           "symbol": "RPTECH",
-          "return": -1.58,
+          "return": 0.79,
           "score": 3.81
         },
         {
           "symbol": "BLISSGVS",
-          "return": -14.41,
+          "return": -13.9,
           "score": 3.67
         },
         {
           "symbol": "VENUSREM",
-          "return": -9.7,
+          "return": -10.06,
           "score": 3.53
         },
         {
           "symbol": "DEEDEV",
-          "return": 0.69,
+          "return": 1.56,
           "score": 3.11
         },
         {
           "symbol": "SBC",
-          "return": 1.86,
+          "return": 1.67,
           "score": 2.88
         },
         {
           "symbol": "WHEELS",
-          "return": -19.08,
+          "return": -19.28,
           "score": 2.65
         },
         {
           "symbol": "BAJAJCON",
-          "return": -7.2,
+          "return": -8.21,
           "score": 2.58
         },
         {
           "symbol": "WELCORP",
-          "return": 5.97,
+          "return": 4.93,
           "score": 2.58
         },
         {
           "symbol": "ACUTAAS",
-          "return": -1.9,
+          "return": -7.56,
           "score": 2.54
         },
         {
           "symbol": "THANGAMAYL",
-          "return": 7.39,
+          "return": 7.94,
           "score": 2.48
         },
         {
           "symbol": "KIRLOSENG",
-          "return": -7.83,
+          "return": -7.68,
           "score": 2.37
         }
       ]
