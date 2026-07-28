@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 147284.74,
-      "total_fees_paid": 2184.28,
+      "end_value": 147252.01,
+      "total_fees_paid": 2184.2,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 47.28,
-      "benchmark_return": 8.3,
+      "total_return": 47.25,
+      "benchmark_return": 8.53,
       "expectancy": 6.23,
-      "net_return_after_fees": 45.1
+      "net_return_after_fees": 45.07
     },
     "risk_metrics": {
-      "max_drawdown": -9.98,
+      "max_drawdown": -10.0,
       "max_drawdown_duration": 1,
       "sharpe_ratio": 2.04,
-      "calmar_ratio": 9.44,
+      "calmar_ratio": 9.41,
       "omega_ratio": 3.5,
-      "sortino_ratio": 17.2
+      "sortino_ratio": 17.06
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -76,9 +76,9 @@
       "total_trades": 7,
       "win_rate": 71.43,
       "best_trade": 18.68,
-      "worst_trade": -9.98,
+      "worst_trade": -10.0,
       "avg_winning_trade": 12.22,
-      "avg_losing_trade": -8.72,
+      "avg_losing_trade": -8.74,
       "profit_factor": 3.5,
       "total_stock_transactions": 95,
       "total_closed_trades": 6,
@@ -9404,8 +9404,8 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -9.98,
-      "benchmark_return": -1.15,
+      "portfolio_return": -10.0,
+      "benchmark_return": -0.94,
       "holdings": [
         {
           "symbol": "SNDK",
@@ -9439,9 +9439,9 @@
         },
         {
           "symbol": "BAND",
-          "return": -9.67,
+          "return": -10.0,
           "score": 3.59,
-          "stop_triggered": false
+          "stop_triggered": true
         },
         {
           "symbol": "MRVL",
