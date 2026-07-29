@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 168707.62,
-      "total_fees_paid": 1847.74,
+      "end_value": 168521.28,
+      "total_fees_paid": 1847.4,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 68.71,
-      "benchmark_return": 8.53,
-      "expectancy": 8.4,
-      "net_return_after_fees": 66.86
+      "total_return": 68.52,
+      "benchmark_return": 6.89,
+      "expectancy": 8.38,
+      "net_return_after_fees": 66.67
     },
     "risk_metrics": {
-      "max_drawdown": -9.46,
+      "max_drawdown": -9.56,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.51,
-      "calmar_ratio": 15.34,
-      "omega_ratio": 4.55,
-      "sortino_ratio": 24.45
+      "sharpe_ratio": 2.5,
+      "calmar_ratio": 15.13,
+      "omega_ratio": 4.53,
+      "sortino_ratio": 23.42
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -76,10 +76,10 @@
       "total_trades": 7,
       "win_rate": 71.43,
       "best_trade": 25.33,
-      "worst_trade": -9.46,
+      "worst_trade": -9.56,
       "avg_winning_trade": 15.07,
-      "avg_losing_trade": -8.27,
-      "profit_factor": 4.55,
+      "avg_losing_trade": -8.32,
+      "profit_factor": 4.53,
       "total_stock_transactions": 75,
       "total_closed_trades": 6,
       "total_open_trades": 1,
@@ -9404,8 +9404,8 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -9.46,
-      "benchmark_return": -0.94,
+      "portfolio_return": -9.56,
+      "benchmark_return": -2.44,
       "holdings": [
         {
           "symbol": "SNDK",
@@ -9487,7 +9487,7 @@
         },
         {
           "symbol": "RVMD",
-          "return": -1.83,
+          "return": -3.4,
           "score": 2.59,
           "stop_triggered": false
         },
