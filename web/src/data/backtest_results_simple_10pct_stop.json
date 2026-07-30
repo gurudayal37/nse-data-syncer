@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 114028.95,
-      "total_fees_paid": 1643.9,
+      "end_value": 113242.38,
+      "total_fees_paid": 1642.18,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 14.03,
-      "benchmark_return": -7.2,
-      "expectancy": 2.14,
-      "net_return_after_fees": 12.39
+      "total_return": 13.24,
+      "benchmark_return": -6.94,
+      "expectancy": 2.04,
+      "net_return_after_fees": 11.6
     },
     "risk_metrics": {
       "max_drawdown": -9.21,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 1.05,
-      "calmar_ratio": 2.74,
-      "omega_ratio": 2.24,
-      "sortino_ratio": 2.33
+      "sharpe_ratio": 0.99,
+      "calmar_ratio": 2.58,
+      "omega_ratio": 2.12,
+      "sortino_ratio": 2.49
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -80,10 +80,10 @@
       "best_trade": 13.34,
       "worst_trade": -9.21,
       "avg_winning_trade": 5.41,
-      "avg_losing_trade": -6.04,
+      "avg_losing_trade": -6.38,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.24,
+      "profit_factor": 2.12,
       "total_stock_transactions": 92
     }
   },
@@ -15164,8 +15164,8 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -2.87,
-      "benchmark_return": 1.61,
+      "portfolio_return": -3.54,
+      "benchmark_return": 1.89,
       "holdings": [
         {
           "symbol": "STLTECH",
@@ -15199,7 +15199,7 @@
         },
         {
           "symbol": "ACUTAAS",
-          "return": -6.24,
+          "return": -8.29,
           "score": 3.85,
           "entry_price": 3526.2,
           "stop_triggered": false,
@@ -15209,7 +15209,7 @@
         },
         {
           "symbol": "THANGAMAYL",
-          "return": 0.84,
+          "return": -9.24,
           "score": 3.17,
           "entry_price": 6398.2,
           "stop_triggered": false,
@@ -15219,7 +15219,7 @@
         },
         {
           "symbol": "ATHERENERG",
-          "return": 9.25,
+          "return": 8.8,
           "score": 3.14,
           "entry_price": 1140.55,
           "stop_triggered": false,
@@ -15229,7 +15229,7 @@
         },
         {
           "symbol": "KIRLOSENG",
-          "return": -7.75,
+          "return": -9.78,
           "score": 3.0,
           "entry_price": 2364.0,
           "stop_triggered": false,
@@ -15239,7 +15239,7 @@
         },
         {
           "symbol": "SANSERA",
-          "return": 1.15,
+          "return": 1.22,
           "score": 2.98,
           "entry_price": 3196.2,
           "stop_triggered": false,
@@ -15249,7 +15249,7 @@
         },
         {
           "symbol": "SYRMA",
-          "return": -3.79,
+          "return": -1.32,
           "score": 2.84,
           "entry_price": 1396.3,
           "stop_triggered": false,
@@ -15269,7 +15269,7 @@
         },
         {
           "symbol": "WELCORP",
-          "return": 11.51,
+          "return": 8.75,
           "score": 2.49,
           "entry_price": 1521.9,
           "stop_triggered": false,
@@ -15289,7 +15289,7 @@
         },
         {
           "symbol": "AVALON",
-          "return": -6.91,
+          "return": -2.35,
           "score": 2.37,
           "entry_price": 1801.9,
           "stop_triggered": false,
@@ -15299,7 +15299,7 @@
         },
         {
           "symbol": "ANANDRATHI",
-          "return": 2.95,
+          "return": 3.17,
           "score": 2.23,
           "entry_price": 1976.7,
           "stop_triggered": false,
@@ -15310,7 +15310,7 @@
         {
           "symbol": "ARVIND",
           "return": -10.58,
-          "score": 2.2,
+          "score": 2.19,
           "entry_price": 587.1,
           "stop_triggered": true,
           "stop_type": "close_stop",
