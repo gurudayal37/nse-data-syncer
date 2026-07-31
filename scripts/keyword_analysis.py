@@ -24,6 +24,8 @@ import io
 import os
 import re
 import time
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, timedelta, datetime, timezone
 from pathlib import Path
 
@@ -71,6 +73,16 @@ THEME_KEYWORDS = {
                        r'\banti[\s-]?uav\b', r'\bc[\s-]?uas\b', r'\bcounter[\s-]?uas\b'],
     'cctv':           [r'\bcctv\b', r'\bcameras?\b'],
     'bess':           [r'\bbess\b', r'battery\s+energy\s+storage', r'energy\s+storage\s+system'],
+    'ems':            [r'\bems\b', r'electronics\s+manufacturing\s+services?',
+                       r'\bedsm\b', r'\besdm\b',
+                       r'electronics\s+design\s+(?:and\s+)?manufacturing\s+services?'],
+    'odm':            [r'\bodm\b', r'original\s+design\s+manufactur(?:er|ing)?'],
+    'pcb':            [r'\bpcb\b', r'printed\s+circuit\s+board'],
+    'cdmo':           [r'\bcdmo\b', r'contract\s+(?:development\s+(?:and\s+)?)?manufacturing\s+organi[sz]ation'],
+    'us':             [r'\busa\b', r'united\s+states', r'u\.s\.a?'],
+    'europe':         [r'\beurope\b', r'\beuropean\b', r'european\s+union', r'\beu\b',
+                       r'\buk\b', r'united\s+kingdom', r'great\s+britain'],
+    'china':          [r'\bchina\b', r'\bchinese\b', r'\bprc\b'],
     'cloud':          [r'\bcloud\b'],
     'ev':             [r'\bev\b', r'electric\s+vehicle'],
     'renewable':      [r'renewable', r'solar', r'wind\s+energy'],
@@ -388,12 +400,103 @@ CREATE INDEX IF NOT EXISTS ix_pka_symbol ON presentation_keyword_analysis (symbo
 ALTER_TABLE_SQL = [
     f'ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS {c} INT DEFAULT 0'
     for c in ('precision_engineering', 'best', 'top', 'leader', 'order_book', 'highest',
-              'word_count', 'positive_hits', 'negative_hits', 'drone', 'anti_drone', 'cctv', 'bess')
+              'word_count', 'positive_hits', 'negative_hits', 'drone', 'anti_drone', 'cctv', 'bess',
+              'ems', 'odm', 'pcb', 'cdmo', 'us', 'europe', 'china')
 ] + [
     "ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS positive_density NUMERIC(8,2) DEFAULT 0",
     "ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS negative_density NUMERIC(8,2) DEFAULT 0",
     "ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS sentiment_score NUMERIC(8,2) DEFAULT 0",
 ]
+
+
+def process_one(symbol, company_name, result_date, insert_sql, insert_cols, force):
+    """Process a single company in its own thread with its own DB connection."""
+    result = None
+    db = None
+    try:
+        db = DB(clean_db_url(DB_URL))
+        if not force:
+            db.execute(
+                'SELECT id FROM presentation_keyword_analysis WHERE symbol = %s AND result_date = %s',
+                (symbol, result_date)
+            )
+            if db.fetchone():
+                return 'skip', symbol, result_date, None
+
+        pres_urls = find_investor_presentations(symbol, result_date)
+
+        if not pres_urls:
+            db.execute("""
+                INSERT INTO presentation_keyword_analysis
+                    (symbol, company_name, result_date, has_presentation)
+                VALUES (%s, %s, %s, FALSE)
+                ON CONFLICT (symbol, result_date) DO NOTHING
+            """, (symbol, company_name, result_date))
+            db.commit()
+            result = {
+                'symbol': symbol, 'company_name': company_name,
+                'result_date': result_date, 'has_presentation': False,
+                'presentation_url': '', 'pdf_pages': 0, 'pdf_chars': 0,
+                **{k: 0 for k in THEME_COLUMNS},
+                'word_count': 0, 'positive_hits': 0, 'negative_hits': 0,
+                'positive_density': 0, 'negative_density': 0, 'sentiment_score': 0,
+            }
+            return 'no_pres', symbol, result_date, result
+
+        # Download + score each candidate; keep highest total theme keyword count
+        best_url = best_pdf_bytes = best_text = None
+        best_score = -1
+        for url in pres_urls:
+            pdf_bytes = download_pdf(url)
+            if not pdf_bytes:
+                continue
+            text = extract_text(pdf_bytes)
+            score = sum(count_theme_keywords(text).values())
+            if score > best_score:
+                best_score = score
+                best_url = url
+                best_pdf_bytes = pdf_bytes
+                best_text = text
+
+        if not best_url:
+            db.execute("""
+                INSERT INTO presentation_keyword_analysis
+                    (symbol, company_name, result_date, presentation_url, has_presentation)
+                VALUES (%s, %s, %s, %s, TRUE)
+                ON CONFLICT (symbol, result_date) DO UPDATE
+                  SET presentation_url = EXCLUDED.presentation_url
+            """, (symbol, company_name, result_date, pres_urls[0]))
+            db.commit()
+            return 'dl_fail', symbol, result_date, None
+
+        theme_counts = count_theme_keywords(best_text)
+        sentiment = analyse_sentiment(best_text)
+        try:
+            with pdfplumber.open(io.BytesIO(best_pdf_bytes)) as pdf:
+                n_pages = len(pdf.pages)
+        except Exception:
+            n_pages = 0
+
+        values = [symbol, company_name, result_date, best_url, n_pages, len(best_text)]
+        values += [theme_counts[c] for c in THEME_COLUMNS]
+        values += [sentiment['word_count'], sentiment['positive_hits'], sentiment['negative_hits'],
+                   sentiment['positive_density'], sentiment['negative_density'], sentiment['sentiment_score']]
+        db.execute(insert_sql, values)
+        db.commit()
+
+        result = {
+            'symbol': symbol, 'company_name': company_name,
+            'result_date': str(result_date), 'has_presentation': True,
+            'presentation_url': best_url, 'pdf_pages': n_pages,
+            'pdf_chars': len(best_text), **theme_counts, **sentiment,
+            'n_pages': n_pages, 'n_candidates': len(pres_urls),
+        }
+        return 'found', symbol, result_date, result
+    except Exception as e:
+        return 'error', symbol, result_date, str(e)
+    finally:
+        if db:
+            db.close()
 
 
 def main():
@@ -402,8 +505,9 @@ def main():
     parser.add_argument('--out', default='results/keyword_analysis.csv')
     parser.add_argument('--symbol', help='Run for a single symbol only (for testing)')
     parser.add_argument('--force', action='store_true', help='Re-process even if already analysed')
-    parser.add_argument('--resume-after', help='Skip companies alphabetically <= this symbol (for resuming a --force run)')
-    parser.add_argument('--missing-only', action='store_true', help='Only re-search companies currently marked has_presentation=FALSE')
+    parser.add_argument('--resume-after', help='Skip companies alphabetically <= this symbol')
+    parser.add_argument('--missing-only', action='store_true', help='Only process companies without a found presentation')
+    parser.add_argument('--workers', type=int, default=4, help='Parallel threads (default 4)')
     args = parser.parse_args()
 
     season_start = date.fromisoformat(args.season_start)
@@ -433,6 +537,7 @@ def main():
     )
     db.execute(query, (IST_start,))
     companies = db.fetchall()
+    db.close()
 
     if args.symbol:
         companies = [(s, n, d) for s, n, d in companies if s.upper() == args.symbol.upper()]
@@ -443,22 +548,23 @@ def main():
     if args.missing_only:
         # Check by (symbol, result_date) so Q1 FY27 rows are included even when
         # a company already has a Q4 FY26 presentation recorded.
-        db.execute("SELECT symbol, result_date FROM presentation_keyword_analysis WHERE has_presentation = TRUE")
-        have = {(r[0].upper(), str(r[1])) for r in db.fetchall()}
+        db2 = DB(clean_db_url(DB_URL))
+        db2.execute("SELECT symbol, result_date FROM presentation_keyword_analysis WHERE has_presentation = TRUE")
+        have = {(r[0].upper(), str(r[1])) for r in db2.fetchall()}
+        db2.close()
         companies = [(s, n, d) for s, n, d in companies if (s.upper(), str(d)) not in have]
-        args.force = True  # overwrite the existing has_presentation=FALSE row
+        args.force = True
 
-    print(f'Companies to analyse: {len(companies)}')
+    total = len(companies)
+    print(f'Companies to analyse: {total}  (workers={args.workers})')
     print(f'Output CSV: {out_path}\n')
 
-    rows = []
     insert_cols = (
         ['symbol', 'company_name', 'result_date', 'presentation_url', 'pdf_pages', 'pdf_chars']
         + THEME_COLUMNS
         + ['word_count', 'positive_hits', 'negative_hits', 'positive_density', 'negative_density', 'sentiment_score']
     )
     update_cols = [c for c in insert_cols if c not in ('symbol', 'result_date')]
-
     insert_sql = f"""
         INSERT INTO presentation_keyword_analysis
             ({', '.join(insert_cols)}, has_presentation)
@@ -469,112 +575,41 @@ def main():
             analysed_at = NOW()
     """
 
-    for i, (symbol, company_name, result_date) in enumerate(companies, 1):
-        print(f'[{i}/{len(companies)}] {symbol} ({result_date})', end=' … ', flush=True)
+    rows = []
+    counter = [0]
+    lock = threading.Lock()
 
-        if not args.force:
-            db.execute(
-                'SELECT id FROM presentation_keyword_analysis WHERE symbol = %s AND result_date = %s',
-                (symbol, result_date)
-            )
-            if db.fetchone():
-                print('already done, skipping')
-                continue
-
-        # Find all candidate investor presentation URLs from NSE (up to 60 days)
-        pres_urls = find_investor_presentations(symbol, result_date)
-
-        if not pres_urls:
-            print('no presentation found')
-            db.execute("""
-                INSERT INTO presentation_keyword_analysis
-                    (symbol, company_name, result_date, has_presentation)
-                VALUES (%s, %s, %s, FALSE)
-                ON CONFLICT (symbol, result_date) DO NOTHING
-            """, (symbol, company_name, result_date))
-            db.commit()
-            rows.append({
-                'symbol': symbol, 'company_name': company_name,
-                'result_date': result_date, 'has_presentation': False,
-                'presentation_url': '', 'pdf_pages': 0, 'pdf_chars': 0,
-                **{k: 0 for k in THEME_COLUMNS},
-                'word_count': 0, 'positive_hits': 0, 'negative_hits': 0,
-                'positive_density': 0, 'negative_density': 0, 'sentiment_score': 0,
-            })
-            continue
-
-        if len(pres_urls) > 1:
-            print(f'{len(pres_urls)} candidate PDFs', end=' … ', flush=True)
-        else:
-            print('found PDF', end=' … ', flush=True)
-
-        # Download + score each candidate; keep the one with the highest total
-        # theme keyword count (catches late addendums that outscore the original).
-        best_url = None
-        best_pdf_bytes = None
-        best_text = ''
-        best_score = -1
-
-        for url in pres_urls:
-            pdf_bytes = download_pdf(url)
-            if not pdf_bytes:
-                continue
-            text = extract_text(pdf_bytes)
-            score = sum(count_theme_keywords(text).values())
-            if score > best_score:
-                best_score = score
-                best_url = url
-                best_pdf_bytes = pdf_bytes
-                best_text = text
-
-        if not best_url:
-            # All downloads failed; record the first URL so it can be retried
-            print('download failed')
-            db.execute("""
-                INSERT INTO presentation_keyword_analysis
-                    (symbol, company_name, result_date, presentation_url, has_presentation)
-                VALUES (%s, %s, %s, %s, TRUE)
-                ON CONFLICT (symbol, result_date) DO UPDATE
-                  SET presentation_url = EXCLUDED.presentation_url
-            """, (symbol, company_name, result_date, pres_urls[0]))
-            db.commit()
-            continue
-
-        pres_url = best_url
-        pdf_bytes = best_pdf_bytes
-        text = best_text
-        theme_counts = count_theme_keywords(text)
-        sentiment = analyse_sentiment(text)
-
+    def run(item):
+        symbol, company_name, result_date = item
         try:
-            with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
-                n_pages = len(pdf.pages)
-        except Exception:
-            n_pages = 0
+            status, sym, rd, data = process_one(symbol, company_name, result_date, insert_sql, insert_cols, args.force)
+        except Exception as e:
+            status, sym, rd, data = 'error', symbol, result_date, str(e)
+        with lock:
+            counter[0] += 1
+            n = counter[0]
+            if status == 'skip':
+                print(f'[{n}/{total}] {sym} ({rd}) … already done, skipping')
+            elif status == 'no_pres':
+                print(f'[{n}/{total}] {sym} ({rd}) … no presentation found')
+            elif status == 'dl_fail':
+                print(f'[{n}/{total}] {sym} ({rd}) … download failed')
+            elif status == 'error':
+                print(f'[{n}/{total}] {sym} ({rd}) … ERROR: {data}')
+            else:
+                r = data
+                kw = ', '.join(f'{k}={v}' for k, v in r.items()
+                               if k in THEME_COLUMNS and v and v > 0) or 'no theme matches'
+                cands = f"{r['n_candidates']} candidate PDFs" if r['n_candidates'] > 1 else 'found PDF'
+                print(f"[{n}/{total}] {sym} ({rd}) … {cands} … "
+                      f"{r['n_pages']}pp, {r['word_count']}w → "
+                      f"sentiment={r['sentiment_score']:+.2f} "
+                      f"(+{r['positive_hits']}/-{r['negative_hits']}) | {kw}")
+                rows.append(data)
+        return status
 
-        kw_display = ', '.join(f'{k}={v}' for k, v in theme_counts.items() if v > 0) or 'no theme matches'
-        print(f"{n_pages}pp, {sentiment['word_count']}w → sentiment={sentiment['sentiment_score']:+.2f} "
-              f"(+{sentiment['positive_hits']}/-{sentiment['negative_hits']}) | {kw_display}")
-
-        values = [symbol, company_name, result_date, pres_url, n_pages, len(text)]
-        values += [theme_counts[c] for c in THEME_COLUMNS]
-        values += [sentiment['word_count'], sentiment['positive_hits'], sentiment['negative_hits'],
-                   sentiment['positive_density'], sentiment['negative_density'], sentiment['sentiment_score']]
-
-        db.execute(insert_sql, values)
-        db.commit()
-
-        row = {
-            'symbol': symbol, 'company_name': company_name,
-            'result_date': str(result_date), 'has_presentation': True,
-            'presentation_url': pres_url, 'pdf_pages': n_pages,
-            'pdf_chars': len(text), **theme_counts, **sentiment,
-        }
-        rows.append(row)
-
-        time.sleep(1)  # polite delay between PDFs
-
-    db.close()
+    with ThreadPoolExecutor(max_workers=args.workers) as pool:
+        list(pool.map(run, companies))
 
     # Write CSV
     if rows:
