@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 134451.62,
-      "total_fees_paid": 1932.6,
+      "end_value": 134819.75,
+      "total_fees_paid": 1933.48,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 34.45,
-      "benchmark_return": -6.94,
-      "expectancy": 4.82,
-      "net_return_after_fees": 32.52
+      "total_return": 34.82,
+      "benchmark_return": -6.68,
+      "expectancy": 4.86,
+      "net_return_after_fees": 32.89
     },
     "risk_metrics": {
       "max_drawdown": -8.4,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.6,
-      "calmar_ratio": 7.87,
-      "omega_ratio": 3.5,
-      "sortino_ratio": 6.27
+      "sharpe_ratio": 1.62,
+      "calmar_ratio": 7.96,
+      "omega_ratio": 3.56,
+      "sortino_ratio": 6.35
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -80,10 +80,10 @@
       "best_trade": 24.57,
       "worst_trade": -7.47,
       "avg_winning_trade": 11.82,
-      "avg_losing_trade": -4.51,
+      "avg_losing_trade": -4.42,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 3.5,
+      "profit_factor": 3.56,
       "total_stock_transactions": 100
     }
   },
@@ -15164,13 +15164,13 @@
   "current_performance": [
     {
       "month": "2026-07",
-      "portfolio_return": -5.04,
-      "benchmark_return": 1.89,
+      "portfolio_return": -4.78,
+      "benchmark_return": 2.17,
       "holdings": [
         {
           "symbol": "STLTECH",
           "return": -18.19,
-          "score": 7.08,
+          "score": 7.33,
           "entry_price": 613.3,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15179,8 +15179,8 @@
         },
         {
           "symbol": "CUPID",
-          "return": 20.54,
-          "score": 6.22,
+          "return": 21.42,
+          "score": 6.43,
           "entry_price": 189.93,
           "stop_triggered": false,
           "stop_type": null,
@@ -15190,7 +15190,7 @@
         {
           "symbol": "HFCL",
           "return": -11.21,
-          "score": 4.9,
+          "score": 5.08,
           "entry_price": 212.85,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15198,9 +15198,19 @@
           "exit_date": "2026-07-29"
         },
         {
+          "symbol": "BHAGYANGR",
+          "return": -14.32,
+          "score": 4.83,
+          "entry_price": 431.85,
+          "stop_triggered": true,
+          "stop_type": "close_stop",
+          "stop_date": "2026-07-03",
+          "exit_date": "2026-07-06"
+        },
+        {
           "symbol": "MTARTECH",
           "return": -10.11,
-          "score": 4.01,
+          "score": 4.16,
           "entry_price": 7620.5,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15209,8 +15219,8 @@
         },
         {
           "symbol": "RPTECH",
-          "return": 5.07,
-          "score": 3.79,
+          "return": 7.73,
+          "score": 3.93,
           "entry_price": 773.75,
           "stop_triggered": false,
           "stop_type": null,
@@ -15220,7 +15230,7 @@
         {
           "symbol": "BLISSGVS",
           "return": -8.08,
-          "score": 3.65,
+          "score": 3.79,
           "entry_price": 539.6,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15230,7 +15240,7 @@
         {
           "symbol": "VENUSREM",
           "return": -10.06,
-          "score": 3.51,
+          "score": 3.64,
           "entry_price": 1833.5,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15239,8 +15249,8 @@
         },
         {
           "symbol": "DEEDEV",
-          "return": 0.44,
-          "score": 3.09,
+          "return": 5.46,
+          "score": 3.2,
           "entry_price": 643.4,
           "stop_triggered": false,
           "stop_type": null,
@@ -15248,9 +15258,19 @@
           "exit_date": null
         },
         {
+          "symbol": "NINSYS",
+          "return": -5.18,
+          "score": 3.09,
+          "entry_price": 824.85,
+          "stop_triggered": false,
+          "stop_type": null,
+          "stop_date": null,
+          "exit_date": null
+        },
+        {
           "symbol": "SBC",
-          "return": 1.79,
-          "score": 2.86,
+          "return": 1.52,
+          "score": 2.97,
           "entry_price": 41.38,
           "stop_triggered": false,
           "stop_type": null,
@@ -15260,7 +15280,7 @@
         {
           "symbol": "WHEELS",
           "return": -15.0,
-          "score": 2.63,
+          "score": 2.73,
           "entry_price": 1786.0,
           "stop_triggered": true,
           "stop_type": "gtt_intraday",
@@ -15270,7 +15290,7 @@
         {
           "symbol": "BAJAJCON",
           "return": -12.2,
-          "score": 2.57,
+          "score": 2.67,
           "entry_price": 599.0,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15279,8 +15299,8 @@
         },
         {
           "symbol": "WELCORP",
-          "return": 8.75,
-          "score": 2.56,
+          "return": 8.46,
+          "score": 2.66,
           "entry_price": 1521.9,
           "stop_triggered": false,
           "stop_type": null,
@@ -15289,32 +15309,12 @@
         },
         {
           "symbol": "ACUTAAS",
-          "return": -8.29,
-          "score": 2.53,
+          "return": -11.95,
+          "score": 2.63,
           "entry_price": 3526.2,
-          "stop_triggered": false,
-          "stop_type": null,
-          "stop_date": null,
-          "exit_date": null
-        },
-        {
-          "symbol": "THANGAMAYL",
-          "return": -9.24,
-          "score": 2.46,
-          "entry_price": 6398.2,
-          "stop_triggered": false,
-          "stop_type": null,
-          "stop_date": null,
-          "exit_date": null
-        },
-        {
-          "symbol": "KIRLOSENG",
-          "return": -9.78,
-          "score": 2.36,
-          "entry_price": 2364.0,
-          "stop_triggered": false,
-          "stop_type": null,
-          "stop_date": null,
+          "stop_triggered": true,
+          "stop_type": "close_stop",
+          "stop_date": "2026-07-31",
           "exit_date": null
         }
       ]
