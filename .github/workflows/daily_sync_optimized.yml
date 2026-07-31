@@ -8,6 +8,7 @@ on:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  MIN_MARKET_CAP_CR: ${{ vars.MIN_MARKET_CAP_CR }}
 
 jobs:
   # 1. Parallel Sync (5 Shards)
