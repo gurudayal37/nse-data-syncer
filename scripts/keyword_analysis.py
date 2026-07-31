@@ -416,16 +416,17 @@ def main():
         db.execute(stmt)
     db.commit()
 
-    # Get all companies that announced results this season
-    # Pick earliest announcement per symbol (their actual result date)
+    # Get all (symbol, result_date) pairs announced this season — one row per
+    # announcement so both Q4 FY26 and Q1 FY27 results for the same company
+    # are processed independently.
     query = """
-        SELECT DISTINCT ON (symbol)
+        SELECT DISTINCT
             symbol,
             company_name,
             DATE(announced_at AT TIME ZONE 'Asia/Kolkata') AS result_date
         FROM pead_announcements
         WHERE announced_at >= %s
-        ORDER BY symbol, announced_at ASC
+        ORDER BY symbol, result_date ASC
     """
     IST_start = datetime.combine(season_start, datetime.min.time()).replace(
         tzinfo=timezone(timedelta(hours=5, minutes=30))
@@ -440,9 +441,11 @@ def main():
         companies = [(s, n, d) for s, n, d in companies if s.upper() > args.resume_after.upper()]
 
     if args.missing_only:
-        db.execute("SELECT symbol FROM presentation_keyword_analysis WHERE has_presentation = TRUE")
-        have = {r[0].upper() for r in db.fetchall()}
-        companies = [(s, n, d) for s, n, d in companies if s.upper() not in have]
+        # Check by (symbol, result_date) so Q1 FY27 rows are included even when
+        # a company already has a Q4 FY26 presentation recorded.
+        db.execute("SELECT symbol, result_date FROM presentation_keyword_analysis WHERE has_presentation = TRUE")
+        have = {(r[0].upper(), str(r[1])) for r in db.fetchall()}
+        companies = [(s, n, d) for s, n, d in companies if (s.upper(), str(d)) not in have]
         args.force = True  # overwrite the existing has_presentation=FALSE row
 
     print(f'Companies to analyse: {len(companies)}')
