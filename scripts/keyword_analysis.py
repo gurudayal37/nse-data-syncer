@@ -63,7 +63,7 @@ PDF_HEADERS = {
 # \s* matches zero or more spaces so "datacentre" and "data centre" both count,
 # and "orderbook" and "order book" both count.
 THEME_KEYWORDS = {
-    'data_centre':    [r'data[\s\-]*cent(?:re|er)s?'],        # data centre/center/datacentre/data-centre
+    'data_centre':    [r'data[\s\-]*cent(?:re|er)s?', r'\bdc\b'],  # data centre/center/datacentre/data-centre/DC
     'ai':             [r'\bai\b', r'artificial\s+intelligence', r'machine\s+learning', r'generative\s+ai', r'\bgenai\b', r'\bllm\b'],
     'semiconductor':  [r'semiconductor'],
     'aerospace':      [r'aerospace'],
