@@ -455,7 +455,15 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
             url: r.presentation_url,
         })
     }
-    timelineEvents.sort((a, b) => b.date.getTime() - a.date.getTime())
+    timelineEvents.sort((a, b) => {
+        const sA = seasonLabel(a.date)
+        const sB = seasonLabel(b.date)
+        if (sA !== sB) return b.date.getTime() - a.date.getTime()
+        // Same quarter: presentation (uploaded after results) appears above results
+        if (a.type === 'presentation' && b.type === 'result') return -1
+        if (a.type === 'result' && b.type === 'presentation') return 1
+        return b.date.getTime() - a.date.getTime()
+    })
 
     function daysAgo(date: Date | string | null | undefined): string {
         if (!date) return ''
