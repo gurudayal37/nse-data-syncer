@@ -13,6 +13,35 @@ import simpleData from '@/data/backtest_results_simple.json'
 
 export const dynamic = 'force-dynamic'
 
+// ─── Theme keyword labels (thematic only — excludes generic sentiment words) ──
+const THEME_LABELS: [string, string][] = [
+  ['data_centre', 'Data Centre'], ['ai', 'AI'], ['semiconductor', 'Semiconductor'],
+  ['aerospace', 'Aerospace'],     ['defence', 'Defence'], ['drone', 'Drone'],
+  ['anti_drone', 'Anti-Drone'],   ['cctv', 'CCTV'],       ['bess', 'BESS'],
+  ['ems', 'EMS'],   ['odm', 'ODM'],   ['pcb', 'PCB'],     ['cdmo', 'CDMO'],
+  ['us', 'US Market'], ['europe', 'Europe/UK'], ['china', 'China'],
+  ['cloud', 'Cloud'],  ['ev', 'EV'],   ['renewable', 'Renewable'],
+  ['export', 'Export'], ['capex', 'Capex'], ['order_book', 'Order Book'],
+  ['precision_engineering', 'Precision Engg'],
+]
+
+function seasonLabel(d: Date): string {
+  const m = d.getMonth() + 1
+  const y = d.getFullYear()
+  const fy2 = (n: number) => String(n).slice(-2)
+  if (m >= 4 && m <= 6)   return `Q4 FY${fy2(y)}`
+  if (m >= 7 && m <= 9)   return `Q1 FY${fy2(y + 1)}`
+  if (m >= 10 && m <= 12) return `Q2 FY${fy2(y + 1)}`
+  return `Q3 FY${fy2(y)}`
+}
+
+function toIST(date: Date): string {
+  return new Date(date).toLocaleString('en-IN', {
+    timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short',
+    year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false,
+  })
+}
+
 // ─── Google News RSS ─────────────────────────────────────────────────────────
 
 interface LiveNewsItem {
@@ -143,8 +172,8 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         volume: Number(p.volume || 0),
     }))
 
-    // Fetch quarterly results, tags, notes, and live news in parallel
-    const [qRaw, tagRows, noteRows, liveNews, shareholdingRaw] = await Promise.all([
+    // Fetch quarterly results, tags, notes, live news, keyword analysis, and announcements in parallel
+    const [qRaw, tagRows, noteRows, liveNews, shareholdingRaw, pkaRows, pеadRows] = await Promise.all([
         prisma.quarterly_results.findMany({
             where: { stock_id: stock.id },
             orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }, { id: 'desc' }],
@@ -165,6 +194,22 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
             orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }, { id: 'desc' }],
             take: 32,
         }),
+        prisma.$queryRaw<any[]>`
+            SELECT result_date, has_presentation, presentation_url, analysed_at,
+                   data_centre, ai, semiconductor, aerospace, defence, drone, anti_drone,
+                   cctv, bess, ems, odm, pcb, cdmo, us, europe, china,
+                   cloud, ev, renewable, export, capex, order_book, precision_engineering,
+                   sentiment_score, word_count
+            FROM presentation_keyword_analysis
+            WHERE symbol = ${sym}
+            ORDER BY result_date DESC
+        `,
+        prisma.$queryRaw<any[]>`
+            SELECT announced_at, company_name
+            FROM pead_announcements
+            WHERE symbol = ${sym}
+            ORDER BY announced_at DESC
+        `,
     ])
 
     // Deduplicate shareholding by (quarter_number, year), same reason as quarterly_results
@@ -353,6 +398,57 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
     const athEntry = ath != null
         ? stock.daily_prices.slice().reverse().find((p: any) => p.close_price === ath) : null
 
+    // ── Keyword chips from latest presentation ────────────────────────────────
+    const latestPka = pkaRows.find((r: any) => r.has_presentation && r.presentation_url)
+    const keywordChips = latestPka
+        ? THEME_LABELS
+            .map(([key, label]) => ({ key, label, count: Number(latestPka[key] ?? 0) }))
+            .filter(c => c.count > 0)
+            .sort((a, b) => b.count - a.count)
+        : []
+    const latestPkaDate = latestPka ? new Date(latestPka.result_date) : null
+
+    // ── Timeline: merge result announcements + presentations ──────────────────
+    interface TimelineEvent {
+        type: 'result' | 'presentation'
+        date: Date
+        title: string
+        detail?: string
+        chips?: { label: string; count: number }[]
+        url?: string
+    }
+    const timelineEvents: TimelineEvent[] = []
+
+    for (const r of pеadRows) {
+        const d = new Date(r.announced_at)
+        timelineEvents.push({
+            type: 'result',
+            date: d,
+            title: `${seasonLabel(d)} Results Announced`,
+            detail: toIST(d),
+        })
+    }
+    for (const r of pkaRows) {
+        if (!r.has_presentation || !r.presentation_url) continue
+        const d = new Date(r.result_date)
+        const chips = THEME_LABELS
+            .map(([key, label]) => ({ label, count: Number(r[key] ?? 0) }))
+            .filter(c => c.count > 0)
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 8)
+        timelineEvents.push({
+            type: 'presentation',
+            date: d,
+            title: `${seasonLabel(d)} Investor Presentation`,
+            detail: chips.length
+                ? chips.map(c => `${c.label} (${c.count})`).join(' · ')
+                : undefined,
+            chips,
+            url: r.presentation_url,
+        })
+    }
+    timelineEvents.sort((a, b) => b.date.getTime() - a.date.getTime())
+
     function daysAgo(date: Date | string | null | undefined): string {
         if (!date) return ''
         const d = Math.floor((Date.now() - new Date(date).getTime()) / 86_400_000)
@@ -497,6 +593,27 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                         </div>
                     </div>
 
+                    {/* Keyword chips from latest investor presentation */}
+                    {keywordChips.length > 0 && (
+                        <div className="px-6 py-3 border-t border-slate-100 flex items-center gap-2 flex-wrap">
+                            <span className="text-xs text-slate-400 font-medium shrink-0">
+                                {latestPkaDate ? seasonLabel(latestPkaDate) : ''} Presentation:
+                            </span>
+                            {keywordChips.map(({ key, label, count }) => (
+                                <span key={key} className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100 font-medium">
+                                    {label}
+                                    <span className="text-indigo-400 font-bold">{count}</span>
+                                </span>
+                            ))}
+                            {latestPka?.presentation_url && (
+                                <a href={latestPka.presentation_url} target="_blank" rel="noopener noreferrer"
+                                   className="text-xs text-blue-500 hover:text-blue-700 ml-1 shrink-0">
+                                    View PDF →
+                                </a>
+                            )}
+                        </div>
+                    )}
+
                     {/* Performance strip — full width grid */}
                     <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/50 grid grid-cols-7 gap-2">
                         <PerfTab label="1W"  value={perf?.change_1w} />
@@ -522,6 +639,49 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                         </div>
                     </div>
                 </div>
+
+                {/* ── Timeline ─────────────────────────────────────────── */}
+                {timelineEvents.length > 0 && (
+                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
+                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-5">Timeline</p>
+                        <div className="relative">
+                            {timelineEvents.map((ev, i) => (
+                                <div key={i} className="flex gap-3 relative">
+                                    {/* Vertical connector line */}
+                                    {i < timelineEvents.length - 1 && (
+                                        <div className="absolute left-[5px] top-3 bottom-0 w-px bg-slate-200" />
+                                    )}
+                                    {/* Dot */}
+                                    <div className={`w-3 h-3 rounded-full mt-1 shrink-0 z-10 ${
+                                        ev.type === 'result' ? 'bg-blue-400' : 'bg-indigo-500'
+                                    }`} />
+                                    {/* Content */}
+                                    <div className="pb-5 min-w-0 flex-1">
+                                        <div className="flex items-baseline gap-2 flex-wrap">
+                                            <p className="text-sm font-semibold text-slate-800">{ev.title}</p>
+                                            <span className="text-xs text-slate-400">{ev.detail}</span>
+                                        </div>
+                                        {ev.type === 'presentation' && ev.chips && ev.chips.length > 0 && (
+                                            <div className="flex flex-wrap gap-1 mt-1.5">
+                                                {ev.chips.map(c => (
+                                                    <span key={c.label} className="inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-100">
+                                                        {c.label} <span className="font-bold text-indigo-400">{c.count}</span>
+                                                    </span>
+                                                ))}
+                                                {ev.url && (
+                                                    <a href={ev.url} target="_blank" rel="noopener noreferrer"
+                                                       className="text-xs text-blue-500 hover:text-blue-700 ml-1 self-center">
+                                                        View PDF →
+                                                    </a>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 {/* ── Chart card ────────────────────────────────────────── */}
                 <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
