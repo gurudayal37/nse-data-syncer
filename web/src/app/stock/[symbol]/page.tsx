@@ -419,12 +419,20 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
     }
     const timelineEvents: TimelineEvent[] = []
 
-    for (const r of pеadRows) {
+    // Deduplicate result announcements: keep earliest per season
+    const seenResultSeason = new Set<string>()
+    const sortedAnnouncements = [...pеadRows].sort(
+        (a: any, b: any) => new Date(a.announced_at).getTime() - new Date(b.announced_at).getTime()
+    )
+    for (const r of sortedAnnouncements) {
         const d = new Date(r.announced_at)
+        const season = seasonLabel(d)
+        if (seenResultSeason.has(season)) continue
+        seenResultSeason.add(season)
         timelineEvents.push({
             type: 'result',
             date: d,
-            title: `${seasonLabel(d)} Results Announced`,
+            title: `${season} Results Announced`,
             detail: toIST(d),
         })
     }
