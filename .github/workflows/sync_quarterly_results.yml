@@ -37,3 +37,9 @@ jobs:
           SCREENER_PASSWORD: ${{ secrets.SCREENER_PASSWORD }}
         run: |
           python scripts/sync_quarterly_results.py --symbol "${{ github.event.inputs.symbol }}"
+
+      - name: Keyword analysis
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          python scripts/keyword_analysis.py --symbol "${{ github.event.inputs.symbol }}" --force

@@ -9,6 +9,7 @@ const GH_REF = 'main'
 
 function runLocally(symbol: string): Promise<NextResponse> {
     const scriptPath = path.join(process.cwd(), '..', 'scripts', 'sync_quarterly_results.py')
+    const kwPath    = path.join(process.cwd(), '..', 'scripts', 'keyword_analysis.py')
     const env = { ...process.env }
 
     return new Promise((resolve) => {
@@ -21,13 +22,27 @@ function runLocally(symbol: string): Promise<NextResponse> {
                     return resolve(NextResponse.json({ success: false, error: error.message }, { status: 500 }))
                 }
                 const lastLine = stdout.trim().split('\n').pop() ?? ''
+                let result: Record<string, unknown>
                 try {
-                    const result = JSON.parse(lastLine)
-                    return resolve(NextResponse.json(result, { status: result.success ? 200 : 500 }))
+                    result = JSON.parse(lastLine)
                 } catch {
                     console.error('[sync/local] unexpected output:', stdout)
                     return resolve(NextResponse.json({ success: false, error: 'Unexpected script output' }, { status: 500 }))
                 }
+
+                if (!result.success) {
+                    return resolve(NextResponse.json(result, { status: 500 }))
+                }
+
+                // After a successful sync, run keyword analysis for this symbol
+                exec(
+                    `python3 "${kwPath}" --symbol "${symbol}" --force`,
+                    { env, timeout: 120_000 },
+                    (kwErr) => {
+                        if (kwErr) console.error('[sync/local] keyword analysis error:', kwErr.message)
+                        resolve(NextResponse.json(result, { status: 200 }))
+                    }
+                )
             }
         )
     })
