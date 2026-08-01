@@ -489,7 +489,7 @@ def process_one(symbol, company_name, result_date, insert_sql, insert_cols, forc
             'result_date': str(result_date), 'has_presentation': True,
             'presentation_url': best_url, 'pdf_pages': n_pages,
             'pdf_chars': len(best_text), **theme_counts, **sentiment,
-            'n_pages': n_pages, 'n_candidates': len(pres_urls),
+            '_n_pages': n_pages, '_n_candidates': len(pres_urls),
         }
         return 'found', symbol, result_date, result
     except Exception as e:
@@ -600,12 +600,12 @@ def main():
                 r = data
                 kw = ', '.join(f'{k}={v}' for k, v in r.items()
                                if k in THEME_COLUMNS and v and v > 0) or 'no theme matches'
-                cands = f"{r['n_candidates']} candidate PDFs" if r['n_candidates'] > 1 else 'found PDF'
+                cands = f"{r['_n_candidates']} candidate PDFs" if r['_n_candidates'] > 1 else 'found PDF'
                 print(f"[{n}/{total}] {sym} ({rd}) … {cands} … "
-                      f"{r['n_pages']}pp, {r['word_count']}w → "
+                      f"{r['_n_pages']}pp, {r['word_count']}w → "
                       f"sentiment={r['sentiment_score']:+.2f} "
                       f"(+{r['positive_hits']}/-{r['negative_hits']}) | {kw}")
-                rows.append(data)
+                rows.append({k: v for k, v in data.items() if not k.startswith('_')})
         return status
 
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
