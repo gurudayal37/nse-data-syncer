@@ -63,7 +63,7 @@ PDF_HEADERS = {
 # \s* matches zero or more spaces so "datacentre" and "data centre" both count,
 # and "orderbook" and "order book" both count.
 THEME_KEYWORDS = {
-    'data_centre':    [r'data\s*cent(?:re|er)s?'],          # datacentre / data centre / datacenter
+    'data_centre':    [r'data[\s\-]*cent(?:re|er)s?'],        # data centre/center/datacentre/data-centre
     'ai':             [r'\bai\b', r'artificial\s+intelligence', r'machine\s+learning', r'generative\s+ai', r'\bgenai\b', r'\bllm\b'],
     'semiconductor':  [r'semiconductor'],
     'aerospace':      [r'aerospace'],
@@ -264,14 +264,19 @@ def find_investor_presentations(symbol: str, result_date: date, season_end: date
                 url = ann.get('attchmntFile', '')
                 if not url or url in seen:
                     continue
-                combined = (ann.get('desc', '') + ' ' + ann.get('attchmntText', '') + ' ' + url).lower()
+                # Normalize underscores in filename so "Lodha_Investor_Presentation"
+                # matches 'investor presentation' the same as plain text does.
+                url_text = url.replace('_', ' ').replace('-', ' ')
+                combined = (ann.get('desc', '') + ' ' + ann.get('attchmntText', '') + ' ' + url_text).lower()
                 # NSE filings use varied labels: "Investor Presentation",
-                # "Investor Update", "Investor/Analyst Meet", and addendums to
-                # earlier presentations (e.g. SETL's AI-datacenter addendum).
+                # "Investor Update", "Investor/Analyst Meet", "Institutional
+                # Investor Meet" (Analysts/Institutional Investor Meet/Con. Call
+                # Updates), and addendums to earlier presentations.
                 if (
                     'investor presentation' in combined
                     or 'investors presentation' in combined
                     or 'investor update' in combined
+                    or 'investor meet' in combined
                     or 'investor/analyst' in combined
                     or 'analyst meet' in combined
                     or 'investorpresentation' in combined
