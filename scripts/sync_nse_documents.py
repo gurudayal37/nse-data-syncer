@@ -133,7 +133,7 @@ def fetch_nse(date_str: str) -> list[dict]:
 def iter_weekdays(start: date, end: date):
     d = start
     while d <= end:
-        if d.weekday() < 6:  # Mon–Sat (NSE operates Saturdays too)
+        if True:  # all days including Sunday
             yield d
         d += timedelta(days=1)
 

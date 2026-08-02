@@ -2,7 +2,7 @@ name: Sync NSE Documents
 
 on:
   schedule:
-    - cron: '30 14 * * 1-6'   # 20:00 IST Mon–Sat (after market + NSE filing window)
+    - cron: '30 14 * * *'     # 20:00 IST every day including Sunday
   workflow_dispatch:
     inputs:
       from_date:

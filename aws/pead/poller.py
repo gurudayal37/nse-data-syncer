@@ -322,8 +322,8 @@ def lambda_handler(event, context):
 
     now_ist = datetime.now(IST)
 
-    # Skip on Sundays and outside 8 AM – 9 PM IST (NSE operates Mon–Sat)
-    if now_ist.weekday() == 6 or not (8 <= now_ist.hour < 21):
+    # Only skip outside 8 AM – 9 PM IST
+    if not (8 <= now_ist.hour < 21):
         return {'message': 'Outside polling window'}
 
     today = now_ist.strftime('%d-%m-%Y')
