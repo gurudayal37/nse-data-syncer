@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { X, StickyNote } from 'lucide-react'
 
 export interface SerializedEvent {
-    type: 'result' | 'presentation'
+    type: 'result' | 'presentation' | 'concall' | 'transcript'
     dateISO: string
     season: string
     title: string
@@ -200,14 +200,17 @@ export default function TimelineTable({
                                         {fmtDate(ev.dateISO)}
                                     </td>
                                     <td className="px-4 py-3 align-top">
-                                        {ev.type === 'result' ? (
-                                            <span className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 uppercase tracking-wide">
-                                                Result
-                                            </span>
-                                        ) : (
-                                            <span className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-700 uppercase tracking-wide">
-                                                Presentation
-                                            </span>
+                                        {ev.type === 'result' && (
+                                            <span className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 uppercase tracking-wide">Result</span>
+                                        )}
+                                        {ev.type === 'presentation' && (
+                                            <span className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-700 uppercase tracking-wide">Presentation</span>
+                                        )}
+                                        {ev.type === 'concall' && (
+                                            <span className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 uppercase tracking-wide">Concall</span>
+                                        )}
+                                        {ev.type === 'transcript' && (
+                                            <span className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded bg-teal-100 text-teal-700 uppercase tracking-wide">Transcript</span>
                                         )}
                                     </td>
                                     <td className="px-4 py-3 align-top">

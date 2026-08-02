@@ -172,8 +172,8 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         volume: Number(p.volume || 0),
     }))
 
-    // Fetch quarterly results, tags, notes, live news, keyword analysis, and announcements in parallel
-    const [qRaw, tagRows, noteRows, liveNews, shareholdingRaw, pkaRows, pеadRows] = await Promise.all([
+    // Fetch quarterly results, tags, notes, live news, keyword analysis, announcements, and concall/transcript docs in parallel
+    const [qRaw, tagRows, noteRows, liveNews, shareholdingRaw, pkaRows, pеadRows, nseDocRows] = await Promise.all([
         prisma.quarterly_results.findMany({
             where: { stock_id: stock.id },
             orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }, { id: 'desc' }],
@@ -209,6 +209,15 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
             FROM pead_announcements
             WHERE symbol = ${sym}
             ORDER BY announced_at DESC
+        `,
+        prisma.$queryRaw<any[]>`
+            SELECT doc_type, category, attachment_url, nse_filed_at
+            FROM nse_documents
+            WHERE symbol = ${sym}
+              AND doc_type IN ('concall', 'transcript')
+              AND attachment_url != ''
+            ORDER BY nse_filed_at DESC
+            LIMIT 20
         `,
     ])
 
@@ -408,9 +417,9 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         : []
     const latestPkaDate = latestPka ? new Date(latestPka.result_date) : null
 
-    // ── Timeline: merge result announcements + presentations ──────────────────
+    // ── Timeline: merge result announcements + presentations + concall/transcript ──
     interface TimelineEvent {
-        type: 'result' | 'presentation'
+        type: 'result' | 'presentation' | 'concall' | 'transcript'
         date: Date
         title: string
         detail?: string
@@ -456,6 +465,17 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
             url: r.presentation_url,
         })
     }
+    for (const r of nseDocRows) {
+        const d = new Date(r.nse_filed_at)
+        const type = r.doc_type as 'concall' | 'transcript'
+        timelineEvents.push({
+            type,
+            date: d,
+            title: `${seasonLabel(d)} ${type === 'concall' ? 'Concall' : 'Transcript'}`,
+            url: r.attachment_url || undefined,
+        })
+    }
+
     timelineEvents.sort((a, b) => {
         const sA = seasonLabel(a.date)
         const sB = seasonLabel(b.date)
