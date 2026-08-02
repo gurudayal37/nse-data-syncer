@@ -1,9 +1,10 @@
 """
-Investor Presentation Keyword & Sentiment Analysis — Q4 FY26 Results Season
+Investor Presentation Keyword & Sentiment Analysis
 
 Steps:
-  1. For every company in pead_announcements this season, fetch NSE filings
-     for their result date +1 to find "Investor Presentation" attachments.
+  1. For every company in pead_announcements this season, look up investor
+     presentations from nse_documents (sync_nse_documents.py keeps it current).
+     Falls back to live NSE scraping if not found in DB.
   2. Download each PDF and:
        - count theme keyword occurrences (data centre, AI, defence, ...)
        - run a positive/negative sentiment phrase scan with negation handling
@@ -428,7 +429,19 @@ def process_one(symbol, company_name, result_date, insert_sql, insert_cols, forc
             if db.fetchone():
                 return 'skip', symbol, result_date, None
 
-        pres_urls = find_investor_presentations(symbol, result_date)
+        # Check nse_documents table first (populated by sync_nse_documents.py)
+        # to avoid redundant NSE API scraping for already-known presentations.
+        db.execute("""
+            SELECT attachment_url FROM nse_documents
+            WHERE symbol = %s AND doc_type = 'presentation'
+              AND nse_filed_at >= %s::date
+              AND nse_filed_at <  %s::date + INTERVAL '61 days'
+              AND attachment_url != ''
+            ORDER BY nse_filed_at ASC
+        """, (symbol, result_date, result_date))
+        db_urls = [r[0] for r in db.fetchall()]
+
+        pres_urls = db_urls if db_urls else find_investor_presentations(symbol, result_date)
 
         if not pres_urls:
             db.execute("""
