@@ -1,0 +1,37 @@
+name: Keyword Analysis — Single Symbol
+
+on:
+  workflow_dispatch:
+    inputs:
+      symbol:
+        description: 'NSE symbol (e.g. DIVISLAB, TCS)'
+        required: true
+        type: string
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  analyse:
+    name: Analyse ${{ github.event.inputs.symbol }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run keyword analysis
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          python scripts/keyword_analysis.py --symbol "${{ github.event.inputs.symbol }}" --force

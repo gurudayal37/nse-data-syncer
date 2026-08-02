@@ -134,13 +134,19 @@ CREATE INDEX IF NOT EXISTS ix_nse_docs_filed_at ON nse_documents (nse_filed_at);
 """
 
 
-def upsert_nse_documents(cur, announcements: list[dict], now_ist: datetime) -> int:
-    """Upsert all today's NSE announcements into nse_documents. Returns insert count."""
+def upsert_nse_documents(cur, announcements: list[dict], now_ist: datetime) -> tuple[int, list[str]]:
+    """
+    Upsert all today's NSE announcements into nse_documents.
+    Returns (insert_count, new_presentation_symbols).
+    """
     inserted = 0
+    new_presentation_symbols: list[str] = []
     for ann in announcements:
         seq_id = str(ann.get('seq_id') or '').strip()
         if not seq_id:
             continue
+        symbol   = (ann.get('symbol') or '').strip().upper()
+        doc_type = classify_doc_type(ann)
         nse_filed_at = parse_nse_dt(ann.get('an_dt', '')) or \
                        now_ist.replace(hour=12, minute=0, second=0, microsecond=0)
         cur.execute("""
@@ -156,19 +162,19 @@ def upsert_nse_documents(cur, announcements: list[dict], now_ist: datetime) -> i
                     doc_type       = EXCLUDED.doc_type
             RETURNING (xmax = 0) AS was_inserted
         """, (
-            seq_id,
-            (ann.get('symbol') or '').strip().upper(),
+            seq_id, symbol,
             (ann.get('sm_name') or '').strip(),
             (ann.get('desc') or '').strip(),
             (ann.get('attchmntText') or '').strip(),
             (ann.get('attchmntFile') or '').strip(),
-            classify_doc_type(ann),
-            nse_filed_at,
+            doc_type, nse_filed_at,
         ))
         row = cur.fetchone()
         if row and row[0]:
             inserted += 1
-    return inserted
+            if doc_type == 'presentation' and (ann.get('attchmntFile') or '').strip():
+                new_presentation_symbols.append(symbol)
+    return inserted, new_presentation_symbols
 
 
 def parse_nse_dt(s: str) -> datetime | None:
@@ -197,6 +203,31 @@ def fetch_nse_announcements(today: str) -> list[dict]:
     resp.raise_for_status()
     data = resp.json()
     return data if isinstance(data, list) else []
+
+
+GH_OWNER    = 'gurudayal37'
+GH_REPO     = 'nse-data-syncer'
+GH_WORKFLOW = 'keyword_analysis_single.yml'
+
+def dispatch_keyword_analysis(symbol: str, gh_pat: str) -> None:
+    """Trigger keyword_analysis_single.yml for this symbol via GitHub API."""
+    try:
+        resp = requests.post(
+            f'https://api.github.com/repos/{GH_OWNER}/{GH_REPO}/actions/workflows/{GH_WORKFLOW}/dispatches',
+            headers={
+                'Authorization': f'token {gh_pat}',
+                'Accept': 'application/vnd.github+json',
+                'X-GitHub-Api-Version': '2022-11-28',
+            },
+            json={'ref': 'main', 'inputs': {'symbol': symbol}},
+            timeout=10,
+        )
+        if resp.status_code == 204:
+            print(f'Keyword analysis triggered for {symbol}')
+        else:
+            print(f'GH dispatch failed for {symbol}: {resp.status_code} {resp.text[:200]}')
+    except Exception as e:
+        print(f'GH dispatch error for {symbol}: {e}')
 
 
 def send_telegram(token: str, chat_id: str, text: str) -> None:
@@ -243,13 +274,27 @@ def lambda_handler(event, context):
     print(f'Announcements today: {len(announcements)}, results: {len(result_anns)}')
 
     # Upsert ALL announcements into nse_documents (presentations, press releases, etc.)
+    gh_pat = os.environ.get('GH_PAT', '')
     conn_docs = psycopg2.connect(db_url)
     try:
         cur_docs = conn_docs.cursor()
         cur_docs.execute(CREATE_NSE_DOCS_SQL)
-        n_inserted = upsert_nse_documents(cur_docs, announcements, now_ist)
+        n_inserted, new_pres_symbols = upsert_nse_documents(cur_docs, announcements, now_ist)
         conn_docs.commit()
-        print(f'nse_documents: {n_inserted} new of {len(announcements)}')
+        print(f'nse_documents: {n_inserted} new of {len(announcements)}, presentations: {new_pres_symbols}')
+
+        # For each newly filed presentation, trigger keyword analysis if the
+        # symbol has announced results this season (last 120 days)
+        if new_pres_symbols and gh_pat:
+            cur_docs.execute("""
+                SELECT DISTINCT UPPER(symbol) FROM pead_announcements
+                WHERE UPPER(symbol) = ANY(%s)
+                  AND announced_at > NOW() - INTERVAL '120 days'
+            """, (new_pres_symbols,))
+            eligible = {r[0] for r in cur_docs.fetchall()}
+            for sym in new_pres_symbols:
+                if sym in eligible:
+                    dispatch_keyword_analysis(sym, gh_pat)
     except Exception as e:
         print(f'nse_documents upsert error: {e}')
     finally:

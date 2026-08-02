@@ -68,7 +68,8 @@ jobs:
               DATABASE_URL=${{ secrets.PEAD_DATABASE_URL }},
               TELEGRAM_BOT_TOKEN=${{ secrets.PEAD_TELEGRAM_BOT_TOKEN }},
               TELEGRAM_CHAT_ID=${{ secrets.PEAD_TELEGRAM_CHAT_ID }},
-              SQS_QUEUE_URL=${{ secrets.PEAD_SQS_QUEUE_URL }}
+              SQS_QUEUE_URL=${{ secrets.PEAD_SQS_QUEUE_URL }},
+              GH_PAT=${{ secrets.GH_PAT }}
             }" \
             --region ap-south-1
 
