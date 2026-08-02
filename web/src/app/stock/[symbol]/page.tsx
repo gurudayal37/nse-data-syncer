@@ -510,19 +510,16 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                             <p className="text-xs text-slate-400 mt-1">
                                 {latest ? new Date(latest.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) + ' · close price' : ''}
                             </p>
-                            {/* NSE / BSE badges */}
-                            <div className="flex items-center gap-3 mt-2.5">
-                                <span className="text-xs text-slate-500 border border-slate-200 px-2 py-0.5 rounded">
+                            {/* NSE / BSE badges + tags — all on one row */}
+                            <div className="flex flex-wrap items-center gap-2 mt-2.5">
+                                <span className="text-xs text-slate-500 border border-slate-200 px-2 py-0.5 rounded shrink-0">
                                     NSE: <span className="font-semibold text-slate-700">{stock.nse_symbol}</span>
                                 </span>
                                 {stock.bse_symbol && (
-                                    <span className="text-xs text-slate-500 border border-slate-200 px-2 py-0.5 rounded">
+                                    <span className="text-xs text-slate-500 border border-slate-200 px-2 py-0.5 rounded shrink-0">
                                         BSE: <span className="font-semibold text-slate-700">{stock.bse_symbol}</span>
                                     </span>
                                 )}
-                            </div>
-                            {/* Tags — inline editor */}
-                            <div className="mt-2.5">
                                 <StockTags symbol={sym} initialTags={tags} inline={true} />
                             </div>
                         </div>
