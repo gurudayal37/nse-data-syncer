@@ -205,7 +205,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
             ORDER BY result_date DESC
         `,
         prisma.$queryRaw<any[]>`
-            SELECT announced_at, company_name
+            SELECT announced_at, company_name, attachment_url
             FROM pead_announcements
             WHERE symbol = ${sym}
             ORDER BY announced_at DESC
@@ -434,6 +434,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
             date: d,
             title: `${season} Results Announced`,
             detail: toIST(d),
+            url: r.attachment_url || undefined,
         })
     }
     for (const r of pkaRows) {
@@ -677,9 +678,9 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                                             <p className="text-sm font-semibold text-slate-800">{ev.title}</p>
                                             <span className="text-xs text-slate-400">{ev.detail}</span>
                                         </div>
-                                        {ev.type === 'presentation' && ev.chips && ev.chips.length > 0 && (
+                                        {ev.type === 'presentation' && (
                                             <div className="flex flex-wrap gap-1 mt-1.5">
-                                                {ev.chips.map(c => (
+                                                {ev.chips?.map(c => (
                                                     <span key={c.label} className="inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-100">
                                                         {c.label} <span className="font-bold text-indigo-400">{c.count}</span>
                                                     </span>
@@ -690,6 +691,14 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                                                         View PDF →
                                                     </a>
                                                 )}
+                                            </div>
+                                        )}
+                                        {ev.type === 'result' && ev.url && (
+                                            <div className="mt-1.5">
+                                                <a href={ev.url} target="_blank" rel="noopener noreferrer"
+                                                   className="text-xs text-blue-500 hover:text-blue-700">
+                                                    View PDF →
+                                                </a>
                                             </div>
                                         )}
                                     </div>
