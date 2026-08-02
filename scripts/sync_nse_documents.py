@@ -46,20 +46,22 @@ IST = timezone(timedelta(hours=5, minutes=30))
 
 SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS nse_documents (
-    id             SERIAL PRIMARY KEY,
-    seq_id         TEXT UNIQUE NOT NULL,
-    symbol         TEXT NOT NULL,
-    company_name   TEXT,
-    category       TEXT,
-    description    TEXT,
-    attachment_url TEXT,
-    doc_type       TEXT NOT NULL DEFAULT 'general',
-    nse_filed_at   TIMESTAMPTZ,
-    fetched_at     TIMESTAMPTZ DEFAULT NOW()
+    id                SERIAL PRIMARY KEY,
+    seq_id            TEXT UNIQUE NOT NULL,
+    symbol            TEXT NOT NULL,
+    company_name      TEXT,
+    category          TEXT,
+    description       TEXT,
+    attachment_url    TEXT,
+    doc_type          TEXT NOT NULL DEFAULT 'general',
+    nse_filed_at      TIMESTAMPTZ,
+    fetched_at        TIMESTAMPTZ DEFAULT NOW(),
+    kw_dispatched_at  TIMESTAMPTZ
 );
 CREATE INDEX IF NOT EXISTS ix_nse_docs_symbol     ON nse_documents (symbol);
 CREATE INDEX IF NOT EXISTS ix_nse_docs_doc_type   ON nse_documents (doc_type);
 CREATE INDEX IF NOT EXISTS ix_nse_docs_filed_at   ON nse_documents (nse_filed_at);
+ALTER TABLE nse_documents ADD COLUMN IF NOT EXISTS kw_dispatched_at TIMESTAMPTZ;
 """
 
 # Patterns for classifying doc_type from category + description text

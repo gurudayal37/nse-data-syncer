@@ -117,30 +117,28 @@ def classify_doc_type(ann: dict) -> str:
 
 CREATE_NSE_DOCS_SQL = """
 CREATE TABLE IF NOT EXISTS nse_documents (
-    id             SERIAL PRIMARY KEY,
-    seq_id         TEXT UNIQUE NOT NULL,
-    symbol         TEXT NOT NULL,
-    company_name   TEXT,
-    category       TEXT,
-    description    TEXT,
-    attachment_url TEXT,
-    doc_type       TEXT NOT NULL DEFAULT 'general',
-    nse_filed_at   TIMESTAMPTZ,
-    fetched_at     TIMESTAMPTZ DEFAULT NOW()
+    id                SERIAL PRIMARY KEY,
+    seq_id            TEXT UNIQUE NOT NULL,
+    symbol            TEXT NOT NULL,
+    company_name      TEXT,
+    category          TEXT,
+    description       TEXT,
+    attachment_url    TEXT,
+    doc_type          TEXT NOT NULL DEFAULT 'general',
+    nse_filed_at      TIMESTAMPTZ,
+    fetched_at        TIMESTAMPTZ DEFAULT NOW(),
+    kw_dispatched_at  TIMESTAMPTZ
 );
 CREATE INDEX IF NOT EXISTS ix_nse_docs_symbol   ON nse_documents (symbol);
 CREATE INDEX IF NOT EXISTS ix_nse_docs_doc_type ON nse_documents (doc_type);
 CREATE INDEX IF NOT EXISTS ix_nse_docs_filed_at ON nse_documents (nse_filed_at);
+ALTER TABLE nse_documents ADD COLUMN IF NOT EXISTS kw_dispatched_at TIMESTAMPTZ;
 """
 
 
-def upsert_nse_documents(cur, announcements: list[dict], now_ist: datetime) -> tuple[int, list[str]]:
-    """
-    Upsert all today's NSE announcements into nse_documents.
-    Returns (insert_count, new_presentation_symbols).
-    """
+def upsert_nse_documents(cur, announcements: list[dict], now_ist: datetime) -> int:
+    """Upsert all today's NSE announcements into nse_documents. Returns insert count."""
     inserted = 0
-    new_presentation_symbols: list[str] = []
     for ann in announcements:
         seq_id = str(ann.get('seq_id') or '').strip()
         if not seq_id:
@@ -172,9 +170,42 @@ def upsert_nse_documents(cur, announcements: list[dict], now_ist: datetime) -> t
         row = cur.fetchone()
         if row and row[0]:
             inserted += 1
-            if doc_type == 'presentation' and (ann.get('attchmntFile') or '').strip():
-                new_presentation_symbols.append(symbol)
-    return inserted, new_presentation_symbols
+    return inserted
+
+
+def dispatch_pending_presentations(cur, gh_pat: str) -> None:
+    """
+    Find all presentations in nse_documents that haven't had keyword analysis
+    dispatched yet, where the symbol has announced results in the last 90 days.
+    Works for both live filings and backfilled data.
+    """
+    cur.execute("""
+        SELECT nd.seq_id, nd.symbol
+        FROM nse_documents nd
+        JOIN pead_announcements pa ON UPPER(pa.symbol) = nd.symbol
+        WHERE nd.doc_type = 'presentation'
+          AND nd.attachment_url != ''
+          AND nd.kw_dispatched_at IS NULL
+          AND nd.nse_filed_at > NOW() - INTERVAL '90 days'
+          AND pa.announced_at   > NOW() - INTERVAL '90 days'
+        GROUP BY nd.seq_id, nd.symbol
+    """)
+    rows = cur.fetchall()
+    if not rows:
+        return
+
+    print(f'Pending keyword analysis dispatches: {len(rows)}')
+    dispatched_seq_ids = []
+    for seq_id, symbol in rows:
+        dispatch_keyword_analysis(symbol, gh_pat)
+        dispatched_seq_ids.append(seq_id)
+
+    # Mark as dispatched so we don't re-trigger on the next poll
+    cur.execute("""
+        UPDATE nse_documents
+        SET kw_dispatched_at = NOW()
+        WHERE seq_id = ANY(%s)
+    """, (dispatched_seq_ids,))
 
 
 def parse_nse_dt(s: str) -> datetime | None:
@@ -273,30 +304,23 @@ def lambda_handler(event, context):
     result_anns = [a for a in announcements if is_result(a)]
     print(f'Announcements today: {len(announcements)}, results: {len(result_anns)}')
 
-    # Upsert ALL announcements into nse_documents (presentations, press releases, etc.)
+    # Upsert ALL announcements into nse_documents, then dispatch keyword analysis
+    # for any presentation not yet processed — covers both live filings and
+    # backfilled data that the Lambda missed (e.g. Saturday gap).
     gh_pat = os.environ.get('GH_PAT', '')
     conn_docs = psycopg2.connect(db_url)
     try:
         cur_docs = conn_docs.cursor()
         cur_docs.execute(CREATE_NSE_DOCS_SQL)
-        n_inserted, new_pres_symbols = upsert_nse_documents(cur_docs, announcements, now_ist)
+        n_inserted = upsert_nse_documents(cur_docs, announcements, now_ist)
         conn_docs.commit()
-        print(f'nse_documents: {n_inserted} new of {len(announcements)}, presentations: {new_pres_symbols}')
+        print(f'nse_documents: {n_inserted} new of {len(announcements)}')
 
-        # For each newly filed presentation, trigger keyword analysis if the
-        # symbol has announced results this season (last 120 days)
-        if new_pres_symbols and gh_pat:
-            cur_docs.execute("""
-                SELECT DISTINCT UPPER(symbol) FROM pead_announcements
-                WHERE UPPER(symbol) = ANY(%s)
-                  AND announced_at > NOW() - INTERVAL '90 days'
-            """, (new_pres_symbols,))
-            eligible = {r[0] for r in cur_docs.fetchall()}
-            for sym in new_pres_symbols:
-                if sym in eligible:
-                    dispatch_keyword_analysis(sym, gh_pat)
+        if gh_pat:
+            dispatch_pending_presentations(cur_docs, gh_pat)
+            conn_docs.commit()
     except Exception as e:
-        print(f'nse_documents upsert error: {e}')
+        print(f'nse_documents error: {e}')
     finally:
         conn_docs.close()
 
