@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma'
 import StockChart from '@/components/StockChart'
 import SyncButton from '@/components/SyncButton'
 import StockTags from '@/components/StockTags'
-import StockNotes from '@/components/StockNotes'
+import TimelineTable, { SerializedEvent } from '@/components/TimelineTable'
 import StockAbout from '@/components/StockAbout'
 import StockMeta from '@/components/StockMeta'
 import Link from 'next/link'
@@ -466,6 +466,16 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         return b.date.getTime() - a.date.getTime()
     })
 
+    // Serialize timeline events for the client component
+    const serializedEvents: SerializedEvent[] = timelineEvents.map(ev => ({
+        type: ev.type,
+        dateISO: ev.date.toISOString(),
+        season: seasonLabel(ev.date),
+        title: ev.title,
+        chips: ev.chips,
+        url: ev.url,
+    }))
+
     function daysAgo(date: Date | string | null | undefined): string {
         if (!date) return ''
         const d = Math.floor((Date.now() - new Date(date).getTime()) / 86_400_000)
@@ -639,62 +649,8 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                     </div>
                 </div>
 
-                {/* ── Research Notes ────────────────────────────────────── */}
-                <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-5 py-4">
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2.5">Research Notes</p>
-                    <StockNotes symbol={sym} initialNotes={notes} />
-                </div>
-
-                {/* ── Timeline ─────────────────────────────────────────── */}
-                {timelineEvents.length > 0 && (
-                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
-                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-5">Timeline</p>
-                        <div className="relative">
-                            {timelineEvents.map((ev, i) => (
-                                <div key={i} className="flex gap-3 relative">
-                                    {/* Vertical connector line */}
-                                    {i < timelineEvents.length - 1 && (
-                                        <div className="absolute left-[5px] top-3 bottom-0 w-px bg-slate-200" />
-                                    )}
-                                    {/* Dot */}
-                                    <div className={`w-3 h-3 rounded-full mt-1 shrink-0 z-10 ${
-                                        ev.type === 'result' ? 'bg-blue-400' : 'bg-indigo-500'
-                                    }`} />
-                                    {/* Content */}
-                                    <div className="pb-5 min-w-0 flex-1">
-                                        <div className="flex items-baseline gap-2 flex-wrap">
-                                            <p className="text-sm font-semibold text-slate-800">{ev.title}</p>
-                                            <span className="text-xs text-slate-400">{ev.detail}</span>
-                                        </div>
-                                        {ev.type === 'presentation' && (
-                                            <div className="flex flex-wrap gap-1 mt-1.5">
-                                                {ev.chips?.map(c => (
-                                                    <span key={c.label} className="inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-100">
-                                                        {c.label} <span className="font-bold text-indigo-400">{c.count}</span>
-                                                    </span>
-                                                ))}
-                                                {ev.url && (
-                                                    <a href={ev.url} target="_blank" rel="noopener noreferrer"
-                                                       className="text-xs text-blue-500 hover:text-blue-700 ml-1 self-center">
-                                                        View PDF →
-                                                    </a>
-                                                )}
-                                            </div>
-                                        )}
-                                        {ev.type === 'result' && ev.url && (
-                                            <div className="mt-1.5">
-                                                <a href={ev.url} target="_blank" rel="noopener noreferrer"
-                                                   className="text-xs text-blue-500 hover:text-blue-700">
-                                                    View PDF →
-                                                </a>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
+                {/* ── Timeline (includes research notes) ───────────────── */}
+                <TimelineTable symbol={sym} events={serializedEvents} initialNotes={notes} />
 
                 {/* ── Chart card ────────────────────────────────────────── */}
                 <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-5">
