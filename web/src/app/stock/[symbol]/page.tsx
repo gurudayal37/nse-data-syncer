@@ -173,7 +173,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
     }))
 
     // Fetch quarterly results, tags, notes, live news, keyword analysis, announcements, and concall/transcript docs in parallel
-    const [qRaw, tagRows, noteRows, liveNews, shareholdingRaw, pkaRows, pеadRows, nseDocRows] = await Promise.all([
+    const [qRaw, tagRows, noteRows, liveNews, shareholdingRaw, pkaRows, pеadRows, nseDocRows, upcomingRows] = await Promise.all([
         prisma.quarterly_results.findMany({
             where: { stock_id: stock.id },
             orderBy: [{ year: 'desc' }, { quarter_number: 'desc' }, { id: 'desc' }],
@@ -218,6 +218,18 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
               AND attachment_url != ''
             ORDER BY nse_filed_at DESC
             LIMIT 20
+        `,
+        prisma.$queryRaw<any[]>`
+            SELECT bm.meeting_date
+            FROM board_meetings bm
+            LEFT JOIN pead_announcements pa
+                ON UPPER(pa.symbol) = UPPER(bm.symbol)
+               AND DATE(pa.announced_at AT TIME ZONE 'Asia/Kolkata') = bm.meeting_date
+            WHERE UPPER(bm.symbol) = ${sym.toUpperCase()}
+              AND bm.meeting_date >= CURRENT_DATE
+              AND pa.seq_id IS NULL
+            ORDER BY bm.meeting_date ASC
+            LIMIT 3
         `,
     ])
 
@@ -417,9 +429,9 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         : []
     const latestPkaDate = latestPka ? new Date(latestPka.result_date) : null
 
-    // ── Timeline: merge result announcements + presentations + concall/transcript ──
+    // ── Timeline: merge result announcements + presentations + concall/transcript + upcoming ──
     interface TimelineEvent {
-        type: 'result' | 'presentation' | 'concall' | 'transcript'
+        type: 'result' | 'presentation' | 'concall' | 'transcript' | 'upcoming'
         date: Date
         title: string
         detail?: string
@@ -465,6 +477,15 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
             url: r.presentation_url,
         })
     }
+    for (const r of upcomingRows) {
+        const d = new Date(r.meeting_date)
+        timelineEvents.push({
+            type: 'upcoming',
+            date: d,
+            title: `${seasonLabel(d)} Results Expected`,
+        })
+    }
+
     for (const r of nseDocRows) {
         const d = new Date(r.nse_filed_at)
         const type = r.doc_type as 'concall' | 'transcript'

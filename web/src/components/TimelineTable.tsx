@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { X, StickyNote } from 'lucide-react'
 
 export interface SerializedEvent {
-    type: 'result' | 'presentation' | 'concall' | 'transcript'
+    type: 'result' | 'presentation' | 'concall' | 'transcript' | 'upcoming'
     dateISO: string
     season: string
     title: string
@@ -195,11 +195,14 @@ export default function TimelineTable({
 
                             const ev = row.event
                             return (
-                                <tr key={`ev-${i}`} className="border-b border-slate-100 hover:bg-slate-50/60">
+                                <tr key={`ev-${i}`} className={`border-b border-slate-100 ${ev.type === 'upcoming' ? 'bg-red-50/40 hover:bg-red-50/70' : 'hover:bg-slate-50/60'}`}>
                                     <td className="px-4 py-3 text-xs text-slate-400 align-top whitespace-nowrap">
                                         {fmtDate(ev.dateISO)}
                                     </td>
                                     <td className="px-4 py-3 align-top">
+                                        {ev.type === 'upcoming' && (
+                                            <span className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded bg-red-100 text-red-700 uppercase tracking-wide">Upcoming</span>
+                                        )}
                                         {ev.type === 'result' && (
                                             <span className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 uppercase tracking-wide">Result</span>
                                         )}
@@ -214,23 +217,32 @@ export default function TimelineTable({
                                         )}
                                     </td>
                                     <td className="px-4 py-3 align-top">
-                                        <div className="flex items-center gap-2 flex-wrap">
-                                            <p className="text-xs font-medium text-slate-700">{ev.title}</p>
-                                            {ev.url && (
-                                                <a href={ev.url} target="_blank" rel="noopener noreferrer"
-                                                   className="text-xs text-blue-500 hover:text-blue-700 shrink-0">
-                                                    View PDF →
-                                                </a>
-                                            )}
-                                        </div>
-                                        {ev.type === 'presentation' && ev.chips && ev.chips.length > 0 && (
-                                            <div className="flex flex-wrap gap-1 mt-1.5">
-                                                {ev.chips.map(c => (
-                                                    <span key={c.label} className="inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-100">
-                                                        {c.label} <span className="font-bold text-indigo-400">{c.count}</span>
-                                                    </span>
-                                                ))}
+                                        {ev.type === 'upcoming' ? (
+                                            <div className="flex items-center gap-2 flex-wrap">
+                                                <p className="text-xs font-medium text-red-700">{ev.title}</p>
+                                                <span className="text-xs text-red-500">— Exit positional/swing trade for this stock</span>
                                             </div>
+                                        ) : (
+                                            <>
+                                                <div className="flex items-center gap-2 flex-wrap">
+                                                    <p className="text-xs font-medium text-slate-700">{ev.title}</p>
+                                                    {ev.url && (
+                                                        <a href={ev.url} target="_blank" rel="noopener noreferrer"
+                                                           className="text-xs text-blue-500 hover:text-blue-700 shrink-0">
+                                                            View PDF →
+                                                        </a>
+                                                    )}
+                                                </div>
+                                                {ev.type === 'presentation' && ev.chips && ev.chips.length > 0 && (
+                                                    <div className="flex flex-wrap gap-1 mt-1.5">
+                                                        {ev.chips.map(c => (
+                                                            <span key={c.label} className="inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-100">
+                                                                {c.label} <span className="font-bold text-indigo-400">{c.count}</span>
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </>
                                         )}
                                     </td>
                                 </tr>
