@@ -616,27 +616,6 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                         </div>
                     </div>
 
-                    {/* Keyword chips from latest investor presentation */}
-                    {keywordChips.length > 0 && (
-                        <div className="px-6 py-3 border-t border-slate-100 flex items-center gap-2 flex-wrap">
-                            <span className="text-xs text-slate-400 font-medium shrink-0">
-                                {latestPkaDate ? seasonLabel(latestPkaDate) : ''} Presentation:
-                            </span>
-                            {keywordChips.map(({ key, label, count }) => (
-                                <span key={key} className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100 font-medium">
-                                    {label}
-                                    <span className="text-indigo-400 font-bold">{count}</span>
-                                </span>
-                            ))}
-                            {latestPka?.presentation_url && (
-                                <a href={latestPka.presentation_url} target="_blank" rel="noopener noreferrer"
-                                   className="text-xs text-blue-500 hover:text-blue-700 ml-1 shrink-0">
-                                    View PDF →
-                                </a>
-                            )}
-                        </div>
-                    )}
-
                     {/* Performance strip — full width grid */}
                     <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/50 grid grid-cols-7 gap-2">
                         <PerfTab label="1W"  value={perf?.change_1w} />
