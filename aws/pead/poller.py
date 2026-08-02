@@ -289,7 +289,7 @@ def lambda_handler(event, context):
             cur_docs.execute("""
                 SELECT DISTINCT UPPER(symbol) FROM pead_announcements
                 WHERE UPPER(symbol) = ANY(%s)
-                  AND announced_at > NOW() - INTERVAL '120 days'
+                  AND announced_at > NOW() - INTERVAL '90 days'
             """, (new_pres_symbols,))
             eligible = {r[0] for r in cur_docs.fetchall()}
             for sym in new_pres_symbols:
