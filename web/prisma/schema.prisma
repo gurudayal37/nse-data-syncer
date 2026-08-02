@@ -594,16 +594,20 @@ model result_analyses {
   result_date   DateTime @db.Date
   seq_id        String?  @db.VarChar(50)
   pdf_url       String?  @db.Text
-  revenue       Decimal? @db.Decimal(15, 2)
-  ebit          Decimal? @db.Decimal(15, 2)
-  net_profit    Decimal? @db.Decimal(15, 2)
-  eps           Decimal? @db.Decimal(10, 2)
-  signal        String?  @db.VarChar(10)
-  confidence    String?  @db.VarChar(10)
-  key_positives String?  @db.Text
-  key_negatives String?  @db.Text
-  reasoning     String?  @db.Text
-  analysed_at   DateTime @default(now()) @db.Timestamptz(6)
+  revenue            Decimal? @db.Decimal(15, 2)
+  ebit               Decimal? @db.Decimal(15, 2)
+  net_profit         Decimal? @db.Decimal(15, 2)
+  eps                Decimal? @db.Decimal(10, 2)
+  revenue_yoy_pct    Decimal? @db.Decimal(8, 2)
+  net_profit_yoy_pct Decimal? @db.Decimal(8, 2)
+  quarter_label      String?  @db.VarChar(50)
+  is_consolidated    Boolean? @default(false)
+  signal             String?  @db.VarChar(10)
+  confidence         String?  @db.VarChar(10)
+  key_positives      String?  @db.Text
+  key_negatives      String?  @db.Text
+  reasoning          String?  @db.Text
+  analysed_at        DateTime @default(now()) @db.Timestamptz(6)
 
   @@unique([symbol, result_date], map: "uq_result_analyses_symbol_date")
   @@index([result_date], map: "ix_result_analyses_date")

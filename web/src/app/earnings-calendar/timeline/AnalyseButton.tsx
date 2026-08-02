@@ -6,9 +6,13 @@ import { useRouter } from 'next/navigation'
 interface Analysis {
   signal?: string
   confidence?: string
+  quarter_label?: string
+  is_consolidated?: boolean
   revenue?: number | null
+  revenue_yoy_pct?: number | null
   ebit?: number | null
   net_profit?: number | null
+  net_profit_yoy_pct?: number | null
   eps?: number | null
   key_positives?: string
   key_negatives?: string
@@ -32,6 +36,12 @@ function parseList(raw: string | null | undefined): string[] {
   try { return JSON.parse(raw) } catch { return [raw] }
 }
 
+function fmtYoy(pct: number | null | undefined, pos: boolean) {
+  if (pct == null) return null
+  const color = pos ? 'text-emerald-600' : 'text-red-500'
+  return <span className={`font-semibold ${color}`}> ({pos ? '+' : ''}{pct.toFixed(1)}% YoY)</span>
+}
+
 export function AnalysisDisplay({ analysis }: { analysis: Analysis }) {
   const signal  = analysis.signal ?? '—'
   const conf    = analysis.confidence ?? ''
@@ -40,19 +50,39 @@ export function AnalysisDisplay({ analysis }: { analysis: Analysis }) {
   const positives = parseList(analysis.key_positives)
   const negatives = parseList(analysis.key_negatives)
 
+  const hasFinancials = analysis.revenue != null || analysis.net_profit != null
+
   return (
-    <div className="mt-3 space-y-3">
+    <div className="space-y-3">
+      {/* concall.in-style summary line */}
+      {hasFinancials && (
+        <p className="text-xs text-slate-700 leading-relaxed">
+          {analysis.quarter_label && (
+            <span className="font-medium">{analysis.quarter_label}{' '}
+              {analysis.is_consolidated ? 'consolidated' : 'standalone'} results:{' '}
+            </span>
+          )}
+          {analysis.revenue != null && (
+            <>Revenue {fmt(analysis.revenue)}{fmtYoy(analysis.revenue_yoy_pct, (analysis.revenue_yoy_pct ?? 0) >= 0)}</>
+          )}
+          {analysis.revenue != null && analysis.net_profit != null && ', '}
+          {analysis.net_profit != null && (
+            <>Net Profit {fmt(analysis.net_profit)}{fmtYoy(analysis.net_profit_yoy_pct, (analysis.net_profit_yoy_pct ?? 0) >= 0)}</>
+          )}
+        </p>
+      )}
+
       {/* Numbers row */}
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-4 gap-2">
         {[
           ['Revenue', fmt(analysis.revenue)],
           ['EBIT',    fmt(analysis.ebit)],
           ['Net Profit', fmt(analysis.net_profit)],
           ['EPS', analysis.eps != null ? `₹${Number(analysis.eps).toFixed(2)}` : '—'],
         ].map(([label, val]) => (
-          <div key={label} className="bg-slate-50 rounded-lg px-3 py-2">
-            <p className="text-xs text-slate-400">{label}</p>
-            <p className="text-sm font-bold text-slate-800">{val}</p>
+          <div key={label} className="bg-slate-50 rounded-lg px-2.5 py-1.5">
+            <p className="text-[10px] text-slate-400">{label}</p>
+            <p className="text-xs font-bold text-slate-800">{val}</p>
           </div>
         ))}
       </div>

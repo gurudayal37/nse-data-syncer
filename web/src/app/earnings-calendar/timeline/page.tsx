@@ -72,17 +72,6 @@ async function getPdfSize(url: string): Promise<string | null> {
   } catch { return null }
 }
 
-function fmtCr(v: number | null | undefined): string {
-  if (v == null || v === 0) return '—'
-  return `₹${Math.round(v).toLocaleString('en-IN')} Cr`
-}
-
-function yoyPct(curr: number | null, prev: number | null): { pct: number; pos: boolean } | null {
-  if (curr == null || prev == null || prev === 0) return null
-  const pct = ((curr - prev) / Math.abs(prev)) * 100
-  return { pct, pos: pct >= 0 }
-}
-
 function offsetDate(isoDate: string, days: number): string {
   const d = new Date(`${isoDate}T12:00:00`)
   d.setDate(d.getDate() + days)
@@ -162,38 +151,6 @@ export default async function TimelinePage({
 
   const announcedSymbols = new Set(announced.map(d => d.symbol.toUpperCase()))
   const pending = scheduled.filter(s => !announcedSymbols.has(s.symbol.toUpperCase()))
-
-  // ── Quarterly financials for announced symbols ────────────────────────────
-  interface QRow { symbol: string; quarter: string; year: number; quarter_number: number; revenue: number | null; ebitda: number | null; net_profit: number | null; eps: number | null }
-  interface FinRow { latest: QRow; yoy: QRow | null }
-
-  const financialsMap = new Map<string, FinRow>()
-  if (announced.length > 0) {
-    const syms = announced.map(d => d.symbol.toUpperCase())
-    const qRows = await prisma.$queryRaw<QRow[]>`
-      SELECT UPPER(s.nse_symbol) AS symbol, qr.quarter, qr.year, qr.quarter_number,
-             qr.revenue, qr.ebitda, qr.net_profit, qr.eps
-      FROM quarterly_results qr
-      JOIN stocks s ON s.id = qr.stock_id
-      WHERE UPPER(s.nse_symbol) = ANY(${syms})
-      ORDER BY UPPER(s.nse_symbol), qr.year DESC, qr.quarter_number DESC
-    `
-    // Group and deduplicate by (symbol, year, quarter_number)
-    const grouped = new Map<string, QRow[]>()
-    const seenKeys = new Set<string>()
-    for (const r of qRows) {
-      const key = `${r.symbol}-${r.year}-${r.quarter_number}`
-      if (seenKeys.has(key)) continue
-      seenKeys.add(key)
-      if (!grouped.has(r.symbol)) grouped.set(r.symbol, [])
-      grouped.get(r.symbol)!.push(r)
-    }
-    for (const [sym, rows] of grouped) {
-      const latest = rows[0]
-      const yoy = rows.find(r => r.quarter_number === latest.quarter_number && r.year === latest.year - 1) ?? null
-      financialsMap.set(sym, { latest, yoy })
-    }
-  }
 
   // Additional docs (non-result) for announced companies from both days
   const extraDocsMap = new Map<string, { category: string; url: string }[]>()
@@ -310,8 +267,7 @@ export default async function TimelinePage({
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide w-32">Symbol</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide w-48">Company</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide w-48">Documents</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide w-64">Financials</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Claude Analysis</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Analysis</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -354,62 +310,22 @@ export default async function TimelinePage({
                         </div>
                       </td>
 
-                      {/* Financials column */}
-                      <td className="px-4 py-4">
-                        {(() => {
-                          const fin = financialsMap.get(sym)
-                          if (!fin) return <span className="text-xs text-slate-300">Pending sync</span>
-                          const { latest, yoy } = fin
-                          const rows: { label: string; curr: number | null; prev: number | null; isEps?: boolean }[] = [
-                            { label: 'Sales',       curr: latest.revenue,    prev: yoy?.revenue ?? null },
-                            { label: 'EBITDA',      curr: latest.ebitda,     prev: yoy?.ebitda ?? null },
-                            { label: 'Net Profit',  curr: latest.net_profit, prev: yoy?.net_profit ?? null },
-                            { label: 'EPS',         curr: latest.eps,        prev: yoy?.eps ?? null, isEps: true },
-                          ]
-                          return (
-                            <div className="text-xs">
-                              <p className="text-[10px] text-slate-400 font-medium mb-1.5">{latest.quarter} · YoY</p>
-                              <table className="border-collapse">
-                                <tbody>
-                                  {rows.map(r => {
-                                    const chg = yoyPct(r.curr, r.prev)
-                                    return (
-                                      <tr key={r.label}>
-                                        <td className="pr-2.5 py-0.5 text-slate-500 whitespace-nowrap">{r.label}</td>
-                                        <td className="pr-2.5 py-0.5 text-slate-800 font-medium whitespace-nowrap">
-                                          {r.isEps
-                                            ? (r.curr != null ? `₹${Number(r.curr).toFixed(2)}` : '—')
-                                            : fmtCr(r.curr)}
-                                        </td>
-                                        <td className="py-0.5 whitespace-nowrap font-semibold">
-                                          {chg ? (
-                                            <span className={chg.pos ? 'text-emerald-600' : 'text-red-500'}>
-                                              {chg.pos ? '↑' : '↓'}{Math.abs(chg.pct).toFixed(0)}%
-                                            </span>
-                                          ) : <span className="text-slate-300">—</span>}
-                                        </td>
-                                      </tr>
-                                    )
-                                  })}
-                                </tbody>
-                              </table>
-                            </div>
-                          )
-                        })()}
-                      </td>
-
                       <td className="px-4 py-4 min-w-0">
                         {saved ? (
                           <AnalysisDisplay analysis={{
-                            signal:        saved.signal        ?? undefined,
-                            confidence:    saved.confidence    ?? undefined,
-                            revenue:       saved.revenue       ? Number(saved.revenue)   : null,
-                            ebit:          saved.ebit          ? Number(saved.ebit)       : null,
-                            net_profit:    saved.net_profit    ? Number(saved.net_profit) : null,
-                            eps:           saved.eps           ? Number(saved.eps)        : null,
-                            key_positives: saved.key_positives ?? undefined,
-                            key_negatives: saved.key_negatives ?? undefined,
-                            reasoning:     saved.reasoning     ?? undefined,
+                            signal:             saved.signal             ?? undefined,
+                            confidence:         saved.confidence         ?? undefined,
+                            quarter_label:      saved.quarter_label      ?? undefined,
+                            is_consolidated:    saved.is_consolidated    ?? false,
+                            revenue:            saved.revenue            ? Number(saved.revenue)            : null,
+                            revenue_yoy_pct:    saved.revenue_yoy_pct   ? Number(saved.revenue_yoy_pct)    : null,
+                            ebit:               saved.ebit               ? Number(saved.ebit)               : null,
+                            net_profit:         saved.net_profit         ? Number(saved.net_profit)         : null,
+                            net_profit_yoy_pct: saved.net_profit_yoy_pct ? Number(saved.net_profit_yoy_pct) : null,
+                            eps:                saved.eps                ? Number(saved.eps)                : null,
+                            key_positives:      saved.key_positives      ?? undefined,
+                            key_negatives:      saved.key_negatives      ?? undefined,
+                            reasoning:          saved.reasoning          ?? undefined,
                           }} />
                         ) : (
                           doc.attachment_url ? (

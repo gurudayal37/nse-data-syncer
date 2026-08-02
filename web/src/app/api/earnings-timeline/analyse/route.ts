@@ -9,14 +9,18 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 const PROMPT = `You are analyzing an Indian company's quarterly financial result PDF filing from NSE/BSE.
 
-Extract the following from the financial statements and provide a PEAD (Post-Earnings Announcement Drift) analysis.
+Extract the financial data and provide a PEAD (Post-Earnings Announcement Drift) analysis.
 
 Respond with ONLY valid JSON, no markdown, no explanation:
 {
-  "revenue": <number in Crores, null if not found>,
+  "quarter_label": "Quarter ended June 30, 2026" or "Quarter ended March 31, 2026" etc,
+  "is_consolidated": true or false,
+  "revenue": <current quarter revenue from operations in Crores, null if not found>,
+  "revenue_yoy_pct": <YoY % change vs same quarter last year, e.g. 29.1 for +29.1%, null if not found>,
   "ebit": <operating profit / EBIT in Crores, null if not found>,
-  "net_profit": <net profit / PAT in Crores, null if not found>,
-  "eps": <basic EPS in rupees, null if not found>,
+  "net_profit": <current quarter net profit / PAT in Crores, null if not found>,
+  "net_profit_yoy_pct": <YoY % change vs same quarter last year, null if not found>,
+  "eps": <basic or diluted EPS in rupees for current quarter, null if not found>,
   "signal": "LONG" or "SHORT",
   "confidence": "HIGH" or "MEDIUM" or "LOW",
   "key_positives": ["point 1", "point 2", "point 3"],
@@ -25,8 +29,10 @@ Respond with ONLY valid JSON, no markdown, no explanation:
 }
 
 Rules:
-- Use standalone figures if available, else consolidated
+- Prefer consolidated figures; use standalone only if consolidated not available
+- Set is_consolidated: true if using consolidated figures
 - All monetary values in Indian Rupees Crores (₹ Cr)
+- For YoY %: compare current quarter vs same quarter last year (not sequential quarter)
 - LONG if results beat expectations / strong growth / positive surprise
 - SHORT if results miss / weak / deteriorating margins`
 
@@ -95,19 +101,23 @@ export async function POST(req: NextRequest) {
     // Store in DB
     const saved = await prisma.result_analyses.create({
       data: {
-        symbol:        symbol.toUpperCase(),
-        result_date:   new Date(result_date),
-        seq_id:        seq_id ?? null,
+        symbol:             symbol.toUpperCase(),
+        result_date:        new Date(result_date),
+        seq_id:             seq_id ?? null,
         pdf_url,
-        revenue:       parsed.revenue    ?? null,
-        ebit:          parsed.ebit       ?? null,
-        net_profit:    parsed.net_profit ?? null,
-        eps:           parsed.eps        ?? null,
-        signal:        parsed.signal     ?? null,
-        confidence:    parsed.confidence ?? null,
-        key_positives: parsed.key_positives ? JSON.stringify(parsed.key_positives) : null,
-        key_negatives: parsed.key_negatives ? JSON.stringify(parsed.key_negatives) : null,
-        reasoning:     parsed.reasoning  ?? null,
+        revenue:            parsed.revenue             ?? null,
+        revenue_yoy_pct:    parsed.revenue_yoy_pct     ?? null,
+        ebit:               parsed.ebit                ?? null,
+        net_profit:         parsed.net_profit          ?? null,
+        net_profit_yoy_pct: parsed.net_profit_yoy_pct  ?? null,
+        eps:                parsed.eps                 ?? null,
+        quarter_label:      parsed.quarter_label       ?? null,
+        is_consolidated:    parsed.is_consolidated     ?? false,
+        signal:             parsed.signal              ?? null,
+        confidence:         parsed.confidence          ?? null,
+        key_positives:      parsed.key_positives ? JSON.stringify(parsed.key_positives) : null,
+        key_negatives:      parsed.key_negatives ? JSON.stringify(parsed.key_negatives) : null,
+        reasoning:          parsed.reasoning           ?? null,
       },
     })
 
