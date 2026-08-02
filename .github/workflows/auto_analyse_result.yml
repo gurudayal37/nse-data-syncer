@@ -1,0 +1,40 @@
+name: Auto-analyse result PDF
+
+on:
+  workflow_dispatch:
+    inputs:
+      symbol:
+        description: 'NSE symbol'
+        required: true
+      pdf_url:
+        description: 'Result PDF URL'
+        required: true
+      seq_id:
+        description: 'NSE seq_id'
+        required: true
+      result_date:
+        description: 'Result date (YYYY-MM-DD)'
+        required: true
+
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Claude analysis
+        run: |
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+            "https://nse-data-syncer.vercel.app/api/earnings-timeline/analyse" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "symbol": "${{ github.event.inputs.symbol }}",
+              "pdf_url": "${{ github.event.inputs.pdf_url }}",
+              "seq_id": "${{ github.event.inputs.seq_id }}",
+              "result_date": "${{ github.event.inputs.result_date }}"
+            }')
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+          echo "HTTP $HTTP_CODE: $BODY"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Analysis failed with HTTP $HTTP_CODE"
+            exit 1
+          fi

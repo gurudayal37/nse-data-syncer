@@ -239,26 +239,49 @@ def fetch_nse_announcements(today: str) -> list[dict]:
 GH_OWNER    = 'gurudayal37'
 GH_REPO     = 'nse-data-syncer'
 GH_WORKFLOW = 'keyword_analysis_single.yml'
+GH_ANALYSE_WORKFLOW = 'auto_analyse_result.yml'
 
-def dispatch_keyword_analysis(symbol: str, gh_pat: str) -> None:
-    """Trigger keyword_analysis_single.yml for this symbol via GitHub API."""
+
+def _gh_dispatch(workflow: str, inputs: dict, gh_pat: str) -> bool:
     try:
         resp = requests.post(
-            f'https://api.github.com/repos/{GH_OWNER}/{GH_REPO}/actions/workflows/{GH_WORKFLOW}/dispatches',
+            f'https://api.github.com/repos/{GH_OWNER}/{GH_REPO}/actions/workflows/{workflow}/dispatches',
             headers={
                 'Authorization': f'token {gh_pat}',
                 'Accept': 'application/vnd.github+json',
                 'X-GitHub-Api-Version': '2022-11-28',
             },
-            json={'ref': 'main', 'inputs': {'symbol': symbol}},
+            json={'ref': 'main', 'inputs': inputs},
             timeout=10,
         )
-        if resp.status_code == 204:
-            print(f'Keyword analysis triggered for {symbol}')
-        else:
-            print(f'GH dispatch failed for {symbol}: {resp.status_code} {resp.text[:200]}')
+        return resp.status_code == 204
     except Exception as e:
-        print(f'GH dispatch error for {symbol}: {e}')
+        print(f'GH dispatch error ({workflow}): {e}')
+        return False
+
+
+def dispatch_keyword_analysis(symbol: str, gh_pat: str) -> None:
+    """Trigger keyword_analysis_single.yml for this symbol via GitHub API."""
+    ok = _gh_dispatch(GH_WORKFLOW, {'symbol': symbol}, gh_pat)
+    if ok:
+        print(f'Keyword analysis triggered for {symbol}')
+    else:
+        print(f'Keyword analysis dispatch failed for {symbol}')
+
+
+def dispatch_result_analysis(symbol: str, pdf_url: str, seq_id: str,
+                              result_date: str, gh_pat: str) -> None:
+    """Trigger auto_analyse_result.yml to extract financials from result PDF."""
+    ok = _gh_dispatch(GH_ANALYSE_WORKFLOW, {
+        'symbol': symbol,
+        'pdf_url': pdf_url,
+        'seq_id': seq_id,
+        'result_date': result_date,
+    }, gh_pat)
+    if ok:
+        print(f'Result analysis triggered for {symbol}')
+    else:
+        print(f'Result analysis dispatch failed for {symbol}')
 
 
 def send_telegram(token: str, chat_id: str, text: str) -> None:
@@ -385,6 +408,17 @@ def lambda_handler(event, context):
                 ann.get('attchmntFile', ''),
                 bool(ann.get('hasXbrl')),
             ))
+
+            # Auto-analyse result PDF to extract financials (non-blocking)
+            pdf_url = ann.get('attchmntFile', '')
+            if pdf_url and gh_pat:
+                dispatch_result_analysis(
+                    symbol=ann.get('symbol', ''),
+                    pdf_url=pdf_url,
+                    seq_id=seq_id,
+                    result_date=announced_at.strftime('%Y-%m-%d'),
+                    gh_pat=gh_pat,
+                )
 
             # Phase 1 Telegram
             send_telegram(tg_token, tg_chat, phase1_message(ann, announced_at, latency_sec))
