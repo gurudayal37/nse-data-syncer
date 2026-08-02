@@ -64,7 +64,7 @@ export default function GlobalSearch({ compact = false }: { compact?: boolean })
   }
 
   return (
-    <div ref={wrapperRef} className="relative w-full max-w-2xl mx-auto">
+    <div ref={wrapperRef} className="relative w-full">
       <div className={`flex items-center gap-2 bg-white border rounded-xl transition-all
         ${compact ? 'px-3 py-2' : 'border-2 px-4 py-3.5 shadow-sm rounded-2xl'}
         ${open || query ? 'border-blue-400 shadow-blue-100' : 'border-slate-200 hover:border-slate-300'}`}>
@@ -84,7 +84,7 @@ export default function GlobalSearch({ compact = false }: { compact?: boolean })
       </div>
 
       {open && results.length > 0 && (
-        <ul className="absolute z-50 left-0 right-0 top-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden">
+        <ul className="absolute z-50 right-0 top-full mt-2 min-w-[400px] w-max max-w-[520px] bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden">
           {results.map((r, i) => (
             <li
               key={`${r.type}-${r.symbol}`}
@@ -97,7 +97,7 @@ export default function GlobalSearch({ compact = false }: { compact?: boolean })
               </div>
               <div className="min-w-0 flex-1">
                 <span className="text-sm font-semibold text-slate-800">{r.symbol}</span>
-                <span className="text-xs text-slate-500 ml-2 truncate">{r.name}</span>
+                <span className="text-xs text-slate-500 ml-2">{r.name}</span>
               </div>
               <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${r.type === 'etf' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : r.type === 'sme' ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-blue-50 text-blue-600 border border-blue-100'}`}>
                 {r.type.toUpperCase()}
@@ -108,7 +108,7 @@ export default function GlobalSearch({ compact = false }: { compact?: boolean })
       )}
 
       {open && query && results.length === 0 && !loading && (
-        <div className="absolute z-50 left-0 right-0 top-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl px-4 py-4 text-sm text-slate-400 text-center">
+        <div className="absolute z-50 right-0 top-full mt-2 min-w-[400px] bg-white border border-slate-200 rounded-2xl shadow-xl px-4 py-4 text-sm text-slate-400 text-center">
           No results for &ldquo;{query}&rdquo;
         </div>
       )}
