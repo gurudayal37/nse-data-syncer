@@ -12,95 +12,54 @@ export const metadata = {
   description: 'Real-time tracker of quarterly result announcements on NSE.',
 }
 
-// ── NSE filtering ─────────────────────────────────────────────────────────────
+// ── Doc helpers ───────────────────────────────────────────────────────────────
 
-const RESULT_KEYWORDS = [
-  'financial result', 'quarterly result', 'unaudited result',
-  'audited result', 'half yearly result', 'annual result',
-]
-const EXCLUDE_CATEGORIES = [
-  'copy of newspaper publication', 'clarification - financial results',
-  'reply to clarification', 'analysts/institutional investor meet',
-  'corporate insolvency', 'general updates',
-]
 const CATEGORY_PRIORITY: Record<string, number> = {
   'outcome of board meeting': 0, 'press release': 1, 'updates': 2,
 }
 
-// Docs we want to highlight with a friendly label
 const DOC_LABELS: [RegExp, string][] = [
-  [/investor\s*presentation/i,        'Presentation'],
-  [/transcript/i,                      'Concall Transcript'],
-  [/concall|con\s*call/i,             'Concall'],
-  [/press\s*release/i,                'Press Release'],
-  [/annual\s*report/i,                'Annual Report'],
+  [/investor\s*presentation/i,                  'Presentation'],
+  [/transcript/i,                               'Concall Transcript'],
+  [/concall|con\s*call/i,                      'Concall'],
+  [/press\s*release/i,                         'Press Release'],
+  [/annual\s*report/i,                         'Annual Report'],
   [/shareholder.*letter|letter.*shareholder/i, 'Shareholder Letter'],
-  [/outcome\s*of\s*board/i,           'Board Outcome'],
+  [/outcome\s*of\s*board/i,                    'Board Outcome'],
 ]
 
-function docLabel(desc: string): string {
+function docLabel(category: string): string {
   for (const [re, label] of DOC_LABELS) {
-    if (re.test(desc)) return label
+    if (re.test(category)) return label
   }
-  return desc.length > 28 ? desc.slice(0, 26) + '…' : desc
+  return category.length > 28 ? category.slice(0, 26) + '…' : category
 }
 
-interface NseAnn {
-  seq_id: string; symbol: string; sm_name: string
-  an_dt: string; desc: string; attchmntFile: string; attchmntText: string
+function fmtTime(d: Date): string {
+  return new Date(d).toLocaleTimeString('en-IN', {
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+    hour12: false, timeZone: 'Asia/Kolkata',
+  })
 }
 
-function isResult(ann: NseAnn): boolean {
-  const cat = (ann.desc ?? '').toLowerCase()
-  if (EXCLUDE_CATEGORIES.some(e => cat.includes(e))) return false
-  if (cat.includes('outcome of board meeting')) return true
-  const text = `${ann.desc ?? ''} ${ann.attchmntText ?? ''}`.toLowerCase()
-  return RESULT_KEYWORDS.some(kw => text.includes(kw))
+interface NseDoc {
+  seq_id:         string
+  symbol:         string
+  company_name:   string
+  category:       string
+  attachment_url: string
+  doc_type:       string
+  nse_filed_at:   Date
 }
 
-function deduplicate(results: NseAnn[]): NseAnn[] {
-  const best = new Map<string, { ann: NseAnn; pri: number }>()
-  for (const ann of results) {
-    const pri = CATEGORY_PRIORITY[(ann.desc ?? '').toLowerCase()] ?? 99
-    const cur = best.get(ann.symbol)
-    if (!cur || pri < cur.pri) best.set(ann.symbol, { ann, pri })
+function deduplicateResults(docs: NseDoc[]): NseDoc[] {
+  const best = new Map<string, { doc: NseDoc; pri: number }>()
+  for (const doc of docs) {
+    const pri = CATEGORY_PRIORITY[(doc.category ?? '').toLowerCase()] ?? 99
+    const cur = best.get(doc.symbol)
+    if (!cur || pri < cur.pri) best.set(doc.symbol, { doc, pri })
   }
-  return Array.from(best.values()).map(v => v.ann)
-}
-
-const MONTHS: Record<string, number> = {
-  jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11,
-}
-function parseNseTime(s: string): Date | null {
-  const m = s?.match(/(\d+)-(\w+)-(\d+)\s+(\d+):(\d+):(\d+)/)
-  if (!m) return null
-  const mon = MONTHS[m[2].toLowerCase()]
-  if (mon === undefined) return null
-  return new Date(+m[3], mon, +m[1], +m[4], +m[5], +m[6])
-}
-function fmtTime(s: string): string {
-  const d = parseNseTime(s)
-  if (!d) return '—'
-  return d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
-}
-
-async function fetchNseAnns(dateStr: string): Promise<NseAnn[]> {
-  try {
-    const res = await fetch(
-      `https://www.nseindia.com/api/corporate-announcements?index=equities&from_date=${dateStr}&to_date=${dateStr}`,
-      {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-          'Accept': 'application/json',
-          'Referer': 'https://www.nseindia.com/companies-listing/corporate-filings-announcements',
-        },
-        cache: 'no-store',
-      }
-    )
-    if (!res.ok) return []
-    const data = await res.json()
-    return Array.isArray(data) ? data : []
-  } catch { return [] }
+  return Array.from(best.values()).map(v => v.doc)
 }
 
 async function getPdfSize(url: string): Promise<string | null> {
@@ -113,13 +72,8 @@ async function getPdfSize(url: string): Promise<string | null> {
   } catch { return null }
 }
 
-function toNseDate(iso: string): string {
-  const [y, m, d] = iso.split('-')
-  return `${d}-${m}-${y}`
-}
-
 function offsetDate(isoDate: string, days: number): string {
-  const d = new Date(isoDate)
+  const d = new Date(`${isoDate}T12:00:00`)
   d.setDate(d.getDate() + days)
   return d.toISOString().slice(0, 10)
 }
@@ -151,15 +105,15 @@ export default async function TimelinePage({
 
   const nowIst   = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }))
   const todayIso = `${nowIst.getFullYear()}-${String(nowIst.getMonth()+1).padStart(2,'0')}-${String(nowIst.getDate()).padStart(2,'0')}`
-  const isToday   = isoDate === todayIso
+  const isToday      = isoDate === todayIso
   const nextIsFuture = nextDate > todayIso
 
   const displayDate = new Date(`${isoDate}T12:00:00`).toLocaleDateString('en-IN', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   })
 
-  // Scheduled companies + analyses + NSE today + NSE next day (in parallel)
-  const [scheduled, analyses, todayNse, nextDayNse] = await Promise.all([
+  // Fetch scheduled companies, analyses, and all NSE docs for today+tomorrow from DB
+  const [scheduled, analyses, allDocs] = await Promise.all([
     prisma.board_meetings.findMany({
       where: { meeting_date: { gte: dbDate, lte: dbDateEnd } },
       select: { symbol: true, company_name: true },
@@ -170,55 +124,65 @@ export default async function TimelinePage({
       where: { result_date: { gte: dbDate, lte: dbDateEnd } },
     }).catch(() => []),
 
-    fetchNseAnns(toNseDate(isoDate)),
-    fetchNseAnns(toNseDate(nextDate)),
+    // Read from nse_documents — Lambda keeps this updated every ~1 min during market hours
+    prisma.$queryRaw<NseDoc[]>`
+      SELECT seq_id, symbol, company_name, category, attachment_url, doc_type, nse_filed_at
+      FROM nse_documents
+      WHERE DATE(nse_filed_at AT TIME ZONE 'Asia/Kolkata') IN (
+        ${isoDate}::date, ${nextDate}::date
+      )
+      ORDER BY nse_filed_at ASC
+    `,
   ])
 
   const calendarSymbols = new Set(scheduled.map(s => s.symbol.toUpperCase()))
   const analysisMap     = new Map(analyses.map(a => [a.symbol.toUpperCase(), a]))
 
-  // Primary result announcements
-  const announced = deduplicate(todayNse.filter(isResult))
-    .filter(r => calendarSymbols.has(r.symbol.toUpperCase()))
-    .sort((a, b) => (parseNseTime(a.an_dt)?.getTime() ?? 0) - (parseNseTime(b.an_dt)?.getTime() ?? 0))
+  // Result announcements: doc_type='result', on the selected date, in the calendar
+  const todayDocs  = allDocs.filter(d => {
+    const dIso = new Date(d.nse_filed_at).toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' })
+    return dIso === isoDate
+  })
+  const resultDocs = todayDocs.filter(d => d.doc_type === 'result')
 
-  const announcedSymbols = new Set(announced.map(r => r.symbol.toUpperCase()))
+  const announced = deduplicateResults(resultDocs)
+    .filter(d => calendarSymbols.has(d.symbol.toUpperCase()))
+    .sort((a, b) => new Date(a.nse_filed_at).getTime() - new Date(b.nse_filed_at).getTime())
+
+  const announcedSymbols = new Set(announced.map(d => d.symbol.toUpperCase()))
   const pending = scheduled.filter(s => !announcedSymbols.has(s.symbol.toUpperCase()))
 
-  // Additional docs: all PDFs from both days for announced companies, excluding primary filing
-  // Step 1: deduplicate by URL only
-  // Step 2: HEAD request to filter out docs with same file size as primary or each other
-  const allDaysAnns = [...todayNse, ...nextDayNse]
+  // Additional docs (non-result) for announced companies from both days
+  const extraDocsMap = new Map<string, { category: string; url: string }[]>()
+  const candidatesMap = new Map<string, { category: string; url: string }[]>()
 
-  // Collect candidates per symbol (URL-deduped only — label dedup was dropping legit docs)
-  const candidatesMap = new Map<string, { desc: string; url: string }[]>()
   for (const sym of announcedSymbols) {
-    const primaryUrl = announced.find(a => a.symbol.toUpperCase() === sym)?.attchmntFile
+    const primaryUrl = announced.find(d => d.symbol.toUpperCase() === sym)?.attachment_url
     const seenUrls   = new Set<string>(primaryUrl ? [primaryUrl] : [])
-    const docs: { desc: string; url: string }[] = []
-    for (const ann of allDaysAnns) {
-      if (ann.symbol.toUpperCase() !== sym) continue
-      if (!ann.attchmntFile || seenUrls.has(ann.attchmntFile)) continue
-      seenUrls.add(ann.attchmntFile)
-      docs.push({ desc: ann.desc, url: ann.attchmntFile })
+    const docs: { category: string; url: string }[] = []
+    for (const doc of allDocs) {
+      if (doc.symbol.toUpperCase() !== sym) continue
+      if (doc.doc_type === 'result') continue
+      if (!doc.attachment_url || seenUrls.has(doc.attachment_url)) continue
+      seenUrls.add(doc.attachment_url)
+      docs.push({ category: doc.category, url: doc.attachment_url })
     }
     if (docs.length > 0) candidatesMap.set(sym, docs)
   }
 
-  // Step 2: fetch primary + candidate sizes in parallel, then filter by size
-  const extraDocsMap = new Map<string, { desc: string; url: string }[]>()
+  // Deduplicate by file size (HEAD request) to remove re-uploaded duplicates
   await Promise.all(
     Array.from(announcedSymbols).map(async (sym) => {
       const candidates = candidatesMap.get(sym)
       if (!candidates?.length) return
 
-      const primaryUrl  = announced.find(a => a.symbol.toUpperCase() === sym)?.attchmntFile
+      const primaryUrl  = announced.find(d => d.symbol.toUpperCase() === sym)?.attachment_url
       const allUrls     = [primaryUrl, ...candidates.map(d => d.url)].filter(Boolean) as string[]
       const sizes       = await Promise.all(allUrls.map(getPdfSize))
       const primarySize = primaryUrl ? sizes[0] : null
       const seenSizes   = new Set<string>(primarySize ? [primarySize] : [])
 
-      const unique: { desc: string; url: string }[] = []
+      const unique: { category: string; url: string }[] = []
       for (let i = 0; i < candidates.length; i++) {
         const size = sizes[primaryUrl ? i + 1 : i]
         if (size && seenSizes.has(size)) continue
@@ -307,35 +271,35 @@ export default async function TimelinePage({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {announced.map((ann) => {
-                  const sym      = ann.symbol.toUpperCase()
-                  const saved    = analysisMap.get(sym)
+                {announced.map((doc) => {
+                  const sym       = doc.symbol.toUpperCase()
+                  const saved     = analysisMap.get(sym)
                   const extraDocs = extraDocsMap.get(sym) ?? []
 
                   return (
-                    <tr key={ann.seq_id} className="align-top hover:bg-slate-50/60 transition-colors">
-                      <td className="px-4 py-4 font-mono text-slate-600 text-xs whitespace-nowrap">{fmtTime(ann.an_dt)}</td>
-                      <td className="px-4 py-4 font-bold text-slate-800 whitespace-nowrap">{ann.symbol}</td>
-                      <td className="px-4 py-4 text-slate-600 text-xs">{ann.sm_name}</td>
+                    <tr key={doc.seq_id} className="align-top hover:bg-slate-50/60 transition-colors">
+                      <td className="px-4 py-4 font-mono text-slate-600 text-xs whitespace-nowrap">
+                        {fmtTime(doc.nse_filed_at)}
+                      </td>
+                      <td className="px-4 py-4 font-bold text-slate-800 whitespace-nowrap">{doc.symbol}</td>
+                      <td className="px-4 py-4 text-slate-600 text-xs">{doc.company_name}</td>
 
                       {/* Documents column */}
                       <td className="px-4 py-4">
                         <div className="flex flex-col gap-1.5">
-                          {/* Primary filing */}
-                          {ann.attchmntFile ? (
-                            <a href={ann.attchmntFile} target="_blank" rel="noopener noreferrer"
+                          {doc.attachment_url ? (
+                            <a href={doc.attachment_url} target="_blank" rel="noopener noreferrer"
                               className="inline-flex items-center gap-1 text-sky-600 hover:text-sky-800 font-semibold text-xs">
                               <FileText className="w-3.5 h-3.5 shrink-0" /> Result PDF
                             </a>
                           ) : (
                             <span className="text-slate-300 text-xs">—</span>
                           )}
-                          {/* Additional docs */}
-                          {extraDocs.map((doc, i) => (
-                            <a key={i} href={doc.url} target="_blank" rel="noopener noreferrer"
+                          {extraDocs.map((d, i) => (
+                            <a key={i} href={d.url} target="_blank" rel="noopener noreferrer"
                               className="inline-flex items-center gap-1 text-slate-500 hover:text-slate-800 text-xs">
                               <FileText className="w-3 h-3 shrink-0 text-slate-400" />
-                              {docLabel(doc.desc)}
+                              {docLabel(d.category)}
                             </a>
                           ))}
                         </div>
@@ -346,20 +310,20 @@ export default async function TimelinePage({
                           <AnalysisDisplay analysis={{
                             signal:        saved.signal        ?? undefined,
                             confidence:    saved.confidence    ?? undefined,
-                            revenue:       saved.revenue       ? Number(saved.revenue)    : null,
-                            ebit:          saved.ebit          ? Number(saved.ebit)        : null,
-                            net_profit:    saved.net_profit    ? Number(saved.net_profit)  : null,
-                            eps:           saved.eps           ? Number(saved.eps)         : null,
+                            revenue:       saved.revenue       ? Number(saved.revenue)   : null,
+                            ebit:          saved.ebit          ? Number(saved.ebit)       : null,
+                            net_profit:    saved.net_profit    ? Number(saved.net_profit) : null,
+                            eps:           saved.eps           ? Number(saved.eps)        : null,
                             key_positives: saved.key_positives ?? undefined,
                             key_negatives: saved.key_negatives ?? undefined,
                             reasoning:     saved.reasoning     ?? undefined,
                           }} />
                         ) : (
-                          ann.attchmntFile ? (
+                          doc.attachment_url ? (
                             <AnalyseButton
-                              symbol={ann.symbol}
-                              pdfUrl={ann.attchmntFile}
-                              seqId={ann.seq_id}
+                              symbol={doc.symbol}
+                              pdfUrl={doc.attachment_url}
+                              seqId={doc.seq_id}
                               resultDate={isoDate}
                             />
                           ) : (
@@ -377,7 +341,7 @@ export default async function TimelinePage({
 
         {/* TradingView watchlist */}
         {announced.length > 0 && (
-          <TradingViewWatchlist symbols={announced.map(a => a.symbol)} />
+          <TradingViewWatchlist symbols={announced.map(d => d.symbol)} />
         )}
 
         {/* Pending companies */}
