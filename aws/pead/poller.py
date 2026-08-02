@@ -33,6 +33,15 @@ GENERIC_OUTCOME_RE = re.compile(
     re.IGNORECASE,
 )
 
+PRESENTATION_KEYWORDS = [
+    'investor presentation', 'investors presentation', 'investor update',
+    'investor meet', 'investor/analyst', 'analyst meet',
+    'investorpresentation', 'investorupdate',
+]
+PRESS_RELEASE_KEYWORDS = ['press release']
+CONCALL_KEYWORDS      = ['concall', 'con call', 'conference call', 'earnings call']
+TRANSCRIPT_KEYWORDS   = ['transcript']
+
 EXCLUDE_CATEGORIES = [
     'copy of newspaper publication',
     'clarification - financial results',
@@ -86,6 +95,80 @@ def is_result(ann: dict) -> bool:
             return True
         return attchmnt_text == '' or bool(GENERIC_OUTCOME_RE.match(attchmnt_text))
     return any(kw in text for kw in RESULT_KEYWORDS)
+
+
+def classify_doc_type(ann: dict) -> str:
+    category = (ann.get('desc') or '').lower()
+    text     = (ann.get('attchmntText') or '').lower()
+    url      = (ann.get('attchmntFile') or '').lower().replace('_', ' ').replace('-', ' ')
+    combined = f'{category} {text} {url}'
+    if 'outcome of board meeting' in category or any(k in combined for k in RESULT_KEYWORDS):
+        return 'result'
+    if any(k in combined for k in PRESENTATION_KEYWORDS):
+        return 'presentation'
+    if any(k in combined for k in TRANSCRIPT_KEYWORDS):
+        return 'transcript'
+    if any(k in combined for k in CONCALL_KEYWORDS):
+        return 'concall'
+    if any(k in combined for k in PRESS_RELEASE_KEYWORDS):
+        return 'press_release'
+    return 'general'
+
+
+CREATE_NSE_DOCS_SQL = """
+CREATE TABLE IF NOT EXISTS nse_documents (
+    id             SERIAL PRIMARY KEY,
+    seq_id         TEXT UNIQUE NOT NULL,
+    symbol         TEXT NOT NULL,
+    company_name   TEXT,
+    category       TEXT,
+    description    TEXT,
+    attachment_url TEXT,
+    doc_type       TEXT NOT NULL DEFAULT 'general',
+    nse_filed_at   TIMESTAMPTZ,
+    fetched_at     TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS ix_nse_docs_symbol   ON nse_documents (symbol);
+CREATE INDEX IF NOT EXISTS ix_nse_docs_doc_type ON nse_documents (doc_type);
+CREATE INDEX IF NOT EXISTS ix_nse_docs_filed_at ON nse_documents (nse_filed_at);
+"""
+
+
+def upsert_nse_documents(cur, announcements: list[dict], now_ist: datetime) -> int:
+    """Upsert all today's NSE announcements into nse_documents. Returns insert count."""
+    inserted = 0
+    for ann in announcements:
+        seq_id = str(ann.get('seq_id') or '').strip()
+        if not seq_id:
+            continue
+        nse_filed_at = parse_nse_dt(ann.get('an_dt', '')) or \
+                       now_ist.replace(hour=12, minute=0, second=0, microsecond=0)
+        cur.execute("""
+            INSERT INTO nse_documents
+                (seq_id, symbol, company_name, category, description,
+                 attachment_url, doc_type, nse_filed_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (seq_id) DO UPDATE
+                SET company_name   = EXCLUDED.company_name,
+                    category       = EXCLUDED.category,
+                    description    = EXCLUDED.description,
+                    attachment_url = EXCLUDED.attachment_url,
+                    doc_type       = EXCLUDED.doc_type
+            RETURNING (xmax = 0) AS was_inserted
+        """, (
+            seq_id,
+            (ann.get('symbol') or '').strip().upper(),
+            (ann.get('sm_name') or '').strip(),
+            (ann.get('desc') or '').strip(),
+            (ann.get('attchmntText') or '').strip(),
+            (ann.get('attchmntFile') or '').strip(),
+            classify_doc_type(ann),
+            nse_filed_at,
+        ))
+        row = cur.fetchone()
+        if row and row[0]:
+            inserted += 1
+    return inserted
 
 
 def parse_nse_dt(s: str) -> datetime | None:
@@ -159,6 +242,19 @@ def lambda_handler(event, context):
     result_anns = [a for a in announcements if is_result(a)]
     print(f'Announcements today: {len(announcements)}, results: {len(result_anns)}')
 
+    # Upsert ALL announcements into nse_documents (presentations, press releases, etc.)
+    conn_docs = psycopg2.connect(db_url)
+    try:
+        cur_docs = conn_docs.cursor()
+        cur_docs.execute(CREATE_NSE_DOCS_SQL)
+        n_inserted = upsert_nse_documents(cur_docs, announcements, now_ist)
+        conn_docs.commit()
+        print(f'nse_documents: {n_inserted} new of {len(announcements)}')
+    except Exception as e:
+        print(f'nse_documents upsert error: {e}')
+    finally:
+        conn_docs.close()
+
     # Filter to companies scheduled in today's earnings calendar
     conn_check = psycopg2.connect(db_url)
     try:
@@ -175,7 +271,7 @@ def lambda_handler(event, context):
     print(f'After calendar filter: {len(result_anns)}')
 
     if not result_anns:
-        return {'processed': 0}
+        return {'processed': 0, 'message': 'No new results'}
 
     conn = psycopg2.connect(db_url)
     sqs = boto3.client('sqs', region_name=os.environ.get('AWS_REGION', 'ap-south-1'))
