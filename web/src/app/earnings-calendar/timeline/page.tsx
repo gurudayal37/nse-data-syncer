@@ -281,7 +281,12 @@ export default async function TimelinePage({
                       <td className="px-4 py-4 font-mono text-slate-600 text-xs whitespace-nowrap">
                         {fmtTime(doc.nse_filed_at)}
                       </td>
-                      <td className="px-4 py-4 font-bold text-slate-800 whitespace-nowrap">{doc.symbol}</td>
+                      <td className="px-4 py-4 font-bold whitespace-nowrap">
+                        <a href={`/stock/${doc.symbol}`} target="_blank" rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline">
+                          {doc.symbol}
+                        </a>
+                      </td>
                       <td className="px-4 py-4 text-slate-600 text-xs">{doc.company_name}</td>
 
                       {/* Documents column */}
