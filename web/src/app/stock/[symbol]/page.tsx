@@ -523,7 +523,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                             </div>
                             {/* Tags — inline editor */}
                             <div className="mt-2.5">
-                                <StockTags symbol={sym} initialTags={tags} />
+                                <StockTags symbol={sym} initialTags={tags} inline={true} />
                             </div>
                         </div>
                         {/* Sync button */}
