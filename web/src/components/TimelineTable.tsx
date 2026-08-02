@@ -211,7 +211,15 @@ export default function TimelineTable({
                                         )}
                                     </td>
                                     <td className="px-4 py-3 align-top">
-                                        <p className="text-xs font-medium text-slate-700">{ev.title}</p>
+                                        <div className="flex items-center gap-2 flex-wrap">
+                                            <p className="text-xs font-medium text-slate-700">{ev.title}</p>
+                                            {ev.url && (
+                                                <a href={ev.url} target="_blank" rel="noopener noreferrer"
+                                                   className="text-xs text-blue-500 hover:text-blue-700 shrink-0">
+                                                    View PDF →
+                                                </a>
+                                            )}
+                                        </div>
                                         {ev.type === 'presentation' && ev.chips && ev.chips.length > 0 && (
                                             <div className="flex flex-wrap gap-1 mt-1.5">
                                                 {ev.chips.map(c => (
@@ -220,12 +228,6 @@ export default function TimelineTable({
                                                     </span>
                                                 ))}
                                             </div>
-                                        )}
-                                        {ev.url && (
-                                            <a href={ev.url} target="_blank" rel="noopener noreferrer"
-                                               className="text-xs text-blue-500 hover:text-blue-700 mt-1.5 inline-block">
-                                                View PDF →
-                                            </a>
                                         )}
                                     </td>
                                 </tr>
