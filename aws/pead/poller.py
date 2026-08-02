@@ -269,19 +269,29 @@ def dispatch_keyword_analysis(symbol: str, gh_pat: str) -> None:
         print(f'Keyword analysis dispatch failed for {symbol}')
 
 
+VERCEL_URL = 'https://nse-data-syncer.vercel.app'
+
 def dispatch_result_analysis(symbol: str, pdf_url: str, seq_id: str,
-                              result_date: str, gh_pat: str) -> None:
-    """Trigger auto_analyse_result.yml to extract financials from result PDF."""
-    ok = _gh_dispatch(GH_ANALYSE_WORKFLOW, {
-        'symbol': symbol,
-        'pdf_url': pdf_url,
-        'seq_id': seq_id,
-        'result_date': result_date,
-    }, gh_pat)
-    if ok:
-        print(f'Result analysis triggered for {symbol}')
-    else:
-        print(f'Result analysis dispatch failed for {symbol}')
+                              result_date: str) -> None:
+    """Call Vercel API directly to trigger Claude analysis of result PDF."""
+    try:
+        resp = requests.post(
+            f'{VERCEL_URL}/api/earnings-timeline/analyse',
+            json={
+                'symbol': symbol,
+                'pdf_url': pdf_url,
+                'seq_id': seq_id,
+                'result_date': result_date,
+            },
+            timeout=60,  # Claude can take up to 30s for PDF analysis
+        )
+        if resp.status_code == 200:
+            data = resp.json()
+            print(f'Result analysis complete for {symbol}: signal={data.get("data", {}).get("signal")}')
+        else:
+            print(f'Result analysis failed for {symbol}: {resp.status_code} {resp.text[:200]}')
+    except Exception as e:
+        print(f'Result analysis error for {symbol}: {e}')
 
 
 def send_telegram(token: str, chat_id: str, text: str) -> None:
@@ -409,15 +419,14 @@ def lambda_handler(event, context):
                 bool(ann.get('hasXbrl')),
             ))
 
-            # Auto-analyse result PDF to extract financials (non-blocking)
+            # Auto-analyse result PDF to extract financials via Claude
             pdf_url = ann.get('attchmntFile', '')
-            if pdf_url and gh_pat:
+            if pdf_url:
                 dispatch_result_analysis(
                     symbol=ann.get('symbol', ''),
                     pdf_url=pdf_url,
                     seq_id=seq_id,
                     result_date=announced_at.strftime('%Y-%m-%d'),
-                    gh_pat=gh_pat,
                 )
 
             # Phase 1 Telegram
