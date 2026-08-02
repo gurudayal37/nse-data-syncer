@@ -520,11 +520,10 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                                         BSE: <span className="font-semibold text-slate-700">{stock.bse_symbol}</span>
                                     </span>
                                 )}
-                                {tags.map((tag) => (
-                                    <span key={tag} className="text-xs bg-indigo-50 text-indigo-600 border border-indigo-100 px-2 py-0.5 rounded font-medium">
-                                        {tag}
-                                    </span>
-                                ))}
+                            </div>
+                            {/* Tags — inline editor */}
+                            <div className="mt-2.5">
+                                <StockTags symbol={sym} initialTags={tags} />
                             </div>
                         </div>
                         {/* Sync button */}
@@ -643,18 +642,10 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                     </div>
                 </div>
 
-                {/* ── Tags + Notes (side by side) ───────────────────────── */}
-                <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
-                    <div className="grid grid-cols-2 divide-x divide-slate-100">
-                        <div className="px-5 py-4">
-                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2.5">Tags</p>
-                            <StockTags symbol={sym} initialTags={tags} />
-                        </div>
-                        <div className="px-5 py-4">
-                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2.5">Research Notes</p>
-                            <StockNotes symbol={sym} initialNotes={notes} />
-                        </div>
-                    </div>
+                {/* ── Research Notes ────────────────────────────────────── */}
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-5 py-4">
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2.5">Research Notes</p>
+                    <StockNotes symbol={sym} initialNotes={notes} />
                 </div>
 
                 {/* ── Timeline ─────────────────────────────────────────── */}
