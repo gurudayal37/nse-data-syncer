@@ -419,16 +419,6 @@ def lambda_handler(event, context):
                 bool(ann.get('hasXbrl')),
             ))
 
-            # Auto-analyse result PDF to extract financials via Claude
-            pdf_url = ann.get('attchmntFile', '')
-            if pdf_url:
-                dispatch_result_analysis(
-                    symbol=ann.get('symbol', ''),
-                    pdf_url=pdf_url,
-                    seq_id=seq_id,
-                    result_date=announced_at.strftime('%Y-%m-%d'),
-                )
-
             # Phase 1 Telegram
             send_telegram(tg_token, tg_chat, phase1_message(ann, announced_at, latency_sec))
 
