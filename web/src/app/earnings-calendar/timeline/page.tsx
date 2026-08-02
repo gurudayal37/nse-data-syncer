@@ -72,15 +72,14 @@ async function getPdfSize(url: string): Promise<string | null> {
   } catch { return null }
 }
 
-function fmtCr(v: bigint | number | null | undefined): string {
-  if (v == null) return '—'
-  const n = Math.round(Number(v) / 10_000_000)
-  return `₹${n.toLocaleString('en-IN')} Cr`
+function fmtCr(v: number | null | undefined): string {
+  if (v == null || v === 0) return '—'
+  return `₹${Math.round(v).toLocaleString('en-IN')} Cr`
 }
 
-function yoyPct(curr: bigint | number | null, prev: bigint | number | null): { pct: number; pos: boolean } | null {
-  if (curr == null || prev == null || Number(prev) === 0) return null
-  const pct = ((Number(curr) - Number(prev)) / Math.abs(Number(prev))) * 100
+function yoyPct(curr: number | null, prev: number | null): { pct: number; pos: boolean } | null {
+  if (curr == null || prev == null || prev === 0) return null
+  const pct = ((curr - prev) / Math.abs(prev)) * 100
   return { pct, pos: pct >= 0 }
 }
 
@@ -165,7 +164,7 @@ export default async function TimelinePage({
   const pending = scheduled.filter(s => !announcedSymbols.has(s.symbol.toUpperCase()))
 
   // ── Quarterly financials for announced symbols ────────────────────────────
-  interface QRow { symbol: string; quarter: string; year: number; quarter_number: number; revenue: bigint | null; ebitda: bigint | null; net_profit: bigint | null; eps: number | null }
+  interface QRow { symbol: string; quarter: string; year: number; quarter_number: number; revenue: number | null; ebitda: number | null; net_profit: number | null; eps: number | null }
   interface FinRow { latest: QRow; yoy: QRow | null }
 
   const financialsMap = new Map<string, FinRow>()
@@ -361,11 +360,11 @@ export default async function TimelinePage({
                           const fin = financialsMap.get(sym)
                           if (!fin) return <span className="text-xs text-slate-300">Pending sync</span>
                           const { latest, yoy } = fin
-                          const rows: { label: string; curr: bigint | number | null; prev: bigint | number | null; isEps?: boolean }[] = [
-                            { label: 'Sales',       curr: latest.revenue,    prev: yoy?.revenue },
-                            { label: 'EBITDA',      curr: latest.ebitda,     prev: yoy?.ebitda },
-                            { label: 'Net Profit',  curr: latest.net_profit, prev: yoy?.net_profit },
-                            { label: 'EPS',         curr: latest.eps,        prev: yoy?.eps, isEps: true },
+                          const rows: { label: string; curr: number | null; prev: number | null; isEps?: boolean }[] = [
+                            { label: 'Sales',       curr: latest.revenue,    prev: yoy?.revenue ?? null },
+                            { label: 'EBITDA',      curr: latest.ebitda,     prev: yoy?.ebitda ?? null },
+                            { label: 'Net Profit',  curr: latest.net_profit, prev: yoy?.net_profit ?? null },
+                            { label: 'EPS',         curr: latest.eps,        prev: yoy?.eps ?? null, isEps: true },
                           ]
                           return (
                             <div className="text-xs">
