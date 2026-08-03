@@ -46,42 +46,42 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2026-01",
-      "end": "2026-07",
-      "period": "7 months (0.6 years)"
+      "end": "2026-08",
+      "period": "8 months (0.7 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 122907.13,
-      "total_fees_paid": 2174.07,
+      "end_value": 123546.25,
+      "total_fees_paid": 2598.79,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 22.91,
-      "benchmark_return": 8.66,
-      "expectancy": 4.42,
-      "net_return_after_fees": 20.73
+      "total_return": 23.55,
+      "benchmark_return": 10.27,
+      "expectancy": 3.93,
+      "net_return_after_fees": 20.95
     },
     "risk_metrics": {
       "max_drawdown": -29.51,
-      "max_drawdown_duration": 1,
-      "sharpe_ratio": 0.96,
-      "calmar_ratio": 1.44,
-      "omega_ratio": 1.83,
-      "sortino_ratio": 1.4
+      "max_drawdown_duration": 2,
+      "sharpe_ratio": 0.91,
+      "calmar_ratio": 1.26,
+      "omega_ratio": 1.85,
+      "sortino_ratio": 1.24
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 7,
-      "win_rate": 71.43,
+      "total_trades": 8,
+      "win_rate": 75.0,
       "best_trade": 18.89,
       "worst_trade": -29.51,
-      "avg_winning_trade": 13.61,
+      "avg_winning_trade": 11.43,
       "avg_losing_trade": -18.57,
-      "profit_factor": 1.83,
-      "total_stock_transactions": 95,
-      "total_closed_trades": 6,
+      "profit_factor": 1.85,
+      "total_stock_transactions": 115,
+      "total_closed_trades": 7,
       "total_open_trades": 1,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1
@@ -7962,6 +7962,88 @@
     }
   ],
   "current_performance": [
+    {
+      "month": "2026-08",
+      "portfolio_return": 0.52,
+      "benchmark_return": 1.48,
+      "holdings": [
+        {
+          "symbol": "SNDK",
+          "return": 6.03,
+          "score": 6.32
+        },
+        {
+          "symbol": "CLDT",
+          "return": -1.35,
+          "score": 3.39
+        },
+        {
+          "symbol": "DELL",
+          "return": 5.83,
+          "score": 3.26
+        },
+        {
+          "symbol": "RLJ",
+          "return": 0.73,
+          "score": 2.84
+        },
+        {
+          "symbol": "PANW",
+          "return": 4.61,
+          "score": 2.75
+        },
+        {
+          "symbol": "WDC",
+          "return": -3.23,
+          "score": 2.72
+        },
+        {
+          "symbol": "DD",
+          "return": 3.12,
+          "score": 2.71
+        },
+        {
+          "symbol": "MU",
+          "return": 0.79,
+          "score": 2.7
+        },
+        {
+          "symbol": "DVA",
+          "return": -2.67,
+          "score": 2.61
+        },
+        {
+          "symbol": "FTNT",
+          "return": 0.78,
+          "score": 2.5
+        },
+        {
+          "symbol": "HPE",
+          "return": 4.89,
+          "score": 2.44
+        },
+        {
+          "symbol": "RVMD",
+          "return": -2.71,
+          "score": 2.39
+        },
+        {
+          "symbol": "STX",
+          "return": -2.93,
+          "score": 2.3
+        },
+        {
+          "symbol": "DINO",
+          "return": -3.08,
+          "score": 2.3
+        },
+        {
+          "symbol": "MPC",
+          "return": -2.98,
+          "score": 2.22
+        }
+      ]
+    },
     {
       "month": "2026-07",
       "portfolio_return": -29.51,
