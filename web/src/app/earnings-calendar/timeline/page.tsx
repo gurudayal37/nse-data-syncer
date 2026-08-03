@@ -112,7 +112,7 @@ export default async function TimelinePage({
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   })
 
-  // Fetch scheduled companies, analyses, NSE docs, and quarterly results in parallel
+  // Fetch scheduled companies, analyses, NSE docs in parallel
   const [scheduled, analyses, allDocs] = await Promise.all([
     prisma.board_meetings.findMany({
       where: { meeting_date: { gte: dbDate, lte: dbDateEnd } },
