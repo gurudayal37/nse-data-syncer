@@ -99,6 +99,9 @@ def is_result(ann: dict) -> bool:
 
 def classify_doc_type(ann: dict) -> str:
     category = (ann.get('desc') or '').lower()
+    # Categories excluded from result detection are also not real presentations
+    if any(excl in category for excl in EXCLUDE_CATEGORIES):
+        return 'general'
     text     = (ann.get('attchmntText') or '').lower()
     url      = (ann.get('attchmntFile') or '').lower().replace('_', ' ').replace('-', ' ')
     combined = f'{category} {text} {url}'
@@ -179,7 +182,7 @@ def dispatch_pending_presentations(cur, gh_pat: str) -> None:
     announced results today. At most one dispatch per symbol per day.
     """
     cur.execute("""
-        SELECT nd.seq_id, nd.symbol, nd.attachment_url
+        SELECT DISTINCT ON (nd.symbol) nd.seq_id, nd.symbol, nd.attachment_url
         FROM nse_documents nd
         JOIN pead_announcements pa ON UPPER(pa.symbol) = nd.symbol
         WHERE nd.doc_type = 'presentation'
@@ -187,7 +190,7 @@ def dispatch_pending_presentations(cur, gh_pat: str) -> None:
           AND nd.kw_dispatched_at IS NULL
           AND DATE(nd.nse_filed_at  AT TIME ZONE 'Asia/Kolkata') = CURRENT_DATE
           AND DATE(pa.announced_at  AT TIME ZONE 'Asia/Kolkata') = CURRENT_DATE
-        GROUP BY nd.seq_id, nd.symbol, nd.attachment_url
+        ORDER BY nd.symbol, nd.nse_filed_at ASC
         LIMIT 20
     """)
     rows = cur.fetchall()
