@@ -1,0 +1,56 @@
+name: Keyword Analysis — Daily
+
+on:
+  schedule:
+    - cron: '30 18 * * *'   # midnight IST (UTC+5:30)
+  workflow_dispatch:
+    inputs:
+      season_start:
+        description: 'Season start date YYYY-MM-DD (default: 2026-04-08)'
+        required: false
+        type: string
+      force:
+        description: 'Re-process even if already analysed'
+        required: false
+        type: boolean
+        default: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  analyse:
+    name: Keyword Analysis — All Missing
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run keyword analysis
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          SEASON="${{ github.event.inputs.season_start }}"
+          SEASON="${SEASON:-2026-04-08}"
+
+          FORCE_FLAG=""
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            FORCE_FLAG="--force"
+          fi
+
+          python scripts/keyword_analysis.py \
+            --season-start "$SEASON" \
+            --workers 8 \
+            $FORCE_FLAG

@@ -337,10 +337,9 @@ def lambda_handler(event, context):
     result_anns = [a for a in announcements if is_result(a)]
     print(f'Announcements today: {len(announcements)}, results: {len(result_anns)}')
 
-    # Upsert ALL announcements into nse_documents, then dispatch keyword analysis
-    # for any presentation not yet processed — covers both live filings and
-    # backfilled data that the Lambda missed (e.g. Saturday gap).
-    gh_pat = os.environ.get('GH_PAT', '')
+    # Upsert ALL announcements into nse_documents.
+    # Keyword analysis runs nightly via keyword_analysis_daily.yml instead of
+    # being dispatched per-presentation here.
     conn_docs = psycopg2.connect(db_url)
     try:
         cur_docs = conn_docs.cursor()
@@ -348,10 +347,6 @@ def lambda_handler(event, context):
         n_inserted = upsert_nse_documents(cur_docs, announcements, now_ist)
         conn_docs.commit()
         print(f'nse_documents: {n_inserted} new of {len(announcements)}')
-
-        if gh_pat:
-            dispatch_pending_presentations(cur_docs, gh_pat)
-            conn_docs.commit()
     except Exception as e:
         print(f'nse_documents error: {e}')
     finally:
