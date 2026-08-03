@@ -415,7 +415,7 @@ ALTER_TABLE_SQL = [
 ]
 
 
-def process_one(symbol, company_name, result_date, insert_sql, insert_cols, force):
+def process_one(symbol, company_name, result_date, insert_sql, insert_cols, force, pdf_url=None):
     """Process a single company in its own thread with its own DB connection."""
     result = None
     db = None
@@ -429,19 +429,21 @@ def process_one(symbol, company_name, result_date, insert_sql, insert_cols, forc
             if db.fetchone():
                 return 'skip', symbol, result_date, None
 
-        # Check nse_documents table first (populated by sync_nse_documents.py)
-        # to avoid redundant NSE API scraping for already-known presentations.
-        db.execute("""
-            SELECT attachment_url FROM nse_documents
-            WHERE symbol = %s AND doc_type = 'presentation'
-              AND nse_filed_at >= %s::date
-              AND nse_filed_at <  %s::date + INTERVAL '61 days'
-              AND attachment_url != ''
-            ORDER BY nse_filed_at ASC
-        """, (symbol, result_date, result_date))
-        db_urls = [r[0] for r in db.fetchall()]
-
-        pres_urls = db_urls if db_urls else find_investor_presentations(symbol, result_date)
+        if pdf_url:
+            # URL supplied directly (e.g. from Lambda dispatch) — use it, skip search
+            pres_urls = [pdf_url]
+        else:
+            # Check nse_documents table first, fall back to live NSE scraping
+            db.execute("""
+                SELECT attachment_url FROM nse_documents
+                WHERE symbol = %s AND doc_type = 'presentation'
+                  AND nse_filed_at >= %s::date
+                  AND nse_filed_at <  %s::date + INTERVAL '61 days'
+                  AND attachment_url != ''
+                ORDER BY nse_filed_at ASC
+            """, (symbol, result_date, result_date))
+            db_urls = [r[0] for r in db.fetchall()]
+            pres_urls = db_urls if db_urls else find_investor_presentations(symbol, result_date)
 
         if not pres_urls:
             db.execute("""
@@ -522,6 +524,8 @@ def main():
     parser.add_argument('--season-start', default='2026-04-08')
     parser.add_argument('--out', default='results/keyword_analysis.csv')
     parser.add_argument('--symbol', help='Run for a single symbol only (for testing)')
+    parser.add_argument('--pdf-url', dest='pdf_url', default=None,
+                        help='Direct presentation PDF URL — skips DB/NSE search entirely')
     parser.add_argument('--force', action='store_true', help='Re-process even if already analysed')
     parser.add_argument('--resume-after', help='Skip companies alphabetically <= this symbol')
     parser.add_argument('--missing-only', action='store_true', help='Only process companies without a found presentation')
@@ -600,7 +604,7 @@ def main():
     def run(item):
         symbol, company_name, result_date = item
         try:
-            status, sym, rd, data = process_one(symbol, company_name, result_date, insert_sql, insert_cols, args.force)
+            status, sym, rd, data = process_one(symbol, company_name, result_date, insert_sql, insert_cols, args.force, getattr(args, 'pdf_url', None))
         except Exception as e:
             status, sym, rd, data = 'error', symbol, result_date, str(e)
         with lock:

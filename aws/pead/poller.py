@@ -179,7 +179,7 @@ def dispatch_pending_presentations(cur, gh_pat: str) -> None:
     announced results today. At most one dispatch per symbol per day.
     """
     cur.execute("""
-        SELECT nd.seq_id, nd.symbol
+        SELECT nd.seq_id, nd.symbol, nd.attachment_url
         FROM nse_documents nd
         JOIN pead_announcements pa ON UPPER(pa.symbol) = nd.symbol
         WHERE nd.doc_type = 'presentation'
@@ -187,7 +187,7 @@ def dispatch_pending_presentations(cur, gh_pat: str) -> None:
           AND nd.kw_dispatched_at IS NULL
           AND DATE(nd.nse_filed_at  AT TIME ZONE 'Asia/Kolkata') = CURRENT_DATE
           AND DATE(pa.announced_at  AT TIME ZONE 'Asia/Kolkata') = CURRENT_DATE
-        GROUP BY nd.seq_id, nd.symbol
+        GROUP BY nd.seq_id, nd.symbol, nd.attachment_url
         LIMIT 20
     """)
     rows = cur.fetchall()
@@ -196,8 +196,8 @@ def dispatch_pending_presentations(cur, gh_pat: str) -> None:
 
     print(f'Pending keyword analysis dispatches: {len(rows)}')
     dispatched_seq_ids = []
-    for seq_id, symbol in rows:
-        dispatch_keyword_analysis(symbol, gh_pat)
+    for seq_id, symbol, attachment_url in rows:
+        dispatch_keyword_analysis(symbol, attachment_url, gh_pat)
         dispatched_seq_ids.append(seq_id)
 
     # Mark as dispatched so we don't re-trigger on the next poll
@@ -260,9 +260,9 @@ def _gh_dispatch(workflow: str, inputs: dict, gh_pat: str) -> bool:
         return False
 
 
-def dispatch_keyword_analysis(symbol: str, gh_pat: str) -> None:
-    """Trigger keyword_analysis_single.yml for this symbol via GitHub API."""
-    ok = _gh_dispatch(GH_WORKFLOW, {'symbol': symbol}, gh_pat)
+def dispatch_keyword_analysis(symbol: str, pdf_url: str, gh_pat: str) -> None:
+    """Trigger keyword_analysis_single.yml with the exact PDF URL — no re-search."""
+    ok = _gh_dispatch(GH_WORKFLOW, {'symbol': symbol, 'pdf_url': pdf_url}, gh_pat)
     if ok:
         print(f'Keyword analysis triggered for {symbol}')
     else:
