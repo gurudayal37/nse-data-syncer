@@ -62,16 +62,6 @@ function deduplicateResults(docs: NseDoc[]): NseDoc[] {
   return Array.from(best.values()).map(v => v.doc)
 }
 
-async function getPdfSize(url: string): Promise<string | null> {
-  try {
-    const res = await fetch(url, {
-      method: 'HEAD',
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
-    })
-    return res.headers.get('content-length')
-  } catch { return null }
-}
-
 function offsetDate(isoDate: string, days: number): string {
   const d = new Date(`${isoDate}T12:00:00`)
   d.setDate(d.getDate() + days)
@@ -103,6 +93,11 @@ export default async function TimelinePage({
   const prevDate  = offsetDate(isoDate, -1)
   const nextDate  = offsetDate(isoDate, +1)
 
+  // IST = UTC+5:30 → midnight IST = 18:30 UTC previous day.
+  // A UTC range avoids DATE(... AT TIME ZONE ...) which prevents index use.
+  const docsStartUtc = new Date(`${prevDate}T18:30:00.000Z`) // midnight IST on isoDate
+  const docsEndUtc   = new Date(`${nextDate}T18:30:00.000Z`) // midnight IST on nextDate (exclusive)
+
   const nowIst   = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }))
   const todayIso = `${nowIst.getFullYear()}-${String(nowIst.getMonth()+1).padStart(2,'0')}-${String(nowIst.getDate()).padStart(2,'0')}`
   const isToday      = isoDate === todayIso
@@ -124,13 +119,12 @@ export default async function TimelinePage({
       where: { result_date: { gte: dbDate, lte: dbDateEnd } },
     }).catch(() => []),
 
-    // Read from nse_documents — Lambda keeps this updated every ~1 min during market hours
+    // UTC range avoids DATE(... AT TIME ZONE ...) so the index on nse_filed_at is used.
+    // Covers isoDate + nextDate in IST (Lambda sometimes files just past midnight IST).
     prisma.$queryRaw<NseDoc[]>`
       SELECT seq_id, symbol, company_name, category, attachment_url, doc_type, nse_filed_at
       FROM nse_documents
-      WHERE DATE(nse_filed_at AT TIME ZONE 'Asia/Kolkata') IN (
-        ${isoDate}::date, ${nextDate}::date
-      )
+      WHERE nse_filed_at >= ${docsStartUtc} AND nse_filed_at < ${docsEndUtc}
       ORDER BY nse_filed_at ASC
     `,
   ])
@@ -152,9 +146,8 @@ export default async function TimelinePage({
   const announcedSymbols = new Set(announced.map(d => d.symbol.toUpperCase()))
   const pending = scheduled.filter(s => !announcedSymbols.has(s.symbol.toUpperCase()))
 
-  // Additional docs (non-result) for announced companies from both days
+  // Additional docs (non-result) for announced companies, deduped by URL
   const extraDocsMap = new Map<string, { category: string; url: string }[]>()
-  const candidatesMap = new Map<string, { category: string; url: string }[]>()
 
   for (const sym of announcedSymbols) {
     const primaryUrl = announced.find(d => d.symbol.toUpperCase() === sym)?.attachment_url
@@ -167,31 +160,8 @@ export default async function TimelinePage({
       seenUrls.add(doc.attachment_url)
       docs.push({ category: doc.category, url: doc.attachment_url })
     }
-    if (docs.length > 0) candidatesMap.set(sym, docs)
+    if (docs.length > 0) extraDocsMap.set(sym, docs)
   }
-
-  // Deduplicate by file size (HEAD request) to remove re-uploaded duplicates
-  await Promise.all(
-    Array.from(announcedSymbols).map(async (sym) => {
-      const candidates = candidatesMap.get(sym)
-      if (!candidates?.length) return
-
-      const primaryUrl  = announced.find(d => d.symbol.toUpperCase() === sym)?.attachment_url
-      const allUrls     = [primaryUrl, ...candidates.map(d => d.url)].filter(Boolean) as string[]
-      const sizes       = await Promise.all(allUrls.map(getPdfSize))
-      const primarySize = primaryUrl ? sizes[0] : null
-      const seenSizes   = new Set<string>(primarySize ? [primarySize] : [])
-
-      const unique: { category: string; url: string }[] = []
-      for (let i = 0; i < candidates.length; i++) {
-        const size = sizes[primaryUrl ? i + 1 : i]
-        if (size && seenSizes.has(size)) continue
-        if (size) seenSizes.add(size)
-        unique.push(candidates[i])
-      }
-      if (unique.length > 0) extraDocsMap.set(sym, unique)
-    })
-  )
 
   return (
     <div className="min-h-screen bg-slate-50">
