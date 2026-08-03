@@ -195,17 +195,14 @@ def dispatch_pending_presentations(cur, gh_pat: str) -> None:
         return
 
     print(f'Pending keyword analysis dispatches: {len(rows)}')
-    dispatched_seq_ids = []
     for seq_id, symbol, attachment_url in rows:
+        # Mark BEFORE dispatching so a Lambda timeout/crash after the
+        # GitHub API call never causes a duplicate dispatch on the next poll.
+        cur.execute("""
+            UPDATE nse_documents SET kw_dispatched_at = NOW() WHERE seq_id = %s
+        """, (seq_id,))
+        cur.connection.commit()
         dispatch_keyword_analysis(symbol, attachment_url, gh_pat)
-        dispatched_seq_ids.append(seq_id)
-
-    # Mark as dispatched so we don't re-trigger on the next poll
-    cur.execute("""
-        UPDATE nse_documents
-        SET kw_dispatched_at = NOW()
-        WHERE seq_id = ANY(%s)
-    """, (dispatched_seq_ids,))
 
 
 def parse_nse_dt(s: str) -> datetime | None:
