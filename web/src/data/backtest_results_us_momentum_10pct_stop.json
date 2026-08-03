@@ -46,42 +46,42 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2026-01",
-      "end": "2026-07",
-      "period": "7 months (0.6 years)"
+      "end": "2026-08",
+      "period": "8 months (0.7 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 147252.01,
-      "total_fees_paid": 2184.2,
+      "end_value": 148017.72,
+      "total_fees_paid": 2668.16,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 47.25,
-      "benchmark_return": 8.66,
-      "expectancy": 6.23,
-      "net_return_after_fees": 45.07
+      "total_return": 48.02,
+      "benchmark_return": 10.27,
+      "expectancy": 5.52,
+      "net_return_after_fees": 45.35
     },
     "risk_metrics": {
       "max_drawdown": -10.0,
-      "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.04,
-      "calmar_ratio": 9.41,
-      "omega_ratio": 3.5,
-      "sortino_ratio": 17.06
+      "max_drawdown_duration": 2,
+      "sharpe_ratio": 1.9,
+      "calmar_ratio": 8.01,
+      "omega_ratio": 3.53,
+      "sortino_ratio": 15.11
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 7,
-      "win_rate": 71.43,
+      "total_trades": 8,
+      "win_rate": 75.0,
       "best_trade": 18.68,
       "worst_trade": -10.0,
-      "avg_winning_trade": 12.22,
+      "avg_winning_trade": 10.27,
       "avg_losing_trade": -8.74,
-      "profit_factor": 3.5,
-      "total_stock_transactions": 95,
-      "total_closed_trades": 6,
+      "profit_factor": 3.53,
+      "total_stock_transactions": 115,
+      "total_closed_trades": 7,
       "total_open_trades": 1,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1
@@ -9402,6 +9402,103 @@
     }
   ],
   "current_performance": [
+    {
+      "month": "2026-08",
+      "portfolio_return": 0.52,
+      "benchmark_return": 1.48,
+      "holdings": [
+        {
+          "symbol": "SNDK",
+          "return": 6.03,
+          "score": 6.32,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "CLDT",
+          "return": -1.35,
+          "score": 3.39,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "DELL",
+          "return": 5.83,
+          "score": 3.26,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "RLJ",
+          "return": 0.73,
+          "score": 2.84,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "PANW",
+          "return": 4.61,
+          "score": 2.75,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "WDC",
+          "return": -3.23,
+          "score": 2.72,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "DD",
+          "return": 3.12,
+          "score": 2.71,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "MU",
+          "return": 0.79,
+          "score": 2.7,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "DVA",
+          "return": -2.67,
+          "score": 2.61,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "FTNT",
+          "return": 0.78,
+          "score": 2.5,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "HPE",
+          "return": 4.89,
+          "score": 2.44,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "RVMD",
+          "return": -2.71,
+          "score": 2.39,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "STX",
+          "return": -2.93,
+          "score": 2.3,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "DINO",
+          "return": -3.08,
+          "score": 2.3,
+          "stop_triggered": false
+        },
+        {
+          "symbol": "MPC",
+          "return": -2.98,
+          "score": 2.22,
+          "stop_triggered": false
+        }
+      ]
+    },
     {
       "month": "2026-07",
       "portfolio_return": -10.0,
