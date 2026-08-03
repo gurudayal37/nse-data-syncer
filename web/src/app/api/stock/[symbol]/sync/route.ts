@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { exec } from 'child_process'
 import path from 'path'
 
-const GH_OWNER = 'gurudayal37'
-const GH_REPO = 'nse-data-syncer'
+const GH_OWNER    = 'gurudayal37'
+const GH_REPO     = 'nse-data-syncer'
 const GH_WORKFLOW = 'sync_quarterly_results.yml'
-const GH_REF = 'main'
+const KW_WORKFLOW = 'keyword_analysis_single.yml'
+const GH_REF      = 'main'
 
 function runLocally(symbol: string): Promise<NextResponse> {
     const scriptPath = path.join(process.cwd(), '..', 'scripts', 'sync_quarterly_results.py')
@@ -48,32 +49,43 @@ function runLocally(symbol: string): Promise<NextResponse> {
     })
 }
 
+async function ghDispatch(pat: string, workflow: string, inputs: Record<string, string>): Promise<boolean> {
+    const res = await fetch(
+        `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/actions/workflows/${workflow}/dispatches`,
+        {
+            method: 'POST',
+            headers: {
+                Authorization: `token ${pat}`,
+                Accept: 'application/vnd.github+json',
+                'X-GitHub-Api-Version': '2022-11-28',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ ref: GH_REF, inputs }),
+        }
+    )
+    return res.status === 204
+}
+
 async function triggerGitHub(symbol: string): Promise<NextResponse> {
     const pat = process.env.GH_PAT
     if (!pat || pat === 'ghp_your_token_here') {
         return NextResponse.json({ success: false, error: 'GH_PAT not configured' }, { status: 500 })
     }
 
-    const url = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/actions/workflows/${GH_WORKFLOW}/dispatches`
-    const res = await fetch(url, {
-        method: 'POST',
-        headers: {
-            Authorization: `token ${pat}`,
-            Accept: 'application/vnd.github+json',
-            'X-GitHub-Api-Version': '2022-11-28',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ref: GH_REF, inputs: { symbol } }),
-    })
+    // Trigger both: quarterly results sync + keyword analysis in parallel
+    const [syncOk, kwOk] = await Promise.all([
+        ghDispatch(pat, GH_WORKFLOW, { symbol }),
+        ghDispatch(pat, KW_WORKFLOW, { symbol }),
+    ])
 
-    if (res.status === 204) {
-        const actionsUrl = `https://github.com/${GH_OWNER}/${GH_REPO}/actions/workflows/${GH_WORKFLOW}`
-        return NextResponse.json({ success: true, symbol, actionsUrl })
+    if (!syncOk) {
+        return NextResponse.json({ success: false, error: 'GitHub API error on sync' }, { status: 502 })
     }
 
-    const body = await res.text()
-    console.error('[sync/github] API error:', res.status, body)
-    return NextResponse.json({ success: false, error: `GitHub API returned ${res.status}` }, { status: 502 })
+    if (!kwOk) console.warn(`[sync] keyword analysis dispatch failed for ${symbol}`)
+
+    const actionsUrl = `https://github.com/${GH_OWNER}/${GH_REPO}/actions/workflows/${GH_WORKFLOW}`
+    return NextResponse.json({ success: true, symbol, actionsUrl })
 }
 
 export async function POST(
