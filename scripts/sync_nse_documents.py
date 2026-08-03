@@ -194,11 +194,14 @@ def main():
             nse_filed_at = parse_nse_time(ann.get('an_dt', '')) or \
                            datetime(d.year, d.month, d.day, 12, 0, 0, tzinfo=IST)
 
+            # Historical rows (not today) get kw_dispatched_at = NOW() so the
+            # Lambda never tries to dispatch keyword analysis for old filings.
+            is_today = (d == date.today())
             cur.execute("""
                 INSERT INTO nse_documents
                     (seq_id, symbol, company_name, category, description,
-                     attachment_url, doc_type, nse_filed_at)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                     attachment_url, doc_type, nse_filed_at, kw_dispatched_at)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                 ON CONFLICT (seq_id) DO UPDATE
                     SET company_name   = EXCLUDED.company_name,
                         category       = EXCLUDED.category,
@@ -207,7 +210,8 @@ def main():
                         doc_type       = EXCLUDED.doc_type
                 RETURNING (xmax = 0) AS was_inserted
             """, (seq_id, symbol, company_name, category, description,
-                  attach_url, doc_type, nse_filed_at))
+                  attach_url, doc_type, nse_filed_at,
+                  None if is_today else datetime.now(IST)))
 
             row = cur.fetchone()
             if row and row[0]:
