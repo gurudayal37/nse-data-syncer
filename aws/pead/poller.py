@@ -175,9 +175,8 @@ def upsert_nse_documents(cur, announcements: list[dict], now_ist: datetime) -> i
 
 def dispatch_pending_presentations(cur, gh_pat: str) -> None:
     """
-    Find all presentations in nse_documents that haven't had keyword analysis
-    dispatched yet, where the symbol has announced results in the last 90 days.
-    Works for both live filings and backfilled data.
+    Dispatch keyword analysis for presentations filed today whose symbol
+    announced results today. At most one dispatch per symbol per day.
     """
     cur.execute("""
         SELECT nd.seq_id, nd.symbol
@@ -186,9 +185,10 @@ def dispatch_pending_presentations(cur, gh_pat: str) -> None:
         WHERE nd.doc_type = 'presentation'
           AND nd.attachment_url != ''
           AND nd.kw_dispatched_at IS NULL
-          AND nd.nse_filed_at > NOW() - INTERVAL '90 days'
-          AND pa.announced_at   > NOW() - INTERVAL '90 days'
+          AND DATE(nd.nse_filed_at  AT TIME ZONE 'Asia/Kolkata') = CURRENT_DATE
+          AND DATE(pa.announced_at  AT TIME ZONE 'Asia/Kolkata') = CURRENT_DATE
         GROUP BY nd.seq_id, nd.symbol
+        LIMIT 20
     """)
     rows = cur.fetchall()
     if not rows:
