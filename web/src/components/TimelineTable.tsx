@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { X, StickyNote } from 'lucide-react'
+import { X, StickyNote, RefreshCw } from 'lucide-react'
 
 export interface SerializedEvent {
     type: 'result' | 'presentation' | 'concall' | 'transcript' | 'upcoming'
@@ -54,6 +54,38 @@ function mergeRows(events: SerializedEvent[], notes: Note[]): Row[] {
         return dateB - dateA
     })
     return all
+}
+
+function KeywordSyncButton({ symbol, pdfUrl }: { symbol: string; pdfUrl?: string }) {
+    const [state, setState] = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
+
+    async function handleSync() {
+        setState('loading')
+        try {
+            const res = await fetch(`/api/stock/${encodeURIComponent(symbol)}/sync-keywords`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pdf_url: pdfUrl }),
+            })
+            setState(res.ok ? 'done' : 'error')
+        } catch {
+            setState('error')
+        }
+    }
+
+    if (state === 'done') return <span className="text-xs text-indigo-600 font-medium">Queued — check back in ~2 min</span>
+    if (state === 'error') return <span className="text-xs text-red-500">Failed to trigger</span>
+
+    return (
+        <button
+            onClick={handleSync}
+            disabled={state === 'loading'}
+            className="mt-1 inline-flex items-center gap-1 text-xs text-indigo-500 hover:text-indigo-700 disabled:opacity-50"
+        >
+            <RefreshCw className={`w-3 h-3 ${state === 'loading' ? 'animate-spin' : ''}`} />
+            {state === 'loading' ? 'Syncing…' : 'Sync Keywords'}
+        </button>
+    )
 }
 
 export default function TimelineTable({
@@ -241,6 +273,9 @@ export default function TimelineTable({
                                                             </span>
                                                         ))}
                                                     </div>
+                                                )}
+                                                {ev.type === 'presentation' && (!ev.chips || ev.chips.length === 0) && (
+                                                    <KeywordSyncButton symbol={symbol} pdfUrl={ev.url} />
                                                 )}
                                             </>
                                         )}
