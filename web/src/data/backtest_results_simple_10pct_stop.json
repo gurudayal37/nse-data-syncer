@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 115806.6,
-      "total_fees_paid": 1839.8,
+      "end_value": 118213.56,
+      "total_fees_paid": 1844.92,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 15.81,
-      "benchmark_return": -5.19,
-      "expectancy": 2.07,
-      "net_return_after_fees": 13.97
+      "total_return": 18.21,
+      "benchmark_return": -5.8,
+      "expectancy": 2.33,
+      "net_return_after_fees": 16.37
     },
     "risk_metrics": {
       "max_drawdown": -9.21,
-      "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.08,
-      "calmar_ratio": 2.67,
-      "omega_ratio": 2.32,
-      "sortino_ratio": 2.42
+      "max_drawdown_duration": 1,
+      "sharpe_ratio": 1.21,
+      "calmar_ratio": 3.1,
+      "omega_ratio": 2.49,
+      "sortino_ratio": 2.73
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -79,11 +79,11 @@
       "win_rate": 75.0,
       "best_trade": 13.34,
       "worst_trade": -9.21,
-      "avg_winning_trade": 4.84,
+      "avg_winning_trade": 5.19,
       "avg_losing_trade": -6.25,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.32,
+      "profit_factor": 2.49,
       "total_stock_transactions": 102
     }
   },
@@ -15164,12 +15164,12 @@
   "current_performance": [
     {
       "month": "2026-08",
-      "portfolio_return": 2.0,
-      "benchmark_return": 1.6,
+      "portfolio_return": 4.12,
+      "benchmark_return": 0.95,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": 5.0,
+          "return": 8.51,
           "score": 8.2,
           "entry_price": 557.05,
           "stop_triggered": false,
@@ -15179,7 +15179,7 @@
         },
         {
           "symbol": "HFCL",
-          "return": 4.43,
+          "return": 4.57,
           "score": 4.15,
           "entry_price": 193.92,
           "stop_triggered": false,
@@ -15189,7 +15189,7 @@
         },
         {
           "symbol": "ATHERENERG",
-          "return": 0.98,
+          "return": 15.08,
           "score": 3.6,
           "entry_price": 1260.3,
           "stop_triggered": false,
@@ -15199,7 +15199,7 @@
         },
         {
           "symbol": "MTARTECH",
-          "return": 4.99,
+          "return": 10.24,
           "score": 3.46,
           "entry_price": 5726.0,
           "stop_triggered": false,
@@ -15209,7 +15209,7 @@
         },
         {
           "symbol": "LAURUSLABS",
-          "return": -0.26,
+          "return": 1.86,
           "score": 3.33,
           "entry_price": 1816.2,
           "stop_triggered": false,
@@ -15219,7 +15219,7 @@
         },
         {
           "symbol": "SANSERA",
-          "return": 3.16,
+          "return": 4.83,
           "score": 3.24,
           "entry_price": 3346.9,
           "stop_triggered": false,
@@ -15229,7 +15229,7 @@
         },
         {
           "symbol": "WELCORP",
-          "return": 3.92,
+          "return": 5.21,
           "score": 3.12,
           "entry_price": 1650.6,
           "stop_triggered": false,
@@ -15239,7 +15239,7 @@
         },
         {
           "symbol": "DIACABS",
-          "return": -0.35,
+          "return": -2.34,
           "score": 2.82,
           "entry_price": 323.97,
           "stop_triggered": false,
@@ -15249,7 +15249,7 @@
         },
         {
           "symbol": "KIRLOSENG",
-          "return": 1.62,
+          "return": 3.84,
           "score": 2.66,
           "entry_price": 2189.8,
           "stop_triggered": false,
@@ -15259,7 +15259,7 @@
         },
         {
           "symbol": "ACUTAAS",
-          "return": 0.37,
+          "return": 3.85,
           "score": 2.55,
           "entry_price": 3104.9,
           "stop_triggered": false,
@@ -15269,7 +15269,7 @@
         },
         {
           "symbol": "ADANIENSOL",
-          "return": 0.1,
+          "return": 0.04,
           "score": 2.46,
           "entry_price": 1645.4,
           "stop_triggered": false,
@@ -15279,7 +15279,7 @@
         },
         {
           "symbol": "SKYGOLD",
-          "return": 7.48,
+          "return": 4.94,
           "score": 2.43,
           "entry_price": 643.7,
           "stop_triggered": false,
@@ -15289,7 +15289,7 @@
         },
         {
           "symbol": "BHARATFORG",
-          "return": 0.51,
+          "return": -0.22,
           "score": 2.35,
           "entry_price": 2199.8,
           "stop_triggered": false,
@@ -15299,7 +15299,7 @@
         },
         {
           "symbol": "RRKABEL",
-          "return": 1.12,
+          "return": 1.47,
           "score": 2.34,
           "entry_price": 2602.8,
           "stop_triggered": false,
@@ -15309,7 +15309,7 @@
         },
         {
           "symbol": "AVALON",
-          "return": -3.1,
+          "return": -0.14,
           "score": 2.34,
           "entry_price": 1807.9,
           "stop_triggered": false,
