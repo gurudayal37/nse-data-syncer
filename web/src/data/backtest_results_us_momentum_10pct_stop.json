@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 148017.72,
-      "total_fees_paid": 2668.16,
+      "end_value": 147826.3,
+      "total_fees_paid": 2667.7,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 48.02,
-      "benchmark_return": 10.27,
-      "expectancy": 5.52,
-      "net_return_after_fees": 45.35
+      "total_return": 47.83,
+      "benchmark_return": 11.86,
+      "expectancy": 5.5,
+      "net_return_after_fees": 45.16
     },
     "risk_metrics": {
       "max_drawdown": -10.0,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.9,
-      "calmar_ratio": 8.01,
-      "omega_ratio": 3.53,
-      "sortino_ratio": 15.11
+      "sharpe_ratio": 1.89,
+      "calmar_ratio": 7.97,
+      "omega_ratio": 3.52,
+      "sortino_ratio": 15.06
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -77,9 +77,9 @@
       "win_rate": 75.0,
       "best_trade": 18.68,
       "worst_trade": -10.0,
-      "avg_winning_trade": 10.27,
+      "avg_winning_trade": 10.24,
       "avg_losing_trade": -8.74,
-      "profit_factor": 3.53,
+      "profit_factor": 3.52,
       "total_stock_transactions": 115,
       "total_closed_trades": 7,
       "total_open_trades": 1,
@@ -9404,96 +9404,96 @@
   "current_performance": [
     {
       "month": "2026-08",
-      "portfolio_return": 0.52,
-      "benchmark_return": 1.48,
+      "portfolio_return": 0.39,
+      "benchmark_return": 2.94,
       "holdings": [
         {
           "symbol": "SNDK",
-          "return": 6.03,
+          "return": 3.6,
           "score": 6.32,
           "stop_triggered": false
         },
         {
           "symbol": "CLDT",
-          "return": -1.35,
+          "return": -2.25,
           "score": 3.39,
           "stop_triggered": false
         },
         {
           "symbol": "DELL",
-          "return": 5.83,
+          "return": 7.96,
           "score": 3.26,
           "stop_triggered": false
         },
         {
           "symbol": "RLJ",
-          "return": 0.73,
+          "return": -2.69,
           "score": 2.84,
           "stop_triggered": false
         },
         {
           "symbol": "PANW",
-          "return": 4.61,
+          "return": 8.34,
           "score": 2.75,
           "stop_triggered": false
         },
         {
           "symbol": "WDC",
-          "return": -3.23,
+          "return": -10.0,
           "score": 2.72,
-          "stop_triggered": false
+          "stop_triggered": true
         },
         {
           "symbol": "DD",
-          "return": 3.12,
+          "return": 5.15,
           "score": 2.71,
           "stop_triggered": false
         },
         {
           "symbol": "MU",
-          "return": 0.79,
+          "return": 7.1,
           "score": 2.7,
           "stop_triggered": false
         },
         {
           "symbol": "DVA",
-          "return": -2.67,
+          "return": -10.0,
           "score": 2.61,
-          "stop_triggered": false
+          "stop_triggered": true
         },
         {
           "symbol": "FTNT",
-          "return": 0.78,
+          "return": -1.14,
           "score": 2.5,
           "stop_triggered": false
         },
         {
           "symbol": "HPE",
-          "return": 4.89,
+          "return": 9.46,
           "score": 2.44,
           "stop_triggered": false
         },
         {
           "symbol": "RVMD",
-          "return": -2.71,
+          "return": 5.48,
           "score": 2.39,
           "stop_triggered": false
         },
         {
           "symbol": "STX",
-          "return": -2.93,
+          "return": -0.37,
           "score": 2.3,
           "stop_triggered": false
         },
         {
           "symbol": "DINO",
-          "return": -3.08,
+          "return": -9.35,
           "score": 2.3,
           "stop_triggered": false
         },
         {
           "symbol": "MPC",
-          "return": -2.98,
+          "return": -5.44,
           "score": 2.22,
           "stop_triggered": false
         }
