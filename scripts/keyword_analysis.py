@@ -463,7 +463,9 @@ def process_one(symbol, company_name, result_date, insert_sql, insert_cols, forc
             }
             return 'no_pres', symbol, result_date, result
 
-        # Download + score each candidate; keep highest total theme keyword count
+        # Download + score each candidate; keep highest total theme keyword count.
+        # Tiebreaker: prefer larger documents (more words) so a short mis-filed
+        # doc (e.g. 230-word AMS note) doesn't win over a full presentation.
         best_url = best_pdf_bytes = best_text = None
         best_score = -1
         for url in pres_urls:
@@ -471,7 +473,9 @@ def process_one(symbol, company_name, result_date, insert_sql, insert_cols, forc
             if not pdf_bytes:
                 continue
             text = extract_text(pdf_bytes)
-            score = sum(count_theme_keywords(text).values())
+            theme_score = sum(count_theme_keywords(text).values())
+            word_count  = len(text.split())
+            score = theme_score * 100_000 + word_count
             if score > best_score:
                 best_score = score
                 best_url = url
