@@ -439,6 +439,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         detail?: string
         chips?: { label: string; count: number }[]
         url?: string
+        analysedAt?: string
     }
     const timelineEvents: TimelineEvent[] = []
 
@@ -477,6 +478,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
                 : undefined,
             chips,
             url: r.presentation_url,
+            analysedAt: r.analysed_at ? new Date(r.analysed_at).toISOString() : undefined,
         })
     }
     for (const r of upcomingRows) {
@@ -517,6 +519,7 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         title: ev.title,
         chips: ev.chips,
         url: ev.url,
+        analysedAt: ev.analysedAt,
     }))
 
     function daysAgo(date: Date | string | null | undefined): string {

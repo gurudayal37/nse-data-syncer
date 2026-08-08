@@ -10,6 +10,7 @@ export interface SerializedEvent {
     title: string
     chips?: { label: string; count: number }[]
     url?: string
+    analysedAt?: string
 }
 
 interface Note {
@@ -275,7 +276,9 @@ export default function TimelineTable({
                                                     </div>
                                                 )}
                                                 {ev.type === 'presentation' && (!ev.chips || ev.chips.length === 0) && (
-                                                    <KeywordSyncButton symbol={symbol} pdfUrl={ev.url} />
+                                                    ev.analysedAt
+                                                        ? <span className="mt-1 inline-block text-xs text-slate-400">Analysed — no theme keywords found</span>
+                                                        : <KeywordSyncButton symbol={symbol} pdfUrl={ev.url} />
                                                 )}
                                             </>
                                         )}
