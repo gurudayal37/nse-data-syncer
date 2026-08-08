@@ -205,10 +205,11 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
             ORDER BY result_date DESC
         `,
         prisma.$queryRaw<any[]>`
-            SELECT announced_at, company_name, attachment_url
-            FROM pead_announcements
+            SELECT nse_filed_at AS announced_at, attachment_url
+            FROM nse_documents
             WHERE symbol = ${sym}
-            ORDER BY announced_at DESC
+              AND doc_type = 'result'
+            ORDER BY nse_filed_at DESC
         `,
         prisma.$queryRaw<any[]>`
             SELECT doc_type, category, attachment_url, nse_filed_at
@@ -222,12 +223,13 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         prisma.$queryRaw<any[]>`
             SELECT bm.meeting_date
             FROM board_meetings bm
-            LEFT JOIN pead_announcements pa
-                ON UPPER(pa.symbol) = UPPER(bm.symbol)
-               AND DATE(pa.announced_at AT TIME ZONE 'Asia/Kolkata') = bm.meeting_date
+            LEFT JOIN nse_documents nd
+                ON UPPER(nd.symbol) = UPPER(bm.symbol)
+               AND DATE(nd.nse_filed_at AT TIME ZONE 'Asia/Kolkata') = bm.meeting_date
+               AND nd.doc_type = 'result'
             WHERE UPPER(bm.symbol) = ${sym.toUpperCase()}
               AND bm.meeting_date >= CURRENT_DATE
-              AND pa.seq_id IS NULL
+              AND nd.seq_id IS NULL
             ORDER BY bm.meeting_date ASC
             LIMIT 3
         `,
