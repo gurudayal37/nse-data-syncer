@@ -127,12 +127,41 @@ async function fetchRows(
 
   if (keyword === 'sentiment') {
     return prisma.$queryRawUnsafe<Row[]>(`
-      SELECT
+      WITH deduped AS (
+        SELECT DISTINCT ON (pka.symbol)
+          pka.symbol,
+          pka.company_name,
+          pka.sentiment_score AS mentions,
+          pka.positive_hits,
+          pka.negative_hits,
+          sp.change_1w,
+          sp.change_1m,
+          sp.change_3m,
+          sp.change_6m,
+          s.market_cap,
+          pka.presentation_url
+        FROM presentation_keyword_analysis pka
+        JOIN stocks s ON s.nse_symbol = pka.symbol
+        LEFT JOIN stock_performance sp ON sp.stock_id = s.id
+        WHERE pka.has_presentation = TRUE
+          AND pka.result_date >= '${start}'::date
+          AND pka.result_date <= '${end}'::date
+        ORDER BY pka.symbol, pka.sentiment_score DESC
+      )
+      SELECT * FROM deduped
+      ORDER BY ${sort === 'mentions' ? 'mentions' : sort} ${order} NULLS LAST,
+               mentions DESC
+    `)
+  }
+
+  return prisma.$queryRawUnsafe<Row[]>(`
+    WITH deduped AS (
+      SELECT DISTINCT ON (pka.symbol)
         pka.symbol,
         pka.company_name,
-        pka.sentiment_score AS mentions,
-        pka.positive_hits,
-        pka.negative_hits,
+        pka."${keyword}" AS mentions,
+        NULL::int AS positive_hits,
+        NULL::int AS negative_hits,
         sp.change_1w,
         sp.change_1m,
         sp.change_3m,
@@ -142,35 +171,14 @@ async function fetchRows(
       FROM presentation_keyword_analysis pka
       JOIN stocks s ON s.nse_symbol = pka.symbol
       LEFT JOIN stock_performance sp ON sp.stock_id = s.id
-      WHERE pka.has_presentation = TRUE
+      WHERE pka."${keyword}" > 0
         AND pka.result_date >= '${start}'::date
         AND pka.result_date <= '${end}'::date
-      ORDER BY ${sort === 'mentions' ? 'mentions' : `sp.${sort}`} ${order} NULLS LAST,
-               pka.sentiment_score DESC
-    `)
-  }
-
-  return prisma.$queryRawUnsafe<Row[]>(`
-    SELECT
-      pka.symbol,
-      pka.company_name,
-      pka."${keyword}" AS mentions,
-      NULL::int AS positive_hits,
-      NULL::int AS negative_hits,
-      sp.change_1w,
-      sp.change_1m,
-      sp.change_3m,
-      sp.change_6m,
-      s.market_cap,
-      pka.presentation_url
-    FROM presentation_keyword_analysis pka
-    JOIN stocks s ON s.nse_symbol = pka.symbol
-    LEFT JOIN stock_performance sp ON sp.stock_id = s.id
-    WHERE pka."${keyword}" > 0
-      AND pka.result_date >= '${start}'::date
-      AND pka.result_date <= '${end}'::date
-    ORDER BY ${sort === 'mentions' ? 'mentions' : `sp.${sort}`} ${order} NULLS LAST,
-             pka."${keyword}" DESC
+      ORDER BY pka.symbol, pka."${keyword}" DESC
+    )
+    SELECT * FROM deduped
+    ORDER BY ${sort === 'mentions' ? 'mentions' : sort} ${order} NULLS LAST,
+             mentions DESC
   `)
 }
 
