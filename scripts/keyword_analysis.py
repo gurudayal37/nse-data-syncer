@@ -549,14 +549,18 @@ def main():
     # Get all (symbol, result_date) pairs announced this season — one row per
     # announcement so both Q4 FY26 and Q1 FY27 results for the same company
     # are processed independently.
+    # Source: nse_documents (not pead_announcements) so companies the Lambda
+    # filtered out (e.g. not in board_meetings on that day) are still included.
     query = """
         SELECT DISTINCT
-            symbol,
-            company_name,
-            DATE(announced_at AT TIME ZONE 'Asia/Kolkata') AS result_date
-        FROM pead_announcements
-        WHERE announced_at >= %s
-        ORDER BY symbol, result_date ASC
+            nd.symbol,
+            COALESCE(s.name, nd.symbol) AS company_name,
+            DATE(nd.nse_filed_at AT TIME ZONE 'Asia/Kolkata') AS result_date
+        FROM nse_documents nd
+        LEFT JOIN stocks s ON s.nse_symbol = nd.symbol
+        WHERE nd.doc_type = 'result'
+          AND nd.nse_filed_at >= %s
+        ORDER BY nd.symbol, result_date ASC
     """
     IST_start = datetime.combine(season_start, datetime.min.time()).replace(
         tzinfo=timezone(timedelta(hours=5, minutes=30))
