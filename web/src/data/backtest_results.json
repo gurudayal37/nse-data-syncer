@@ -51,15 +51,15 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 144888.18,
-      "total_fees_paid": 2371.91,
+      "end_value": 144874.65,
+      "total_fees_paid": 2371.88,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 44.89,
-      "benchmark_return": -5.97,
+      "total_return": 44.87,
+      "benchmark_return": -5.92,
       "expectancy": 5.28,
-      "net_return_after_fees": 42.52
+      "net_return_after_fees": 42.5
     },
     "risk_metrics": {
       "max_drawdown": -9.76,
@@ -7964,82 +7964,82 @@
   "current_performance": [
     {
       "month": "2026-08",
-      "portfolio_return": 7.05,
-      "benchmark_return": 0.77,
+      "portfolio_return": 7.04,
+      "benchmark_return": 0.82,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": 14.69,
+          "return": 14.49,
           "score": 6.21
         },
         {
           "symbol": "CUPID",
-          "return": 13.66,
+          "return": 13.91,
           "score": 5.87
         },
         {
           "symbol": "RPTECH",
-          "return": 7.33,
+          "return": 7.58,
           "score": 3.95
         },
         {
           "symbol": "YASHO",
-          "return": 7.62,
+          "return": 8.88,
           "score": 3.79
         },
         {
           "symbol": "HFCL",
-          "return": 7.25,
+          "return": 9.82,
           "score": 3.5
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 1.55,
+          "return": 2.08,
           "score": 3.48
         },
         {
           "symbol": "DIACABS",
-          "return": 12.37,
+          "return": 11.28,
           "score": 3.22
         },
         {
           "symbol": "DEEDEV",
-          "return": -7.2,
-          "score": 3.12
+          "return": -7.71,
+          "score": 3.13
         },
         {
           "symbol": "SBC",
-          "return": -2.02,
+          "return": -2.17,
           "score": 2.87
         },
         {
           "symbol": "BLISSGVS",
-          "return": 2.56,
+          "return": 3.04,
           "score": 2.67
         },
         {
           "symbol": "ATHERENERG",
-          "return": 17.55,
+          "return": 16.34,
           "score": 2.63
         },
         {
           "symbol": "VENUSREM",
-          "return": -2.59,
+          "return": -3.73,
           "score": 2.58
         },
         {
           "symbol": "RRKABEL",
-          "return": 6.02,
+          "return": 5.92,
           "score": 2.54
         },
         {
           "symbol": "SANSERA",
-          "return": 15.44,
-          "score": 2.5
+          "return": 13.91,
+          "score": 2.51
         },
         {
           "symbol": "WELCORP",
-          "return": 11.46,
+          "return": 11.99,
           "score": 2.47
         }
       ]
