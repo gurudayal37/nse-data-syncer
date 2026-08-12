@@ -551,13 +551,15 @@ def main():
     # are processed independently.
     # Source: nse_documents (not pead_announcements) so companies the Lambda
     # filtered out (e.g. not in board_meetings on that day) are still included.
+    # Restrict to symbols in the stocks table to skip obscure filings not in
+    # our watchlist — this keeps the nightly batch at a manageable size.
     query = """
         SELECT DISTINCT
             nd.symbol,
             COALESCE(s.name, nd.symbol) AS company_name,
             DATE(nd.nse_filed_at AT TIME ZONE 'Asia/Kolkata') AS result_date
         FROM nse_documents nd
-        LEFT JOIN stocks s ON s.nse_symbol = nd.symbol
+        JOIN stocks s ON s.nse_symbol = nd.symbol
         WHERE nd.doc_type = 'result'
           AND nd.nse_filed_at >= %s
         ORDER BY nd.symbol, result_date ASC
@@ -567,6 +569,15 @@ def main():
     )
     db.execute(query, (IST_start,))
     companies = db.fetchall()
+
+    # Pre-filter already-analysed rows before spawning any threads so we don't
+    # pay a DB connection cost per worker for companies that are already done.
+    # When --force is set skip this so everything re-processes.
+    if not args.force and not args.symbol:
+        db.execute("SELECT symbol, result_date FROM presentation_keyword_analysis")
+        done = {(r[0].upper(), str(r[1])) for r in db.fetchall()}
+        companies = [(s, n, d) for s, n, d in companies if (s.upper(), str(d)) not in done]
+
     db.close()
 
     if args.symbol:
