@@ -2,7 +2,7 @@ name: Keyword Analysis — Daily
 
 on:
   schedule:
-    - cron: '30 18 * * *'   # midnight IST (UTC+5:30)
+    - cron: '32 18 * * *'   # 00:02 IST (UTC+5:30), 2 min after sync_nse_documents
   workflow_dispatch:
     inputs:
       season_start:
