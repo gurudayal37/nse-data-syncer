@@ -2,7 +2,7 @@ name: Sync NSE Documents
 
 on:
   schedule:
-    - cron: '30 14 * * *'     # 20:00 IST every day including Sunday
+    - cron: '30 18 * * *'     # 00:00 IST every day including Sunday
   workflow_dispatch:
     inputs:
       from_date:
