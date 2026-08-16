@@ -9,6 +9,7 @@ export interface ETFPerformance {
     change_3y: number | null
     change_5y: number | null
     daily_volume: bigint | null
+    avg_range_20d: number | null
     updated_at: Date
 }
 

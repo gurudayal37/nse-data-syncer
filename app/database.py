@@ -33,7 +33,12 @@ class Stock(Base):
 
 class DatabaseManager:
     def __init__(self, db_url=DB_URL):
-        self.engine = create_engine(db_url)
+        # Small pool: sync jobs run as short-lived, low-concurrency processes,
+        # and up to 5 shards run at once (see daily_sync_optimized.yml). The
+        # default pool_size=5/max_overflow=10 let a single shard open up to 15
+        # connections, which exhausted RDS's connection limit and caused
+        # Prisma on Vercel to time out fetching a connection (P2024).
+        self.engine = create_engine(db_url, pool_size=2, max_overflow=0, pool_timeout=30)
         self.Session = sessionmaker(bind=self.engine)
 
     def get_symbol_map(self):
@@ -519,8 +524,20 @@ class DatabaseManager:
                 .order_by(ETFDailyPrice.date.desc())\
                 .first()
             latest_volume = latest_volume_record[0] if latest_volume_record else None
-            
-            # Define time deltas
+
+            # Average daily range % over the last 20 trading days: mean of (high-low)/close*100
+            range_rows = session.query(ETFDailyPrice.high_price, ETFDailyPrice.low_price, ETFDailyPrice.close_price)\
+                .filter(ETFDailyPrice.etf_id == etf_id)\
+                .order_by(ETFDailyPrice.date.desc())\
+                .limit(20)\
+                .all()
+            range_pcts = [
+                (h - l) / c * 100
+                for h, l, c in range_rows
+                if h is not None and l is not None and c
+            ]
+            avg_range_20d = sum(range_pcts) / len(range_pcts) if range_pcts else None
+
             # Define time deltas
             deltas = {
                 '1w': relativedelta(weeks=1),
@@ -560,7 +577,7 @@ class DatabaseManager:
             if not perf_record:
                 perf_record = ETFPerformance(etf_id=etf_id)
                 session.add(perf_record)
-            
+
             perf_record.change_1w = metrics.get('change_1w')
             perf_record.change_1m = metrics.get('change_1m')
             perf_record.change_3m = metrics.get('change_3m')
@@ -569,6 +586,7 @@ class DatabaseManager:
             perf_record.change_3y = metrics.get('change_3y')
             perf_record.change_5y = metrics.get('change_5y')
             perf_record.daily_volume = latest_volume
+            perf_record.avg_range_20d = avg_range_20d
             perf_record.updated_at = datetime.now()
             
             session.commit()
@@ -890,6 +908,7 @@ class ETFPerformance(Base):
     change_3y = Column(Float)
     change_5y = Column(Float)
     daily_volume = Column(BigInteger)
+    avg_range_20d = Column(Float)
     updated_at = Column(DateTime, default=datetime.now)
 
 # SME (NSE Small and Medium Enterprise board) Models - deliberately

@@ -145,6 +145,7 @@ export default async function ETFPage(props: ETFPageProps) {
                                     <th className="px-6 py-4">Underlying Asset</th>
                                     <th className="px-6 py-4 text-right">Price</th>
                                     <SortHeader column="daily_volume" label="Volume" align="right" />
+                                    <SortHeader column="avg_range_20d" label="Avg Range % (20D)" align="right" />
                                     {PERFORMANCE_PERIODS.map((period) => (
                                         <SortHeader
                                             key={period.key}
@@ -175,6 +176,9 @@ export default async function ETFPage(props: ETFPageProps) {
                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 {perf?.daily_volume != null ? Number(perf.daily_volume).toLocaleString('en-IN') : '-'}
+                                            </td>
+                                            <td className="px-6 py-4 text-right">
+                                                {perf?.avg_range_20d != null ? `${perf.avg_range_20d.toFixed(2)}%` : '-'}
                                             </td>
                                             {PERFORMANCE_PERIODS.map((period) => {
                                                 const value = perf?.[period.key as keyof typeof perf] as number | null | undefined

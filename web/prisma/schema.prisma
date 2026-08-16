@@ -395,10 +395,11 @@ model etf_performance {
   change_6m    Float?
   change_1y    Float?
   change_3y    Float?
-  change_5y    Float?
-  daily_volume BigInt?
-  updated_at   DateTime? @default(now()) @db.Timestamp(6)
-  etfs         etfs      @relation(fields: [etf_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  change_5y     Float?
+  daily_volume  BigInt?
+  avg_range_20d Float?
+  updated_at    DateTime? @default(now()) @db.Timestamp(6)
+  etfs          etfs      @relation(fields: [etf_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([change_1w])
   @@index([change_1m])
@@ -408,6 +409,7 @@ model etf_performance {
   @@index([change_3y])
   @@index([change_5y])
   @@index([daily_volume])
+  @@index([avg_range_20d])
 }
 
 model sme_stocks {

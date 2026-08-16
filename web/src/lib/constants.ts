@@ -11,6 +11,7 @@ export const SORTABLE_COLUMNS = [
   'change_3y',
   'change_5y',
   'daily_volume',
+  'avg_range_20d',
 ] as const
 
 export type SortableColumn = typeof SORTABLE_COLUMNS[number]

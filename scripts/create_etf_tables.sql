@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS etf_performance (
     change_3y FLOAT,
     change_5y FLOAT,
     daily_volume BIGINT,
+    avg_range_20d FLOAT,
     updated_at TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (etf_id) REFERENCES etfs(id) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -53,3 +54,4 @@ CREATE INDEX IF NOT EXISTS idx_etf_perf_change_1y ON etf_performance(change_1y);
 CREATE INDEX IF NOT EXISTS idx_etf_perf_change_3y ON etf_performance(change_3y);
 CREATE INDEX IF NOT EXISTS idx_etf_perf_change_5y ON etf_performance(change_5y);
 CREATE INDEX IF NOT EXISTS idx_etf_perf_daily_volume ON etf_performance(daily_volume);
+CREATE INDEX IF NOT EXISTS idx_etf_perf_avg_range_20d ON etf_performance(avg_range_20d);
