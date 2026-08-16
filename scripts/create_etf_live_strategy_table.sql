@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS etf_live_strategy_picks (
 
     -- the actual recommendation
     sell_price FLOAT NOT NULL,
+    target_buy_price FLOAT NOT NULL,   -- cover target; assumes full reversion to prev_close
     quantity INTEGER NOT NULL,
     notional FLOAT NOT NULL,
 

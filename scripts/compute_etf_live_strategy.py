@@ -127,26 +127,36 @@ def main():
         for rank, r in enumerate(top, start=1):
             fade_score = (r.open_eq_high_pct / 100) * r.avg_fade_pct
             sell_price = r.prev_close * (1 + (r.avg_fade_pct / 2) / 100)
+            # Cover target: assumes the position fully reverts to fair value
+            # (yesterday's close) by the time you buy back - the simplest,
+            # most defensible target derivable from daily OHLC alone. Not a
+            # guarantee; the backtest's actual 5-min-later exits landed both
+            # above and below this level.
+            target_buy_price = r.prev_close
             quantity = max(1, round(ORDER_NOTIONAL / sell_price))
             notional = quantity * sell_price
 
             session.execute(text("""
                 INSERT INTO etf_live_strategy_picks
                     (trade_date, etf_id, symbol, rank, prev_close, open_eq_high_pct,
-                     avg_fade_pct, fade_score, avg_daily_volume, sell_price, quantity, notional)
+                     avg_fade_pct, fade_score, avg_daily_volume, sell_price, target_buy_price,
+                     quantity, notional)
                 VALUES
                     (:trade_date, :etf_id, :symbol, :rank, :prev_close, :open_eq_high_pct,
-                     :avg_fade_pct, :fade_score, :avg_daily_volume, :sell_price, :quantity, :notional)
+                     :avg_fade_pct, :fade_score, :avg_daily_volume, :sell_price, :target_buy_price,
+                     :quantity, :notional)
             """), {
                 'trade_date': trade_date, 'etf_id': r.etf_id, 'symbol': r.symbol, 'rank': rank,
                 'prev_close': r.prev_close, 'open_eq_high_pct': r.open_eq_high_pct,
                 'avg_fade_pct': r.avg_fade_pct, 'fade_score': fade_score,
                 'avg_daily_volume': int(r.avg_daily_volume) if r.avg_daily_volume else None,
-                'sell_price': sell_price, 'quantity': quantity, 'notional': notional,
+                'sell_price': sell_price, 'target_buy_price': target_buy_price,
+                'quantity': quantity, 'notional': notional,
             })
             print(f"  #{rank} {r.symbol}: prev_close={r.prev_close:.2f} sell={sell_price:.2f} "
-                  f"qty={quantity} notional=₹{notional:,.0f} fade_score={fade_score:.3f} "
-                  f"(open==high {r.open_eq_high_pct:.0f}%, avg fade {r.avg_fade_pct:.2f}%)")
+                  f"target_buy={target_buy_price:.2f} qty={quantity} notional=₹{notional:,.0f} "
+                  f"fade_score={fade_score:.3f} (open==high {r.open_eq_high_pct:.0f}%, "
+                  f"avg fade {r.avg_fade_pct:.2f}%)")
 
         session.commit()
         print(f"\nStored {len(top)} picks for {trade_date}")

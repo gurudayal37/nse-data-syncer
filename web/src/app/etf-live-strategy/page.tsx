@@ -48,8 +48,9 @@ export default async function EtfLiveStrategyPage() {
                     <p className="text-gray-500 mt-2 max-w-3xl">
                         Top 10 ETFs ranked by how often their own opening print is the day&apos;s high, and by how much
                         they typically fade from open to close. Sell price is set at half each ETF&apos;s own average fade
-                        above yesterday&apos;s close; quantity sized to ~₹1,00,000 notional per pick. Recomputed nightly
-                        after the Dhan data sync, from the last 60 trading days of that ETF&apos;s own history.
+                        above yesterday&apos;s close; target buy price assumes a full reversion back to yesterday&apos;s
+                        close. Quantity sized to ~₹1,00,000 notional per pick. Recomputed nightly after the Dhan data
+                        sync, from the last 60 trading days of that ETF&apos;s own history.
                     </p>
                     {tradeDate && (
                         <p className="mt-3 text-sm font-medium text-gray-700">
@@ -104,6 +105,7 @@ export default async function EtfLiveStrategyPage() {
                                             <th className="px-4 py-3">Symbol</th>
                                             <th className="px-4 py-3 text-right">Prev Close</th>
                                             <th className="px-4 py-3 text-right">Sell Price (GTT)</th>
+                                            <th className="px-4 py-3 text-right">Target Buy Price</th>
                                             <th className="px-4 py-3 text-right">Quantity</th>
                                             <th className="px-4 py-3 text-right">Notional</th>
                                             <th className="px-4 py-3 text-right">Open=High %</th>
@@ -124,6 +126,7 @@ export default async function EtfLiveStrategyPage() {
                                                 </td>
                                                 <td className="px-4 py-3 text-right">₹{p.prev_close.toFixed(2)}</td>
                                                 <td className="px-4 py-3 text-right font-semibold text-orange-600">₹{p.sell_price.toFixed(2)}</td>
+                                                <td className="px-4 py-3 text-right font-semibold text-green-600">₹{p.target_buy_price.toFixed(2)}</td>
                                                 <td className="px-4 py-3 text-right">{p.quantity.toLocaleString('en-IN')}</td>
                                                 <td className="px-4 py-3 text-right">₹{p.notional.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</td>
                                                 <td className="px-4 py-3 text-right">{p.open_eq_high_pct.toFixed(0)}%</td>

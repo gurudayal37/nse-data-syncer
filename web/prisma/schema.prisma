@@ -428,6 +428,7 @@ model etf_live_strategy_picks {
   fade_score        Float
   avg_daily_volume  BigInt?
   sell_price        Float
+  target_buy_price  Float
   quantity          Int
   notional          Float
   entry_achieved    Boolean?  @default(false)
