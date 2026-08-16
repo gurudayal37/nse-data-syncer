@@ -161,7 +161,7 @@ export default async function EtfLiveStrategyPage() {
                     <p className="font-semibold mb-1">Before placing anything</p>
                     <ul className="list-disc list-inside space-y-1">
                         <li><strong>Not a GTT order.</strong> GTT doesn&apos;t support MIS/intraday, and even where it applies it fires a fresh order on trigger rather than resting in the auction book. Place a plain MIS limit SELL order directly during the 9:00-9:08 AM pre-open window instead — that&apos;s what actually participates in the call auction.</li>
-                        <li>Confirm intraday short-selling (MIS) is actually enabled on your broker for each symbol — thin, newly-listed ETFs are sometimes excluded even when short-selling is allowed generally.</li>
+                        <li>Every pick here is pre-filtered against Zerodha&apos;s own MIS-eligibility list, so intraday short-selling should work for all 10 — but that list is a static export (not a live API), so it can drift out of date. If you&apos;re on a different broker, or it&apos;s been a while, verify eligibility before placing.</li>
                         <li>These prices are computed from the prior session&apos;s close and each ETF&apos;s own trailing 60-day fade history — not a guaranteed fill level.</li>
                         <li>&quot;Exit LTP (+5m)&quot; is informational only (price captured ~5 minutes after entry), not a resting order — you cover manually.</li>
                         <li>No stop loss is modeled anywhere on this page. See the full backtest write-up for known risks before sizing beyond ₹1L.</li>

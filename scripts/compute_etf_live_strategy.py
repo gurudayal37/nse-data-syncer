@@ -15,8 +15,15 @@ Per ETF, over a trailing LOOKBACK_DAYS window of daily bars:
 
 Eligibility: at least LOOKBACK_DAYS of history (so the trailing window is
 fully populated), avg_fade_pct > 0 (only names that actually tend to fade),
-and avg daily traded value over the window >= MIN_DAILY_TURNOVER (so a ~1L
-order isn't a large fraction of a typical day's volume).
+avg daily traded value over the window >= MIN_DAILY_TURNOVER (so a ~1L
+order isn't a large fraction of a typical day's volume), and the symbol
+must appear in data/zerodha_mis_allowed_symbols.csv - Zerodha blocks MIS
+(intraday) orders on a bunch of ETFs outright (confirmed live: AONENIFTY,
+GROWWCAPM both got "MIS orders are currently blocked" on order entry even
+though they passed every other filter here). That CSV is a static export
+of Zerodha's own margin/leverage table - not fetched live, so it needs an
+occasional manual refresh (re-export from Zerodha, overwrite the file) to
+catch newly-added or newly-blocked symbols; there's no public API for it.
 
 sell_price = prev_close * (1 + avg_fade_pct/2 / 100) - half of the ETF's own
 average fade, so the trigger is calibrated per ETF rather than a flat %
@@ -40,6 +47,21 @@ LOOKBACK_DAYS = 60
 MIN_DAILY_TURNOVER = 1_000_000  # ₹10L avg daily traded value floor
 TOP_N = 10
 ORDER_NOTIONAL = 100_000  # ₹1L per pick
+ZERODHA_MIS_ALLOWED_CSV = os.path.join(base_dir, 'data', 'zerodha_mis_allowed_symbols.csv')
+
+
+def load_mis_allowed_symbols() -> set:
+    """Zerodha's MIS/CO intraday-margin export - a symbol only supports
+    MIS orders (which this whole strategy requires, since it's a naked
+    intraday short) if it appears here. Static file, see module docstring."""
+    with open(ZERODHA_MIS_ALLOWED_CSV) as f:
+        lines = f.readlines()
+    allowed = set()
+    for line in lines[2:]:  # skip the two header rows
+        parts = line.strip().split(',')
+        if len(parts) >= 2 and parts[1]:
+            allowed.add(parts[1].strip())
+    return allowed
 
 
 def next_trading_day(last_date) -> "datetime.date":
@@ -96,6 +118,9 @@ def compute_candidates(session):
 
 
 def main():
+    mis_allowed = load_mis_allowed_symbols()
+    print(f"Loaded {len(mis_allowed)} MIS-allowed symbols from {ZERODHA_MIS_ALLOWED_CSV}")
+
     db = DatabaseManager()
     session = db.Session()
     try:
@@ -108,8 +133,9 @@ def main():
             and r.avg_fade_pct > 0
             and r.avg_daily_turnover is not None
             and r.avg_daily_turnover >= MIN_DAILY_TURNOVER
+            and r.symbol in mis_allowed
         ]
-        print(f"Eligible after avg_fade>0 and turnover>=₹{MIN_DAILY_TURNOVER:,.0f}: {len(eligible)}")
+        print(f"Eligible after avg_fade>0, turnover>=₹{MIN_DAILY_TURNOVER:,.0f}, and MIS-allowed: {len(eligible)}")
 
         eligible.sort(key=lambda r: (r.open_eq_high_pct / 100) * r.avg_fade_pct, reverse=True)
         top = eligible[:TOP_N]
