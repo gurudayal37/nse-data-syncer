@@ -881,6 +881,9 @@ class ETF(Base):
     underlying_asset = Column(String(255))
     nav = Column(Float)
     is_active = Column(Integer, default=True)
+    security_id = Column(Integer)
+    isin = Column(String(20))
+    series = Column(String(10))
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime)
 

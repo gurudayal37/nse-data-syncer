@@ -61,5 +61,14 @@ jobs:
         run: |
           python scripts/sync_new_listings.py
 
+      - name: Sync ETF Data (Dhan)
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DHAN_CLIENT_ID: ${{ secrets.DHAN_CLIENT_ID }}
+          DHAN_PIN: ${{ secrets.DHAN_PIN }}
+          DHAN_TOTP_SECRET: ${{ secrets.DHAN_TOTP_SECRET }}
+        run: |
+          python scripts/sync_etf_daily.py
+
       - name: Log completion
-        run: echo "Dhan data sync (index, SME, new listings) completed at $(date)"
+        run: echo "Dhan data sync (index, SME, new listings, ETFs) completed at $(date)"

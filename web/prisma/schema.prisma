@@ -360,6 +360,9 @@ model etfs {
   underlying_asset String?            @db.VarChar(255)
   nav              Float?
   is_active        Int?               @default(1)
+  security_id      Int?
+  isin             String?            @db.VarChar(20)
+  series           String?            @db.VarChar(10)
   created_at       DateTime?          @default(now()) @db.Timestamp(6)
   updated_at       DateTime?          @db.Timestamp(6)
   etf_daily_prices etf_daily_prices[]

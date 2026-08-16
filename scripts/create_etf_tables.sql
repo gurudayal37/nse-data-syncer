@@ -5,7 +5,10 @@ CREATE TABLE IF NOT EXISTS etfs (
     name VARCHAR(255),
     underlying_asset VARCHAR(255),
     nav FLOAT,
-    is_active BOOLEAN DEFAULT true,
+    is_active INTEGER DEFAULT 1,
+    security_id INTEGER,
+    isin VARCHAR(20),
+    series VARCHAR(10),
     created_at TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP(6)
 );
@@ -29,6 +32,7 @@ CREATE TABLE IF NOT EXISTS etf_daily_prices (
 CREATE INDEX IF NOT EXISTS ix_etf_daily_prices_id ON etf_daily_prices(id);
 CREATE INDEX IF NOT EXISTS ix_etf_daily_prices_date ON etf_daily_prices(date);
 CREATE INDEX IF NOT EXISTS ix_etf_daily_prices_etf_date ON etf_daily_prices(etf_id, date DESC);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_etf_daily_prices_etf_date ON etf_daily_prices(etf_id, date);
 
 CREATE TABLE IF NOT EXISTS etf_performance (
     id SERIAL PRIMARY KEY,

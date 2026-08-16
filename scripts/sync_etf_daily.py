@@ -1,165 +1,246 @@
+"""Sync NSE ETF OHLCV into the etfs / etf_daily_prices / etf_performance
+tables using Dhan's historical daily-candle API.
+
+The universe (which symbols count as ETFs) is resolved live from Dhan's own
+instrument master rather than a static downloaded CSV (data/MW-ETF-*.csv) -
+self-updating as new ETFs list, no manual re-download needed. NSE ETF/mutual
+fund units carry ISIN prefix 'INF' (regular equity shares are 'INE' - this is
+the NSDL/CDSL ISIN numbering standard, not something that drifts); combined
+with EXCH_ID=NSE, SEGMENT=E, SERIES=EQ this reproduces the old manually
+curated CSV list exactly (328/328 matched) while also picking up 14 ETFs
+listed since the last CSV snapshot. Dhan's own INSTRUMENT_TYPE='ETF' tag is
+NOT used alone as the filter - it's occasionally wrong (e.g. INFRABEES is
+mistagged 'MF') - the ISIN rule is the reliable one.
+
+Same discovery + incremental-window pattern as sync_sme_stocks.py /
+sync_new_listings.py: new ETFs get a full history backfill; ETFs that
+already have data only re-fetch the last INCREMENTAL_WINDOW_DAYS to keep
+daily runs cheap.
+
+Requires DHAN_CLIENT_ID, DHAN_PIN and DHAN_TOTP_SECRET in web/.env - same
+Dhan account already used by sync_dhan_indices.py, no new secrets.
 """
-Daily ETF data sync script
-Fetches latest OHLCV data for all ETFs and updates performance metrics
-"""
-import os
-import sys
-from datetime import datetime, timedelta
-import yfinance as yf
+import sys, os, time
 import pandas as pd
+import pyotp
+import requests
+from sqlalchemy import text
+from datetime import datetime, timedelta
 from dotenv import load_dotenv
+from psycopg2.extras import execute_values
 
-# Load environment variables
-load_dotenv('web/.env')
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(base_dir, 'web', '.env'))
+sys.path.append(base_dir)
+from app.database import DatabaseManager
 
-# Ensure we can import from app
-sys.path.append(os.getcwd())
+DHAN_CLIENT_ID = os.getenv('DHAN_CLIENT_ID')
+DHAN_PIN = os.getenv('DHAN_PIN')
+DHAN_TOTP_SECRET = os.getenv('DHAN_TOTP_SECRET')
+DHAN_TOKEN_URL = 'https://auth.dhan.co/app/generateAccessToken'
+DHAN_HISTORICAL_URL = 'https://api.dhan.co/v2/charts/historical'
+DHAN_SCRIP_MASTER_URL = 'https://images.dhan.co/api-data/api-scrip-master-detailed.csv'
 
-from app.database import DatabaseManager, ETF
-from app.helpers import validate_data_mismatch
-from app.constants import VALIDATION_RECORDS_COUNT
+HISTORY_START = '2010-01-01'
+INCREMENTAL_WINDOW_DAYS = 90
 
-# Database URL
-DB_URL = os.getenv('DATABASE_URL')
-if not DB_URL:
-    raise ValueError("DATABASE_URL environment variable is not set.")
 
-def sync_etf_daily():
-    """Sync daily ETF data - fetch latest prices and update performance metrics"""
-    print(f"Starting ETF daily sync at {datetime.now()}")
-    
-    db = DatabaseManager(db_url=DB_URL)
-    
-    # Get all active ETFs
-    etf_map = db.get_etf_symbol_map()
-    
-    if not etf_map:
-        print("No ETFs found in database")
-        return
-    
-    print(f"Found {len(etf_map)} ETFs to sync")
-    
-    # Get last 5 trading days to ensure we don't miss any data
-    end_date = datetime.now()
-    start_date = end_date - timedelta(days=90)
-    
-    successful = 0
-    failed = 0
-    
-    # Process in batches
-    symbols = list(etf_map.keys())
-    batch_size = 50
-    
-    for i in range(0, len(symbols), batch_size):
-        batch = symbols[i:i+batch_size]
-        batch_num = i//batch_size + 1
-        total_batches = (len(symbols) + batch_size - 1) // batch_size
-        
-        print(f"\nProcessing batch {batch_num}/{total_batches} ({len(batch)} ETFs)...")
-        
-        # Add .NS suffix for NSE
-        yf_symbols = [f"{s}.NS" for s in batch]
-        
-        try:
-            data = yf.download(
-                yf_symbols,
-                start=start_date.strftime('%Y-%m-%d'),
-                end=end_date.strftime('%Y-%m-%d'),
-                group_by='ticker',
-                threads=True,
-                progress=False,
-                auto_adjust=False
-            )
-            
-            if data.empty:
-                print(f"  No data returned for batch {batch_num}")
-                failed += len(batch)
-                continue
-            
-            # Process each ETF
-            for symbol in batch:
-                yf_sym = f"{symbol}.NS"
-                etf_id = etf_map[symbol]
-                
-                try:
-                    # Handle single vs multiple symbols
-                    if len(batch) == 1:
-                        etf_df = data.copy()
-                    else:
-                        if yf_sym not in data.columns:
-                            print(f"  ⚠️  {symbol}: No data available")
-                            failed += 1
-                            continue
-                        etf_df = data[yf_sym].copy()
-                    
-                    # Drop rows with no close price
-                    etf_df.dropna(subset=['Close'], inplace=True)
-                    
-                    if etf_df.empty:
-                        print(f"  ⚠️  {symbol}: No valid data")
-                        failed += 1
-                        continue
-                    
-                    # Validation: Check for mismatches
-                    last_records = db.get_etf_last_n_records(etf_id, n=VALIDATION_RECORDS_COUNT)
-                    if validate_data_mismatch(symbol, etf_df, last_records):
-                        print(f"  ⚠️  Mismatch confirmed for {symbol}. Cleaning up and re-syncing...")
-                        db.delete_etf_prices(etf_id)
-                        
-                        # Re-fetch full history for this specific ETF
-                        print(f"  🔄  Resyncing {symbol} from scratch...")
-                        full_data = yf.download(yf_sym, period="max", progress=False, auto_adjust=False)
-                        if not full_data.empty:
-                            etf_df = full_data
-                            print(f"     Resynced {len(etf_df)} records.")
-                        else:
-                            print(f"     Failed to resync {symbol}.")
-                            failed += 1
-                            continue
+def generate_access_token() -> str:
+    """Mint a fresh 24h access token via Dhan's TOTP login flow (no browser needed).
 
-                    # Insert daily prices (will skip duplicates based on date)
-                    # Check last synced date to avoid duplicates
-                    last_synced_date = db.get_etf_last_synced_date(etf_id)
-                    
-                    if last_synced_date:
-                        # Ensure last_synced_date is timezone-naive/aware matching df
-                        last_ts = pd.Timestamp(last_synced_date)
-                        if etf_df.index.tz is not None and last_ts.tz is None:
-                             last_ts = last_ts.tz_localize(etf_df.index.tz)
-                        elif etf_df.index.tz is None and last_ts.tz is not None:
-                             last_ts = last_ts.tz_convert(None)
-                             
-                        etf_df_to_insert = etf_df[etf_df.index > last_ts]
-                    else:
-                        etf_df_to_insert = etf_df
+    Note: Dhan rate-limits this to once every 2 minutes per account.
+    """
+    totp_code = pyotp.TOTP(DHAN_TOTP_SECRET).now()
+    resp = requests.post(
+        DHAN_TOKEN_URL,
+        params={
+            "dhanClientId": DHAN_CLIENT_ID,
+            "pin": DHAN_PIN,
+            "totp": totp_code,
+        },
+        timeout=30,
+    )
+    resp.raise_for_status()
+    data = resp.json()
+    if 'accessToken' not in data:
+        raise RuntimeError(f"Dhan token generation failed: {data.get('message', data)}")
+    return data['accessToken']
 
-                    if not etf_df_to_insert.empty:
-                        db.insert_etf_daily_prices(etf_id, etf_df_to_insert)
-                        print(f"  ✓ {symbol}: {len(etf_df_to_insert)} new records synced")
-                        successful += 1
-                    else:
-                        print(f"  - {symbol}: No new data")
-                        successful += 1 # Count as success even if no new data
 
-                    # Update performance metrics
-                    db.update_etf_performance_metrics(etf_id)
-                    
-                except Exception as e:
-                    print(f"  ✗ {symbol}: Error - {e}")
-                    failed += 1
-                    
-        except Exception as e:
-            print(f"Error in batch {batch_num}: {e}")
-            failed += len(batch)
-    
-    print(f"\n{'='*60}")
-    print(f"ETF Daily Sync Complete!")
-    print(f"{'='*60}")
-    print(f"Total ETFs: {len(symbols)}")
-    print(f"Successful: {successful}")
-    print(f"Failed: {failed}")
-    print(f"Completed at: {datetime.now()}")
-    print(f"{'='*60}")
+def load_etf_universe() -> pd.DataFrame:
+    """Download Dhan's instrument master and filter to NSE-listed ETFs.
+    Returns columns: security_id, symbol, name, isin, series."""
+    df = pd.read_csv(DHAN_SCRIP_MASTER_URL, low_memory=False)
+    etf = df[
+        (df['EXCH_ID'] == 'NSE')
+        & (df['SEGMENT'] == 'E')
+        & (df['SERIES'] == 'EQ')
+        & (df['ISIN'].astype(str).str.startswith('INF'))
+    ].copy()
+    etf = etf.rename(columns={
+        'SECURITY_ID': 'security_id',
+        'UNDERLYING_SYMBOL': 'symbol',
+        'DISPLAY_NAME': 'name',
+        'ISIN': 'isin',
+        'SERIES': 'series',
+    })[['security_id', 'symbol', 'name', 'isin', 'series']]
+    etf = etf.dropna(subset=['symbol']).drop_duplicates(subset='symbol')
+    return etf.reset_index(drop=True)
 
-if __name__ == "__main__":
-    sync_etf_daily()
+
+def fetch_dhan_history(security_id: int, from_date: str, to_date: str, access_token: str, retries: int = 3) -> pd.DataFrame:
+    payload = {
+        "securityId": str(security_id),
+        "exchangeSegment": "NSE_EQ",
+        "instrument": "EQUITY",
+        "expiryCode": 0,
+        "oi": False,
+        "fromDate": from_date,
+        "toDate": to_date,
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "access-token": access_token,
+        "client-id": DHAN_CLIENT_ID,
+    }
+
+    for attempt in range(1, retries + 1):
+        resp = requests.post(DHAN_HISTORICAL_URL, json=payload, headers=headers, timeout=30)
+        if resp.status_code == 429:
+            time.sleep(2 * attempt)
+            continue
+        if resp.status_code != 200:
+            print(f"    HTTP {resp.status_code}: {resp.text[:300]}")
+            return pd.DataFrame()
+        data = resp.json()
+        if not data.get('timestamp'):
+            return pd.DataFrame()
+
+        df = pd.DataFrame({
+            'date': pd.to_datetime(data['timestamp'], unit='s', utc=True).tz_convert('Asia/Kolkata').date,
+            'open': data.get('open'),
+            'high': data.get('high'),
+            'low': data.get('low'),
+            'close': data.get('close'),
+            'volume': data.get('volume'),
+        })
+        df['date'] = pd.to_datetime(df['date'])
+        df = df.drop_duplicates(subset='date', keep='last').reset_index(drop=True)
+        return df
+
+    print("    Giving up after repeated rate-limit errors")
+    return pd.DataFrame()
+
+
+def upsert_etf(session, symbol, name, isin, security_id, series) -> int:
+    row = session.execute(
+        text("SELECT id FROM etfs WHERE symbol = :s"), {'s': symbol}
+    ).fetchone()
+    if row:
+        # Only refresh the Dhan-sourced identity fields - never clobber
+        # underlying_asset/nav, which may hold better hand-curated data
+        # from the original CSV-based population.
+        session.execute(text("""
+            UPDATE etfs SET name = :n, isin = :i, security_id = :sid, series = :sr, updated_at = NOW()
+            WHERE id = :id
+        """), {'n': name, 'i': isin, 'sid': security_id, 'sr': series, 'id': row[0]})
+        session.commit()
+        return row[0]
+    row = session.execute(
+        text("""
+            INSERT INTO etfs (symbol, name, isin, security_id, series, is_active, created_at, updated_at)
+            VALUES (:s, :n, :i, :sid, :sr, 1, NOW(), NOW())
+            RETURNING id
+        """),
+        {'s': symbol, 'n': name, 'i': isin, 'sid': security_id, 'sr': series}
+    ).fetchone()
+    session.commit()
+    print(f"  + new ETF discovered: {symbol} ({name})")
+    return row[0]
+
+
+def sync_prices(session, etf_id: int, security_id: int, access_token: str) -> int:
+    last_date = session.execute(
+        text("SELECT MAX(date) FROM etf_daily_prices WHERE etf_id = :id"),
+        {'id': etf_id}
+    ).scalar()
+
+    if last_date:
+        from_date = (last_date - timedelta(days=INCREMENTAL_WINDOW_DAYS)).strftime('%Y-%m-%d')
+    else:
+        from_date = HISTORY_START  # brand-new ETF - full backfill
+
+    to_date = datetime.now().strftime('%Y-%m-%d')
+    df = fetch_dhan_history(security_id, from_date, to_date, access_token)
+    if df.empty:
+        return 0
+
+    records = []
+    for _, row in df.iterrows():
+        records.append((
+            etf_id,
+            row['date'].strftime('%Y-%m-%d'),
+            float(row['open']) if pd.notna(row['open']) else None,
+            float(row['high']) if pd.notna(row['high']) else None,
+            float(row['low']) if pd.notna(row['low']) else None,
+            float(row['close']) if pd.notna(row['close']) else None,
+            int(row['volume']) if pd.notna(row['volume']) else None,
+        ))
+
+    raw_conn = session.bind.raw_connection()
+    try:
+        cursor = raw_conn.cursor()
+        execute_values(cursor, """
+            INSERT INTO etf_daily_prices
+                (etf_id, date, open_price, high_price, low_price, close_price, volume)
+            VALUES %s
+            ON CONFLICT (etf_id, date) DO UPDATE SET
+                open_price  = EXCLUDED.open_price,
+                high_price  = EXCLUDED.high_price,
+                low_price   = EXCLUDED.low_price,
+                close_price = EXCLUDED.close_price,
+                volume      = EXCLUDED.volume
+        """, records, page_size=500)
+        raw_conn.commit()
+        cursor.close()
+    except Exception:
+        raw_conn.rollback()
+        raise
+    finally:
+        raw_conn.close()
+
+    return len(records)
+
+
+def main():
+    if not DHAN_CLIENT_ID or not DHAN_PIN or not DHAN_TOTP_SECRET:
+        print("DHAN_CLIENT_ID / DHAN_PIN / DHAN_TOTP_SECRET not set in web/.env")
+        sys.exit(1)
+
+    print("=== Syncing NSE ETFs from Dhan ===")
+    universe = load_etf_universe()
+    print(f"Universe: {len(universe)} ETFs from Dhan's instrument master")
+
+    access_token = generate_access_token()
+    print("Generated fresh Dhan access token via TOTP")
+
+    db = DatabaseManager()
+    session = db.Session()
+    try:
+        total_rows = 0
+        for i, row in enumerate(universe.itertuples(index=False), start=1):
+            etf_id = upsert_etf(session, row.symbol, row.name, row.isin, int(row.security_id), row.series)
+            n = sync_prices(session, etf_id, int(row.security_id), access_token)
+            total_rows += n
+            if n:
+                db.update_etf_performance_metrics(etf_id)
+            if i % 50 == 0:
+                print(f"  Processed {i}/{len(universe)}...")
+            time.sleep(0.5)  # be gentle with Dhan's rate limits
+        print(f"\nDone. Upserted {total_rows} price rows across {len(universe)} ETFs.")
+    finally:
+        session.close()
+
+
+if __name__ == '__main__':
+    main()
