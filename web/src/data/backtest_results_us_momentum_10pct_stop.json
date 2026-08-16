@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 153348.25,
-      "total_fees_paid": 2680.93,
+      "end_value": 158075.04,
+      "total_fees_paid": 2692.25,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 53.35,
-      "benchmark_return": 13.2,
-      "expectancy": 5.97,
-      "net_return_after_fees": 50.67
+      "total_return": 58.08,
+      "benchmark_return": 12.95,
+      "expectancy": 6.37,
+      "net_return_after_fees": 55.38
     },
     "risk_metrics": {
       "max_drawdown": -10.0,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 2.08,
-      "calmar_ratio": 8.99,
-      "omega_ratio": 3.73,
-      "sortino_ratio": 16.34
+      "sharpe_ratio": 2.23,
+      "calmar_ratio": 9.87,
+      "omega_ratio": 3.92,
+      "sortino_ratio": 17.44
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -77,9 +77,9 @@
       "win_rate": 75.0,
       "best_trade": 18.68,
       "worst_trade": -10.0,
-      "avg_winning_trade": 10.87,
+      "avg_winning_trade": 11.4,
       "avg_losing_trade": -8.74,
-      "profit_factor": 3.73,
+      "profit_factor": 3.92,
       "total_stock_transactions": 115,
       "total_closed_trades": 7,
       "total_open_trades": 1,
@@ -9404,24 +9404,24 @@
   "current_performance": [
     {
       "month": "2026-08",
-      "portfolio_return": 4.14,
-      "benchmark_return": 4.18,
+      "portfolio_return": 7.35,
+      "benchmark_return": 3.95,
       "holdings": [
         {
           "symbol": "SNDK",
-          "return": 10.66,
+          "return": 35.09,
           "score": 6.32,
           "stop_triggered": false
         },
         {
           "symbol": "CLDT",
-          "return": -4.95,
+          "return": -2.55,
           "score": 3.39,
           "stop_triggered": false
         },
         {
           "symbol": "DELL",
-          "return": 19.52,
+          "return": 21.08,
           "score": 3.26,
           "stop_triggered": false
         },
@@ -9433,7 +9433,7 @@
         },
         {
           "symbol": "PANW",
-          "return": 16.63,
+          "return": 15.8,
           "score": 2.75,
           "stop_triggered": false
         },
@@ -9445,13 +9445,13 @@
         },
         {
           "symbol": "DD",
-          "return": 5.38,
+          "return": 6.76,
           "score": 2.71,
           "stop_triggered": false
         },
         {
           "symbol": "MU",
-          "return": 10.72,
+          "return": 18.06,
           "score": 2.7,
           "stop_triggered": false
         },
@@ -9463,25 +9463,25 @@
         },
         {
           "symbol": "FTNT",
-          "return": -0.69,
+          "return": -1.2,
           "score": 2.5,
           "stop_triggered": false
         },
         {
           "symbol": "HPE",
-          "return": 22.73,
+          "return": 22.57,
           "score": 2.44,
           "stop_triggered": false
         },
         {
           "symbol": "RVMD",
-          "return": 9.45,
+          "return": 8.63,
           "score": 2.39,
           "stop_triggered": false
         },
         {
           "symbol": "STX",
-          "return": 2.58,
+          "return": 13.7,
           "score": 2.3,
           "stop_triggered": false
         },
@@ -9493,7 +9493,7 @@
         },
         {
           "symbol": "MPC",
-          "return": 10.04,
+          "return": 12.31,
           "score": 2.22,
           "stop_triggered": false
         }
