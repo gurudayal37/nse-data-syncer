@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { TrendingUp, Database, PieChart, Calendar, BarChart3, Activity, Zap, Building2, Rocket } from 'lucide-react'
+import { TrendingUp, Database, PieChart, Calendar, BarChart3, Activity, Zap, Building2, Rocket, Flame } from 'lucide-react'
 import GlobalSearch from './GlobalSearch'
 
 const NAV_LINKS = [
@@ -15,6 +15,7 @@ const NAV_LINKS = [
   { label: 'Indices',  href: '/indices',                         icon: BarChart3 },
   { label: 'Breadth',  href: '/market-breadth',                  icon: Activity  },
   { label: 'Vol Shockers', href: '/volume-shockers',             icon: Zap       },
+  { label: 'ETF Wick Fade', href: '/etf-live-strategy',          icon: Flame     },
 ]
 
 export default function Navbar() {

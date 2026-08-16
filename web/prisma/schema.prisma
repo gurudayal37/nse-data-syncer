@@ -367,6 +367,7 @@ model etfs {
   updated_at       DateTime?          @db.Timestamp(6)
   etf_daily_prices etf_daily_prices[]
   etf_performance  etf_performance?
+  etf_live_strategy_picks etf_live_strategy_picks[]
 
   @@index([id], map: "ix_etfs_id")
   @@index([symbol], map: "ix_etfs_symbol")
@@ -413,6 +414,34 @@ model etf_performance {
   @@index([change_5y])
   @@index([daily_volume])
   @@index([avg_range_20d])
+}
+
+model etf_live_strategy_picks {
+  id                Int       @id @default(autoincrement())
+  trade_date        DateTime  @db.Date
+  etf_id            Int
+  symbol            String    @db.VarChar(50)
+  rank              Int
+  prev_close        Float
+  open_eq_high_pct  Float
+  avg_fade_pct      Float
+  fade_score        Float
+  avg_daily_volume  BigInt?
+  sell_price        Float
+  quantity          Int
+  notional          Float
+  entry_achieved    Boolean?  @default(false)
+  entry_achieved_at DateTime? @db.Timestamptz(6)
+  entry_ltp         Float?
+  exit_ltp          Float?
+  exit_captured_at  DateTime? @db.Timestamptz(6)
+  last_checked_at   DateTime? @db.Timestamptz(6)
+  last_ltp          Float?
+  created_at        DateTime? @default(now()) @db.Timestamptz(6)
+  etfs              etfs      @relation(fields: [etf_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([trade_date, etf_id], map: "ux_etf_live_strategy_date_etf")
+  @@index([trade_date], map: "ix_etf_live_strategy_trade_date")
 }
 
 model sme_stocks {

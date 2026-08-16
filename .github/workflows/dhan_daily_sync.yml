@@ -70,5 +70,13 @@ jobs:
         run: |
           python scripts/sync_etf_daily.py
 
+      # No Dhan login here - reads only from etf_daily_prices, already fresh
+      # from the step above. Just needs the DB connection.
+      - name: Compute ETF Live Strategy Picks
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          python scripts/compute_etf_live_strategy.py
+
       - name: Log completion
-        run: echo "Dhan data sync (index, SME, new listings, ETFs) completed at $(date)"
+        run: echo "Dhan data sync (index, SME, new listings, ETFs, live strategy picks) completed at $(date)"
