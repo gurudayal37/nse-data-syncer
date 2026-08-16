@@ -45,7 +45,7 @@ export default async function EtfLiveStrategyPage() {
                         <Flame className="w-7 h-7 text-orange-500" />
                         <h1 className="text-3xl font-bold text-gray-900">ETF Opening Wick Fade</h1>
                     </div>
-                    <p className="text-gray-500 mt-2 max-w-3xl">
+                    <p className="text-gray-500 mt-2">
                         Top 10 ETFs ranked by how often their own opening print is the day&apos;s high, and by how much
                         they typically fade from open to close. Sell price is set at half each ETF&apos;s own average fade
                         above yesterday&apos;s close; target buy price assumes a full reversion back to yesterday&apos;s
