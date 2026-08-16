@@ -104,7 +104,7 @@ export default async function EtfLiveStrategyPage() {
                                             <th className="px-4 py-3">#</th>
                                             <th className="px-4 py-3">Symbol</th>
                                             <th className="px-4 py-3 text-right">Prev Close</th>
-                                            <th className="px-4 py-3 text-right">Sell Price (GTT)</th>
+                                            <th className="px-4 py-3 text-right">Sell Price (MIS, 9:00-9:08)</th>
                                             <th className="px-4 py-3 text-right">Target Buy Price</th>
                                             <th className="px-4 py-3 text-right">Quantity</th>
                                             <th className="px-4 py-3 text-right">Notional</th>
@@ -160,6 +160,7 @@ export default async function EtfLiveStrategyPage() {
                 <div className="mt-6 bg-amber-50 border border-amber-200 rounded-lg p-5 text-sm text-amber-900">
                     <p className="font-semibold mb-1">Before placing anything</p>
                     <ul className="list-disc list-inside space-y-1">
+                        <li><strong>Not a GTT order.</strong> GTT doesn&apos;t support MIS/intraday, and even where it applies it fires a fresh order on trigger rather than resting in the auction book. Place a plain MIS limit SELL order directly during the 9:00-9:08 AM pre-open window instead — that&apos;s what actually participates in the call auction.</li>
                         <li>Confirm intraday short-selling (MIS) is actually enabled on your broker for each symbol — thin, newly-listed ETFs are sometimes excluded even when short-selling is allowed generally.</li>
                         <li>These prices are computed from the prior session&apos;s close and each ETF&apos;s own trailing 60-day fade history — not a guaranteed fill level.</li>
                         <li>&quot;Exit LTP (+5m)&quot; is informational only (price captured ~5 minutes after entry), not a resting order — you cover manually.</li>
