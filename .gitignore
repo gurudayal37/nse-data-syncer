@@ -68,3 +68,6 @@ results/
 # Live intraday trackers - run manually against real-time/live-quote APIs,
 # deliberately not committed (per explicit instruction, not just an oversight)
 scripts/track_etf_live_strategy.py
+scripts/tick_collector_etf_live_strategy.py
+data/etf_ticks_*.csv
+data/etf_live_depth_log_*.csv
