@@ -228,16 +228,33 @@ def main():
     session = db.Session()
     try:
         total_rows = 0
+        symbols_with_data = 0
         for i, row in enumerate(universe.itertuples(index=False), start=1):
             etf_id = upsert_etf(session, row.symbol, row.name, row.isin, int(row.security_id), row.series)
             n = sync_prices(session, etf_id, int(row.security_id), access_token)
             total_rows += n
             if n:
+                symbols_with_data += 1
                 db.update_etf_performance_metrics(etf_id)
             if i % 50 == 0:
                 print(f"  Processed {i}/{len(universe)}...")
             time.sleep(0.5)  # be gentle with Dhan's rate limits
-        print(f"\nDone. Upserted {total_rows} price rows across {len(universe)} ETFs.")
+        print(f"\nDone. Upserted {total_rows} price rows across {len(universe)} ETFs "
+              f"({symbols_with_data} symbols got at least one new row).")
+
+        # On any normal trading day, nearly every ETF should get exactly one new
+        # row (today's close). A run where hardly anyone did - even though every
+        # individual fetch_dhan_history() failure is swallowed as "just no new
+        # data" rather than raised - means something systemic happened (Dhan's
+        # EOD data not published yet when this ran, a transient outage, a wrong
+        # security_id, etc). That's exactly what happened on 2026-08-17: every
+        # ETF's sync silently no-opped, the job exited 0, and nobody noticed
+        # until the /etf-live-strategy page was still showing Monday's picks on
+        # Tuesday morning. Fail loudly instead of quietly no-opping.
+        if len(universe) >= 50 and symbols_with_data < len(universe) * 0.5:
+            print(f"\nERROR: only {symbols_with_data}/{len(universe)} ETFs got new data - "
+                  f"expected close to all of them. Treating this as a failed run.")
+            sys.exit(1)
     finally:
         session.close()
 

@@ -148,6 +148,22 @@ def main():
         trade_date = next_trading_day(last_date)
         print(f"Picks computed as of {last_date}, for trading session {trade_date}")
 
+        # Defense in depth: this script runs right after sync_etf_daily.py in
+        # the same job, so a healthy sync means last_date is "today" (or the
+        # most recent trading day). If it's stale by more than a long weekend's
+        # worth of days, sync_etf_daily.py silently no-opped (or this got run
+        # standalone against stale data) - don't compute a trade_date for a
+        # session that's already in the past. This is what actually happened
+        # on 2026-08-17: the ETF sync no-opped, this script still ran and
+        # happily wrote trade_date=Mon Aug 17 again, and the page kept showing
+        # Monday's picks all through Tuesday morning with nothing to flag it.
+        staleness_days = (datetime.now().date() - last_date.date()).days
+        if staleness_days > 4:
+            print(f"\nERROR: freshest ETF close data is from {last_date.date()}, "
+                  f"{staleness_days} days old. Refusing to compute picks from stale "
+                  f"data - check whether sync_etf_daily.py actually synced today.")
+            sys.exit(1)
+
         session.execute(text("DELETE FROM etf_live_strategy_picks WHERE trade_date = :d"), {'d': trade_date})
 
         for rank, r in enumerate(top, start=1):
