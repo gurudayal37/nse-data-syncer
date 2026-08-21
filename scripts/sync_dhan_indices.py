@@ -139,6 +139,30 @@ def generate_access_token() -> str:
     return data['accessToken']
 
 
+def _read_shared_token():
+    """Read the token minted once for the whole job by generate_dhan_token.py
+    (see dhan_daily_sync.yml) - a file path, never an env var holding the raw
+    value, since that would put a live account credential in a public repo's
+    workflow config/logs."""
+    token_file = os.getenv('DHAN_TOKEN_FILE')
+    if not token_file or not os.path.exists(token_file):
+        return None
+    with open(token_file) as f:
+        return f.read().strip() or None
+
+
+def _is_invalid_token(resp: requests.Response) -> bool:
+    """DH-906 means the access token itself was rejected - distinct from an
+    index just having no data. Once this hits, every remaining request in
+    the run is guaranteed to fail the same way (see the token-collision note
+    above), so callers abort instead of grinding through the rest of
+    DHAN_INDICES doomed and exiting 0 anyway."""
+    try:
+        return resp.json().get('errorCode') == 'DH-906'
+    except ValueError:
+        return False
+
+
 def fetch_dhan_history(security_id: int, from_date: str, to_date: str, access_token: str, retries: int = 3) -> pd.DataFrame:
     payload = {
         "securityId": str(security_id),
@@ -162,6 +186,11 @@ def fetch_dhan_history(security_id: int, from_date: str, to_date: str, access_to
             continue
         if resp.status_code != 200:
             print(f"    HTTP {resp.status_code}: {resp.text[:300]}")
+            if _is_invalid_token(resp):
+                raise RuntimeError(
+                    "Dhan access token invalid/expired mid-run (DH-906) - aborting "
+                    "instead of silently failing every remaining request."
+                )
             return pd.DataFrame()
         data = resp.json()
         if not data.get('timestamp'):
@@ -317,8 +346,12 @@ def main():
         sys.exit(1)
 
     print("=== Syncing NSE + BSE Indices from Dhan ===")
-    access_token = generate_access_token()
-    print("Generated fresh Dhan access token via TOTP")
+    access_token = _read_shared_token()
+    if access_token:
+        print("Using shared Dhan access token (minted once for this job)")
+    else:
+        access_token = generate_access_token()
+        print("Generated fresh Dhan access token via TOTP")
 
     db = DatabaseManager()
     session = db.Session()

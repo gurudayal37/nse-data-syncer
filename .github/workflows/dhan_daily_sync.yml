@@ -27,19 +27,35 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # These three scripts each mint their own Dhan TOTP login. Running them as
-      # sequential steps in one job (rather than separate scheduled workflows)
-      # is what actually fixes the token collision: each script runs to full
-      # completion - several minutes of real sync work - before the next one
-      # logs in, so no two logins land in the same TOTP window regardless of
-      # GitHub's cron queue drift (previously observed causing collisions even
-      # with a 5min schedule gap between separate workflows).
+      # One Dhan TOTP login for the whole job, reused by every sync step below
+      # via DHAN_TOKEN_FILE (each script falls back to minting its own if
+      # that's unset, for standalone/manual runs). Previously each script
+      # minted its own login as a sequential step, on the assumption every
+      # script takes "several minutes" so no two logins land in the same TOTP
+      # window - that broke the day a step finished quickly and the next
+      # step's login landed too close behind it, which Dhan rejects outright
+      # with "Invalid TOTP" (not just a rate-limit). Minting once removes the
+      # whole class of collision instead of relying on runtime spacing.
+      #
+      # The token is written straight to a file on the runner's ephemeral
+      # disk (wiped with the rest of the workspace when the job ends) - never
+      # printed, never a step output. This is a public repo and a live,
+      # full-access credential for a real brokerage account, so it must never
+      # touch anything that ends up in Actions logs.
+      - name: Generate Dhan Access Token
+        env:
+          DHAN_CLIENT_ID: ${{ secrets.DHAN_CLIENT_ID }}
+          DHAN_PIN: ${{ secrets.DHAN_PIN }}
+          DHAN_TOTP_SECRET: ${{ secrets.DHAN_TOTP_SECRET }}
+        run: python scripts/generate_dhan_token.py --out "$RUNNER_TEMP/dhan_token"
+
       - name: Sync Index Data (Dhan)
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DHAN_CLIENT_ID: ${{ secrets.DHAN_CLIENT_ID }}
           DHAN_PIN: ${{ secrets.DHAN_PIN }}
           DHAN_TOTP_SECRET: ${{ secrets.DHAN_TOTP_SECRET }}
+          DHAN_TOKEN_FILE: ${{ runner.temp }}/dhan_token
         run: |
           python scripts/sync_dhan_indices.py
 
@@ -49,6 +65,7 @@ jobs:
           DHAN_CLIENT_ID: ${{ secrets.DHAN_CLIENT_ID }}
           DHAN_PIN: ${{ secrets.DHAN_PIN }}
           DHAN_TOTP_SECRET: ${{ secrets.DHAN_TOTP_SECRET }}
+          DHAN_TOKEN_FILE: ${{ runner.temp }}/dhan_token
         run: |
           python scripts/sync_sme_stocks.py
 
@@ -58,6 +75,7 @@ jobs:
           DHAN_CLIENT_ID: ${{ secrets.DHAN_CLIENT_ID }}
           DHAN_PIN: ${{ secrets.DHAN_PIN }}
           DHAN_TOTP_SECRET: ${{ secrets.DHAN_TOTP_SECRET }}
+          DHAN_TOKEN_FILE: ${{ runner.temp }}/dhan_token
         run: |
           python scripts/sync_new_listings.py
 
@@ -67,6 +85,7 @@ jobs:
           DHAN_CLIENT_ID: ${{ secrets.DHAN_CLIENT_ID }}
           DHAN_PIN: ${{ secrets.DHAN_PIN }}
           DHAN_TOTP_SECRET: ${{ secrets.DHAN_TOTP_SECRET }}
+          DHAN_TOKEN_FILE: ${{ runner.temp }}/dhan_token
         run: |
           python scripts/sync_etf_daily.py
 

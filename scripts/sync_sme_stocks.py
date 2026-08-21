@@ -69,6 +69,18 @@ def generate_access_token() -> str:
     return data['accessToken']
 
 
+def _read_shared_token():
+    """Read the token minted once for the whole job by generate_dhan_token.py
+    (see dhan_daily_sync.yml) - a file path, never an env var holding the raw
+    value, since that would put a live account credential in a public repo's
+    workflow config/logs."""
+    token_file = os.getenv('DHAN_TOKEN_FILE')
+    if not token_file or not os.path.exists(token_file):
+        return None
+    with open(token_file) as f:
+        return f.read().strip() or None
+
+
 def load_sme_universe() -> pd.DataFrame:
     """Download Dhan's instrument master and filter to NSE SME-board equities.
     Returns columns: security_id, symbol, name, isin, series."""
@@ -87,6 +99,18 @@ def load_sme_universe() -> pd.DataFrame:
     })[['security_id', 'symbol', 'name', 'isin', 'series']]
     sme = sme.dropna(subset=['symbol']).drop_duplicates(subset='symbol')
     return sme.reset_index(drop=True)
+
+
+def _is_invalid_token(resp: requests.Response) -> bool:
+    """DH-906 means the access token itself was rejected - distinct from a
+    symbol just having no data. Once this hits, every remaining request in
+    the run is guaranteed to fail the same way (see sync_dhan_indices.py's
+    docstring on token collisions), so callers abort instead of grinding
+    through hundreds more doomed requests and exiting 0 anyway."""
+    try:
+        return resp.json().get('errorCode') == 'DH-906'
+    except ValueError:
+        return False
 
 
 def fetch_dhan_history(security_id: int, from_date: str, to_date: str, access_token: str, retries: int = 3) -> pd.DataFrame:
@@ -112,6 +136,11 @@ def fetch_dhan_history(security_id: int, from_date: str, to_date: str, access_to
             continue
         if resp.status_code != 200:
             print(f"    HTTP {resp.status_code}: {resp.text[:300]}")
+            if _is_invalid_token(resp):
+                raise RuntimeError(
+                    "Dhan access token invalid/expired mid-run (DH-906) - aborting "
+                    "instead of silently failing every remaining request."
+                )
             return pd.DataFrame()
         data = resp.json()
         if not data.get('timestamp'):
@@ -272,8 +301,12 @@ def main():
     universe = load_sme_universe()
     print(f"Universe: {len(universe)} SME stocks from Dhan's instrument master")
 
-    access_token = generate_access_token()
-    print("Generated fresh Dhan access token via TOTP")
+    access_token = _read_shared_token()
+    if access_token:
+        print("Using shared Dhan access token (minted once for this job)")
+    else:
+        access_token = generate_access_token()
+        print("Generated fresh Dhan access token via TOTP")
 
     db = DatabaseManager()
     session = db.Session()
