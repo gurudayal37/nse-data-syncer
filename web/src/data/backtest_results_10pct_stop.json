@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 148423.06,
-      "total_fees_paid": 2281.15,
+      "end_value": 148369.14,
+      "total_fees_paid": 2281.02,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 48.42,
+      "total_return": 48.37,
       "benchmark_return": -7.19,
       "expectancy": 5.51,
-      "net_return_after_fees": 46.14
+      "net_return_after_fees": 46.09
     },
     "risk_metrics": {
       "max_drawdown": -8.4,
       "max_drawdown_duration": 2,
       "sharpe_ratio": 1.93,
-      "calmar_ratio": 9.62,
-      "omega_ratio": 4.33,
-      "sortino_ratio": 7.21
+      "calmar_ratio": 9.6,
+      "omega_ratio": 4.32,
+      "sortino_ratio": 7.2
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -79,11 +79,11 @@
       "win_rate": 62.5,
       "best_trade": 24.57,
       "worst_trade": -7.47,
-      "avg_winning_trade": 11.47,
+      "avg_winning_trade": 11.46,
       "avg_losing_trade": -4.42,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 4.33,
+      "profit_factor": 4.32,
       "total_stock_transactions": 114
     }
   },
@@ -15164,7 +15164,7 @@
   "current_performance": [
     {
       "month": "2026-08",
-      "portfolio_return": 10.09,
+      "portfolio_return": 10.05,
       "benchmark_return": -0.54,
       "holdings": [
         {
@@ -15188,8 +15188,8 @@
           "exit_date": null
         },
         {
-          "symbol": "MEGASOFT",
-          "return": 10.87,
+          "symbol": "SIGMAADV",
+          "return": 10.37,
           "score": 5.61,
           "entry_price": 623.55,
           "stop_triggered": false,

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-21T11:00:59",
+  "generated_at": "2026-08-23T17:50:05",
   "as_of_date": "2026-08-21",
   "universe": "High Cap (market_cap >= 2000 Cr)",
   "universe_size": 1063,
@@ -23,8 +23,8 @@
         },
         {
           "rank": 2,
-          "symbol": "MEGASOFT",
-          "name": "Megasoft Ltd",
+          "symbol": "SIGMAADV",
+          "name": "SIGMA ADVANCED SYSTEMS LIMITED",
           "market_cap_cr": 33300,
           "weighted_z": 4.995,
           "mr_3m": 2.0795,
@@ -103,8 +103,8 @@
         },
         {
           "rank": 10,
-          "symbol": "SGLTL",
-          "name": "Standard Glass Lining Technology Ltd",
+          "symbol": "SETL",
+          "name": "Standard Engineering Technology Limited",
           "market_cap_cr": 2739,
           "weighted_z": 2.8716,
           "mr_3m": 2.6641,
@@ -182,8 +182,8 @@
         },
         {
           "rank": 2,
-          "symbol": "MEGASOFT",
-          "name": "Megasoft Ltd",
+          "symbol": "SIGMAADV",
+          "name": "SIGMA ADVANCED SYSTEMS LIMITED",
           "market_cap_cr": 33300,
           "weighted_z": 5.7617,
           "mr_3m": 2.0795,

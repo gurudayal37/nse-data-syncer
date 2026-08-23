@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-21T11:01:35",
+  "generated_at": "2026-08-23T17:50:18",
   "current_month": "2026-08",
   "entry_date": "2026-08-03 00:00:00",
   "latest_date": "2026-08-21 00:00:00",
@@ -25,7 +25,7 @@
         "overdue": false
       },
       {
-        "rank": 9,
+        "rank": 8,
         "symbol": "YASHO",
         "name": "Yasho Industries Ltd",
         "entry_date": "2026-08-03 00:00:00",
@@ -40,7 +40,7 @@
         "overdue": false
       },
       {
-        "rank": 3,
+        "rank": 4,
         "symbol": "STLTECH",
         "name": "Sterlite Technologies Ltd",
         "entry_date": "2026-08-03 00:00:00",
@@ -55,14 +55,14 @@
         "overdue": false
       },
       {
-        "rank": 2,
-        "symbol": "MEGASOFT",
-        "name": "Megasoft Ltd",
+        "rank": 10,
+        "symbol": "SETL",
+        "name": "Standard Engineering Technology Limited",
         "entry_date": "2026-08-03 00:00:00",
-        "entry_price": 634.0,
-        "current_close": 691.35,
+        "entry_price": 276.95,
+        "current_close": 297.75,
         "current_date": "2026-08-21 00:00:00",
-        "return_pct": 9.05,
+        "return_pct": 7.51,
         "stop_hit": false,
         "stop_type": null,
         "stop_date": null,
@@ -70,7 +70,22 @@
         "overdue": false
       },
       {
-        "rank": 8,
+        "rank": 2,
+        "symbol": "SIGMAADV",
+        "name": "SIGMA ADVANCED SYSTEMS LIMITED",
+        "entry_date": "2026-08-03 00:00:00",
+        "entry_price": 634.0,
+        "current_close": 688.2,
+        "current_date": "2026-08-21 00:00:00",
+        "return_pct": 8.55,
+        "stop_hit": false,
+        "stop_type": null,
+        "stop_date": null,
+        "exit_date": null,
+        "overdue": false
+      },
+      {
+        "rank": 9,
         "symbol": "DIACABS",
         "name": "Diamond Power Infrastructure Ltd-$",
         "entry_date": "2026-08-03 00:00:00",
@@ -85,29 +100,14 @@
         "overdue": false
       },
       {
-        "rank": 12,
-        "symbol": "VENUSREM",
-        "name": "Venus Remedies Ltd",
-        "entry_date": "2026-08-03 00:00:00",
-        "entry_price": 1567.1,
-        "current_close": 1738.1,
-        "current_date": "2026-08-21 00:00:00",
-        "return_pct": 10.91,
-        "stop_hit": false,
-        "stop_type": null,
-        "stop_date": null,
-        "exit_date": null,
-        "overdue": false
-      },
-      {
         "rank": 15,
-        "symbol": "SGLTL",
-        "name": "Standard Glass Lining Technology Ltd",
+        "symbol": "ATHERENERG",
+        "name": "Ather Energy Ltd",
         "entry_date": "2026-08-03 00:00:00",
-        "entry_price": 276.95,
-        "current_close": 309.6,
+        "entry_price": 1269.0,
+        "current_close": 1462.0,
         "current_date": "2026-08-21 00:00:00",
-        "return_pct": 11.79,
+        "return_pct": 15.21,
         "stop_hit": false,
         "stop_type": null,
         "stop_date": null,
@@ -115,7 +115,7 @@
         "overdue": false
       },
       {
-        "rank": 5,
+        "rank": 6,
         "symbol": "HFCL",
         "name": "HFCL Limited",
         "entry_date": "2026-08-03 00:00:00",
@@ -160,7 +160,7 @@
         "overdue": false
       },
       {
-        "rank": 10,
+        "rank": 12,
         "symbol": "SHILPAMED",
         "name": "Shilpa Medicare Ltd",
         "entry_date": "2026-08-03 00:00:00",
@@ -175,22 +175,7 @@
         "overdue": false
       },
       {
-        "rank": 14,
-        "symbol": "HAPPYFORGE",
-        "name": "Happy Forgings Ltd",
-        "entry_date": "2026-08-03 00:00:00",
-        "entry_price": 1668.0,
-        "current_close": 2211.8,
-        "current_date": "2026-08-21 00:00:00",
-        "return_pct": 32.6,
-        "stop_hit": false,
-        "stop_type": null,
-        "stop_date": null,
-        "exit_date": null,
-        "overdue": false
-      },
-      {
-        "rank": 6,
+        "rank": 3,
         "symbol": "WELCORP",
         "name": "Welspun Corp Limited",
         "entry_date": "2026-08-03 00:00:00",
@@ -205,7 +190,22 @@
         "overdue": false
       },
       {
-        "rank": 4,
+        "rank": 13,
+        "symbol": "RPEL",
+        "name": "Raghav Productivity Enhancers Ltd",
+        "entry_date": "2026-08-03 00:00:00",
+        "entry_price": 1215.0,
+        "current_close": 1689.8,
+        "current_date": "2026-08-21 00:00:00",
+        "return_pct": 39.08,
+        "stop_hit": false,
+        "stop_type": null,
+        "stop_date": null,
+        "exit_date": null,
+        "overdue": false
+      },
+      {
+        "rank": 5,
         "symbol": "INDSWFTLAB",
         "name": "Ind-Swift Laboratories Ltd",
         "entry_date": "2026-08-03 00:00:00",
@@ -220,7 +220,7 @@
         "overdue": false
       },
       {
-        "rank": 13,
+        "rank": 14,
         "symbol": "MOREPENLAB",
         "name": "Morepen Laboratories Ltd",
         "entry_date": "2026-08-03 00:00:00",
@@ -237,6 +237,21 @@
     ],
     "simple_momentum_high_cap": [
       {
+        "rank": 9,
+        "symbol": "DEEDEV",
+        "name": "Dee Development Engineers Ltd",
+        "entry_date": "2026-08-03 00:00:00",
+        "entry_price": 682.0,
+        "current_close": 646.1,
+        "current_date": "2026-08-21 00:00:00",
+        "return_pct": -5.26,
+        "stop_hit": false,
+        "stop_type": null,
+        "stop_date": null,
+        "exit_date": null,
+        "overdue": false
+      },
+      {
         "rank": 7,
         "symbol": "CPPLUS",
         "name": "Aditya Infotech Ltd",
@@ -252,7 +267,7 @@
         "overdue": false
       },
       {
-        "rank": 5,
+        "rank": 6,
         "symbol": "RPTECH",
         "name": "Rashi Peripherals Ltd",
         "entry_date": "2026-08-03 00:00:00",
@@ -283,13 +298,13 @@
       },
       {
         "rank": 2,
-        "symbol": "MEGASOFT",
-        "name": "Megasoft Ltd",
+        "symbol": "SIGMAADV",
+        "name": "SIGMA ADVANCED SYSTEMS LIMITED",
         "entry_date": "2026-08-03 00:00:00",
         "entry_price": 634.0,
-        "current_close": 691.35,
+        "current_close": 688.2,
         "current_date": "2026-08-21 00:00:00",
-        "return_pct": 9.05,
+        "return_pct": 8.55,
         "stop_hit": false,
         "stop_type": null,
         "stop_date": null,
@@ -297,7 +312,7 @@
         "overdue": false
       },
       {
-        "rank": 10,
+        "rank": 14,
         "symbol": "DIACABS",
         "name": "Diamond Power Infrastructure Ltd-$",
         "entry_date": "2026-08-03 00:00:00",
@@ -342,7 +357,22 @@
         "overdue": false
       },
       {
-        "rank": 11,
+        "rank": 15,
+        "symbol": "SANSERA",
+        "name": "Sansera Engineering Ltd",
+        "entry_date": "2026-08-03 00:00:00",
+        "entry_price": 3378.0,
+        "current_close": 3876.9,
+        "current_date": "2026-08-21 00:00:00",
+        "return_pct": 14.77,
+        "stop_hit": false,
+        "stop_type": null,
+        "stop_date": null,
+        "exit_date": null,
+        "overdue": false
+      },
+      {
+        "rank": 10,
         "symbol": "ATHERENERG",
         "name": "Ather Energy Ltd",
         "entry_date": "2026-08-03 00:00:00",
@@ -372,7 +402,7 @@
         "overdue": false
       },
       {
-        "rank": 9,
+        "rank": 11,
         "symbol": "MTARTECH",
         "name": "MTAR Technologies Ltd",
         "entry_date": "2026-08-03 00:00:00",
@@ -417,22 +447,7 @@
         "overdue": false
       },
       {
-        "rank": 14,
-        "symbol": "SHILPAMED",
-        "name": "Shilpa Medicare Ltd",
-        "entry_date": "2026-08-03 00:00:00",
-        "entry_price": 616.1,
-        "current_close": 814.95,
-        "current_date": "2026-08-21 00:00:00",
-        "return_pct": 32.28,
-        "stop_hit": false,
-        "stop_type": null,
-        "stop_date": null,
-        "exit_date": null,
-        "overdue": false
-      },
-      {
-        "rank": 6,
+        "rank": 5,
         "symbol": "WELCORP",
         "name": "Welspun Corp Limited",
         "entry_date": "2026-08-03 00:00:00",
@@ -440,21 +455,6 @@
         "current_close": 2311.9,
         "current_date": "2026-08-21 00:00:00",
         "return_pct": 38.27,
-        "stop_hit": false,
-        "stop_type": null,
-        "stop_date": null,
-        "exit_date": null,
-        "overdue": false
-      },
-      {
-        "rank": 15,
-        "symbol": "INDSWFTLAB",
-        "name": "Ind-Swift Laboratories Ltd",
-        "entry_date": "2026-08-03 00:00:00",
-        "entry_price": 224.27,
-        "current_close": 329.59,
-        "current_date": "2026-08-21 00:00:00",
-        "return_pct": 46.96,
         "stop_hit": false,
         "stop_type": null,
         "stop_date": null,
