@@ -5,9 +5,10 @@ import { Copy, Check } from 'lucide-react'
 
 interface CopyWatchlistProps {
     symbols: string[]
+    label?: string
 }
 
-export default function CopyWatchlist({ symbols }: CopyWatchlistProps) {
+export default function CopyWatchlist({ symbols, label = 'Copy TradingView Watchlist' }: CopyWatchlistProps) {
     const [copied, setCopied] = useState(false)
 
     // Format for TradingView: NSE:SYMBOL1,NSE:SYMBOL2,...
@@ -34,7 +35,7 @@ export default function CopyWatchlist({ symbols }: CopyWatchlistProps) {
             title="Copy matching stocks formatted for TradingView Watchlist"
         >
             {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4 text-blue-600" />}
-            {copied ? 'Copied to Clipboard!' : 'Copy TradingView Watchlist'}
+            {copied ? 'Copied to Clipboard!' : label}
         </button>
     )
 }

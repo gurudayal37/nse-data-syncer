@@ -226,7 +226,8 @@ export default async function IPOPage(props: IPOPageProps) {
   const totalCount = rows.length
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
   const pageRows = rows.slice(skip, skip + PAGE_SIZE)
-  const symbolsList = rows.map((r) => r.symbol).filter(Boolean)
+  const mainboardSymbols = rows.filter((r) => r.board === 'mainboard').map((r) => r.symbol).filter(Boolean)
+  const smeSymbols = rows.filter((r) => r.board === 'sme').map((r) => r.symbol).filter(Boolean)
 
   // ── Sort header helpers ──────────────────────────────────────────────────
 
@@ -259,7 +260,8 @@ export default async function IPOPage(props: IPOPageProps) {
           </div>
           <div className="flex flex-col items-end gap-3">
             <div className="flex items-center gap-3">
-              <CopyWatchlist symbols={symbolsList} />
+              <CopyWatchlist symbols={mainboardSymbols} label="Copy Mainboard IPOs" />
+              <CopyWatchlist symbols={smeSymbols} label="Copy SME IPOs" />
               <div className="w-72">
                 <Search placeholder="Search IPOs…" />
               </div>
