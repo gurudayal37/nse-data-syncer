@@ -165,8 +165,13 @@ def run_backtest():
                             is_breakout = True
                         else:
                             pass
-                            
-                # Logic for Trade Execution (Next Month)
+                else:
+                    # Before backtest start, just update ATH
+                    if month['high'] > current_ath:
+                        current_ath = month['high']
+                        current_ath_date = month_date
+                        
+
                 if is_breakout:
                     entry_trigger = month['high']
                     
@@ -398,177 +403,12 @@ def run_backtest():
     # ... (Rest of simulate_portfolio logic inside generate_daily_equity_curve) ...
 
     # Portfolio Simulation for Total Return % AND Daily Equity Curve
-    def simulate_portfolio_daily(trade_list, df_prices, benchmark_df, initial_capital=100000, max_positions=10):
-        cash = initial_capital
-        positions = {} # symbol -> {shares, cost}
-        equity_curve = []
-        
-        # Create Trade Objects for easier processing
-        # Map: Symbol -> List of Trades
-        trades_by_stock = {}
-        for t in trade_list:
-            if t['symbol'] not in trades_by_stock:
-                trades_by_stock[t['symbol']] = []
-            trades_by_stock[t['symbol']].append(t)
-            
-        # Determine Date Range
-        if not trade_list:
-             return 0, initial_capital, []
-             
-        start_date = pd.Timestamp(trade_list[-1]['entry_date']) # Last in list is earliest (reverse sorted input? No, we sorted it)
-        # Wait, run_backtest sorts trades reversed (newest first). 
-        # So trade_list[-1] is the OLDEST trade. Correct.
-        end_date = pd.Timestamp(datetime.now().date())
-        
-        # Generating business days range
-        date_range = pd.date_range(start=start_date, end=end_date, freq='B')
-        
-        # Benchmark alignment
-        if not benchmark_df.empty:
-            # Normalize Benchmark to Initial Capital
-            # Find closest available date for start
-            try:
-                base_nifty_price = benchmark_df.iloc[benchmark_df.index.get_indexer([start_date], method='nearest')[0]]['close']
-                nifty_factor = initial_capital / base_nifty_price
-            except:
-                nifty_factor = 0
-        else:
-            nifty_factor = 0
-
-        # Processing Loop (Daily)
-        for current_date in date_range:
-            # 1. Process Exits First
-            # Check if any position needs to be exited today
-            symbols_to_remove = []
-            for sym, pos in positions.items():
-                # Find active trade for this symbol
-                # We need to link 'pos' to a specific 'trade' to know exit date.
-                # Simplified: position object stores exit date
-                if pos.get('exit_date') and current_date >= pd.Timestamp(pos['exit_date']):
-                    # EXIT
-                    exit_price = pos['exit_price_fixed'] # Use stored exit price from trade
-                    shares = pos['shares']
-                    proceeds = shares * exit_price
-                    fee = proceeds * 0.0025
-                    cash += (proceeds - fee)
-                    symbols_to_remove.append(sym)
-            
-            for sym in symbols_to_remove:
-                del positions[sym]
-                
-            # 2. Process Entries
-            # Check if any trade enters today
-            # We iterate all trades? Optimization: Sort trades by entry and pop?
-            # Or just check dict. 
-            # Re-scanning list is slow. Better to pre-process events.
-            # But let's look at the trade list passed in.
-            # Convert to EventsDict: Date -> [Trades Starting]
-            pass # See optimization below
-            
-        # RE-WRITE: Event-Driven Daily Loop is hard. 
-        # Better: Pre-process 'Events' (Entry/Exit) and iterate days to mark-to-market.
-        
-        events = {} # Date -> List of actions
-        for t in trade_list:
-            entry_dt = pd.Timestamp(t['entry_date'])
-            exit_dt = pd.Timestamp(t['exit_date']) if t['exit_date'] else None
-            
-            if entry_dt not in events: events[entry_dt] = []
-            events[entry_dt].append({'type': 'ENTRY', 'trade': t})
-            
-            if exit_dt:
-                if exit_dt not in events: events[exit_dt] = []
-                events[exit_dt].append({'type': 'EXIT', 'trade': t})
-                
-        # Main Loop
-        current_equity = initial_capital
-        
-        for current_date in date_range:
-            # Execute Events
-            if current_date in events:
-                for action in events[current_date]:
-                    if action['type'] == 'ENTRY':
-                        t = action['trade']
-                        if t['symbol'] not in positions and len(positions) < max_positions:
-                            # Position Sizing
-                            # Calc approx equity (Cash + Current positions at yesterday close?)
-                            # Simpler: Use Cash + Cost for sizing base? Or Mark to Market?
-                            # Mark to Market is better but requires price lookup.
-                            # Approx: Use previous day's equity.
-                            target = current_equity * (1 / max_positions)
-                            alloc = min(target, cash)
-                            if alloc > 0:
-                                price = t['entry_price']
-                                shares = alloc / price
-                                fee = alloc * 0.0025
-                                cash -= (alloc + fee)
-                                positions[t['symbol']] = {
-                                    'shares': shares,
-                                    'cost': alloc,
-                                    'exit_date': t['exit_date'],
-                                    'exit_price_fixed': t['exit_price']
-                                }
-                                
-                    elif action['type'] == 'EXIT':
-                        t = action['trade']
-                        if t['symbol'] in positions:
-                            pos = positions[t['symbol']]
-                            # Double check if this is the RIGHT trade (overlap protection)
-                            # Assuming no overlaps for same symbol in strategy logic
-                            shares = pos['shares']
-                            price = t['exit_price'] if t['exit_price'] else t['entry_price']
-                            proceeds = shares * price
-                            fee = proceeds * 0.0025
-                            cash += (proceeds - fee)
-                            del positions[t['symbol']]
-                            
-            # Mark to Market Positions
-            pos_value = 0
-            for sym, pos in positions.items():
-                # Get current price from df_prices
-                # df_prices is MultiIndex [stock_id, date]
-                # We need stock_id from symbol? No, trade has symbol.
-                # We need a Symbol -> ID map or stock data map.
-                # Map was in outer scope... we can pass it or use global variable?
-                # Better: `df_prices` should be accessible. But looking up by Symbol is hard if df is by ID.
-                # Solution: Pre-map symbols to IDs or lookup in `stock_map` (inverse).
-                pass 
-                
-            # SIMPLIFICATION:
-            # Instead of exact daily MTM (which requires daily price lookup for every held stock), 
-            # We can just step value: Cost when Enter, Exit Value when Exit.
-            # But that makes a "stepped" chart.
-            # User wants Equity Curve.
-            # To get a smooth curve, we NEED daily prices.
-            # We have `df_all` indexed by (stock_id, date).
-            # We need `symbol_to_id` map.
-            
-            # Assuming we can get price:
-            # current_price = ...
-            # pos_value += shares * current_price
-            
-            # Since we can't easily lookup daily price inside this loop without passed map,
-            # Let's fix the scope.
-            
-        return 0, 0, []
-
-    # Correction: Let's do a simpler "Trade-Based" equity curve as "Portfolio Value"
-    # AND a separate "Nifty" line.
-    # The user accepted the previous logic but wants 100k start.
-    # The previous logic was "Event Based" (Entry/Exit).
-    # We can just interpolate the "Cash + Position Value" linearly between Entry and Exit?
-    # No, that ignores volatility.
-    # We MUST do daily lookup for a *real* equity curve.
-    
-    # Let's rebuild the function properly in the code block.
-
-    # 1. Invert stock map for lookup
-    symbol_to_id = {v: k for k, v in stock_map.items()}
-
-    def simulate_portfolio_daily(trade_list, df_prices, benchmark_df, initial_capital=100000, max_positions=10):
+    def simulate_portfolio_daily(trade_list, df_prices, benchmark_df, stock_map, initial_capital=10000000, max_positions=2000):
+        executed_trades_count = 0
+        symbol_to_id = {v: k for k, v in stock_map.items()}
         # Sort trades by entry date
         sorted_trades = sorted(trade_list, key=lambda x: x['entry_date'])
-        if not sorted_trades: return 0, initial_capital, []
+        if not sorted_trades: return 0, initial_capital, [], 0
 
         start_date = pd.Timestamp(sorted_trades[0]['entry_date'])
         end_date = pd.Timestamp(datetime.now().date())
@@ -577,7 +417,7 @@ def run_backtest():
         cash = initial_capital
         positions = {} # symbol -> {shares, stock_id}
         equity_curve = []
-        
+    
         # Benchmark scaling
         nifty_factor = 0
         if not benchmark_df.empty:
@@ -588,16 +428,16 @@ def run_backtest():
                 nifty_factor = initial_capital / base_val
             except:
                 nifty_factor = 0
-        
+    
         # Events Dictionary
         events = {}
         for t in sorted_trades:
             ed = pd.Timestamp(t['entry_date'])
             xd = pd.Timestamp(t['exit_date']) if t['exit_date'] else None
-            
+        
             if ed not in events: events[ed] = []
             events[ed].append({'type': 'ENTRY', 'trade': t})
-            
+        
             if xd:
                 if xd not in events: events[xd] = []
                 events[xd].append({'type': 'EXIT', 'trade': t})
@@ -608,7 +448,7 @@ def run_backtest():
                 for action in events[d]:
                     t = action['trade']
                     sym = t['symbol']
-                    
+                
                     if action['type'] == 'ENTRY':
                          # Check cash and slots
                          # Estimate current equity for sizing (Cash + current positions)
@@ -630,21 +470,28 @@ def run_backtest():
                                      price = float(val)
                              except:
                                  price = float(p.get('last_price', 0)) # fallback safety
-                             
+                         
                              mtm_val += p['shares'] * price
-                         
+                     
                          curr_eq = cash + mtm_val
-                         alloc = min(curr_eq * 0.1, cash)
+                         # Alloc: 1 Share per trade
+                         # We verify we have enough cash for 1 share.
+                         price = t['entry_price']
+                         cost = price
                          
-                         if alloc > 0:
-                             price = t['entry_price']
-                             shares = alloc / price
-                             fee = alloc * 0.0025
-                             cash -= (alloc + fee)
+                         if cash >= cost:
+                             shares = 1
+                             fee = cost * 0.0025
+                             cash -= (cost + fee)
+                             executed_trades_count += 1
                              sid = symbol_to_id.get(sym)
                              if sid:
                                  positions[sym] = {'shares': shares, 'stock_id': sid, 'last_price': price}
-
+                         else:
+                             # Not enough cash for even 1 share
+                             pass
+                                 
+                     # Skip the old dynamic alloc logic block
                     elif action['type'] == 'EXIT':
                          if sym in positions:
                              pos = positions[sym]
@@ -670,11 +517,12 @@ def run_backtest():
                 except:
                     # If missing (holiday/data gap), keep last
                     price = float(pos.get('last_price', 0))
-                
+            
                 pos_value += pos['shares'] * price
-            
+        
             total_equity = cash + pos_value
-            
+            invested_capital = initial_capital - cash
+        
             # Benchmark 
             # Benchmark 
             bench_val = 0
@@ -694,23 +542,81 @@ def run_backtest():
                         # But wait, date_range is business days 'B'. Nifty might match?
                         # If mismatch, use last known.
                         bench_val = last_bench_val if 'last_bench_val' in locals() else 0
-                        
+                    
                 except Exception as e:
                      # fallback
                      bench_val = last_bench_val if 'last_bench_val' in locals() else 0
-            
-            equity_curve.append({
+        
+        equity_curve.append({
                 'date': d.strftime('%Y-%m-%d'),
                 'equity': round(total_equity, 2),
+                'invested': round(invested_capital, 2),
                 'benchmark': round(bench_val, 2)
             })
 
+
         final_equity = equity_curve[-1]['equity'] if equity_curve else initial_capital
-        ret_pct = (final_equity - initial_capital) / initial_capital * 100
-        return round(ret_pct, 2), round(final_equity, 2), equity_curve
+
+        # Recalculate Return based on Peak Invested Capital (Realistic Capital Required)
+        # Filter 0 to avoid div by zero if no trades
+        peak_invested = max([d['invested'] for d in equity_curve]) if equity_curve else 0
+        if peak_invested == 0: peak_invested = initial_capital # Fallback
+
+        # Total Profit = Final Equity - Initial Capital
+        total_profit = final_equity - initial_capital
+        
+        # Adjusted Return %
+        ret_pct = (total_profit / peak_invested * 100)
+        
+        # Re-normalize Equity Curve for display
+        # We want the curve to look like we started with 'peak_invested' (plus maybe a buffer?)
+        # or just show the growth relative to it.
+        # Current Equity = Initial (1Cr) + Profit.
+        # Display Equity = Peak_Invested + Profit.
+        
+        adjusted_equity_curve = []
+        for pt in equity_curve:
+            profit = pt['equity'] - initial_capital
+            adj_eq = peak_invested + profit
+            pt['equity'] = round(adj_eq, 2)
+            # We don't change benchmark here, it's relative? 
+            # Actually benchmark factor was calc on Initial Capital (1Cr).
+            # We need to re-scale benchmark too?
+            # Yes, strictly speaking.
+            # But let's fix the Equity first.
+            adjusted_equity_curve.append(pt)
+            
+        final_equity_adjusted = adjusted_equity_curve[-1]['equity']
+
+        # Fix Benchmark Scaling to match new base
+        # Bench Factor = Base / Start_Index_Val
+        # New Base = Peak Invested
+        if not benchmark_df.empty:
+             try:
+                 first_date = pd.Timestamp(adjusted_equity_curve[0]['date'])
+                 base_idx = benchmark_df.index.get_indexer([first_date], method='nearest')[0]
+                 base_val = benchmark_df.iloc[base_idx]['close']
+                 new_nifty_factor = peak_invested / base_val
+                 
+                 # Re-apply
+                 for pt in adjusted_equity_curve:
+                     d = pd.Timestamp(pt['date'])
+                     if d in benchmark_df.index:
+                          val = benchmark_df.loc[d]['close']
+                          if isinstance(val, pd.Series): val = val.iloc[0]
+                          pt['benchmark'] = round(float(val) * new_nifty_factor, 2)
+                     else:
+                          # If missing, use prev or 0
+                          pass 
+             except:
+                 pass
+
+        print(f"Max Capital Deployed: {peak_invested}")
+        
+        return round(ret_pct, 2), round(final_equity_adjusted, 2), adjusted_equity_curve, executed_trades_count
 
     # Execute
-    total_ret_pct, final_eq_val, eq_data = simulate_portfolio_daily(sorted(trades, key=lambda x: x['entry_date']), df_all, nifty)
+    total_ret_pct, final_eq_val, eq_data, executed_trades_count = simulate_portfolio_daily(sorted(trades, key=lambda x: x['entry_date']), df_all, nifty, stock_map)
 
     # Pre-calculate trade stats
     closed_trades = [t for t in trades if t['status'] == 'CLOSED']
@@ -719,6 +625,7 @@ def run_backtest():
 
     output['summary'] = {
         'total_trades': len(trades),
+        'executed_trades': executed_trades_count,
         'closed_trades': len(closed_trades),
         'active_trades': len(trades) - len(closed_trades),
         'win_rate': round(wins / len(closed_trades) * 100, 2) if closed_trades else 0,
@@ -768,6 +675,9 @@ def run_backtest():
     with open(out_path, 'w') as f:
         json.dump(output, f, indent=2)
         
+    print(f"Backtest Complete. Total Return: {total_ret_pct}%")
+    print(f"Total Signals: {len(trades)}")
+    print(f"Executed Trades (Portfolio): {executed_trades_count}")
     print(f"Saved results to {out_path}")
 
 if __name__ == "__main__":
