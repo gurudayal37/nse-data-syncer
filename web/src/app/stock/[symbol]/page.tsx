@@ -15,14 +15,32 @@ export const dynamic = 'force-dynamic'
 
 // ─── Theme keyword labels (thematic only — excludes generic sentiment words) ──
 const THEME_LABELS: [string, string][] = [
-  ['data_centre', 'Data Centre'], ['ai', 'AI'], ['semiconductor', 'Semiconductor'],
-  ['aerospace', 'Aerospace'],     ['defence', 'Defence'], ['drone', 'Drone'],
-  ['anti_drone', 'Anti-Drone'],   ['cctv', 'CCTV'],       ['bess', 'BESS'],
-  ['ems', 'EMS'],   ['odm', 'ODM'],   ['pcb', 'PCB'],     ['cdmo', 'CDMO'],
-  ['us', 'US Market'], ['europe', 'Europe/UK'], ['china', 'China'],
-  ['cloud', 'Cloud'],  ['ev', 'EV'],   ['renewable', 'Renewable'],
-  ['export', 'Export'], ['capex', 'Capex'], ['order_book', 'Order Book'],
-  ['precision_engineering', 'Precision Engg'],
+  // AI / Compute
+  ['data_centre', 'Data Centre'], ['liquid_cooling', 'Liquid Cooling'],
+  ['ai', 'AI'], ['sovereign_ai', 'Sovereign AI'], ['agentic_ai', 'Agentic AI'],
+  ['gpu_inference', 'GPU/Inference'], ['slm', 'SLM'], ['cloud', 'Cloud'], ['quantum', 'Quantum'],
+  // Power / Energy
+  ['bess', 'BESS'], ['transmission', 'Transmission'], ['transformer', 'Transformer'],
+  ['switchgear', 'Switchgear'], ['renewable', 'Renewable'], ['nuclear', 'Nuclear/SMR'],
+  // Semiconductor / Electronics
+  ['semiconductor', 'Semiconductor'], ['osat', 'OSAT/ATMP'], ['sic_gan', 'SiC/GaN'],
+  ['pcb', 'PCB/HDI'], ['optical_fibre', 'Optical Fibre'],
+  ['ems', 'EMS'], ['odm', 'ODM'], ['cdmo', 'CDMO'],
+  // Defence / Aerospace
+  ['aerospace', 'Aerospace'], ['defence', 'Defence'],
+  ['electronic_warfare', 'EW/Radar'], ['drone', 'Drone/UAV'],
+  ['anti_drone', 'Anti-Drone'], ['space', 'Space/Satcom'], ['kavach', 'Kavach'],
+  // Robotics
+  ['robotics', 'Robotics'],
+  // Geographies
+  ['us', 'US Market'], ['europe', 'Europe/UK'], ['china', 'China'], ['export', 'Export'],
+  // Health / Pharma / Materials
+  ['glp1', 'GLP-1'], ['rare_earth', 'Rare Earth'],
+  // EV / Mobility
+  ['ev', 'EV'],
+  // Business metrics
+  ['capex', 'Capex'], ['order_book', 'Order Book'],
+  ['cctv', 'CCTV'], ['precision_engineering', 'Precision Engg'],
 ]
 
 function seasonLabel(d: Date): string {
@@ -196,9 +214,13 @@ export default async function StockPage(props: { params: Promise<{ symbol: strin
         }),
         prisma.$queryRaw<any[]>`
             SELECT result_date, has_presentation, presentation_url, analysed_at,
-                   data_centre, ai, semiconductor, aerospace, defence, drone, anti_drone,
-                   cctv, bess, ems, odm, pcb, cdmo, us, europe, china,
-                   cloud, ev, renewable, export, capex, order_book, precision_engineering,
+                   data_centre, liquid_cooling, ai, sovereign_ai, agentic_ai,
+                   gpu_inference, slm, cloud, quantum,
+                   bess, transmission, transformer, switchgear, renewable, nuclear,
+                   semiconductor, osat, sic_gan, pcb, optical_fibre, ems, odm, cdmo,
+                   aerospace, defence, electronic_warfare, drone, anti_drone, space, kavach,
+                   robotics, us, europe, china, export, glp1, rare_earth, ev,
+                   capex, order_book, cctv, precision_engineering,
                    sentiment_score, word_count
             FROM presentation_keyword_analysis
             WHERE symbol = ${sym}

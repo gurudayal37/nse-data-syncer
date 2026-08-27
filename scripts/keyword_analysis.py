@@ -64,37 +64,109 @@ PDF_HEADERS = {
 # \s* matches zero or more spaces so "datacentre" and "data centre" both count,
 # and "orderbook" and "order book" both count.
 THEME_KEYWORDS = {
-    'data_centre':    [r'data[\s\-]*cent(?:re|er)s?', r'\bdc\b'],  # data centre/center/datacentre/data-centre/DC
-    'ai':             [r'\bai\b', r'artificial\s+intelligence', r'machine\s+learning', r'generative\s+ai', r'\bgenai\b', r'\bllm\b'],
-    'semiconductor':  [r'semiconductor'],
-    'aerospace':      [r'aerospace'],
-    'defence':        [r'defenc(?:e|es)', r'defens(?:e|es)', r'defense', r'\bdrdo\b'],
-    'drone':          [r'\bdrones?\b', r'\buavs?\b'],
-    'anti_drone':     [r'\banti[\s-]?drones?\b', r'\bcounter[\s-]?drones?\b',
-                       r'\banti[\s-]?uav\b', r'\bc[\s-]?uas\b', r'\bcounter[\s-]?uas\b'],
-    'cctv':           [r'\bcctv\b', r'\bcameras?\b'],
-    'bess':           [r'\bbess\b', r'battery\s+energy\s+storage', r'energy\s+storage\s+system'],
-    'ems':            [r'\bems\b', r'electronics\s+manufacturing\s+services?',
-                       r'\bedsm\b', r'\besdm\b',
-                       r'electronics\s+design\s+(?:and\s+)?manufacturing\s+services?'],
-    'odm':            [r'\bodm\b', r'original\s+design\s+manufactur(?:er|ing)?'],
-    'pcb':            [r'\bpcb\b', r'printed\s+circuit\s+board'],
-    'cdmo':           [r'\bcdmo\b', r'contract\s+(?:development\s+(?:and\s+)?)?manufacturing\s+organi[sz]ation'],
-    'us':             [r'\busa\b', r'united\s+states', r'u\.s\.a?'],
-    'europe':         [r'\beurope\b', r'\beuropean\b', r'european\s+union', r'\beu\b',
-                       r'\buk\b', r'united\s+kingdom', r'great\s+britain'],
-    'china':          [r'\bchina\b', r'\bchinese\b', r'\bprc\b'],
-    'cloud':          [r'\bcloud\b'],
-    'ev':             [r'\bev\b', r'electric\s+vehicle'],
-    'renewable':      [r'renewable', r'solar', r'wind\s+energy'],
-    'export':         [r'\bexport'],
-    'capex':          [r'\bcapex\b', r'capital\s+expenditure'],
+    # ── AI / compute ──────────────────────────────────────────────────────────
+    'data_centre':      [r'data[\s\-]*cent(?:re|er)s?', r'\bdc\b'],
+    'liquid_cooling':   [r'liquid[\s-]?cooling', r'immersion[\s-]?cooling',
+                         r'cold[\s-]?plate', r'direct[\s-]?liquid[\s-]?cooling', r'\bdlc\b'],
+    'ai':               [r'\bai\b', r'artificial\s+intelligence', r'machine\s+learning',
+                         r'generative\s+ai', r'\bgenai\b', r'\bllm\b', r'\bllms\b'],
+    'sovereign_ai':     [r'sovereign\s+ai', r'sovereign\s+cloud', r'national\s+ai'],
+    'agentic_ai':       [r'agentic\s+ai', r'agentic', r'\bai[\s-]?agents?\b',
+                         r'autonomous\s+ai'],
+    'gpu_inference':    [r'gpu[\s-]?as[\s-]?a[\s-]?service', r'\bgpuaas\b',
+                         r'\bgpu\s+cloud\b', r'\binferenc(?:e|ing)\b',
+                         r'ai\s+inferenc(?:e|ing)', r'model\s+serving'],
+    'slm':              [r'small\s+language\s+model', r'\bslm\b', r'foundation\s+model',
+                         r'\bfm\b'],
+    'cloud':            [r'\bcloud\b'],
+    'quantum':          [r'quantum\s+comput(?:ing|er)', r'quantum\s+commun',
+                         r'quantum\s+technolog'],
+
+    # ── Power / energy infra ─────────────────────────────────────────────────
+    'bess':             [r'\bbess\b', r'battery\s+energy\s+storage',
+                         r'energy\s+storage\s+system', r'energy\s+storage',
+                         r'battery\s+storage', r'pumped\s+(?:hydro|storage)'],
+    'transmission':     [r'\btransmission\b', r'\bhvdc\b',
+                         r'high[\s-]voltage\s+direct\s+current',
+                         r'power\s+transmission', r'\bt\s*&\s*d\b',
+                         r'transmission\s+line'],
+    'transformer':      [r'power\s+transformer', r'distribution\s+transformer',
+                         r'grid\s+transformer', r'\btransformer\s+manufactur',
+                         r'traction\s+transformer', r'\bauto[\s-]?transformer\b'],
+    'switchgear':       [r'switchgear', r'circuit\s+breaker', r'\bgis\b',
+                         r'\bais\b', r'gas[\s-]insulated\s+switchgear'],
+    'renewable':        [r'renewable', r'solar', r'wind\s+energy'],
+    'nuclear':          [r'nuclear', r'\bsmr\b', r'small\s+modular\s+reactor',
+                         r'nuclear\s+power'],
+
+    # ── Semiconductor / electronics ──────────────────────────────────────────
+    'semiconductor':    [r'semiconductor'],
+    'osat':             [r'\bosat\b', r'\batmp\b',
+                         r'outsourced\s+semiconductor\s+assembly',
+                         r'chip\s+(?:packaging|assembly)',
+                         r'advanced\s+packaging'],
+    'sic_gan':          [r'\bsic\b', r'silicon\s+carbide', r'\bgan\b',
+                         r'gallium\s+nitride', r'wide[\s-]?bandgap',
+                         r'compound\s+semiconductor'],
+    'pcb':              [r'\bpcb\b', r'printed\s+circuit\s+board', r'\bhdi\b',
+                         r'hdi\s+pcb', r'high[\s-]density\s+interconnect'],
+    'optical_fibre':    [r'optical\s+fib(?:re|er)', r'fib(?:re|er)\s+optic',
+                         r'\bopgw\b', r'optic(?:al)?\s+cable', r'\bftth\b',
+                         r'fib(?:re|er)\s+to\s+the'],
+    'ems':              [r'\bems\b', r'electronics\s+manufacturing\s+services?',
+                         r'\bedsm\b', r'\besdm\b',
+                         r'electronics\s+design\s+(?:and\s+)?manufacturing\s+services?'],
+    'odm':              [r'\bodm\b', r'original\s+design\s+manufactur(?:er|ing)?'],
+    'cdmo':             [r'\bcdmo\b', r'contract\s+(?:development\s+(?:and\s+)?)?manufacturing\s+organi[sz]ation'],
+
+    # ── Defence / aerospace ───────────────────────────────────────────────────
+    'aerospace':        [r'aerospace'],
+    'defence':          [r'defenc(?:e|es)', r'defens(?:e|es)', r'defense', r'\bdrdo\b',
+                         r'defence\s+export', r'defense\s+export'],
+    'electronic_warfare': [r'electronic\s+warfare', r'\bew\b',
+                            r'\baesa\b', r'active\s+electronically\s+scanned',
+                            r'\bradar\b', r'electronic\s+counter'],
+    'drone':            [r'\bdrones?\b', r'\buavs?\b'],
+    'anti_drone':       [r'\banti[\s-]?drones?\b', r'\bcounter[\s-]?drones?\b',
+                         r'\banti[\s-]?uav\b', r'\bc[\s-]?uas\b', r'\bcounter[\s-]?uas\b'],
+    'space':            [r'\bspace\b', r'\bsatcom\b', r'satellite\s+commun',
+                         r'\bleo\b', r'\bmeo\b', r'\bgeo\b',
+                         r'launch\s+vehicle', r'satellite\s+launch'],
+    'kavach':           [r'\bkavach\b', r'train\s+collision\s+avoidance',
+                         r'\btcas\b', r'automatic\s+train\s+protection'],
+
+    # ── Robotics / automation ────────────────────────────────────────────────
+    'robotics':         [r'robotic(?:s|ally)?', r'\brobots?\b', r'humanoid',
+                         r'\bcobots?\b', r'industrial\s+automation',
+                         r'warehouse\s+automation', r'factory\s+automation'],
+
+    # ── Geographies ───────────────────────────────────────────────────────────
+    'us':               [r'\busa\b', r'united\s+states', r'u\.s\.a?'],
+    'europe':           [r'\beurope\b', r'\beuropean\b', r'european\s+union', r'\beu\b',
+                         r'\buk\b', r'united\s+kingdom', r'great\s+britain'],
+    'china':            [r'\bchina\b', r'\bchinese\b', r'\bprc\b'],
+    'export':           [r'\bexport'],
+
+    # ── Health / pharma ───────────────────────────────────────────────────────
+    'glp1':             [r'\bglp[\s-]?1\b', r'semaglutide', r'tirzepatide',
+                         r'obesity\s+drug', r'weight[\s-]loss\s+drug',
+                         r'anti[\s-]?obesity'],
+    'rare_earth':       [r'rare[\s-]earth', r'critical\s+mineral',
+                         r'lithium\s+(?:ion|mining|processing)',
+                         r'\bcobalt\b', r'\btungsten\b', r'\bneodymium\b'],
+
+    # ── EV / mobility ─────────────────────────────────────────────────────────
+    'ev':               [r'\bev\b', r'electric\s+vehicle'],
+
+    # ── Business metrics ─────────────────────────────────────────────────────
+    'capex':            [r'\bcapex\b', r'capital\s+expenditure'],
+    'order_book':       [r'order\s*book', r'order\s*inflow', r'\bbacklog\b'],
+    'cctv':             [r'\bcctv\b', r'\bcameras?\b'],
     'precision_engineering': [r'precision\s*engineering'],
-    'best':           [r'\bbest\b'],
-    'top':            [r'\btop\b'],
-    'leader':         [r'\bleader[s]?\b', r'\bleading\b', r'\bleadership\b'],
-    'order_book':     [r'order\s*book', r'order\s*inflow', r'\bbacklog\b'],
-    'highest':        [r'\bhighest\b'],
+    'best':             [r'\bbest\b'],
+    'top':              [r'\btop\b'],
+    'leader':           [r'\bleader[s]?\b', r'\bleading\b', r'\bleadership\b'],
+    'highest':          [r'\bhighest\b'],
 }
 
 # ── Sentiment phrase library ───────────────────────────────────────────────
@@ -402,12 +474,21 @@ CREATE TABLE IF NOT EXISTS presentation_keyword_analysis (
 CREATE INDEX IF NOT EXISTS ix_pka_symbol ON presentation_keyword_analysis (symbol);
 """
 
-# ALTER statements to add new columns to a pre-existing table from the prior version.
+# ALTER statements to add new columns to a pre-existing table from prior versions.
+_NEW_INT_COLS = (
+    'precision_engineering', 'best', 'top', 'leader', 'order_book', 'highest',
+    'word_count', 'positive_hits', 'negative_hits', 'drone', 'anti_drone', 'cctv', 'bess',
+    'ems', 'odm', 'pcb', 'cdmo', 'us', 'europe', 'china',
+    # v2 additions
+    'liquid_cooling', 'sovereign_ai', 'agentic_ai', 'gpu_inference', 'slm', 'quantum',
+    'transmission', 'transformer', 'switchgear', 'nuclear',
+    'osat', 'sic_gan', 'optical_fibre',
+    'electronic_warfare', 'space', 'kavach', 'robotics',
+    'glp1', 'rare_earth',
+)
 ALTER_TABLE_SQL = [
     f'ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS {c} INT DEFAULT 0'
-    for c in ('precision_engineering', 'best', 'top', 'leader', 'order_book', 'highest',
-              'word_count', 'positive_hits', 'negative_hits', 'drone', 'anti_drone', 'cctv', 'bess',
-              'ems', 'odm', 'pcb', 'cdmo', 'us', 'europe', 'china')
+    for c in _NEW_INT_COLS
 ] + [
     "ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS positive_density NUMERIC(8,2) DEFAULT 0",
     "ALTER TABLE presentation_keyword_analysis ADD COLUMN IF NOT EXISTS negative_density NUMERIC(8,2) DEFAULT 0",
@@ -556,12 +637,14 @@ def main():
     query = """
         SELECT DISTINCT
             nd.symbol,
-            COALESCE(s.name, nd.symbol) AS company_name,
+            COALESCE(s.name, sm.name, nd.symbol) AS company_name,
             DATE(nd.nse_filed_at AT TIME ZONE 'Asia/Kolkata') AS result_date
         FROM nse_documents nd
-        JOIN stocks s ON s.nse_symbol = nd.symbol
+        LEFT JOIN stocks s    ON s.nse_symbol = nd.symbol
+        LEFT JOIN sme_stocks sm ON sm.symbol   = nd.symbol
         WHERE nd.doc_type = 'result'
           AND nd.nse_filed_at >= %s
+          AND (s.id IS NOT NULL OR sm.id IS NOT NULL)
         ORDER BY nd.symbol, result_date ASC
     """
     IST_start = datetime.combine(season_start, datetime.min.time()).replace(

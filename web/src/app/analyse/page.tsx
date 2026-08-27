@@ -13,44 +13,87 @@ export const metadata = {
 }
 
 const ALLOWED_KEYWORDS = [
-  'data_centre', 'ai', 'semiconductor', 'aerospace',
-  'defence', 'drone', 'anti_drone', 'cctv', 'bess',
-  'ems', 'odm', 'pcb', 'cdmo', 'us', 'europe', 'china',
-  'cloud', 'ev', 'renewable', 'export', 'capex',
-  'order_book', 'precision_engineering', 'best', 'top', 'leader', 'highest',
+  // AI / Compute
+  'data_centre', 'liquid_cooling', 'ai', 'sovereign_ai', 'agentic_ai',
+  'gpu_inference', 'slm', 'cloud', 'quantum',
+  // Power / Energy
+  'bess', 'transmission', 'transformer', 'switchgear', 'renewable', 'nuclear',
+  // Semiconductor / Electronics
+  'semiconductor', 'osat', 'sic_gan', 'pcb', 'optical_fibre', 'ems', 'odm', 'cdmo',
+  // Defence / Aerospace
+  'aerospace', 'defence', 'electronic_warfare', 'drone', 'anti_drone', 'space', 'kavach',
+  // Robotics
+  'robotics',
+  // Geographies
+  'us', 'europe', 'china', 'export',
+  // Health / Pharma
+  'glp1', 'rare_earth',
+  // EV / Mobility
+  'ev',
+  // Business metrics
+  'capex', 'order_book', 'cctv', 'precision_engineering',
+  'best', 'top', 'leader', 'highest',
   'sentiment',
 ] as const
 type Keyword = typeof ALLOWED_KEYWORDS[number]
 
 const KEYWORD_LABELS: Record<Keyword, string> = {
-  data_centre:   'Data Centre',
-  ai:            'AI',
-  semiconductor: 'Semiconductor',
-  aerospace:     'Aerospace',
-  defence:       'Defence',
-  drone:         'Drone',
-  anti_drone:    'Anti Drone',
-  cctv:          'CCTV / Camera',
-  bess:          'BESS',
-  ems:           'EMS',
-  odm:           'ODM',
-  pcb:           'PCB',
-  cdmo:          'CDMO',
-  us:            'US Market',
-  europe:        'Europe / UK',
-  china:         'China',
-  cloud:         'Cloud',
-  ev:            'EV',
-  renewable:     'Renewable',
-  export:        'Export',
-  capex:         'Capex',
-  order_book:    'Order Book',
+  // AI / Compute
+  data_centre:        'Data Centre',
+  liquid_cooling:     'Liquid Cooling',
+  ai:                 'AI',
+  sovereign_ai:       'Sovereign AI',
+  agentic_ai:         'Agentic AI',
+  gpu_inference:      'GPU / Inference',
+  slm:                'SLM / Foundation Model',
+  cloud:              'Cloud',
+  quantum:            'Quantum',
+  // Power / Energy
+  bess:               'BESS / Energy Storage',
+  transmission:       'Transmission / HVDC',
+  transformer:        'Transformer',
+  switchgear:         'Switchgear',
+  renewable:          'Renewable',
+  nuclear:            'Nuclear / SMR',
+  // Semiconductor / Electronics
+  semiconductor:      'Semiconductor',
+  osat:               'OSAT / ATMP',
+  sic_gan:            'SiC / GaN',
+  pcb:                'PCB / HDI',
+  optical_fibre:      'Optical Fibre',
+  ems:                'EMS',
+  odm:                'ODM',
+  cdmo:               'CDMO',
+  // Defence / Aerospace
+  aerospace:          'Aerospace',
+  defence:            'Defence',
+  electronic_warfare: 'Electronic Warfare / Radar',
+  drone:              'Drone / UAV',
+  anti_drone:         'Anti-Drone',
+  space:              'Space / Satcom',
+  kavach:             'Kavach',
+  // Robotics
+  robotics:           'Robotics / Humanoid',
+  // Geographies
+  us:                 'US Market',
+  europe:             'Europe / UK',
+  china:              'China',
+  export:             'Export',
+  // Health / Pharma
+  glp1:               'GLP-1',
+  rare_earth:         'Rare Earth / Critical Minerals',
+  // EV / Mobility
+  ev:                 'EV',
+  // Business metrics
+  capex:              'Capex',
+  order_book:         'Order Book',
+  cctv:               'CCTV / Camera',
   precision_engineering: 'Precision Engineering',
-  best:          'Best',
-  top:           'Top',
-  leader:        'Leader',
-  highest:       'Highest',
-  sentiment:     'Sentiment',
+  best:               'Best',
+  top:                'Top',
+  leader:             'Leader',
+  highest:            'Highest',
+  sentiment:          'Sentiment',
 }
 
 type SortField = 'mentions' | 'change_1w' | 'change_1m' | 'change_3m' | 'change_6m'
