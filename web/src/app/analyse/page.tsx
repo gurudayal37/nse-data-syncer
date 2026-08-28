@@ -96,7 +96,7 @@ const KEYWORD_LABELS: Record<Keyword, string> = {
   sentiment:          'Sentiment',
 }
 
-type SortField = 'mentions' | 'change_1w' | 'change_1m' | 'change_3m' | 'change_6m'
+type SortField = 'mentions' | 'market_cap' | 'change_1w' | 'change_1m' | 'change_3m' | 'change_6m'
 type SortOrder = 'asc' | 'desc'
 
 interface Row {
@@ -242,7 +242,7 @@ export default async function AnalysePage({ searchParams }: PageProps) {
   const params  = await searchParams
   const keyword = (ALLOWED_KEYWORDS.includes(params.keyword as Keyword)
     ? params.keyword : 'data_centre') as Keyword
-  const sort    = (['mentions','change_1w','change_1m','change_3m','change_6m'].includes(params.sort ?? '')
+  const sort    = (['mentions','market_cap','change_1w','change_1m','change_3m','change_6m'].includes(params.sort ?? '')
     ? params.sort : 'mentions') as SortField
   const order   = params.order === 'asc' ? 'asc' : 'desc'
 
@@ -326,7 +326,7 @@ export default async function AnalysePage({ searchParams }: PageProps) {
                   <th className="px-4 py-3 w-8 text-slate-400">#</th>
                   <th className="px-4 py-3">Symbol</th>
                   <th className="px-4 py-3">Company</th>
-                  <th className="px-4 py-3 text-right">Mkt Cap</th>
+                  <SortHeader col="market_cap" label="Mkt Cap" />
                   {SORT_COLS.map(({ field, label }) => (
                     <SortHeader key={field} col={field} label={label} />
                   ))}
