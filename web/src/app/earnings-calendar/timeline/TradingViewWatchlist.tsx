@@ -6,7 +6,8 @@ import { Copy, Check } from 'lucide-react'
 export default function TradingViewWatchlist({ symbols }: { symbols: string[] }) {
   const [copied, setCopied] = useState(false)
 
-  const watchlist = symbols.map(s => `NSE:${s}`).join(',')
+  // TradingView doesn't recognize '-' in symbols, so replace with '_'
+  const watchlist = symbols.map(s => `NSE:${s.replace(/-/g, '_')}`).join(',')
 
   async function handleCopy() {
     await navigator.clipboard.writeText(watchlist)

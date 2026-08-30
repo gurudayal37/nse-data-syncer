@@ -12,7 +12,8 @@ export default function CopyWatchlist({ symbols, label = 'Copy TradingView Watch
     const [copied, setCopied] = useState(false)
 
     // Format for TradingView: NSE:SYMBOL1,NSE:SYMBOL2,...
-    const tvString = symbols.map(s => `NSE:${s}`).join(',')
+    // TradingView doesn't recognize '-' in symbols, so replace with '_'
+    const tvString = symbols.map(s => `NSE:${s.replace(/-/g, '_')}`).join(',')
 
     const copyToClipboard = () => {
         if (!tvString) return
