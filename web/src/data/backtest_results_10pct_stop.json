@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 150657.06,
-      "total_fees_paid": 2766.71,
+      "end_value": 149576.27,
+      "total_fees_paid": 2764.03,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 50.66,
-      "benchmark_return": -7.84,
-      "expectancy": 5.1,
-      "net_return_after_fees": 47.89
+      "total_return": 49.58,
+      "benchmark_return": -8.48,
+      "expectancy": 5.02,
+      "net_return_after_fees": 46.81
     },
     "risk_metrics": {
       "max_drawdown": -8.4,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.81,
-      "calmar_ratio": 8.65,
-      "omega_ratio": 4.21,
-      "sortino_ratio": 6.48
+      "sharpe_ratio": 1.77,
+      "calmar_ratio": 8.46,
+      "omega_ratio": 4.01,
+      "sortino_ratio": 6.76
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -80,10 +80,10 @@
       "best_trade": 24.57,
       "worst_trade": -7.47,
       "avg_winning_trade": 12.04,
-      "avg_losing_trade": -3.57,
+      "avg_losing_trade": -3.75,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 4.21,
+      "profit_factor": 4.01,
       "total_stock_transactions": 134
     }
   },
@@ -15164,13 +15164,13 @@
   "current_performance": [
     {
       "month": "2026-09",
-      "portfolio_return": -1.03,
-      "benchmark_return": 0.0,
+      "portfolio_return": -1.74,
+      "benchmark_return": -0.69,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": -1.93,
-          "score": 5.73,
+          "return": 0.09,
+          "score": 5.72,
           "entry_price": 280.46,
           "stop_triggered": false,
           "stop_type": null,
@@ -15179,7 +15179,7 @@
         },
         {
           "symbol": "SIGMAADV",
-          "return": -0.19,
+          "return": -1.15,
           "score": 5.23,
           "entry_price": 781.95,
           "stop_triggered": false,
@@ -15189,7 +15189,7 @@
         },
         {
           "symbol": "STLTECH",
-          "return": -4.77,
+          "return": -1.94,
           "score": 4.53,
           "entry_price": 728.45,
           "stop_triggered": false,
@@ -15199,7 +15199,7 @@
         },
         {
           "symbol": "WELCORP",
-          "return": 6.8,
+          "return": 5.54,
           "score": 4.2,
           "entry_price": 2391.0,
           "stop_triggered": false,
@@ -15209,8 +15209,8 @@
         },
         {
           "symbol": "SETL",
-          "return": 4.75,
-          "score": 3.85,
+          "return": 1.47,
+          "score": 3.84,
           "entry_price": 369.5,
           "stop_triggered": false,
           "stop_type": null,
@@ -15219,8 +15219,8 @@
         },
         {
           "symbol": "SHILPAMED",
-          "return": -6.28,
-          "score": 3.69,
+          "return": -2.19,
+          "score": 3.68,
           "entry_price": 949.3,
           "stop_triggered": false,
           "stop_type": null,
@@ -15229,7 +15229,7 @@
         },
         {
           "symbol": "INDSWFTLAB",
-          "return": 0.9,
+          "return": 0.54,
           "score": 3.44,
           "entry_price": 364.87,
           "stop_triggered": false,
@@ -15239,8 +15239,8 @@
         },
         {
           "symbol": "HFCL",
-          "return": -5.0,
-          "score": 3.43,
+          "return": -9.16,
+          "score": 3.42,
           "entry_price": 249.09,
           "stop_triggered": false,
           "stop_type": null,
@@ -15249,8 +15249,8 @@
         },
         {
           "symbol": "MENONBE",
-          "return": 5.01,
-          "score": 3.15,
+          "return": 2.4,
+          "score": 3.14,
           "entry_price": 287.01,
           "stop_triggered": false,
           "stop_type": null,
@@ -15259,7 +15259,7 @@
         },
         {
           "symbol": "ATHERENERG",
-          "return": 0.46,
+          "return": -1.84,
           "score": 3.13,
           "entry_price": 1717.7,
           "stop_triggered": false,
@@ -15269,7 +15269,7 @@
         },
         {
           "symbol": "KABRAEXTRU",
-          "return": -3.48,
+          "return": -6.72,
           "score": 3.05,
           "entry_price": 600.3,
           "stop_triggered": false,
@@ -15279,8 +15279,8 @@
         },
         {
           "symbol": "HAPPYFORGE",
-          "return": 0.35,
-          "score": 3.03,
+          "return": -2.74,
+          "score": 3.02,
           "entry_price": 2412.0,
           "stop_triggered": false,
           "stop_type": null,
@@ -15289,7 +15289,7 @@
         },
         {
           "symbol": "AVADHSUGAR",
-          "return": -3.74,
+          "return": -5.1,
           "score": 2.97,
           "entry_price": 855.3,
           "stop_triggered": false,
@@ -15299,8 +15299,8 @@
         },
         {
           "symbol": "MOREPENLAB",
-          "return": -3.28,
-          "score": 2.93,
+          "return": 4.49,
+          "score": 2.92,
           "entry_price": 107.16,
           "stop_triggered": false,
           "stop_type": null,
@@ -15309,8 +15309,8 @@
         },
         {
           "symbol": "PVP",
-          "return": -4.99,
-          "score": 2.9,
+          "return": -9.74,
+          "score": 2.89,
           "entry_price": 68.48,
           "stop_triggered": false,
           "stop_type": null,
