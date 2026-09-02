@@ -46,42 +46,42 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2026-01",
-      "end": "2026-08",
-      "period": "8 months (0.7 years)"
+      "end": "2026-09",
+      "period": "9 months (0.8 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 127884.87,
-      "total_fees_paid": 2609.19,
+      "end_value": 127654.68,
+      "total_fees_paid": 2861.52,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 27.88,
-      "benchmark_return": 11.88,
-      "expectancy": 4.37,
-      "net_return_after_fees": 25.28
+      "total_return": 27.65,
+      "benchmark_return": 11.08,
+      "expectancy": 3.87,
+      "net_return_after_fees": 24.79
     },
     "risk_metrics": {
       "max_drawdown": -29.51,
-      "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.01,
-      "calmar_ratio": 1.51,
-      "omega_ratio": 1.94,
-      "sortino_ratio": 1.38
+      "max_drawdown_duration": 3,
+      "sharpe_ratio": 0.94,
+      "calmar_ratio": 1.3,
+      "omega_ratio": 1.93,
+      "sortino_ratio": 1.08
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 8,
-      "win_rate": 75.0,
+      "total_trades": 9,
+      "win_rate": 66.67,
       "best_trade": 18.89,
       "worst_trade": -29.51,
       "avg_winning_trade": 12.02,
-      "avg_losing_trade": -18.57,
-      "profit_factor": 1.94,
-      "total_stock_transactions": 115,
-      "total_closed_trades": 7,
+      "avg_losing_trade": -12.44,
+      "profit_factor": 1.93,
+      "total_stock_transactions": 127,
+      "total_closed_trades": 8,
       "total_open_trades": 1,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1
@@ -7962,6 +7962,88 @@
     }
   ],
   "current_performance": [
+    {
+      "month": "2026-09",
+      "portfolio_return": -0.18,
+      "benchmark_return": -0.71,
+      "holdings": [
+        {
+          "symbol": "SNDK",
+          "return": -1.9,
+          "score": 7.01
+        },
+        {
+          "symbol": "MPC",
+          "return": 2.59,
+          "score": 2.72
+        },
+        {
+          "symbol": "MU",
+          "return": -2.64,
+          "score": 2.67
+        },
+        {
+          "symbol": "RVMD",
+          "return": 2.09,
+          "score": 2.65
+        },
+        {
+          "symbol": "MRNA",
+          "return": 9.93,
+          "score": 2.58
+        },
+        {
+          "symbol": "VLO",
+          "return": 0.86,
+          "score": 2.58
+        },
+        {
+          "symbol": "PANW",
+          "return": -5.24,
+          "score": 2.57
+        },
+        {
+          "symbol": "DINO",
+          "return": 2.32,
+          "score": 2.49
+        },
+        {
+          "symbol": "DD",
+          "return": -1.84,
+          "score": 2.47
+        },
+        {
+          "symbol": "MAN",
+          "return": -2.8,
+          "score": 2.39
+        },
+        {
+          "symbol": "CXW",
+          "return": -1.51,
+          "score": 2.3
+        },
+        {
+          "symbol": "PSX",
+          "return": 2.21,
+          "score": 2.28
+        },
+        {
+          "symbol": "FTNT",
+          "return": -5.31,
+          "score": 2.22
+        },
+        {
+          "symbol": "CLDT",
+          "return": 0.38,
+          "score": 2.14
+        },
+        {
+          "symbol": "STT",
+          "return": -1.88,
+          "score": 2.03
+        }
+      ]
+    },
     {
       "month": "2026-08",
       "portfolio_return": 4.05,
