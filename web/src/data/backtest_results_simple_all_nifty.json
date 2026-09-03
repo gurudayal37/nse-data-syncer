@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 134703.51,
-      "total_fees_paid": 2307.54,
+      "end_value": 133710.58,
+      "total_fees_paid": 2305.23,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 34.7,
-      "benchmark_return": -8.48,
-      "expectancy": 3.9,
-      "net_return_after_fees": 32.4
+      "total_return": 33.71,
+      "benchmark_return": -8.63,
+      "expectancy": 3.82,
+      "net_return_after_fees": 31.41
     },
     "risk_metrics": {
       "max_drawdown": -10.93,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 1.29,
-      "calmar_ratio": 4.46,
-      "omega_ratio": 2.35,
-      "sortino_ratio": 8.19
+      "sharpe_ratio": 1.26,
+      "calmar_ratio": 4.33,
+      "omega_ratio": 2.3,
+      "sortino_ratio": 3.4
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -76,14 +76,14 @@
       "total_trades": 9,
       "total_closed_trades": 8,
       "total_open_trades": 1,
-      "win_rate": 66.67,
+      "win_rate": 55.56,
       "best_trade": 18.34,
       "worst_trade": -10.93,
-      "avg_winning_trade": 10.19,
-      "avg_losing_trade": -8.69,
+      "avg_winning_trade": 12.15,
+      "avg_losing_trade": -6.6,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.35,
+      "profit_factor": 2.3,
       "total_stock_transactions": 126
     }
   },
@@ -7964,83 +7964,83 @@
   "current_performance": [
     {
       "month": "2026-09",
-      "portfolio_return": 0.39,
-      "benchmark_return": -0.69,
+      "portfolio_return": -0.35,
+      "benchmark_return": -0.86,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": 0.09,
-          "score": 6.88
+          "return": -0.18,
+          "score": 6.85
         },
         {
           "symbol": "STLTECH",
-          "return": -1.94,
-          "score": 6.64
+          "return": -2.09,
+          "score": 6.62
         },
         {
           "symbol": "SIGMAADV",
-          "return": -1.15,
-          "score": 6.6
+          "return": -3.47,
+          "score": 6.58
         },
         {
           "symbol": "HFCL",
-          "return": -9.16,
-          "score": 4.74
+          "return": -11.51,
+          "score": 4.73
         },
         {
           "symbol": "WELCORP",
-          "return": 5.54,
-          "score": 4.72
+          "return": 10.48,
+          "score": 4.71
         },
         {
           "symbol": "SHILPAMED",
-          "return": -2.19,
-          "score": 3.75
+          "return": 0.72,
+          "score": 3.73
         },
         {
           "symbol": "BLISSGVS",
-          "return": 5.17,
-          "score": 3.49
+          "return": 3.66,
+          "score": 3.48
         },
         {
           "symbol": "ATHERENERG",
-          "return": -1.84,
-          "score": 3.38
+          "return": -4.59,
+          "score": 3.36
         },
         {
           "symbol": "MODISONLTD",
-          "return": 14.67,
-          "score": 3.38
+          "return": 8.94,
+          "score": 3.36
         },
         {
           "symbol": "BHAGYANGR",
-          "return": -1.12,
-          "score": 3.25
-        },
-        {
-          "symbol": "INDSWFTLAB",
-          "return": 0.54,
+          "return": -2.92,
           "score": 3.23
         },
         {
+          "symbol": "INDSWFTLAB",
+          "return": 2.15,
+          "score": 3.22
+        },
+        {
           "symbol": "MAHASTEEL",
-          "return": -3.54,
-          "score": 3.2
+          "return": -8.36,
+          "score": 3.18
         },
         {
           "symbol": "RPTECH",
-          "return": -1.23,
-          "score": 3.17
+          "return": -0.06,
+          "score": 3.16
         },
         {
           "symbol": "CPPLUS",
-          "return": 4.36,
-          "score": 3.11
+          "return": 5.2,
+          "score": 3.09
         },
         {
           "symbol": "MTARTECH",
-          "return": -2.43,
-          "score": 3.04
+          "return": -3.17,
+          "score": 3.03
         }
       ]
     },
