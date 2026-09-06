@@ -244,8 +244,16 @@ model stocks {
   stock_notes           stock_notes[]
   stage2_changes        stage2_changes[]
   sync_tracker          sync_tracker[]
+  favorite_stocks       favorite_stocks?
 
   @@index([id], map: "ix_stocks_id")
+}
+
+model favorite_stocks {
+  id         Int      @id @default(autoincrement())
+  stock_id   Int      @unique
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  stocks     stocks   @relation(fields: [stock_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model sync_tracker {

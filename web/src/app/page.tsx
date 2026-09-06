@@ -5,7 +5,7 @@ import {
   TrendingUp, BarChart3, Zap, Database,
   ArrowRight, PieChart, Activity, Shield,
   AlertCircle, ChevronRight, TrendingDown, Calendar,
-  Search, Crosshair, GitCompare, Building2, Rocket, Globe,
+  Search, Crosshair, GitCompare, Building2, Rocket, Globe, Star,
 } from 'lucide-react'
 import GlobalSearch from '@/components/GlobalSearch'
 
@@ -75,6 +75,7 @@ export default function HomePage() {
     { title: 'Momentum Stocks', desc: 'Full momentum score rankings', href: '/momentum', icon: TrendingUp, badge: 'Live', color: 'sky' },
     { title: 'Simple Momentum', desc: 'Simplified 6M + 1Y rankings', href: '/simple-momentum', icon: Zap, badge: 'Live', color: 'violet' },
     { title: 'All Stocks', desc: '750+ stocks with full metrics', href: '/stocks', icon: Database, badge: 'DB', color: 'slate' },
+    { title: 'Favorites', desc: 'Your watchlist, tracked live', href: '/favorites', icon: Star, badge: 'New', color: 'amber' },
     { title: 'ETF Dashboard', desc: '300+ ETFs with OHLCV data', href: '/etf', icon: PieChart, badge: 'New', color: 'emerald' },
     { title: 'SME Stocks', desc: '550+ NSE SME board stocks', href: '/sme-stocks', icon: Building2, badge: 'New', color: 'orange' },
     { title: 'IPO Tracker', desc: 'Stocks listed in the last year', href: '/ipo', icon: Rocket, badge: 'New', color: 'rose' },
