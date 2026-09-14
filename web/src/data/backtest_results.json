@@ -57,7 +57,7 @@
     },
     "return_metrics": {
       "total_return": 62.61,
-      "benchmark_return": -10.15,
+      "benchmark_return": -10.45,
       "expectancy": 6.07,
       "net_return_after_fees": 59.66
     },
@@ -7965,7 +7965,7 @@
     {
       "month": "2026-09",
       "portfolio_return": 4.8,
-      "benchmark_return": -2.5,
+      "benchmark_return": -2.83,
       "holdings": [
         {
           "symbol": "CUPID",
@@ -8000,7 +8000,7 @@
         {
           "symbol": "INDSWFTLAB",
           "return": 5.61,
-          "score": 3.42
+          "score": 3.43
         },
         {
           "symbol": "HFCL",
@@ -8015,7 +8015,7 @@
         {
           "symbol": "ATHERENERG",
           "return": -3.59,
-          "score": 3.11
+          "score": 3.12
         },
         {
           "symbol": "KABRAEXTRU",
