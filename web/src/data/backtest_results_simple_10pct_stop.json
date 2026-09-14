@@ -57,7 +57,7 @@
     },
     "return_metrics": {
       "total_return": 35.37,
-      "benchmark_return": -10.15,
+      "benchmark_return": -10.45,
       "expectancy": 3.71,
       "net_return_after_fees": 33.29
     },
@@ -15165,7 +15165,7 @@
     {
       "month": "2026-09",
       "portfolio_return": 2.5,
-      "benchmark_return": -2.5,
+      "benchmark_return": -2.83,
       "holdings": [
         {
           "symbol": "STLTECH",
@@ -15240,7 +15240,7 @@
         {
           "symbol": "DIACABS",
           "return": 6.26,
-          "score": 3.17,
+          "score": 3.16,
           "entry_price": 347.3,
           "stop_triggered": false,
           "stop_type": null,
