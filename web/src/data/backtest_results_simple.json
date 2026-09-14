@@ -57,7 +57,7 @@
     },
     "return_metrics": {
       "total_return": 32.62,
-      "benchmark_return": -10.15,
+      "benchmark_return": -10.45,
       "expectancy": 3.56,
       "net_return_after_fees": 30.53
     },
@@ -7965,7 +7965,7 @@
     {
       "month": "2026-09",
       "portfolio_return": 2.19,
-      "benchmark_return": -2.5,
+      "benchmark_return": -2.83,
       "holdings": [
         {
           "symbol": "STLTECH",
