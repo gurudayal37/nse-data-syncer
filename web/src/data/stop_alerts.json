@@ -1,29 +1,14 @@
 {
-  "generated_at": "2026-09-11T11:04:16",
+  "generated_at": "2026-09-14T10:36:51",
   "current_month": "2026-09",
   "entry_date": "2026-09-01 00:00:00",
   "latest_date": "2026-09-11 00:00:00",
   "next_trading_day": "2026-09-14",
   "close_stop_pct": -10.0,
   "gtt_stop_pct": -15.0,
-  "total_stop_hits": 3,
+  "total_stop_hits": 2,
   "alerts": {
     "momentum": [
-      {
-        "rank": 15,
-        "symbol": "HAPPYFORGE",
-        "name": "Happy Forgings Ltd",
-        "entry_date": "2026-09-01 00:00:00",
-        "entry_price": 2449.0,
-        "current_close": 2169.0,
-        "current_date": "2026-09-11 00:00:00",
-        "return_pct": -11.43,
-        "stop_hit": true,
-        "stop_type": "close_stop",
-        "stop_date": "2026-09-11",
-        "exit_date": "2026-09-14",
-        "overdue": false
-      },
       {
         "rank": 14,
         "symbol": "HFCL",
@@ -40,7 +25,7 @@
         "overdue": true
       },
       {
-        "rank": 4,
+        "rank": 3,
         "symbol": "CUPID",
         "name": "Cupid Ltd-$",
         "entry_date": "2026-09-01 00:00:00",
@@ -55,7 +40,7 @@
         "overdue": false
       },
       {
-        "rank": 12,
+        "rank": 10,
         "symbol": "SHILPAMED",
         "name": "Shilpa Medicare Ltd",
         "entry_date": "2026-09-01 00:00:00",
@@ -70,7 +55,22 @@
         "overdue": false
       },
       {
-        "rank": 10,
+        "rank": 15,
+        "symbol": "LAURUSLABS",
+        "name": "Laurus Labs Limited",
+        "entry_date": "2026-09-01 00:00:00",
+        "entry_price": 1888.9,
+        "current_close": 1969.0,
+        "current_date": "2026-09-11 00:00:00",
+        "return_pct": 4.24,
+        "stop_hit": false,
+        "stop_type": null,
+        "stop_date": null,
+        "exit_date": null,
+        "overdue": false
+      },
+      {
+        "rank": 9,
         "symbol": "INDSWFTLAB",
         "name": "Ind-Swift Laboratories Ltd",
         "entry_date": "2026-09-01 00:00:00",
@@ -100,7 +100,7 @@
         "overdue": false
       },
       {
-        "rank": 9,
+        "rank": 12,
         "symbol": "CYIENTDLM",
         "name": "Cyient DLM Ltd",
         "entry_date": "2026-09-01 00:00:00",
@@ -130,7 +130,7 @@
         "overdue": false
       },
       {
-        "rank": 3,
+        "rank": 5,
         "symbol": "WELCORP",
         "name": "Welspun Corp Limited",
         "entry_date": "2026-09-01 00:00:00",
@@ -190,7 +190,7 @@
         "overdue": false
       },
       {
-        "rank": 5,
+        "rank": 4,
         "symbol": "SETL",
         "name": "Standard Engineering Technology Limited",
         "entry_date": "2026-09-01 00:00:00",
@@ -237,7 +237,7 @@
     ],
     "simple_momentum_high_cap": [
       {
-        "rank": 6,
+        "rank": 7,
         "symbol": "HFCL",
         "name": "HFCL Limited",
         "entry_date": "2026-09-01 00:00:00",
@@ -252,7 +252,7 @@
         "overdue": true
       },
       {
-        "rank": 15,
+        "rank": 13,
         "symbol": "ATHERENERG",
         "name": "Ather Energy Ltd",
         "entry_date": "2026-09-01 00:00:00",
@@ -297,7 +297,22 @@
         "overdue": false
       },
       {
-        "rank": 12,
+        "rank": 15,
+        "symbol": "LAURUSLABS",
+        "name": "Laurus Labs Limited",
+        "entry_date": "2026-09-01 00:00:00",
+        "entry_price": 1888.9,
+        "current_close": 1969.0,
+        "current_date": "2026-09-11 00:00:00",
+        "return_pct": 4.24,
+        "stop_hit": false,
+        "stop_type": null,
+        "stop_date": null,
+        "exit_date": null,
+        "overdue": false
+      },
+      {
+        "rank": 11,
         "symbol": "INDSWFTLAB",
         "name": "Ind-Swift Laboratories Ltd",
         "entry_date": "2026-09-01 00:00:00",
@@ -327,7 +342,7 @@
         "overdue": false
       },
       {
-        "rank": 10,
+        "rank": 14,
         "symbol": "CYIENTDLM",
         "name": "Cyient DLM Ltd",
         "entry_date": "2026-09-01 00:00:00",
@@ -342,7 +357,7 @@
         "overdue": false
       },
       {
-        "rank": 14,
+        "rank": 12,
         "symbol": "CPPLUS",
         "name": "Aditya Infotech Ltd",
         "entry_date": "2026-09-01 00:00:00",
@@ -417,7 +432,7 @@
         "overdue": false
       },
       {
-        "rank": 7,
+        "rank": 6,
         "symbol": "BODALCHEM",
         "name": "Bodal Chemicals Ltd",
         "entry_date": "2026-09-01 00:00:00",
@@ -432,22 +447,7 @@
         "overdue": false
       },
       {
-        "rank": 13,
-        "symbol": "WHEELS",
-        "name": "Wheels India Ltd",
-        "entry_date": "2026-09-01 00:00:00",
-        "entry_price": 1555.0,
-        "current_close": 2230.1,
-        "current_date": "2026-09-11 00:00:00",
-        "return_pct": 43.41,
-        "stop_hit": false,
-        "stop_type": null,
-        "stop_date": null,
-        "exit_date": null,
-        "overdue": false
-      },
-      {
-        "rank": 11,
+        "rank": 10,
         "symbol": "TBZ",
         "name": "Tribhovandas Bhimji Zaveri Ltd",
         "entry_date": "2026-09-01 00:00:00",
