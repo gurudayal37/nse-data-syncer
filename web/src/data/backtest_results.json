@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 162608.69,
-      "total_fees_paid": 2949.51,
+      "end_value": 154835.12,
+      "total_fees_paid": 2929.07,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 62.61,
-      "benchmark_return": -10.45,
-      "expectancy": 6.07,
-      "net_return_after_fees": 59.66
+      "total_return": 54.84,
+      "benchmark_return": -11.52,
+      "expectancy": 5.52,
+      "net_return_after_fees": 51.91
     },
     "risk_metrics": {
       "max_drawdown": -9.76,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 1.99,
-      "calmar_ratio": 9.35,
-      "omega_ratio": 4.21,
-      "sortino_ratio": 6.15
+      "sharpe_ratio": 1.78,
+      "calmar_ratio": 8.11,
+      "omega_ratio": 3.88,
+      "sortino_ratio": 5.04
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -76,14 +76,14 @@
       "total_trades": 9,
       "total_closed_trades": 8,
       "total_open_trades": 1,
-      "win_rate": 66.67,
+      "win_rate": 55.56,
       "best_trade": 24.4,
       "worst_trade": -9.76,
-      "avg_winning_trade": 11.95,
-      "avg_losing_trade": -5.68,
+      "avg_winning_trade": 13.38,
+      "avg_losing_trade": -4.31,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 4.21,
+      "profit_factor": 3.88,
       "total_stock_transactions": 142
     }
   },
@@ -7964,83 +7964,83 @@
   "current_performance": [
     {
       "month": "2026-09",
-      "portfolio_return": 4.8,
-      "benchmark_return": -2.83,
+      "portfolio_return": -0.21,
+      "benchmark_return": -3.99,
       "holdings": [
         {
           "symbol": "CUPID",
-          "return": -0.16,
-          "score": 5.7
+          "return": 1.4,
+          "score": 5.69
         },
         {
           "symbol": "SIGMAADV",
-          "return": 6.46,
-          "score": 5.21
+          "return": 1.62,
+          "score": 5.2
         },
         {
           "symbol": "STLTECH",
-          "return": 23.19,
-          "score": 4.51
+          "return": 17.04,
+          "score": 4.5
         },
         {
           "symbol": "WELCORP",
-          "return": 11.94,
-          "score": 4.18
+          "return": 0.93,
+          "score": 4.17
         },
         {
           "symbol": "SETL",
-          "return": 26.7,
-          "score": 3.83
+          "return": 20.37,
+          "score": 3.82
         },
         {
           "symbol": "SHILPAMED",
-          "return": 1.25,
-          "score": 3.67
+          "return": -3.94,
+          "score": 3.66
         },
         {
           "symbol": "INDSWFTLAB",
-          "return": 5.61,
-          "score": 3.43
-        },
-        {
-          "symbol": "HFCL",
-          "return": -6.18,
+          "return": 3.8,
           "score": 3.41
         },
         {
-          "symbol": "MENONBE",
-          "return": 3.65,
-          "score": 3.13
+          "symbol": "HFCL",
+          "return": -10.87,
+          "score": 3.4
         },
         {
-          "symbol": "ATHERENERG",
-          "return": -3.59,
+          "symbol": "MENONBE",
+          "return": 6.04,
           "score": 3.12
         },
         {
+          "symbol": "ATHERENERG",
+          "return": -8.69,
+          "score": 3.11
+        },
+        {
           "symbol": "KABRAEXTRU",
-          "return": 20.46,
-          "score": 3.04
+          "return": 8.42,
+          "score": 3.03
         },
         {
           "symbol": "HAPPYFORGE",
-          "return": -10.07,
-          "score": 3.01
+          "return": -14.0,
+          "score": 3.0
         },
         {
           "symbol": "AVADHSUGAR",
-          "return": -10.02,
-          "score": 2.96
+          "return": -14.33,
+          "score": 2.95
         },
         {
           "symbol": "MOREPENLAB",
-          "return": 8.04,
-          "score": 2.91
+          "return": -0.88,
+          "score": 2.9
         },
         {
           "symbol": "PVP",
-          "return": -5.34,
-          "score": 2.88
+          "return": -10.08,
+          "score": 2.87
         }
       ]
     },
