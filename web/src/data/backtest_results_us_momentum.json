@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 128652.18,
-      "total_fees_paid": 2863.86,
+      "end_value": 130058.91,
+      "total_fees_paid": 2867.17,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 28.65,
-      "benchmark_return": 10.92,
-      "expectancy": 3.95,
-      "net_return_after_fees": 25.79
+      "total_return": 30.06,
+      "benchmark_return": 10.41,
+      "expectancy": 4.08,
+      "net_return_after_fees": 27.19
     },
     "risk_metrics": {
       "max_drawdown": -29.51,
       "max_drawdown_duration": 3,
-      "sharpe_ratio": 0.97,
-      "calmar_ratio": 1.35,
-      "omega_ratio": 1.96,
-      "sortino_ratio": 1.25
+      "sharpe_ratio": 1.0,
+      "calmar_ratio": 1.42,
+      "omega_ratio": 1.99,
+      "sortino_ratio": 1.29
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -77,9 +77,9 @@
       "win_rate": 77.78,
       "best_trade": 18.89,
       "worst_trade": -29.51,
-      "avg_winning_trade": 10.39,
+      "avg_winning_trade": 10.55,
       "avg_losing_trade": -18.57,
-      "profit_factor": 1.96,
+      "profit_factor": 1.99,
       "total_stock_transactions": 127,
       "total_closed_trades": 8,
       "total_open_trades": 1,
@@ -7964,82 +7964,82 @@
   "current_performance": [
     {
       "month": "2026-09",
-      "portfolio_return": 0.6,
-      "benchmark_return": -0.86,
+      "portfolio_return": 1.7,
+      "benchmark_return": -1.31,
       "holdings": [
         {
           "symbol": "SNDK",
-          "return": -0.94,
+          "return": -2.29,
           "score": 7.01
         },
         {
           "symbol": "MPC",
-          "return": 6.2,
+          "return": 10.05,
           "score": 2.72
         },
         {
           "symbol": "MU",
-          "return": -3.62,
+          "return": -3.25,
           "score": 2.67
         },
         {
           "symbol": "RVMD",
-          "return": -0.88,
+          "return": -0.35,
           "score": 2.65
         },
         {
           "symbol": "MRNA",
-          "return": 4.52,
+          "return": 2.44,
           "score": 2.58
         },
         {
           "symbol": "VLO",
-          "return": 6.7,
+          "return": 10.62,
           "score": 2.58
         },
         {
           "symbol": "PANW",
-          "return": -2.14,
+          "return": -1.84,
           "score": 2.57
         },
         {
           "symbol": "DINO",
-          "return": 6.13,
+          "return": 10.47,
           "score": 2.49
         },
         {
           "symbol": "DD",
-          "return": -5.65,
+          "return": -4.87,
           "score": 2.47
         },
         {
           "symbol": "MAN",
-          "return": -10.31,
+          "return": -7.15,
           "score": 2.39
         },
         {
           "symbol": "CXW",
-          "return": 5.15,
+          "return": 6.5,
           "score": 2.3
         },
         {
           "symbol": "PSX",
-          "return": 4.25,
+          "return": 7.44,
           "score": 2.28
         },
         {
           "symbol": "FTNT",
-          "return": -0.44,
+          "return": 0.84,
           "score": 2.22
         },
         {
           "symbol": "CLDT",
-          "return": -1.0,
+          "return": 0.15,
           "score": 2.14
         },
         {
           "symbol": "STT",
-          "return": 1.06,
+          "return": -3.27,
           "score": 2.03
         }
       ]
