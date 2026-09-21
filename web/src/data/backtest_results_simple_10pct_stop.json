@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 132434.72,
-      "total_fees_paid": 2066.54,
+      "end_value": 133095.04,
+      "total_fees_paid": 2067.88,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 32.43,
-      "benchmark_return": -10.94,
-      "expectancy": 3.46,
-      "net_return_after_fees": 30.37
+      "total_return": 33.1,
+      "benchmark_return": -10.34,
+      "expectancy": 3.51,
+      "net_return_after_fees": 31.03
     },
     "risk_metrics": {
       "max_drawdown": -9.21,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 1.55,
-      "calmar_ratio": 4.93,
-      "omega_ratio": 3.49,
-      "sortino_ratio": 4.05
+      "sharpe_ratio": 1.58,
+      "calmar_ratio": 5.04,
+      "omega_ratio": 3.53,
+      "sortino_ratio": 4.11
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -79,11 +79,11 @@
       "win_rate": 77.78,
       "best_trade": 16.32,
       "worst_trade": -9.21,
-      "avg_winning_trade": 6.23,
+      "avg_winning_trade": 6.3,
       "avg_losing_trade": -6.25,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 3.49,
+      "profit_factor": 3.53,
       "total_stock_transactions": 110
     }
   },
@@ -15164,12 +15164,12 @@
   "current_performance": [
     {
       "month": "2026-09",
-      "portfolio_return": 0.28,
-      "benchmark_return": -3.36,
+      "portfolio_return": 0.78,
+      "benchmark_return": -2.71,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": 12.4,
+          "return": 11.6,
           "score": 7.19,
           "entry_price": 728.45,
           "stop_triggered": false,
@@ -15189,7 +15189,7 @@
         },
         {
           "symbol": "WELCORP",
-          "return": 11.25,
+          "return": 15.67,
           "score": 5.14,
           "entry_price": 2391.0,
           "stop_triggered": false,
@@ -15199,7 +15199,7 @@
         },
         {
           "symbol": "SHILPAMED",
-          "return": 7.56,
+          "return": 11.83,
           "score": 4.1,
           "entry_price": 949.3,
           "stop_triggered": false,
@@ -15209,7 +15209,7 @@
         },
         {
           "symbol": "ATHERENERG",
-          "return": -4.52,
+          "return": -7.2,
           "score": 3.72,
           "entry_price": 1717.7,
           "stop_triggered": false,
@@ -15219,7 +15219,7 @@
         },
         {
           "symbol": "MTARTECH",
-          "return": 2.25,
+          "return": -0.57,
           "score": 3.37,
           "entry_price": 7043.5,
           "stop_triggered": false,
@@ -15229,7 +15229,7 @@
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 2.04,
+          "return": 5.35,
           "score": 3.31,
           "entry_price": 1915.0,
           "stop_triggered": false,
@@ -15239,8 +15239,8 @@
         },
         {
           "symbol": "DIACABS",
-          "return": 5.61,
-          "score": 3.17,
+          "return": 8.18,
+          "score": 3.16,
           "entry_price": 347.3,
           "stop_triggered": false,
           "stop_type": null,
@@ -15249,7 +15249,7 @@
         },
         {
           "symbol": "SANSERA",
-          "return": 6.02,
+          "return": 7.02,
           "score": 3.1,
           "entry_price": 4018.0,
           "stop_triggered": false,
@@ -15269,7 +15269,7 @@
         },
         {
           "symbol": "CYIENTDLM",
-          "return": 11.59,
+          "return": 8.14,
           "score": 2.96,
           "entry_price": 843.0,
           "stop_triggered": false,
@@ -15289,7 +15289,7 @@
         },
         {
           "symbol": "SKYGOLD",
-          "return": -2.9,
+          "return": -1.6,
           "score": 2.88,
           "entry_price": 807.1,
           "stop_triggered": false,
@@ -15299,7 +15299,7 @@
         },
         {
           "symbol": "AETHER",
-          "return": -3.62,
+          "return": -3.18,
           "score": 2.37,
           "entry_price": 1691.3,
           "stop_triggered": false,
