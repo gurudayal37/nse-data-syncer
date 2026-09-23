@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-22T11:06:36",
-  "as_of_date": "2026-09-22",
+  "generated_at": "2026-09-23T11:01:04",
+  "as_of_date": "2026-09-23",
   "universe": "High Cap (market_cap >= 2000 Cr)",
-  "universe_size": 1072,
+  "universe_size": 1073,
   "picks": {
     "momentum": {
       "description": "Top 15 by 3M + 6M + 1Y momentum (equal weight)",
@@ -13,153 +13,153 @@
       "stocks": [
         {
           "rank": 1,
-          "symbol": "SIGMAADV",
-          "name": "SIGMA ADVANCED SYSTEMS LIMITED",
-          "market_cap_cr": 16708,
-          "weighted_z": 5.9025,
-          "mr_3m": 1.1342,
-          "mr_6m": 8.8211,
-          "mr_1y": 9.5611
+          "symbol": "TBZ",
+          "name": "Tribhovandas Bhimji Zaveri Ltd",
+          "market_cap_cr": 4621,
+          "weighted_z": 5.5943,
+          "mr_3m": 4.2367,
+          "mr_6m": 6.9575,
+          "mr_1y": 4.2202
         },
         {
           "rank": 2,
-          "symbol": "TBZ",
-          "name": "Tribhovandas Bhimji Zaveri Ltd",
-          "market_cap_cr": 4440,
-          "weighted_z": 5.2789,
-          "mr_3m": 3.9922,
-          "mr_6m": 6.2986,
-          "mr_1y": 3.9277
+          "symbol": "SIGMAADV",
+          "name": "SIGMA ADVANCED SYSTEMS LIMITED",
+          "market_cap_cr": 16508,
+          "weighted_z": 5.3927,
+          "mr_3m": 0.9624,
+          "mr_6m": 8.3354,
+          "mr_1y": 9.1783
         },
         {
           "rank": 3,
           "symbol": "BODALCHEM",
           "name": "Bodal Chemicals Ltd",
-          "market_cap_cr": 2429,
-          "weighted_z": 4.9025,
-          "mr_3m": 3.6773,
-          "mr_6m": 5.9888,
-          "mr_1y": 3.6263
+          "market_cap_cr": 2513,
+          "weighted_z": 4.9413,
+          "mr_3m": 3.8728,
+          "mr_6m": 5.9291,
+          "mr_1y": 3.8519
         },
         {
           "rank": 4,
           "symbol": "STLTECH",
           "name": "Sterlite Technologies Ltd",
-          "market_cap_cr": 43158,
-          "weighted_z": 4.5159,
-          "mr_3m": 0.6316,
-          "mr_6m": 5.5298,
-          "mr_1y": 9.5973
+          "market_cap_cr": 44574,
+          "weighted_z": 4.7676,
+          "mr_3m": 0.7994,
+          "mr_6m": 6.0908,
+          "mr_1y": 9.9266
         },
         {
           "rank": 5,
           "symbol": "WELCORP",
           "name": "Welspun Corp Limited",
-          "market_cap_cr": 72031,
-          "weighted_z": 4.3192,
-          "mr_3m": 2.2557,
-          "mr_6m": 5.648,
-          "mr_1y": 5.0846
+          "market_cap_cr": 73753,
+          "weighted_z": 4.4965,
+          "mr_3m": 2.4011,
+          "mr_6m": 6.112,
+          "mr_1y": 5.2898
         },
         {
           "rank": 6,
           "symbol": "CUPID",
           "name": "Cupid Ltd-$",
-          "market_cap_cr": 34719,
-          "weighted_z": 3.8643,
-          "mr_3m": 0.7214,
-          "mr_6m": 3.8867,
-          "mr_1y": 9.0002
+          "market_cap_cr": 36824,
+          "weighted_z": 4.19,
+          "mr_3m": 0.9029,
+          "mr_6m": 4.2503,
+          "mr_1y": 9.7654
         },
         {
           "rank": 7,
-          "symbol": "SHILPAMED",
-          "name": "Shilpa Medicare Ltd",
-          "market_cap_cr": 20207,
-          "weighted_z": 3.5148,
-          "mr_3m": 1.8003,
-          "mr_6m": 5.2558,
-          "mr_1y": 3.6239
+          "symbol": "KABRAEXTRU",
+          "name": "Kabra Extrusiontechnik Ltd",
+          "market_cap_cr": 2563,
+          "weighted_z": 4.0009,
+          "mr_3m": 3.6152,
+          "mr_6m": 4.3556,
+          "mr_1y": 2.8329
         },
         {
           "rank": 8,
-          "symbol": "KABRAEXTRU",
-          "name": "Kabra Extrusiontechnik Ltd",
-          "market_cap_cr": 2330,
-          "weighted_z": 3.476,
-          "mr_3m": 3.1534,
-          "mr_6m": 3.5966,
-          "mr_1y": 2.4674
+          "symbol": "SHILPAMED",
+          "name": "Shilpa Medicare Ltd",
+          "market_cap_cr": 20296,
+          "weighted_z": 3.5942,
+          "mr_3m": 1.9047,
+          "mr_6m": 5.5363,
+          "mr_1y": 3.748
         },
         {
           "rank": 9,
-          "symbol": "INDSWFTLAB",
-          "name": "Ind-Swift Laboratories Ltd",
-          "market_cap_cr": 3527,
-          "weighted_z": 3.3878,
-          "mr_3m": 1.9719,
-          "mr_6m": 3.3311,
-          "mr_1y": 5.118
+          "symbol": "CYIENTDLM",
+          "name": "Cyient DLM Ltd",
+          "market_cap_cr": 7647,
+          "weighted_z": 3.3859,
+          "mr_3m": 2.3787,
+          "mr_6m": 4.982,
+          "mr_1y": 2.5755
         },
         {
           "rank": 10,
-          "symbol": "MOREPENLAB",
-          "name": "Morepen Laboratories Ltd",
-          "market_cap_cr": 6523,
-          "weighted_z": 3.082,
-          "mr_3m": 2.3529,
-          "mr_6m": 4.082,
-          "mr_1y": 2.2216
+          "symbol": "INDSWFTLAB",
+          "name": "Ind-Swift Laboratories Ltd",
+          "market_cap_cr": 3522,
+          "weighted_z": 3.2744,
+          "mr_3m": 1.9576,
+          "mr_6m": 3.3455,
+          "mr_1y": 5.0804
         },
         {
           "rank": 11,
-          "symbol": "BLISSGVS",
-          "name": "Bliss GVS Pharma Ltd",
-          "market_cap_cr": 7386,
-          "weighted_z": 3.0683,
-          "mr_3m": 0.8053,
-          "mr_6m": 3.7501,
-          "mr_1y": 6.0488
+          "symbol": "MOREPENLAB",
+          "name": "Morepen Laboratories Ltd",
+          "market_cap_cr": 6704,
+          "weighted_z": 3.1428,
+          "mr_3m": 2.482,
+          "mr_6m": 4.2507,
+          "mr_1y": 2.3207
         },
         {
           "rank": 12,
-          "symbol": "CYIENTDLM",
-          "name": "Cyient DLM Ltd",
-          "market_cap_cr": 7279,
-          "weighted_z": 3.0467,
-          "mr_3m": 2.1409,
-          "mr_6m": 4.323,
-          "mr_1y": 2.2737
+          "symbol": "BLISSGVS",
+          "name": "Bliss GVS Pharma Ltd",
+          "market_cap_cr": 7435,
+          "weighted_z": 3.0879,
+          "mr_3m": 0.8761,
+          "mr_6m": 4.0032,
+          "mr_1y": 6.0282
         },
         {
           "rank": 13,
-          "symbol": "SETL",
-          "name": "Standard Engineering Technology Limited",
-          "market_cap_cr": 8031,
-          "weighted_z": 2.9966,
-          "mr_3m": 1.8669,
-          "mr_6m": 4.7033,
-          "mr_1y": 2.2406
+          "symbol": "DIACABS",
+          "name": "Diamond Power Infrastructure Ltd-$",
+          "market_cap_cr": 22598,
+          "weighted_z": 3.0344,
+          "mr_3m": 1.8418,
+          "mr_6m": 4.4553,
+          "mr_1y": 3.1123
         },
         {
           "rank": 14,
-          "symbol": "DIACABS",
-          "name": "Diamond Power Infrastructure Ltd-$",
-          "market_cap_cr": 22179,
-          "weighted_z": 2.8896,
-          "mr_3m": 1.806,
-          "mr_6m": 4.0036,
-          "mr_1y": 2.8363
+          "symbol": "LAURUSLABS",
+          "name": "Laurus Labs Limited",
+          "market_cap_cr": 109900,
+          "weighted_z": 2.8357,
+          "mr_3m": 1.3457,
+          "mr_6m": 3.8901,
+          "mr_1y": 4.1708
         },
         {
           "rank": 15,
-          "symbol": "INDORAMA",
-          "name": "Indo Rama Synthetics (India) Ltd",
-          "market_cap_cr": 2704,
-          "weighted_z": 2.7788,
-          "mr_3m": 2.2147,
-          "mr_6m": 3.9421,
-          "mr_1y": 1.5865
+          "symbol": "SETL",
+          "name": "Standard Engineering Technology Limited",
+          "market_cap_cr": 8119,
+          "weighted_z": 2.788,
+          "mr_3m": 1.6072,
+          "mr_6m": 4.9443,
+          "mr_1y": 2.135
         }
       ]
     },
@@ -174,151 +174,151 @@
           "rank": 1,
           "symbol": "SIGMAADV",
           "name": "SIGMA ADVANCED SYSTEMS LIMITED",
-          "market_cap_cr": 16708,
-          "weighted_z": 7.8929,
-          "mr_3m": 1.1342,
-          "mr_6m": 8.8211,
-          "mr_1y": 9.5611
+          "market_cap_cr": 16508,
+          "weighted_z": 7.3082,
+          "mr_3m": 0.9624,
+          "mr_6m": 8.3354,
+          "mr_1y": 9.1783
         },
         {
           "rank": 2,
           "symbol": "STLTECH",
           "name": "Sterlite Technologies Ltd",
-          "market_cap_cr": 43158,
-          "weighted_z": 6.2725,
-          "mr_3m": 0.6316,
-          "mr_6m": 5.5298,
-          "mr_1y": 9.5973
+          "market_cap_cr": 44574,
+          "weighted_z": 6.5185,
+          "mr_3m": 0.7994,
+          "mr_6m": 6.0908,
+          "mr_1y": 9.9266
         },
         {
           "rank": 3,
           "symbol": "CUPID",
           "name": "Cupid Ltd-$",
-          "market_cap_cr": 34719,
-          "weighted_z": 5.2129,
-          "mr_3m": 0.7214,
-          "mr_6m": 3.8867,
-          "mr_1y": 9.0002
+          "market_cap_cr": 36824,
+          "weighted_z": 5.5582,
+          "mr_3m": 0.9029,
+          "mr_6m": 4.2503,
+          "mr_1y": 9.7654
         },
         {
           "rank": 4,
           "symbol": "WELCORP",
           "name": "Welspun Corp Limited",
-          "market_cap_cr": 72031,
-          "weighted_z": 4.4924,
-          "mr_3m": 2.2557,
-          "mr_6m": 5.648,
-          "mr_1y": 5.0846
+          "market_cap_cr": 73753,
+          "weighted_z": 4.6569,
+          "mr_3m": 2.4011,
+          "mr_6m": 6.112,
+          "mr_1y": 5.2898
         },
         {
           "rank": 5,
           "symbol": "TBZ",
           "name": "Tribhovandas Bhimji Zaveri Ltd",
-          "market_cap_cr": 4440,
-          "weighted_z": 4.3441,
-          "mr_3m": 3.9922,
-          "mr_6m": 6.2986,
-          "mr_1y": 3.9277
+          "market_cap_cr": 4621,
+          "weighted_z": 4.6363,
+          "mr_3m": 4.2367,
+          "mr_6m": 6.9575,
+          "mr_1y": 4.2202
         },
         {
           "rank": 6,
           "symbol": "BODALCHEM",
           "name": "Bodal Chemicals Ltd",
-          "market_cap_cr": 2429,
-          "weighted_z": 4.0674,
-          "mr_3m": 3.6773,
-          "mr_6m": 5.9888,
-          "mr_1y": 3.6263
+          "market_cap_cr": 2513,
+          "weighted_z": 3.9874,
+          "mr_3m": 3.8728,
+          "mr_6m": 5.9291,
+          "mr_1y": 3.8519
         },
         {
           "rank": 7,
           "symbol": "BLISSGVS",
           "name": "Bliss GVS Pharma Ltd",
-          "market_cap_cr": 7386,
-          "weighted_z": 3.9423,
-          "mr_3m": 0.8053,
-          "mr_6m": 3.7501,
-          "mr_1y": 6.0488
+          "market_cap_cr": 7435,
+          "weighted_z": 3.9293,
+          "mr_3m": 0.8761,
+          "mr_6m": 4.0032,
+          "mr_1y": 6.0282
         },
         {
           "rank": 8,
           "symbol": "SHILPAMED",
           "name": "Shilpa Medicare Ltd",
-          "market_cap_cr": 20207,
-          "weighted_z": 3.7022,
-          "mr_3m": 1.8003,
-          "mr_6m": 5.2558,
-          "mr_1y": 3.6239
+          "market_cap_cr": 20296,
+          "weighted_z": 3.7544,
+          "mr_3m": 1.9047,
+          "mr_6m": 5.5363,
+          "mr_1y": 3.748
         },
         {
           "rank": 9,
           "symbol": "INDSWFTLAB",
           "name": "Ind-Swift Laboratories Ltd",
-          "market_cap_cr": 3527,
-          "weighted_z": 3.3549,
-          "mr_3m": 1.9719,
-          "mr_6m": 3.3311,
-          "mr_1y": 5.118
+          "market_cap_cr": 3522,
+          "weighted_z": 3.2267,
+          "mr_3m": 1.9576,
+          "mr_6m": 3.3455,
+          "mr_1y": 5.0804
         },
         {
           "rank": 10,
-          "symbol": "HFCL",
-          "name": "HFCL Limited",
-          "market_cap_cr": 33828,
-          "weighted_z": 3.2249,
-          "mr_3m": 0.1863,
-          "mr_6m": 4.1032,
-          "mr_1y": 3.8577
+          "symbol": "LAURUSLABS",
+          "name": "Laurus Labs Limited",
+          "market_cap_cr": 109900,
+          "weighted_z": 3.1244,
+          "mr_3m": 1.3457,
+          "mr_6m": 3.8901,
+          "mr_1y": 4.1708
         },
         {
           "rank": 11,
-          "symbol": "RPTECH",
-          "name": "Rashi Peripherals Ltd",
-          "market_cap_cr": 5867,
-          "weighted_z": 3.0265,
-          "mr_3m": 0.4579,
-          "mr_6m": 3.4889,
-          "mr_1y": 4.1197
+          "symbol": "HFCL",
+          "name": "HFCL Limited",
+          "market_cap_cr": 33263,
+          "weighted_z": 3.068,
+          "mr_3m": 0.1234,
+          "mr_6m": 4.1635,
+          "mr_1y": 3.7016
         },
         {
           "rank": 12,
-          "symbol": "LAURUSLABS",
-          "name": "Laurus Labs Limited",
-          "market_cap_cr": 108414,
-          "weighted_z": 3.0178,
-          "mr_3m": 1.1982,
-          "mr_6m": 3.5133,
-          "mr_1y": 4.0686
+          "symbol": "RPTECH",
+          "name": "Rashi Peripherals Ltd",
+          "market_cap_cr": 5968,
+          "weighted_z": 3.0536,
+          "mr_3m": 0.4077,
+          "mr_6m": 3.7256,
+          "mr_1y": 4.1936
         },
         {
           "rank": 13,
-          "symbol": "SANSERA",
-          "name": "Sansera Engineering Ltd",
-          "market_cap_cr": 28621,
-          "weighted_z": 2.9697,
-          "mr_3m": 1.1426,
-          "mr_6m": 2.6412,
-          "mr_1y": 5.0138
+          "symbol": "CYIENTDLM",
+          "name": "Cyient DLM Ltd",
+          "market_cap_cr": 7647,
+          "weighted_z": 3.0115,
+          "mr_3m": 2.3787,
+          "mr_6m": 4.982,
+          "mr_1y": 2.5755
         },
         {
           "rank": 14,
-          "symbol": "PAISALO",
-          "name": "Paisalo Digital Ltd",
-          "market_cap_cr": 8541,
-          "weighted_z": 2.9506,
-          "mr_3m": 1.3552,
-          "mr_6m": 4.0498,
-          "mr_1y": 3.2496
+          "symbol": "DIACABS",
+          "name": "Diamond Power Infrastructure Ltd-$",
+          "market_cap_cr": 22598,
+          "weighted_z": 2.972,
+          "mr_3m": 1.8418,
+          "mr_6m": 4.4553,
+          "mr_1y": 3.1123
         },
         {
           "rank": 15,
-          "symbol": "SETL",
-          "name": "Standard Engineering Technology Limited",
-          "market_cap_cr": 8031,
-          "weighted_z": 2.8641,
-          "mr_3m": 1.8669,
-          "mr_6m": 4.7033,
-          "mr_1y": 2.2406
+          "symbol": "SANSERA",
+          "name": "Sansera Engineering Ltd",
+          "market_cap_cr": 28846,
+          "weighted_z": 2.9699,
+          "mr_3m": 1.1394,
+          "mr_6m": 2.8329,
+          "mr_1y": 5.0619
         }
       ]
     }
