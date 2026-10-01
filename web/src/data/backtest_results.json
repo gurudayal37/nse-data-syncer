@@ -46,45 +46,45 @@
   "current_metrics": {
     "time_metrics": {
       "start": "2026-01",
-      "end": "2026-09",
-      "period": "9 months (0.8 years)"
+      "end": "2026-10",
+      "period": "10 months (0.8 years)"
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 170770.15,
-      "total_fees_paid": 2970.97,
+      "end_value": 170121.23,
+      "total_fees_paid": 3336.48,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 70.77,
-      "benchmark_return": -13.43,
-      "expectancy": 6.66,
-      "net_return_after_fees": 67.8
+      "total_return": 70.12,
+      "benchmark_return": -14.19,
+      "expectancy": 5.95,
+      "net_return_after_fees": 66.78
     },
     "risk_metrics": {
       "max_drawdown": -9.76,
       "max_drawdown_duration": 1,
-      "sharpe_ratio": 2.17,
-      "calmar_ratio": 10.67,
-      "omega_ratio": 4.52,
-      "sortino_ratio": 6.74
+      "sharpe_ratio": 2.01,
+      "calmar_ratio": 9.14,
+      "omega_ratio": 4.42,
+      "sortino_ratio": 5.5
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
-      "total_trades": 9,
-      "total_closed_trades": 8,
+      "total_trades": 10,
+      "total_closed_trades": 9,
       "total_open_trades": 1,
-      "win_rate": 66.67,
+      "win_rate": 60.0,
       "best_trade": 24.4,
       "worst_trade": -9.76,
       "avg_winning_trade": 12.83,
-      "avg_losing_trade": -5.68,
+      "avg_losing_trade": -4.35,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 4.52,
-      "total_stock_transactions": 142
+      "profit_factor": 4.42,
+      "total_stock_transactions": 154
     }
   },
   "backtest_results": [
@@ -7962,6 +7962,88 @@
     }
   ],
   "current_performance": [
+    {
+      "month": "2026-10",
+      "portfolio_return": -0.38,
+      "benchmark_return": -0.88,
+      "holdings": [
+        {
+          "symbol": "SIGMAADV",
+          "return": 4.99,
+          "score": 6.23
+        },
+        {
+          "symbol": "STLTECH",
+          "return": 5.0,
+          "score": 5.19
+        },
+        {
+          "symbol": "TBZ",
+          "return": -1.83,
+          "score": 5.13
+        },
+        {
+          "symbol": "BODALCHEM",
+          "return": -4.34,
+          "score": 4.83
+        },
+        {
+          "symbol": "CUPID",
+          "return": 0.27,
+          "score": 4.53
+        },
+        {
+          "symbol": "KABRAEXTRU",
+          "return": -5.0,
+          "score": 4.32
+        },
+        {
+          "symbol": "NRL",
+          "return": -2.0,
+          "score": 4.14
+        },
+        {
+          "symbol": "WELCORP",
+          "return": -4.09,
+          "score": 4.0
+        },
+        {
+          "symbol": "SHILPAMED",
+          "return": 1.61,
+          "score": 3.42
+        },
+        {
+          "symbol": "MOREPENLAB",
+          "return": 6.14,
+          "score": 3.29
+        },
+        {
+          "symbol": "SBC",
+          "return": 0.43,
+          "score": 3.25
+        },
+        {
+          "symbol": "CYIENTDLM",
+          "return": -2.21,
+          "score": 3.24
+        },
+        {
+          "symbol": "RAYMOND",
+          "return": -1.31,
+          "score": 3.14
+        },
+        {
+          "symbol": "INDSWFTLAB",
+          "return": 1.65,
+          "score": 3.1
+        },
+        {
+          "symbol": "AHCL",
+          "return": -4.97,
+          "score": 3.05
+        }
+      ]
+    },
     {
       "month": "2026-09",
       "portfolio_return": 10.06,
