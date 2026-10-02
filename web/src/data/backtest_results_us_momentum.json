@@ -57,7 +57,7 @@
     },
     "return_metrics": {
       "total_return": 33.29,
-      "benchmark_return": 11.66,
+      "benchmark_return": 11.87,
       "expectancy": 3.92,
       "net_return_after_fees": 30.11
     },
@@ -7965,37 +7965,52 @@
     {
       "month": "2026-10",
       "portfolio_return": 0.0,
-      "benchmark_return": 0.0,
+      "benchmark_return": 0.19,
       "holdings": [
         {
           "symbol": "SNDK",
           "return": 0.0,
-          "score": 4.92
+          "score": 4.46
         },
         {
           "symbol": "MRNA",
           "return": 0.0,
-          "score": 3.84
+          "score": 3.57
         },
         {
           "symbol": "MU",
           "return": 0.0,
-          "score": 3.25
+          "score": 3.35
         },
         {
           "symbol": "ILMN",
           "return": 0.0,
-          "score": 3.12
+          "score": 3.2
         },
         {
           "symbol": "DELL",
           "return": 0.0,
-          "score": 2.86
+          "score": 3.02
+        },
+        {
+          "symbol": "HPE",
+          "return": 0.0,
+          "score": 2.88
         },
         {
           "symbol": "NTRA",
           "return": 0.0,
-          "score": 2.82
+          "score": 2.8
+        },
+        {
+          "symbol": "MPC",
+          "return": 0.0,
+          "score": 2.79
+        },
+        {
+          "symbol": "VLO",
+          "return": 0.0,
+          "score": 2.69
         },
         {
           "symbol": "RVMD",
@@ -8003,44 +8018,29 @@
           "score": 2.67
         },
         {
-          "symbol": "MPC",
+          "symbol": "DINO",
           "return": 0.0,
           "score": 2.63
         },
         {
-          "symbol": "HPE",
-          "return": 0.0,
-          "score": 2.56
-        },
-        {
-          "symbol": "VLO",
-          "return": 0.0,
-          "score": 2.55
-        },
-        {
-          "symbol": "DINO",
-          "return": 0.0,
-          "score": 2.43
-        },
-        {
           "symbol": "AMD",
           "return": 0.0,
-          "score": 2.42
+          "score": 2.61
         },
         {
           "symbol": "PSX",
           "return": 0.0,
-          "score": 2.39
+          "score": 2.59
         },
         {
           "symbol": "TWLO",
           "return": 0.0,
-          "score": 2.32
+          "score": 2.4
         },
         {
           "symbol": "OKTA",
           "return": 0.0,
-          "score": 2.27
+          "score": 2.38
         }
       ]
     },
