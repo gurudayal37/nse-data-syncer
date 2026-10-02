@@ -57,7 +57,7 @@
     },
     "return_metrics": {
       "total_return": 88.53,
-      "benchmark_return": 11.66,
+      "benchmark_return": 11.87,
       "expectancy": 7.02,
       "net_return_after_fees": 85.6
     },
@@ -9405,82 +9405,82 @@
     {
       "month": "2026-10",
       "portfolio_return": 0.0,
-      "benchmark_return": 0.0,
+      "benchmark_return": 0.19,
       "holdings": [
         {
           "symbol": "SNDK",
           "return": 0.0,
-          "score": 7.54
+          "score": 6.72
         },
         {
           "symbol": "MU",
           "return": 0.0,
-          "score": 4.91
-        },
-        {
-          "symbol": "MRNA",
-          "return": 0.0,
-          "score": 4.03
+          "score": 4.87
         },
         {
           "symbol": "DELL",
           "return": 0.0,
-          "score": 3.84
+          "score": 3.99
+        },
+        {
+          "symbol": "MRNA",
+          "return": 0.0,
+          "score": 3.75
         },
         {
           "symbol": "RVMD",
           "return": 0.0,
-          "score": 3.77
+          "score": 3.71
         },
         {
           "symbol": "AMD",
           "return": 0.0,
-          "score": 3.48
+          "score": 3.59
         },
         {
           "symbol": "ILMN",
           "return": 0.0,
-          "score": 3.36
-        },
-        {
-          "symbol": "STX",
-          "return": 0.0,
-          "score": 3.08
+          "score": 3.52
         },
         {
           "symbol": "HPE",
           "return": 0.0,
-          "score": 3.07
-        },
-        {
-          "symbol": "BAND",
-          "return": 0.0,
-          "score": 2.95
-        },
-        {
-          "symbol": "CLDT",
-          "return": 0.0,
-          "score": 2.94
-        },
-        {
-          "symbol": "NTRA",
-          "return": 0.0,
-          "score": 2.94
+          "score": 3.28
         },
         {
           "symbol": "FTNT",
           "return": 0.0,
-          "score": 2.92
+          "score": 3.07
+        },
+        {
+          "symbol": "CLDT",
+          "return": 0.0,
+          "score": 3.06
+        },
+        {
+          "symbol": "STX",
+          "return": 0.0,
+          "score": 3.0
+        },
+        {
+          "symbol": "BAND",
+          "return": 0.0,
+          "score": 2.94
         },
         {
           "symbol": "PANW",
           "return": 0.0,
-          "score": 2.78
+          "score": 2.94
         },
         {
-          "symbol": "MRVL",
+          "symbol": "INTC",
           "return": 0.0,
-          "score": 2.74
+          "score": 2.91
+        },
+        {
+          "symbol": "NTRA",
+          "return": 0.0,
+          "score": 2.89
         }
       ]
     },
