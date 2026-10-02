@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T11:02:54",
+  "generated_at": "2026-10-02T10:37:20",
   "current_month": "2026-10",
   "entry_date": "2026-10-01 00:00:00",
   "latest_date": "2026-10-01 00:00:00",
@@ -70,7 +70,7 @@
         "overdue": false
       },
       {
-        "rank": 10,
+        "rank": 13,
         "symbol": "CYIENTDLM",
         "name": "Cyient DLM Ltd",
         "entry_date": "2026-10-01 00:00:00",
@@ -85,7 +85,7 @@
         "overdue": false
       },
       {
-        "rank": 11,
+        "rank": 10,
         "symbol": "SBC",
         "name": "SBC Exports Ltd",
         "entry_date": "2026-10-01 00:00:00",
@@ -100,7 +100,7 @@
         "overdue": false
       },
       {
-        "rank": 12,
+        "rank": 11,
         "symbol": "RAYMOND",
         "name": "Raymond Limited",
         "entry_date": "2026-10-01 00:00:00",
@@ -190,7 +190,7 @@
         "overdue": false
       },
       {
-        "rank": 13,
+        "rank": 12,
         "symbol": "INDSWFTLAB",
         "name": "Ind-Swift Laboratories Ltd",
         "entry_date": "2026-10-01 00:00:00",
@@ -237,7 +237,7 @@
     ],
     "simple_momentum_high_cap": [
       {
-        "rank": 8,
+        "rank": 11,
         "symbol": "KABRAEXTRU",
         "name": "Kabra Extrusiontechnik Ltd",
         "entry_date": "2026-10-01 00:00:00",
@@ -297,7 +297,7 @@
         "overdue": false
       },
       {
-        "rank": 7,
+        "rank": 8,
         "symbol": "SBC",
         "name": "SBC Exports Ltd",
         "entry_date": "2026-10-01 00:00:00",
@@ -342,7 +342,7 @@
         "overdue": false
       },
       {
-        "rank": 14,
+        "rank": 13,
         "symbol": "SETL",
         "name": "Standard Engineering Technology Limited",
         "entry_date": "2026-10-01 00:00:00",
@@ -387,7 +387,7 @@
         "overdue": false
       },
       {
-        "rank": 11,
+        "rank": 7,
         "symbol": "HFCL",
         "name": "HFCL Limited",
         "entry_date": "2026-10-01 00:00:00",
@@ -395,6 +395,21 @@
         "current_close": 238.36,
         "current_date": "2026-10-01 00:00:00",
         "return_pct": -0.0,
+        "stop_hit": false,
+        "stop_type": null,
+        "stop_date": null,
+        "exit_date": null,
+        "overdue": false
+      },
+      {
+        "rank": 15,
+        "symbol": "SHREEJISPG",
+        "name": "Shreeji Shipping Global Ltd",
+        "entry_date": "2026-10-01 00:00:00",
+        "entry_price": 774.0,
+        "current_close": 775.35,
+        "current_date": "2026-10-01 00:00:00",
+        "return_pct": 0.17,
         "stop_hit": false,
         "stop_type": null,
         "stop_date": null,
@@ -417,7 +432,7 @@
         "overdue": false
       },
       {
-        "rank": 13,
+        "rank": 14,
         "symbol": "INDSWFTLAB",
         "name": "Ind-Swift Laboratories Ltd",
         "entry_date": "2026-10-01 00:00:00",
@@ -440,21 +455,6 @@
         "current_close": 1064.1,
         "current_date": "2026-10-01 00:00:00",
         "return_pct": 1.93,
-        "stop_hit": false,
-        "stop_type": null,
-        "stop_date": null,
-        "exit_date": null,
-        "overdue": false
-      },
-      {
-        "rank": 15,
-        "symbol": "MOREPENLAB",
-        "name": "Morepen Laboratories Ltd",
-        "entry_date": "2026-10-01 00:00:00",
-        "entry_price": 125.9,
-        "current_close": 133.72,
-        "current_date": "2026-10-01 00:00:00",
-        "return_pct": 6.21,
         "stop_hit": false,
         "stop_type": null,
         "stop_date": null,
