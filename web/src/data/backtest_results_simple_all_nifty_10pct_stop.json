@@ -15162,7 +15162,7 @@
         {
           "symbol": "SIGMAADV",
           "return": 4.99,
-          "score": 8.02,
+          "score": 8.01,
           "entry_price": 1025.7,
           "stop_triggered": false,
           "stop_type": null,
@@ -15172,7 +15172,7 @@
         {
           "symbol": "STLTECH",
           "return": 5.0,
-          "score": 6.87,
+          "score": 6.86,
           "entry_price": 909.9,
           "stop_triggered": false,
           "stop_type": null,
