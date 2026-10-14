@@ -10,7 +10,7 @@ Setup for the AWS cost kill-switch (aws/cost_guard/guard.py).
 Safe to re-run; it updates in place.
 
 Usage:
-    python aws/setup_cost_guard.py [--limit 30] [--email you@example.com]
+    python aws/setup_cost_guard.py [--limit 20] [--email you@example.com]
 """
 
 import argparse
@@ -166,7 +166,7 @@ def setup_schedule(fn_arn):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--email', help='Optional: also email budget alerts at 80%%/100%%')
-    ap.add_argument('--limit', type=float, default=30)
+    ap.add_argument('--limit', type=float, default=20)
     args = ap.parse_args()
 
     account_id = boto3.client('sts', region_name=REGION).get_caller_identity()['Account']

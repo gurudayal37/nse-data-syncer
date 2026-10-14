@@ -23,7 +23,7 @@ import urllib.request
 import boto3
 
 BUDGET_NAME = os.environ.get('BUDGET_NAME', 'monthly-cost-guard')
-LIMIT_USD = float(os.environ.get('LIMIT_USD', '30'))
+LIMIT_USD = float(os.environ.get('LIMIT_USD', '20'))
 OWN_RULE = os.environ.get('OWN_RULE', 'aws-cost-guard-schedule')
 TAG = {'Key': 'cost-guard-stopped', 'Value': 'true'}
 
