@@ -51,35 +51,35 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 189647.32,
-      "total_fees_paid": 2941.72,
+      "end_value": 186272.55,
+      "total_fees_paid": 2935.48,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 89.65,
-      "benchmark_return": 12.69,
-      "expectancy": 7.08,
-      "net_return_after_fees": 86.71
+      "total_return": 86.27,
+      "benchmark_return": 13.9,
+      "expectancy": 6.9,
+      "net_return_after_fees": 83.34
     },
     "risk_metrics": {
       "max_drawdown": -9.16,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 2.46,
-      "calmar_ratio": 12.61,
-      "omega_ratio": 5.36,
-      "sortino_ratio": 23.57
+      "sharpe_ratio": 2.37,
+      "calmar_ratio": 12.11,
+      "omega_ratio": 4.96,
+      "sortino_ratio": 7.09
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
     },
     "trade_statistics": {
       "total_trades": 10,
-      "win_rate": 80.0,
+      "win_rate": 70.0,
       "best_trade": 25.33,
       "worst_trade": -9.16,
-      "avg_winning_trade": 10.88,
-      "avg_losing_trade": -8.12,
-      "profit_factor": 5.36,
+      "avg_winning_trade": 12.35,
+      "avg_losing_trade": -5.81,
+      "profit_factor": 4.96,
       "total_stock_transactions": 111,
       "total_closed_trades": 9,
       "total_open_trades": 1,
@@ -9404,96 +9404,96 @@
   "current_performance": [
     {
       "month": "2026-10",
-      "portfolio_return": 0.59,
-      "benchmark_return": 0.93,
+      "portfolio_return": -1.2,
+      "benchmark_return": 2.01,
       "holdings": [
         {
           "symbol": "SNDK",
-          "return": 2.75,
+          "return": -10.0,
           "score": 6.72,
-          "stop_triggered": false
+          "stop_triggered": true
         },
         {
           "symbol": "MU",
-          "return": 3.03,
+          "return": -7.14,
           "score": 4.87,
           "stop_triggered": false
         },
         {
           "symbol": "DELL",
-          "return": 0.7,
+          "return": 7.21,
           "score": 3.99,
           "stop_triggered": false
         },
         {
           "symbol": "MRNA",
-          "return": -1.89,
+          "return": 10.99,
           "score": 3.75,
           "stop_triggered": false
         },
         {
           "symbol": "RVMD",
-          "return": 0.31,
+          "return": -5.51,
           "score": 3.71,
           "stop_triggered": false
         },
         {
           "symbol": "AMD",
-          "return": 0.65,
+          "return": -2.86,
           "score": 3.59,
           "stop_triggered": false
         },
         {
           "symbol": "ILMN",
-          "return": -2.91,
+          "return": 1.09,
           "score": 3.52,
           "stop_triggered": false
         },
         {
           "symbol": "HPE",
-          "return": 1.08,
+          "return": 10.08,
           "score": 3.28,
           "stop_triggered": false
         },
         {
           "symbol": "FTNT",
-          "return": -0.02,
+          "return": 7.93,
           "score": 3.07,
           "stop_triggered": false
         },
         {
           "symbol": "CLDT",
-          "return": 1.35,
+          "return": 2.32,
           "score": 3.06,
           "stop_triggered": false
         },
         {
           "symbol": "STX",
-          "return": 2.52,
+          "return": -10.0,
           "score": 3.0,
-          "stop_triggered": false
+          "stop_triggered": true
         },
         {
           "symbol": "BAND",
-          "return": 2.85,
+          "return": -10.0,
           "score": 2.94,
-          "stop_triggered": false
+          "stop_triggered": true
         },
         {
           "symbol": "PANW",
-          "return": -0.27,
+          "return": 1.64,
           "score": 2.94,
           "stop_triggered": false
         },
         {
           "symbol": "INTC",
-          "return": -0.19,
+          "return": -10.0,
           "score": 2.91,
-          "stop_triggered": false
+          "stop_triggered": true
         },
         {
           "symbol": "NTRA",
-          "return": -1.17,
+          "return": -3.76,
           "score": 2.89,
           "stop_triggered": false
         }
