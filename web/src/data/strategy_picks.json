@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T11:03:38",
+  "generated_at": "2026-10-20T10:39:16",
   "as_of_date": "2026-10-19",
   "universe": "High Cap (market_cap >= 2000 Cr)",
   "universe_size": 1072,
@@ -16,7 +16,7 @@
           "symbol": "TBZ",
           "name": "Tribhovandas Bhimji Zaveri Ltd",
           "market_cap_cr": 5126,
-          "weighted_z": 5.7624,
+          "weighted_z": 5.7621,
           "mr_3m": 3.0624,
           "mr_6m": 6.2837,
           "mr_1y": 4.9188
@@ -26,7 +26,7 @@
           "symbol": "SIGMAADV",
           "name": "SIGMA ADVANCED SYSTEMS LIMITED",
           "market_cap_cr": 17304,
-          "weighted_z": 5.5632,
+          "weighted_z": 5.5629,
           "mr_3m": 1.1144,
           "mr_6m": 6.6847,
           "mr_1y": 8.3813
@@ -36,7 +36,7 @@
           "symbol": "STLTECH",
           "name": "Sterlite Technologies Ltd",
           "market_cap_cr": 45610,
-          "weighted_z": 5.2164,
+          "weighted_z": 5.2163,
           "mr_3m": 1.1571,
           "mr_6m": 4.0396,
           "mr_1y": 10.7486
@@ -46,7 +46,7 @@
           "symbol": "CUPID",
           "name": "Cupid Ltd-$",
           "market_cap_cr": 45221,
-          "weighted_z": 5.0123,
+          "weighted_z": 5.0122,
           "mr_3m": 0.9588,
           "mr_6m": 4.2677,
           "mr_1y": 10.1635
@@ -56,7 +56,7 @@
           "symbol": "SBC",
           "name": "SBC Exports Ltd",
           "market_cap_cr": 3071,
-          "weighted_z": 4.2903,
+          "weighted_z": 4.2902,
           "mr_3m": 1.858,
           "mr_6m": 3.3724,
           "mr_1y": 6.5904
@@ -66,7 +66,7 @@
           "symbol": "BODALCHEM",
           "name": "Bodal Chemicals Ltd",
           "market_cap_cr": 2065,
-          "weighted_z": 3.8376,
+          "weighted_z": 3.8375,
           "mr_3m": 2.9224,
           "mr_6m": 2.7493,
           "mr_1y": 3.2146
@@ -76,7 +76,7 @@
           "symbol": "KABRAEXTRU",
           "name": "Kabra Extrusiontechnik Ltd",
           "market_cap_cr": 2982,
-          "weighted_z": 3.8085,
+          "weighted_z": 3.8084,
           "mr_3m": 2.2552,
           "mr_6m": 3.653,
           "mr_1y": 3.46
@@ -86,7 +86,7 @@
           "symbol": "WELCORP",
           "name": "Welspun Corp Limited",
           "market_cap_cr": 68376,
-          "weighted_z": 3.4983,
+          "weighted_z": 3.4982,
           "mr_3m": 1.464,
           "mr_6m": 3.2215,
           "mr_1y": 4.8677
@@ -96,7 +96,7 @@
           "symbol": "SHREEJISPG",
           "name": "Shreeji Shipping Global Ltd",
           "market_cap_cr": 13262,
-          "weighted_z": 3.3155,
+          "weighted_z": 3.3154,
           "mr_3m": 0.8883,
           "mr_6m": 3.0738,
           "mr_1y": 5.8138
@@ -106,7 +106,7 @@
           "symbol": "MOREPENLAB",
           "name": "Morepen Laboratories Ltd",
           "market_cap_cr": 6657,
-          "weighted_z": 3.2707,
+          "weighted_z": 3.2705,
           "mr_3m": 1.882,
           "mr_6m": 3.4552,
           "mr_1y": 2.6828
@@ -116,7 +116,7 @@
           "symbol": "SPECTRUM",
           "name": "Spectrum Electrical Industries Ltd",
           "market_cap_cr": 6294,
-          "weighted_z": 3.2274,
+          "weighted_z": 3.2273,
           "mr_3m": 1.5458,
           "mr_6m": 3.6575,
           "mr_1y": 3.0598
@@ -126,7 +126,7 @@
           "symbol": "LAURUSLABS",
           "name": "Laurus Labs Limited",
           "market_cap_cr": 111791,
-          "weighted_z": 3.1169,
+          "weighted_z": 3.1168,
           "mr_3m": 1.225,
           "mr_6m": 2.8974,
           "mr_1y": 4.5139
@@ -136,7 +136,7 @@
           "symbol": "SKYGOLD",
           "name": "Sky Gold And Diamonds Ltd",
           "market_cap_cr": 15923,
-          "weighted_z": 3.1024,
+          "weighted_z": 3.1023,
           "mr_3m": 1.3803,
           "mr_6m": 2.9358,
           "mr_1y": 4.0274
@@ -146,7 +146,7 @@
           "symbol": "HFCL",
           "name": "HFCL Limited",
           "market_cap_cr": 41135,
-          "weighted_z": 3.0894,
+          "weighted_z": 3.0893,
           "mr_3m": 0.5092,
           "mr_6m": 3.7814,
           "mr_1y": 4.9119
@@ -156,7 +156,7 @@
           "symbol": "RAYMOND",
           "name": "Raymond Limited",
           "market_cap_cr": 7524,
-          "weighted_z": 2.898,
+          "weighted_z": 2.8979,
           "mr_3m": 1.7143,
           "mr_6m": 3.3224,
           "mr_1y": 1.9165
@@ -175,7 +175,7 @@
           "symbol": "SIGMAADV",
           "name": "SIGMA ADVANCED SYSTEMS LIMITED",
           "market_cap_cr": 17304,
-          "weighted_z": 7.1497,
+          "weighted_z": 7.1493,
           "mr_3m": 1.1144,
           "mr_6m": 6.6847,
           "mr_1y": 8.3813
@@ -185,7 +185,7 @@
           "symbol": "STLTECH",
           "name": "Sterlite Technologies Ltd",
           "market_cap_cr": 45610,
-          "weighted_z": 6.5869,
+          "weighted_z": 6.5867,
           "mr_3m": 1.1571,
           "mr_6m": 4.0396,
           "mr_1y": 10.7486
@@ -195,7 +195,7 @@
           "symbol": "CUPID",
           "name": "Cupid Ltd-$",
           "market_cap_cr": 45221,
-          "weighted_z": 6.4793,
+          "weighted_z": 6.4791,
           "mr_3m": 0.9588,
           "mr_6m": 4.2677,
           "mr_1y": 10.1635
@@ -205,7 +205,7 @@
           "symbol": "TBZ",
           "name": "Tribhovandas Bhimji Zaveri Ltd",
           "market_cap_cr": 5126,
-          "weighted_z": 5.4982,
+          "weighted_z": 5.4978,
           "mr_3m": 3.0624,
           "mr_6m": 6.2837,
           "mr_1y": 4.9188
@@ -215,7 +215,7 @@
           "symbol": "SBC",
           "name": "SBC Exports Ltd",
           "market_cap_cr": 3071,
-          "weighted_z": 4.4959,
+          "weighted_z": 4.4958,
           "mr_3m": 1.858,
           "mr_6m": 3.3724,
           "mr_1y": 6.5904
@@ -225,7 +225,7 @@
           "symbol": "HFCL",
           "name": "HFCL Limited",
           "market_cap_cr": 41135,
-          "weighted_z": 4.045,
+          "weighted_z": 4.0448,
           "mr_3m": 0.5092,
           "mr_6m": 3.7814,
           "mr_1y": 4.9119
@@ -235,7 +235,7 @@
           "symbol": "SHREEJISPG",
           "name": "Shreeji Shipping Global Ltd",
           "market_cap_cr": 13262,
-          "weighted_z": 4.0046,
+          "weighted_z": 4.0045,
           "mr_3m": 0.8883,
           "mr_6m": 3.0738,
           "mr_1y": 5.8138
@@ -245,7 +245,7 @@
           "symbol": "WELCORP",
           "name": "Welspun Corp Limited",
           "market_cap_cr": 68376,
-          "weighted_z": 3.7025,
+          "weighted_z": 3.7023,
           "mr_3m": 1.464,
           "mr_6m": 3.2215,
           "mr_1y": 4.8677
@@ -255,7 +255,7 @@
           "symbol": "KABRAEXTRU",
           "name": "Kabra Extrusiontechnik Ltd",
           "market_cap_cr": 2982,
-          "weighted_z": 3.3756,
+          "weighted_z": 3.3754,
           "mr_3m": 2.2552,
           "mr_6m": 3.653,
           "mr_1y": 3.46
@@ -265,7 +265,7 @@
           "symbol": "LAURUSLABS",
           "name": "Laurus Labs Limited",
           "market_cap_cr": 111791,
-          "weighted_z": 3.3696,
+          "weighted_z": 3.3694,
           "mr_3m": 1.225,
           "mr_6m": 2.8974,
           "mr_1y": 4.5139
@@ -275,7 +275,7 @@
           "symbol": "BLISSGVS",
           "name": "Bliss GVS Pharma Ltd",
           "market_cap_cr": 6667,
-          "weighted_z": 3.2291,
+          "weighted_z": 3.229,
           "mr_3m": 0.496,
           "mr_6m": 2.3752,
           "mr_1y": 4.9095
@@ -285,7 +285,7 @@
           "symbol": "SPECTRUM",
           "name": "Spectrum Electrical Industries Ltd",
           "market_cap_cr": 6294,
-          "weighted_z": 3.2142,
+          "weighted_z": 3.214,
           "mr_3m": 1.5458,
           "mr_6m": 3.6575,
           "mr_1y": 3.0598
@@ -295,7 +295,7 @@
           "symbol": "SKYGOLD",
           "name": "Sky Gold And Diamonds Ltd",
           "market_cap_cr": 15923,
-          "weighted_z": 3.1924,
+          "weighted_z": 3.1923,
           "mr_3m": 1.3803,
           "mr_6m": 2.9358,
           "mr_1y": 4.0274
@@ -305,7 +305,7 @@
           "symbol": "INDSWFTLAB",
           "name": "Ind-Swift Laboratories Ltd",
           "market_cap_cr": 3109,
-          "weighted_z": 2.9476,
+          "weighted_z": 2.9475,
           "mr_3m": 0.9225,
           "mr_6m": 2.518,
           "mr_1y": 4.021
@@ -315,7 +315,7 @@
           "symbol": "MOREPENLAB",
           "name": "Morepen Laboratories Ltd",
           "market_cap_cr": 6657,
-          "weighted_z": 2.9424,
+          "weighted_z": 2.9422,
           "mr_3m": 1.882,
           "mr_6m": 3.4552,
           "mr_1y": 2.6828
