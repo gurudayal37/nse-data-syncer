@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-22T11:02:01",
-  "as_of_date": "2026-10-22",
+  "generated_at": "2026-10-23T11:02:04",
+  "as_of_date": "2026-10-23",
   "universe": "High Cap (market_cap >= 2000 Cr)",
-  "universe_size": 1052,
+  "universe_size": 1043,
   "picks": {
     "momentum": {
       "description": "Top 15 by 3M + 6M + 1Y momentum (equal weight)",
@@ -15,151 +15,151 @@
           "rank": 1,
           "symbol": "TBZ",
           "name": "Tribhovandas Bhimji Zaveri Ltd",
-          "market_cap_cr": 4772,
-          "weighted_z": 5.7122,
-          "mr_3m": 2.705,
-          "mr_6m": 5.8582,
-          "mr_1y": 4.3789
+          "market_cap_cr": 4534,
+          "weighted_z": 5.3674,
+          "mr_3m": 2.4127,
+          "mr_6m": 5.3775,
+          "mr_1y": 4.0144
         },
         {
           "rank": 2,
-          "symbol": "SIGMAADV",
-          "name": "SIGMA ADVANCED SYSTEMS LIMITED",
-          "market_cap_cr": 15620,
-          "weighted_z": 5.315,
-          "mr_3m": 1.018,
-          "mr_6m": 5.2494,
-          "mr_1y": 8.1089
+          "symbol": "STLTECH",
+          "name": "Sterlite Technologies Ltd",
+          "market_cap_cr": 42495,
+          "weighted_z": 4.9331,
+          "mr_3m": 0.807,
+          "mr_6m": 3.2092,
+          "mr_1y": 9.5918
         },
         {
           "rank": 3,
-          "symbol": "STLTECH",
-          "name": "Sterlite Technologies Ltd",
-          "market_cap_cr": 41168,
-          "weighted_z": 4.8103,
-          "mr_3m": 0.8378,
-          "mr_6m": 3.1721,
-          "mr_1y": 9.7545
+          "symbol": "SIGMAADV",
+          "name": "SIGMA ADVANCED SYSTEMS LIMITED",
+          "market_cap_cr": 14839,
+          "weighted_z": 4.8445,
+          "mr_3m": 0.8471,
+          "mr_6m": 4.5645,
+          "mr_1y": 7.2711
         },
         {
           "rank": 4,
           "symbol": "CUPID",
           "name": "Cupid Ltd-$",
-          "market_cap_cr": 43036,
-          "weighted_z": 4.7637,
-          "mr_3m": 0.8669,
-          "mr_6m": 3.427,
-          "mr_1y": 9.158
+          "market_cap_cr": 41207,
+          "weighted_z": 4.5602,
+          "mr_3m": 0.807,
+          "mr_6m": 2.9986,
+          "mr_1y": 8.6239
         },
         {
           "rank": 5,
           "symbol": "SBC",
           "name": "SBC Exports Ltd",
-          "market_cap_cr": 2958,
-          "weighted_z": 4.2384,
-          "mr_3m": 1.6982,
-          "mr_6m": 2.9365,
-          "mr_1y": 5.9355
+          "market_cap_cr": 2907,
+          "weighted_z": 4.1725,
+          "mr_3m": 1.5749,
+          "mr_6m": 2.7973,
+          "mr_1y": 5.6894
         },
         {
           "rank": 6,
           "symbol": "MOREPENLAB",
           "name": "Morepen Laboratories Ltd",
-          "market_cap_cr": 6448,
-          "weighted_z": 3.5228,
-          "mr_3m": 1.8873,
-          "mr_6m": 3.26,
-          "mr_1y": 2.5143
+          "market_cap_cr": 6769,
+          "weighted_z": 4.1216,
+          "mr_3m": 2.3233,
+          "mr_6m": 3.4361,
+          "mr_1y": 2.7568
         },
         {
           "rank": 7,
           "symbol": "KABRAEXTRU",
           "name": "Kabra Extrusiontechnik Ltd",
-          "market_cap_cr": 2722,
-          "weighted_z": 3.5097,
-          "mr_3m": 1.6119,
-          "mr_6m": 3.3239,
-          "mr_1y": 3.0712
+          "market_cap_cr": 2629,
+          "weighted_z": 3.605,
+          "mr_3m": 1.6682,
+          "mr_6m": 3.2039,
+          "mr_1y": 2.9551
         },
         {
           "rank": 8,
           "symbol": "SPECTRUM",
           "name": "Spectrum Electrical Industries Ltd",
-          "market_cap_cr": 6292,
-          "weighted_z": 3.4728,
-          "mr_3m": 1.2768,
-          "mr_6m": 3.8219,
-          "mr_1y": 3.0803
+          "market_cap_cr": 6288,
+          "weighted_z": 3.5745,
+          "mr_3m": 1.2721,
+          "mr_6m": 3.7876,
+          "mr_1y": 3.0059
         },
         {
           "rank": 9,
           "symbol": "SKYGOLD",
           "name": "Sky Gold And Diamonds Ltd",
-          "market_cap_cr": 16154,
-          "weighted_z": 3.4237,
-          "mr_3m": 1.2469,
-          "mr_6m": 3.2408,
-          "mr_1y": 3.8091
+          "market_cap_cr": 16213,
+          "weighted_z": 3.535,
+          "mr_3m": 1.1828,
+          "mr_6m": 3.1908,
+          "mr_1y": 3.9388
         },
         {
           "rank": 10,
-          "symbol": "WELCORP",
-          "name": "Welspun Corp Limited",
-          "market_cap_cr": 64455,
-          "weighted_z": 3.3302,
-          "mr_3m": 1.1376,
-          "mr_6m": 2.8869,
-          "mr_1y": 4.2611
+          "symbol": "SHREEJISPG",
+          "name": "Shreeji Shipping Global Ltd",
+          "market_cap_cr": 12652,
+          "weighted_z": 3.3226,
+          "mr_3m": 0.5814,
+          "mr_6m": 2.5956,
+          "mr_1y": 5.5515
         },
         {
           "rank": 11,
-          "symbol": "SHREEJISPG",
-          "name": "Shreeji Shipping Global Ltd",
-          "market_cap_cr": 12852,
-          "weighted_z": 3.2995,
-          "mr_3m": 0.6979,
-          "mr_6m": 2.7003,
-          "mr_1y": 5.5261
+          "symbol": "WELCORP",
+          "name": "Welspun Corp Limited",
+          "market_cap_cr": 62991,
+          "weighted_z": 3.309,
+          "mr_3m": 1.0938,
+          "mr_6m": 2.6557,
+          "mr_1y": 4.15
         },
         {
           "rank": 12,
-          "symbol": "BLISSGVS",
-          "name": "Bliss GVS Pharma Ltd",
-          "market_cap_cr": 6834,
-          "weighted_z": 3.1331,
-          "mr_3m": 0.6244,
-          "mr_6m": 2.5578,
-          "mr_1y": 5.3348
+          "symbol": "RATNAVEER",
+          "name": "Ratnaveer Precision Engineering Ltd",
+          "market_cap_cr": 2775,
+          "weighted_z": 3.1739,
+          "mr_3m": 1.743,
+          "mr_6m": 2.506,
+          "mr_1y": 2.2947
         },
         {
           "rank": 13,
-          "symbol": "LAURUSLABS",
-          "name": "Laurus Labs Limited",
-          "market_cap_cr": 108198,
-          "weighted_z": 3.0012,
-          "mr_3m": 0.8894,
-          "mr_6m": 2.6759,
-          "mr_1y": 4.0418
+          "symbol": "BLISSGVS",
+          "name": "Bliss GVS Pharma Ltd",
+          "market_cap_cr": 6628,
+          "weighted_z": 3.1632,
+          "mr_3m": 0.6512,
+          "mr_6m": 2.3453,
+          "mr_1y": 5.1918
         },
         {
           "rank": 14,
-          "symbol": "RAYMOND",
-          "name": "Raymond Limited",
-          "market_cap_cr": 7225,
-          "weighted_z": 2.9856,
-          "mr_3m": 1.5465,
-          "mr_6m": 3.1078,
-          "mr_1y": 1.7212
+          "symbol": "MAHASTEEL",
+          "name": "Mahamaya Steel Industries Ltd",
+          "market_cap_cr": 2422,
+          "weighted_z": 3.1473,
+          "mr_3m": 1.8654,
+          "mr_6m": 1.379,
+          "mr_1y": 3.498
         },
         {
           "rank": 15,
-          "symbol": "RATNAVEER",
-          "name": "Ratnaveer Precision Engineering Ltd",
-          "market_cap_cr": 2739,
-          "weighted_z": 2.9502,
-          "mr_3m": 1.6676,
-          "mr_6m": 2.4376,
-          "mr_1y": 2.2437
+          "symbol": "SSWL",
+          "name": "Steel Strips Wheels Ltd-$",
+          "market_cap_cr": 7372,
+          "weighted_z": 3.0779,
+          "mr_3m": 1.4722,
+          "mr_6m": 2.518,
+          "mr_1y": 2.6229
         }
       ]
     },
@@ -172,153 +172,153 @@
       "stocks": [
         {
           "rank": 1,
-          "symbol": "SIGMAADV",
-          "name": "SIGMA ADVANCED SYSTEMS LIMITED",
-          "market_cap_cr": 15620,
-          "weighted_z": 6.6656,
-          "mr_3m": 1.018,
-          "mr_6m": 5.2494,
-          "mr_1y": 8.1089
+          "symbol": "STLTECH",
+          "name": "Sterlite Technologies Ltd",
+          "market_cap_cr": 42495,
+          "weighted_z": 6.2795,
+          "mr_3m": 0.807,
+          "mr_6m": 3.2092,
+          "mr_1y": 9.5918
         },
         {
           "rank": 2,
-          "symbol": "STLTECH",
-          "name": "Sterlite Technologies Ltd",
-          "market_cap_cr": 41168,
-          "weighted_z": 6.1043,
-          "mr_3m": 0.8378,
-          "mr_6m": 3.1721,
-          "mr_1y": 9.7545
+          "symbol": "SIGMAADV",
+          "name": "SIGMA ADVANCED SYSTEMS LIMITED",
+          "market_cap_cr": 14839,
+          "weighted_z": 6.1027,
+          "mr_3m": 0.8471,
+          "mr_6m": 4.5645,
+          "mr_1y": 7.2711
         },
         {
           "rank": 3,
           "symbol": "CUPID",
           "name": "Cupid Ltd-$",
-          "market_cap_cr": 43036,
-          "weighted_z": 6.0028,
-          "mr_3m": 0.8669,
-          "mr_6m": 3.427,
-          "mr_1y": 9.158
+          "market_cap_cr": 41207,
+          "weighted_z": 5.7201,
+          "mr_3m": 0.807,
+          "mr_6m": 2.9986,
+          "mr_1y": 8.6239
         },
         {
           "rank": 4,
           "symbol": "TBZ",
           "name": "Tribhovandas Bhimji Zaveri Ltd",
-          "market_cap_cr": 4772,
-          "weighted_z": 5.4282,
-          "mr_3m": 2.705,
-          "mr_6m": 5.8582,
-          "mr_1y": 4.3789
+          "market_cap_cr": 4534,
+          "weighted_z": 5.1731,
+          "mr_3m": 2.4127,
+          "mr_6m": 5.3775,
+          "mr_1y": 4.0144
         },
         {
           "rank": 5,
           "symbol": "SBC",
           "name": "SBC Exports Ltd",
-          "market_cap_cr": 2958,
-          "weighted_z": 4.3115,
-          "mr_3m": 1.6982,
-          "mr_6m": 2.9365,
-          "mr_1y": 5.9355
+          "market_cap_cr": 2907,
+          "weighted_z": 4.2979,
+          "mr_3m": 1.5749,
+          "mr_6m": 2.7973,
+          "mr_1y": 5.6894
         },
         {
           "rank": 6,
           "symbol": "SHREEJISPG",
           "name": "Shreeji Shipping Global Ltd",
-          "market_cap_cr": 12852,
-          "weighted_z": 3.9901,
-          "mr_3m": 0.6979,
-          "mr_6m": 2.7003,
-          "mr_1y": 5.5261
+          "market_cap_cr": 12652,
+          "weighted_z": 4.1107,
+          "mr_3m": 0.5814,
+          "mr_6m": 2.5956,
+          "mr_1y": 5.5515
         },
         {
           "rank": 7,
-          "symbol": "HFCL",
-          "name": "HFCL Limited",
-          "market_cap_cr": 38494,
-          "weighted_z": 3.8715,
-          "mr_3m": 0.2986,
-          "mr_6m": 3.2875,
-          "mr_1y": 4.4185
+          "symbol": "BLISSGVS",
+          "name": "Bliss GVS Pharma Ltd",
+          "market_cap_cr": 6628,
+          "weighted_z": 3.7952,
+          "mr_3m": 0.6512,
+          "mr_6m": 2.3453,
+          "mr_1y": 5.1918
         },
         {
           "rank": 8,
-          "symbol": "BLISSGVS",
-          "name": "Bliss GVS Pharma Ltd",
-          "market_cap_cr": 6834,
-          "weighted_z": 3.8203,
-          "mr_3m": 0.6244,
-          "mr_6m": 2.5578,
-          "mr_1y": 5.3348
+          "symbol": "SKYGOLD",
+          "name": "Sky Gold And Diamonds Ltd",
+          "market_cap_cr": 16213,
+          "weighted_z": 3.7709,
+          "mr_3m": 1.1828,
+          "mr_6m": 3.1908,
+          "mr_1y": 3.9388
         },
         {
           "rank": 9,
           "symbol": "SPECTRUM",
           "name": "Spectrum Electrical Industries Ltd",
-          "market_cap_cr": 6292,
-          "weighted_z": 3.621,
-          "mr_3m": 1.2768,
-          "mr_6m": 3.8219,
-          "mr_1y": 3.0803
+          "market_cap_cr": 6288,
+          "weighted_z": 3.7324,
+          "mr_3m": 1.2721,
+          "mr_6m": 3.7876,
+          "mr_1y": 3.0059
         },
         {
           "rank": 10,
-          "symbol": "SKYGOLD",
-          "name": "Sky Gold And Diamonds Ltd",
-          "market_cap_cr": 16154,
-          "weighted_z": 3.5798,
-          "mr_3m": 1.2469,
-          "mr_6m": 3.2408,
-          "mr_1y": 3.8091
+          "symbol": "HFCL",
+          "name": "HFCL Limited",
+          "market_cap_cr": 36737,
+          "weighted_z": 3.5682,
+          "mr_3m": 0.1963,
+          "mr_6m": 2.8041,
+          "mr_1y": 4.0279
         },
         {
           "rank": 11,
           "symbol": "WELCORP",
           "name": "Welspun Corp Limited",
-          "market_cap_cr": 64455,
-          "weighted_z": 3.5583,
-          "mr_3m": 1.1376,
-          "mr_6m": 2.8869,
-          "mr_1y": 4.2611
+          "market_cap_cr": 62991,
+          "weighted_z": 3.5293,
+          "mr_3m": 1.0938,
+          "mr_6m": 2.6557,
+          "mr_1y": 4.15
         },
         {
           "rank": 12,
-          "symbol": "INDSWFTLAB",
-          "name": "Ind-Swift Laboratories Ltd",
-          "market_cap_cr": 3052,
-          "weighted_z": 3.3465,
-          "mr_3m": 0.8061,
-          "mr_6m": 2.6418,
-          "mr_1y": 4.118
+          "symbol": "MOREPENLAB",
+          "name": "Morepen Laboratories Ltd",
+          "market_cap_cr": 6769,
+          "weighted_z": 3.4023,
+          "mr_3m": 2.3233,
+          "mr_6m": 3.4361,
+          "mr_1y": 2.7568
         },
         {
           "rank": 13,
           "symbol": "LAURUSLABS",
           "name": "Laurus Labs Limited",
-          "market_cap_cr": 108198,
-          "weighted_z": 3.3345,
-          "mr_3m": 0.8894,
-          "mr_6m": 2.6759,
-          "mr_1y": 4.0418
+          "market_cap_cr": 106442,
+          "weighted_z": 3.3865,
+          "mr_3m": 0.859,
+          "mr_6m": 2.6535,
+          "mr_1y": 3.83
         },
         {
           "rank": 14,
           "symbol": "KABRAEXTRU",
           "name": "Kabra Extrusiontechnik Ltd",
-          "market_cap_cr": 2722,
-          "weighted_z": 3.3122,
-          "mr_3m": 1.6119,
-          "mr_6m": 3.3239,
-          "mr_1y": 3.0712
+          "market_cap_cr": 2629,
+          "weighted_z": 3.3446,
+          "mr_3m": 1.6682,
+          "mr_6m": 3.2039,
+          "mr_1y": 2.9551
         },
         {
           "rank": 15,
-          "symbol": "MOREPENLAB",
-          "name": "Morepen Laboratories Ltd",
-          "market_cap_cr": 6448,
-          "weighted_z": 3.0326,
-          "mr_3m": 1.8873,
-          "mr_6m": 3.26,
-          "mr_1y": 2.5143
+          "symbol": "INDSWFTLAB",
+          "name": "Ind-Swift Laboratories Ltd",
+          "market_cap_cr": 2893,
+          "weighted_z": 3.1084,
+          "mr_3m": 0.716,
+          "mr_6m": 2.2541,
+          "mr_1y": 3.7663
         }
       ]
     }
