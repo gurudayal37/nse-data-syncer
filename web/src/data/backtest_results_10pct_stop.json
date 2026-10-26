@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 149701.46,
-      "total_fees_paid": 3115.05,
+      "end_value": 150482.46,
+      "total_fees_paid": 3116.95,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 49.7,
-      "benchmark_return": -13.5,
-      "expectancy": 4.62,
-      "net_return_after_fees": 46.59
+      "total_return": 50.48,
+      "benchmark_return": -12.92,
+      "expectancy": 4.66,
+      "net_return_after_fees": 47.37
     },
     "risk_metrics": {
-      "max_drawdown": -9.91,
+      "max_drawdown": -9.44,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.55,
-      "calmar_ratio": 6.28,
-      "omega_ratio": 2.99,
-      "sortino_ratio": 4.84
+      "sharpe_ratio": 1.58,
+      "calmar_ratio": 6.71,
+      "omega_ratio": 3.05,
+      "sortino_ratio": 5.11
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -78,12 +78,12 @@
       "total_open_trades": 1,
       "win_rate": 60.0,
       "best_trade": 24.57,
-      "worst_trade": -9.91,
+      "worst_trade": -9.44,
       "avg_winning_trade": 11.56,
-      "avg_losing_trade": -5.79,
+      "avg_losing_trade": -5.68,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.99,
+      "profit_factor": 3.05,
       "total_stock_transactions": 146
     }
   },
@@ -15164,13 +15164,13 @@
   "current_performance": [
     {
       "month": "2026-10",
-      "portfolio_return": -9.91,
-      "benchmark_return": -0.09,
+      "portfolio_return": -9.44,
+      "benchmark_return": 0.59,
       "holdings": [
         {
           "symbol": "SIGMAADV",
           "return": -11.28,
-          "score": 6.2,
+          "score": 6.21,
           "entry_price": 1025.7,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15180,7 +15180,7 @@
         {
           "symbol": "STLTECH",
           "return": -15.38,
-          "score": 5.17,
+          "score": 5.18,
           "entry_price": 909.9,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15190,7 +15190,7 @@
         {
           "symbol": "TBZ",
           "return": -12.56,
-          "score": 5.1,
+          "score": 5.11,
           "entry_price": 635.05,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15209,8 +15209,8 @@
         },
         {
           "symbol": "CUPID",
-          "return": -1.67,
-          "score": 4.51,
+          "return": 0.77,
+          "score": 4.52,
           "entry_price": 311.65,
           "stop_triggered": false,
           "stop_type": null,
@@ -15220,7 +15220,7 @@
         {
           "symbol": "KABRAEXTRU",
           "return": -13.21,
-          "score": 4.3,
+          "score": 4.31,
           "entry_price": 805.55,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15229,7 +15229,7 @@
         },
         {
           "symbol": "NRL",
-          "return": -1.69,
+          "return": -3.63,
           "score": 4.12,
           "entry_price": 159.8,
           "stop_triggered": false,
@@ -15240,7 +15240,7 @@
         {
           "symbol": "WELCORP",
           "return": -11.37,
-          "score": 3.98,
+          "score": 3.99,
           "entry_price": 2717.0,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15259,7 +15259,7 @@
         },
         {
           "symbol": "MOREPENLAB",
-          "return": -1.94,
+          "return": 0.02,
           "score": 3.28,
           "entry_price": 125.99,
           "stop_triggered": false,
@@ -15269,7 +15269,7 @@
         },
         {
           "symbol": "SBC",
-          "return": 4.73,
+          "return": 9.3,
           "score": 3.24,
           "entry_price": 58.29,
           "stop_triggered": false,
@@ -15280,7 +15280,7 @@
         {
           "symbol": "CYIENTDLM",
           "return": -15.0,
-          "score": 3.22,
+          "score": 3.23,
           "entry_price": 914.1,
           "stop_triggered": true,
           "stop_type": "gtt_intraday",
@@ -15290,7 +15290,7 @@
         {
           "symbol": "RAYMOND",
           "return": -15.0,
-          "score": 3.12,
+          "score": 3.13,
           "entry_price": 1213.05,
           "stop_triggered": true,
           "stop_type": "gtt_intraday",
@@ -15300,7 +15300,7 @@
         {
           "symbol": "INDSWFTLAB",
           "return": -13.31,
-          "score": 3.08,
+          "score": 3.09,
           "entry_price": 388.75,
           "stop_triggered": true,
           "stop_type": "close_stop",
