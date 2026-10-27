@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 150482.46,
-      "total_fees_paid": 3116.95,
+      "end_value": 151795.19,
+      "total_fees_paid": 3120.14,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 50.48,
-      "benchmark_return": -12.92,
-      "expectancy": 4.66,
-      "net_return_after_fees": 47.37
+      "total_return": 51.8,
+      "benchmark_return": -12.93,
+      "expectancy": 4.74,
+      "net_return_after_fees": 48.68
     },
     "risk_metrics": {
-      "max_drawdown": -9.44,
+      "max_drawdown": -8.65,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.58,
-      "calmar_ratio": 6.71,
-      "omega_ratio": 3.05,
-      "sortino_ratio": 5.11
+      "sharpe_ratio": 1.62,
+      "calmar_ratio": 7.52,
+      "omega_ratio": 3.16,
+      "sortino_ratio": 5.6
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -78,12 +78,12 @@
       "total_open_trades": 1,
       "win_rate": 60.0,
       "best_trade": 24.57,
-      "worst_trade": -9.44,
+      "worst_trade": -8.65,
       "avg_winning_trade": 11.56,
-      "avg_losing_trade": -5.68,
+      "avg_losing_trade": -5.48,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 3.05,
+      "profit_factor": 3.16,
       "total_stock_transactions": 146
     }
   },
@@ -15164,13 +15164,13 @@
   "current_performance": [
     {
       "month": "2026-10",
-      "portfolio_return": -9.44,
-      "benchmark_return": 0.59,
+      "portfolio_return": -8.65,
+      "benchmark_return": 0.57,
       "holdings": [
         {
           "symbol": "SIGMAADV",
           "return": -11.28,
-          "score": 6.21,
+          "score": 6.22,
           "entry_price": 1025.7,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15180,7 +15180,7 @@
         {
           "symbol": "STLTECH",
           "return": -15.38,
-          "score": 5.18,
+          "score": 5.19,
           "entry_price": 909.9,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15190,7 +15190,7 @@
         {
           "symbol": "TBZ",
           "return": -12.56,
-          "score": 5.11,
+          "score": 5.12,
           "entry_price": 635.05,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15200,7 +15200,7 @@
         {
           "symbol": "BODALCHEM",
           "return": -10.26,
-          "score": 4.81,
+          "score": 4.82,
           "entry_price": 198.35,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15209,8 +15209,8 @@
         },
         {
           "symbol": "CUPID",
-          "return": 0.77,
-          "score": 4.52,
+          "return": 1.59,
+          "score": 4.53,
           "entry_price": 311.65,
           "stop_triggered": false,
           "stop_type": null,
@@ -15229,8 +15229,8 @@
         },
         {
           "symbol": "NRL",
-          "return": -3.63,
-          "score": 4.12,
+          "return": -1.75,
+          "score": 4.13,
           "entry_price": 159.8,
           "stop_triggered": false,
           "stop_type": null,
@@ -15250,7 +15250,7 @@
         {
           "symbol": "SHILPAMED",
           "return": -12.15,
-          "score": 3.4,
+          "score": 3.41,
           "entry_price": 1047.2,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15259,8 +15259,8 @@
         },
         {
           "symbol": "MOREPENLAB",
-          "return": 0.02,
-          "score": 3.28,
+          "return": 4.91,
+          "score": 3.29,
           "entry_price": 125.99,
           "stop_triggered": false,
           "stop_type": null,
@@ -15269,8 +15269,8 @@
         },
         {
           "symbol": "SBC",
-          "return": 9.3,
-          "score": 3.24,
+          "return": 13.52,
+          "score": 3.25,
           "entry_price": 58.29,
           "stop_triggered": false,
           "stop_type": null,
@@ -15310,7 +15310,7 @@
         {
           "symbol": "AHCL",
           "return": -18.51,
-          "score": 3.04,
+          "score": 3.05,
           "entry_price": 34.58,
           "stop_triggered": true,
           "stop_type": "close_stop",
