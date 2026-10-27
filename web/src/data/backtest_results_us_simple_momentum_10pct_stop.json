@@ -51,15 +51,15 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 176808.09,
-      "total_fees_paid": 2917.97,
+      "end_value": 176826.94,
+      "total_fees_paid": 2918.0,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 76.81,
-      "benchmark_return": 11.25,
+      "total_return": 76.83,
+      "benchmark_return": 12.02,
       "expectancy": 6.4,
-      "net_return_after_fees": 73.89
+      "net_return_after_fees": 73.91
     },
     "risk_metrics": {
       "max_drawdown": -9.16,
@@ -67,7 +67,7 @@
       "sharpe_ratio": 2.09,
       "calmar_ratio": 10.72,
       "omega_ratio": 3.85,
-      "sortino_ratio": 17.95
+      "sortino_ratio": 17.9
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -78,7 +78,7 @@
       "best_trade": 25.33,
       "worst_trade": -9.16,
       "avg_winning_trade": 12.35,
-      "avg_losing_trade": -7.49,
+      "avg_losing_trade": -7.48,
       "profit_factor": 3.85,
       "total_stock_transactions": 111,
       "total_closed_trades": 9,
@@ -9404,8 +9404,8 @@
   "current_performance": [
     {
       "month": "2026-10",
-      "portfolio_return": -6.22,
-      "benchmark_return": -0.36,
+      "portfolio_return": -6.21,
+      "benchmark_return": 0.33,
       "holdings": [
         {
           "symbol": "SNDK",
@@ -9427,7 +9427,7 @@
         },
         {
           "symbol": "MRNA",
-          "return": 3.91,
+          "return": 3.26,
           "score": 3.75,
           "stop_triggered": false
         },
@@ -9457,13 +9457,13 @@
         },
         {
           "symbol": "FTNT",
-          "return": 0.69,
+          "return": 2.56,
           "score": 3.07,
           "stop_triggered": false
         },
         {
           "symbol": "CLDT",
-          "return": 6.5,
+          "return": 4.86,
           "score": 3.06,
           "stop_triggered": false
         },
@@ -9493,7 +9493,7 @@
         },
         {
           "symbol": "NTRA",
-          "return": -2.89,
+          "return": -2.26,
           "score": 2.89,
           "stop_triggered": false
         }
