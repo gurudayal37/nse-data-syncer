@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 154830.36,
-      "total_fees_paid": 3364.32,
+      "end_value": 155273.14,
+      "total_fees_paid": 3365.36,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 54.83,
-      "benchmark_return": 11.25,
-      "expectancy": 4.88,
-      "net_return_after_fees": 51.47
+      "total_return": 55.27,
+      "benchmark_return": 12.02,
+      "expectancy": 4.91,
+      "net_return_after_fees": 51.91
     },
     "risk_metrics": {
       "max_drawdown": -10.0,
       "max_drawdown_duration": 4,
-      "sharpe_ratio": 1.83,
-      "calmar_ratio": 6.9,
-      "omega_ratio": 3.49,
-      "sortino_ratio": 5.12
+      "sharpe_ratio": 1.85,
+      "calmar_ratio": 6.96,
+      "omega_ratio": 3.54,
+      "sortino_ratio": 4.96
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -78,8 +78,8 @@
       "best_trade": 18.68,
       "worst_trade": -10.0,
       "avg_winning_trade": 9.76,
-      "avg_losing_trade": -6.52,
-      "profit_factor": 3.49,
+      "avg_losing_trade": -6.43,
+      "profit_factor": 3.54,
       "total_stock_transactions": 141,
       "total_closed_trades": 9,
       "total_open_trades": 1,
@@ -9404,8 +9404,8 @@
   "current_performance": [
     {
       "month": "2026-10",
-      "portfolio_return": -2.09,
-      "benchmark_return": -0.36,
+      "portfolio_return": -1.81,
+      "benchmark_return": 0.33,
       "holdings": [
         {
           "symbol": "SNDK",
@@ -9415,7 +9415,7 @@
         },
         {
           "symbol": "MRNA",
-          "return": 3.91,
+          "return": 3.26,
           "score": 3.57,
           "stop_triggered": false
         },
@@ -9445,19 +9445,19 @@
         },
         {
           "symbol": "NTRA",
-          "return": -2.89,
+          "return": -2.26,
           "score": 2.8,
           "stop_triggered": false
         },
         {
           "symbol": "MPC",
-          "return": 15.63,
+          "return": 19.02,
           "score": 2.79,
           "stop_triggered": false
         },
         {
           "symbol": "VLO",
-          "return": 8.17,
+          "return": 10.1,
           "score": 2.69,
           "stop_triggered": false
         },
@@ -9469,7 +9469,7 @@
         },
         {
           "symbol": "DINO",
-          "return": 13.98,
+          "return": 13.36,
           "score": 2.63,
           "stop_triggered": false
         },
@@ -9481,7 +9481,7 @@
         },
         {
           "symbol": "PSX",
-          "return": 11.48,
+          "return": 10.92,
           "score": 2.59,
           "stop_triggered": false
         },
