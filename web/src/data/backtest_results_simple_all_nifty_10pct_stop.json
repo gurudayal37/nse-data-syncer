@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 137730.12,
-      "total_fees_paid": 2544.88,
+      "end_value": 138164.46,
+      "total_fees_paid": 2545.82,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 37.73,
-      "benchmark_return": -13.12,
-      "expectancy": 3.77,
-      "net_return_after_fees": 35.19
+      "total_return": 38.16,
+      "benchmark_return": -12.21,
+      "expectancy": 3.8,
+      "net_return_after_fees": 35.62
     },
     "risk_metrics": {
       "max_drawdown": -9.91,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.25,
-      "calmar_ratio": 4.73,
-      "omega_ratio": 2.31,
-      "sortino_ratio": 4.84
+      "sharpe_ratio": 1.27,
+      "calmar_ratio": 4.78,
+      "omega_ratio": 2.34,
+      "sortino_ratio": 4.96
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -75,8 +75,8 @@
       "best_trade": 21.8,
       "worst_trade": -8.84,
       "avg_winning_trade": 13.27,
-      "avg_losing_trade": -5.74,
-      "profit_factor": 2.31
+      "avg_losing_trade": -5.68,
+      "profit_factor": 2.34
     }
   },
   "backtest_results": [
@@ -15156,8 +15156,8 @@
   "current_performance": [
     {
       "month": "2026-10",
-      "portfolio_return": -8.04,
-      "benchmark_return": 0.35,
+      "portfolio_return": -7.75,
+      "benchmark_return": 1.4,
       "holdings": [
         {
           "symbol": "SIGMAADV",
@@ -15181,7 +15181,7 @@
         },
         {
           "symbol": "CUPID",
-          "return": 0.93,
+          "return": 2.73,
           "score": 5.85,
           "entry_price": 311.65,
           "stop_triggered": false,
@@ -15211,7 +15211,7 @@
         },
         {
           "symbol": "NRL",
-          "return": -1.13,
+          "return": -0.5,
           "score": 4.1,
           "entry_price": 159.8,
           "stop_triggered": false,
@@ -15231,7 +15231,7 @@
         },
         {
           "symbol": "SBC",
-          "return": 12.33,
+          "return": 14.12,
           "score": 3.63,
           "entry_price": 58.29,
           "stop_triggered": false,
@@ -15281,7 +15281,7 @@
         },
         {
           "symbol": "HFCL",
-          "return": 6.96,
+          "return": 7.24,
           "score": 3.28,
           "entry_price": 227.02,
           "stop_triggered": false,
