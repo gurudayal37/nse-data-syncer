@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 138164.46,
-      "total_fees_paid": 2545.82,
+      "end_value": 137775.05,
+      "total_fees_paid": 2544.98,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 38.16,
-      "benchmark_return": -12.21,
-      "expectancy": 3.8,
-      "net_return_after_fees": 35.62
+      "total_return": 37.78,
+      "benchmark_return": -11.77,
+      "expectancy": 3.77,
+      "net_return_after_fees": 35.23
     },
     "risk_metrics": {
       "max_drawdown": -9.91,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.27,
-      "calmar_ratio": 4.78,
-      "omega_ratio": 2.34,
-      "sortino_ratio": 4.96
+      "sharpe_ratio": 1.26,
+      "calmar_ratio": 4.73,
+      "omega_ratio": 2.32,
+      "sortino_ratio": 4.85
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -75,8 +75,8 @@
       "best_trade": 21.8,
       "worst_trade": -8.84,
       "avg_winning_trade": 13.27,
-      "avg_losing_trade": -5.68,
-      "profit_factor": 2.34
+      "avg_losing_trade": -5.73,
+      "profit_factor": 2.32
     }
   },
   "backtest_results": [
@@ -15156,13 +15156,13 @@
   "current_performance": [
     {
       "month": "2026-10",
-      "portfolio_return": -7.75,
-      "benchmark_return": 1.4,
+      "portfolio_return": -8.01,
+      "benchmark_return": 1.91,
       "holdings": [
         {
           "symbol": "SIGMAADV",
           "return": -11.28,
-          "score": 8.01,
+          "score": 8.0,
           "entry_price": 1025.7,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15181,8 +15181,8 @@
         },
         {
           "symbol": "CUPID",
-          "return": 2.73,
-          "score": 5.85,
+          "return": 4.14,
+          "score": 5.84,
           "entry_price": 311.65,
           "stop_triggered": false,
           "stop_type": null,
@@ -15211,7 +15211,7 @@
         },
         {
           "symbol": "NRL",
-          "return": -0.5,
+          "return": 0.13,
           "score": 4.1,
           "entry_price": 159.8,
           "stop_triggered": false,
@@ -15231,7 +15231,7 @@
         },
         {
           "symbol": "SBC",
-          "return": 14.12,
+          "return": 13.48,
           "score": 3.63,
           "entry_price": 58.29,
           "stop_triggered": false,
@@ -15242,7 +15242,7 @@
         {
           "symbol": "KABRAEXTRU",
           "return": -13.21,
-          "score": 3.55,
+          "score": 3.54,
           "entry_price": 805.55,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15262,7 +15262,7 @@
         {
           "symbol": "BODALCHEM",
           "return": -10.26,
-          "score": 3.46,
+          "score": 3.45,
           "entry_price": 198.35,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15272,7 +15272,7 @@
         {
           "symbol": "MODISONLTD",
           "return": -17.31,
-          "score": 3.42,
+          "score": 3.41,
           "entry_price": 462.95,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15281,7 +15281,7 @@
         },
         {
           "symbol": "HFCL",
-          "return": 7.24,
+          "return": 1.88,
           "score": 3.28,
           "entry_price": 227.02,
           "stop_triggered": false,
@@ -15292,7 +15292,7 @@
         {
           "symbol": "INDSWFTLAB",
           "return": -13.31,
-          "score": 3.23,
+          "score": 3.22,
           "entry_price": 388.75,
           "stop_triggered": true,
           "stop_type": "close_stop",
