@@ -5,6 +5,7 @@ import PercentageChange from '@/components/PercentageChange'
 import Pagination from '@/components/Pagination'
 import Search from '@/components/Search'
 import type { ETF } from '@/types/etf'
+import { getFreshEtfIds } from '@/lib/etfFreshness'
 
 export const dynamic = 'force-dynamic'
 
@@ -40,28 +41,24 @@ export default async function ETFPage(props: ETFPageProps) {
     }
 
     try {
+        // Only list active ETFs with recent prices - see getFreshEtfIds
+        const where = {
+            id: { in: await getFreshEtfIds() },
+            OR: query
+                ? [
+                    { symbol: { contains: query, mode: 'insensitive' as const } },
+                    { name: { contains: query, mode: 'insensitive' as const } },
+                    { underlying_asset: { contains: query, mode: 'insensitive' as const } },
+                ]
+                : undefined,
+        }
+
         // Get total count first
-        totalCount = await prisma.etfs.count({
-            where: {
-                OR: query
-                    ? [
-                        { symbol: { contains: query, mode: 'insensitive' } },
-                        { underlying_asset: { contains: query, mode: 'insensitive' } },
-                    ]
-                    : undefined,
-            }
-        })
+        totalCount = await prisma.etfs.count({ where })
 
         // Fetch ETFs with pagination and sorting
         etfs = await prisma.etfs.findMany({
-            where: {
-                OR: query
-                    ? [
-                        { symbol: { contains: query, mode: 'insensitive' } },
-                        { underlying_asset: { contains: query, mode: 'insensitive' } },
-                    ]
-                    : undefined,
-            },
+            where,
             take: PAGE_SIZE,
             skip: skip,
             include: {
@@ -168,8 +165,8 @@ export default async function ETFPage(props: ETFPageProps) {
                                                     {etf.symbol}
                                                 </Link>
                                             </td>
-                                            <td className="px-6 py-4 truncate max-w-xs" title={etf.underlying_asset || ''}>
-                                                {etf.underlying_asset || '-'}
+                                            <td className="px-6 py-4 truncate max-w-xs" title={etf.underlying_asset || etf.name || ''}>
+                                                {etf.underlying_asset || etf.name || '-'}
                                             </td>
                                             <td className="px-6 py-4 text-right font-medium text-gray-900">
                                                 {latest ? `₹${latest.close_price?.toFixed(2)}` : '-'}

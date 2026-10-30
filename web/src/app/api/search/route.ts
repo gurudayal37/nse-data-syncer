@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
+import { getFreshEtfIds } from '@/lib/etfFreshness'
 
 export async function GET(req: NextRequest) {
   const q = req.nextUrl.searchParams.get('q')?.trim() ?? ''
@@ -20,7 +21,7 @@ export async function GET(req: NextRequest) {
     }),
     prisma.etfs.findMany({
       where: {
-        is_active: 1,
+        id: { in: await getFreshEtfIds() },
         OR: [
           { symbol: { contains: q, mode: 'insensitive' } },
           { name: { contains: q, mode: 'insensitive' } },

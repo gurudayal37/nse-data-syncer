@@ -169,8 +169,10 @@ def upsert_etf(session, symbol, name, isin, security_id, series) -> int:
         # Only refresh the Dhan-sourced identity fields - never clobber
         # underlying_asset/nav, which may hold better hand-curated data
         # from the original CSV-based population.
+        # is_active = 1 revives a symbol deactivate_delisted_etfs() retired
+        # earlier if it ever reappears in Dhan's master.
         session.execute(text("""
-            UPDATE etfs SET name = :n, isin = :i, security_id = :sid, series = :sr, updated_at = NOW()
+            UPDATE etfs SET name = :n, isin = :i, security_id = :sid, series = :sr, is_active = 1, updated_at = NOW()
             WHERE id = :id
         """), {'n': name, 'i': isin, 'sid': security_id, 'sr': series, 'id': row[0]})
         session.commit()
@@ -186,6 +188,25 @@ def upsert_etf(session, symbol, name, isin, security_id, series) -> int:
     session.commit()
     print(f"  + new ETF discovered: {symbol} ({name})")
     return row[0]
+
+
+def deactivate_delisted_etfs(session, universe_symbols) -> list:
+    """Retire ETFs that are no longer in Dhan's instrument master.
+
+    When an AMC renames a symbol (Aug 2026: AXISILVER -> SILVERAXIS,
+    AXISGOLD -> GOLDAXIS, ...) or a target-maturity ETF matures, the new
+    symbol is discovered as a fresh ETF but the old row was left is_active=1
+    with prices frozen on its last day - so the /etf page kept ranking it on
+    months-old returns next to live funds. Deactivating (not deleting) keeps
+    its price history intact.
+    """
+    rows = session.execute(text("""
+        UPDATE etfs SET is_active = 0, updated_at = NOW()
+        WHERE is_active = 1 AND symbol <> ALL(:syms)
+        RETURNING symbol
+    """), {'syms': list(universe_symbols)}).fetchall()
+    session.commit()
+    return [r[0] for r in rows]
 
 
 def sync_prices(session, etf_id: int, security_id: int, access_token: str) -> int:
@@ -260,6 +281,15 @@ def main():
     db = DatabaseManager()
     session = db.Session()
     try:
+        # Guard against a truncated/failed master download wiping out the
+        # whole table - a healthy universe is 300+ ETFs.
+        if len(universe) >= 200:
+            retired = deactivate_delisted_etfs(session, universe['symbol'])
+            if retired:
+                print(f"Deactivated {len(retired)} ETFs no longer in Dhan's master: {', '.join(retired)}")
+        else:
+            print(f"WARNING: universe has only {len(universe)} ETFs - skipping deactivation of missing symbols.")
+
         total_rows = 0
         symbols_with_data = 0
         for i, row in enumerate(universe.itertuples(index=False), start=1):
