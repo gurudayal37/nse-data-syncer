@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 178354.08,
-      "total_fees_paid": 2920.83,
+      "end_value": 179560.7,
+      "total_fees_paid": 2923.06,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 78.35,
-      "benchmark_return": 13.01,
-      "expectancy": 6.48,
-      "net_return_after_fees": 75.43
+      "total_return": 79.56,
+      "benchmark_return": 10.62,
+      "expectancy": 6.54,
+      "net_return_after_fees": 76.64
     },
     "risk_metrics": {
       "max_drawdown": -9.16,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 2.14,
-      "calmar_ratio": 10.94,
-      "omega_ratio": 3.99,
-      "sortino_ratio": 14.59
+      "sharpe_ratio": 2.17,
+      "calmar_ratio": 11.12,
+      "omega_ratio": 4.12,
+      "sortino_ratio": 12.61
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -78,8 +78,8 @@
       "best_trade": 25.33,
       "worst_trade": -9.16,
       "avg_winning_trade": 12.35,
-      "avg_losing_trade": -7.21,
-      "profit_factor": 3.99,
+      "avg_losing_trade": -7.0,
+      "profit_factor": 4.12,
       "total_stock_transactions": 111,
       "total_closed_trades": 9,
       "total_open_trades": 1,
@@ -9404,8 +9404,8 @@
   "current_performance": [
     {
       "month": "2026-10",
-      "portfolio_return": -5.4,
-      "benchmark_return": 1.21,
+      "portfolio_return": -4.76,
+      "benchmark_return": -0.93,
       "holdings": [
         {
           "symbol": "SNDK",
@@ -9427,7 +9427,7 @@
         },
         {
           "symbol": "MRNA",
-          "return": 11.21,
+          "return": 15.14,
           "score": 3.75,
           "stop_triggered": false
         },
@@ -9445,7 +9445,7 @@
         },
         {
           "symbol": "ILMN",
-          "return": 2.12,
+          "return": 5.99,
           "score": 3.52,
           "stop_triggered": false
         },
@@ -9457,13 +9457,13 @@
         },
         {
           "symbol": "FTNT",
-          "return": -2.62,
+          "return": -10.0,
           "score": 3.07,
-          "stop_triggered": false
+          "stop_triggered": true
         },
         {
           "symbol": "CLDT",
-          "return": 8.82,
+          "return": 11.96,
           "score": 3.06,
           "stop_triggered": false
         },
@@ -9493,7 +9493,7 @@
         },
         {
           "symbol": "NTRA",
-          "return": -0.6,
+          "return": 5.49,
           "score": 2.89,
           "stop_triggered": false
         }
