@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 133597.65,
-      "total_fees_paid": 2799.79,
+      "end_value": 132997.66,
+      "total_fees_paid": 2798.46,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 33.6,
-      "benchmark_return": -6.09,
-      "expectancy": 3.17,
-      "net_return_after_fees": 30.8
+      "total_return": 33.0,
+      "benchmark_return": -4.2,
+      "expectancy": 3.13,
+      "net_return_after_fees": 30.2
     },
     "risk_metrics": {
       "max_drawdown": -10.93,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.08,
-      "calmar_ratio": 3.4,
-      "omega_ratio": 2.03,
-      "sortino_ratio": 7.37
+      "sharpe_ratio": 1.07,
+      "calmar_ratio": 3.34,
+      "omega_ratio": 2.01,
+      "sortino_ratio": 3.06
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -76,14 +76,14 @@
       "total_trades": 11,
       "total_closed_trades": 10,
       "total_open_trades": 1,
-      "win_rate": 63.64,
+      "win_rate": 54.55,
       "best_trade": 18.34,
       "worst_trade": -10.93,
-      "avg_winning_trade": 9.81,
-      "avg_losing_trade": -8.45,
+      "avg_winning_trade": 11.41,
+      "avg_losing_trade": -6.81,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.03,
+      "profit_factor": 2.01,
       "total_stock_transactions": 146
     }
   },
@@ -7964,82 +7964,82 @@
   "current_performance": [
     {
       "month": "2026-11",
-      "portfolio_return": 0.2,
-      "benchmark_return": 6.44,
+      "portfolio_return": -0.25,
+      "benchmark_return": 8.58,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": -8.1,
-          "score": 6.13
+          "return": -12.69,
+          "score": 6.14
         },
         {
           "symbol": "CUPID",
-          "return": 5.15,
+          "return": 4.42,
           "score": 5.96
         },
         {
           "symbol": "SIGMAADV",
-          "return": 4.44,
+          "return": 2.09,
           "score": 5.85
         },
         {
           "symbol": "NRL",
-          "return": 4.49,
+          "return": 4.3,
           "score": 5.16
         },
         {
           "symbol": "BAFNAPH",
-          "return": -0.08,
+          "return": 1.47,
           "score": 4.86
         },
         {
           "symbol": "SBC",
-          "return": 0.97,
+          "return": 3.85,
           "score": 4.77
         },
         {
           "symbol": "LAURUSLABS",
-          "return": -2.47,
+          "return": -2.72,
           "score": 4.58
         },
         {
           "symbol": "TBZ",
-          "return": -0.11,
+          "return": -2.48,
           "score": 4.46
         },
         {
           "symbol": "SHREEJISPG",
-          "return": 2.44,
+          "return": 4.89,
           "score": 4.3
         },
         {
           "symbol": "SPECTRUM",
-          "return": 7.4,
+          "return": 11.63,
           "score": 4.19
         },
         {
           "symbol": "GCSL",
-          "return": 1.99,
+          "return": 2.42,
           "score": 3.82
         },
         {
           "symbol": "BLISSGVS",
-          "return": -2.32,
+          "return": -5.14,
           "score": 3.72
         },
         {
           "symbol": "INDSWFTLAB",
-          "return": -3.11,
+          "return": -5.43,
           "score": 3.67
         },
         {
           "symbol": "SHILPAMED",
-          "return": -3.54,
+          "return": -1.39,
           "score": 3.61
         },
         {
           "symbol": "HFCL",
-          "return": -4.13,
+          "return": -8.92,
           "score": 3.17
         }
       ]
