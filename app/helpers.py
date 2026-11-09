@@ -2,7 +2,7 @@
 
 import os
 from pathlib import Path
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 import pandas as pd
 from .constants import DATA_MISMATCH_THRESHOLD, VALIDATION_RECORDS_COUNT
 
@@ -15,6 +15,25 @@ def get_project_root() -> Path:
 def get_data_path(filename: str) -> Path:
     """Returns the full path to a file in the data directory."""
     return get_project_root() / "data" / filename
+
+
+IST = timezone(timedelta(hours=5, minutes=30))
+NSE_CLOSE_BUFFER = (15, 45)  # 3:45 PM IST - the day's daily candle is final by then
+
+
+def dhan_to_date() -> str:
+    """`toDate` for Dhan's /charts/historical API, which is EXCLUSIVE: asking
+    for toDate=2026-11-06 returns candles only through 2026-11-05.
+
+    After market close (IST) this returns tomorrow, so today's final candle is
+    included. Before close it returns today, so a still-forming candle is
+    never saved. Uses IST explicitly because GitHub runners are on UTC.
+    """
+    now = datetime.now(IST)
+    day = now.date()
+    if (now.hour, now.minute) >= NSE_CLOSE_BUFFER:
+        day += timedelta(days=1)
+    return day.strftime('%Y-%m-%d')
 
 
 def validate_data_mismatch(

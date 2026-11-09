@@ -33,6 +33,7 @@ base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(base_dir, 'web', '.env'))
 sys.path.append(base_dir)
 from app.database import DatabaseManager
+from app.helpers import dhan_to_date
 
 DHAN_CLIENT_ID = os.getenv('DHAN_CLIENT_ID')
 DHAN_PIN = os.getenv('DHAN_PIN')
@@ -196,7 +197,7 @@ def sync_prices(session, sme_stock_id: int, security_id: int, access_token: str)
     else:
         from_date = HISTORY_START  # brand-new stock - full backfill
 
-    to_date = datetime.now().strftime('%Y-%m-%d')
+    to_date = dhan_to_date()  # exclusive end - see app/helpers.py
     df = fetch_dhan_history(security_id, from_date, to_date, access_token)
     if df.empty:
         return 0

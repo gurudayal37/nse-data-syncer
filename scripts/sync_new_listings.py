@@ -26,7 +26,9 @@ rows are shaped identically to the rest of the pipeline.
 Phase 1 is scoped deliberately to *recent* listings only (first available
 Dhan bar within RECENCY_WINDOW_DAYS) so it never silently sweeps in old,
 thinly-traded stocks that the curated equity-list CSVs may have
-intentionally excluded from momentum/VCP/swing-score universes. Phase 2
+intentionally excluded from momentum/VCP/swing-score universes. The one
+exception is a stock that migrated up from the SME board (ISIN already in
+sme_stocks): it's adopted regardless of age, and its SME row retired. Phase 2
 only ever touches stocks phase 1 (or the regular pipeline) already
 decided were in scope, so it needs no separate recency check.
 
@@ -46,7 +48,7 @@ load_dotenv(os.path.join(base_dir, 'web', '.env'))
 sys.path.append(base_dir)
 from app.database import DatabaseManager
 from app.utils import get_nse_symbols, load_full_equity_list
-from app.helpers import get_data_path
+from app.helpers import get_data_path, dhan_to_date
 from app.constants import CSV_FILENAME, FULL_EQUITY_LIST_FILENAME
 
 DHAN_CLIENT_ID = os.getenv('DHAN_CLIENT_ID')
@@ -57,6 +59,7 @@ DHAN_HISTORICAL_URL = 'https://api.dhan.co/v2/charts/historical'
 DHAN_SCRIP_MASTER_URL = 'https://images.dhan.co/api-data/api-scrip-master-detailed.csv'
 
 HISTORY_START = '2010-01-01'
+MAINBOARD_SERIES = {'EQ', 'BE', 'BZ'}  # EQ = normal, BE/BZ = trade-for-trade (surveillance)
 RECENCY_WINDOW_DAYS = 400  # only treat as a "new listing" if first Dhan bar is this recent
 
 
@@ -96,12 +99,16 @@ def _read_shared_token():
 
 def load_mainboard_universe() -> pd.DataFrame:
     """Download Dhan's instrument master and filter to NSE mainboard equity shares.
-    Returns columns: security_id, symbol, name, isin."""
+
+    Includes the trade-for-trade series BE/BZ as well as EQ: NSE moves stocks
+    between them under surveillance, and a stock that left EQ used to drop out
+    of this universe and silently stop updating (e.g. MILKYMIST from 2026-09-23).
+    Returns columns: security_id, symbol, name, isin, series."""
     df = pd.read_csv(DHAN_SCRIP_MASTER_URL, low_memory=False)
     eq = df[
         (df['EXCH_ID'] == 'NSE')
         & (df['SEGMENT'] == 'E')
-        & (df['SERIES'] == 'EQ')
+        & (df['SERIES'].isin(MAINBOARD_SERIES))
         & (df['INSTRUMENT_TYPE'] == 'ES')  # excludes ETFs/other instruments also tagged SERIES=EQ
     ].copy()
     eq = eq.rename(columns={
@@ -109,7 +116,8 @@ def load_mainboard_universe() -> pd.DataFrame:
         'UNDERLYING_SYMBOL': 'symbol',
         'SYMBOL_NAME': 'name',
         'ISIN': 'isin',
-    })[['security_id', 'symbol', 'name', 'isin']]
+        'SERIES': 'series',
+    })[['security_id', 'symbol', 'name', 'isin', 'series']]
     eq = eq.dropna(subset=['symbol']).drop_duplicates(subset='symbol')
     return eq.reset_index(drop=True)
 
@@ -189,8 +197,32 @@ def find_new_symbols(universe: pd.DataFrame, db: DatabaseManager) -> pd.DataFram
 
     missing = universe[
         (~universe['isin'].isin(known_isins)) & (~universe['symbol'].isin(known_symbols))
-    ]
+    ].copy()
+    missing['from_sme'] = missing['isin'].isin(load_sme_isins(db))
     return missing.reset_index(drop=True)
+
+
+def load_sme_isins(db: DatabaseManager) -> set:
+    """ISINs tracked in sme_stocks. A mainboard stock with one of these has
+    migrated up from the SME board - its history predates the recency window,
+    but it's no new-to-us stock, so phase 1 adopts it anyway."""
+    session = db.Session()
+    try:
+        rows = session.execute(text("SELECT isin FROM sme_stocks WHERE isin IS NOT NULL")).fetchall()
+    finally:
+        session.close()
+    return {r[0] for r in rows}
+
+
+def retire_migrated_sme(db: DatabaseManager, isin: str):
+    """Stop showing the old SME row once the stock lives on the mainboard -
+    sync_sme_stocks.py no longer sees it, so it would sit stale forever."""
+    session = db.Session()
+    try:
+        session.execute(text("UPDATE sme_stocks SET is_active = false, updated_at = NOW() WHERE isin = :i"), {'i': isin})
+        session.commit()
+    finally:
+        session.close()
 
 
 def load_covered_symbols() -> set:
@@ -242,8 +274,8 @@ def find_orphaned_tracked_symbols(universe: pd.DataFrame, covered: set, db: Data
 def sync_incremental(db: DatabaseManager, stock_id: int, symbol: str, security_id: int,
                       last_date, access_token: str) -> int:
     from_date = (last_date + timedelta(days=1)).strftime('%Y-%m-%d') if last_date else HISTORY_START
-    to_date = datetime.now().strftime('%Y-%m-%d')
-    if last_date and from_date > to_date:
+    to_date = dhan_to_date()  # exclusive end - see app/helpers.py
+    if last_date and from_date >= to_date:  # toDate is exclusive
         return 0
 
     df = fetch_dhan_history(int(security_id), from_date, to_date, access_token)
@@ -284,11 +316,15 @@ def main():
         print("Generated fresh Dhan access token via TOTP")
 
     # -- Phase 1: discover brand-new listings, full backfill --
-    to_date = datetime.now().strftime('%Y-%m-%d')
+    to_date = dhan_to_date()  # exclusive end - see app/helpers.py
     recency_cutoff = datetime.now() - timedelta(days=RECENCY_WINDOW_DAYS)
 
+    # Discovery stays EQ-only (BE/BZ are mostly old surveillance stocks, and each
+    # candidate costs a full-history fetch) - except SME-board migrants.
+    candidates = missing[(missing['series'] == 'EQ') | missing['from_sme']]
+
     added = 0
-    for row in missing.itertuples(index=False):
+    for row in candidates.itertuples(index=False):
         df = fetch_dhan_history(int(row.security_id), HISTORY_START, to_date, access_token)
         time.sleep(0.5)  # be gentle with Dhan's rate limits
 
@@ -296,7 +332,7 @@ def main():
             continue
 
         first_date = df.index.min()
-        if first_date < recency_cutoff:
+        if first_date < recency_cutoff and not row.from_sme:
             # Untracked, but not a recent listing - out of scope for this script
             continue
 
@@ -306,8 +342,11 @@ def main():
 
         db.insert_batch_daily_prices({row.symbol: stock_id}, {row.symbol: df})
         db.update_performance_metrics(stock_id)
+        if row.from_sme:
+            retire_migrated_sme(db, row.isin)
         added += 1
-        print(f"  + {row.symbol} ({row.name}) - listed {first_date.date()}, {len(df)} rows")
+        note = " (migrated from SME)" if row.from_sme else ""
+        print(f"  + {row.symbol} ({row.name}) - listed {first_date.date()}, {len(df)} rows{note}")
 
     # -- Phase 2: catch up previously-discovered stocks still missing from the CSVs --
     caught_up = 0
