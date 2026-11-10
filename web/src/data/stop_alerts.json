@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-09T11:10:19",
+  "generated_at": "2026-11-10T10:40:13",
   "current_month": "2026-11",
   "entry_date": "2026-11-02 00:00:00",
   "latest_date": "2026-11-09 00:00:00",
@@ -10,7 +10,7 @@
   "alerts": {
     "momentum": [
       {
-        "rank": 7,
+        "rank": 14,
         "symbol": "STLTECH",
         "name": "Sterlite Technologies Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -40,29 +40,14 @@
         "overdue": false
       },
       {
-        "rank": 13,
-        "symbol": "SHILPAMED",
-        "name": "Shilpa Medicare Ltd",
+        "rank": 8,
+        "symbol": "BODALCHEM",
+        "name": "Bodal Chemicals Ltd",
         "entry_date": "2026-11-02 00:00:00",
-        "entry_price": 957.0,
-        "current_close": 933.85,
+        "entry_price": 159.89,
+        "current_close": 161.27,
         "current_date": "2026-11-09 00:00:00",
-        "return_pct": -2.42,
-        "stop_hit": false,
-        "stop_type": null,
-        "stop_date": null,
-        "exit_date": null,
-        "overdue": false
-      },
-      {
-        "rank": 11,
-        "symbol": "RATNAVEER",
-        "name": "Ratnaveer Precision Engineering Ltd",
-        "entry_date": "2026-11-02 00:00:00",
-        "entry_price": 361.0,
-        "current_close": 364.6,
-        "current_date": "2026-11-09 00:00:00",
-        "return_pct": 1.0,
+        "return_pct": 0.86,
         "stop_hit": false,
         "stop_type": null,
         "stop_date": null,
@@ -100,7 +85,7 @@
         "overdue": false
       },
       {
-        "rank": 8,
+        "rank": 9,
         "symbol": "SHREEJISPG",
         "name": "Shreeji Shipping Global Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -115,7 +100,7 @@
         "overdue": false
       },
       {
-        "rank": 2,
+        "rank": 3,
         "symbol": "CUPID",
         "name": "Cupid Ltd-$",
         "entry_date": "2026-11-02 00:00:00",
@@ -130,7 +115,7 @@
         "overdue": false
       },
       {
-        "rank": 14,
+        "rank": 13,
         "symbol": "BLISSGVS",
         "name": "Bliss GVS Pharma Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -160,7 +145,7 @@
         "overdue": false
       },
       {
-        "rank": 3,
+        "rank": 2,
         "symbol": "TBZ",
         "name": "Tribhovandas Bhimji Zaveri Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -175,7 +160,7 @@
         "overdue": false
       },
       {
-        "rank": 10,
+        "rank": 11,
         "symbol": "KABRAEXTRU",
         "name": "Kabra Extrusiontechnik Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -190,7 +175,7 @@
         "overdue": false
       },
       {
-        "rank": 9,
+        "rank": 7,
         "symbol": "SSWL",
         "name": "Steel Strips Wheels Ltd-$",
         "entry_date": "2026-11-02 00:00:00",
@@ -220,6 +205,21 @@
         "overdue": false
       },
       {
+        "rank": 10,
+        "symbol": "DIVISLAB",
+        "name": "Divi's Laboratories Limited",
+        "entry_date": "2026-11-02 00:00:00",
+        "entry_price": 9900.0,
+        "current_close": 11565.5,
+        "current_date": "2026-11-09 00:00:00",
+        "return_pct": 16.82,
+        "stop_hit": false,
+        "stop_type": null,
+        "stop_date": null,
+        "exit_date": null,
+        "overdue": false
+      },
+      {
         "rank": 4,
         "symbol": "SPECTRUM",
         "name": "Spectrum Electrical Industries Ltd",
@@ -237,7 +237,7 @@
     ],
     "simple_momentum_high_cap": [
       {
-        "rank": 4,
+        "rank": 7,
         "symbol": "STLTECH",
         "name": "Sterlite Technologies Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -252,7 +252,7 @@
         "overdue": false
       },
       {
-        "rank": 13,
+        "rank": 12,
         "symbol": "INDSWFTLAB",
         "name": "Ind-Swift Laboratories Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -267,7 +267,7 @@
         "overdue": false
       },
       {
-        "rank": 11,
+        "rank": 14,
         "symbol": "SHILPAMED",
         "name": "Shilpa Medicare Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -282,7 +282,7 @@
         "overdue": false
       },
       {
-        "rank": 7,
+        "rank": 6,
         "symbol": "LAURUSLABS",
         "name": "Laurus Labs Limited",
         "entry_date": "2026-11-02 00:00:00",
@@ -297,7 +297,7 @@
         "overdue": false
       },
       {
-        "rank": 3,
+        "rank": 2,
         "symbol": "SBC",
         "name": "SBC Exports Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -342,22 +342,7 @@
         "overdue": false
       },
       {
-        "rank": 14,
-        "symbol": "ATHERENERG",
-        "name": "Ather Energy Ltd",
-        "entry_date": "2026-11-02 00:00:00",
-        "entry_price": 1767.8,
-        "current_close": 1859.8,
-        "current_date": "2026-11-09 00:00:00",
-        "return_pct": 5.2,
-        "stop_hit": false,
-        "stop_type": null,
-        "stop_date": null,
-        "exit_date": null,
-        "overdue": false
-      },
-      {
-        "rank": 10,
+        "rank": 9,
         "symbol": "BLISSGVS",
         "name": "Bliss GVS Pharma Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -372,7 +357,7 @@
         "overdue": false
       },
       {
-        "rank": 2,
+        "rank": 3,
         "symbol": "SIGMAADV",
         "name": "SIGMA ADVANCED SYSTEMS LIMITED",
         "entry_date": "2026-11-02 00:00:00",
@@ -387,7 +372,7 @@
         "overdue": false
       },
       {
-        "rank": 6,
+        "rank": 4,
         "symbol": "TBZ",
         "name": "Tribhovandas Bhimji Zaveri Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -402,7 +387,7 @@
         "overdue": false
       },
       {
-        "rank": 9,
+        "rank": 10,
         "symbol": "KABRAEXTRU",
         "name": "Kabra Extrusiontechnik Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -417,7 +402,7 @@
         "overdue": false
       },
       {
-        "rank": 12,
+        "rank": 11,
         "symbol": "SSWL",
         "name": "Steel Strips Wheels Ltd-$",
         "entry_date": "2026-11-02 00:00:00",
@@ -440,6 +425,21 @@
         "current_close": 4224.9,
         "current_date": "2026-11-09 00:00:00",
         "return_pct": 11.18,
+        "stop_hit": false,
+        "stop_type": null,
+        "stop_date": null,
+        "exit_date": null,
+        "overdue": false
+      },
+      {
+        "rank": 13,
+        "symbol": "SANSERA",
+        "name": "Sansera Engineering Ltd",
+        "entry_date": "2026-11-02 00:00:00",
+        "entry_price": 4051.0,
+        "current_close": 4653.4,
+        "current_date": "2026-11-09 00:00:00",
+        "return_pct": 14.87,
         "stop_hit": false,
         "stop_type": null,
         "stop_date": null,
