@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 151250.91,
-      "total_fees_paid": 3766.56,
+      "end_value": 150536.29,
+      "total_fees_paid": 3764.86,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 51.25,
-      "benchmark_return": 10.17,
-      "expectancy": 4.22,
-      "net_return_after_fees": 47.48
+      "total_return": 50.54,
+      "benchmark_return": 9.75,
+      "expectancy": 4.18,
+      "net_return_after_fees": 46.77
     },
     "risk_metrics": {
       "max_drawdown": -10.0,
       "max_drawdown_duration": 5,
-      "sharpe_ratio": 1.62,
-      "calmar_ratio": 5.7,
-      "omega_ratio": 3.12,
-      "sortino_ratio": 4.3
+      "sharpe_ratio": 1.6,
+      "calmar_ratio": 5.62,
+      "omega_ratio": 3.06,
+      "sortino_ratio": 4.38
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -78,8 +78,8 @@
       "best_trade": 18.68,
       "worst_trade": -10.0,
       "avg_winning_trade": 9.76,
-      "avg_losing_trade": -5.47,
-      "profit_factor": 3.12,
+      "avg_losing_trade": -5.58,
+      "profit_factor": 3.06,
       "total_stock_transactions": 157,
       "total_closed_trades": 10,
       "total_open_trades": 1,
@@ -9404,12 +9404,12 @@
   "current_performance": [
     {
       "month": "2026-11",
-      "portfolio_return": -2.64,
-      "benchmark_return": -0.4,
+      "portfolio_return": -3.1,
+      "benchmark_return": -0.78,
       "holdings": [
         {
           "symbol": "MRNA",
-          "return": 21.32,
+          "return": 13.13,
           "score": 5.32,
           "stop_triggered": false
         },
@@ -9433,7 +9433,7 @@
         },
         {
           "symbol": "CLDT",
-          "return": 7.66,
+          "return": 10.51,
           "score": 2.88,
           "stop_triggered": false
         },
@@ -9475,7 +9475,7 @@
         },
         {
           "symbol": "SN",
-          "return": 10.34,
+          "return": 8.89,
           "score": 2.27,
           "stop_triggered": false
         },
