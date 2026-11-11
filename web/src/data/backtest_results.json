@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 157757.97,
-      "total_fees_paid": 3630.69,
+      "end_value": 158771.74,
+      "total_fees_paid": 3633.24,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 57.76,
-      "benchmark_return": -4.15,
-      "expectancy": 4.76,
-      "net_return_after_fees": 54.13
+      "total_return": 58.77,
+      "benchmark_return": -3.35,
+      "expectancy": 4.82,
+      "net_return_after_fees": 55.14
     },
     "risk_metrics": {
       "max_drawdown": -9.76,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.56,
-      "calmar_ratio": 6.6,
-      "omega_ratio": 3.04,
-      "sortino_ratio": 5.1
+      "sharpe_ratio": 1.58,
+      "calmar_ratio": 6.72,
+      "omega_ratio": 3.06,
+      "sortino_ratio": 5.17
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -79,11 +79,11 @@
       "win_rate": 63.64,
       "best_trade": 24.4,
       "worst_trade": -9.76,
-      "avg_winning_trade": 11.16,
+      "avg_winning_trade": 11.25,
       "avg_losing_trade": -6.43,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 3.04,
+      "profit_factor": 3.06,
       "total_stock_transactions": 166
     }
   },
@@ -7964,83 +7964,83 @@
   "current_performance": [
     {
       "month": "2026-11",
-      "portfolio_return": 1.15,
-      "benchmark_return": 8.64,
+      "portfolio_return": 1.8,
+      "benchmark_return": 9.55,
       "holdings": [
         {
           "symbol": "MBECL",
-          "return": -9.61,
-          "score": 4.96
+          "return": -10.78,
+          "score": 4.97
         },
         {
           "symbol": "STLTECH",
-          "return": -18.62,
-          "score": 4.85
+          "return": -14.56,
+          "score": 4.87
         },
         {
           "symbol": "NRL",
-          "return": 5.81,
-          "score": 4.66
+          "return": 7.34,
+          "score": 4.67
         },
         {
           "symbol": "SBC",
-          "return": 3.9,
-          "score": 4.64
+          "return": 3.57,
+          "score": 4.65
         },
         {
           "symbol": "SIGMAADV",
-          "return": 5.32,
-          "score": 4.58
+          "return": 3.57,
+          "score": 4.59
         },
         {
           "symbol": "CUPID",
-          "return": 5.64,
-          "score": 4.53
+          "return": 9.07,
+          "score": 4.55
         },
         {
           "symbol": "BAFNAPH",
-          "return": 5.56,
-          "score": 4.41
+          "return": 7.67,
+          "score": 4.42
         },
         {
           "symbol": "TBZ",
-          "return": 4.66,
-          "score": 4.35
+          "return": 7.05,
+          "score": 4.36
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 2.02,
-          "score": 3.96
+          "return": 0.98,
+          "score": 3.97
         },
         {
           "symbol": "BODALCHEM",
-          "return": -1.98,
-          "score": 3.68
+          "return": -2.59,
+          "score": 3.69
         },
         {
           "symbol": "SPECTRUM",
-          "return": 15.3,
-          "score": 3.65
+          "return": 12.37,
+          "score": 3.66
         },
         {
           "symbol": "SHREEJISPG",
-          "return": 4.51,
-          "score": 3.56
+          "return": 4.49,
+          "score": 3.57
         },
         {
           "symbol": "SHILPAMED",
-          "return": -2.28,
-          "score": 3.45
+          "return": -2.24,
+          "score": 3.46
         },
         {
           "symbol": "GCSL",
-          "return": 2.23,
-          "score": 3.39
+          "return": 2.39,
+          "score": 3.4
         },
         {
           "symbol": "INDSWFTLAB",
-          "return": -5.2,
-          "score": 3.32
+          "return": -1.36,
+          "score": 3.33
         }
       ]
     },
