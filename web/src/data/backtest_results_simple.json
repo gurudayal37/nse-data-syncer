@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 132524.45,
-      "total_fees_paid": 2431.52,
+      "end_value": 132358.45,
+      "total_fees_paid": 2431.2,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 32.52,
-      "benchmark_return": -3.18,
-      "expectancy": 2.92,
-      "net_return_after_fees": 30.09
+      "total_return": 32.36,
+      "benchmark_return": -3.77,
+      "expectancy": 2.91,
+      "net_return_after_fees": 29.93
     },
     "risk_metrics": {
       "max_drawdown": -12.53,
       "max_drawdown_duration": 2,
       "sharpe_ratio": 1.23,
-      "calmar_ratio": 2.87,
-      "omega_ratio": 2.46,
-      "sortino_ratio": 2.41
+      "calmar_ratio": 2.86,
+      "omega_ratio": 2.45,
+      "sortino_ratio": 2.4
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -79,11 +79,11 @@
       "win_rate": 63.64,
       "best_trade": 16.32,
       "worst_trade": -12.53,
-      "avg_winning_trade": 7.75,
+      "avg_winning_trade": 7.73,
       "avg_losing_trade": -5.52,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.46,
+      "profit_factor": 2.45,
       "total_stock_transactions": 128
     }
   },
@@ -7964,82 +7964,82 @@
   "current_performance": [
     {
       "month": "2026-11",
-      "portfolio_return": 3.78,
-      "benchmark_return": 9.74,
+      "portfolio_return": 3.65,
+      "benchmark_return": 9.07,
       "holdings": [
         {
           "symbol": "STLTECH",
-          "return": -13.72,
+          "return": -13.8,
           "score": 7.22
         },
         {
           "symbol": "LAURUSLABS",
-          "return": -0.23,
+          "return": 0.77,
           "score": 5.46
         },
         {
           "symbol": "SHILPAMED",
-          "return": 3.56,
+          "return": 3.76,
           "score": 4.34
         },
         {
           "symbol": "HFCL",
-          "return": -9.2,
+          "return": -11.16,
           "score": 3.83
         },
         {
           "symbol": "WELCORP",
-          "return": -7.93,
+          "return": -4.75,
           "score": 3.34
         },
         {
           "symbol": "SANSERA",
-          "return": 14.35,
+          "return": 14.52,
           "score": 3.21
         },
         {
           "symbol": "DIACABS",
-          "return": 9.84,
+          "return": 9.8,
           "score": 3.21
         },
         {
           "symbol": "SKYGOLD",
-          "return": 18.89,
+          "return": 15.73,
           "score": 3.17
         },
         {
           "symbol": "ATHERENERG",
-          "return": 9.51,
+          "return": 10.76,
           "score": 3.06
         },
         {
           "symbol": "DIVISLAB",
-          "return": 17.43,
+          "return": 16.99,
           "score": 2.72
         },
         {
           "symbol": "GLAND",
-          "return": 6.87,
+          "return": 7.69,
           "score": 2.71
         },
         {
           "symbol": "SONACOMS",
-          "return": 3.99,
+          "return": 3.2,
           "score": 2.67
         },
         {
           "symbol": "ACUTAAS",
-          "return": -0.19,
+          "return": 0.89,
           "score": 2.6
         },
         {
           "symbol": "SYRMA",
-          "return": -7.28,
+          "return": -7.46,
           "score": 2.4
         },
         {
           "symbol": "GRWRHITECH",
-          "return": 10.82,
+          "return": 7.86,
           "score": 2.29
         }
       ]
