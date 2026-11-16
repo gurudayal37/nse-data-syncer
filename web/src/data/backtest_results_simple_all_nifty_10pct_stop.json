@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 141715.42,
-      "total_fees_paid": 2832.08,
+      "end_value": 140186.11,
+      "total_fees_paid": 2828.79,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 41.72,
-      "benchmark_return": -3.77,
-      "expectancy": 3.69,
-      "net_return_after_fees": 38.88
+      "total_return": 40.19,
+      "benchmark_return": -3.21,
+      "expectancy": 3.59,
+      "net_return_after_fees": 37.36
     },
     "risk_metrics": {
       "max_drawdown": -9.91,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.29,
-      "calmar_ratio": 4.67,
-      "omega_ratio": 2.42,
-      "sortino_ratio": 4.74
+      "sharpe_ratio": 1.25,
+      "calmar_ratio": 4.5,
+      "omega_ratio": 2.38,
+      "sortino_ratio": 4.61
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 54.55,
       "best_trade": 21.8,
       "worst_trade": -8.84,
-      "avg_winning_trade": 11.54,
+      "avg_winning_trade": 11.35,
       "avg_losing_trade": -5.73,
-      "profit_factor": 2.42
+      "profit_factor": 2.38
     }
   },
   "backtest_results": [
@@ -15156,13 +15156,13 @@
   "current_performance": [
     {
       "month": "2026-11",
-      "portfolio_return": 2.86,
-      "benchmark_return": 9.07,
+      "portfolio_return": 1.75,
+      "benchmark_return": 9.71,
       "holdings": [
         {
           "symbol": "STLTECH",
           "return": -16.66,
-          "score": 6.13,
+          "score": 6.12,
           "entry_price": 824.5,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15171,8 +15171,8 @@
         },
         {
           "symbol": "CUPID",
-          "return": 16.41,
-          "score": 5.96,
+          "return": 11.51,
+          "score": 5.94,
           "entry_price": 324.55,
           "stop_triggered": false,
           "stop_type": null,
@@ -15181,8 +15181,8 @@
         },
         {
           "symbol": "SIGMAADV",
-          "return": -6.53,
-          "score": 5.85,
+          "return": -1.86,
+          "score": 5.83,
           "entry_price": 890.6,
           "stop_triggered": false,
           "stop_type": null,
@@ -15191,8 +15191,8 @@
         },
         {
           "symbol": "NRL",
-          "return": 7.81,
-          "score": 5.15,
+          "return": 10.27,
+          "score": 5.14,
           "entry_price": 160.0,
           "stop_triggered": false,
           "stop_type": null,
@@ -15201,8 +15201,8 @@
         },
         {
           "symbol": "BAFNAPH",
-          "return": 7.62,
-          "score": 4.85,
+          "return": 5.6,
+          "score": 4.84,
           "entry_price": 447.9,
           "stop_triggered": false,
           "stop_type": null,
@@ -15211,8 +15211,8 @@
         },
         {
           "symbol": "SBC",
-          "return": 6.27,
-          "score": 4.77,
+          "return": 6.38,
+          "score": 4.76,
           "entry_price": 66.15,
           "stop_triggered": false,
           "stop_type": null,
@@ -15221,8 +15221,8 @@
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 0.77,
-          "score": 4.58,
+          "return": -7.71,
+          "score": 4.57,
           "entry_price": 2405.5,
           "stop_triggered": false,
           "stop_type": null,
@@ -15231,8 +15231,8 @@
         },
         {
           "symbol": "TBZ",
-          "return": 3.23,
-          "score": 4.45,
+          "return": 0.89,
+          "score": 4.44,
           "entry_price": 607.8,
           "stop_triggered": false,
           "stop_type": null,
@@ -15241,8 +15241,8 @@
         },
         {
           "symbol": "SHREEJISPG",
-          "return": 8.0,
-          "score": 4.3,
+          "return": 8.49,
+          "score": 4.29,
           "entry_price": 843.3,
           "stop_triggered": false,
           "stop_type": null,
@@ -15251,7 +15251,7 @@
         },
         {
           "symbol": "SPECTRUM",
-          "return": 14.03,
+          "return": 18.31,
           "score": 4.18,
           "entry_price": 3954.1,
           "stop_triggered": false,
@@ -15261,8 +15261,8 @@
         },
         {
           "symbol": "GCSL",
-          "return": 7.23,
-          "score": 3.82,
+          "return": 7.3,
+          "score": 3.81,
           "entry_price": 767.45,
           "stop_triggered": false,
           "stop_type": null,
@@ -15271,8 +15271,8 @@
         },
         {
           "symbol": "BLISSGVS",
-          "return": 3.95,
-          "score": 3.72,
+          "return": 1.9,
+          "score": 3.71,
           "entry_price": 647.5,
           "stop_triggered": false,
           "stop_type": null,
@@ -15282,7 +15282,7 @@
         {
           "symbol": "MBECL",
           "return": -11.11,
-          "score": 3.68,
+          "score": 3.67,
           "entry_price": 350.55,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15291,8 +15291,8 @@
         },
         {
           "symbol": "INDSWFTLAB",
-          "return": -1.87,
-          "score": 3.67,
+          "return": -5.21,
+          "score": 3.66,
           "entry_price": 368.2,
           "stop_triggered": false,
           "stop_type": null,
@@ -15301,7 +15301,7 @@
         },
         {
           "symbol": "SHILPAMED",
-          "return": 3.76,
+          "return": -1.81,
           "score": 3.6,
           "entry_price": 955.6,
           "stop_triggered": false,
