@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T11:05:35",
+  "generated_at": "2026-11-24T10:40:50",
   "current_month": "2026-11",
   "entry_date": "2026-11-02 00:00:00",
   "latest_date": "2026-11-23 00:00:00",
@@ -25,7 +25,7 @@
         "overdue": false
       },
       {
-        "rank": 12,
+        "rank": 10,
         "symbol": "LAURUSLABS",
         "name": "Laurus Labs Limited",
         "entry_date": "2026-11-02 00:00:00",
@@ -40,7 +40,7 @@
         "overdue": false
       },
       {
-        "rank": 8,
+        "rank": 13,
         "symbol": "SSWL",
         "name": "Steel Strips Wheels Ltd-$",
         "entry_date": "2026-11-02 00:00:00",
@@ -70,7 +70,7 @@
         "overdue": false
       },
       {
-        "rank": 5,
+        "rank": 4,
         "symbol": "SIGMAADV",
         "name": "SIGMA ADVANCED SYSTEMS LIMITED",
         "entry_date": "2026-11-02 00:00:00",
@@ -85,7 +85,7 @@
         "overdue": false
       },
       {
-        "rank": 14,
+        "rank": 15,
         "symbol": "BLISSGVS",
         "name": "Bliss GVS Pharma Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -115,7 +115,7 @@
         "overdue": false
       },
       {
-        "rank": 10,
+        "rank": 8,
         "symbol": "KABRAEXTRU",
         "name": "Kabra Extrusiontechnik Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -145,7 +145,7 @@
         "overdue": false
       },
       {
-        "rank": 4,
+        "rank": 6,
         "symbol": "SPECTRUM",
         "name": "Spectrum Electrical Industries Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -160,7 +160,7 @@
         "overdue": false
       },
       {
-        "rank": 6,
+        "rank": 5,
         "symbol": "GCSL",
         "name": "Gretex Corporate Services Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -190,7 +190,22 @@
         "overdue": false
       },
       {
-        "rank": 15,
+        "rank": 12,
+        "symbol": "RATNAVEER",
+        "name": "Ratnaveer Precision Engineering Ltd",
+        "entry_date": "2026-11-02 00:00:00",
+        "entry_price": 361.0,
+        "current_close": 403.3,
+        "current_date": "2026-11-23 00:00:00",
+        "return_pct": 11.72,
+        "stop_hit": false,
+        "stop_type": null,
+        "stop_date": null,
+        "exit_date": null,
+        "overdue": false
+      },
+      {
+        "rank": 11,
         "symbol": "ATHERENERG",
         "name": "Ather Energy Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -205,7 +220,7 @@
         "overdue": false
       },
       {
-        "rank": 13,
+        "rank": 14,
         "symbol": "DIVISLAB",
         "name": "Divi's Laboratories Limited",
         "entry_date": "2026-11-02 00:00:00",
@@ -218,26 +233,11 @@
         "stop_date": null,
         "exit_date": null,
         "overdue": false
-      },
-      {
-        "rank": 11,
-        "symbol": "SGMART",
-        "name": "SG Mart Ltd",
-        "entry_date": "2026-11-02 00:00:00",
-        "entry_price": 843.3,
-        "current_close": 1036.8,
-        "current_date": "2026-11-23 00:00:00",
-        "return_pct": 22.95,
-        "stop_hit": false,
-        "stop_type": null,
-        "stop_date": null,
-        "exit_date": null,
-        "overdue": false
       }
     ],
     "simple_momentum_high_cap": [
       {
-        "rank": 10,
+        "rank": 9,
         "symbol": "STLTECH",
         "name": "Sterlite Technologies Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -267,7 +267,7 @@
         "overdue": false
       },
       {
-        "rank": 15,
+        "rank": 11,
         "symbol": "LAURUSLABS",
         "name": "Laurus Labs Limited",
         "entry_date": "2026-11-02 00:00:00",
@@ -275,21 +275,6 @@
         "current_close": 2370.7,
         "current_date": "2026-11-23 00:00:00",
         "return_pct": -1.47,
-        "stop_hit": false,
-        "stop_type": null,
-        "stop_date": null,
-        "exit_date": null,
-        "overdue": false
-      },
-      {
-        "rank": 13,
-        "symbol": "SSWL",
-        "name": "Steel Strips Wheels Ltd-$",
-        "entry_date": "2026-11-02 00:00:00",
-        "entry_price": 493.95,
-        "current_close": 490.45,
-        "current_date": "2026-11-23 00:00:00",
-        "return_pct": -0.71,
         "stop_hit": false,
         "stop_type": null,
         "stop_date": null,
@@ -327,7 +312,7 @@
         "overdue": false
       },
       {
-        "rank": 9,
+        "rank": 7,
         "symbol": "BLISSGVS",
         "name": "Bliss GVS Pharma Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -342,7 +327,7 @@
         "overdue": false
       },
       {
-        "rank": 5,
+        "rank": 6,
         "symbol": "SHREEJISPG",
         "name": "Shreeji Shipping Global Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -357,7 +342,7 @@
         "overdue": false
       },
       {
-        "rank": 7,
+        "rank": 5,
         "symbol": "KABRAEXTRU",
         "name": "Kabra Extrusiontechnik Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -372,7 +357,22 @@
         "overdue": false
       },
       {
-        "rank": 6,
+        "rank": 14,
+        "symbol": "TFCILTD",
+        "name": "Tourism Finance Corporation of India Ltd",
+        "entry_date": "2026-11-02 00:00:00",
+        "entry_price": 158.24,
+        "current_close": 173.51,
+        "current_date": "2026-11-23 00:00:00",
+        "return_pct": 9.65,
+        "stop_hit": false,
+        "stop_type": null,
+        "stop_date": null,
+        "exit_date": null,
+        "overdue": false
+      },
+      {
+        "rank": 10,
         "symbol": "SPECTRUM",
         "name": "Spectrum Electrical Industries Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -417,7 +417,7 @@
         "overdue": false
       },
       {
-        "rank": 14,
+        "rank": 12,
         "symbol": "ATHERENERG",
         "name": "Ather Energy Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -432,7 +432,7 @@
         "overdue": false
       },
       {
-        "rank": 11,
+        "rank": 13,
         "symbol": "SANSERA",
         "name": "Sansera Engineering Ltd",
         "entry_date": "2026-11-02 00:00:00",
@@ -447,7 +447,7 @@
         "overdue": false
       },
       {
-        "rank": 12,
+        "rank": 15,
         "symbol": "SGMART",
         "name": "SG Mart Ltd",
         "entry_date": "2026-11-02 00:00:00",
