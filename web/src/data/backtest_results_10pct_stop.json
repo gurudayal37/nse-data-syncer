@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 152334.15,
-      "total_fees_paid": 3431.52,
+      "end_value": 152650.48,
+      "total_fees_paid": 3432.28,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 52.33,
-      "benchmark_return": -1.19,
-      "expectancy": 4.35,
-      "net_return_after_fees": 48.9
+      "total_return": 52.65,
+      "benchmark_return": -0.94,
+      "expectancy": 4.37,
+      "net_return_after_fees": 49.22
     },
     "risk_metrics": {
       "max_drawdown": -9.35,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.54,
-      "calmar_ratio": 6.23,
-      "omega_ratio": 3.12,
-      "sortino_ratio": 4.81
+      "sharpe_ratio": 1.55,
+      "calmar_ratio": 6.27,
+      "omega_ratio": 3.13,
+      "sortino_ratio": 4.83
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -79,11 +79,11 @@
       "win_rate": 63.64,
       "best_trade": 24.57,
       "worst_trade": -9.35,
-      "avg_winning_trade": 10.07,
+      "avg_winning_trade": 10.1,
       "avg_losing_trade": -5.65,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 3.12,
+      "profit_factor": 3.13,
       "total_stock_transactions": 158
     }
   },
@@ -15164,8 +15164,8 @@
   "current_performance": [
     {
       "month": "2026-11",
-      "portfolio_return": 1.13,
-      "benchmark_return": 12.0,
+      "portfolio_return": 1.34,
+      "benchmark_return": 12.28,
       "holdings": [
         {
           "symbol": "STLTECH",
@@ -15179,7 +15179,7 @@
         },
         {
           "symbol": "NRL",
-          "return": 12.59,
+          "return": 9.91,
           "score": 4.7,
           "entry_price": 160.0,
           "stop_triggered": false,
@@ -15189,8 +15189,8 @@
         },
         {
           "symbol": "SBC",
-          "return": 3.2,
-          "score": 4.68,
+          "return": 3.33,
+          "score": 4.69,
           "entry_price": 66.15,
           "stop_triggered": false,
           "stop_type": null,
@@ -15199,7 +15199,7 @@
         },
         {
           "symbol": "SIGMAADV",
-          "return": 2.51,
+          "return": 3.0,
           "score": 4.61,
           "entry_price": 890.6,
           "stop_triggered": false,
@@ -15209,7 +15209,7 @@
         },
         {
           "symbol": "CUPID",
-          "return": 12.88,
+          "return": 14.34,
           "score": 4.56,
           "entry_price": 324.55,
           "stop_triggered": false,
@@ -15219,7 +15219,7 @@
         },
         {
           "symbol": "BAFNAPH",
-          "return": 13.25,
+          "return": 18.91,
           "score": 4.45,
           "entry_price": 447.9,
           "stop_triggered": false,
@@ -15239,7 +15239,7 @@
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 2.27,
+          "return": 4.14,
           "score": 3.99,
           "entry_price": 2405.5,
           "stop_triggered": false,
@@ -15250,7 +15250,7 @@
         {
           "symbol": "BODALCHEM",
           "return": -12.46,
-          "score": 3.72,
+          "score": 3.73,
           "entry_price": 164.52,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15259,7 +15259,7 @@
         },
         {
           "symbol": "SPECTRUM",
-          "return": 1.99,
+          "return": -1.91,
           "score": 3.68,
           "entry_price": 3954.1,
           "stop_triggered": false,
@@ -15269,7 +15269,7 @@
         },
         {
           "symbol": "SHREEJISPG",
-          "return": 7.69,
+          "return": 7.99,
           "score": 3.59,
           "entry_price": 843.3,
           "stop_triggered": false,
@@ -15289,8 +15289,8 @@
         },
         {
           "symbol": "GCSL",
-          "return": 11.08,
-          "score": 3.41,
+          "return": 10.83,
+          "score": 3.42,
           "entry_price": 767.45,
           "stop_triggered": false,
           "stop_type": null,
@@ -15309,8 +15309,8 @@
         },
         {
           "symbol": "RATNAVEER",
-          "return": 12.3,
-          "score": 3.18,
+          "return": 12.42,
+          "score": 3.19,
           "entry_price": 360.25,
           "stop_triggered": false,
           "stop_type": null,
