@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 138422.59,
-      "total_fees_paid": 2785.21,
+      "end_value": 138753.25,
+      "total_fees_paid": 2785.91,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 38.42,
-      "benchmark_return": -1.19,
-      "expectancy": 3.47,
-      "net_return_after_fees": 35.64
+      "total_return": 38.75,
+      "benchmark_return": -0.94,
+      "expectancy": 3.49,
+      "net_return_after_fees": 35.97
     },
     "risk_metrics": {
       "max_drawdown": -9.91,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.21,
-      "calmar_ratio": 4.3,
-      "omega_ratio": 2.33,
-      "sortino_ratio": 4.46
+      "sharpe_ratio": 1.22,
+      "calmar_ratio": 4.34,
+      "omega_ratio": 2.34,
+      "sortino_ratio": 4.49
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 54.55,
       "best_trade": 21.8,
       "worst_trade": -8.84,
-      "avg_winning_trade": 11.14,
+      "avg_winning_trade": 11.18,
       "avg_losing_trade": -5.73,
-      "profit_factor": 2.33
+      "profit_factor": 2.34
     }
   },
   "backtest_results": [
@@ -15156,13 +15156,13 @@
   "current_performance": [
     {
       "month": "2026-11",
-      "portfolio_return": 0.47,
-      "benchmark_return": 12.0,
+      "portfolio_return": 0.71,
+      "benchmark_return": 12.28,
       "holdings": [
         {
           "symbol": "STLTECH",
           "return": -16.66,
-          "score": 6.13,
+          "score": 6.12,
           "entry_price": 824.5,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15171,7 +15171,7 @@
         },
         {
           "symbol": "CUPID",
-          "return": 12.88,
+          "return": 14.34,
           "score": 5.95,
           "entry_price": 324.55,
           "stop_triggered": false,
@@ -15181,8 +15181,8 @@
         },
         {
           "symbol": "SIGMAADV",
-          "return": 2.51,
-          "score": 5.85,
+          "return": 3.0,
+          "score": 5.84,
           "entry_price": 890.6,
           "stop_triggered": false,
           "stop_type": null,
@@ -15191,7 +15191,7 @@
         },
         {
           "symbol": "NRL",
-          "return": 12.59,
+          "return": 9.91,
           "score": 5.15,
           "entry_price": 160.0,
           "stop_triggered": false,
@@ -15201,8 +15201,8 @@
         },
         {
           "symbol": "BAFNAPH",
-          "return": 13.25,
-          "score": 4.86,
+          "return": 18.91,
+          "score": 4.85,
           "entry_price": 447.9,
           "stop_triggered": false,
           "stop_type": null,
@@ -15211,8 +15211,8 @@
         },
         {
           "symbol": "SBC",
-          "return": 3.2,
-          "score": 4.77,
+          "return": 3.33,
+          "score": 4.76,
           "entry_price": 66.15,
           "stop_triggered": false,
           "stop_type": null,
@@ -15221,7 +15221,7 @@
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 2.27,
+          "return": 4.14,
           "score": 4.58,
           "entry_price": 2405.5,
           "stop_triggered": false,
@@ -15241,7 +15241,7 @@
         },
         {
           "symbol": "SHREEJISPG",
-          "return": 7.69,
+          "return": 7.99,
           "score": 4.29,
           "entry_price": 843.3,
           "stop_triggered": false,
@@ -15251,7 +15251,7 @@
         },
         {
           "symbol": "SPECTRUM",
-          "return": 1.99,
+          "return": -1.91,
           "score": 4.19,
           "entry_price": 3954.1,
           "stop_triggered": false,
@@ -15261,7 +15261,7 @@
         },
         {
           "symbol": "GCSL",
-          "return": 11.08,
+          "return": 10.83,
           "score": 3.82,
           "entry_price": 767.45,
           "stop_triggered": false,
@@ -15271,7 +15271,7 @@
         },
         {
           "symbol": "BLISSGVS",
-          "return": -0.37,
+          "return": 0.19,
           "score": 3.72,
           "entry_price": 647.5,
           "stop_triggered": false,
