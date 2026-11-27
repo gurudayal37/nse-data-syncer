@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 128925.63,
-      "total_fees_paid": 2394.51,
+      "end_value": 129812.29,
+      "total_fees_paid": 2396.18,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 28.93,
-      "benchmark_return": -0.94,
-      "expectancy": 2.6,
-      "net_return_after_fees": 26.53
+      "total_return": 29.81,
+      "benchmark_return": -2.0,
+      "expectancy": 2.66,
+      "net_return_after_fees": 27.42
     },
     "risk_metrics": {
       "max_drawdown": -9.21,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.22,
-      "calmar_ratio": 3.47,
-      "omega_ratio": 2.65,
-      "sortino_ratio": 3.59
+      "sharpe_ratio": 1.25,
+      "calmar_ratio": 3.58,
+      "omega_ratio": 2.69,
+      "sortino_ratio": 3.68
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -79,11 +79,11 @@
       "win_rate": 72.73,
       "best_trade": 16.32,
       "worst_trade": -9.21,
-      "avg_winning_trade": 5.74,
+      "avg_winning_trade": 5.83,
       "avg_losing_trade": -5.78,
       "avg_winning_trade_duration": 1,
       "avg_losing_trade_duration": 1,
-      "profit_factor": 2.65,
+      "profit_factor": 2.69,
       "total_stock_transactions": 124
     }
   },
@@ -15164,8 +15164,8 @@
   "current_performance": [
     {
       "month": "2026-11",
-      "portfolio_return": 0.33,
-      "benchmark_return": 12.28,
+      "portfolio_return": 1.02,
+      "benchmark_return": 11.08,
       "holdings": [
         {
           "symbol": "STLTECH",
@@ -15179,7 +15179,7 @@
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 4.14,
+          "return": 4.11,
           "score": 5.46,
           "entry_price": 2405.5,
           "stop_triggered": false,
@@ -15209,7 +15209,7 @@
         },
         {
           "symbol": "WELCORP",
-          "return": -4.65,
+          "return": -1.7,
           "score": 3.34,
           "entry_price": 2341.6,
           "stop_triggered": false,
@@ -15219,7 +15219,7 @@
         },
         {
           "symbol": "SANSERA",
-          "return": 13.97,
+          "return": 15.34,
           "score": 3.21,
           "entry_price": 4111.6,
           "stop_triggered": false,
@@ -15229,7 +15229,7 @@
         },
         {
           "symbol": "DIACABS",
-          "return": 2.09,
+          "return": 5.39,
           "score": 3.21,
           "entry_price": 344.4,
           "stop_triggered": false,
@@ -15239,7 +15239,7 @@
         },
         {
           "symbol": "SKYGOLD",
-          "return": -8.41,
+          "return": -5.06,
           "score": 3.17,
           "entry_price": 883.2,
           "stop_triggered": false,
@@ -15249,7 +15249,7 @@
         },
         {
           "symbol": "ATHERENERG",
-          "return": 8.54,
+          "return": 7.54,
           "score": 3.06,
           "entry_price": 1756.0,
           "stop_triggered": false,
@@ -15259,7 +15259,7 @@
         },
         {
           "symbol": "DIVISLAB",
-          "return": 18.93,
+          "return": 18.2,
           "score": 2.72,
           "entry_price": 9780.0,
           "stop_triggered": false,
@@ -15269,7 +15269,7 @@
         },
         {
           "symbol": "GLAND",
-          "return": 8.88,
+          "return": 8.6,
           "score": 2.71,
           "entry_price": 3095.9,
           "stop_triggered": false,
@@ -15279,7 +15279,7 @@
         },
         {
           "symbol": "SONACOMS",
-          "return": -1.01,
+          "return": -1.29,
           "score": 2.67,
           "entry_price": 890.5,
           "stop_triggered": false,
@@ -15289,7 +15289,7 @@
         },
         {
           "symbol": "ACUTAAS",
-          "return": 1.91,
+          "return": 1.78,
           "score": 2.6,
           "entry_price": 4003.6,
           "stop_triggered": false,
@@ -15309,7 +15309,7 @@
         },
         {
           "symbol": "GRWRHITECH",
-          "return": 6.78,
+          "return": 8.68,
           "score": 2.29,
           "entry_price": 6974.5,
           "stop_triggered": false,
