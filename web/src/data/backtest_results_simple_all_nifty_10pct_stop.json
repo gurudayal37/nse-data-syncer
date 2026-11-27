@@ -47,23 +47,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 138753.25,
-      "total_fees_paid": 2785.91,
+      "end_value": 139359.46,
+      "total_fees_paid": 2787.2,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 38.75,
-      "benchmark_return": -0.94,
-      "expectancy": 3.49,
-      "net_return_after_fees": 35.97
+      "total_return": 39.36,
+      "benchmark_return": -2.0,
+      "expectancy": 3.53,
+      "net_return_after_fees": 36.57
     },
     "risk_metrics": {
       "max_drawdown": -9.91,
       "max_drawdown_duration": 2,
-      "sharpe_ratio": 1.22,
-      "calmar_ratio": 4.34,
-      "omega_ratio": 2.34,
-      "sortino_ratio": 4.49
+      "sharpe_ratio": 1.23,
+      "calmar_ratio": 4.4,
+      "omega_ratio": 2.36,
+      "sortino_ratio": 4.54
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -74,9 +74,9 @@
       "win_rate": 54.55,
       "best_trade": 21.8,
       "worst_trade": -8.84,
-      "avg_winning_trade": 11.18,
+      "avg_winning_trade": 11.25,
       "avg_losing_trade": -5.73,
-      "profit_factor": 2.34
+      "profit_factor": 2.36
     }
   },
   "backtest_results": [
@@ -15156,8 +15156,8 @@
   "current_performance": [
     {
       "month": "2026-11",
-      "portfolio_return": 0.71,
-      "benchmark_return": 12.28,
+      "portfolio_return": 1.15,
+      "benchmark_return": 11.08,
       "holdings": [
         {
           "symbol": "STLTECH",
@@ -15171,7 +15171,7 @@
         },
         {
           "symbol": "CUPID",
-          "return": 14.34,
+          "return": 20.01,
           "score": 5.95,
           "entry_price": 324.55,
           "stop_triggered": false,
@@ -15181,7 +15181,7 @@
         },
         {
           "symbol": "SIGMAADV",
-          "return": 3.0,
+          "return": 4.26,
           "score": 5.84,
           "entry_price": 890.6,
           "stop_triggered": false,
@@ -15191,7 +15191,7 @@
         },
         {
           "symbol": "NRL",
-          "return": 9.91,
+          "return": 7.54,
           "score": 5.15,
           "entry_price": 160.0,
           "stop_triggered": false,
@@ -15201,7 +15201,7 @@
         },
         {
           "symbol": "BAFNAPH",
-          "return": 18.91,
+          "return": 24.85,
           "score": 4.85,
           "entry_price": 447.9,
           "stop_triggered": false,
@@ -15211,7 +15211,7 @@
         },
         {
           "symbol": "SBC",
-          "return": 3.33,
+          "return": 2.95,
           "score": 4.76,
           "entry_price": 66.15,
           "stop_triggered": false,
@@ -15221,8 +15221,8 @@
         },
         {
           "symbol": "LAURUSLABS",
-          "return": 4.14,
-          "score": 4.58,
+          "return": 4.11,
+          "score": 4.57,
           "entry_price": 2405.5,
           "stop_triggered": false,
           "stop_type": null,
@@ -15232,7 +15232,7 @@
         {
           "symbol": "TBZ",
           "return": -12.43,
-          "score": 4.46,
+          "score": 4.45,
           "entry_price": 607.8,
           "stop_triggered": true,
           "stop_type": "close_stop",
@@ -15241,7 +15241,7 @@
         },
         {
           "symbol": "SHREEJISPG",
-          "return": 7.99,
+          "return": 9.53,
           "score": 4.29,
           "entry_price": 843.3,
           "stop_triggered": false,
@@ -15251,7 +15251,7 @@
         },
         {
           "symbol": "SPECTRUM",
-          "return": -1.91,
+          "return": -6.81,
           "score": 4.19,
           "entry_price": 3954.1,
           "stop_triggered": false,
@@ -15261,7 +15261,7 @@
         },
         {
           "symbol": "GCSL",
-          "return": 10.83,
+          "return": 10.96,
           "score": 3.82,
           "entry_price": 767.45,
           "stop_triggered": false,
@@ -15271,7 +15271,7 @@
         },
         {
           "symbol": "BLISSGVS",
-          "return": 0.19,
+          "return": -0.16,
           "score": 3.72,
           "entry_price": 647.5,
           "stop_triggered": false,
