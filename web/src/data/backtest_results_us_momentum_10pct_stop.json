@@ -51,23 +51,23 @@
     },
     "capital_metrics": {
       "start_value": 100000,
-      "end_value": 147600.13,
-      "total_fees_paid": 3757.88,
+      "end_value": 148066.19,
+      "total_fees_paid": 3758.99,
       "open_trade_pnl": 0
     },
     "return_metrics": {
-      "total_return": 47.6,
-      "benchmark_return": 4.82,
-      "expectancy": 4.01,
-      "net_return_after_fees": 43.84
+      "total_return": 48.07,
+      "benchmark_return": 6.49,
+      "expectancy": 4.04,
+      "net_return_after_fees": 44.31
     },
     "risk_metrics": {
       "max_drawdown": -10.0,
       "max_drawdown_duration": 5,
-      "sharpe_ratio": 1.51,
-      "calmar_ratio": 5.29,
-      "omega_ratio": 2.82,
-      "sortino_ratio": 4.56
+      "sharpe_ratio": 1.52,
+      "calmar_ratio": 5.34,
+      "omega_ratio": 2.86,
+      "sortino_ratio": 4.55
     },
     "exposure_metrics": {
       "max_gross_exposure": 100
@@ -78,8 +78,8 @@
       "best_trade": 18.68,
       "worst_trade": -10.0,
       "avg_winning_trade": 9.76,
-      "avg_losing_trade": -6.06,
-      "profit_factor": 2.82,
+      "avg_losing_trade": -5.98,
+      "profit_factor": 2.86,
       "total_stock_transactions": 157,
       "total_closed_trades": 10,
       "total_open_trades": 1,
@@ -9404,8 +9404,8 @@
   "current_performance": [
     {
       "month": "2026-11",
-      "portfolio_return": -4.99,
-      "benchmark_return": -5.24,
+      "portfolio_return": -4.69,
+      "benchmark_return": -3.73,
       "holdings": [
         {
           "symbol": "MRNA",
@@ -9433,7 +9433,7 @@
         },
         {
           "symbol": "CLDT",
-          "return": 6.58,
+          "return": 7.19,
           "score": 2.88,
           "stop_triggered": false
         },
@@ -9463,7 +9463,7 @@
         },
         {
           "symbol": "RPRX",
-          "return": 5.05,
+          "return": 5.48,
           "score": 2.46,
           "stop_triggered": false
         },
@@ -9475,13 +9475,13 @@
         },
         {
           "symbol": "SN",
-          "return": 11.78,
+          "return": 13.93,
           "score": 2.27,
           "stop_triggered": false
         },
         {
           "symbol": "APLE",
-          "return": 5.72,
+          "return": 6.75,
           "score": 2.23,
           "stop_triggered": false
         },
@@ -9493,7 +9493,7 @@
         },
         {
           "symbol": "RVTY",
-          "return": -3.94,
+          "return": -3.65,
           "score": 2.2,
           "stop_triggered": false
         }
